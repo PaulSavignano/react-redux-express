@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const Todo = mongoose.model('Todo', {
+const TodoModel = mongoose.model('TodoModel', {
   text: {
     type: String,
     required: true,
@@ -17,4 +17,4 @@ const Todo = mongoose.model('Todo', {
   }
 })
 
-export default Todo
+export default TodoModel

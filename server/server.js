@@ -1,16 +1,29 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import path from 'path'
-const app = express()
 
 import mongoose from './db/mongoose'
-import Cart from './models/cart'
-import Product from './models/product'
-import Todo from './models/todo'
-import User from './models/user'
+// Models
+import { CartModel, ProductModel, TodoModel, UserModel } from './models/index'
+// Routes
+import { cartRoute, productsRoute, todosRoute } from './routes/index'
+
+
+const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use('/api/cart', cartRoute)
+app.use('/api/products', productsRoute)
+app.use('/api/todos', todosRoute)
+
+
+
+
+
+
+
 
 const router = express.Router()
 

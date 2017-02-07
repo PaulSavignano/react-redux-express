@@ -1,22 +1,18 @@
 import mongoose from 'mongoose'
 
-const Product = mongoose.model('Product', {
-  name: {
+const CartModel = mongoose.model('CartModel', {
+  productId: {
     type: String,
     required: true,
     minlength: 1,
     trim: true
   },
-  description: {
+  quantity: {
     type: String,
     required: true,
     minlength: 1,
     trim: true
-  },
-  price: {
-    type: Number,
-    default: null
   }
 })
 
-export default Product
+export default CartModel

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const User = mongoose.model('User', {
+const UserModel = mongoose.model('UserModel', {
   email: {
     type: String,
     required: true,
@@ -9,4 +9,4 @@ const User = mongoose.model('User', {
   }
 })
 
-export default User
+export default UserModel
