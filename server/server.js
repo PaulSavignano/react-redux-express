@@ -3,6 +3,12 @@ import express from 'express'
 import path from 'path'
 const app = express()
 
+import mongoose from './db/mongoose'
+import Cart from './models/cart'
+import Product from './models/product'
+import Todo from './models/todo'
+import User from './models/user'
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
