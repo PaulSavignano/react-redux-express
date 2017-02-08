@@ -1,9 +1,9 @@
 import express from 'express'
 import CartModel from '../models/CartModel'
 
-const router = express.Router()
+const cartRouter = express.Router()
 
-const cartRoute = router.post('/', (req, res) => {
+cartRouter.post('/', (req, res) => {
   const cartItem = new CartModel({
     text: req.body.text
   })
@@ -14,4 +14,4 @@ const cartRoute = router.post('/', (req, res) => {
   })
 })
 
-export default cartRoute
+export default cartRouter

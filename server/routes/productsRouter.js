@@ -1,9 +1,9 @@
 import express from 'express'
 import ProductModel from '../models/ProductModel'
 
-const router = express.Router()
+const productsRouter = express.Router()
 
-const productsRoute = router.post('/', (req, res) => {
+productsRouter.post('/', (req, res) => {
   const product = new ProductModel({
     name: req.body.name,
     description: req.body.description,
@@ -16,4 +16,10 @@ const productsRoute = router.post('/', (req, res) => {
   })
 })
 
-export default productsRoute
+productsRouter.get('/', (req, res) => {
+  ProductModel.find({})
+    .then(products => res.send({ products }))
+    .catch(err => res.status(400).send(err))
+})
+
+export default productsRouter
