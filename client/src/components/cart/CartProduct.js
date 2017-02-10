@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class Product extends Component {
+class CartProduct extends Component {
   render() {
     return (
       <div>
-        {this.props.name}
+        {this.props.productId}
       </div>
     )
   }
 }
 
-export default Product
+export default CartProduct

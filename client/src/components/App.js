@@ -4,23 +4,29 @@ import logo from './logo.svg';
 import './App.css';
 import TodoList from './todos/TodoList'
 import ProductList from './products/ProductList'
+import Cart from './cart/Cart'
 
 class App extends Component {
   state = {
     todos: [],
     products: [],
+    cartProducts: [],
     cities: []
   }
   async fetchTodos() {
     const response = await fetch('/api/todos')
-    const todos = await response.json()
-    this.setState({ todos })
+    const data = await response.json()
+    this.setState({ todos: data.todos })
   }
   async fetchProducts() {
     const response = await fetch('/api/products')
     const data = await response.json()
-    console.log(data.products)
     this.setState({ products: data.products })
+  }
+  async fetchCart() {
+    const response = await fetch('/api/cart')
+    const data = await response.json()
+    this.setState({ cartProducts: data.cartProducts })
   }
   async fetchCities() {
     const response = await fetch('/cities')
@@ -30,6 +36,7 @@ class App extends Component {
   componentDidMount() {
     this.fetchTodos()
     this.fetchProducts()
+    this.fetchCart()
     this.fetchCities()
   }
   render() {
@@ -44,11 +51,7 @@ class App extends Component {
         </p>
         <TodoList todos={this.state.todos} />
         <ProductList products={this.state.products} />
-        <ul>
-          {this.state.todos.map(todo => (
-            <li key={todo.id}>{todo.text}</li>
-          ))}
-        </ul>
+        <Cart cartProducts={this.state.cartProducts} />
         <ul>
           {this.state.cities.map(city => (
             <li key={city.name}>{city.name}: {city.population}</li>

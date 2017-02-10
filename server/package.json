@@ -15,9 +15,14 @@
   },
   "devDependencies": {
     "babel-register": "^6.22.0",
-    "nodemon": "^1.11.0"
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0"
   },
   "scripts": {
+    "test": "mocha **/*.test.js --compilers js:babel-register",
+    "test-watch": "nodemon --exec 'npm test'",
     "build": "babel . --ignore node_modules,build --out-dir build",
     "start": "nodemon -r babel-register server.js",
     "start:prod": "node build/server.js"

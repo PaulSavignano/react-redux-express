@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Product from './Product'
 
-const ProductList = (props) => {
-  console.log(props)
-  return (
-    <div>
-      {props.products.map(product => (
-        <Product key={product.name} {...product} />
-      ))}
-    </div>
-  )
+class ProductList extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Products List</h1>
+        {this.props.products.map(product => (
+          <Product key={product._id} {...product} />
+        ))}
+      </div>
+    )
+  }
 }
 
 export default ProductList

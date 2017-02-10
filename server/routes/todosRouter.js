@@ -15,12 +15,9 @@ todosRouter.post('/', (req, res) => {
 })
 
 todosRouter.get('/', (req, res) => {
-  const cities = [
-    {id: 1, text: 'Play with Weston'},
-    {id: 2, text: 'Walk Pepper'},
-    {id: 3, text: 'Get to work'}
-  ]
-  res.json(cities)
+  TodoModel.find({})
+    .then(todos => res.send({ todos }))
+    .catch(err => res.status(400).send(err))
 })
 
 export default todosRouter

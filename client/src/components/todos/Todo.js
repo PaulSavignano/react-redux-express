@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const Todo = (props) => (
-  <div>
-    {props.text}
-  </div>
-)
+class Todo extends Component {
+  render() {
+    return (
+      <li>
+        {this.props.text}
+      </li>
+    )
+  }
+}
 
 export default Todo

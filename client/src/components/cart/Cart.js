@@ -1,10 +1,17 @@
-import React, { PropTypes } from 'react'
-import Product from '../products/Product'
+import React, { Component, PropTypes } from 'react'
+import CartProduct from './CartProduct'
 
-const Cart = () => {
-  return (
-    <div>Cart</div>
-  )
+class Cart extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Cart</h1>
+        {this.props.cartProducts.map(cartProduct => (
+          <CartProduct key={cartProduct._id} {...cartProduct} />
+        ))}
+      </div>
+    )
+  }
 }
 
 export default Cart
