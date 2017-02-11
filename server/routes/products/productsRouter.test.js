@@ -1,12 +1,14 @@
 import expect from 'expect'
 import request from 'supertest'
+import { ObjectID } from 'mongodb'
+
 import app from '../../server'
 import ProductModel from './ProductModel'
 
 const products = [
-  { name: 'Test product 1', description: 'A test product1 for route', price: 1000 },
-  { name: 'Test product 2', description: 'A test product2 for route', price: 2000 },
-  { name: 'Test product 3', description: 'A test product3 for route', price: 3000 },
+  { _id: new ObjectID(), name: 'Test product 1', description: 'A test product1 for route', price: 1000 },
+  { _id: new ObjectID(), name: 'Test product 2', description: 'A test product2 for route', price: 2000 },
+  { _id: new ObjectID(), name: 'Test product 3', description: 'A test product3 for route', price: 3000 },
 ]
 
 beforeEach((done) => {
@@ -71,6 +73,32 @@ describe('GET /api/products', () => {
       .expect((res) => {
         expect(res.body.products.length).toBe(3)
       })
+      .end(done)
+  })
+})
+
+describe('GET /api/products/:id', () => {
+  it('should return product doc', (done) => {
+    request(app)
+      .get(`/api/products/${products[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.product.text).toBe(products[0].text)
+      })
+      .end(done)
+  })
+  it('should return 404 if product not found', (done) => {
+    const hexId = new ObjectID().toHexString()
+    request(app)
+      .get(`/api/products/${hexId}`)
+      .expect(404)
+      .end(done)
+  })
+  it('should return 404 for non-object ids', (done) => {
+    const id = '123abc'
+    request(app)
+      .get(`/api/products/${id}`)
+      .expect(404)
       .end(done)
   })
 })

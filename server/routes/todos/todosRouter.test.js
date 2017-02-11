@@ -1,12 +1,14 @@
 import expect from 'expect'
 import request from 'supertest'
+import { ObjectID } from 'mongodb'
+
 import app from '../../server'
 import TodoModel from './TodoModel'
 
 const todos = [
-  { text: 'First test todo' },
-  { text: 'Second test todo' },
-  { text: 'Third test todo' }
+  { _id: new ObjectID(), text: 'First test todo' },
+  { _id: new ObjectID(), text: 'Second test todo' },
+  { _id: new ObjectID(), text: 'Third test todo' }
 ]
 
 beforeEach((done) => {
@@ -66,6 +68,32 @@ describe('GET /api/todos', () => {
       .expect((res) => {
         expect(res.body.todos.length).toBe(3)
       })
+      .end(done)
+  })
+})
+
+describe('GET /api/todos/:id', () => {
+  it('should return todo doc', (done) => {
+    request(app)
+      .get(`/api/todos/${todos[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(todos[0].text)
+      })
+      .end(done)
+  })
+  it('should return 404 if todo not found', (done) => {
+    const hexId = new ObjectID().toHexString()
+    request(app)
+      .get(`/api/todos/${hexId}`)
+      .expect(404)
+      .end(done)
+  })
+  it('should return 404 for non-object ids', (done) => {
+    const id = '123abc'
+    request(app)
+      .get(`/api/todos/${id}`)
+      .expect(404)
       .end(done)
   })
 })

@@ -1,12 +1,14 @@
 import expect from 'expect'
 import request from 'supertest'
+import { ObjectID } from 'mongodb'
+
 import app from '../../server'
 import CartModel from './CartModel'
 
 const carts = [
-  { productId: 'A1B2C3', productQty: 1 },
-  { productId: 'D4E5F6', productQty: 2 },
-  { productId: 'G7H8I9', productQty: 3 },
+  { _id: new ObjectID(), productId: 'A1B2C3', productQty: 1 },
+  { _id: new ObjectID(), productId: 'D4E5F6', productQty: 2 },
+  { _id: new ObjectID(), productId: 'G7H8I9', productQty: 3 },
 ]
 
 beforeEach((done) => {
@@ -68,6 +70,32 @@ describe('GET /api/carts', () => {
       .expect((res) => {
         expect(res.body.carts.length).toBe(3)
       })
+      .end(done)
+  })
+})
+
+describe('GET /api/carts/:id', () => {
+  it('should return cart doc', (done) => {
+    request(app)
+      .get(`/api/carts/${carts[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.cart.text).toBe(carts[0].text)
+      })
+      .end(done)
+  })
+  it('should return 404 if cart not found', (done) => {
+    const hexId = new ObjectID().toHexString()
+    request(app)
+      .get(`/api/carts/${hexId}`)
+      .expect(404)
+      .end(done)
+  })
+  it('should return 404 for non-object ids', (done) => {
+    const id = '123abc'
+    request(app)
+      .get(`/api/carts/${id}`)
+      .expect(404)
       .end(done)
   })
 })

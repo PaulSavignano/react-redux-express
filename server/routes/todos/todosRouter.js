@@ -1,6 +1,6 @@
 import express from 'express'
-import TodoModel from './TodoModel'
 import { ObjectID } from 'mongodb'
+import TodoModel from './TodoModel'
 
 const todosRouter = express.Router()
 
