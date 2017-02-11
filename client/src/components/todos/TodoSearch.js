@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 class TodoSearch extends Component {
   handleSearch = () => {
     const showCompleted = this.refs.showCompleted.checked
-    const searchText = this.refs.searchText.value
-    this.props.onSearch(showCompleted, searchText)
+    const todoSearch = this.refs.todoSearch.value
+    this.props.onSearch(showCompleted, todoSearch)
   }
   render() {
     return (
@@ -12,7 +12,7 @@ class TodoSearch extends Component {
         <div>
           <input
             type="search"
-            ref="searchText"
+            ref="todoSearch"
             placeholder="Search Todos"
             onChange={this.handleSearch}
           />
