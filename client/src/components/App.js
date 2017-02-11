@@ -31,8 +31,8 @@ class App extends Component {
     const data = await response.json()
     this.setState({ carts: data.carts })
   }
-  handleCartSearch = (cartSearch) => {
-    this.setState({ cartSearch: cartSearch.toLowerCase() })
+  handleCartSearch = (searchText) => {
+    this.setState({ cartSearch: searchText.toLowerCase() })
   }
 
   async fetchProducts() {
@@ -40,8 +40,8 @@ class App extends Component {
     const data = await response.json()
     this.setState({ products: data.products })
   }
-  handleProductSearch = (productSearch) => {
-    this.setState({ productSearch: productSearch.toLowerCase() })
+  handleProductSearch = (searchText) => {
+    this.setState({ productSearch: searchText.toLowerCase() })
   }
 
   async fetchTodos() {
@@ -49,10 +49,10 @@ class App extends Component {
     const data = await response.json()
     this.setState({ todos: data.todos })
   }
-  handleTodoSearch = (showCompleted, todoSearch) => {
+  handleTodoSearch = (showCompleted, searchText) => {
     this.setState({
       showCompleted,
-      todoSearch: todoSearch.toLowerCase()
+      todoSearch: searchText.toLowerCase()
     })
   }
 

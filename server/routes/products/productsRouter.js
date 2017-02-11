@@ -22,4 +22,19 @@ productsRouter.get('/', (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
+productsRouter.get('/:id', (req, res) => {
+  const id = req.params.id
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send()
+  }
+  ProductModel.findById(id)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).send()
+      }
+      res.send({ product })
+    })
+    .catch((err) => res.status(400).send())
+})
+
 export default productsRouter

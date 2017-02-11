@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 
-import Todo from './Todo'
+import Cart from './Cart'
 
-describe('Todo', () => {
+describe('Cart', () => {
   it('should exist', () => {
-    expect(Todo).toExist()
+    expect(Cart).toExist()
   })
 })

@@ -21,4 +21,19 @@ cartsRouter.get('/', (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
+cartsRouter.get('/:id', (req, res) => {
+  const id = req.params.id
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send()
+  }
+  CartModel.findById(id)
+    .then((cart) => {
+      if (!cart) {
+        return res.status(404).send()
+      }
+      res.send({ cart })
+    })
+    .catch((err) => res.status(400).send())
+})
+
 export default cartsRouter
