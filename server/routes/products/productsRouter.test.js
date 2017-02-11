@@ -3,25 +3,26 @@ import request from 'supertest'
 import app from '../../server'
 import ProductModel from './ProductModel'
 
-beforeEach((done) => {
-  ProductModel.remove({}).then(() => {
-    done()
-  })
-})
+const products = [
+  { name: 'Test product 1', description: 'A test product1 for route', price: 1000 },
+  { name: 'Test product 2', description: 'A test product2 for route', price: 2000 },
+  { name: 'Test product 3', description: 'A test product3 for route', price: 3000 },
+]
 
-const name = 'Test product'
-const description = 'A test product for route test'
-const price = 1000
+beforeEach((done) => {
+  ProductModel.remove({})
+    .then(() => ProductModel.insertMany(products))
+    .then(() => done())
+})
 
 describe('POST /api/products', () => {
   it('should create a new product', (done) => {
+    const name = 'Test product'
+    const description = 'A test product for route test'
+    const price = 1000
     request(app)
       .post('/api/products')
-      .send({
-        name: 'Test product',
-        description: 'A test product for route test',
-        price: 1000
-      })
+      .send({ name, description, price })
       .expect(200)
       .expect((res) => {
         expect(res.body.name).toBe(name)
@@ -32,7 +33,7 @@ describe('POST /api/products', () => {
         if (err) {
           return done(err)
         }
-        ProductModel.find()
+        ProductModel.find({ name, description, price })
           .then((products) => {
             expect(products.length).toBe(1)
             expect(products[0].name).toBe(name)
@@ -54,10 +55,22 @@ describe('POST /api/products', () => {
         }
         ProductModel.find()
           .then((products) => {
-            expect(products.length).toBe(0)
+            expect(products.length).toBe(3)
             done()
           })
           .catch(err => done(err))
       })
+  })
+})
+
+describe('GET /api/products', () => {
+  it('should get all products', (done) => {
+    request(app)
+      .get('/api/products')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.products.length).toBe(3)
+      })
+      .end(done)
   })
 })
