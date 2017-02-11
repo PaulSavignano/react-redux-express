@@ -3,18 +3,18 @@ import express from 'express'
 import path from 'path'
 
 import mongoose from './db/mongoose'
-// Models
-import { CartModel, ProductModel, TodoModel, UserModel } from './models/index'
-// Routes
-import { cartRouter, productsRouter, todosRouter } from './routes/index'
 
+import cartsRouter from './routes/carts/cartsRouter'
+import productsRouter from './routes/products/productsRouter'
+import todosRouter from './routes/todos/todosRouter'
+// import usersRouter from './routes/users/usersRouter'
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use('/api/cart', cartRouter)
+app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/todos', todosRouter)
 

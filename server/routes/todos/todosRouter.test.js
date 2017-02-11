@@ -1,7 +1,7 @@
 import expect from 'expect'
 import request from 'supertest'
-import app from '../server'
-import TodoModel from '../models/TodoModel'
+import app from '../../server'
+import TodoModel from './TodoModel'
 
 beforeEach((done) => {
   TodoModel.remove({}).then(() => {

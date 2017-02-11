@@ -1,7 +1,8 @@
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
 import ReactDOM from 'react-dom'
+import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
+
 import TodoList from './TodoList'
 import Todo from './Todo'
 

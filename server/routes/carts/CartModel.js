@@ -7,9 +7,8 @@ const CartModel = mongoose.model('CartModel', {
     minlength: 1,
     trim: true
   },
-  quantity: {
+  productQty: {
     type: Number,
-    required: true,
     minlength: 1,
     trim: true
   }

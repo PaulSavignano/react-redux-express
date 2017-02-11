@@ -1,7 +1,7 @@
 import expect from 'expect'
 import request from 'supertest'
-import app from '../server'
-import ProductModel from '../models/ProductModel'
+import app from '../../server'
+import ProductModel from './ProductModel'
 
 beforeEach((done) => {
   ProductModel.remove({}).then(() => {

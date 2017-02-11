@@ -1,7 +1,8 @@
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
 import ReactDOM from 'react-dom'
+import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
+
 import ProductList from './ProductList'
 import Product from './Product'
 
@@ -16,7 +17,7 @@ describe('ProductList', () => {
       { _id: 3, name: 'Eat dinner', description: 'A nice break from the day', price: 1000 },
     ]
     const productList = TestUtils.renderIntoDocument(<ProductList products={products} />)
-    const todosComponents = TestUtils.scryRenderedComponentsWithType(productList, Product)
-    expect(todosComponents.length).toBe(products.length)
+    const productsComponents = TestUtils.scryRenderedComponentsWithType(productList, Product)
+    expect(productsComponents.length).toBe(products.length)
   })
 })

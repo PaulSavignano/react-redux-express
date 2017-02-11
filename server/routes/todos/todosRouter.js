@@ -1,5 +1,5 @@
 import express from 'express'
-import TodoModel from '../models/TodoModel'
+import TodoModel from './TodoModel'
 
 const todosRouter = express.Router()
 

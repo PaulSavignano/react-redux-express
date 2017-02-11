@@ -21,7 +21,7 @@
     "supertest": "^3.0.0"
   },
   "scripts": {
-    "test": "mocha **/*.test.js --compilers js:babel-register",
+    "test": "mocha **/**/*.test.js --compilers js:babel-register",
     "test-watch": "nodemon --exec 'npm test'",
     "build": "babel . --ignore node_modules,build --out-dir build",
     "start": "nodemon -r babel-register server.js",

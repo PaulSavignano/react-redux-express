@@ -1,7 +1,7 @@
 import expect from 'expect'
 import request from 'supertest'
-import app from '../server'
-import CartModel from '../models/CartModel'
+import app from '../../server'
+import CartModel from './CartModel'
 
 beforeEach((done) => {
   CartModel.remove({}).then(() => {
@@ -10,38 +10,38 @@ beforeEach((done) => {
 })
 
 const productId = 'HLJE4JL36LJOHNMLOH6'
-const quantity = 1000
+const productQty = 1000
 
-describe('POST /api/cart', () => {
-  it('should create a new cart product', (done) => {
+describe('POST /api/carts', () => {
+  it('should create a new cart', (done) => {
     request(app)
-      .post('/api/cart')
+      .post('/api/carts')
       .send({
-        productId: 'HLJE4JL36LJOHNMLOH6',
-        quantity: 1000
+        productId,
+        productQty
       })
       .expect(200)
       .expect((res) => {
         expect(res.body.productId).toBe(productId)
-        expect(res.body.quantity).toBe(quantity)
+        expect(res.body.productQty).toBe(productQty)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
         CartModel.find()
-          .then((cart) => {
-            expect(cart.length).toBe(1)
-            expect(cart[0].productId).toBe(productId)
-            expect(cart[0].quantity).toBe(quantity)
+          .then((carts) => {
+            expect(carts.length).toBe(1)
+            expect(carts[0].productId).toBe(productId)
+            expect(carts[0].productQty).toBe(productQty)
             done()
           })
           .catch(err => done(err))
       })
   })
-  it('should not create cart product with invalid body data', (done) => {
+  it('should not create cart with invalid body data', (done) => {
     request(app)
-      .post('/api/cart')
+      .post('/api/carts')
       .send({})
       .expect(400)
       .end((err, res) => {
@@ -49,8 +49,8 @@ describe('POST /api/cart', () => {
           return done(err)
         }
         CartModel.find()
-          .then((cart) => {
-            expect(cart.length).toBe(0)
+          .then((carts) => {
+            expect(carts.length).toBe(0)
             done()
           })
           .catch(err => done(err))

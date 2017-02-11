@@ -9,13 +9,11 @@ const ProductModel = mongoose.model('ProductModel', {
   },
   description: {
     type: String,
-    required: true,
     minlength: 1,
     trim: true
   },
   price: {
     type: Number,
-    required: true,
     default: 0
   }
 })
