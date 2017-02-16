@@ -8,7 +8,7 @@ class TodoList extends Component {
         <h1>Todo List</h1>
         <ul>
           {this.props.todos.map(todo =>
-            <Todo key={todo.text} {...todo} />
+            <Todo key={todo.uuid} {...todo} />
           )}
         </ul>
       </div>

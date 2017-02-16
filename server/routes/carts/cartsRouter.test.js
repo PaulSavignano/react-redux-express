@@ -3,41 +3,64 @@ import request from 'supertest'
 import { ObjectID } from 'mongodb'
 
 import app from '../../server'
+import ProductModel from '../products/ProductModel'
 import CartModel from './CartModel'
 
+const productOneId = ObjectID('58a52f604d564945a7c722a7')
+const productTwoId = ObjectID('58a52f604d564945a7c722a8')
+const productThreeId = ObjectID('58a52f604d564945a7c722a9')
+const products = [
+  { _id: productOneId, name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
+  { _id: productTwoId, name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
+  { _id: productThreeId, name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
+]
 const carts = [
-  { _id: new ObjectID(), productId: 'A1B2C3', productQty: 1 },
-  { _id: new ObjectID(), productId: 'D4E5F6', productQty: 2 },
-  { _id: new ObjectID(), productId: 'G7H8I9', productQty: 3 },
+  { _id: new ObjectID(), productId: productOneId, productQty: 6 },
+  { _id: new ObjectID(), productId: productTwoId, productQty: 9 },
 ]
 
-beforeEach((done) => {
-  CartModel.remove({})
-    .then(() => CartModel.insertMany(carts))
-    .then(() => done())
-})
+const populateProducts = (done) => {
+  ProductModel.remove({}).then(() => {
+    const productOne = new ProductModel(products[0]).save()
+    const productTwo = new ProductModel(products[1]).save()
+    const productThree = new ProductModel(products[2]).save()
+    return Promise.all([productOne, productTwo, productThree])
+  }).then(() => done())
+}
+
+const populateCarts = (done) => {
+  CartModel.remove({}).then(() => {
+    return CartModel.insertMany(carts)
+  }).then(() => done())
+}
+
+beforeEach(populateProducts)
+beforeEach(populateCarts)
+
+
 
 describe('POST /api/carts', () => {
   it('should create a new cart', (done) => {
-    const productId = 'H10I11J12'
-    const productQty = 3
+    const cart = { productId: products[2]._id, productQty: 12 }
     request(app)
       .post('/api/carts')
-      .send({ productId, productQty })
+      .send(cart)
       .expect(200)
       .expect((res) => {
-        expect(res.body.productId).toBe(productId)
-        expect(res.body.productQty).toBe(productQty)
+        expect(res.body.productId).toBe(cart.productId.toHexString())
+        expect(res.body.productQty).toBe(cart.productQty)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        CartModel.find({ productId, productQty })
+        CartModel.find({ productId: cart.productId })
           .then((carts) => {
             expect(carts.length).toBe(1)
-            expect(carts[0].productId).toBe(productId)
-            expect(carts[0].productQty).toBe(productQty)
+            console.log(carts[0].productId.toHexString() === cart.productId.toHexString())
+            console.log(cart.productId)
+            expect(carts[0].productId.toHexString()).toBe(cart.productId.toHexString())
+            expect(carts[0].productQty).toBe(cart.productQty)
             done()
           })
           .catch(err => done(err))
@@ -54,7 +77,7 @@ describe('POST /api/carts', () => {
         }
         CartModel.find()
           .then((carts) => {
-            expect(carts.length).toBe(3)
+            expect(carts.length).toBe(2)
             done()
           })
           .catch(err => done(err))
@@ -68,7 +91,8 @@ describe('GET /api/carts', () => {
       .get('/api/carts')
       .expect(200)
       .expect((res) => {
-        expect(res.body.carts.length).toBe(3)
+        console.log(res.body)
+        expect(res.body.length).toBe(2)
       })
       .end(done)
   })
@@ -80,7 +104,7 @@ describe('GET /api/carts/:id', () => {
       .get(`/api/carts/${carts[0]._id.toHexString()}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body.cart.text).toBe(carts[0].text)
+        expect(res.body.cart.productQty).toBe(carts[0].productQty)
       })
       .end(done)
   })

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const CartModel = mongoose.model('CartModel', {
   productId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     minlength: 1,
     trim: true

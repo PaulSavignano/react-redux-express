@@ -10,14 +10,20 @@ describe('ProductAdd', () => {
     expect(ProductAdd).toExist()
   })
   it('should call onProductAdd prop with valid data', () => {
-    const productName = 'Node Development'
+    const product = {
+      name: 'test',
+      description: 'testing',
+      price: 9000
+    }
     const spy = expect.createSpy()
     const productAdd = TestUtils.renderIntoDocument(<ProductAdd onProductAdd={spy} />)
     const node = ReactDOM.findDOMNode(productAdd)
     const form = node.querySelector('form')
-    productAdd.refs.productName.value = productName
+    productAdd.refs.name.value = product.name
+    productAdd.refs.description.value = product.description
+    productAdd.refs.price.value = product.price
     TestUtils.Simulate.submit(form)
-    expect(spy).toHaveBeenCalledWith(productName)
+    expect(spy).toHaveBeenCalledWith(product)
   })
   it('should not call onProductAdd prop when invalid input', () => {
     const productName = ''

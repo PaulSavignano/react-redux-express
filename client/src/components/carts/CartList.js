@@ -4,12 +4,11 @@ import Cart from './Cart'
 class CartList extends Component {
   render() {
     return (
-      <div>
-        <h1>Cart</h1>
+      <ul className="demo-list-control mdl-list">
         {this.props.carts.map(cart => (
           <Cart key={cart._id} {...cart} />
         ))}
-      </div>
+      </ul>
     )
   }
 }

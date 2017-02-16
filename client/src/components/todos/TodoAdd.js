@@ -5,7 +5,7 @@ class TodoAdd extends Component {
     e.preventDefault()
     const todoText = this.refs.todoText.value
     if (todoText.length) {
-      this.refs.todoText = ''
+      this.refs.todoText.value = ''
       this.props.onTodoAdd(todoText)
     } else {
       this.refs.todoText.focus()

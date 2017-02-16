@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
 
 const TodoModel = mongoose.model('TodoModel', {
+  uuid: {
+    type: String,
+    required: true
+  },
   text: {
     type: String,
     required: true,

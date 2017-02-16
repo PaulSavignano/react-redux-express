@@ -1,5 +1,5 @@
-import bodyParser from 'body-parser'
 import express from 'express'
+import bodyParser from 'body-parser'
 import path from 'path'
 
 import mongoose from './db/mongoose'
@@ -17,10 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/todos', todosRouter)
-
-
-
-
 
 
 

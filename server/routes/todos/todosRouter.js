@@ -5,7 +5,9 @@ import TodoModel from './TodoModel'
 const todosRouter = express.Router()
 
 todosRouter.post('/', (req, res) => {
+  console.log(req.body)
   const todo = new TodoModel({
+    uuid: req.body.uuid,
     text: req.body.text
   })
   todo.save().then((doc) => {

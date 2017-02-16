@@ -1,14 +1,15 @@
 import expect from 'expect'
 import request from 'supertest'
 import { ObjectID } from 'mongodb'
+import uuidV1 from 'uuid/v1'
 
 import app from '../../server'
 import TodoModel from './TodoModel'
 
 const todos = [
-  { _id: new ObjectID(), text: 'First test todo' },
-  { _id: new ObjectID(), text: 'Second test todo' },
-  { _id: new ObjectID(), text: 'Third test todo' }
+  { _id: new ObjectID(), uuid: uuid(), text: 'First test todo' },
+  { _id: new ObjectID(), uuid: uuid(), text: 'Second test todo' },
+  { _id: new ObjectID(), uuid: uuid(), text: 'Third test todo' }
 ]
 
 beforeEach((done) => {

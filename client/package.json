@@ -18,6 +18,7 @@
     "expect": "^1.20.2",
     "jest-cli": "^18.1.0",
     "react-addons-test-utils": "^15.4.2",
-    "react-scripts": "^0.8.5"
+    "react-scripts": "^0.8.5",
+    "uuid": "^3.0.1"
   }
 }

@@ -5,17 +5,25 @@ import { ObjectID } from 'mongodb'
 import app from '../../server'
 import ProductModel from './ProductModel'
 
+const productOneId = ObjectID('58a52f604d564945a7c722a7')
+const productTwoId = ObjectID('58a52f604d564945a7c722a8')
+const productThreeId = ObjectID('58a52f604d564945a7c722a9')
 const products = [
-  { _id: new ObjectID(), name: 'Test product 1', description: 'A test product1 for route', price: 1000 },
-  { _id: new ObjectID(), name: 'Test product 2', description: 'A test product2 for route', price: 2000 },
-  { _id: new ObjectID(), name: 'Test product 3', description: 'A test product3 for route', price: 3000 },
+  { _id: productOneId, name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
+  { _id: productTwoId, name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
+  { _id: productThreeId, name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
 ]
 
-beforeEach((done) => {
-  ProductModel.remove({})
-    .then(() => ProductModel.insertMany(products))
-    .then(() => done())
-})
+const populateProducts = (done) => {
+  ProductModel.remove({}).then(() => {
+    const productOne = new ProductModel(products[0]).save()
+    const productTwo = new ProductModel(products[1]).save()
+    const productThree = new ProductModel(products[2]).save()
+    return Promise.all([productOne, productTwo, productThree])
+  }).then(() => done())
+}
+
+beforeEach(populateProducts)
 
 describe('POST /api/products', () => {
   it('should create a new product', (done) => {
