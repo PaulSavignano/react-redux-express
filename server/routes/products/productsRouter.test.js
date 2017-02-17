@@ -1,6 +1,7 @@
 import expect from 'expect'
 import request from 'supertest'
 import { ObjectID } from 'mongodb'
+import uuidV1 from 'uuid/v1'
 
 import app from '../../server'
 import ProductModel from './ProductModel'
@@ -8,10 +9,11 @@ import ProductModel from './ProductModel'
 const productOneId = ObjectID('58a52f604d564945a7c722a7')
 const productTwoId = ObjectID('58a52f604d564945a7c722a8')
 const productThreeId = ObjectID('58a52f604d564945a7c722a9')
+
 const products = [
-  { _id: productOneId, name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
-  { _id: productTwoId, name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
-  { _id: productThreeId, name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
+  { _id: productOneId, uuid: uuidV1(), name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
+  { _id: productTwoId, uuid: uuidV1(), name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
+  { _id: productThreeId, uuid: uuidV1(), name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
 ]
 
 const populateProducts = (done) => {
@@ -27,28 +29,26 @@ beforeEach(populateProducts)
 
 describe('POST /api/products', () => {
   it('should create a new product', (done) => {
-    const name = 'Test product'
-    const description = 'A test product for route test'
-    const price = 1000
+    const product = { uuid: uuidV1(), name: 'Test 4 Product', description: 'Test 4 Description', price: 9000 }
     request(app)
       .post('/api/products')
-      .send({ name, description, price })
+      .send(product)
       .expect(200)
       .expect((res) => {
-        expect(res.body.name).toBe(name)
-        expect(res.body.description).toBe(description)
-        expect(res.body.price).toBe(price)
+        expect(res.body.name).toBe(product.name)
+        expect(res.body.description).toBe(product.description)
+        expect(res.body.price).toBe(product.price)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        ProductModel.find({ name, description, price })
+        ProductModel.find({ uuid: product.uuid })
           .then((products) => {
             expect(products.length).toBe(1)
-            expect(products[0].name).toBe(name)
-            expect(products[0].description).toBe(description)
-            expect(products[0].price).toBe(price)
+            expect(products[0].name).toBe(product.name)
+            expect(products[0].description).toBe(product.description)
+            expect(products[0].price).toBe(product.price)
             done()
           })
           .catch(err => done(err))
@@ -79,7 +79,7 @@ describe('GET /api/products', () => {
       .get('/api/products')
       .expect(200)
       .expect((res) => {
-        expect(res.body.products.length).toBe(3)
+        expect(res.body.length).toBe(3)
       })
       .end(done)
   })

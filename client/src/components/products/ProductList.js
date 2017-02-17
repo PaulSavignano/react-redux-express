@@ -7,7 +7,7 @@ class ProductList extends Component {
       <ul className="demo-list-control mdl-list">
         {this.props.products.map(product => (
           <Product
-            key={product._id}
+            key={product.uuid}
             onCartAdd={this.props.onCartAdd}
             {...product}
           />

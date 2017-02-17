@@ -10,17 +10,16 @@ describe('TodoAdd', () => {
     expect(TodoAdd).toExist()
   })
   it('should call onTodoAdd prop with valid data', () => {
-    const todoText = 'Check mail'
+    const todo = { text: 'onTodoAdd should be called with valid data'}
     const spy = expect.createSpy()
     const todoAdd = TestUtils.renderIntoDocument(<TodoAdd onTodoAdd={spy} />)
     const node = ReactDOM.findDOMNode(todoAdd)
     const form = node.querySelector('form')
-    todoAdd.refs.todoText.value = todoText
+    todoAdd.refs.text.value = todo.text
     TestUtils.Simulate.submit(form)
-    expect(spy).toHaveBeenCalledWith('Check mail')
+    expect(spy).toHaveBeenCalledWith(todo)
   })
   it('should not call onTodoAdd prop when invalid input', () => {
-    const todoText = ''
     const spy = expect.createSpy()
     const todoAdd = TestUtils.renderIntoDocument(<TodoAdd onTodoAdd={spy} />)
     const node = ReactDOM.findDOMNode(todoAdd)

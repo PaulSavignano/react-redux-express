@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
 
 const CartModel = mongoose.model('CartModel', {
+  uuid: {
+    type: String,
+    required: true
+  },
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

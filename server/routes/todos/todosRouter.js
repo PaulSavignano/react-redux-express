@@ -5,7 +5,6 @@ import TodoModel from './TodoModel'
 const todosRouter = express.Router()
 
 todosRouter.post('/', (req, res) => {
-  console.log(req.body)
   const todo = new TodoModel({
     uuid: req.body.uuid,
     text: req.body.text
@@ -19,7 +18,7 @@ todosRouter.post('/', (req, res) => {
 
 todosRouter.get('/', (req, res) => {
   TodoModel.find({})
-    .then(todos => res.send({ todos }))
+    .then(todos => res.send(todos))
     .catch(err => res.status(400).send(err))
 })
 

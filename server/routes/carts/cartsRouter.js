@@ -7,6 +7,7 @@ const cartsRouter = express.Router()
 
 cartsRouter.post('/', (req, res) => {
   const cart = new CartModel({
+    uuid: req.body.uuid,
     productId: req.body.productId,
     productQty: req.body.productQty
   })
@@ -20,24 +21,29 @@ cartsRouter.post('/', (req, res) => {
 cartsRouter.get('/', (req, res) => {
   CartModel.find({})
     .then(carts => {
-      const cartProductIds = carts.map(cartPro => cartPro.productId)
-      ProductModel.find({ _id: { $in: cartProductIds }})
-        .then(products => {
-          const cartProducts = carts.map(cart => {
-            const product = products.find(pro => {
-              return pro._id.toHexString() === cart.productId.toHexString()
+      if (carts.length) {
+        const cartProductIds = carts.map(cartPro => cartPro.productId)
+        ProductModel.find({ _id: { $in: cartProductIds }})
+          .then(products => {
+            const cartProducts = carts.map(cart => {
+              const product = products.find(pro => {
+                return pro._id.toHexString() === cart.productId.toHexString()
+              })
+              return {
+                _id: cart._id,
+                uuid: cart.uuid,
+                productId: product._id,
+                productQty: cart.productQty,
+                name: product.name,
+                price: product.price
+              }
             })
-            return {
-              _id: cart._id,
-              productId: product._id,
-              productQty: cart.productQty,
-              name: product.name,
-              price: product.price
-            }
+            res.send(cartProducts)
           })
-          res.send(cartProducts)
-        })
-        .catch(err => res.status(400).send(err))
+          .catch(err => res.status(400).send(err))
+      } else {
+        res.send({ carts })
+      }
     })
     .catch(err => res.status(400).send(err))
 })

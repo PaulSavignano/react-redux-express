@@ -3,12 +3,11 @@ import React, { Component } from 'react'
 class ProductAdd extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
-    const product = {
-      name: this.refs.name.value,
-      description: this.refs.description.value,
-      price: parseInt(this.refs.price.value, 10)
-    }
-    if (product.name.length) {
+    const name = this.refs.name.value
+    const description = this.refs.description.value
+    const price = parseInt(this.refs.price.value, 10)
+    if (name.length && description.length && price) {
+      const product = { name, description, price }
       this.props.onProductAdd(product)
       e.target.reset()
     } else {

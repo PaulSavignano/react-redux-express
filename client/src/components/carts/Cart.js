@@ -3,7 +3,6 @@ import { formatPrice } from '../../modules/formatPrice'
 
 class Cart extends Component {
   render() {
-    console.log(this.props)
     return (
       <li className="mdl-list__item">
         <span className="mdl-list__item-primary-content">

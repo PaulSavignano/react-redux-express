@@ -6,7 +6,7 @@ class CartList extends Component {
     return (
       <ul className="demo-list-control mdl-list">
         {this.props.carts.map(cart => (
-          <Cart key={cart._id} {...cart} />
+          <Cart key={cart.uuid} {...cart} />
         ))}
       </ul>
     )

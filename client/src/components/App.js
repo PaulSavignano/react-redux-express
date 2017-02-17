@@ -28,18 +28,20 @@ class App extends Component {
   }
   async fetchCarts() {
     const response = await fetch('/api/carts')
-    const data = await response.json()
-    console.log(data)
-    this.setState({ carts: data })
+    const carts = await response.json()
+    this.setState({ carts })
   }
   handleCartAdd = (cart) => {
+    const uuid = uuidV1()
+    const newCart = { uuid, ...cart}
+    this.setState({ carts: [ ...this.state.carts, newCart ]})
     fetch('/api/carts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(cart)
+      body: JSON.stringify(newCart)
     })
       .then(res => res.json())
-      .then(carts => this.fetchCarts())
+      .then(carts => this.setState({ carts: [ ...this.state.carts ]}))
       .catch(err => console.log(err))
   }
   handleCartSearch = (searchText) => {
@@ -47,19 +49,23 @@ class App extends Component {
   }
 
 
+
   async fetchProducts() {
     const response = await fetch('/api/products')
-    const data = await response.json()
-    this.setState({ products: data.products })
+    const products = await response.json()
+    this.setState({ products })
   }
   handleProductAdd = (product) => {
+    const uuid = uuidV1()
+    const newProduct = { uuid, ...product }
+    this.setState({ products: [ ...this.state.products, newProduct ] })
     fetch('/api/products', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product)
+      body: JSON.stringify(newProduct)
     })
       .then(res => res.json())
-      .then(products => this.setState({ products: [...this.state.products, products ] }))
+      .then(products => this.setState({ products: [...this.state.products ] }))
       .catch(err => console.log(err))
   }
   handleProductSearch = (searchText) => {
@@ -67,20 +73,16 @@ class App extends Component {
   }
 
 
+
   async fetchTodos() {
     const response = await fetch('/api/todos')
-    const data = await response.json()
-    this.setState({ todos: data.todos })
+    const todos = await response.json()
+    this.setState({ todos })
   }
-  handleTodoAdd = (text) => {
+  handleTodoAdd = (todo) => {
     const uuid = uuidV1()
-    const newTodo = { uuid, text }
-    this.setState({
-      todos: [
-        ...this.state.todos,
-        newTodo
-      ]
-    })
+    const newTodo = { uuid, ...todo }
+    this.setState({ todos: [ ...this.state.todos, newTodo ] })
     fetch('/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -97,17 +99,10 @@ class App extends Component {
     })
   }
 
-
-  async fetchCities() {
-    const response = await fetch('/cities')
-    const cities = await response.json()
-    this.setState({ cities })
-  }
   componentWillMount() {
     this.fetchCarts()
     this.fetchProducts()
     this.fetchTodos()
-    this.fetchCities()
   }
   render() {
     return (

@@ -6,6 +6,7 @@ const productsRouter = express.Router()
 
 productsRouter.post('/', (req, res) => {
   const product = new ProductModel({
+    uuid: req.body.uuid,
     name: req.body.name,
     description: req.body.description,
     price: req.body.price
@@ -19,7 +20,7 @@ productsRouter.post('/', (req, res) => {
 
 productsRouter.get('/', (req, res) => {
   ProductModel.find({})
-    .then(products => res.send({ products }))
+    .then(products => res.send(products))
     .catch(err => res.status(400).send(err))
 })
 

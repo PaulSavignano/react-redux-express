@@ -7,9 +7,9 @@ import app from '../../server'
 import TodoModel from './TodoModel'
 
 const todos = [
-  { _id: new ObjectID(), uuid: uuid(), text: 'First test todo' },
-  { _id: new ObjectID(), uuid: uuid(), text: 'Second test todo' },
-  { _id: new ObjectID(), uuid: uuid(), text: 'Third test todo' }
+  { _id: new ObjectID(), uuid: uuidV1(), text: 'First test todo' },
+  { _id: new ObjectID(), uuid: uuidV1(), text: 'Second test todo' },
+  { _id: new ObjectID(), uuid: uuidV1(), text: 'Third test todo' }
 ]
 
 beforeEach((done) => {
@@ -20,22 +20,22 @@ beforeEach((done) => {
 
 describe('POST /api/todos', () => {
   it('should create a new todo', (done) => {
-    const text = 'Test todo test'
+    const todo = { uuid: uuidV1(), text: 'Test creating a new todo' }
     request(app)
       .post('/api/todos')
-      .send({ text })
+      .send(todo)
       .expect(200)
       .expect((res) => {
-        expect(res.body.text).toBe(text)
+        expect(res.body.text).toBe(todo.text)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        TodoModel.find({ text })
+        TodoModel.find({ uuid: todo.uuid })
           .then((todos) => {
             expect(todos.length).toBe(1)
-            expect(todos[0].text).toBe(text)
+            expect(todos[0].text).toBe(todo.text)
             done()
           })
           .catch(err => done(err))
@@ -67,7 +67,7 @@ describe('GET /api/todos', () => {
       .get('/api/todos')
       .expect(200)
       .expect((res) => {
-        expect(res.body.todos.length).toBe(3)
+        expect(res.body.length).toBe(3)
       })
       .end(done)
   })
