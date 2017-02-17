@@ -42,7 +42,7 @@ cartsRouter.get('/', (req, res) => {
           })
           .catch(err => res.status(400).send(err))
       } else {
-        res.send({ carts })
+        res.send(carts)
       }
     })
     .catch(err => res.status(400).send(err))

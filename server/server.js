@@ -23,7 +23,6 @@ app.use('/api/todos', todosRouter)
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))
 app.use(staticFiles)
 
-app.set('port', (process.env.PORT || 3001))
 app.listen(port, () => {
   console.log(`Started up at port: ${port}`)
 })

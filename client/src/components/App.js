@@ -29,6 +29,7 @@ class App extends Component {
   async fetchCarts() {
     const response = await fetch('/api/carts')
     const carts = await response.json()
+    console.log(carts)
     this.setState({ carts })
   }
   handleCartAdd = (cart) => {
