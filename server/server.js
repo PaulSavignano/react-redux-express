@@ -10,6 +10,7 @@ import todosRouter from './routes/todos/todosRouter'
 // import usersRouter from './routes/users/usersRouter'
 
 const app = express()
+const port = process.env.PORT || 3001
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -23,8 +24,8 @@ const staticFiles = express.static(path.join(__dirname, '../../client/build'))
 app.use(staticFiles)
 
 app.set('port', (process.env.PORT || 3001))
-app.listen(app.get('port'), () => {
-  console.log(`Listening on ${app.get('port')}`)
+app.listen(port, () => {
+  console.log(`Started up at port: ${port}`)
 })
 
 export default app
