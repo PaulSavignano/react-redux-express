@@ -39,4 +39,16 @@ productsRouter.get('/:id', (req, res) => {
     .catch((err) => res.status(400).send())
 })
 
+productsRouter.delete('/:uuid', (req, res) => {
+  const uuid = req.params.uuid
+  ProductModel.findOneAndRemove({ uuid })
+    .then((product) => {
+      if (!product) {
+        return res.status(404).send()
+      }
+      res.send({ product })
+    })
+    .catch((err) => res.status(400).send(err))
+})
+
 export default productsRouter

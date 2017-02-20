@@ -4,15 +4,17 @@ import Todo from './Todo'
 class TodoList extends Component {
   render() {
     return (
-      <div>
-        <h1>Todo List</h1>
-        <ul>
-          {this.props.todos.map(todo =>
-            <Todo key={todo.uuid} {...todo} />
-          )}
-        </ul>
-      </div>
-
+      <ul className="demo-list-control mdl-list">
+        {this.props.todos.map(todo => (
+          <Todo
+            key={todo.uuid}
+            {...todo}
+            onToggle={this.props.onToggle}
+            onTodoDelete={this.props.onTodoDelete}
+            onTodoUpdate={this.props.onTodoUpdate}
+          />
+        ))}
+      </ul>
     )
   }
 }

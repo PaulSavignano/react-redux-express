@@ -1,6 +1,21 @@
 import React, { Component } from 'react'
 import uuidV1 from 'uuid/v1'
 
+import {
+  addCart,
+  getCarts,
+  deleteCart,
+
+  addProduct,
+  getProducts,
+  deleteProduct,
+
+  addTodo,
+  getTodos,
+  updateTodo,
+  deleteTodo
+  } from '../api/AppAPI'
+
 import './App.css';
 import CartList from './carts/CartList'
 import CartAdd from './carts/CartAdd'
@@ -24,26 +39,25 @@ class App extends Component {
     todos: [],
     todoSearch: '',
     showCompleted: false,
-    cities: []
+    test: ''
   }
-  async fetchCarts() {
-    const response = await fetch('/api/carts')
-    const carts = await response.json()
-    console.log(carts)
-    this.setState({ carts })
+  componentDidMount() {
+    getCarts().then(carts => this.setState({ carts }))
+    getProducts().then(products => this.setState({ products }))
+    getTodos().then(todos => this.setState({ todos }))
   }
+
+
   handleCartAdd = (cart) => {
     const uuid = uuidV1()
     const newCart = { uuid, ...cart}
     this.setState({ carts: [ ...this.state.carts, newCart ]})
-    fetch('/api/carts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newCart)
-    })
-      .then(res => res.json())
-      .then(carts => this.setState({ carts: [ ...this.state.carts ]}))
-      .catch(err => console.log(err))
+    addCart(newCart)
+  }
+  handleCartDelete = (_id, uuid) => {
+    const updatedCarts = this.state.carts.filter(cart => cart.uuid !== uuid)
+    this.setState({ carts: updatedCarts })
+    deleteCart(_id)
   }
   handleCartSearch = (searchText) => {
     this.setState({ cartSearch: searchText.toLowerCase() })
@@ -51,23 +65,16 @@ class App extends Component {
 
 
 
-  async fetchProducts() {
-    const response = await fetch('/api/products')
-    const products = await response.json()
-    this.setState({ products })
-  }
   handleProductAdd = (product) => {
     const uuid = uuidV1()
     const newProduct = { uuid, ...product }
     this.setState({ products: [ ...this.state.products, newProduct ] })
-    fetch('/api/products', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newProduct)
-    })
-      .then(res => res.json())
-      .then(products => this.setState({ products: [...this.state.products ] }))
-      .catch(err => console.log(err))
+    addProduct(newProduct)
+  }
+  handleProductDelete = (_id, uuid) => {
+    const updatedProducts = this.state.products.filter(product => product.uuid !== uuid)
+    this.setState({ products: updatedProducts })
+    deleteProduct(_id)
   }
   handleProductSearch = (searchText) => {
     this.setState({ productSearch: searchText.toLowerCase() })
@@ -75,24 +82,34 @@ class App extends Component {
 
 
 
-  async fetchTodos() {
-    const response = await fetch('/api/todos')
-    const todos = await response.json()
-    this.setState({ todos })
-  }
+
   handleTodoAdd = (todo) => {
     const uuid = uuidV1()
-    const newTodo = { uuid, ...todo }
+    const newTodo = { uuid, ...todo, completed: false }
     this.setState({ todos: [ ...this.state.todos, newTodo ] })
-    fetch('/api/todos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newTodo)
-    })
-      .then(res => res.json())
-      .then(todos => this.setState({ todos: [...this.state.todos ] }))
-      .catch(err => console.log(err))
+    addTodo(todo)
   }
+  handleTodoUpdate = (uuid, update) => {
+    console.log(uuid)
+    const updated = this.state.todos.map(todo => todo.uuid === uuid)
+    this.setState({ todos: updated })
+    updateTodo()
+  }
+  handleTodoDelete = (_id, uuid) => {
+    const updated = this.state.todos.filter(todo => todo.uuid !== uuid)
+    this.setState({ todos: updated })
+    deleteTodo(_id)
+  }
+  handleTodoToggle = (uuid) => {
+    const updatedTodos = this.state.todos.map(todo => {
+      if (todo.uuid === uuid) {
+        todo.completed = !todo.completed
+      }
+      return todo
+    })
+    this.setState({ todos: updatedTodos })
+  }
+
   handleTodoSearch = (showCompleted, searchText) => {
     this.setState({
       showCompleted,
@@ -100,33 +117,29 @@ class App extends Component {
     })
   }
 
-  componentWillMount() {
-    this.fetchCarts()
-    this.fetchProducts()
-    this.fetchTodos()
-  }
   render() {
     return (
       <div className="App">
 
-        <CartList carts={this.state.carts} />
+        <h1>Cart</h1>
+        <CartList
+          carts={this.state.carts}
+          onCartUpdate={this.handleCartUpdate}
+          onCartDelete={this.handleCartDelete}
+        />
         <CartAdd onCartAdd={this.handleCartAdd} />
         <CartSearch onSearch={this.handleCartSearch}/>
 
-        <ProductList products={this.state.products} onCartAdd={this.handleCartAdd} />
+        <h1>Products</h1>
+        <ProductList products={this.state.products} onCartAdd={this.handleCartAdd} onProductDelete={this.handleProductDelete} />
         <ProductAdd onProductAdd={this.handleProductAdd} />
         <ProductSearch onSearch={this.handleProductSearch} />
 
-        <TodoList todos={this.state.todos} />
+        <h1>Todos</h1>
+        <TodoList todos={this.state.todos} onToggle={this.handleTodoToggle} onTodoDelete={this.handleTodoDelete} onTodoUpdate={this.handleTodoUpdate}/>
         <TodoAdd onTodoAdd={this.handleTodoAdd} />
         <TodoSearch onSearch={this.handleTodoSearch}/>
 
-        <ul>
-          {this.state.cities.map(city => (
-            <li key={city.name}>{city.name}: {city.population}</li>
-          )
-          )}
-        </ul>
       </div>
     );
   }

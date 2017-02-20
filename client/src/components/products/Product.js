@@ -11,16 +11,25 @@ class Product extends Component {
     this.props.onCartAdd(cart)
   }
   render() {
+    const { _id, uuid, name, description, price } = this.props
     return (
       <li className="mdl-list__item">
         <span className="mdl-list__item-primary-content">
-          {this.props.name}
-          {this.props.description}
-          {formatPrice(this.props.price)}
+          {name}
+          {description}
+          {formatPrice(price)}
           <input type="number" ref="qty"/>
         </span>
         <span className="mdl-list__item-secondary-action">
           <button
+            id="deleteCart"
+            className="mdl-button mdl-js-button mdl-button--raised"
+            onClick={() => this.props.onProductDelete(_id, uuid)}
+          >
+            Delete Product
+          </button>
+          <button
+            id="addToCart"
             className="mdl-button mdl-js-button mdl-button--raised"
             onClick={this.handleClick}
           >

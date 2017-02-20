@@ -60,7 +60,19 @@ cartsRouter.get('/:id', (req, res) => {
       }
       res.send({ cart })
     })
-    .catch((err) => res.status(400).send())
+    .catch((err) => res.status(400).send(err))
+})
+
+cartsRouter.delete('/:uuid', (req, res) => {
+  const uuid = req.params.uuid
+  CartModel.findOneAndRemove({ uuid })
+    .then((cart) => {
+      if (!cart) {
+        return res.status(404).send()
+      }
+      res.send({ cart })
+    })
+    .catch((err) => res.status(400).send(err))
 })
 
 export default cartsRouter

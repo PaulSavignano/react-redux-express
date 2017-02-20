@@ -37,4 +37,16 @@ todosRouter.get('/:id', (req, res) => {
     .catch((err) => res.status(400).send())
 })
 
+todosRouter.delete('/:_id', (req, res) => {
+  const _id = req.params._id
+  TodoModel.findOneAndRemove({ _id })
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send()
+      }
+      res.send({ todo })
+    })
+    .catch((err) => res.status(400).send(err))
+})
+
 export default todosRouter
