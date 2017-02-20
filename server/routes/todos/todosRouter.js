@@ -49,4 +49,24 @@ todosRouter.delete('/:_id', (req, res) => {
     .catch((err) => res.status(400).send(err))
 })
 
+todosRouter.patch('/:_id', (req, res) => {
+  const _id = req.params._id
+  const { body } = req
+  if (!ObjectID.isValid(_id)) return res.status(404).send()
+  if ((typeof(body.completed) === 'boolean') && body.completed) {
+    body.completedAt = new Date().getTime()
+  } else {
+    body.completed = false
+    body.completedAt = null
+  }
+  TodoModel.findByIdAndUpdate(_id, {$set: body}, {new: true} )
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send()
+      }
+      res.send({ todo })
+    })
+    .catch((err) => res.status(400).send(err))
+})
+
 export default todosRouter

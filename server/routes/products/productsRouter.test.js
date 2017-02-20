@@ -6,14 +6,10 @@ import uuidV1 from 'uuid/v1'
 import app from '../../server'
 import ProductModel from './ProductModel'
 
-const productOneId = ObjectID('58a52f604d564945a7c722a7')
-const productTwoId = ObjectID('58a52f604d564945a7c722a8')
-const productThreeId = ObjectID('58a52f604d564945a7c722a9')
-
 const products = [
-  { _id: productOneId, uuid: uuidV1(), name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
-  { _id: productTwoId, uuid: uuidV1(), name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
-  { _id: productThreeId, uuid: uuidV1(), name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
+  { _id: ObjectID('58a52f604d564945a7c722a7'), uuid: uuidV1(), name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
+  { _id: ObjectID('58a52f604d564945a7c722a8'), uuid: uuidV1(), name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
+  { _id: ObjectID('58a52f604d564945a7c722a9'), uuid: uuidV1(), name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
 ]
 
 const populateProducts = (done) => {
@@ -107,6 +103,63 @@ describe('GET /api/products/:id', () => {
     request(app)
       .get(`/api/products/${id}`)
       .expect(404)
+      .end(done)
+  })
+})
+
+
+
+describe('DELETE /products/:_id', () => {
+  it('should delete a product', (done) => {
+    const hexId = products[1]._id.toHexString()
+    request(app)
+      .delete(`/api/products/${hexId}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.product._id).toBe(hexId)
+      })
+      .end((err) => {
+        if (err) return done(err)
+        ProductModel.findById(hexId)
+          .then((product) => {
+            expect(product).toNotExist()
+            done()
+          })
+          .catch(err => done(err))
+      })
+  })
+  it('should return 404 if product not found', (done) => {
+    const hexId = new ObjectID().toHexString()
+    request(app)
+      .delete(`/api/products/${hexId}`)
+      .expect(404)
+      .end(done)
+  })
+  it('should return 404 if object id is invalid', (done) => {
+    request(app)
+      .delete('/products/123abc')
+      .expect(404)
+      .end(done)
+  })
+})
+
+describe('PATCH /api/products/:_id', () => {
+  it('should update the product', (done) => {
+    const hexId = products[0]._id.toHexString()
+    const update = {
+      name: 'New name from productsRouter test',
+      description: 'New description',
+      price: 9999
+    }
+    request(app)
+      .patch(`/api/products/${hexId}`)
+      .send(update)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.product.name).toBe(update.name)
+        expect(res.body.product.description).toBe(update.description)
+        expect(res.body.product.price).toBeA('number')
+      })
       .end(done)
   })
 })

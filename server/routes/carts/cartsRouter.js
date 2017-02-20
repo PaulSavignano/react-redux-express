@@ -48,12 +48,12 @@ cartsRouter.get('/', (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-cartsRouter.get('/:id', (req, res) => {
-  const id = req.params.id
-  if (!ObjectID.isValid(id)) {
+cartsRouter.get('/:_id', (req, res) => {
+  const _id = req.params._id
+  if (!ObjectID.isValid(_id)) {
     return res.status(404).send()
   }
-  CartModel.findById(id)
+  CartModel.findById(_id)
     .then((cart) => {
       if (!cart) {
         return res.status(404).send()
@@ -63,9 +63,24 @@ cartsRouter.get('/:id', (req, res) => {
     .catch((err) => res.status(400).send(err))
 })
 
-cartsRouter.delete('/:uuid', (req, res) => {
-  const uuid = req.params.uuid
-  CartModel.findOneAndRemove({ uuid })
+cartsRouter.delete('/:_id', (req, res) => {
+  const _id = req.params._id
+  CartModel.findOneAndRemove({ _id })
+    .then((cart) => {
+      if (!cart) {
+        return res.status(404).send()
+      }
+      res.send({ cart })
+    })
+    .catch((err) => res.status(400).send(err))
+})
+
+
+cartsRouter.patch('/:_id', (req, res) => {
+  const _id = req.params._id
+  const { body } = req
+  if (!ObjectID.isValid(_id)) return res.status(404).send()
+  CartModel.findByIdAndUpdate(_id, {$set: body}, {new: true} )
     .then((cart) => {
       if (!cart) {
         return res.status(404).send()

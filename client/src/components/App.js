@@ -8,6 +8,7 @@ import {
 
   addProduct,
   getProducts,
+  updateProduct,
   deleteProduct,
 
   addTodo,
@@ -53,6 +54,12 @@ class App extends Component {
     const newCart = { uuid, ...cart}
     this.setState({ carts: [ ...this.state.carts, newCart ]})
     addCart(newCart)
+      .then(res => {
+        const carts = [ ...this.state.carts ]
+        const index = carts.findIndex(item => item.uuid === res.uuid)
+        carts[index] = res
+        this.setState({ carts })
+      })
   }
   handleCartDelete = (_id, uuid) => {
     const updatedCarts = this.state.carts.filter(cart => cart.uuid !== uuid)
@@ -70,6 +77,24 @@ class App extends Component {
     const newProduct = { uuid, ...product }
     this.setState({ products: [ ...this.state.products, newProduct ] })
     addProduct(newProduct)
+      .then(res => {
+        const products = [ ...this.state.products ]
+        const index = products.findIndex(item => item.uuid === res.uuid)
+        products[index] = res
+        this.setState({ products })
+      })
+  }
+  handleProductUpdate = (update) => {
+    const products = [ ...this.state.products ]
+    const index = products.findIndex(item => item.uuid === update.uuid)
+    products[index] = update
+    updateProduct(update)
+      .then(res => {
+        const products = [ ...this.state.products ]
+        const index = products.findIndex(item => item.uuid === res.uuid)
+        products[index] = res
+        this.setState({ products })
+      })
   }
   handleProductDelete = (_id, uuid) => {
     const updatedProducts = this.state.products.filter(product => product.uuid !== uuid)
@@ -87,18 +112,32 @@ class App extends Component {
     const uuid = uuidV1()
     const newTodo = { uuid, ...todo, completed: false }
     this.setState({ todos: [ ...this.state.todos, newTodo ] })
-    addTodo(todo)
+    addTodo(newTodo)
+      .then(res => {
+        const todos = [ ...this.state.todos ]
+        const index = todos.findIndex(item => item.uuid === res.uuid)
+        todos[index] = res
+        this.setState({ todos })
+      })
+
   }
-  handleTodoUpdate = (uuid, update) => {
-    console.log(uuid)
-    const updated = this.state.todos.map(todo => todo.uuid === uuid)
-    this.setState({ todos: updated })
-    updateTodo()
+  handleTodoUpdate = (update) => {
+    const todos = [ ...this.state.todos ]
+    const index = todos.findIndex(item => item.uuid === update.uuid)
+    todos[index] = update
+    updateTodo(update)
+      .then(res => {
+        const todos = [ ...this.state.todos ]
+        const index = todos.findIndex(item => item.uuid === res.uuid)
+        todos[index] = res
+        this.setState({ todos })
+      })
   }
   handleTodoDelete = (_id, uuid) => {
     const updated = this.state.todos.filter(todo => todo.uuid !== uuid)
     this.setState({ todos: updated })
-    deleteTodo(_id)
+    console.log(_id)
+    deleteTodo(_id).then(todo => console.log('Deleted: ', todo))
   }
   handleTodoToggle = (uuid) => {
     const updatedTodos = this.state.todos.map(todo => {
@@ -131,7 +170,12 @@ class App extends Component {
         <CartSearch onSearch={this.handleCartSearch}/>
 
         <h1>Products</h1>
-        <ProductList products={this.state.products} onCartAdd={this.handleCartAdd} onProductDelete={this.handleProductDelete} />
+        <ProductList
+          products={this.state.products}
+          onProductUpdate={this.handleProductUpdate}
+          onProductDelete={this.handleProductDelete}
+          onCartAdd={this.handleCartAdd}
+        />
         <ProductAdd onProductAdd={this.handleProductAdd} />
         <ProductSearch onSearch={this.handleProductSearch} />
 

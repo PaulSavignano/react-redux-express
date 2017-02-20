@@ -7,11 +7,13 @@ export const addCart = (newCart) => {
     .then(res => res.json())
     .catch(err => console.log(err))
 }
+
 export const getCarts = () => {
   return fetch('/api/carts')
     .then(res => res.json())
     .catch(err => console.log(err))
 }
+
 export const deleteCart = (_id) => {
   return fetch(`/api/carts/${_id}`, {
     method: 'DELETE',
@@ -38,6 +40,15 @@ export const getProducts = () => {
     .then(res => res.json())
     .catch(err => console.log(err))
 }
+export const updateProduct = (update) => {
+  return fetch(`/api/products/${update._id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(update)
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err))
+}
 export const deleteProduct = (_id) => {
   return fetch(`/api/products/${_id}`, {
     method: 'DELETE',
@@ -50,7 +61,7 @@ export const deleteProduct = (_id) => {
 
 
 export const addTodo = (newTodo) => {
-  return fetch('/api/products', {
+  return fetch('/api/todos', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newTodo)
@@ -63,10 +74,11 @@ export const getTodos = () => {
     .then(res => res.json())
     .catch(err => console.log(err))
 }
-export const updateTodo = (_id, update) => {
-  return fetch(`/api/todos/${_id}`, {
-    method: 'DELETE',
+export const updateTodo = (update) => {
+  return fetch(`/api/todos/${update._id}`, {
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(update)
   })
     .then(res => res.json())
     .catch(err => console.log(err))

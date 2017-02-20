@@ -7,18 +7,14 @@ import app from '../../server'
 import ProductModel from '../products/ProductModel'
 import CartModel from './CartModel'
 
-const productOneId = ObjectID('58a52f604d564945a7c722a7')
-const productTwoId = ObjectID('58a52f604d564945a7c722a8')
-const productThreeId = ObjectID('58a52f604d564945a7c722a9')
-
 const products = [
-  { _id: productOneId, uuid: uuidV1(), name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
-  { _id: productTwoId, uuid: uuidV1(), name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
-  { _id: productThreeId, uuid: uuidV1(), name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
+  { _id: ObjectID('58a52f604d564945a7c722a7'), uuid: uuidV1(), name: 'Test 1 Product', description: 'Test 1 Description', price: 1000 },
+  { _id: ObjectID('58a52f604d564945a7c722a8'), uuid: uuidV1(), name: 'Test 2 Product', description: 'Test 2 Description', price: 2000 },
+  { _id: ObjectID('58a52f604d564945a7c722a9'), uuid: uuidV1(), name: 'Test 3 Product', description: 'Test 3 Description', price: 3000 }
 ]
 const carts = [
-  { _id: new ObjectID(), uuid: uuidV1(), productId: productOneId, productQty: 6 },
-  { _id: new ObjectID(), uuid: uuidV1(), productId: productTwoId, productQty: 9 },
+  { _id: new ObjectID(), uuid: uuidV1(), productId: products[0]._id, productQty: 6 },
+  { _id: new ObjectID(), uuid: uuidV1(), productId: products[1]._id, productQty: 9 },
 ]
 
 const populateProducts = (done) => {
@@ -119,6 +115,61 @@ describe('GET /api/carts/:id', () => {
     request(app)
       .get(`/api/carts/${id}`)
       .expect(404)
+      .end(done)
+  })
+})
+
+
+describe('DELETE /carts/:_id', () => {
+  it('should delete a cart', (done) => {
+    const hexId = carts[1]._id.toHexString()
+    console.log(hexId)
+    request(app)
+      .delete(`/api/carts/${hexId}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.cart._id).toBe(hexId)
+      })
+      .end((err) => {
+        if (err) return done(err)
+        CartModel.findById(hexId)
+          .then((cart) => {
+            expect(cart).toNotExist()
+            done()
+          })
+          .catch(err => done(err))
+      })
+  })
+  it('should return 404 if cart not found', (done) => {
+    const hexId = new ObjectID().toHexString()
+    request(app)
+      .delete(`/api/carts/${hexId}`)
+      .expect(404)
+      .end(done)
+  })
+  it('should return 404 if object id is invalid', (done) => {
+    request(app)
+      .delete('/carts/123abc')
+      .expect(404)
+      .end(done)
+  })
+})
+
+describe('PATCH /api/carts/:_id', () => {
+  it('should update the cart', (done) => {
+    const hexId = carts[0]._id.toHexString()
+    const update = {
+      productId: products[2]._id,
+      productQty: 99
+    }
+    request(app)
+      .patch(`/api/carts/${hexId}`)
+      .send(update)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.cart.productId).toBe(update.productId.toHexString())
+        expect(res.body.cart.productQty).toBe(update.productQty)
+      })
       .end(done)
   })
 })

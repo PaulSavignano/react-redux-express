@@ -36,12 +36,27 @@ productsRouter.get('/:id', (req, res) => {
       }
       res.send({ product })
     })
-    .catch((err) => res.status(400).send())
+    .catch((err) => res.status(400).send(err))
 })
 
-productsRouter.delete('/:uuid', (req, res) => {
-  const uuid = req.params.uuid
-  ProductModel.findOneAndRemove({ uuid })
+productsRouter.delete('/:_id', (req, res) => {
+  const _id = req.params._id
+  ProductModel.findOneAndRemove({ _id })
+    .then((product) => {
+      if (!product) {
+        return res.status(404).send()
+      }
+      res.send({ product })
+    })
+    .catch((err) => res.status(400).send(err))
+})
+
+
+productsRouter.patch('/:_id', (req, res) => {
+  const _id = req.params._id
+  const { body } = req
+  if (!ObjectID.isValid(_id)) return res.status(404).send()
+  ProductModel.findByIdAndUpdate(_id, {$set: body}, {new: true} )
     .then((product) => {
       if (!product) {
         return res.status(404).send()

@@ -9,6 +9,7 @@ class ProductList extends Component {
           <Product
             key={product.uuid}
             onCartAdd={this.props.onCartAdd}
+            onProductUpdate={this.props.onProductUpdate}
             onProductDelete={this.props.onProductDelete}
             {...product}
           />
