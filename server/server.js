@@ -10,7 +10,7 @@ import todosRouter from './routes/todos/todosRouter'
 // import usersRouter from './routes/users/usersRouter'
 
 const app = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

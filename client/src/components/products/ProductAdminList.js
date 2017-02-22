@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Product from './Product'
+import ProductAdmin from './ProductAdmin'
 
-class ProductList extends Component {
+class ProductAdminList extends Component {
   render() {
     const style = {
       width: 900
@@ -9,9 +9,11 @@ class ProductList extends Component {
     return (
       <div className="myClass" style={style}>
         {this.props.products.map(product => (
-          <Product
+          <ProductAdmin
             key={product.uuid}
             onCartAdd={this.props.onCartAdd}
+            onProductUpdate={this.props.onProductUpdate}
+            onProductDelete={this.props.onProductDelete}
             {...product}
           />
         ))}
@@ -20,4 +22,4 @@ class ProductList extends Component {
   }
 }
 
-export default ProductList
+export default ProductAdminList

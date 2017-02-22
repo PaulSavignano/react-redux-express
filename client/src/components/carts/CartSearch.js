@@ -2,19 +2,28 @@ import React, { Component } from 'react'
 
 class CartSearch extends Component {
   handleSearch = () => {
-    const cartSearch = this.refs.cartSearch.value
-    this.props.onSearch(cartSearch)
+    const search = this.refs.searchText.value
+    this.props.onSearch(search)
   }
   render() {
+    const styles = {
+      container: {
+        margin: '0 auto'
+      },
+      search: {
+        float: 'left',
+      }
+    }
     return (
-      <div>
-        <div>
-          <input
-            type="search"
-            ref="cartSearch"
-            placeholder="Search Cart"
-            onChange={this.handleSearch}
-          />
+      <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet">
+        <div className="mdl-textfield mdl-js-textfield mdl-textfield--expandable" style={styles.search}>
+          <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="search">
+            <i className="material-icons">search</i>
+          </label>
+          <div className="mdl-textfield__expandable-holder">
+            <input className="mdl-textfield__input" type="text" id="search" ref="searchText" onChange={this.handleSearch} />
+            <label className="mdl-textfield__label" style={styles.input} htmlFor="sample-expandable">Expandable Input</label>
+          </div>
         </div>
       </div>
     )

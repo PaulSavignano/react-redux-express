@@ -4,6 +4,7 @@ import uuidV1 from 'uuid/v1'
 import {
   addCart,
   getCarts,
+  updateCart,
   deleteCart,
 
   addProduct,
@@ -14,17 +15,15 @@ import {
   addTodo,
   getTodos,
   updateTodo,
-  deleteTodo
+  deleteTodo,
+  filterTodos
   } from '../api/AppAPI'
 
 import './App.css';
-import CartList from './carts/CartList'
-import CartAdd from './carts/CartAdd'
-import CartSearch from './carts/CartSearch'
+import CartsPage from './carts/CartsPage'
 
-import ProductList from './products/ProductList'
-import ProductAdd from './products/ProductAdd'
-import ProductSearch from './products/ProductSearch'
+import ProductsPage from './products/ProductsPage'
+import ProductsAdminPage from './products/ProductsAdminPage'
 
 import TodoList from './todos/TodoList'
 import TodoAdd from './todos/TodoAdd'
@@ -50,10 +49,34 @@ class App extends Component {
 
 
   handleCartAdd = (cart) => {
-    const uuid = uuidV1()
-    const newCart = { uuid, ...cart}
-    this.setState({ carts: [ ...this.state.carts, newCart ]})
-    addCart(newCart)
+    console.log(cart)
+    const carts = [ ...this.state.carts ]
+    const index = carts.findIndex(item => item.productId === cart.productId)
+    if (index > -1) {
+      const qty = parseInt(carts[index].productQty, 10)
+      carts[index].productQty = qty + cart.productQty
+      this.setState({ carts })
+      updateCart(carts[index]._id, carts[index].productQty)
+        .then(res => {
+          const carts = [ ...this.state.carts ]
+          console.log(carts)
+          const index = carts.findIndex(item => item.uuid === res.cart.uuid)
+          carts[index].productQty = res.cart.productQty
+          this.setState({ carts })
+        })
+    } else {
+      const uuid = uuidV1()
+      const newCart = { uuid, ...cart}
+      this.setState({ carts: [ ...this.state.carts, newCart ]})
+      addCart(newCart)
+        .then(() => getCarts().then(carts => this.setState({ carts })))
+    }
+  }
+  handleCartUpdate = (_id, uuid, productQty) => {
+    const carts = [ ...this.state.carts ]
+    const index = carts.findIndex(item => item.uuid === uuid)
+    carts[index].productQty = productQty
+    updateCart(_id, productQty)
       .then(res => {
         const carts = [ ...this.state.carts ]
         const index = carts.findIndex(item => item.uuid === res.uuid)
@@ -157,31 +180,38 @@ class App extends Component {
   }
 
   render() {
+    const { todos, showCompleted, todoSearch } = this.state
+    const filteredTodos = filterTodos(todos, showCompleted, todoSearch)
     return (
       <div className="App">
 
-        <h1>Cart</h1>
-        <CartList
+        <CartsPage
           carts={this.state.carts}
           onCartUpdate={this.handleCartUpdate}
           onCartDelete={this.handleCartDelete}
+          onCartAdd={this.handleCartAdd}
+          onSearch={this.handleCartSearch}
         />
-        <CartAdd onCartAdd={this.handleCartAdd} />
-        <CartSearch onSearch={this.handleCartSearch}/>
 
-        <h1>Products</h1>
-        <ProductList
+        <ProductsPage
+          products={this.state.products}
+          onCartAdd={this.handleCartAdd}
+          onSearch={this.handleProductSearch}
+        />
+
+        <ProductsAdminPage
           products={this.state.products}
           onProductUpdate={this.handleProductUpdate}
           onProductDelete={this.handleProductDelete}
-          onCartAdd={this.handleCartAdd}
+          onProductAdd={this.handleProductAdd}
+          onSearch={this.handleProductSearch}
         />
-        <ProductAdd onProductAdd={this.handleProductAdd} />
-        <ProductSearch onSearch={this.handleProductSearch} />
 
         <h1>Todos</h1>
-        <TodoList todos={this.state.todos} onToggle={this.handleTodoToggle} onTodoDelete={this.handleTodoDelete} onTodoUpdate={this.handleTodoUpdate}/>
+        <TodoList todos={filteredTodos} onToggle={this.handleTodoToggle} onTodoDelete={this.handleTodoDelete} onTodoUpdate={this.handleTodoUpdate}/>
+        <br />
         <TodoAdd onTodoAdd={this.handleTodoAdd} />
+        <br />
         <TodoSearch onSearch={this.handleTodoSearch}/>
 
       </div>

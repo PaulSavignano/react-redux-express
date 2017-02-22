@@ -6,52 +6,58 @@ class Product extends Component {
     const productQty = this.refs.qty.value ? parseInt(this.refs.qty.value, 10) : 1
     const cart = {
       productId: this.props._id,
-      productQty
+      productQty,
     }
     this.props.onCartAdd(cart)
   }
-  handleUpdate = (_id, uuid) => {
-    const name = this.refs.name.value
-    const description = this.refs.description.value
-    const price = this.refs.price.value
-    const update = { _id, uuid, name, description, price }
-    this.props.onProductUpdate(update)
-  }
-
   render() {
-    const { _id, uuid, name, description, price } = this.props
+    const styles = {
+      container: {
+        display: 'flex',
+        flexFlow: 'row wrap',
+        justifyContent: 'space-between',
+        paddingLeft: 16
+      },
+      description: {
+        textAlign: 'left'
+      },
+      btnContainer: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+      }
+    }
+    const { name, description, price } = this.props
     return (
-      <li className="mdl-list__item">
-        <span className="mdl-list__item-primary-content">
-          <input type="text" defaultValue={name} ref="name" />
-          <input type="text" defaultValue={description} ref="description" />
-          <input type="number" defaultValue={price} ref="price" />
-          <input type="number" ref="qty"/>
-        </span>
-        <span className="mdl-list__item-secondary-action">
-          <button
-            id="update"
-            className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => this.handleUpdate(_id, uuid)}
-          >
-            Update
-          </button>
-          <button
-            id="deleteCart"
-            className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => this.props.onProductDelete(_id, uuid)}
-          >
-            Delete
-          </button>
-          <button
-            id="addToCart"
-            className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={this.handleAdd}
-          >
-            Add To Cart
-          </button>
-        </span>
-      </li>
+      <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
+        <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
+          <img className="article-image" src="http://placehold.it/275x250" alt="" />
+        </div>
+        <div className="mdl-cell mdl-cell--8-col">
+          <div style={styles.container}>
+            <h2 className="mdl-card__title-text">{name}</h2>
+            <h2 className="mdl-card__title-text">{formatPrice(price)}</h2>
+          </div>
+          <div className="mdl-card__supporting-text no-left-padding">
+            <p style={styles.description}>{description}</p>
+          </div>
+          <div style={styles.btnContainer}>
+            <div className="mdl-textfield mdl-js-textfield">
+              <input className="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" ref="qty" defaultValue="1"/>
+              <span className="mdl-textfield__error">Input is not a number!</span>
+            </div>
+            <button
+              id="addToCart"
+              className="mdl-button mdl-js-button mdl-button--raised"
+              onClick={this.handleAdd}
+            >
+              Add To Cart
+            </button>
+          </div>
+
+        </div>
+      </div>
     )
   }
 }

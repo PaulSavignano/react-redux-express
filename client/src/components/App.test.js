@@ -26,7 +26,7 @@ describe('App', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({ carts: [cart] })
     expect(app.state.carts[0].productId).toBe(cart.productId)
-    app.handleCartDelete(cart.uuid)
+    app.handleCartDelete(null, cart.uuid)
     expect(app.state.carts[0]).toBe(undefined)
   })
 
@@ -34,7 +34,7 @@ describe('App', () => {
 
   // Product
   const product = { uuid: uuidV1(), name: 'App Product add test', description: 'Adding a product', price: 3000 }
-  it('should add product to the todos state on handleProductAdd', () => {
+  it('should add product to the products state on handleProductAdd', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({
       products: []
@@ -46,7 +46,7 @@ describe('App', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({ products: [product] })
     expect(app.state.products[0].name).toBe(product.name)
-    app.handleProductDelete(product.uuid)
+    app.handleProductDelete(null, product.uuid)
     expect(app.state.products[0]).toBe(undefined)
   })
 

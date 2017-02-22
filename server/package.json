@@ -23,7 +23,7 @@
     "uuid": "^3.0.1"
   },
   "scripts": {
-    "test": "mocha **/**/*.test.js --compilers js:babel-register",
+    "test": "export NODE_ENV=test && mocha **/**/*.test.js --compilers js:babel-register",
     "test-watch": "nodemon --exec 'npm test'",
     "build": "babel . --ignore node_modules,build --out-dir build",
     "start": "nodemon -r babel-register server.js",

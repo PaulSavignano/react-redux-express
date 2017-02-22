@@ -15,13 +15,6 @@ describe('ProductSearch', () => {
     const productSearch = TestUtils.renderIntoDocument(<ProductSearch onSearch={spy} />)
     productSearch.refs.searchText.value = searchText
     TestUtils.Simulate.change(productSearch.refs.searchText)
-    expect(spy).toHaveBeenCalledWith(false, 'Dog')
-  })
-  it('should call onSearch with proper checked value', () => {
-    const spy = expect.createSpy()
-    const productSearch = TestUtils.renderIntoDocument(<ProductSearch onSearch={spy} />)
-    productSearch.refs.showCompleted.checked = true
-    TestUtils.Simulate.change(productSearch.refs.showCompleted)
-    expect(spy).toHaveBeenCalledWith(true, '')
+    expect(spy).toHaveBeenCalledWith('Dog')
   })
 })

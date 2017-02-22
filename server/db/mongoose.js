@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+import '../config/config'
 
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/redux-express-mongo')
+mongoose.connect(process.env.MONGODB_URI)
 
 export default mongoose

@@ -35,6 +35,7 @@ cartsRouter.get('/', (req, res) => {
                 productId: product._id,
                 productQty: cart.productQty,
                 name: product.name,
+                description: product.description,
                 price: product.price
               }
             })

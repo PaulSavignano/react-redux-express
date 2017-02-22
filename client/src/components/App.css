@@ -22,3 +22,15 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.mdl-card__media {
+  background-color: #3f51b5
+}
+
+.mdl-textfield__expandable-holder {
+  width: 825px;
+
+}
+.mdl-textfield.is-focused .mdl-textfield__expandable-holder, .mdl-textfield.is-dirty .mdl-textfield__expandable-holder {
+  max-width: 825px;
+}

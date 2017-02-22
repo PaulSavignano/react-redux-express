@@ -14,6 +14,17 @@ export const getCarts = () => {
     .catch(err => console.log(err))
 }
 
+export const updateCart = (_id, productQty) => {
+  const update = { _id, productQty }
+  return fetch(`/api/carts/${_id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(update)
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err))
+}
+
 export const deleteCart = (_id) => {
   return fetch(`/api/carts/${_id}`, {
     method: 'DELETE',
@@ -90,4 +101,23 @@ export const deleteTodo = (_id) => {
   })
     .then(res => res.json())
     .catch(err => console.log(err))
+}
+
+export const filterTodos = (todos, showCompleted, searchText) => {
+  var filteredTodos = todos
+  filteredTodos = filteredTodos.filter(todo => !todo.completed || showCompleted)
+  filteredTodos = filteredTodos.filter(todo => {
+    const text = todo.text.toLowerCase()
+    return searchText.length === 0 || text.indexOf(searchText.toLowerCase()) > -1
+  })
+  filteredTodos.sort((a, b) => {
+    if (a.completed && b.completed) {
+      return -1
+    } else if (a.completed && !b.completed) {
+      return 1
+    } else {
+      return 0
+    }
+  })
+  return filteredTodos
 }

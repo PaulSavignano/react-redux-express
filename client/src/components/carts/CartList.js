@@ -3,8 +3,11 @@ import Cart from './Cart'
 
 class CartList extends Component {
   render() {
+    const style = {
+      width: 900
+    }
     return (
-      <ul className="demo-list-control mdl-list">
+      <div className="myClass" style={style}>
         {this.props.carts.map(cart => (
           <Cart
             key={cart.uuid}
@@ -13,7 +16,7 @@ class CartList extends Component {
             onCartDelete={this.props.onCartDelete}
           />
         ))}
-      </ul>
+      </div>
     )
   }
 }
