@@ -9,11 +9,9 @@ todosRouter.post('/', (req, res) => {
     uuid: req.body.uuid,
     text: req.body.text
   })
-  todo.save().then((doc) => {
-    res.send(doc)
-  }, (err) => {
-    res.status(400).send(err)
-  })
+  todo.save()
+    .then(doc => res.send(doc))
+    .catch(err => res.status(400).send(err))
 })
 
 todosRouter.get('/', (req, res) => {
