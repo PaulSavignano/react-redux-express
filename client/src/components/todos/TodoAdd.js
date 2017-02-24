@@ -19,24 +19,37 @@ class TodoAdd extends Component {
     }
   }
   render() {
+    const styles = {
+      container: {
+        display: 'flex',
+        flexFlow: 'row wrap',
+        width: '100%',
+        paddingLeft: 16,
+        alignItems: 'center'
+      },
+      item: {
+        flex: '1 1 auto',
+        width: 200
+      },
+      card: {
+        height: 'auto',
+        minHeight: 'auto'
+      }
+    }
     return (
-      <div className="demo-card-wide mdl-card mdl-shadow--2dp" style={styles.container}>
-        <div className="mdl-card__title">
-          <h2 className="mdl-card__title-text">Add a todo</h2>
-        </div>
-        <div className="mdl-card__supporting-text">
-          <form onSubmit={this.handleSubmit}>
-            <div className="mdl-textfield mdl-js-textfield">
-              <input className="mdl-textfield__input" type="text" ref="text" id="text" />
-              <label className="mdl-textfield__label" htmlFor="text">Text...</label>
-            </div>
-          </form>
-        </div>
-        <div className="mdl-card__actions mdl-card--border">
-          <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            Add Todo
-          </a>
-        </div>
+      <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp" style={styles.card}>
+        <form onSubmit={this.handleSubmit} style={styles.container}>
+          <div className="mdl-textfield mdl-js-textfield" style={styles.item}>
+            <input className="mdl-textfield__input" type="text" ref="text" id="text" />
+            <label className="mdl-textfield__label" htmlFor="text">Todo...</label>
+          </div>
+          <button
+            className="mdl-button mdl-js-button mdl-button--raised"
+            type="submit"
+          >
+            Add
+          </button>
+        </form>
       </div>
     )
   }

@@ -10,11 +10,11 @@ describe('ProductSearch', () => {
     expect(ProductSearch).toExist()
   })
   it('should call onSearch with entered input text', () => {
-    const searchText = 'Dog'
+    const searchText = 'Weston'
     const spy = expect.createSpy()
-    const productSearch = TestUtils.renderIntoDocument(<ProductSearch onSearch={spy} />)
-    productSearch.refs.searchText.value = searchText
-    TestUtils.Simulate.change(productSearch.refs.searchText)
-    expect(spy).toHaveBeenCalledWith('Dog')
+    const component = TestUtils.renderIntoDocument(<ProductSearch onSearch={spy} />)
+    component.refs.searchText.value = searchText
+    TestUtils.Simulate.change(component.refs.searchText)
+    expect(spy).toHaveBeenCalledWith('Weston')
   })
 })

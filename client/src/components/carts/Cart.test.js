@@ -2,12 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
-import uuidV1 from 'uuid/v1'
 
 import Cart from './Cart'
-
-const cart = { _id: 'A1B2C3', uuid: uuidV1(), productId: 'A1B2C3', productQty: 6 }
-
+import carts from './seed'
 
 describe('Cart', () => {
   it('should exist', () => {
@@ -15,18 +12,17 @@ describe('Cart', () => {
   })
   it('should update cart product quantity', () => {
     const spy = expect.createSpy()
-    const cartComponent = TestUtils.renderIntoDocument(<Cart {...cart} onCartUpdate={spy} />)
-    const button = ReactDOM.findDOMNode(cartComponent).querySelector('#update')
-    cartComponent.refs.qty.value = cart.productQty
-    TestUtils.Simulate.click(button)
-    expect(spy).toHaveBeenCalledWith(cart.uuid, cart.productQty)
+    const component = TestUtils.renderIntoDocument(<Cart {...carts[0]} onCartUpdate={spy} />)
+    component.setState({ productQty: carts[0].productQty })
+    const form = ReactDOM.findDOMNode(component).querySelector('form')
+    TestUtils.Simulate.submit(form)
+    expect(spy).toHaveBeenCalledWith(carts[0]._id, carts[0].uuid, component.state.productQty)
   })
   it('should delete cart product', () => {
     const spy = expect.createSpy()
-    const cartComponent = TestUtils.renderIntoDocument(<Cart {...cart} onCartDelete={spy} />)
-    const node = ReactDOM.findDOMNode(cartComponent)
-    const button = node.querySelector('#delete')
+    const component = TestUtils.renderIntoDocument(<Cart {...carts[0]} onCartDelete={spy} />)
+    const button = ReactDOM.findDOMNode(component).querySelector('#delete')
     TestUtils.Simulate.click(button)
-    expect(spy).toHaveBeenCalledWith(cart._id, cart.uuid)
+    expect(spy).toHaveBeenCalledWith(carts[0]._id, carts[0].uuid)
   })
 })

@@ -6,6 +6,10 @@ import uuidV1 from 'uuid/v1'
 
 import App from './App'
 
+import carts from './carts/seed'
+import products from './products/seed'
+import todos from './todos/seed'
+
 describe('App', () => {
   it('should exist', () => {
     expect(App).toExist()
@@ -13,67 +17,65 @@ describe('App', () => {
 
 
   // Cart
-  const cart = { uuid: uuidV1(), productId: 'A1B2C3', productQty: 3 }
-  it('should add cart to the todos state on handleCartAdd', () => {
+  it('should add cart to the carts state on handleCartAdd', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({
       carts: [],
+      products: [products[0]]
     })
-    app.handleCartAdd(cart)
-    expect(app.state.carts[0].productQty).toBe(cart.productQty)
+    app.handleCartAdd(carts[0])
+    expect(app.state.carts[0].productQty).toBe(carts[0].productQty)
   })
   it('should delete cart from the carts state on handleCartDelete', () => {
     const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({ carts: [cart] })
-    expect(app.state.carts[0].productId).toBe(cart.productId)
-    app.handleCartDelete(null, cart.uuid)
+    app.setState({ carts: [carts[0]] })
+    expect(app.state.carts[0].productId).toBe(carts[0].productId)
+    app.handleCartDelete(null, carts[0].uuid)
     expect(app.state.carts[0]).toBe(undefined)
   })
 
 
 
   // Product
-  const product = { uuid: uuidV1(), name: 'App Product add test', description: 'Adding a product', price: 3000 }
   it('should add product to the products state on handleProductAdd', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({
       products: []
     })
-    app.handleProductAdd(product)
-    expect(app.state.products[0].name).toBe(product.name)
+    app.handleProductAdd(products[0])
+    expect(app.state.products[0].name).toBe(products[0].name)
   })
   it('should delete product from the products state on handleProductDelete', () => {
     const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({ products: [product] })
-    expect(app.state.products[0].name).toBe(product.name)
-    app.handleProductDelete(null, product.uuid)
+    app.setState({ products: [products[0]] })
+    expect(app.state.products[0].name).toBe(products[0].name)
+    app.handleProductDelete(null, products[0].uuid)
     expect(app.state.products[0]).toBe(undefined)
   })
 
 
 
   // Todo
-  const todo = { uuid: uuidV1(), text: 'Test Toggle', completed: false }
   it('should add todo to the todos state on handleTodoAdd', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({
       todos: []
     })
-    app.handleTodoAdd(todo)
-    expect(app.state.todos[0].text).toBe(todo.text)
+    app.handleTodoAdd(todos[0])
+    expect(app.state.todos[0].text).toBe(todos[0].text)
   })
   it('should delete todo from the todos state on handleTodoDelete', () => {
     const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({ todos: [todo] })
-    expect(app.state.todos[0].text).toBe(todo.text)
-    app.handleTodoDelete(todo._id, todo.uuid)
+    app.setState({ todos: [todos[0]] })
+    expect(app.state.todos[0].text).toBe(todos[0].text)
+    app.handleTodoDelete(todos[0]._id, todos[0].uuid)
     expect(app.state.todos[0]).toBe(undefined)
   })
   it('should toggle completed todo value when handleTodoToggle called', () => {
     const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({ todos: [todo] })
-    expect(app.state.todos[0].completed).toBe(false)
-    app.handleTodoToggle(todo.uuid)
+    app.setState({ todos: [todos[0]] })
     expect(app.state.todos[0].completed).toBe(true)
+    app.handleTodoToggle(todos[0].uuid)
+    expect(app.state.todos[0].completed).toBe(false)
   })
 })

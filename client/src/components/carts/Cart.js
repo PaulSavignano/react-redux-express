@@ -11,10 +11,13 @@ class Cart extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({ productQty: nextProps.productQty })
   }
-  handleChange = (e) => {
-    this.setState({ productQty: e.target.value })
+  handleUpdate = (e, _id, uuid) => {
+    e.preventDefault()
+    this.refs.update.blur()
+    this.props.onCartUpdate(_id, uuid, parseInt(this.state.productQty, 10))
   }
   render() {
+    const { _id, uuid, name, description, price } = this.props
     const styles = {
       container: {
         display: 'flex',
@@ -32,7 +35,6 @@ class Cart extends Component {
         alignItems: 'center'
       }
     }
-    const { _id, uuid, name, description, price } = this.props
     return (
       <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
         <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
@@ -46,15 +48,22 @@ class Cart extends Component {
           <div className="mdl-card__supporting-text no-left-padding">
             <p style={styles.description}>{description}</p>
           </div>
-          <div style={styles.btnContainer}>
+          <form style={styles.btnContainer} onSubmit={(e) => this.handleUpdate(e, _id, uuid)}>
             <div className="mdl-textfield mdl-js-textfield">
-              <input className="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" ref="qty" onChange={this.handleChange} value={this.state.productQty}/>
+              <input
+                className="mdl-textfield__input"
+                type="text"
+                pattern="-?[0-9]*(\.[0-9]+)?"
+                onChange={(e) => this.setState({ productQty: e.target.value })}
+                value={this.state.productQty}
+              />
               <span className="mdl-textfield__error">Input is not a number!</span>
             </div>
             <button
               id="update"
+              ref="update"
+              type="submit"
               className="mdl-button mdl-js-button mdl-button--raised"
-              onClick={() => this.props.onCartUpdate(_id, uuid, parseInt(this.refs.qty.value, 10))}
             >
               Update
             </button>
@@ -65,7 +74,7 @@ class Cart extends Component {
             >
               Delete
             </button>
-          </div>
+          </form>
 
         </div>
       </div>

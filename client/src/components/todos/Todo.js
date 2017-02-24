@@ -8,27 +8,45 @@ class Todo extends Component {
   }
   render() {
     const { _id, uuid, text, completed } = this.props
+    const styles = {
+      container: {
+        display: 'flex',
+        flexFlow: 'row wrap',
+
+        paddingLeft: 16
+      },
+      btnContainer: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'flex-end'
+      }
+    }
     return (
-      <li className="mdl-list__item">
-        <span className="mdl-list__item-primary-content">
-          <input type="checkbox" defaultChecked={completed} onClick={() => this.props.onToggle(uuid)}/>
-          <input type="text" defaultValue={text} ref="text"/>
-        </span>
-        <span className="mdl-list__item-secondary-action">
-          <button
-            className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => this.handleUpdate(_id, uuid)}
-          >
-            Update
-          </button>
-          <button
-            className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => this.props.onTodoDelete(_id, uuid)}
-          >
-            Delete
-          </button>
-        </span>
-      </li>
+      <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
+        <form className="mdl-cell mdl-cell--8-col" onSubmit={this.handleSubmit}>
+            <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="checkbox">
+              <input type="checkbox" id="checkbox" className="mdl-checkbox__input" defaultChecked={completed} onClick={() => this.props.onToggle(uuid)} />
+            </label>
+            <div className="mdl-textfield mdl-js-textfield" style={styles.text}>
+              <input className="mdl-textfield__input" type="text" ref="text" id="name" defaultValue={text}/>
+            </div>
+          <div style={styles.btnContainer}>
+            <button
+              className="mdl-button mdl-js-button mdl-button--raised"
+              onClick={() => this.handleUpdate(_id, uuid)}
+            >
+              Update
+            </button>
+            <button
+              id="deleteCart"
+              className="mdl-button mdl-js-button mdl-button--raised"
+              onClick={() => this.props.onTodoDelete(_id, uuid)}
+            >
+              Delete
+            </button>
+          </div>
+        </form>
+      </div>
     )
   }
 }

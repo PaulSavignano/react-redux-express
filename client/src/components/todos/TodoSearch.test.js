@@ -12,16 +12,16 @@ describe('TodoSearch', () => {
   it('should call onSearch with entered input text', () => {
     const searchText = 'Dog'
     const spy = expect.createSpy()
-    const todoSearch = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy} />)
-    todoSearch.refs.searchText.value = searchText
-    TestUtils.Simulate.change(todoSearch.refs.searchText)
+    const component = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy} />)
+    component.refs.searchText.value = searchText
+    TestUtils.Simulate.change(component.refs.searchText)
     expect(spy).toHaveBeenCalledWith(false, 'Dog')
   })
   it('should call onSearch with proper checked value', () => {
     const spy = expect.createSpy()
-    const todoSearch = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy} />)
-    todoSearch.refs.showCompleted.checked = true
-    TestUtils.Simulate.change(todoSearch.refs.showCompleted)
+    const component = TestUtils.renderIntoDocument(<TodoSearch onSearch={spy} />)
+    component.refs.showCompleted.checked = true
+    TestUtils.Simulate.change(component.refs.showCompleted)
     expect(spy).toHaveBeenCalledWith(true, '')
   })
 })

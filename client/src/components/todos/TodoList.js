@@ -3,8 +3,11 @@ import Todo from './Todo'
 
 class TodoList extends Component {
   render() {
+    const style = {
+      width: 900
+    }
     return (
-      <ul className="demo-list-control mdl-list">
+      <div className="myClass" style={style}>
         {this.props.todos.map(todo => (
           <Todo
             key={todo.uuid}
@@ -14,7 +17,7 @@ class TodoList extends Component {
             onTodoUpdate={this.props.onTodoUpdate}
           />
         ))}
-      </ul>
+      </div>
     )
   }
 }

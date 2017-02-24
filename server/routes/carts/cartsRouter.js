@@ -6,16 +6,29 @@ import ProductModel from '../products/ProductModel'
 const cartsRouter = express.Router()
 
 cartsRouter.post('/', (req, res) => {
-  const cart = new CartModel({
+  const Cart = new CartModel({
     uuid: req.body.uuid,
     productId: req.body.productId,
     productQty: req.body.productQty
   })
-  cart.save().then((doc) => {
-    res.send(doc)
-  }, (err) => {
-    res.status(400).send(err)
-  })
+  Cart.save()
+    .then((cart) => {
+      ProductModel.find({ _id: cart.productId })
+        .then(product => {
+          res.send({
+            _id: cart._id,
+            uuid: cart.uuid,
+            productId: cart.productId,
+            productQty: cart.productQty,
+            name: product.name,
+            description: product.description,
+            price: product.price
+          })
+        })
+        .catch(err => res.status(400).send(err))
+    })
+    .catch(err => res.status(400).send(err))
+
 })
 
 cartsRouter.get('/', (req, res) => {

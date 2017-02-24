@@ -6,11 +6,14 @@ import {
   getCarts,
   updateCart,
   deleteCart,
+  filterCarts,
 
   addProduct,
   getProducts,
   updateProduct,
   deleteProduct,
+  filterProducts,
+  filterProductsAdmin,
 
   addTodo,
   getTodos,
@@ -21,35 +24,49 @@ import {
 
 import './App.css';
 import CartsPage from './carts/CartsPage'
+import ProductsPage from './products/products/ProductsPage'
+import ProductsAdminPage from './products/admin/ProductsAdminPage'
+import TodosPage from './todos/TodosPage'
 
-import ProductsPage from './products/ProductsPage'
-import ProductsAdminPage from './products/ProductsAdminPage'
-
-import TodoList from './todos/TodoList'
-import TodoAdd from './todos/TodoAdd'
-import TodoSearch from './todos/TodoSearch'
 
 
 class App extends Component {
   state = {
     carts: [],
+    cartTotal: 0,
     cartSearch: [],
     products: [],
     productSearch: [],
+    productAdminSearch: [],
     todos: [],
     todoSearch: '',
     showCompleted: false,
     test: ''
   }
   componentDidMount() {
-    getCarts().then(carts => this.setState({ carts }))
+    getCarts().then(carts => {
+      this.setState({ carts })
+      this.getCartTotal(carts)
+    })
     getProducts().then(products => this.setState({ products }))
     getTodos().then(todos => this.setState({ todos }))
   }
 
+  getCartTotal = (carts) => {
+    if (carts.length > 1) {
+      const cartTotal = carts.reduce((a, b) => {
+        return (a.price * a.productQty) + (b.price * b.productQty)
+      })
+      this.setState({ cartTotal })
+    } else if (carts.length > 0) {
+      const cartTotal = carts[0].price * carts[0].productQty
+      this.setState({ cartTotal })
+    } else {
+      this.setState({ cartTotal: 0 })
+    }
+  }
 
   handleCartAdd = (cart) => {
-    console.log(cart)
     const carts = [ ...this.state.carts ]
     const index = carts.findIndex(item => item.productId === cart.productId)
     if (index > -1) {
@@ -59,14 +76,16 @@ class App extends Component {
       updateCart(carts[index]._id, carts[index].productQty)
         .then(res => {
           const carts = [ ...this.state.carts ]
-          console.log(carts)
           const index = carts.findIndex(item => item.uuid === res.cart.uuid)
           carts[index].productQty = res.cart.productQty
           this.setState({ carts })
         })
     } else {
       const uuid = uuidV1()
-      const newCart = { uuid, ...cart}
+      const products = [ ...this.state.products ]
+      const product = products.find(product => product._id === cart.productId)
+      const { name, description, price } = product
+      const newCart = { uuid, ...cart, name, description, price }
       this.setState({ carts: [ ...this.state.carts, newCart ]})
       addCart(newCart)
         .then(() => getCarts().then(carts => this.setState({ carts })))
@@ -127,8 +146,9 @@ class App extends Component {
   handleProductSearch = (searchText) => {
     this.setState({ productSearch: searchText.toLowerCase() })
   }
-
-
+  handleProductAdminSearch = (searchText) => {
+    this.setState({ productAdminSearch: searchText.toLowerCase() })
+  }
 
 
   handleTodoAdd = (todo) => {
@@ -159,7 +179,6 @@ class App extends Component {
   handleTodoDelete = (_id, uuid) => {
     const updated = this.state.todos.filter(todo => todo.uuid !== uuid)
     this.setState({ todos: updated })
-    console.log(_id)
     deleteTodo(_id).then(todo => console.log('Deleted: ', todo))
   }
   handleTodoToggle = (uuid) => {
@@ -180,13 +199,17 @@ class App extends Component {
   }
 
   render() {
-    const { todos, showCompleted, todoSearch } = this.state
+    const { todos, showCompleted, todoSearch, carts, cartSearch, products, productSearch, productAdminSearch } = this.state
     const filteredTodos = filterTodos(todos, showCompleted, todoSearch)
+    const filteredCarts = filterCarts(carts, cartSearch)
+    const filteredProducts = filterProducts(products, productSearch)
+    const filteredProductsAdmin = filterProducts(products, productAdminSearch)
     return (
       <div className="App">
 
         <CartsPage
-          carts={this.state.carts}
+          carts={filteredCarts}
+          cartTotal={this.state.cartTotal}
           onCartUpdate={this.handleCartUpdate}
           onCartDelete={this.handleCartDelete}
           onCartAdd={this.handleCartAdd}
@@ -194,25 +217,27 @@ class App extends Component {
         />
 
         <ProductsPage
-          products={this.state.products}
+          products={filteredProducts}
           onCartAdd={this.handleCartAdd}
           onSearch={this.handleProductSearch}
         />
 
         <ProductsAdminPage
-          products={this.state.products}
+          products={filteredProductsAdmin}
           onProductUpdate={this.handleProductUpdate}
           onProductDelete={this.handleProductDelete}
           onProductAdd={this.handleProductAdd}
-          onSearch={this.handleProductSearch}
+          onSearch={this.handleProductAdminSearch}
         />
 
-        <h1>Todos</h1>
-        <TodoList todos={filteredTodos} onToggle={this.handleTodoToggle} onTodoDelete={this.handleTodoDelete} onTodoUpdate={this.handleTodoUpdate}/>
-        <br />
-        <TodoAdd onTodoAdd={this.handleTodoAdd} />
-        <br />
-        <TodoSearch onSearch={this.handleTodoSearch}/>
+        <TodosPage
+          todos={filteredTodos}
+          onToggle={this.handleTodoToggle}
+          onTodoDelete={this.handleTodoDelete}
+          onTodoUpdate={this.handleTodoUpdate}
+          onTodoAdd={this.handleTodoAdd}
+          onSearch={this.handleTodoSearch}
+        />
 
       </div>
     );

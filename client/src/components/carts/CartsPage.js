@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { formatPrice } from '../../modules/formatPrice'
 import CartList from './CartList'
-import CartAdd from './CartAdd'
 import CartSearch from './CartSearch'
 
 class CartsPage extends Component {
@@ -9,14 +9,22 @@ class CartsPage extends Component {
       grid: {
         maxWidth: 900,
         margin: 'auto'
+      },
+      container: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'space-between',
+        width: '100%'
       }
     }
     return (
       <main className="mdl-layout__content">
         <div className="mdl-grid" style={styles.grid}>
-          <h1>Cart</h1>
+          <div style={styles.container}>
+            <h1>Cart</h1>
+            <h1>{formatPrice(this.props.cartTotal)}</h1>
+          </div>
           <CartSearch onSearch={this.props.onSearch}/>
-          <CartAdd onCartAdd={this.props.onCartAdd} />
           <br />
           <CartList
             carts={this.props.carts}

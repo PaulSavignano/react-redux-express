@@ -33,6 +33,15 @@ export const deleteCart = (_id) => {
     .then(res => res.json())
     .catch(err => console.log(err))
 }
+export const filterCarts = (carts, searchText) => {
+  var filteredCarts = carts
+  filteredCarts = filteredCarts.filter(cart => {
+    console.log(cart)
+    const name = cart.name.toLowerCase()
+    return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
+  })
+  return filteredCarts
+}
 
 
 
@@ -68,6 +77,16 @@ export const deleteProduct = (_id) => {
     .then(res => res.json())
     .catch(err => console.log(err))
 }
+
+export const filterProducts = (products, searchText) => {
+  var filteredProducts = products
+  filteredProducts = filteredProducts.filter(product => {
+    const name = product.name.toLowerCase()
+    return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
+  })
+  return filteredProducts
+}
+
 
 
 

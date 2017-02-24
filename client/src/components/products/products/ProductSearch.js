@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class CartSearch extends Component {
+class ProductSearch extends Component {
   handleSearch = () => {
     const search = this.refs.searchText.value
     this.props.onSearch(search)
@@ -17,11 +17,11 @@ class CartSearch extends Component {
     return (
       <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet">
         <div className="mdl-textfield mdl-js-textfield mdl-textfield--expandable" style={styles.search}>
-          <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="cartSearch">
+          <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="productSearch">
             <i className="material-icons">search</i>
           </label>
           <div className="mdl-textfield__expandable-holder">
-            <input className="mdl-textfield__input" type="text" id="cartSearch" ref="searchText" onChange={this.handleSearch} />
+            <input className="mdl-textfield__input" type="text" id="productSearch" ref="searchText" onChange={this.handleSearch} />
             <label className="mdl-textfield__label" style={styles.input} htmlFor="sample-expandable">Expandable Input</label>
           </div>
         </div>
@@ -30,4 +30,4 @@ class CartSearch extends Component {
   }
 }
 
-export default CartSearch
+export default ProductSearch

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ProductAdminList from './ProductAdminList'
 import ProductAdminAdd from './ProductAdminAdd'
-import ProductSearch from './ProductSearch'
+import ProductAdminSearch from './ProductAdminSearch'
 
 class ProductsPage extends Component {
   render() {
@@ -15,7 +15,7 @@ class ProductsPage extends Component {
       <main className="mdl-layout__content">
         <div className="mdl-grid" style={styles.grid}>
           <h1>Products Admin</h1>
-          <ProductSearch onSearch={this.props.onSearch}/>
+          <ProductAdminSearch onSearch={this.props.onSearch}/>
           <ProductAdminAdd onProductAdd={this.props.onProductAdd} />
           <br />
           <ProductAdminList
