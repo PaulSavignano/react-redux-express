@@ -36,7 +36,6 @@ export const deleteCart = (_id) => {
 export const filterCarts = (carts, searchText) => {
   var filteredCarts = carts
   filteredCarts = filteredCarts.filter(cart => {
-    console.log(cart)
     const name = cart.name.toLowerCase()
     return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
   })

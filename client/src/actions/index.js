@@ -1,5 +1,1 @@
-export const fetchLocation = () => {
-  return (dispatch, getState) => {
-    dispatch(startLocationFetch())
-  }
-}
+export { setTodoSearch, todoAdd, toggleShowCompleted, todoToggle } from './todoActions'

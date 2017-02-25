@@ -123,7 +123,6 @@ describe('GET /api/carts/:id', () => {
 describe('DELETE /carts/:_id', () => {
   it('should delete a cart', (done) => {
     const hexId = carts[1]._id.toHexString()
-    console.log(hexId)
     request(app)
       .delete(`/api/carts/${hexId}`)
       .expect(200)

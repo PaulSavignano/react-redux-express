@@ -1,14 +1,13 @@
-import redux from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { nameReducer, hobbiesReducer } from '../reducers/index'
+import rootReducer from '../reducers/index'
 
-export const configure = () => {
-  const reducer = redux.combineReducers({
-    name: nameReducer,
-  })
-  const store = redux.createStore(reducer, redux.compose(
-    redux.applyMiddleware(thunk),
+const configureStore = () => {
+  const store = createStore(rootReducer, compose(
+    applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   ))
   return store
 }
+
+export default configureStore
