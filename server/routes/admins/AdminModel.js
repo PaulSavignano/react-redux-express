@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
-const UserSchema = new Schema({
+const AdminSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -31,24 +31,24 @@ const UserSchema = new Schema({
   }]
 })
 
-UserSchema.methods.toJSON = function() {
-  const user = this
-  const userObject = user.toObject()
-  const { _id, email } = userObject
+AdminSchema.methods.toJSON = function() {
+  const admin = this
+  const adminObject = admin.toObject()
+  const { _id, email } = adminObject
   return { _id, email }
 }
 
-UserSchema.methods.generateAuthToken = function() {
-  const user = this
+AdminSchema.methods.generateAuthToken = function() {
+  const admin = this
   const access = 'auth'
-  const token = jwt.sign({ _id: user._id.toHexString(), access }, 'abc123').toString()
-  user.tokens.push({ access, token })
-  return user.save()
+  const token = jwt.sign({ _id: admin._id.toHexString(), access }, 'abc123').toString()
+  admin.tokens.push({ access, token })
+  return admin.save()
     .then(() => {
       return token
     })
 }
 
-const UserModel = mongoose.model('UserModel', UserSchema)
+const AdminModel = mongoose.model('AdminModel', AdminSchema)
 
-export default UserModel
+export default AdminModel

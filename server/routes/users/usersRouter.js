@@ -5,11 +5,18 @@ import UserModel from './UserModel'
 const usersRouter = express.Router()
 
 usersRouter.post('/', (req, res) => {
-  const { body } = req
-  const user = new UserModel(body)
+  let { email, password } = req.body
+  const user = new UserModel({ email, password })
   user.save()
-    .then(user => res.send(user))
-    .catch(err => res.status(400).send(err))
+    .then(() => {
+      return user.generateAuthToken()
+    })
+    .then((token) => {
+      res.header('x-auth', token).send(user)
+    })
+    .catch((err) => {
+      res.status(400).send(err)
+    })
 })
 
 export default usersRouter

@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
 
-const styles = {
-  container: {
-    margin: '0 auto'
-  }
-}
-
 class TodoAdd extends Component {
   handleSubmit = (e) => {
     e.preventDefault()

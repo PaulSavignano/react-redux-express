@@ -13,7 +13,6 @@ import {
   updateProduct,
   deleteProduct,
   filterProducts,
-  filterProductsAdmin,
 
   addTodo,
   getTodos,

@@ -1,14 +1,5 @@
 import React, { Component } from 'react'
 
-const styles = {
-  container: {
-    margin: '0 auto'
-  },
-  input: {
-    float: 'left'
-  }
-}
-
 class TodoSearch extends Component {
   handleSearch = () => {
     const showCompleted = this.refs.showCompleted.checked
