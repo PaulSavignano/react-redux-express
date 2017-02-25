@@ -2,6 +2,8 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 import UserModel from './UserModel'
 
+import { authenticate } from '../../middleware/authenticate'
+
 const usersRouter = express.Router()
 
 usersRouter.post('/', (req, res) => {
@@ -17,6 +19,12 @@ usersRouter.post('/', (req, res) => {
     .catch((err) => {
       res.status(400).send(err)
     })
+})
+
+
+
+usersRouter.get('/me', authenticate, (req, res) => {
+  res.send(req.user)
 })
 
 export default usersRouter
