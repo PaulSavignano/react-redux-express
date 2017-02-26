@@ -21,19 +21,11 @@ export const users = [{
   uuid: uuidV1(),
   email: 'maren@example.com',
   password: 'userTwoPass',
-  tokens: [{
-    access: 'auth',
-    token: jwt.sign({ _id: userTwoId, access: 'auth'}, 'abc123').toString()
-  }]
 }, {
   _id: userThreeId,
   uuid: uuidV1(),
   email: 'weston@example.com',
   password: 'userThreePass',
-  tokens: [{
-    access: 'auth',
-    token: jwt.sign({ _id: userThreeId, access: 'auth'}, 'abc123').toString()
-  }]
 }]
 
 export const populateUsers = (done) => {
