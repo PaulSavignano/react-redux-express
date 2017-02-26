@@ -37,7 +37,7 @@ describe('todoReducers', () => {
         uuid: '123', text: 'Something', completed: true, createdAt: 123, completedAt: 125
       }]
       const action = {
-        type: 'TOGGLE_TODO',
+        type: 'TODO_TOGGLE',
         uuid: '123'
       }
       const res = todosReducer(deepFreeze(todos), deepFreeze(action))

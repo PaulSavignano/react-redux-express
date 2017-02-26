@@ -1,10 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 import uuidV1 from 'uuid/v1'
 
 import App from './App'
+import TodoList from './todos/TodoList'
+
+import configureStore from '../store/configureStore'
 
 import carts from './carts/seed'
 import products from './products/seed'
@@ -54,28 +58,15 @@ describe('App', () => {
   })
 
 
-
-  // Todo
-  it('should add todo to the todos state on handleTodoAdd', () => {
-    const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({
-      todos: []
-    })
-    app.handleTodoAdd(todos[0])
-    expect(app.state.todos[0].text).toBe(todos[0].text)
-  })
-  it('should delete todo from the todos state on handleTodoDelete', () => {
-    const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({ todos: [todos[0]] })
-    expect(app.state.todos[0].text).toBe(todos[0].text)
-    app.handleTodoDelete(todos[0]._id, todos[0].uuid)
-    expect(app.state.todos[0]).toBe(undefined)
-  })
-  it('should toggle completed todo value when handleTodoToggle called', () => {
-    const app = TestUtils.renderIntoDocument(<App />)
-    app.setState({ todos: [todos[0]] })
-    expect(app.state.todos[0].completed).toBe(true)
-    app.handleTodoToggle(todos[0].uuid)
-    expect(app.state.todos[0].completed).toBe(false)
+  it('should render TodoList', () => {
+    const store = configureStore()
+    const provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <App/>
+      </Provider>
+    )
+    const app = TestUtils.scryRenderedComponentsWithType(provider, App)[0]
+    const todoList = TestUtils.scryRenderedComponentsWithType(app, TodoList)
+    expect(todoList.length).toEqual(1)
   })
 })

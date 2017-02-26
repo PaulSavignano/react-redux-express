@@ -25,8 +25,8 @@ class TodoSearch extends Component {
             <input className="mdl-textfield__input" type="text" id="search" ref="searchText" onChange={this.handleSearch} />
             <label className="mdl-textfield__label" style={styles.input} htmlFor="sample-expandable">Expandable Input</label>
           </div>
-          <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="checkbox">
-            <input type="checkbox" id="checkbox" className="mdl-checkbox__input" ref="showCompleted" onChange={this.handleSearch} />
+          <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="showCompleted">
+            <input type="checkbox" id="showCompleted" className="mdl-checkbox__input" ref="showCompleted" onChange={this.handleSearch} />
             <span className="mdl-checkbox__label">Show completed</span>
           </label>
         </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
 import { Route, Router, IndexRoute, hashHistory } from 'react-router'
 
 import configureStore from './store/configureStore'
@@ -18,6 +19,8 @@ store.dispatch(setTodoSearch('table'))
 store.dispatch(toggleShowCompleted())
 
 ReactDOM.render(
-  <App />,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );

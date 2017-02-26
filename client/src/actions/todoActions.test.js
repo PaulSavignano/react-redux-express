@@ -28,9 +28,9 @@ describe('todoActions', () => {
   it('should generate toggle todo action', () => {
     const action = {
       type: 'TODO_TOGGLE',
-      _id: '123'
+      uuid: '123'
     }
-    const res = todoToggle(action._id)
+    const res = todoToggle(action.uuid)
     expect(res).toEqual(action)
   })
 })

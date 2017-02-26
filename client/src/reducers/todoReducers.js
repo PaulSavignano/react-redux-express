@@ -32,7 +32,7 @@ export const todosReducer = (state = [], action) => {
           completedAt: undefined
         }
       ]
-    case 'TOGGLE_TODO':
+    case 'TODO_TOGGLE':
       return state.map((todo) => {
         if (todo.uuid === action.uuid) {
           const nextCompleted = !todo.completed

@@ -150,6 +150,10 @@ class App extends Component {
   }
 
 
+
+
+
+
   handleTodoAdd = (todo) => {
     const uuid = uuidV1()
     const newTodo = { uuid, ...todo, completed: false }
@@ -180,15 +184,7 @@ class App extends Component {
     this.setState({ todos: updated })
     deleteTodo(_id).then(todo => console.log('Deleted: ', todo))
   }
-  handleTodoToggle = (uuid) => {
-    const updatedTodos = this.state.todos.map(todo => {
-      if (todo.uuid === uuid) {
-        todo.completed = !todo.completed
-      }
-      return todo
-    })
-    this.setState({ todos: updatedTodos })
-  }
+
 
   handleTodoSearch = (showCompleted, searchText) => {
     this.setState({
@@ -196,6 +192,9 @@ class App extends Component {
       todoSearch: searchText.toLowerCase()
     })
   }
+
+
+
 
   render() {
     const { todos, showCompleted, todoSearch, carts, cartSearch, products, productSearch, productAdminSearch } = this.state

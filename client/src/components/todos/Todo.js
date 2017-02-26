@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { todoToggle } from '../../actions/index'
 
-class Todo extends Component {
+export class Todo extends Component {
   handleUpdate = (_id, uuid) => {
     const text = this.refs.text.value
     const todoUpdate = { _id, uuid, text }
     this.props.onTodoUpdate(todoUpdate)
   }
   render() {
-    const { _id, uuid, text, completed } = this.props
+    const { _id, uuid, text, completed, dispatch } = this.props
     const styles = {
       container: {
         display: 'flex',
@@ -24,8 +26,8 @@ class Todo extends Component {
     return (
       <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
         <form className="mdl-cell mdl-cell--8-col" onSubmit={this.handleSubmit}>
-            <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="checkbox">
-              <input type="checkbox" id="checkbox" className="mdl-checkbox__input" defaultChecked={completed} onClick={() => this.props.onToggle(uuid)} />
+            <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="todoToggle">
+              <input type="checkbox" id="todoToggle" className="mdl-checkbox__input" defaultChecked={completed} onClick={() => dispatch(todoToggle(uuid))} />
             </label>
             <div className="mdl-textfield mdl-js-textfield" style={styles.text}>
               <input className="mdl-textfield__input" type="text" ref="text" id="name" defaultValue={text}/>
@@ -51,4 +53,5 @@ class Todo extends Component {
   }
 }
 
-export default Todo
+
+export default connect()(Todo)
