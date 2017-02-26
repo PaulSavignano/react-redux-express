@@ -21,10 +21,18 @@ usersRouter.post('/', (req, res) => {
     })
 })
 
-
-
 usersRouter.get('/me', authenticate, (req, res) => {
   res.send(req.user)
+})
+
+usersRouter.post('/login', (req, res) => {
+  const { email, password } = req.body
+  UserModel.findByCredentials(email, password)
+    .then(user => {
+      return user.generateAuthToken()
+        .then(token => res.header('x-auth', token).send(user))
+    })
+    .catch(err => res.status(400).send(err))
 })
 
 export default usersRouter
