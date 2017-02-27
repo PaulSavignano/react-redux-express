@@ -4,7 +4,7 @@ import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 
 import { TodoAdd } from './TodoAdd'
-import todos from './seed'
+import todos from '../seed'
 
 describe('TodoAdd', () => {
   it('should exist', () => {

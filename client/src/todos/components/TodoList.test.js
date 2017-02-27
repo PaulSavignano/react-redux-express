@@ -9,7 +9,7 @@ import configureStore from '../../store/configureStore'
 
 import ConnectedTodoList, { TodoList } from './TodoList'
 import ConnectedTodo, { Todo } from './Todo'
-import todos from './seed'
+import todos from '../seed'
 
 describe('TodoList', () => {
   it('should exist', () => {

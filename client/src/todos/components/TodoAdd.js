@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { todoAdd } from '../../actions/index'
+import { todoAdd } from '../actions/index'
 
 export class TodoAdd extends Component {
   handleSubmit = (e) => {

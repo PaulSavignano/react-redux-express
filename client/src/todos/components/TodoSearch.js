@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { setTodoSearch, toggleShowCompleted } from '../actions/index'
 
-class TodoSearch extends Component {
-  handleSearch = () => {
-    const showCompleted = this.refs.showCompleted.checked
-    const searchText = this.refs.searchText.value
-    this.props.onSearch(showCompleted, searchText)
-  }
+export class TodoSearch extends Component {
   render() {
+    const { dispatch, showCompleted, todoSearch } = this.props
+    console.log(todoSearch)
     const styles = {
       container: {
         margin: '0 auto'
@@ -22,11 +21,17 @@ class TodoSearch extends Component {
             <i className="material-icons">search</i>
           </label>
           <div className="mdl-textfield__expandable-holder">
-            <input className="mdl-textfield__input" type="text" id="search" ref="searchText" onChange={this.handleSearch} />
+            <input className="mdl-textfield__input" type="text" id="search" ref="todoSearch" value={todoSearch} onChange={(e) => {
+              dispatch(setTodoSearch(e.target.value))
+            }}
+            />
             <label className="mdl-textfield__label" style={styles.input} htmlFor="sample-expandable">Expandable Input</label>
           </div>
           <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="showCompleted">
-            <input type="checkbox" id="showCompleted" className="mdl-checkbox__input" ref="showCompleted" onChange={this.handleSearch} />
+            <input type="checkbox" id="showCompleted" className="mdl-checkbox__input" ref="showCompleted" checked={showCompleted} onChange={() => {
+              dispatch(toggleShowCompleted())
+            }}
+            />
             <span className="mdl-checkbox__label">Show completed</span>
           </label>
         </div>
@@ -35,4 +40,9 @@ class TodoSearch extends Component {
   }
 }
 
-export default TodoSearch
+const mapStateToProps = (state) => ({
+  showCompleted: state.showCompleted,
+  todoSearch: state.todoSearch
+})
+
+export default connect(mapStateToProps)(TodoSearch)

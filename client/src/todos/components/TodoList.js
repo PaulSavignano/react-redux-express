@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Todo from './Todo'
+import { filterTodos } from '../api/todoAPI'
 
 export class TodoList extends Component {
   render() {
-    const { todos } = this.props
+    const { todos, showCompleted, todoSearch } = this.props
+    console.log(this.props)
     const style = {
       width: 900
     }
     return (
       todos.length > 0 ?
       <div>
-        {todos.map(todo => (
+        {filterTodos(todos, showCompleted, todoSearch).map(todo => (
           <Todo
             key={todo.uuid}
             {...todo}
@@ -25,8 +27,8 @@ export class TodoList extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  todos: state.todos
-})
+const mapStateToProps = (state) => {
+  return state
+}
 
 export default connect(mapStateToProps)(TodoList)

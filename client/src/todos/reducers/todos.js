@@ -1,16 +1,16 @@
 import uuidV1 from 'uuid/v1'
 import moment from 'moment'
 
-export const todoSearchReducer = (state = '', action) => {
+export const todoSearch = (state = '', action) => {
   switch (action.type) {
     case 'SET_TODO_SEARCH':
-      return action.searchText
+      return action.todoSearch
     default:
       return state
   }
 }
 
-export const showCompletedReducer = (state = false, action) => {
+export const showCompleted = (state = false, action) => {
   switch (action.type) {
     case 'TOGGLE_SHOW_COMPLETED':
       return !state
@@ -19,7 +19,7 @@ export const showCompletedReducer = (state = false, action) => {
   }
 }
 
-export const todosReducer = (state = [], action) => {
+export const todos = (state = [], action) => {
   switch (action.type) {
     case 'TODO_ADD':
       return [

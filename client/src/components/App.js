@@ -25,7 +25,7 @@ import './App.css';
 import CartsPage from './carts/CartsPage'
 import ProductsPage from './products/products/ProductsPage'
 import ProductsAdminPage from './products/admin/ProductsAdminPage'
-import TodosPage from './todos/TodosPage'
+import TodosPage from '../todos/components/TodosPage'
 
 
 

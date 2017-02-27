@@ -15,12 +15,10 @@ class TodosPage extends Component {
       <main className="mdl-layout__content">
         <div className="mdl-grid" style={styles.grid}>
           <h1>Todos</h1>
-          <TodoSearch onSearch={this.props.onSearch}/>
+          <TodoSearch/>
           <TodoAdd onTodoAdd={this.props.onTodoAdd} />
           <br />
           <TodoList
-            todos={this.props.todos}
-            onToggle={this.props.onToggle}
             onTodoDelete={this.props.onTodoDelete}
             onTodoUpdate={this.props.onTodoUpdate}
           />

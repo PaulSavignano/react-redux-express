@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { todoToggle } from '../../actions/index'
+import { todoToggle } from '../actions/index'
 
 export class Todo extends Component {
   handleUpdate = (_id, uuid) => {

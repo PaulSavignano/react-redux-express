@@ -5,7 +5,7 @@ import expect from 'expect'
 
 import { Todo } from './Todo'
 
-import todos from './seed'
+import todos from '../seed'
 
 describe('Todo', () => {
   it('should exist', () => {
