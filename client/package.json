@@ -23,8 +23,10 @@
     "deep-freeze-strict": "^1.1.1",
     "expect": "^1.20.2",
     "jest-cli": "^18.1.0",
+    "nock": "^9.0.9",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts": "^0.8.5",
+    "redux-mock-store": "^1.2.2",
     "uuid": "^3.0.1"
   }
 }

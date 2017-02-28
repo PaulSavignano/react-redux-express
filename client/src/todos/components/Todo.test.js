@@ -5,20 +5,20 @@ import expect from 'expect'
 
 import { Todo } from './Todo'
 
-import todos from '../seed'
+import todoSeeds from '../seed'
 
 describe('Todo', () => {
   it('should exist', () => {
     expect(Todo).toExist()
   })
-  it('should dispatch TODO_TOGGLE action on click', () => {
+  it('should dispatch TOGGLE_TODO action on click', () => {
     const spy = expect.createSpy()
-    const component = TestUtils.renderIntoDocument(<Todo {...todos[0]} dispatch={spy} />)
+    const component = TestUtils.renderIntoDocument(<Todo {...todoSeeds[0]} dispatch={spy} />)
     const input = ReactDOM.findDOMNode(component).querySelector('input')
     TestUtils.Simulate.click(input)
     expect(spy).toHaveBeenCalledWith({
-      type: 'TODO_TOGGLE',
-      uuid: todos[0].uuid
+      type: 'TOGGLE_TODO',
+      _id: todoSeeds[0]._id
     })
   })
 })

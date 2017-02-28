@@ -6,7 +6,6 @@ const todosRouter = express.Router()
 
 todosRouter.post('/', (req, res) => {
   const todo = new TodoModel({
-    uuid: req.body.uuid,
     text: req.body.text
   })
   todo.save()
@@ -20,12 +19,12 @@ todosRouter.get('/', (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-todosRouter.get('/:id', (req, res) => {
-  const id = req.params.id
-  if (!ObjectID.isValid(id)) {
+todosRouter.get('/:_id', (req, res) => {
+  const _id = req.params._id
+  if (!ObjectID.isValid(_id)) {
     return res.status(404).send()
   }
-  TodoModel.findById(id)
+  TodoModel.findById(_id)
     .then((todo) => {
       if (!todo) {
         return res.status(404).send()

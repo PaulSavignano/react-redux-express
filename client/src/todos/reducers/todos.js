@@ -3,7 +3,7 @@ import moment from 'moment'
 export const searchTodos = (state = '', action) => {
   switch (action.type) {
     case 'SEARCH_TODOS':
-      return action.searchTodos
+      return action.searchText
     default:
       return state
   }

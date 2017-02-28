@@ -4,7 +4,7 @@ import { postTodo } from '../actions/index'
 
 export class TodoAdd extends Component {
   render() {
-    let textInput
+    let text
     const { dispatch } = this.props
     const styles = {
       container: {
@@ -28,11 +28,16 @@ export class TodoAdd extends Component {
         <form
           onSubmit={e => {
             e.preventDefault()
-            const todo = {
-              text: textInput.value
+            if (text.value.length > 0) {
+              console.log(text.value)
+              const todo = {
+                text: text.value
+              }
+              e.target.reset()
+              dispatch(postTodo(todo))
+            } else {
+              text.focus()
             }
-            e.target.reset()
-            dispatch(postTodo(todo))
           }}
           className="mdl-card mdl-shadow--4dp"
           style={styles.form}
@@ -41,7 +46,7 @@ export class TodoAdd extends Component {
             <input
               className="mdl-textfield__input"
               type="text"
-              ref={node => textInput = node}
+              ref={node => text = node}
               id="text"
             />
             <label className="mdl-textfield__label" htmlFor="text">Todo...</label>

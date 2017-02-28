@@ -11,22 +11,22 @@ beforeEach(populateTodos)
 
 describe('POST /api/todos', () => {
   it('should create a new todo', (done) => {
-    const todo = { uuid: uuidV1(), text: 'Test creating a new todo' }
     request(app)
       .post('/api/todos')
-      .send(todo)
+      .send(todos[0])
       .expect(200)
       .expect((res) => {
-        expect(res.body.text).toBe(todo.text)
+        expect(res.body.text).toBe(todos[0].text)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        TodoModel.find({ uuid: todo.uuid })
-          .then((todos) => {
-            expect(todos.length).toBe(1)
-            expect(todos[0].text).toBe(todo.text)
+        TodoModel.find({ _id: todos[0]._id })
+          .then((todo) => {
+            console.log(todo)
+            expect(todo.length).toBe(1)
+            expect(todo[0].text).toBe(todos[0].text)
             done()
           })
           .catch(err => done(err))
