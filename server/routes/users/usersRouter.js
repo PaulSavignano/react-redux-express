@@ -6,6 +6,7 @@ import { authenticate } from '../../middleware/authenticate'
 
 const usersRouter = express.Router()
 
+// Create user
 usersRouter.post('/', (req, res) => {
   let { email, password } = req.body
   const user = new UserModel({ email, password })
@@ -25,6 +26,7 @@ usersRouter.get('/me', authenticate, (req, res) => {
   res.send(req.user)
 })
 
+// Login
 usersRouter.post('/login', (req, res) => {
   const { email, password } = req.body
   UserModel.findByCredentials(email, password)
@@ -33,6 +35,15 @@ usersRouter.post('/login', (req, res) => {
         .then(token => res.header('x-auth', token).send(user))
     })
     .catch(err => res.status(400).send(err))
+})
+
+// Logout
+usersRouter.delete('/me/token', authenticate, (req, res) => {
+  req.user.removeToken(req.token)
+    .then(() => {
+      res.status(200).send()
+    })
+    .catch((err) => res.status(400).send(err))
 })
 
 export default usersRouter

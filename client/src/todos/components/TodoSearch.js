@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setTodoSearch, toggleShowCompleted } from '../actions/index'
+import { searchTodos, toggleShowCompleted } from '../actions/index'
 
 export class TodoSearch extends Component {
   render() {
-    const { dispatch, showCompleted, todoSearch } = this.props
-    console.log(todoSearch)
+    const { dispatch, showCompleted, searchTodos } = this.props
     const styles = {
       container: {
         margin: '0 auto'
@@ -21,9 +20,13 @@ export class TodoSearch extends Component {
             <i className="material-icons">search</i>
           </label>
           <div className="mdl-textfield__expandable-holder">
-            <input className="mdl-textfield__input" type="text" id="search" ref="todoSearch" value={todoSearch} onChange={(e) => {
-              dispatch(setTodoSearch(e.target.value))
-            }}
+            <input
+              className="mdl-textfield__input"
+              type="text" id="search"
+              value={searchTodos}
+              onChange={(e) => {
+                dispatch(searchTodos(e.target.value))
+              }}
             />
             <label className="mdl-textfield__label" style={styles.input} htmlFor="sample-expandable">Expandable Input</label>
           </div>
@@ -42,7 +45,7 @@ export class TodoSearch extends Component {
 
 const mapStateToProps = (state) => ({
   showCompleted: state.showCompleted,
-  todoSearch: state.todoSearch
+  searchTodos: state.searchTodos
 })
 
 export default connect(mapStateToProps)(TodoSearch)

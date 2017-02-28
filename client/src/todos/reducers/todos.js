@@ -1,10 +1,9 @@
-import uuidV1 from 'uuid/v1'
 import moment from 'moment'
 
-export const todoSearch = (state = '', action) => {
+export const searchTodos = (state = '', action) => {
   switch (action.type) {
-    case 'SET_TODO_SEARCH':
-      return action.todoSearch
+    case 'SEARCH_TODOS':
+      return action.searchTodos
     default:
       return state
   }
@@ -21,20 +20,29 @@ export const showCompleted = (state = false, action) => {
 
 export const todos = (state = [], action) => {
   switch (action.type) {
-    case 'TODO_ADD':
+    case 'ADD_TODO':
       return [
         ...state,
-        {
-          uuid: uuidV1(),
-          text: action.text,
-          completed: false,
-          createdAt: moment().unix(),
-          completedAt: undefined
-        }
+        action.todo
       ]
-    case 'TODO_TOGGLE':
+    case 'FETCH_TODOS':
+      return [
+        ...state,
+        ...action.todos
+      ]
+    case 'UPDATE_TODO':
+    return state.map(todo =>
+      todo._id === action.todo._id ?
+        { ...todo } :
+        todo
+      )
+    case 'DELETE_TODO':
+      return state.filter(todo =>
+        todo._id !== action._id
+      )
+    case 'TOGGLE_TODO':
       return state.map((todo) => {
-        if (todo.uuid === action.uuid) {
+        if (todo._id === action._id) {
           const nextCompleted = !todo.completed
           return {
             ...todo,

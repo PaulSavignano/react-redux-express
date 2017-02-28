@@ -10,7 +10,7 @@ describe('TodoSearch', () => {
     expect(TodoSearch).toExist()
   })
   it('should dispatch SET_TODO_SEARCH on input change', () => {
-    const todoSearch = 'Dog'
+    const searchText = 'Dog'
     const action = {
       type: 'SET_TODO_SEARCH',
       todoSearch

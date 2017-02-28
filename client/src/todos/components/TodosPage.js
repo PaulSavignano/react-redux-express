@@ -6,23 +6,17 @@ import TodoSearch from './TodoSearch'
 class TodosPage extends Component {
   render() {
     const styles = {
-      grid: {
-        maxWidth: 900,
-        margin: 'auto'
+      container: {
+        padding: 8,
       }
     }
     return (
-      <main className="mdl-layout__content">
-        <div className="mdl-grid" style={styles.grid}>
-          <h1>Todos</h1>
-          <TodoSearch/>
-          <TodoAdd onTodoAdd={this.props.onTodoAdd} />
-          <br />
-          <TodoList
-            onTodoDelete={this.props.onTodoDelete}
-            onTodoUpdate={this.props.onTodoUpdate}
-          />
-        </div>
+      <main style={styles.container}>
+        <h1>Todos</h1>
+        <TodoSearch/>
+        <TodoAdd />
+        <br />
+        <TodoList />
       </main>
     )
   }

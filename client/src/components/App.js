@@ -228,14 +228,7 @@ class App extends Component {
           onSearch={this.handleProductAdminSearch}
         />
 
-        <TodosPage
-          todos={filteredTodos}
-          onToggle={this.handleTodoToggle}
-          onTodoDelete={this.handleTodoDelete}
-          onTodoUpdate={this.handleTodoUpdate}
-          onTodoAdd={this.handleTodoAdd}
-          onSearch={this.handleTodoSearch}
-        />
+        <TodosPage/>
 
       </div>
     );

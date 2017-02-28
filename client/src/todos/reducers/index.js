@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { todoSearch, showCompleted, todos } from './todos'
+import { searchTodos, showCompleted, todos } from './todos'
 
 const todosReducer = combineReducers({
-  todoSearch,
+  searchTodos,
   showCompleted,
   todos
 })

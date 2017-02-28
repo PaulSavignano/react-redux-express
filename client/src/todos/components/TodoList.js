@@ -2,23 +2,27 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Todo from './Todo'
 import { filterTodos } from '../api/todoAPI'
+import { fetchTodos } from '../actions/index'
 
 export class TodoList extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(fetchTodos())
+  }
   render() {
-    const { todos, showCompleted, todoSearch } = this.props
-    console.log(this.props)
-    const style = {
-      width: 900
+    const { todos, showCompleted, searchTodos } = this.props
+    const styles = {
+      container: {
+        width: '100%'
+      }
     }
     return (
       todos.length > 0 ?
-      <div>
-        {filterTodos(todos, showCompleted, todoSearch).map(todo => (
+      <div style={styles.container}>
+        {filterTodos(todos, showCompleted, searchTodos).map(todo => (
           <Todo
-            key={todo.uuid}
+            key={todo._id}
             {...todo}
-            onTodoDelete={this.props.onTodoDelete}
-            onTodoUpdate={this.props.onTodoUpdate}
           />
         ))}
       </div> :
@@ -28,6 +32,7 @@ export class TodoList extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return state
 }
 

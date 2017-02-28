@@ -30,13 +30,14 @@ export const deleteTodo = (_id) => {
     .catch(err => console.log(err))
 }
 
-export const filterTodos = (todos, showCompleted, todoSearch) => {
-  console.log(todoSearch)
+export const filterTodos = (todos, showCompleted, searchTodos) => {
   var filteredTodos = todos
-  filteredTodos = filteredTodos.filter(todo => !todo.completed || showCompleted)
+  filteredTodos = filteredTodos.filter(todo => {
+    return !todo.completed || showCompleted
+  })
   filteredTodos = filteredTodos.filter(todo => {
     const text = todo.text.toLowerCase()
-    return todoSearch.length === 0 || text.indexOf(todoSearch.toLowerCase()) > -1
+    return searchTodos.length === 0 || text.indexOf(searchTodos.toLowerCase()) > -1
   })
   filteredTodos.sort((a, b) => {
     if (a.completed && b.completed) {
