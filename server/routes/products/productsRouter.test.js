@@ -1,36 +1,34 @@
 import expect from 'expect'
 import request from 'supertest'
 import { ObjectID } from 'mongodb'
-import uuidV1 from 'uuid/v1'
 
 import app from '../../server'
 import ProductModel from './ProductModel'
-import { products, populateProducts } from './seed'
+import { productSeeds, populateProducts } from './seed'
 
 beforeEach(populateProducts)
 
 describe('POST /api/products', () => {
   it('should create a new product', (done) => {
-    const product = { uuid: uuidV1(), name: 'Test 4 Product', description: 'Test 4 Description', price: 9000 }
     request(app)
       .post('/api/products')
-      .send(product)
+      .send(productSeeds[0])
       .expect(200)
       .expect((res) => {
-        expect(res.body.name).toBe(product.name)
-        expect(res.body.description).toBe(product.description)
-        expect(res.body.price).toBe(product.price)
+        expect(res.body.name).toBe(productSeeds[0].name)
+        expect(res.body.description).toBe(productSeeds[0].description)
+        expect(res.body.price).toBe(productSeeds[0].price)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        ProductModel.find({ uuid: product.uuid })
+        ProductModel.find({ _id: productSeeds[0]._id })
           .then((products) => {
             expect(products.length).toBe(1)
-            expect(products[0].name).toBe(product.name)
-            expect(products[0].description).toBe(product.description)
-            expect(products[0].price).toBe(product.price)
+            expect(products[0].name).toBe(productSeeds[0].name)
+            expect(products[0].description).toBe(productSeeds[0].description)
+            expect(products[0].price).toBe(productSeeds[0].price)
             done()
           })
           .catch(err => done(err))
@@ -47,7 +45,7 @@ describe('POST /api/products', () => {
         }
         ProductModel.find()
           .then((products) => {
-            expect(products.length).toBe(3)
+            expect(products.length).toBe(2)
             done()
           })
           .catch(err => done(err))
@@ -61,7 +59,7 @@ describe('GET /api/products', () => {
       .get('/api/products')
       .expect(200)
       .expect((res) => {
-        expect(res.body.length).toBe(3)
+        expect(res.body.length).toBe(2)
       })
       .end(done)
   })
@@ -70,10 +68,10 @@ describe('GET /api/products', () => {
 describe('GET /api/products/:id', () => {
   it('should return product doc', (done) => {
     request(app)
-      .get(`/api/products/${products[0]._id.toHexString()}`)
+      .get(`/api/products/${productSeeds[0]._id.toHexString()}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body.product.text).toBe(products[0].text)
+        expect(res.body.product.text).toBe(productSeeds[0].text)
       })
       .end(done)
   })
@@ -97,7 +95,7 @@ describe('GET /api/products/:id', () => {
 
 describe('DELETE /products/:_id', () => {
   it('should delete a product', (done) => {
-    const hexId = products[1]._id.toHexString()
+    const hexId = productSeeds[1]._id.toHexString()
     request(app)
       .delete(`/api/products/${hexId}`)
       .expect(200)
@@ -131,7 +129,7 @@ describe('DELETE /products/:_id', () => {
 
 describe('PATCH /api/products/:_id', () => {
   it('should update the product', (done) => {
-    const hexId = products[0]._id.toHexString()
+    const hexId = productSeeds[0]._id.toHexString()
     const update = {
       name: 'New name from productsRouter test',
       description: 'New description',

@@ -17,10 +17,3 @@ export const toggleShowCompleted = () => {
     type: 'TOGGLE_SHOW_COMPLETED',
   }
 }
-
-export const todoToggle = (uuid) => {
-  return {
-    type: 'TODO_TOGGLE',
-    uuid
-  }
-}

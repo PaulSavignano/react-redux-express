@@ -6,7 +6,6 @@ class ProductAdmin extends Component {
     this.refs.update.blur()
     const update = {
       _id: this.props._id,
-      uuid: this.props.uuid,
       name: this.refs.name.value,
       description: this.refs.description.value,
       price: parseInt(this.refs.price.value, 10)
@@ -15,7 +14,7 @@ class ProductAdmin extends Component {
   }
 
   render() {
-    const { _id, uuid, name, description, price } = this.props
+    const { _id, name, description, price } = this.props
     const styles = {
       container: {
         display: 'flex',
@@ -71,7 +70,7 @@ class ProductAdmin extends Component {
             <button
               id="delete"
               className="mdl-button mdl-js-button mdl-button--raised"
-              onClick={() => this.props.onProductDelete(_id, uuid)}
+              onClick={() => this.props.onProductDelete(_id)}
             >
               Delete
             </button>

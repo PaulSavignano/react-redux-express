@@ -11,13 +11,13 @@ class Cart extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({ productQty: nextProps.productQty })
   }
-  handleUpdate = (e, _id, uuid) => {
+  handleUpdate = (e, _id) => {
     e.preventDefault()
     this.refs.update.blur()
-    this.props.onCartUpdate(_id, uuid, parseInt(this.state.productQty, 10))
+    this.props.onCartUpdate(_id, parseInt(this.state.productQty, 10))
   }
   render() {
-    const { _id, uuid, name, description, price } = this.props
+    const { _id, name, description, price } = this.props
     const styles = {
       container: {
         display: 'flex',
@@ -48,7 +48,7 @@ class Cart extends Component {
           <div className="mdl-card__supporting-text no-left-padding">
             <p style={styles.description}>{description}</p>
           </div>
-          <form style={styles.btnContainer} onSubmit={(e) => this.handleUpdate(e, _id, uuid)}>
+          <form style={styles.btnContainer} onSubmit={(e) => this.handleUpdate(e, _id)}>
             <div className="mdl-textfield mdl-js-textfield">
               <input
                 className="mdl-textfield__input"
@@ -70,7 +70,7 @@ class Cart extends Component {
             <button
               id="delete"
               className="mdl-button mdl-js-button mdl-button--raised"
-              onClick={() => this.props.onCartDelete(_id, uuid)}
+              onClick={() => this.props.onCartDelete(_id)}
             >
               Delete
             </button>

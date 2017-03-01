@@ -10,7 +10,7 @@ class CartList extends Component {
       <div className="myClass" style={style}>
         {this.props.carts.map(cart => (
           <Cart
-            key={cart.uuid}
+            key={cart._id}
             {...cart}
             onCartUpdate={this.props.onCartUpdate}
             onCartDelete={this.props.onCartDelete}

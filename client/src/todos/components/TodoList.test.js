@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
-import uuidV1 from 'uuid/v1'
 
 import configureStore from '../../store/configureStore'
 

@@ -1,4 +1,3 @@
-import uuidV1 from 'uuid/v1'
 import moment from 'moment'
 
 export const todoSearchReducer = (state = '', action) => {
@@ -25,7 +24,6 @@ export const todosReducer = (state = [], action) => {
       return [
         ...state,
         {
-          uuid: uuidV1(),
           text: action.text,
           completed: false,
           createdAt: moment().unix(),
@@ -34,7 +32,7 @@ export const todosReducer = (state = [], action) => {
       ]
     case 'TODO_TOGGLE':
       return state.map((todo) => {
-        if (todo.uuid === action.uuid) {
+        if (todo._id === action._id) {
           const nextCompleted = !todo.completed
           return {
             ...todo,

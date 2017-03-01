@@ -34,11 +34,11 @@ describe('todoReducers', () => {
     })
     it('should toggle todo', () => {
       const todos = [{
-        uuid: '123', text: 'Something', completed: true, createdAt: 123, completedAt: 125
+        _id: '123', text: 'Something', completed: true, createdAt: 123, completedAt: 125
       }]
       const action = {
         type: 'TODO_TOGGLE',
-        uuid: '123'
+        _id: '123'
       }
       const res = todosReducer(deepFreeze(todos), deepFreeze(action))
       expect(res[0].completed).toEqual(false)

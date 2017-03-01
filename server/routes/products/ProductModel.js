@@ -1,10 +1,6 @@
 import mongoose from 'mongoose'
 
 const ProductModel = mongoose.model('ProductModel', {
-  uuid: {
-    type: String,
-    required: true
-  },
   name: {
     type: String,
     required: true,

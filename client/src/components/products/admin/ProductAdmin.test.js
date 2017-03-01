@@ -21,7 +21,6 @@ describe('ProductAdmin', () => {
     TestUtils.Simulate.submit(form)
     expect(spy).toHaveBeenCalledWith({
       _id: products[0]._id,
-      uuid: products[0].uuid,
       name: products[0].name,
       description: products[0].description,
       price: products[0].price
@@ -32,6 +31,6 @@ describe('ProductAdmin', () => {
     const productComponent = TestUtils.renderIntoDocument(<ProductAdmin {...products[0]} onProductDelete={spy} />)
     const button = ReactDOM.findDOMNode(productComponent).querySelector('#delete')
     TestUtils.Simulate.click(button)
-    expect(spy).toHaveBeenCalledWith(products[0]._id, products[0].uuid)
+    expect(spy).toHaveBeenCalledWith(products[0]._id)
   })
 })

@@ -6,7 +6,6 @@ const productsRouter = express.Router()
 
 productsRouter.post('/', (req, res) => {
   const product = new ProductModel({
-    uuid: req.body.uuid,
     name: req.body.name,
     description: req.body.description,
     price: req.body.price

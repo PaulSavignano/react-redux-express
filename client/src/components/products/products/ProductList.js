@@ -10,7 +10,7 @@ class ProductList extends Component {
       <div className="myClass" style={style}>
         {this.props.products.map(product => (
           <Product
-            key={product.uuid}
+            key={product._id}
             onCartAdd={this.props.onCartAdd}
             {...product}
           />

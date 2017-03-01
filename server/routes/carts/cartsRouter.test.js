@@ -1,37 +1,35 @@
 import expect from 'expect'
 import request from 'supertest'
 import { ObjectID } from 'mongodb'
-import uuidV1 from 'uuid/v1'
 
 import app from '../../server'
 import ProductModel from '../products/ProductModel'
 import CartModel from './CartModel'
-import { products, carts, populateProducts, populateCarts } from './seed'
+import { productSeeds, cartSeeds, populateCarts } from './seed'
 
-beforeEach(populateProducts)
 beforeEach(populateCarts)
 
 
 describe('POST /api/carts', () => {
   it('should create a new cart', (done) => {
-    const cart = { uuid: products[2].uuid, productId: products[2]._id, productQty: 12 }
+    const product = { productId: productSeeds[0]._id, productQty: 12 }
     request(app)
       .post('/api/carts')
-      .send(cart)
+      .send(product)
       .expect(200)
       .expect((res) => {
-        expect(res.body.productId).toBe(cart.productId.toHexString())
-        expect(res.body.productQty).toBe(cart.productQty)
+        expect(res.body.productId).toBe(product.productId.toHexString())
+        expect(res.body.productQty).toBe(product.productQty)
       })
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        CartModel.find({ productId: cart.productId })
+        CartModel.find({ productId: product.productId })
           .then((carts) => {
             expect(carts.length).toBe(1)
-            expect(carts[0].productId.toHexString()).toBe(cart.productId.toHexString())
-            expect(carts[0].productQty).toBe(cart.productQty)
+            expect(carts[0].productId.toHexString()).toBe(product.productId.toHexString())
+            expect(carts[0].productQty).toBe(product.productQty)
             done()
           })
           .catch(err => done(err))
@@ -71,10 +69,10 @@ describe('GET /api/carts', () => {
 describe('GET /api/carts/:id', () => {
   it('should return cart doc', (done) => {
     request(app)
-      .get(`/api/carts/${carts[0]._id.toHexString()}`)
+      .get(`/api/carts/${cartSeeds[0]._id.toHexString()}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body.cart.productQty).toBe(carts[0].productQty)
+        expect(res.body.cart.productQty).toBe(cartSeeds[0].productQty)
       })
       .end(done)
   })
@@ -86,9 +84,9 @@ describe('GET /api/carts/:id', () => {
       .end(done)
   })
   it('should return 404 for non-object ids', (done) => {
-    const id = '123abc'
+    const _id = '123abc'
     request(app)
-      .get(`/api/carts/${id}`)
+      .get(`/api/carts/${_id}`)
       .expect(404)
       .end(done)
   })
@@ -97,7 +95,7 @@ describe('GET /api/carts/:id', () => {
 
 describe('DELETE /carts/:_id', () => {
   it('should delete a cart', (done) => {
-    const hexId = carts[1]._id.toHexString()
+    const hexId = cartSeeds[1]._id.toHexString()
     request(app)
       .delete(`/api/carts/${hexId}`)
       .expect(200)
@@ -131,9 +129,9 @@ describe('DELETE /carts/:_id', () => {
 
 describe('PATCH /api/carts/:_id', () => {
   it('should update the cart', (done) => {
-    const hexId = carts[0]._id.toHexString()
+    const hexId = cartSeeds[0]._id.toHexString()
     const update = {
-      productId: products[2]._id,
+      productId: productSeeds[1]._id,
       productQty: 99
     }
     request(app)

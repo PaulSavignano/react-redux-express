@@ -7,7 +7,6 @@ const cartsRouter = express.Router()
 
 cartsRouter.post('/', (req, res) => {
   const Cart = new CartModel({
-    uuid: req.body.uuid,
     productId: req.body.productId,
     productQty: req.body.productQty
   })
@@ -17,7 +16,6 @@ cartsRouter.post('/', (req, res) => {
         .then(product => {
           res.send({
             _id: cart._id,
-            uuid: cart.uuid,
             productId: cart.productId,
             productQty: cart.productQty,
             name: product.name,
@@ -44,7 +42,6 @@ cartsRouter.get('/', (req, res) => {
               })
               return {
                 _id: cart._id,
-                uuid: cart.uuid,
                 productId: product._id,
                 productQty: cart.productQty,
                 name: product.name,

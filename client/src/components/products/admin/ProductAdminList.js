@@ -10,7 +10,7 @@ class ProductAdminList extends Component {
       <div className="myClass" style={style}>
         {this.props.products.map(product => (
           <ProductAdmin
-            key={product.uuid}
+            key={product._id}
             onCartAdd={this.props.onCartAdd}
             onProductUpdate={this.props.onProductUpdate}
             onProductDelete={this.props.onProductDelete}

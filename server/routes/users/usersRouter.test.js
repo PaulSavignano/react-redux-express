@@ -1,11 +1,10 @@
 import expect from 'expect'
 import request from 'supertest'
 import { ObjectID } from 'mongodb'
-import uuidV1 from 'uuid/v1'
 
 import app from '../../server'
 import UserModel from './UserModel'
-import { users, populateUsers } from './seed'
+import { userSeeds, populateUsers } from './seed'
 
 beforeEach(populateUsers)
 
@@ -13,11 +12,11 @@ describe('GET /api/users/me', () => {
   it('should return user if authenticated', (done) => {
     request(app)
       .get('/api/users/me')
-      .set('x-auth', users[0].tokens[0].token)
+      .set('x-auth', userSeeds[0].tokens[0].token)
       .expect(200)
       .expect(res => {
-        expect(res.body._id).toBe(users[0]._id.toHexString())
-        expect(res.body.email).toBe(users[0].email)
+        expect(res.body._id).toBe(userSeeds[0]._id.toHexString())
+        expect(res.body.email).toBe(userSeeds[0].email)
       })
       .end(done)
   })
@@ -68,8 +67,8 @@ describe('POST /api/users', () => {
       .end(done)
   })
   it('should not create user if email in use', (done) => {
-    const email = users[0].email
-    const password = users[0].password
+    const email = userSeeds[0].email
+    const password = userSeeds[0].password
     request(app)
       .post('/api/users')
       .send({ email, password })
@@ -83,8 +82,8 @@ describe('POST /users/login', () => {
     request(app)
       .post('/api/users/login')
       .send({
-        email: users[1].email,
-        password: users[1].password
+        email: userSeeds[1].email,
+        password: userSeeds[1].password
       })
       .expect(200)
       .expect(res => {
@@ -94,9 +93,9 @@ describe('POST /users/login', () => {
         if (err) {
           return done(err)
         }
-        UserModel.findById(users[1]._id)
+        UserModel.findById(userSeeds[1]._id)
           .then(user => {
-            expect(user.tokens[0]).toInclude({
+            expect(user.tokens[1]).toInclude({
               access: 'auth',
               token: res.headers['x-auth']
             })
@@ -109,8 +108,8 @@ describe('POST /users/login', () => {
     request(app)
       .post('/api/users/login')
       .send({
-        email: users[1].email,
-        password: users[1].password + '1'
+        email: userSeeds[1].email,
+        password: userSeeds[1].password + '1'
       })
       .expect(400)
       .expect(res => {
@@ -120,9 +119,9 @@ describe('POST /users/login', () => {
         if (err) {
           return done(err)
         }
-        UserModel.findById(users[1]._id)
+        UserModel.findById(userSeeds[1]._id)
           .then(user => {
-            expect(user.tokens.length).toBe(0)
+            expect(user.tokens.length).toBe(1)
             done()
           })
           .catch(err => done(err))
@@ -134,13 +133,13 @@ describe('DELETE /api/users/me/token', () => {
   it('should remove auth token on logout', () => {
     request(app)
       .delete('/api/users/me/token')
-      .set('x-auth', users[0].tokens[0].token)
+      .set('x-auth', userSeeds[0].tokens[0].token)
       .expect(200)
       .end((err, res) => {
         if (err) {
           return done(err)
         }
-        UserModel.findById(users[0]._id)
+        UserModel.findById(userSeeds[0]._id)
           .then(user => {
             expect(user.tokens.length).toBe(0)
             done()

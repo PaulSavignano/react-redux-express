@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import uuidV1 from 'uuid/v1'
 
 import {
   addCart,
@@ -75,35 +74,34 @@ class App extends Component {
       updateCart(carts[index]._id, carts[index].productQty)
         .then(res => {
           const carts = [ ...this.state.carts ]
-          const index = carts.findIndex(item => item.uuid === res.cart.uuid)
+          const index = carts.findIndex(item => item._id === res.cart._id)
           carts[index].productQty = res.cart.productQty
           this.setState({ carts })
         })
     } else {
-      const uuid = uuidV1()
       const products = [ ...this.state.products ]
       const product = products.find(product => product._id === cart.productId)
       const { name, description, price } = product
-      const newCart = { uuid, ...cart, name, description, price }
+      const newCart = { ...cart, name, description, price }
       this.setState({ carts: [ ...this.state.carts, newCart ]})
       addCart(newCart)
         .then(() => getCarts().then(carts => this.setState({ carts })))
     }
   }
-  handleCartUpdate = (_id, uuid, productQty) => {
+  handleCartUpdate = (_id, productQty) => {
     const carts = [ ...this.state.carts ]
-    const index = carts.findIndex(item => item.uuid === uuid)
+    const index = carts.findIndex(item => item._id === _id)
     carts[index].productQty = productQty
     updateCart(_id, productQty)
       .then(res => {
         const carts = [ ...this.state.carts ]
-        const index = carts.findIndex(item => item.uuid === res.uuid)
+        const index = carts.findIndex(item => item._id === res._id)
         carts[index] = res
         this.setState({ carts })
       })
   }
-  handleCartDelete = (_id, uuid) => {
-    const updatedCarts = this.state.carts.filter(cart => cart.uuid !== uuid)
+  handleCartDelete = (_id) => {
+    const updatedCarts = this.state.carts.filter(cart => cart._id !== _id)
     this.setState({ carts: updatedCarts })
     deleteCart(_id)
   }
@@ -114,31 +112,30 @@ class App extends Component {
 
 
   handleProductAdd = (product) => {
-    const uuid = uuidV1()
-    const newProduct = { uuid, ...product }
+    const newProduct = { ...product }
     this.setState({ products: [ ...this.state.products, newProduct ] })
     addProduct(newProduct)
       .then(res => {
         const products = [ ...this.state.products ]
-        const index = products.findIndex(item => item.uuid === res.uuid)
+        const index = products.findIndex(item => item._id === res._id)
         products[index] = res
         this.setState({ products })
       })
   }
   handleProductUpdate = (update) => {
     const products = [ ...this.state.products ]
-    const index = products.findIndex(item => item.uuid === update.uuid)
+    const index = products.findIndex(item => item._id === update._id)
     products[index] = update
     updateProduct(update)
       .then(res => {
         const products = [ ...this.state.products ]
-        const index = products.findIndex(item => item.uuid === res.uuid)
+        const index = products.findIndex(item => item._id === res._id)
         products[index] = res
         this.setState({ products })
       })
   }
-  handleProductDelete = (_id, uuid) => {
-    const updatedProducts = this.state.products.filter(product => product.uuid !== uuid)
+  handleProductDelete = (_id) => {
+    const updatedProducts = this.state.products.filter(product => product._id !== _id)
     this.setState({ products: updatedProducts })
     deleteProduct(_id)
   }
@@ -155,13 +152,12 @@ class App extends Component {
 
 
   handleTodoAdd = (todo) => {
-    const uuid = uuidV1()
-    const newTodo = { uuid, ...todo, completed: false }
+    const newTodo = { ...todo, completed: false }
     this.setState({ todos: [ ...this.state.todos, newTodo ] })
     addTodo(newTodo)
       .then(res => {
         const todos = [ ...this.state.todos ]
-        const index = todos.findIndex(item => item.uuid === res.uuid)
+        const index = todos.findIndex(item => item._id === res._id)
         todos[index] = res
         this.setState({ todos })
       })
@@ -169,18 +165,18 @@ class App extends Component {
   }
   handleTodoUpdate = (update) => {
     const todos = [ ...this.state.todos ]
-    const index = todos.findIndex(item => item.uuid === update.uuid)
+    const index = todos.findIndex(item => item._id === update._id)
     todos[index] = update
     updateTodo(update)
       .then(res => {
         const todos = [ ...this.state.todos ]
-        const index = todos.findIndex(item => item.uuid === res.uuid)
+        const index = todos.findIndex(item => item._id === res._id)
         todos[index] = res
         this.setState({ todos })
       })
   }
-  handleTodoDelete = (_id, uuid) => {
-    const updated = this.state.todos.filter(todo => todo.uuid !== uuid)
+  handleTodoDelete = (_id) => {
+    const updated = this.state.todos.filter(todo => todo._id !== _id)
     this.setState({ todos: updated })
     deleteTodo(_id).then(todo => console.log('Deleted: ', todo))
   }

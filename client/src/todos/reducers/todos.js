@@ -33,26 +33,13 @@ export const todos = (state = [], action) => {
     case 'UPDATE_TODO':
     return state.map(todo =>
       todo._id === action.todo._id ?
-        { ...todo } :
+        { ...todo, ...action.update } :
         todo
       )
     case 'DELETE_TODO':
       return state.filter(todo =>
         todo._id !== action._id
       )
-    case 'TOGGLE_TODO':
-      return state.map((todo) => {
-        if (todo._id === action._id) {
-          const nextCompleted = !todo.completed
-          return {
-            ...todo,
-            completed: nextCompleted,
-            completedAt: nextCompleted ? moment().unix() : undefined
-          }
-        } else {
-          return todo
-        }
-      })
     default:
       return state
   }

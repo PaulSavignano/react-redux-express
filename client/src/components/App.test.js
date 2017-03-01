@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
-import uuidV1 from 'uuid/v1'
 
 import App from './App'
 import TodoList from './todos/TodoList'
@@ -34,7 +33,7 @@ describe('App', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({ carts: [carts[0]] })
     expect(app.state.carts[0].productId).toBe(carts[0].productId)
-    app.handleCartDelete(null, carts[0].uuid)
+    app.handleCartDelete(null, carts[0]._id)
     expect(app.state.carts[0]).toBe(undefined)
   })
 
@@ -53,7 +52,7 @@ describe('App', () => {
     const app = TestUtils.renderIntoDocument(<App />)
     app.setState({ products: [products[0]] })
     expect(app.state.products[0].name).toBe(products[0].name)
-    app.handleProductDelete(null, products[0].uuid)
+    app.handleProductDelete(null, products[0]._id)
     expect(app.state.products[0]).toBe(undefined)
   })
 

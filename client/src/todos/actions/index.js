@@ -1,4 +1,3 @@
-import uuidV1 from 'uuid/v1'
 import moment from 'moment'
 
 // Create
@@ -46,12 +45,14 @@ export const fetchTodos = () => {
 
 
 // Update
-export const updateTodo = (todo) => {
+export const updateTodo = (_id, update) => {
   return {
     type: 'UPDATE_TODO',
-    todo
+    _id,
+    update
   }
 }
+
 export const patchTodo = (update) => {
   return (dispatch, getState) => {
     return fetch(`/api/todos/${update._id}`, {
@@ -62,7 +63,7 @@ export const patchTodo = (update) => {
       .then(res => res.json())
       .then(json => {
         console.log(json.todo)
-        dispatch(updateTodo(json.todo))
+        dispatch(updateTodo(json.todo._id, json.todo))
       })
       .catch(err => console.log(err))
   }
@@ -104,9 +105,22 @@ export const toggleShowCompleted = () => {
   }
 }
 
-export const toggleTodo = (_id) => {
-  return {
-    type: 'TOGGLE_TODO',
-    _id
+
+export const patchToggleTodo = (_id) => {
+  const update = {
+    completed,
+    completedAt: completed ? moment().unix : null
+  }
+  return (dispatch, getState) => {
+    return fetch(`/api/todos/${_id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(update)
+    })
+      .then(res => res.json())
+      .then(json => {
+        dispatch(updateTodo(json.todo))
+      })
+      .catch(err => console.log(err))
   }
 }

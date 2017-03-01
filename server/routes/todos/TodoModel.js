@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const TodoModel = mongoose.model('TodoModel', {
   text: {
@@ -14,6 +14,10 @@ const TodoModel = mongoose.model('TodoModel', {
   completedAt: {
     type: Number,
     default: null
+  },
+  _creator: {
+    type: Schema.Types.ObjectId,
+    required: true,
   }
 })
 

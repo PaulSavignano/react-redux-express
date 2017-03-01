@@ -25,12 +25,4 @@ describe('todoActions', () => {
     const res = toggleShowCompleted()
     expect(res).toEqual(action)
   })
-  it('should generate toggle todo action', () => {
-    const action = {
-      type: 'TODO_TOGGLE',
-      uuid: '123'
-    }
-    const res = todoToggle(action.uuid)
-    expect(res).toEqual(action)
-  })
 })

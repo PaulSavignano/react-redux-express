@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { toggleTodo, patchTodo, deleteTodo } from '../actions/index'
+import { patchToggleTodo, patchTodo, deleteTodo } from '../actions/index'
 
 export class Todo extends Component {
   render() {
@@ -45,7 +45,7 @@ export class Todo extends Component {
             id="completed"
             className="mdl-checkbox__input"
             defaultChecked={completed}
-            onClick={() => dispatch(toggleTodo(_id))} />
+            onClick={() => dispatch(patchToggleTodo(_id))} />
         </label>
         <div className="mdl-textfield mdl-js-textfield" style={styles.item}>
           <input
