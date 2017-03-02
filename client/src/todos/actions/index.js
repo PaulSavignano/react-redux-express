@@ -1,5 +1,6 @@
 import moment from 'moment'
 
+
 // Create
 export const addTodo = (todo) => {
   return {
@@ -7,7 +8,7 @@ export const addTodo = (todo) => {
     todo
   }
 }
-export const postTodo = (todo) => {
+export const startAddTodo = (todo) => {
   return (dispatch, getState) => {
     const newTodo = {
       text: todo.text,
@@ -29,40 +30,40 @@ export const postTodo = (todo) => {
 }
 
 
+
 // Read
-export const receiveTodos = (todos) => ({
+export const fetchTodos = (todos) => ({
   type: 'FETCH_TODOS',
   todos
 })
-export const fetchTodos = () => {
+export const startFetchTodos = () => {
   return (dispatch, getState) => {
     return fetch('/api/todos')
       .then(res => res.json())
-      .then(json => dispatch(receiveTodos(json)))
+      .then(json => dispatch(fetchTodos(json)))
       .catch(err => console.log(err))
   }
 }
 
 
+
 // Update
-export const updateTodo = (_id, update) => {
+export const updateTodo = (_id, updates) => {
   return {
     type: 'UPDATE_TODO',
     _id,
-    update
+    updates
   }
 }
-
-export const patchTodo = (update) => {
+export const startUpdateTodo = (_id, updates) => {
   return (dispatch, getState) => {
-    return fetch(`/api/todos/${update._id}`, {
+    return fetch(`/api/todos/${_id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(update)
+      body: JSON.stringify(updates)
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json.todo)
         dispatch(updateTodo(json.todo._id, json.todo))
       })
       .catch(err => console.log(err))
@@ -70,21 +71,22 @@ export const patchTodo = (update) => {
 }
 
 
+
 // Delete
-export const removeTodo = (_id) => {
+export const deleteTodo = (_id) => {
   return {
     type: 'DELETE_TODO',
     _id
   }
 }
-export const deleteTodo = (_id) => {
+export const startDeleteTodo = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/todos/${_id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
-      .then(json => dispatch(removeTodo(json.todo._id)))
+      .then(json => dispatch(deleteTodo(json.todo._id)))
       .catch(err => console.log(err))
   }
 }
@@ -92,35 +94,14 @@ export const deleteTodo = (_id) => {
 
 
 
-export const searchTodos = (searchText) => {
+export const searchTodos = (searchTodosText) => {
   return {
     type: 'SEARCH_TODOS',
-    searchText
+    searchTodosText
   }
 }
-
 export const toggleShowCompleted = () => {
   return {
     type: 'TOGGLE_SHOW_COMPLETED',
-  }
-}
-
-
-export const patchToggleTodo = (_id) => {
-  const update = {
-    completed,
-    completedAt: completed ? moment().unix : null
-  }
-  return (dispatch, getState) => {
-    return fetch(`/api/todos/${_id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(update)
-    })
-      .then(res => res.json())
-      .then(json => {
-        dispatch(updateTodo(json.todo))
-      })
-      .catch(err => console.log(err))
   }
 }

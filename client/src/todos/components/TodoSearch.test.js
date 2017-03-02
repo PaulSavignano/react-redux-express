@@ -9,16 +9,16 @@ describe('TodoSearch', () => {
   it('should exist', () => {
     expect(TodoSearch).toExist()
   })
-  it('should dispatch SET_TODO_SEARCH on input change', () => {
-    const searchText = 'Dog'
+  it('should dispatch SEARCH_TODOS on input change', () => {
+    const searchTodosText = 'Dog'
     const action = {
       type: 'SET_TODO_SEARCH',
-      todoSearch
+      searchTodosText
     }
     const spy = expect.createSpy()
     const component = TestUtils.renderIntoDocument(<TodoSearch dispatch={spy} />)
-    component.refs.todoSearch.value = todoSearch
-    TestUtils.Simulate.change(component.refs.todoSearch)
+    component.refs.searchText.value = searchTodosText
+    TestUtils.Simulate.change(component.refs.searchText)
     expect(spy).toHaveBeenCalledWith(action)
   })
   it('should dispatch toggleShowCompleted when checkbox checked', () => {

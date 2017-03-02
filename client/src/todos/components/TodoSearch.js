@@ -4,7 +4,8 @@ import { searchTodos, toggleShowCompleted } from '../actions/index'
 
 export class TodoSearch extends Component {
   render() {
-    const { dispatch, showCompleted, searchTodos } = this.props
+    let searchTodos
+    const { dispatch, showCompleted, searchTodosText } = this.props
     const styles = {
       container: {
         margin: '0 auto'
@@ -22,13 +23,15 @@ export class TodoSearch extends Component {
           <div className="mdl-textfield__expandable-holder">
             <input
               className="mdl-textfield__input"
-              type="text" id="search"
-              value={searchTodos}
+              type="text"
+              id="searchTodos"
+              value={searchTodosText}
+              ref="searchText"
               onChange={(e) => {
                 dispatch(searchTodos(e.target.value))
               }}
             />
-            <label className="mdl-textfield__label" style={styles.input} htmlFor="sample-expandable">Expandable Input</label>
+            <label className="mdl-textfield__label" style={styles.input} htmlFor="searchTodos">Expandable Input</label>
           </div>
           <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="showCompleted">
             <input type="checkbox" id="showCompleted" className="mdl-checkbox__input" ref="showCompleted" checked={showCompleted} onChange={() => {

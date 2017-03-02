@@ -4,6 +4,10 @@ import TodoAdd from './TodoAdd'
 import TodoSearch from './TodoSearch'
 
 class TodosPage extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(startFetchTodos())
+  }
   render() {
     const styles = {
       container: {

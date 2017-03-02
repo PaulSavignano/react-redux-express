@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 
-import TodosPage from './TodosPage'
+import TodoApp from './TodoApp'
 
 describe('TodosPage', () => {
   it('should exist', () => {
-    expect(TodosPage).toExist()
+    expect(TodoApp).toExist()
   })
 })

@@ -4,6 +4,7 @@ import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 
 import { Todo } from './Todo'
+import { startUpdateTodo, startDeleteTodo } from '../actions/index'
 
 import todoSeeds from '../seed'
 
@@ -12,13 +13,11 @@ describe('Todo', () => {
     expect(Todo).toExist()
   })
   it('should dispatch TOGGLE_TODO action on click', () => {
+    const action = startUpdateTodo(todoSeeds[0]._id, !todoSeeds[0].completed)
     const spy = expect.createSpy()
     const component = TestUtils.renderIntoDocument(<Todo {...todoSeeds[0]} dispatch={spy} />)
     const input = ReactDOM.findDOMNode(component).querySelector('input')
     TestUtils.Simulate.click(input)
-    expect(spy).toHaveBeenCalledWith({
-      type: 'TOGGLE_TODO',
-      _id: todoSeeds[0]._id
-    })
+    expect(spy).toHaveBeenCalledWith(action)
   })
 })

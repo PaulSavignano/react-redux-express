@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postTodo } from '../actions/index'
+import { startAddTodo } from '../actions/index'
 
 export class TodoAdd extends Component {
   render() {
@@ -29,12 +29,11 @@ export class TodoAdd extends Component {
           onSubmit={e => {
             e.preventDefault()
             if (text.value.length > 0) {
-              console.log(text.value)
               const todo = {
                 text: text.value
               }
               e.target.reset()
-              dispatch(postTodo(todo))
+              dispatch(startAddTodo(todo))
             } else {
               text.focus()
             }

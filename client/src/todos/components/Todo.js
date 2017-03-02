@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { patchToggleTodo, patchTodo, deleteTodo } from '../actions/index'
+import { startUpdateTodo, startDeleteTodo } from '../actions/index'
 
 export class Todo extends Component {
   render() {
@@ -30,11 +30,10 @@ export class Todo extends Component {
         onSubmit={e => {
           e.preventDefault()
           submit.blur()
-          const update = {
-            _id,
+          const updates = {
             text: textInput.value
           }
-          dispatch(patchTodo(update))
+          dispatch(startUpdateTodo(_id, updates))
         }}
         style={styles.form}
         className="mdl-card mdl-shadow--4dp"
@@ -45,7 +44,7 @@ export class Todo extends Component {
             id="completed"
             className="mdl-checkbox__input"
             defaultChecked={completed}
-            onClick={() => dispatch(patchToggleTodo(_id))} />
+            onClick={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
         </label>
         <div className="mdl-textfield mdl-js-textfield" style={styles.item}>
           <input
@@ -66,7 +65,7 @@ export class Todo extends Component {
           <button
             type="button"
             className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => dispatch(deleteTodo(_id))}
+            onClick={() => dispatch(startDeleteTodo(_id))}
           >
             Delete
           </button>

@@ -3,7 +3,7 @@ import moment from 'moment'
 export const searchTodos = (state = '', action) => {
   switch (action.type) {
     case 'SEARCH_TODOS':
-      return action.searchText
+      return action.searchTodosText
     default:
       return state
   }
@@ -32,8 +32,8 @@ export const todos = (state = [], action) => {
       ]
     case 'UPDATE_TODO':
     return state.map(todo =>
-      todo._id === action.todo._id ?
-        { ...todo, ...action.update } :
+      todo._id === action._id ?
+        { ...todo, ...action.updates } :
         todo
       )
     case 'DELETE_TODO':

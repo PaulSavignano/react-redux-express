@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
-import { postTodo } from '../actions/index'
+import { startAddTodo } from '../actions/index'
 
 import { TodoAdd } from './TodoAdd'
 import todoSeeds from '../seed'
@@ -12,7 +12,7 @@ describe('TodoAdd', () => {
     expect(TodoAdd).toExist()
   })
   it('should dispatch ADD_TODO when valid data', () => {
-    const action = postTodo(todoSeeds[0].text)
+    const action = startAddTodo(todoSeeds[0].text)
     const spy = expect.createSpy()
     const component = TestUtils.renderIntoDocument(<TodoAdd dispatch={spy} />)
     const form = ReactDOM.findDOMNode(component).querySelector('form')

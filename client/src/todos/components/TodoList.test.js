@@ -8,14 +8,14 @@ import configureStore from '../../store/configureStore'
 
 import ConnectedTodoList, { TodoList } from './TodoList'
 import ConnectedTodo, { Todo } from './Todo'
-import todos from '../seed'
+import todoSeeds from '../seed'
 
 describe('TodoList', () => {
   it('should exist', () => {
     expect(TodoList).toExist()
   })
   it('should render one Todo component for each todo item', () => {
-    const store = configureStore({ todos })
+    const store = configureStore({ todos: todoSeeds })
     const provider = TestUtils.renderIntoDocument(
       <Provider store={store}>
         <ConnectedTodoList />
@@ -23,7 +23,7 @@ describe('TodoList', () => {
     )
     const component = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0]
     const components = TestUtils.scryRenderedComponentsWithType(component, ConnectedTodo)
-    expect(components.length).toBe(todos.length)
+    expect(components.length).toBe(todoSeeds.length)
   })
   it('should render empty message if no todos', () => {
     const noTodos = []

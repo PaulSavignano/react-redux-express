@@ -5,13 +5,11 @@ import TestUtils from 'react-addons-test-utils'
 import expect from 'expect'
 
 import App from './App'
-import TodoList from './todos/TodoList'
 
 import configureStore from '../store/configureStore'
 
 import carts from './carts/seed'
 import products from './products/seed'
-import todos from './todos/seed'
 
 describe('App', () => {
   it('should exist', () => {
@@ -57,15 +55,4 @@ describe('App', () => {
   })
 
 
-  it('should render TodoList', () => {
-    const store = configureStore()
-    const provider = TestUtils.renderIntoDocument(
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    )
-    const app = TestUtils.scryRenderedComponentsWithType(provider, App)[0]
-    const todoList = TestUtils.scryRenderedComponentsWithType(app, TodoList)
-    expect(todoList.length).toEqual(1)
-  })
 })

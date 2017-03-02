@@ -2,13 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Todo from './Todo'
 import { filterTodos } from '../api/todoAPI'
-import { fetchTodos } from '../actions/index'
+import { startFetchTodos } from '../actions/index'
 
 export class TodoList extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchTodos())
-  }
   render() {
     const { todos, showCompleted, searchTodos } = this.props
     const styles = {
