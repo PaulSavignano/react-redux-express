@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+}
+
+/* Disable ugly boxes around images in IE10 */
+a img{
+  border: 0px;
+}
+
+::-moz-selection {
+  background-color: #6ab344;
+  color: #fff;
+}
+
+::selection {
+  background-color: #6ab344;
+  color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.android-link-menu:hover {
+  cursor: pointer;
+}
+
+
+/**** Mobile layout ****/
+@media (max-width: 900px) {
+  .android-navigation-container {
+    display: none;
+  }
+
+  .android-title {
+    display: none !important;
+  }
+
+  .android-mobile-title {
+    display: block !important;
+    position: absolute;
+    left: calc(50% - 70px);
+    top: 12px;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* WebViews in iOS 9 break the "~" operator, and WebViews in OS X 10.10 break
+     consecutive "+" operators in some cases. Therefore, we need to use both
+     here to cover all the bases. */
+  .android.android-search-box.is-focused ~ .android-mobile-title,
+  .android-search-box.is-focused + .android-navigation-container + .android-mobile-title {
+    opacity: 0;
+  }
+
+  .android-more-button {
+    display: none;
+  }
+
+  .android-search-box.is-focused {
+    width: calc(100% - 48px);
+  }
+
+  .android-search-box .mdl-textfield__expandable-holder {
+    width: 100%;
+  }
+
+  .android-be-together-section {
+    height: 350px;
+  }
+
+  .android-slogan {
+    font-size: 26px;
+    margin: 0 16px;
+    padding-top: 24px;
+  }
+
+  .android-sub-slogan {
+    font-size: 16px;
+    margin: 0 16px;
+    padding-top: 8px;
+  }
+
+  .android-create-character {
+    padding-top: 200px;
+    font-size: 16px;
+  }
+
+  .android-create-character img {
+    height: 12px;
+  }
+
+  .android-fab {
+    display: none;
+  }
+
+  .android-wear-band-text {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .android-footer .mdl-mega-footer--bottom-section {
+    display: none;
+  }
+}

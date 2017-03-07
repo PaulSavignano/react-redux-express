@@ -10,8 +10,6 @@ import todosRouter from './routes/todos/todosRouter'
 import usersRouter from './routes/users/usersRouter'
 import adminsRouter from './routes/admins/adminsRouter'
 
-
-
 const app = express()
 const port = process.env.PORT
 
@@ -27,6 +25,10 @@ app.use('/api/admins', adminsRouter)
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))
 app.use(staticFiles)
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/build/index.html'))
+})
 
 app.listen(port, () => {
   console.log(`Started up at port: ${port}`)

@@ -31,12 +31,12 @@ describe('GET /api/users/me', () => {
   })
 })
 
-describe('POST /api/users', () => {
+describe('POST /api/users/signup', () => {
   it('should create a user', (done) => {
     const email = 'example@example.com'
     const password = '123abc'
     request(app)
-      .post('/api/users')
+      .post('/api/users/signup')
       .send({ email, password })
       .expect(200)
       .expect(res => {
@@ -61,7 +61,7 @@ describe('POST /api/users', () => {
     const email = 'example'
     const password = '123'
     request(app)
-      .post('/api/users')
+      .post('/api/users/signup')
       .send({ email, password })
       .expect(400)
       .end(done)
@@ -70,17 +70,17 @@ describe('POST /api/users', () => {
     const email = userSeeds[0].email
     const password = userSeeds[0].password
     request(app)
-      .post('/api/users')
+      .post('/api/users/signup')
       .send({ email, password })
       .expect(400)
       .end(done)
   })
 })
 
-describe('POST /users/login', () => {
-  it('should login user and return auth token', (done) => {
+describe('POST /users/signin', () => {
+  it('should signin user and return auth token', (done) => {
     request(app)
-      .post('/api/users/login')
+      .post('/api/users/signin')
       .send({
         email: userSeeds[1].email,
         password: userSeeds[1].password
@@ -104,9 +104,9 @@ describe('POST /users/login', () => {
           .catch(err => done(err))
       })
   })
-  it('should reject invalid login', (done) => {
+  it('should reject invalid signin', (done) => {
     request(app)
-      .post('/api/users/login')
+      .post('/api/users/signin')
       .send({
         email: userSeeds[1].email,
         password: userSeeds[1].password + '1'
@@ -130,7 +130,7 @@ describe('POST /users/login', () => {
 })
 
 describe('DELETE /api/users/me/token', () => {
-  it('should remove auth token on logout', () => {
+  it('should remove auth token on signout', () => {
     request(app)
       .delete('/api/users/me/token')
       .set('x-auth', userSeeds[0].tokens[0].token)

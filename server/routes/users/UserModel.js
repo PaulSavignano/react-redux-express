@@ -21,6 +21,10 @@ const UserSchema = new Schema({
     minlength: 6
   },
   tokens: [{
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
     access: {
       type: String,
       required: true
@@ -84,6 +88,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
         return Promise.reject()
       }
       return new Promise((resolve, reject) => {
+        console.log(bcrypt.compare(password, user.password))
         bcrypt.compare(password, user.password, (err, res) => {
           if (res) {
             resolve(user)

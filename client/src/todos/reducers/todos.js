@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 export const searchTodos = (state = '', action) => {
   switch (action.type) {
     case 'SEARCH_TODOS':
@@ -27,7 +25,6 @@ export const todos = (state = [], action) => {
       ]
     case 'FETCH_TODOS':
       return [
-        ...state,
         ...action.todos
       ]
     case 'UPDATE_TODO':

@@ -1,0 +1,29 @@
+.android-footer {
+  background-color: #fafafa;
+  position: relative;
+}
+
+  .android-footer a:hover {
+    color: #8bc34a;
+  }
+
+  .android-footer .mdl-mega-footer--top-section::after {
+    border-bottom: none;
+  }
+
+  .android-footer .mdl-mega-footer--middle-section::after {
+    border-bottom: none;
+  }
+
+  .android-footer .mdl-mega-footer--bottom-section {
+    position: relative;
+  }
+
+  .android-footer .mdl-mega-footer--bottom-section a {
+    margin-right: 2em;
+  }
+
+  .android-footer .mdl-mega-footer--right-section a .material-icons {
+    position: relative;
+    top: 6px;
+  }

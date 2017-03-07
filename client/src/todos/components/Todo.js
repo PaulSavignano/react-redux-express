@@ -11,50 +11,45 @@ export class Todo extends Component {
         display: 'flex',
         flexFlow: 'row wrap',
         width: '100%',
-        padding: 8,
-        margin: 8,
         minHeight: 'auto',
         alignItems: 'center'
       },
-      item: {
+      textField: {
         flex: '1 1 auto',
-      },
-      btnContainer: {
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        justifyContent: 'flex-end'
       }
     }
     return (
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          submit.blur()
-          const updates = {
-            text: textInput.value
-          }
-          dispatch(startUpdateTodo(_id, updates))
-        }}
-        style={styles.form}
-        className="mdl-card mdl-shadow--4dp"
-      >
-        <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor="completed">
-          <input
-            type="checkbox"
-            id="completed"
-            className="mdl-checkbox__input"
-            defaultChecked={completed}
-            onClick={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
-        </label>
-        <div className="mdl-textfield mdl-js-textfield" style={styles.item}>
-          <input
-            className="mdl-textfield__input"
-            type="text"
-            ref={node => textInput = node}
-            defaultValue={text}
-          />
-        </div>
-        <div style={styles.btnContainer}>
+        <form
+          onSubmit={e => {
+            e.preventDefault()
+            submit.blur()
+            const updates = {
+              text: textInput.value
+            }
+            dispatch(startUpdateTodo(_id, updates))
+          }}
+          style={styles.form}
+          className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp"
+        >
+          <div>
+            <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor={_id}>
+              <input
+                type="checkbox"
+                id={_id}
+                className="mdl-checkbox__input"
+                checked={completed}
+                onClick={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
+            </label>
+          </div>
+
+          <div className="mdl-textfield mdl-js-textfield" style={styles.textField}>
+            <input
+              className="mdl-textfield__input"
+              type="text"
+              ref={node => textInput = node}
+              defaultValue={text}
+            />
+          </div>
           <button
             className="mdl-button mdl-js-button mdl-button--raised"
             type="submit"
@@ -69,8 +64,7 @@ export class Todo extends Component {
           >
             Delete
           </button>
-        </div>
-      </form>
+        </form>
     )
   }
 }

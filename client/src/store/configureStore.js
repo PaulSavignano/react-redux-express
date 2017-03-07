@@ -1,10 +1,20 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import todoReducer from '../todos/reducers/index'
+import { reducer as formReducer } from 'redux-form'
+import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
+import { auth } from '../auth/reducers/auth'
+
+const rootReducer = combineReducers({
+  form: formReducer,
+  searchTodos,
+  showCompleted,
+  todos,
+  auth,
+})
 
 const configureStore = (initialState = {}) => {
   const store = createStore(
-    todoReducer,
+    rootReducer,
     initialState,
     compose(
       applyMiddleware(thunk),

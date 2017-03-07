@@ -18,7 +18,10 @@ export const startAddTodo = (todo) => {
     }
     return fetch('/api/todos', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token'),
+      },
       body: JSON.stringify(newTodo)
     })
       .then(res => res.json())
@@ -38,7 +41,13 @@ export const fetchTodos = (todos) => ({
 })
 export const startFetchTodos = () => {
   return (dispatch, getState) => {
-    return fetch('/api/todos')
+    return fetch('/api/todos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token'),
+      }
+    })
       .then(res => res.json())
       .then(json => dispatch(fetchTodos(json)))
       .catch(err => console.log(err))
@@ -59,7 +68,10 @@ export const startUpdateTodo = (_id, updates) => {
   return (dispatch, getState) => {
     return fetch(`/api/todos/${_id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json' ,
+        'x-auth': localStorage.getItem('token'),
+      },
       body: JSON.stringify(updates)
     })
       .then(res => res.json())
@@ -83,7 +95,10 @@ export const startDeleteTodo = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/todos/${_id}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token'),
+      },
     })
       .then(res => res.json())
       .then(json => dispatch(deleteTodo(json.todo._id)))

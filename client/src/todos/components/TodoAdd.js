@@ -7,24 +7,19 @@ export class TodoAdd extends Component {
     let text
     const { dispatch } = this.props
     const styles = {
-      container: {
-        width: '100%',
-      },
       form: {
         display: 'flex',
-        flexFlow: 'row wrap',
+        flexFlow: 'row nowrap',
         width: '100%',
-        padding: 8,
-        margin: 8,
         minHeight: 'auto',
         alignItems: 'center'
       },
-      item: {
+      textField: {
         flex: '1 1 auto',
       }
     }
     return (
-      <div style={styles.container}>
+      <div className="mdl-grid">
         <form
           onSubmit={e => {
             e.preventDefault()
@@ -38,10 +33,10 @@ export class TodoAdd extends Component {
               text.focus()
             }
           }}
-          className="mdl-card mdl-shadow--4dp"
+          className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp"
           style={styles.form}
         >
-          <div className="mdl-textfield mdl-js-textfield" style={styles.item}>
+          <div className="mdl-textfield mdl-js-textfield" style={styles.textField} >
             <input
               className="mdl-textfield__input"
               type="text"
