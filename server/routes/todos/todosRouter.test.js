@@ -11,7 +11,6 @@ beforeEach(populateTodos)
 
 
 describe('POST /api/todos', () => {
-
   it('should create a new todo', (done) => {
     request(app)
       .post('/api/todos')
@@ -34,7 +33,6 @@ describe('POST /api/todos', () => {
           .catch(err => done(err))
       })
   })
-
   it('should not create todo with invalid body data', (done) => {
     const text = 'Test todo should fail with no todo'
     request(app)
@@ -56,6 +54,8 @@ describe('POST /api/todos', () => {
   })
 })
 
+
+
 describe('GET /api/todos', () => {
   it('should get all todos', (done) => {
     request(app)
@@ -72,7 +72,6 @@ describe('GET /api/todos', () => {
 
 
 describe('GET /api/todos/:_id', () => {
-
   it('should return todo doc', (done) => {
     request(app)
       .get(`/api/todos/${todoSeeds[0]._id.toHexString()}`)
@@ -83,7 +82,6 @@ describe('GET /api/todos/:_id', () => {
       })
       .end(done)
   })
-
   it('should not return todo doc created by other user', (done) => {
     request(app)
       .get(`/api/todos/${todoSeeds[1]._id.toHexString()}`)
@@ -91,7 +89,6 @@ describe('GET /api/todos/:_id', () => {
       .expect(404)
       .end(done)
   })
-
   it('should return 404 if todo not found', (done) => {
     request(app)
       .get(`/api/todos/${userSeeds[0]._id.toHexString()}`)
@@ -99,7 +96,6 @@ describe('GET /api/todos/:_id', () => {
       .expect(404)
       .end(done)
   })
-
   it('should return 404 for non-object ids', (done) => {
     const _id = '123abc'
     request(app)
@@ -164,6 +160,8 @@ describe('DELETE /api/todos/:_id', () => {
       .end(done)
   })
 })
+
+
 
 describe('PATCH /api/todos/:_id', () => {
   it('should update the todo', (done) => {

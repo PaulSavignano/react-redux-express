@@ -22,20 +22,6 @@ usersRouter.post('/signup', (req, res) => {
     })
 })
 
-usersRouter.get('/me', authenticate, (req, res) => {
-  const tokenToCheck = req.user.tokens.find(t => t.token === req.token)
-  if ((Date.now() - tokenToCheck.createdAt) > 300000) {
-    console.log('older than a minute')
-    req.user.removeToken(req.token)
-      .then(() => {
-        res.status(200).send()
-      })
-      .catch(err => res.status(400).send(err))
-  } else {
-    console.log('under a minute still valid')
-    res.send({ token: 'valid'})
-  }
-})
 
 // Signin
 usersRouter.post('/signin', (req, res) => {
@@ -58,5 +44,22 @@ usersRouter.delete('/me/token', authenticate, (req, res) => {
     })
     .catch((err) => res.status(400).send(err))
 })
+
+// Get
+usersRouter.get('/me', authenticate, (req, res) => {
+  const tokenToCheck = req.user.tokens.find(t => t.token === req.token)
+  if ((Date.now() - tokenToCheck.createdAt) > 30000) {
+    console.log('older than a minute')
+    req.user.removeToken(req.token)
+      .then(() => {
+        res.json({ token: 'invalid'})
+      })
+      .catch(err => res.status(400).send(err))
+  } else {
+    console.log('under a minute still valid')
+    res.json({ token: 'valid'})
+  }
+})
+
 
 export default usersRouter

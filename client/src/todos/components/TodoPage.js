@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import TodoList from './TodoList'
 import TodoAdd from './TodoAdd'
 import TodoSearch from './TodoSearch'
-import './TodoPage.css'
 
 class TodoPage extends Component {
   render() {

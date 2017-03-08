@@ -1,5 +1,6 @@
 import { ObjectID } from 'mongodb'
 import CartModel from './CartModel'
+
 import { productSeeds } from '../products/seed'
 
 export { productSeeds } from '../products/seed'

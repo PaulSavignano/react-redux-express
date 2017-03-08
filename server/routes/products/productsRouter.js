@@ -1,46 +1,51 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 import ProductModel from './ProductModel'
+import { authenticate } from '../../middleware/authenticate'
 
-const productsRouter = express.Router()
+const productRouter = express.Router()
 
-productsRouter.post('/', (req, res) => {
+productRouter.post('/', authenticate, (req, res) => {
   const product = new ProductModel({
     name: req.body.name,
+    image: req.body.image,
     description: req.body.description,
     price: req.body.price
   })
-  product.save().then((doc) => {
-    res.send(doc)
-  }, (err) => {
-    res.status(400).send(err)
-  })
+  product.save()
+    .then(doc => res.send(doc))
+    .catch(err => res.status(400).send(err))
 })
 
-productsRouter.get('/', (req, res) => {
+productRouter.get('/', (req, res) => {
   ProductModel.find({})
     .then(products => res.send(products))
     .catch(err => res.status(400).send(err))
 })
 
-productsRouter.get('/:id', (req, res) => {
-  const id = req.params.id
-  if (!ObjectID.isValid(id)) {
+productRouter.get('/:_id', (req, res) => {
+  const _id = req.params._id
+  if (!ObjectID.isValid(_id)) {
     return res.status(404).send()
   }
-  ProductModel.findById(id)
+  ProductModel.findOne({})
     .then((product) => {
       if (!product) {
         return res.status(404).send()
       }
       res.send({ product })
     })
-    .catch((err) => res.status(400).send(err))
+    .catch((err) => res.status(400).send())
 })
 
-productsRouter.delete('/:_id', (req, res) => {
+productRouter.delete('/:_id', authenticate, (req, res) => {
   const _id = req.params._id
-  ProductModel.findOneAndRemove({ _id })
+  if (!ObjectID.isValid(_id)) {
+    return res.status(404).send()
+  }
+  ProductModel.findOneAndRemove({
+    _id,
+  })
     .then((product) => {
       if (!product) {
         return res.status(404).send()
@@ -50,12 +55,13 @@ productsRouter.delete('/:_id', (req, res) => {
     .catch((err) => res.status(400).send(err))
 })
 
-
-productsRouter.patch('/:_id', (req, res) => {
+productRouter.patch('/:_id', authenticate, (req, res) => {
   const _id = req.params._id
   const { body } = req
-  if (!ObjectID.isValid(_id)) return res.status(404).send()
-  ProductModel.findByIdAndUpdate(_id, {$set: body}, {new: true} )
+  if (!ObjectID.isValid(_id)) {
+    return res.status(404).send()
+  }
+  ProductModel.findOneAndUpdate(_id, {$set: body}, {new: true} )
     .then((product) => {
       if (!product) {
         return res.status(404).send()
@@ -65,4 +71,4 @@ productsRouter.patch('/:_id', (req, res) => {
     .catch((err) => res.status(400).send(err))
 })
 
-export default productsRouter
+export default productRouter

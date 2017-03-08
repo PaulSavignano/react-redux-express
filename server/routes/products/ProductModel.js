@@ -7,6 +7,9 @@ const ProductModel = mongoose.model('ProductModel', {
     minlength: 1,
     trim: true
   },
+  image: {
+    type: String,
+  },
   description: {
     type: String,
     minlength: 1,
@@ -15,6 +18,10 @@ const ProductModel = mongoose.model('ProductModel', {
   price: {
     type: Number,
     default: 0
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 })
 

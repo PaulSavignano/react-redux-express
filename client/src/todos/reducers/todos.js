@@ -24,9 +24,11 @@ export const todos = (state = [], action) => {
         action.todo
       ]
     case 'FETCH_TODOS':
-      return [
-        ...action.todos
-      ]
+    const updatedArray = [ ...state, ...action.todos ]
+    const filteredArray = updatedArray.filter((object, index, self) => {
+      return self.findIndex(obj => obj._id === object._id) === index
+    })
+      return filteredArray
     case 'UPDATE_TODO':
     return state.map(todo =>
       todo._id === action._id ?

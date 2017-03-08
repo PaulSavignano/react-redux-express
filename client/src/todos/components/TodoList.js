@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Todo from './Todo'
 import { filterTodos } from '../api/todoAPI'
 import { startFetchTodos } from '../actions/index'
-import './TodoList.css'
 
 export class TodoList extends Component {
   componentDidMount() {

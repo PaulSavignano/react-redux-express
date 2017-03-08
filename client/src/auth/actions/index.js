@@ -9,6 +9,7 @@ export const signupUser = ({ email, password }) => {
     })
       .then(res => {
         dispatch({ type: 'AUTH_USER' })
+        const token = { res}
         localStorage.setItem('token', res.headers.get('x-auth'))
         browserHistory.push('/');
       })
@@ -46,15 +47,17 @@ export function authUser(token) {
       }
     })
       .then(res => {
+        console.log(res)
         if (res.statusText === 'Unauthorized') {
-          dispatch({ type: 'UNAUTH_USER' })
-          localStorage.removeItem('token')
+          console.log('NOT AUTHORIZED')
+          dispatch(signoutUser())
           browserHistory.push('/signin')
         } else {
           dispatch({ type: 'AUTH_USER' })
         }
       })
       .catch((err) => {
+        console.log('Catching error time to remove localstorage')
         dispatch(authError('Bad login info'))
         browserHistory.push('/signin')
       })

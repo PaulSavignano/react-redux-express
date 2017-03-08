@@ -1,4 +1,7 @@
 import { ObjectID } from 'mongodb'
+import { userSeeds } from '../users/seed'
+
+export { userSeeds } from '../users/seed'
 
 import ProductModel from './ProductModel'
 

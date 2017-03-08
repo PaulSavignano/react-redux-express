@@ -53,6 +53,8 @@ describe('POST /api/products', () => {
   })
 })
 
+
+
 describe('GET /api/products', () => {
   it('should get all products', (done) => {
     request(app)
@@ -64,6 +66,8 @@ describe('GET /api/products', () => {
       .end(done)
   })
 })
+
+
 
 describe('GET /api/products/:id', () => {
   it('should return product doc', (done) => {
@@ -93,11 +97,12 @@ describe('GET /api/products/:id', () => {
 
 
 
-describe('DELETE /products/:_id', () => {
+describe('DELETE /api/products/:_id', () => {
   it('should delete a product', (done) => {
     const hexId = productSeeds[1]._id.toHexString()
     request(app)
       .delete(`/api/products/${hexId}`)
+      .set('x-auth', userSeeds[1].tokens[0].token)
       .expect(200)
       .expect((res) => {
         expect(res.body.product._id).toBe(hexId)
@@ -112,20 +117,40 @@ describe('DELETE /products/:_id', () => {
           .catch(err => done(err))
       })
   })
+  it('should delete a product', (done) => {
+    const hexId = productSeeds[0]._id.toHexString()
+    request(app)
+      .delete(`/api/products/${hexId}`)
+      .set('x-auth', userSeeds[1].tokens[0].token)
+      .expect(404)
+      .end((err) => {
+        if (err) return done(err)
+        ProductModel.findById(hexId)
+          .then((product) => {
+            expect(product).toExist()
+            done()
+          })
+          .catch(err => done(err))
+      })
+  })
   it('should return 404 if product not found', (done) => {
     const hexId = new ObjectID().toHexString()
     request(app)
       .delete(`/api/products/${hexId}`)
+      .set('x-auth', userSeeds[1].tokens[0].token)
       .expect(404)
       .end(done)
   })
   it('should return 404 if object id is invalid', (done) => {
     request(app)
       .delete('/products/123abc')
+      .set('x-auth', userSeeds[1].tokens[0].token)
       .expect(404)
       .end(done)
   })
 })
+
+
 
 describe('PATCH /api/products/:_id', () => {
   it('should update the product', (done) => {

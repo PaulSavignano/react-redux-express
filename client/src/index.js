@@ -23,14 +23,11 @@ if (token) {
   store.dispatch(authUser(token))
 }
 
-const requireAuth = (nextState, replace) => {
+const requireAuth = (nextState, replace, next) => {
   if (!localStorage.getItem('token')) {
-    replace({
-      pathname: '/signin',
-      state: { nextPathname: nextState.location.pathname }
-    })
+    replace('/signin')
   }
-  return
+  next()
 }
 
 ReactDOM.render(

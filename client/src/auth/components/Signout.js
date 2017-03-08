@@ -6,7 +6,8 @@ import './Signout.css'
 
 class Signout extends Component {
   componentWillMount() {
-    signoutUser()
+    const { dispatch } = this.props
+    dispatch(signoutUser())
   }
   render() {
     return (
