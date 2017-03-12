@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { startAddToCart } from '../actions/index'
+import { startUpdateCartProduct, startDeleteCartProduct } from '../actions/index'
 import { formatPrice } from '../../modules/formatPrice'
 
 import TextField from 'material-ui/TextField'
@@ -26,9 +26,6 @@ const styles = {
     flexFlow: 'row nowrap',
     justifyContent: 'flex-end',
     alignItems: 'center'
-  },
-  addToCart: {
-    float: 'right'
   },
   qty: {
     width: 126
@@ -64,7 +61,6 @@ const Product = props => {
             defaultValue="1"
           />
           <button
-            style={styles.addToCart}
             type="button"
             className="mdl-button mdl-js-button mdl-button--raised"
             onClick={() => {
@@ -72,10 +68,23 @@ const Product = props => {
                 productId: _id,
                 productQty: parseInt(qty.input.value, 10)
               }
-              dispatch(startAddToCart(product))
+              dispatch(startUpdateCartProduct(product))
             }}
           >
-            Add To Cart
+            Update
+          </button>
+          <button
+            type="button"
+            className="mdl-button mdl-js-button mdl-button--raised"
+            onClick={() => {
+              const product = {
+                productId: _id,
+                productQty: parseInt(qty.input.value, 10)
+              }
+              dispatch(startDeleteCartProduct(product))
+            }}
+          >
+            Remove
           </button>
         </div>
 

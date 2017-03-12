@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import './HomePage.css'
 import Hero from './Hero'
 import FeatureList from './FeatureList'
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import './FeatureList.css'
 import moreFrom1 from './images/more-from-1.png'
 import moreFrom4 from './images/more-from-4.png'
 import moreFrom2 from './images/more-from-2.png'
@@ -14,7 +13,7 @@ class Features extends Component {
         <div className="android-card-container mdl-grid">
           <div className="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
             <div className="mdl-card__media">
-              <img src={moreFrom1} />
+              <img src={moreFrom1} alt="more1"/>
             </div>
             <div className="mdl-card__title">
               <h4 className="mdl-card__title-text">Get going on Android</h4>
@@ -32,7 +31,7 @@ class Features extends Component {
 
           <div className="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
             <div className="mdl-card__media">
-              <img src={moreFrom4} />
+              <img src={moreFrom4} alt="more2"/>
             </div>
             <div className="mdl-card__title">
               <h4 className="mdl-card__title-text">Create your own Android character</h4>
@@ -50,7 +49,7 @@ class Features extends Component {
 
           <div className="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
             <div className="mdl-card__media">
-              <img src={moreFrom2} />
+              <img src={moreFrom2} alt="more3"/>
             </div>
             <div className="mdl-card__title">
               <h4 className="mdl-card__title-text">Get a clean customisable home screen</h4>
@@ -68,7 +67,7 @@ class Features extends Component {
 
           <div className="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
             <div className="mdl-card__media">
-              <img src={moreFrom3} />
+              <img src={moreFrom3} alt="more4"/>
             </div>
             <div className="mdl-card__title">
               <h4 className="mdl-card__title-text">Millions to choose from</h4>

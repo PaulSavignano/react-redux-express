@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Link, IndexLink } from 'react-router'
+import { Link } from 'react-router'
 
 import './Header.css'
 import androidLogo from './images/android-logo.png'
-import SigninSignoutLink from '../../auth/components/SigninSignoutLink'
+import SigninSignoutLink from '../../users/components/SigninSignoutLink'
 
 class Header extends Component {
   render() {
@@ -11,7 +11,7 @@ class Header extends Component {
       <div className="android-header mdl-layout__header mdl-layout__header--waterfall">
         <div className="mdl-layout__header-row">
           <span className="android-title mdl-layout-title">
-            <Link to="/"><img className="android-logo-image" src={androidLogo} /></Link>
+            <Link to="/"><img className="android-logo-image" src={androidLogo} alt="logo" /></Link>
           </span>
           <div className="android-header-spacer mdl-layout-spacer"></div>
           <div className="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
@@ -26,9 +26,8 @@ class Header extends Component {
             <nav className="android-navigation mdl-navigation">
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/todos">Todos</Link>
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/products">Products</Link>
-              <a className="mdl-navigation__link mdl-typography--text-uppercase" href="">Wear</a>
-              <a className="mdl-navigation__link mdl-typography--text-uppercase" href="">TV</a>
-              <a className="mdl-navigation__link mdl-typography--text-uppercase" href="">Auto</a>
+              <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/admin/products">Products Admin</Link>
+              <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/cart">Cart</Link>
               <SigninSignoutLink />
             </nav>
           </div>

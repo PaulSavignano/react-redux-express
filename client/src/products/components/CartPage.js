@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import ProductList from './ProductList'
-import ProductSearch from './ProductSearch'
+import CartList from './CartList'
+import CartSearch from './CartSearch'
 
-class ProductsPage extends Component {
+class CartPage extends Component {
   render() {
     return (
       <div className="android-more-section">
         <div className="android-section-title mdl-typography--display-1-color-contrast">Products</div>
-        <ProductSearch/>
-        <ProductList />
+        <CartSearch/>
+        <CartList />
       </div>
     )
   }
 }
 
-export default ProductsPage
+export default CartPage

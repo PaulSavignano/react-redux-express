@@ -20,10 +20,12 @@ const UserSchema = new Schema({
     required: true,
     minlength: 6
   },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+  roles: {
+    type: [{
+      type: String,
+      enum: ['user', 'admin']
+    }],
+    default: ['user']
   },
   tokens: [{
     createdAt: {
@@ -70,7 +72,18 @@ UserSchema.methods.removeToken = function(token) {
   })
 }
 
-UserSchema.statics.findByToken = function(token) {
+UserSchema.methods.removeTokens = function(tokens) {
+  const user = this
+  return user.update({
+    $pull: {
+      tokens: {
+        $in: tokens
+      }
+    }
+  })
+}
+
+UserSchema.statics.findByToken = function(token, roles) {
   const UserModel = this
   let decoded
   try {
@@ -80,13 +93,16 @@ UserSchema.statics.findByToken = function(token) {
   }
   return UserModel.findOne({
     _id: decoded._id,
+    roles: {
+      $in: roles
+    },
     'tokens.token': token,
     'tokens.access': 'auth'
   })
 }
 
 UserSchema.statics.findByCredentials = function(email, password) {
-  const User = this
+  const UserModel = this
   return UserModel.findOne({ email })
     .then(user => {
       if (!user) {

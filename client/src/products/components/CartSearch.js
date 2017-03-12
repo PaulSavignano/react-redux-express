@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { searchProducts } from '../actions/index'
+import { searchCart } from '../actions/index'
 
-export class ProductSearch extends Component {
+export class CartSearch extends Component {
   render() {
-    const { dispatch, searchProductsText } = this.props
+    const { dispatch, searchCartText } = this.props
     const styles = {
       search: {
         float: 'left',
@@ -25,21 +25,21 @@ export class ProductSearch extends Component {
       <div className="mdl-grid">
         <div className="mdl-cell mdl-cell--12-col">
           <div className="mdl-textfield mdl-js-textfield mdl-textfield--expandable" style={styles.container}>
-            <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="searchProducts">
+            <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="searchCart">
               <i className="material-icons">search</i>
             </label>
             <div className="mdl-textfield__expandable-holder" style={styles.expandableHolder}>
               <input
                 className="mdl-textfield__input"
                 type="text"
-                id="searchProducts"
-                value={searchProductsText}
-                ref="searchText"
+                id="searchCart"
+                value={searchCartText}
+                ref="searchCartText"
                 onChange={(e) => {
-                  dispatch(searchProducts(e.target.value))
+                  dispatch(searchCart(e.target.value))
                 }}
               />
-              <label className="mdl-textfield__label" htmlFor="searchProducts">Expandable Input</label>
+              <label className="mdl-textfield__label" htmlFor="searchCart">Expandable Input</label>
             </div>
           </div>
         </div>
@@ -49,8 +49,7 @@ export class ProductSearch extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  showCompleted: state.showCompleted,
-  searchProducts: state.searchProducts
+  searchCart: state.searchCart
 })
 
-export default connect(mapStateToProps)(ProductSearch)
+export default connect(mapStateToProps)(CartSearch)

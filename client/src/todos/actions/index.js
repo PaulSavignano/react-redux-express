@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { browserHistory } from 'react-router'
 
 
 // Create
@@ -28,7 +29,9 @@ export const startAddTodo = (todo) => {
       .then(json => {
         dispatch(addTodo(json))
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 
@@ -50,7 +53,10 @@ export const startFetchTodos = () => {
     })
       .then(res => res.json())
       .then(json => dispatch(fetchTodos(json)))
-      .catch(err => console.log(err))
+      .catch(err => {
+        browserHistory.push('/signin')
+        console.log(err)
+      })
   }
 }
 

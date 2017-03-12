@@ -1,4 +1,4 @@
-export const auth = (state = {}, action) => {
+export const users = (state = {}, action) => {
   switch(action.type) {
     case 'AUTH_USER':
       return { ...state, error: '', authenticated: true }
@@ -11,5 +11,4 @@ export const auth = (state = {}, action) => {
     default:
       return state
   }
-  return state
 }

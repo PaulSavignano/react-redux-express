@@ -5,7 +5,9 @@ import { authenticate } from '../../middleware/authenticate'
 
 const todosRouter = express.Router()
 
-todosRouter.post('/', authenticate, (req, res) => {
+
+// Create
+todosRouter.post('/', authenticate(['user']), (req, res) => {
   const todo = new TodoModel({
     text: req.body.text,
     _creator: req.user._id
@@ -15,13 +17,23 @@ todosRouter.post('/', authenticate, (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-todosRouter.get('/', authenticate, (req, res) => {
+
+
+
+// Read
+todosRouter.get('/', authenticate(['user']), (req, res) => {
   TodoModel.find({ _creator: req.user._id })
     .then(todos => res.send(todos))
     .catch(err => res.status(400).send(err))
 })
 
-todosRouter.get('/:_id', authenticate, (req, res) => {
+todosRouter.get('/admin', authenticate(['admin']), (req, res) => {
+  TodoModel.find({})
+    .then(todos => res.send(todos))
+    .catch(err => res.status(400).send(err))
+})
+
+todosRouter.get('/:_id', authenticate(['user']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) {
     return res.status(404).send()
@@ -39,25 +51,10 @@ todosRouter.get('/:_id', authenticate, (req, res) => {
     .catch((err) => res.status(400).send())
 })
 
-todosRouter.delete('/:_id', authenticate, (req, res) => {
-  const _id = req.params._id
-  if (!ObjectID.isValid(_id)) {
-    return res.status(404).send()
-  }
-  TodoModel.findOneAndRemove({
-    _id,
-    _creator: req.user._id
-  })
-    .then((todo) => {
-      if (!todo) {
-        return res.status(404).send()
-      }
-      res.send({ todo })
-    })
-    .catch((err) => res.status(400).send(err))
-})
 
-todosRouter.patch('/:_id', authenticate, (req, res) => {
+
+// Update
+todosRouter.patch('/:_id', authenticate(['user']), (req, res) => {
   const _id = req.params._id
   const { body } = req
   if (!ObjectID.isValid(_id)) {
@@ -78,5 +75,31 @@ todosRouter.patch('/:_id', authenticate, (req, res) => {
     })
     .catch((err) => res.status(400).send(err))
 })
+
+
+
+// Delete
+todosRouter.delete('/:_id', authenticate(['user']), (req, res) => {
+  const _id = req.params._id
+  if (!ObjectID.isValid(_id)) {
+    return res.status(404).send()
+  }
+  TodoModel.findOneAndRemove({
+    _id,
+    _creator: req.user._id
+  })
+    .then((todo) => {
+      if (!todo) {
+        return res.status(404).send()
+      }
+      res.send({ todo })
+    })
+    .catch((err) => res.status(400).send(err))
+})
+
+
+
+
+
 
 export default todosRouter

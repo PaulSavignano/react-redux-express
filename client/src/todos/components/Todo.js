@@ -31,16 +31,15 @@ export class Todo extends Component {
           style={styles.form}
           className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp"
         >
-          <div>
-            <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor={_id}>
-              <input
-                type="checkbox"
-                id={_id}
-                className="mdl-checkbox__input"
-                checked={completed}
-                onClick={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
-            </label>
-          </div>
+          <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" htmlFor={_id}>
+            <input
+              type="checkbox"
+              id={_id}
+              className="mdl-checkbox__input"
+              checked={completed}
+              onClick={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
+          </label>
+
 
           <div className="mdl-textfield mdl-js-textfield" style={styles.textField}>
             <input

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Product from './Product'
+import AdminProduct from './AdminProduct'
 import { startFetchProducts } from '../actions/index'
 
 
@@ -12,7 +12,7 @@ const filterProducts = (products, searchText) => {
   return filteredProducts
 }
 
-export class ProductList extends Component {
+export class AdminProductList extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(startFetchProducts())
@@ -23,9 +23,10 @@ export class ProductList extends Component {
       products.length > 0 ?
       <div className="mdl-grid">
         {filterProducts(products, searchProducts).map(product => (
-          <Product
+          <AdminProduct
             key={product._id}
             {...product}
+            initialValues={product}
           />
         ))}
       </div> :
@@ -38,4 +39,4 @@ const mapStateToProps = (state) => {
   return state
 }
 
-export default connect(mapStateToProps)(ProductList)
+export default connect(mapStateToProps)(AdminProductList)

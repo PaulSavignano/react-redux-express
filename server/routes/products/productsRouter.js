@@ -5,7 +5,7 @@ import { authenticate } from '../../middleware/authenticate'
 
 const productRouter = express.Router()
 
-productRouter.post('/', authenticate, (req, res) => {
+productRouter.post('/', authenticate(['admin']), (req, res) => {
   const product = new ProductModel({
     name: req.body.name,
     image: req.body.image,
@@ -38,7 +38,7 @@ productRouter.get('/:_id', (req, res) => {
     .catch((err) => res.status(400).send())
 })
 
-productRouter.delete('/:_id', authenticate, (req, res) => {
+productRouter.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) {
     return res.status(404).send()
@@ -55,13 +55,13 @@ productRouter.delete('/:_id', authenticate, (req, res) => {
     .catch((err) => res.status(400).send(err))
 })
 
-productRouter.patch('/:_id', authenticate, (req, res) => {
+productRouter.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   const { body } = req
   if (!ObjectID.isValid(_id)) {
     return res.status(404).send()
   }
-  ProductModel.findOneAndUpdate(_id, {$set: body}, {new: true} )
+  ProductModel.findOneAndUpdate({ _id }, {$set: body}, {new: true} )
     .then((product) => {
       if (!product) {
         return res.status(404).send()

@@ -29,9 +29,8 @@ class SigninSignoutLink extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
-    authenticated: state.auth.authenticated
+    authenticated: state.users.authenticated
   }
 };
 

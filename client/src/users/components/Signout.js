@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { signoutUser } from '../actions/index'
 
-import './Signout.css'
-
 class Signout extends Component {
   componentWillMount() {
     const { dispatch } = this.props

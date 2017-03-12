@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Product from './Product'
-import { startFetchProducts } from '../actions/index'
+import Cart from './Cart'
+import { startFetchCartProducts } from '../actions/index'
 
 
 const filterProducts = (products, searchText) => {
@@ -12,24 +12,24 @@ const filterProducts = (products, searchText) => {
   return filteredProducts
 }
 
-export class ProductList extends Component {
+export class CartList extends Component {
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(startFetchProducts())
+    dispatch(startFetchCartProducts())
   }
   render() {
-    const { products, searchProducts } = this.props
+    const { products, searchCartProducts } = this.props
     return (
       products.length > 0 ?
       <div className="mdl-grid">
-        {filterProducts(products, searchProducts).map(product => (
-          <Product
+        {filterProducts(products, searchCartProducts).map(product => (
+          <Cart
             key={product._id}
             {...product}
           />
         ))}
       </div> :
-      <div><p className="container__message">No products yet</p></div>
+      <div><p className="container__message">Nothing in your cart yet</p></div>
     )
   }
 }
@@ -38,4 +38,4 @@ const mapStateToProps = (state) => {
   return state
 }
 
-export default connect(mapStateToProps)(ProductList)
+export default connect(mapStateToProps)(CartList)

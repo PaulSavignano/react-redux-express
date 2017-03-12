@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
 import './App.css'
-import Header from '../header/components/Header'
-import Drawer from '../header/components/Drawer'
-import Footer from '../footer/components/Footer'
+import Header from './header/components/Header'
+import Drawer from './header/components/Drawer'
+import Footer from './footer/components/Footer'
 
 class App extends Component {
   render() {

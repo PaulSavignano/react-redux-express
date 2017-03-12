@@ -46,19 +46,40 @@ usersRouter.delete('/me/token', authenticate, (req, res) => {
 })
 
 // Get
-usersRouter.get('/me', authenticate, (req, res) => {
-  const tokenToCheck = req.user.tokens.find(t => t.token === req.token)
-  if ((Date.now() - tokenToCheck.createdAt) > 30000) {
-    console.log('older than a minute')
-    req.user.removeToken(req.token)
+usersRouter.get('/me', authenticate(['user','admin']), (req, res) => {
+  const now = Date.now()
+  const ttl = 30000000
+  if ((now - req.token.createdAt) > ttl) {
+    res.status(401).send({ token: 'invalid' })
+  }
+  const tokens = req.user.tokens.find(token => {
+    return (now - token.createdAt) > ttl
+  })
+  if (tokens) {
+    req.user.removeTokens(tokens.token)
       .then(() => {
-        res.json({ token: 'invalid'})
+        res.send({ token: 'invalid'})
       })
       .catch(err => res.status(400).send(err))
   } else {
-    console.log('under a minute still valid')
-    res.json({ token: 'valid'})
+    res.send({ token: 'valid'})
   }
+})
+
+
+// test
+usersRouter.get('/admin-only-route', authenticate(['user']), (req, res) => {
+  res.send(req.user)
+
+  // req.user.role.map(role => {
+  //   if (role === 'admin') {
+  //     Todo.find({})
+  //       .then(todos => res.send({todos}))
+  //       .catch(err => res.status(400).send(err))
+  //   } else {
+  //     res.state(401).send()
+  //   }
+  // })
 })
 
 

@@ -1,17 +1,26 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const CartModel = mongoose.model('CartModel', {
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    minlength: 1,
-    trim: true
+  _owner: {
+    type: Schema.Types.ObjectId,
   },
-  productQty: {
-    type: Number,
-    minlength: 1,
-    trim: true
-  }
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  products: [{
+    productId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      minlength: 1,
+      trim: true
+    },
+    productQty: {
+      type: Number,
+      minlength: 1,
+      trim: true
+    }
+  }]
 })
 
 export default CartModel

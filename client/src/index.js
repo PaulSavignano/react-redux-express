@@ -3,17 +3,26 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
+// material-ui
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
+
 import configureStore from './store/configureStore'
 import './index.css'
-import App from './containers/App'
-import RequireAuth from './auth/components/RequireAuth'
+import App from './App'
 import HomePage from './home/components/HomePage'
 import TodoPage from './todos/components/TodoPage'
-import Signup from './auth/components/Signup'
-import Signin from './auth/components/Signin'
-import Signout from './auth/components/Signout'
-import Product from './products/components/Product'
-import { authUser } from './auth/actions/index'
+import Signup from './users/components/Signup'
+import Signin from './users/components/Signin'
+import Signout from './users/components/Signout'
+import ProductsPage from './products/components/ProductsPage'
+import AdminProductsPage from './products/components/AdminProductsPage'
+import CartPage from './products/components/CartPage'
+import { authUser } from './users/actions/index'
+
+injectTapEventPlugin()
 
 const store = configureStore()
 
@@ -31,17 +40,21 @@ const requireAuth = (nextState, replace, next) => {
 }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <IndexRoute component={HomePage} />
-        <Route path="todos" component={TodoPage} onEnter={requireAuth} />
-        <Route path="products" component={Product} />
-        <Route path="signup" component={Signup} />
-        <Route path="signin" component={Signin} />
-        <Route path="signout" component={ Signout } />
-      </Route>
-    </Router>
-  </Provider>,
+  <MuiThemeProvider muiTheme={ getMuiTheme() }>
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={App}>
+          <IndexRoute component={HomePage} />
+          <Route path="todos" component={TodoPage} onEnter={requireAuth} />
+          <Route path="products" component={ProductsPage} />
+          <Route path="admin/products" component={AdminProductsPage} />
+          <Route path="cart" component={CartPage} />
+          <Route path="signup" component={Signup} />
+          <Route path="signin" component={Signin} />
+          <Route path="signout" component={ Signout } />
+        </Route>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('root')
 );
