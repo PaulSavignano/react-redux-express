@@ -3,22 +3,22 @@ import bodyParser from 'body-parser'
 import path from 'path'
 
 import mongoose from './db/mongoose'
-
-import cartRouter from './routes/carts/cartRouter'
-import productsRouter from './routes/products/productsRouter'
-import todosRouter from './routes/todos/todosRouter'
-import usersRouter from './routes/users/usersRouter'
+import cart from './products/routes/cart'
+import checkout from './products/routes/checkout'
+import products from './products/routes/products'
+import todos from './todos/routes/todos'
+import users from './users/routes/users'
 
 const app = express()
 const port = process.env.PORT
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
-app.use('/api/cart', cartRouter)
-app.use('/api/products', productsRouter)
-app.use('/api/todos', todosRouter)
-app.use('/api/users', usersRouter)
+app.use('/api/carts', cart)
+app.use('/api/products', products)
+app.use('/api/todos', todos)
+app.use('/api/users', users)
+app.use('/api/checkout', checkout)
 
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))

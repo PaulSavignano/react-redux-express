@@ -13,14 +13,16 @@ import configureStore from './store/configureStore'
 import './index.css'
 import App from './App'
 import HomePage from './home/components/HomePage'
-import TodoPage from './todos/components/TodoPage'
+import TodosPage from './todos/components/TodosPage'
 import Signup from './users/components/Signup'
 import Signin from './users/components/Signin'
 import Signout from './users/components/Signout'
-import ProductsPage from './products/components/ProductsPage'
-import AdminProductsPage from './products/components/AdminProductsPage'
-import CartPage from './products/components/CartPage'
+import ProductsPage from './products/containers/ProductsPage'
+import AdminProductsPage from './products/containers/AdminProductsPage'
+import CartPage from './products/containers/CartPage'
+import CheckoutPage from './products/containers/CheckoutPage'
 import { authUser } from './users/actions/index'
+import { saveState } from './modules/localStorage'
 
 injectTapEventPlugin()
 
@@ -39,16 +41,30 @@ const requireAuth = (nextState, replace, next) => {
   next()
 }
 
+const requireCart = (nextState, replace, next) => {
+  if (!localStorage.getItem('cart')) {
+    replace('/')
+  }
+  next()
+}
+
+store.subscribe(() => {
+  saveState({
+    cart: store.getState().cart
+  })
+})
+
 ReactDOM.render(
   <MuiThemeProvider muiTheme={ getMuiTheme() }>
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={HomePage} />
-          <Route path="todos" component={TodoPage} onEnter={requireAuth} />
+          <Route path="todos" component={TodosPage} onEnter={requireAuth} />
           <Route path="products" component={ProductsPage} />
           <Route path="admin/products" component={AdminProductsPage} />
           <Route path="cart" component={CartPage} />
+          <Route path="checkout" component={CheckoutPage} onEnter={requireCart}/>
           <Route path="signup" component={Signup} />
           <Route path="signin" component={Signin} />
           <Route path="signout" component={ Signout } />

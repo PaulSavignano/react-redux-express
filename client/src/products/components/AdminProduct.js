@@ -2,7 +2,7 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { startUpdateProduct, startDeleteProduct } from '../actions/index'
+import { startUpdateProduct, startDeleteProduct } from '../actions/product'
 
 const validate = values => {
   const errors = {}
@@ -42,56 +42,51 @@ const styles = {
 }
 
 
-let AdminProduct = props => {
-  let submit
-  const { handleSubmit, _id, dispatch } = props
-  return (
-    <form
-      onSubmit={handleSubmit((values) => dispatch(startUpdateProduct(values)))}
-      style={styles.form}
-      className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp"
-    >
-      <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
-        <img className="article-image" src="http://placehold.it/275x250" alt="" />
-      </div>
+let AdminProduct = ({ handleSubmit, _id, dispatch }) => (
+  <form
+    onSubmit={handleSubmit((values) => dispatch(startUpdateProduct(values)))}
+    style={styles.form}
+    className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp"
+  >
+    <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
+      <img className="article-image" src="http://placehold.it/275x250" alt="" />
+    </div>
 
-      <div className="mdl-cell mdl-cell--8-col">
-        <Field
-          name="name"
-          label="Name"
-          type="text"
-          component={renderField}
-        />
-        <Field
-          name="description"
-          label="Description"
-          type="text"
-          component={renderField}
-        />
-        <Field
-          name="price"
-          label="Price"
-          type="number"
-          component={renderField}
-        />
-        <button
-          className="mdl-button mdl-js-button mdl-button--raised"
-          type="submit"
-          ref={node => submit = node}
-        >
-          Update
-        </button>
-        <button
-          type="button"
-          className="mdl-button mdl-js-button mdl-button--raised"
-          onClick={() => dispatch(startDeleteProduct(_id))}
-        >
-          Delete
-        </button>
-      </div>
-    </form>
-  )
-}
+    <div className="mdl-cell mdl-cell--8-col">
+      <Field
+        name="name"
+        label="Name"
+        type="text"
+        component={renderField}
+      />
+      <Field
+        name="description"
+        label="Description"
+        type="text"
+        component={renderField}
+      />
+      <Field
+        name="price"
+        label="Price"
+        type="number"
+        component={renderField}
+      />
+      <button
+        className="mdl-button mdl-js-button mdl-button--raised"
+        type="submit"
+      >
+        Update
+      </button>
+      <button
+        type="button"
+        className="mdl-button mdl-js-button mdl-button--raised"
+        onClick={() => dispatch(startDeleteProduct(_id))}
+      >
+        Delete
+      </button>
+    </div>
+  </form>
+)
 
 AdminProduct = compose(
   connect((state, props) => ({form: props._id})),

@@ -15,10 +15,10 @@ export const products = (state = [], action) => {
         action.product
       ]
     case 'FETCH_PRODUCTS':
-    const updatedArray = [ ...state, ...action.products ]
-    const filteredArray = updatedArray.filter((object, index, self) => {
-      return self.findIndex(obj => obj._id === object._id) === index
-    })
+      const updatedArray = [ ...state, ...action.products ]
+      const filteredArray = updatedArray.filter((object, index, self) => {
+        return self.findIndex(obj => obj._id === object._id) === index
+      })
       return filteredArray
     case 'UPDATE_PRODUCT':
     return state.map(product =>

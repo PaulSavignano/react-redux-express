@@ -1,12 +1,9 @@
 import { combineReducers } from 'redux'
-import { searchProducts, products } from './products'
-import { searchCartProducts, cart } from './cart'
+import { items, total } from './cart'
 
-const productsReducer = combineReducers({
-  searchProducts,
-  products,
-  searchCartProducts,
-  cart
+const cart = combineReducers({
+  total,
+  items,
 })
 
-export default productsReducer
+export default cart

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { searchCart } from '../actions/index'
+import { searchCart } from '../actions/cart'
 
 export class CartSearch extends Component {
   render() {

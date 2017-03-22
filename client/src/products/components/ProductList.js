@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Product from './Product'
-import { startFetchProducts } from '../actions/index'
+import { startFetchProducts } from '../actions/product'
 
 
 const filterProducts = (products, searchText) => {
@@ -14,20 +14,22 @@ const filterProducts = (products, searchText) => {
 
 export class ProductList extends Component {
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(startFetchProducts())
+    this.props.dispatch(startFetchProducts())
   }
   render() {
     const { products, searchProducts } = this.props
     return (
       products.length > 0 ?
       <div className="mdl-grid">
-        {filterProducts(products, searchProducts).map(product => (
-          <Product
-            key={product._id}
-            {...product}
-          />
-        ))}
+        {Object
+          .keys(filterProducts(products, searchProducts))
+          .map(key => (
+            <Product
+              key={products[key]._id}
+              index={key}
+              {...products[key]}
+            />
+          ))}
       </div> :
       <div><p className="container__message">No products yet</p></div>
     )

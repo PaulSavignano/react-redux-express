@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { searchProducts } from '../actions/index'
+import { searchProducts } from '../actions/product'
 
 export class ProductSearch extends Component {
   render() {

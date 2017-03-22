@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AdminProduct from './AdminProduct'
-import { startFetchProducts } from '../actions/index'
+import { startFetchProducts } from '../actions/product'
 
 
 const filterProducts = (products, searchText) => {
@@ -14,8 +14,7 @@ const filterProducts = (products, searchText) => {
 
 export class AdminProductList extends Component {
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(startFetchProducts())
+    this.props.dispatch(startFetchProducts())
   }
   render() {
     const { products, searchProducts } = this.props

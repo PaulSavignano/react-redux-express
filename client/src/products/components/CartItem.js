@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addToCart } from '../actions/cart'
+import { updateItem, deleteItem } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
 import TextField from 'material-ui/TextField'
@@ -27,18 +27,14 @@ const styles = {
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
-  addToCart: {
-    float: 'right'
-  },
   qty: {
     width: 126
   }
 }
 
 
-const Product = props => {
+const CartItem = ({ dispatch, name, description, price, productId, productQty }) => {
   let qty
-  const { dispatch, _id, name, description, price } = props
   return (
     <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp">
       <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
@@ -51,33 +47,21 @@ const Product = props => {
             <h2 className="mdl-card__title-text">{name}</h2>
             <h2 className="mdl-card__title-text" style={styles.price}>{formatPrice(price)}</h2>
           </div>
-          <div style={styles.description} className="mdl-card__supporting-text">
-            <p>{description}</p>
-          </div>
         </div>
 
         <div style={styles.inputs}>
           <TextField
             style={styles.qty}
-            ref={node => qty = node}
-            id={_id}
-            defaultValue="1"
+            value={productQty}
+            id={productId}
+            onChange={(e) => dispatch(updateItem(productId, e.target.value))}
           />
           <button
-            style={styles.addToCart}
             type="button"
             className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => {
-              const product = {
-                name,
-                price,
-                productId: _id,
-                productQty: parseInt(qty.input.value, 10)
-              }
-              dispatch(addToCart(product))
-            }}
+            onClick={() => dispatch(deleteItem(productId))}
           >
-            Add To Cart
+            Remove
           </button>
         </div>
 
@@ -87,4 +71,4 @@ const Product = props => {
 }
 
 
-export default connect()(Product)
+export default connect()(CartItem)

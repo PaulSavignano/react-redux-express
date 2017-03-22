@@ -1,9 +1,9 @@
-import UserModel from '../routes/users/UserModel'
+import User from '../users/models/User'
 
 export const authenticate = (roles) => {
   return (req, res, next) => {
     const token = req.header('x-auth')
-    UserModel.findByToken(token, roles).then((user) => {
+    User.findByToken(token, roles).then((user) => {
       if (!user) {
         return Promise.reject();
       }

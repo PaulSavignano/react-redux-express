@@ -28,6 +28,7 @@ class Header extends Component {
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/products">Products</Link>
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/admin/products">Products Admin</Link>
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/cart">Cart</Link>
+              <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/checkout">Checkout</Link>
               <SigninSignoutLink />
             </nav>
           </div>

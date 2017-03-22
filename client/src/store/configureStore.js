@@ -2,9 +2,13 @@ import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
 import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
-import { searchProducts, products } from '../products/reducers/products'
 import { users } from '../users/reducers/users'
+import { searchProducts, products } from '../products/reducers/products'
+import cart from '../products/reducers/index'
+import { charge } from '../products/reducers/charge'
+import { loadState } from '../modules/localStorage'
 
+const persistedState = loadState()
 const rootReducer = combineReducers({
   form: formReducer,
   searchTodos,
@@ -12,13 +16,18 @@ const rootReducer = combineReducers({
   todos,
   searchProducts,
   products,
+  cart,
   users,
+  charge
 })
 
-const configureStore = (initialState = {}) => {
+
+
+
+const configureStore = () => {
   const store = createStore(
     rootReducer,
-    initialState,
+    persistedState,
     compose(
       applyMiddleware(thunk),
       window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -26,5 +35,6 @@ const configureStore = (initialState = {}) => {
   )
   return store
 }
+
 
 export default configureStore

@@ -2,6 +2,7 @@
 
 # config
 server/config/config.json
+server/config/admin.js
 
 # dependencies
 node_modules
