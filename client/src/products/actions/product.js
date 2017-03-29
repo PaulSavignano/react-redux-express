@@ -60,9 +60,9 @@ export const updateProduct = (_id, updates) => {
     updates
   }
 }
-export const startUpdateProduct = (values) => {
+export const startUpdateProduct = (values, image) => {
   const { _id, name, description, price } = values
-  const updates = { name, description, price }
+  const updates = { name, description, price, image }
   return (dispatch, getState) => {
     return fetch(`/api/products/${_id}`, {
       method: 'PATCH',

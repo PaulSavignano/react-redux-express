@@ -13,11 +13,15 @@
     "body-parser": "^1.16.0",
     "cors": "^2.8.1",
     "express": "^4.14.1",
+    "install": "^0.8.7",
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.1",
+    "nodemailer": "^3.1.8",
+    "npm": "^4.4.4",
     "stripe": "^4.15.1",
-    "validator": "^6.2.1"
+    "validator": "^6.2.1",
+    "xoauth2": "^1.2.0"
   },
   "devDependencies": {
     "babel-register": "^6.22.0",

@@ -8,6 +8,7 @@ import checkout from './products/routes/checkout'
 import products from './products/routes/products'
 import todos from './todos/routes/todos'
 import users from './users/routes/users'
+import orders from './products/routes/orders'
 
 const app = express()
 const port = process.env.PORT
@@ -19,6 +20,7 @@ app.use('/api/products', products)
 app.use('/api/todos', todos)
 app.use('/api/users', users)
 app.use('/api/checkout', checkout)
+app.use('/api/orders', orders)
 
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))

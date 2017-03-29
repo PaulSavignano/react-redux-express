@@ -6,7 +6,7 @@ import Payment from 'payment'
 import './CreditCard.css'
 import { getStripeToken } from '../../stripe/getStripeToken'
 import Checkout from './Checkout'
-import { startAddCharge } from '../actions/charge'
+import { startCheckout } from '../actions/checkout'
 
 const stripeKey = require('../../stripe/settings.json').public.stripe
 console.log(stripeKey)
@@ -33,13 +33,12 @@ class CreditCard extends Component {
     const exp_year = parseInt(expiration[1], 10)
     const cvc = this.refs.cvc.value
     const card = { number, exp_month, exp_year, cvc }
-    console.log(this.props.total)
 
     getStripeToken(card)
       .then(token => {
         card.token = token
         this.setState(card)
-        this.props.dispatch(startAddCharge(this.props.total, token))
+        this.props.dispatch(startCheckout(this.props.total, token, this.props.cart))
       })
       .catch(err => this.setState({ error: err }))
   }
@@ -93,7 +92,7 @@ class CreditCard extends Component {
           <li><i data-brand="dinersclub" className="fa fa-cc-diners-club"></i></li>
         </ul>
         <form onSubmit={this.handleSubmit}>
-          <Checkout />
+
           <div className="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
             <input
               className="mdl-textfield__input"

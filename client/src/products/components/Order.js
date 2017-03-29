@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addToCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
 import TextField from 'material-ui/TextField'
@@ -36,15 +35,10 @@ const styles = {
 }
 
 
-const Product = props => {
-  let qty
-  const { dispatch, _id, name, description, price, image } = props
+const Order = props => {
+  const { _id, name, description, price } = props
   return (
     <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp">
-      <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
-        <img className="article-image" src={image} alt="" />
-      </div>
-
       <div style={styles.container} className="mdl-cell mdl-cell--8-col">
         <div>
           <div style={styles.nameAndPrice}>
@@ -87,4 +81,4 @@ const Product = props => {
 }
 
 
-export default connect()(Product)
+export default connect()(Order)

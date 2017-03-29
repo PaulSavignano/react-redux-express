@@ -16,8 +16,9 @@ export const signupUser = ({ email, password }) => {
   }
 }
 
-export function signinUser({ email, password }) {
-  return function(dispatch) {
+export function signinUser({ email, password }, nextPathname) {
+  return function(dispatch, getState) {
+    console.log(nextPathname)
     return fetch('/api/users/signin', {
       method: 'POST',
       headers: {
@@ -28,7 +29,8 @@ export function signinUser({ email, password }) {
       .then(res => {
         dispatch({ type: 'AUTH_USER' });
         localStorage.setItem('token', res.headers.get('x-auth'))
-        browserHistory.push('/')
+        console.log(getState())
+        browserHistory.push(nextPathname)
       })
       .catch(() => {
         dispatch(authError('Bad login info'));
@@ -36,7 +38,14 @@ export function signinUser({ email, password }) {
   }
 }
 
-export function authUser(token) {
+export const authUser = (user) => {
+  return {
+    type: 'AUTH_USER',
+    user
+  }
+}
+
+export function startAuthUser(token) {
   return function(dispatch) {
     return fetch('/api/users/me', {
       method: 'GET',
@@ -47,10 +56,11 @@ export function authUser(token) {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json.token === 'invalid') {
           dispatch(signoutUser())
         } else {
-          dispatch({ type: 'AUTH_USER' })
+          dispatch(authUser(json))
         }
       })
       .catch((err) => {

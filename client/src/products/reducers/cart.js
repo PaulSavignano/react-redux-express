@@ -34,9 +34,7 @@ export const items = (state = [], action) => {
         item
       )
     case 'DELETE_CART':
-      return state.filter(item =>
-        item._id !== action._id
-      )
+      return []
     default:
       return state
   }
@@ -49,6 +47,8 @@ export const total = (state = 0, action) => {
         const total = state + itemTotal
         return total
       return state
+    case 'DELETE_CART':
+      return 0
     default:
       return state
   }

@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 import './Header.css'
 import androidLogo from './images/android-logo.png'
-import SigninSignoutLink from '../../users/components/SigninSignoutLink'
+import SigninSignout from '../../users/components/SigninSignout'
 
 class Header extends Component {
   render() {
@@ -29,21 +29,15 @@ class Header extends Component {
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/admin/products">Products Admin</Link>
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/cart">Cart</Link>
               <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/checkout">Checkout</Link>
-              <SigninSignoutLink />
             </nav>
           </div>
           <span className="android-mobile-title mdl-layout-title">
             <img className="android-logo-image" src={androidLogo} alt="Smiley face"/>
           </span>
           <button className="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-            <i className="material-icons">more_vert</i>
+            <i className="fa fa-user-circle-o" aria-hidden="true"></i>
           </button>
-          <ul className="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" htmlFor="more-button">
-            <li className="mdl-menu__item">5.0 Lollipop</li>
-            <li className="mdl-menu__item">4.4 KitKat</li>
-            <li disabled className="mdl-menu__item">4.3 Jelly Bean</li>
-            <li className="mdl-menu__item">Android History</li>
-          </ul>
+          <SigninSignout />
         </div>
       </div>
     )

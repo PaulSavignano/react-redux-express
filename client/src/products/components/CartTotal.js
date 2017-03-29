@@ -1,4 +1,5 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -28,7 +29,7 @@ const CartTotal = ({ total }) => (
     </div>
     <div style={styles.checkout}>
       <p style={styles.p}>Shipping, taxes, and discounts calculated at checkout</p>
-      <RaisedButton label="Primary" primary={true} />
+      <RaisedButton label="Checkout" primary={true} onClick={() => browserHistory.push('/checkout')}/>
     </div>
   </div>
 )

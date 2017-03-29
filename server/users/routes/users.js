@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb'
 import User from '../models/User'
 
 import { authenticate } from '../../middleware/authenticate'
+import { emailSend } from '../../middleware/nodemailer'
 
 const users = express.Router()
 
@@ -26,6 +27,12 @@ users.post('/signup', (req, res) => {
 // Signin
 users.post('/signin', (req, res) => {
   const { email, password } = req.body
+  const mail = {
+    to: 'paul.savignano@gmail.com',
+    subject: 'Welcome to our store!',
+    name: 'Paul'
+  }
+  emailSend(mail)
   User.findByCredentials(email, password)
     .then(user => {
       return user.generateAuthToken()
@@ -62,7 +69,7 @@ users.get('/me', authenticate(['user','admin']), (req, res) => {
       })
       .catch(err => res.status(400).send(err))
   } else {
-    res.send({ token: 'valid'})
+    res.send({ token: 'valid', roles: req.user.roles })
   }
 })
 

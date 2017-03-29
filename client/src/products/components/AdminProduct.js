@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { startUpdateProduct, startDeleteProduct } from '../actions/product'
+import ImageUpload from './ImageUpload'
 
 const validate = values => {
   const errors = {}
@@ -42,15 +43,16 @@ const styles = {
 }
 
 
-let AdminProduct = ({ handleSubmit, _id, dispatch }) => (
+let AdminProduct = ({ handleSubmit, _id, dispatch, image }) => (
   <form
-    onSubmit={handleSubmit((values) => dispatch(startUpdateProduct(values)))}
+    onSubmit={handleSubmit((values) => {
+      const image = document.querySelector('[name="' + _id + '"]').toDataURL('image/jpg')
+      dispatch(startUpdateProduct(values, image))
+    })}
     style={styles.form}
     className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp"
   >
-    <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
-      <img className="article-image" src="http://placehold.it/275x250" alt="" />
-    </div>
+    <ImageUpload width="275" height="250" image={image} _id={_id} />
 
     <div className="mdl-cell mdl-cell--8-col">
       <Field
