@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import TextField from 'material-ui/TextField'
-import stripeImport from '../../stripe/settings.json'
-console.log(stripeImport.public.stripe)
 
 import './CreditCard.css'
 import { startCheckout } from '../actions/checkout'
