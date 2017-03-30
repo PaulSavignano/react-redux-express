@@ -43,6 +43,18 @@ users.post('/signin', (req, res) => {
     })
 })
 
+users.post('/forgot', (req, res) => {
+  const { email } = req.body
+  User.findOne(email)
+    .then(user => {
+      return user.generateAuthToken()
+        .then(token => res.header('x-auth', token).send(user))
+    })
+    .catch(err => {
+      res.status(400).send(err)
+    })
+})
+
 // Signout
 users.delete('/me/token', authenticate, (req, res) => {
   req.user.removeToken(req.token)

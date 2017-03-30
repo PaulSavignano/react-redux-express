@@ -29,6 +29,8 @@ store.subscribe(() => {
   })
 })
 
+console.log(process.env.GMAIL_USER)
+
 ReactDOM.render(
   <MuiThemeProvider muiTheme={ getMuiTheme() }>
     <Provider store={store}>

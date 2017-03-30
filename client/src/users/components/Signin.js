@@ -24,6 +24,15 @@ const renderField = ({ input, label, type, meta: { touched, error }}) => (
   </div>
 )
 
+const styles = {
+  container: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'space-between'
+  },
+
+}
+
 let Signin = (props) => {
   const { dispatch, handleSubmit, submitting } = props
   const nextPathname = props.location.state ? props.location.state.nextPathname : null
@@ -59,7 +68,11 @@ let Signin = (props) => {
               </button>
             </p>
           </form>
-          <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
+          <div style={ styles.container }>
+            <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
+            <p>Forgot your password?</p>
+          </div>
+
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 /* global Stripe */
 import { getStripeToken } from '../../stripe/getStripeToken'
-import stripeKeys from '../../stripe/settings.json'
 
 export const checkout = (checkout) => {
   return {
@@ -22,7 +21,7 @@ export const chargeError = (err) => {
 
 export const startCheckout = (values) => {
   return (dispatch, getState) => {
-    Stripe.setPublishableKey(stripeKeys.public.stripe)
+    Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
     const cart = getState().cart
     const { number, exp, cvc, firstName, lastName, address, zip, state } = values
     const expiration = exp.split('/')
