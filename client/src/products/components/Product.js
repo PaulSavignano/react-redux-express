@@ -1,89 +1,102 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addToCart } from '../actions/cart'
+import { addItem } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
 
 const styles = {
-  container: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    justifyContent: 'space-between'
+  cell: {
+    flex: '1 1 auto',
+    width: 300,
+    minWidth: 300,
+    margin: '.8em 1em 0'
   },
-  nameAndPrice: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'space-between',
-    paddingLeft: 16
-  },
-  description: {
-    display: 'flex',
-    alignItems: 'stretch'
-  },
-  inputs: {
+  grid: {
     display: 'flex',
     flexFlow: 'row nowrap',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  addToCart: {
-    float: 'right'
+    alignItems: 'center',
+    marginBottom: 8
   },
   qty: {
-    width: 126
+    flex: '1 1 auto',
+  },
+  input: {
+    textAlign: 'center'
+  },
+  button: {
+    fontSize: '24px'
   }
 }
 
-
-const Product = props => {
-  let qty
-  const { dispatch, _id, name, description, price, image } = props
-  return (
-    <div className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp">
-      <div className="mdl-card__media mdl-cell mdl-cell--12-col-tablet">
-        <img className="article-image" src={image} alt="" />
-      </div>
-
-      <div style={styles.container} className="mdl-cell mdl-cell--8-col">
-        <div>
-          <div style={styles.nameAndPrice}>
-            <h2 className="mdl-card__title-text">{name}</h2>
-            <h2 className="mdl-card__title-text" style={styles.price}>{formatPrice(price)}</h2>
-          </div>
-          <div style={styles.description} className="mdl-card__supporting-text">
-            <p>{description}</p>
-          </div>
-        </div>
-
-        <div style={styles.inputs}>
+class Product extends Component {
+  state = {
+    qty: 1,
+    zDepth: 0
+  }
+  handleMouseEnter = () => {
+    this.setState({
+      zDepth: 4,
+    })
+  }
+  handleMouseLeave = () => {
+    this.setState({
+      zDepth: 0,
+    })
+  }
+  minus = () => {
+    this.state.qty > 1 ? this.setState({ qty: this.state.qty - 1 }) : null
+  }
+  plus = () => {
+    this.setState({ qty: this.state.qty + 1 })
+  }
+  render() {
+    let qty
+    const { dispatch, _id, name, description, price, image } = this.props
+    return (
+      <Card
+        style={styles.cell}
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
+        <CardMedia>
+          <img className="article-image" src={image} alt="" />
+        </CardMedia>
+        <CardTitle title={name} />
+        <CardTitle title={formatPrice(price)} />
+        <CardText>{description}</CardText>
+        <div style={styles.grid}>
+          <RaisedButton label="-" primary={true} onClick={this.minus} labelStyle={styles.button} />
           <TextField
             style={styles.qty}
-            ref={node => qty = node}
-            id={_id}
-            defaultValue="1"
+            inputStyle={styles.input}
+            ref={node => this.qty = node}
+            value={this.state.qty}
+            id={this.props._id}
           />
-          <button
-            style={styles.addToCart}
-            type="button"
-            className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => {
-              const product = {
-                name,
-                price,
-                productId: _id,
-                productQty: parseInt(qty.input.value, 10)
-              }
-              dispatch(addToCart(product))
-            }}
-          >
-            Add To Cart
-          </button>
+          <RaisedButton label="+" primary={true} onClick={this.plus} labelStyle={styles.button} />
         </div>
-
-      </div>
-    </div>
-  )
+        <RaisedButton
+          label="Add To Cart"
+          primary={true}
+          fullWidth={true}
+          onClick={() => {
+            console.log(this.qty)
+            const product = {
+              name,
+              price,
+              productId: _id,
+              productQty: parseInt(this.qty.input.value, 10)
+            }
+            dispatch(addItem(product))
+          }}
+        />
+      </Card>
+    )
+  }
 }
 
 

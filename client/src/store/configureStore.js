@@ -7,6 +7,7 @@ import { searchProducts, products } from '../products/reducers/products'
 import cart from '../products/reducers/index'
 import { checkout } from '../products/reducers/checkout'
 import { loadState } from '../modules/localStorage'
+import { routerReducer } from 'react-router-redux'
 
 const persistedState = loadState()
 const rootReducer = combineReducers({
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   products,
   cart,
   user,
-  checkout
+  checkout,
+  routing: routerReducer
 })
 
 

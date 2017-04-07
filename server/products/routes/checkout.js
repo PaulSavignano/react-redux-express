@@ -1,6 +1,7 @@
 import express from 'express'
 import { authenticate } from '../../middleware/authenticate'
 import Order from '../models/Order'
+import { sendEmail1 } from '../../middleware/nodemailer'
 
 const checkout = express.Router()
 
@@ -16,9 +17,6 @@ checkout.post('/', authenticate(['user']), (req, res, next) => {
     description: "Test charge!!!"
   })
     .then(charge => {
-      console.log(req.body)
-      console.log('charged!')
-      console.log(req.body.address)
       const order = new Order({
         user: req.user._id,
         cart: req.body.cart,
@@ -30,8 +28,20 @@ checkout.post('/', authenticate(['user']), (req, res, next) => {
         paymentId: charge.id
       })
       order.save()
-        .then(doc => res.send(doc))
+        .then(doc => {
+          console.log('striping')
+          res.send(doc)
+          return doc
+        })
+        .then(doc => sendEmail1({
+          to: 'paul.savignano@gmail.com',
+          subject: 'Thank you for your order!',
+          name: `${req.user.name}`,
+          body: `<p>Thank you for your recent order ${doc._id}.</p>`
+        })
         .catch(err => res.status(400).send(err))
+
+      )
     })
     .catch(err => res.send(err))
 })

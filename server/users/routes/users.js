@@ -1,25 +1,32 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
-import User from '../models/User'
+import crypto from 'crypto'
 
+import User from '../models/User'
 import { authenticate } from '../../middleware/authenticate'
-import { emailSend } from '../../middleware/nodemailer'
+import { sendEmail1 } from '../../middleware/nodemailer'
 
 const users = express.Router()
 
 // Sign up
 users.post('/signup', (req, res) => {
-  let { email, password } = req.body
-  const user = new User({ email, password })
+  const { firstname, lastname, email, password } = req.body
+  if (!firstname || !lastname || !email || !password) {
+    return res.status(422).send({ error: 'You must provide all fields' });
+  }
+  const user = new User({ firstname, lastname, email, password })
   user.save()
-    .then(() => {
+    .then((doc) => {
+      console.log(doc)
       return user.generateAuthToken()
     })
     .then((token) => {
-      res.header('x-auth', token).send(user)
+      console.log(user)
+      res.header('x-auth', token).send({ name: user.firstname })
     })
     .catch((err) => {
-      res.status(400).send(err)
+      console.log(err)
+      res.status(400).send({ error: 'Email is already in use'})
     })
 })
 
@@ -27,33 +34,97 @@ users.post('/signup', (req, res) => {
 // Signin
 users.post('/signin', (req, res) => {
   const { email, password } = req.body
-  const mail = {
-    to: 'paul.savignano@gmail.com',
-    subject: 'Welcome to our store!',
-    name: 'Paul'
-  }
-  emailSend(mail)
+  // sendEmail1({
+  //   to: 'paul.savignano@gmail.com',
+  //   subject: 'Welcome to our store!',
+  //   body: `<p>Thank you for signing up!  I hope you enjoy our products!</p>`
+  // })
   User.findByCredentials(email, password)
     .then(user => {
       return user.generateAuthToken()
-        .then(token => res.header('x-auth', token).send(user))
+        .then(token => res.header('x-auth', token).send({ user: user.firstname, roles: user.roles }))
     })
     .catch(err => {
+      console.log('no user found')
       res.status(400).send(err)
     })
 })
 
-users.post('/forgot', (req, res) => {
+users.post('/recovery', (req, res, next) => {
   const { email } = req.body
-  User.findOne(email)
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(20, (err, buf) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(buf.toString('hex'));
+      }
+    });
+  })
+    .then(token => {
+      User.findOne({ email })
+        .then(user => {
+          user.passwordResetToken = token
+          user.passwordResetExpires = Date.now() + (60 * 60 * 1000)
+          user.save()
+            .then(() => {
+              sendEmail1({
+                to: 'paul.savignano@gmail.com',
+                subject: 'Reset Password',
+                name: 'Paul',
+                body: `<p>Click the link below to recover your password.<br />http://localhost:3000/reset/${token}</p>`
+              })
+              res.send({ message: `A password recovery email has been sent to ${user.email}`})
+            })
+            .catch(err => res.status(400).send(err))
+        })
+        .catch(err => {
+          res.status(400).send({ error: 'Email not found' })
+        })
+      })
+    .catch(err => console.log('crypto failed'))
+})
+
+
+users.get('/reset/:token', (req, res) => {
+  User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
-      return user.generateAuthToken()
-        .then(token => res.header('x-auth', token).send(user))
+      if (!user) {
+        return Promise.reject()
+      }
     })
     .catch(err => {
-      res.status(400).send(err)
+      res.send(400).send(err)
     })
 })
+
+
+users.post('/reset/:token', (req, res) => {
+  User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
+    .then(user => {
+      if (!user) {
+        return Promise.reject()
+      }
+      user.password = req.body.password
+      user.passwordResetToken = undefined
+      user.passwordResetExpires = undefined
+      user.save()
+        .then(() => {
+          return user.generateAuthToken()
+        })
+        .then((token) => {
+          res.header('x-auth', token).send(user)
+        })
+        .catch((err) => {
+          res.status(400).send(err)
+        })
+    })
+    .catch(err => {
+      res.send(400).send(err)
+    })
+})
+
+
 
 // Signout
 users.delete('/me/token', authenticate, (req, res) => {
@@ -81,7 +152,7 @@ users.get('/me', authenticate(['user','admin']), (req, res) => {
       })
       .catch(err => res.status(400).send(err))
   } else {
-    res.send({ token: 'valid', roles: req.user.roles })
+    res.send({ token: 'valid', roles: req.user.roles, name: req.user.firstname })
   }
 })
 

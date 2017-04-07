@@ -1,12 +1,18 @@
 // Create Cart
-export const addToCart = (item) => {
+export const addItem = (item) => {
+  console.log(item)
   return {
-    type: 'ADD_TO_CART',
+    type: 'ADD_ITEM',
     item
   }
 }
 
-
+export const deleteItem = (item) => {
+  return {
+    type: 'DELETE_ITEM',
+    item
+  }
+}
 
 
 

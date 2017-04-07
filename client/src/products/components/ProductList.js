@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Product from './Product'
 import { startFetchProducts } from '../actions/product'
+import { GridList } from 'material-ui/GridList'
 
 
 const filterProducts = (products, searchText) => {
@@ -12,6 +13,13 @@ const filterProducts = (products, searchText) => {
   return filteredProducts
 }
 
+const styles = {
+  grid: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+  }
+}
+
 export class ProductList extends Component {
   componentDidMount() {
     this.props.dispatch(startFetchProducts())
@@ -20,7 +28,7 @@ export class ProductList extends Component {
     const { products, searchProducts } = this.props
     return (
       products.length > 0 ?
-      <div className="mdl-grid">
+      <div style={styles.grid}>
         {Object
           .keys(filterProducts(products, searchProducts))
           .map(key => (

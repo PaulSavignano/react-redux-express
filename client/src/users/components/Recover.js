@@ -5,12 +5,11 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm, SubmissionError  } from 'redux-form'
-import DialogAlert from '../../DialogAlert'
-import { startSigninUser } from '../actions/users'
+import { startRecovery } from '../actions/users'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'email', 'password' ]
+  const requiredFields = [ 'email' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -18,9 +17,6 @@ const validate = values => {
   })
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address'
-  }
-  if (values.password !== values.passwordConfirm) {
-    errors.passwordConfirm = 'Passwords must match'
   }
   return errors
 }
@@ -37,39 +33,31 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 const styles = {
   grid: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    justifyContent: 'space-around',
-    padding: '80px 0'
+    display: 'grid',
+    paddingTop: 80,
+    paddingBottom: 80,
   },
-  cell: {
-    flex: '1 1 auto',
-    maxWidth: 600,
-    margin: '.8em 1em 0'
-  },
-  other: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'space-between'
+  item: {
+    maxWidth: 840,
+    margin: '0 auto'
   }
 }
 
-let Signin = (props) => {
-  console.log(props)
+const RecoverForm = (props) => {
   const { error, dispatch, handleSubmit, submitting } = props
+  props.dirty ? dispatch({ type: 'AUTH_ERROR', error: false }) : ''
   return (
     <div style={styles.grid}>
-      <Card style={styles.cell}>
-        <CardTitle title="Sign in" subtitle="Enter your information" />
-        <form onSubmit={handleSubmit(values => dispatch(startSigninUser(values)))} className="">
+      <Card style={styles.item}>
+        <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
+        {props.user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
+        <form onSubmit={handleSubmit(values => dispatch(startRecovery(values)))} className="">
           <CardText>
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-            <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
           </CardText>
-          {props.user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
           <CardActions>
             <RaisedButton
-              label="Sign Up"
+              label="Recover"
               fullWidth={true}
               disabled={submitting}
               type="submit"
@@ -77,25 +65,38 @@ let Signin = (props) => {
             />
           </CardActions>
         </form>
-        <CardActions style={ styles.other }>
-          <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
-          <p><Link to="/recover">Forgot your password?</Link></p>
-        </CardActions>
       </Card>
     </div>
   )
 }
 
+const RecoverSuccess = (props) => {
+  const { error, dispatch, handleSubmit, submitting, recover } = props
+  return (
+    <div style={styles.grid}>
+      <Card style={styles.item}>
+        <CardTitle title="Success!" subtitle={recover.message} />
+      </Card>
+    </div>
+  )
+}
 
-Signin = reduxForm({
-  form: 'signup',
+let Recover = (props) => {
+  const { error, dispatch, handleSubmit, submitting, submitSucceeded } = props
+  return (
+    submitSucceeded ? <RecoverSuccess {...props} /> : <RecoverForm {...props} />
+  )
+}
+
+Recover = reduxForm({
+  form: 'recover',
   validate
-})(Signin)
+})(Recover)
 
 const mapStateToProps = (state) => ({
   user: state.user
 })
 
-Signin = connect(mapStateToProps)(Signin)
+Recover = connect(mapStateToProps)(Recover)
 
-export default Signin
+export default Recover

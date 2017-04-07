@@ -3,3 +3,7 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.android-navigation .mdl-navigation__link:hover {
+    border-bottom: 4px solid rgb(0, 188, 212);;
+}

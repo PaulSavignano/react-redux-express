@@ -9,8 +9,6 @@ import Checkout from './Checkout'
 import { startCheckout } from '../actions/checkout'
 
 const stripeKey = require('../../stripe/settings.json').public.stripe
-console.log(stripeKey)
-
 
 class CreditCard extends Component {
   state = {

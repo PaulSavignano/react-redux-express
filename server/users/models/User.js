@@ -4,6 +4,18 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
 const UserSchema = new Schema({
+  firstname: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 1,
+  },
+  lastname: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 1,
+  },
   email: {
     type: String,
     required: true,
@@ -40,7 +52,15 @@ const UserSchema = new Schema({
       type: String,
       required: true
     }
-  }]
+  }],
+  passwordResetToken: {
+    type: String,
+    default: ''
+  },
+  passwordResetExpires: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 UserSchema.methods.toJSON = function() {

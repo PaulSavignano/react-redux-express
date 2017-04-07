@@ -59,7 +59,14 @@ const CartItem = ({ dispatch, name, description, price, productId, productQty })
           <button
             type="button"
             className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => dispatch(deleteItem(productId))}
+            onClick={() => {
+              const item = {
+                price,
+                productId,
+                productQty
+              }
+              dispatch(deleteItem(item))
+            }}
           >
             Remove
           </button>

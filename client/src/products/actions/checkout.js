@@ -40,7 +40,6 @@ export const startCheckout = (values) => {
         })
           .then(res => res.json())
           .then(json => {
-            console.log(json)
             dispatch(checkout(json))
             dispatch({ type: 'DELETE_CART' })
           })

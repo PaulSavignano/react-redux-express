@@ -1,19 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 
 import './HomePage.css'
 import Hero from './Hero'
 import FeatureList from './FeatureList'
+import DialogAlert from '../../DialogAlert'
 
-class HomePage extends Component {
-  render() {
-    return (
-      <div>
-        <a name="top"></a>
-        <Hero />
-        <FeatureList />
-      </div>
-    )
-  }
-}
+const HomePage = ({ user }) => (
+  <div>
+    <a name="top"></a>
+    {user ? <DialogAlert message={`Welcome back ${user}`} error={false}/> : ''}
+    <Hero />
+    <FeatureList />
+  </div>
+)
 
-export default HomePage
+const mapStateToProps = (state) => ({
+  user: state.user.name
+})
+
+export default connect()(HomePage)

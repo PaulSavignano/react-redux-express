@@ -3,9 +3,9 @@ export const user = (state = {}, action) => {
     case 'AUTH_USER':
       return { ...state, ...action.user, authenticated: true, error: null }
     case 'UNAUTH_USER':
-      return { ...state, authenticated: false }
+      return { }
     case 'AUTH_ERROR':
-      return { ...state, error: action.payload }
+      return { ...state, ...action.error }
     default:
       return state
   }
