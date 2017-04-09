@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import path from 'path'
 
 import mongoose from './db/mongoose'
-import cart from './products/routes/cart'
+import carts from './products/routes/carts'
 import checkout from './products/routes/checkout'
 import products from './products/routes/products'
 import todos from './todos/routes/todos'
@@ -15,7 +15,7 @@ const port = process.env.PORT
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/api/carts', cart)
+app.use('/api/carts', carts)
 app.use('/api/products', products)
 app.use('/api/todos', todos)
 app.use('/api/users', users)

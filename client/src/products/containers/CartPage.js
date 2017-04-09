@@ -4,11 +4,11 @@ import CartTotal from '../components/CartTotal'
 
 
 const CartPage = () => (
-  <div className="android-more-section">
+  <section className="section">
     <div className="android-section-title mdl-typography--display-1-color-contrast">Cart</div>
     <CartList />
     <CartTotal />
-  </div>
+  </section>
 )
 
 export default CartPage

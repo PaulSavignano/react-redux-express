@@ -38,6 +38,22 @@ products.get('/:_id', (req, res) => {
     .catch((err) => res.status(400).send())
 })
 
+
+products.get('/images/:_id', (req, res) => {
+  const _id = req.params._id
+  if (!ObjectID.isValid(_id)) {
+    return res.status(404).send()
+  }
+  Product.findOne({ _id })
+    .then((product) => {
+      if (!product) {
+        return res.status(404).send()
+      }
+      res.send({ src: product.image })
+    })
+    .catch((err) => res.status(400).send())
+})
+
 products.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) {

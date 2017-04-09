@@ -21,7 +21,7 @@ const styles = {
 }
 
 export class ProductList extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(startFetchProducts())
   }
   render() {

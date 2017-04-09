@@ -13,7 +13,6 @@ import configureStore from './store/configureStore'
 import routes from './routes'
 import './index.css'
 import { startAuthUser } from './users/actions/users'
-import { saveState } from './modules/localStorage'
 
 injectTapEventPlugin()
 
@@ -26,11 +25,6 @@ if (token) {
   store.dispatch(startAuthUser(token));
 }
 
-store.subscribe(() => {
-  saveState({
-    cart: store.getState().cart
-  })
-})
 
 ReactDOM.render(
   <MuiThemeProvider muiTheme={ getMuiTheme() }>

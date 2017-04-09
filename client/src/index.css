@@ -7,3 +7,10 @@ body {
 .android-navigation .mdl-navigation__link:hover {
     border-bottom: 4px solid rgb(0, 188, 212);;
 }
+
+.section {
+  padding: 80px 0;
+  max-width: 1044px;
+  margin-left: auto;
+  margin-right: auto;
+}

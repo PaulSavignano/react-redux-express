@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addItem } from '../actions/cart'
+import { addItem, startAddToCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
@@ -34,7 +34,7 @@ const styles = {
 class Product extends Component {
   state = {
     qty: 1,
-    zDepth: 0
+    zDepth: 1
   }
   handleMouseEnter = () => {
     this.setState({
@@ -43,7 +43,7 @@ class Product extends Component {
   }
   handleMouseLeave = () => {
     this.setState({
-      zDepth: 0,
+      zDepth: 1,
     })
   }
   minus = () => {
@@ -84,14 +84,14 @@ class Product extends Component {
           primary={true}
           fullWidth={true}
           onClick={() => {
-            console.log(this.qty)
+            const qty = parseInt(this.qty.input.value, 10)
             const product = {
               name,
               price,
               productId: _id,
-              productQty: parseInt(this.qty.input.value, 10)
+              productQty: qty,
             }
-            dispatch(addItem(product))
+            dispatch(startAddToCart(product))
           }}
         />
       </Card>

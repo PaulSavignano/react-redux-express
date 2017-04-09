@@ -2,6 +2,7 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
+import { formatPrice } from '../../modules/formatPrice'
 
 const styles = {
   container: {
@@ -25,7 +26,7 @@ const CartTotal = ({ total }) => (
   <div className="mdl-grid mdl-cell mdl-cell--12-col">
     <div style={styles.container}>
       <span>subtotal</span>
-      <h3>${total}</h3>
+      <h3>{formatPrice(total)}</h3>
     </div>
     <div style={styles.checkout}>
       <p style={styles.p}>Shipping, taxes, and discounts calculated at checkout</p>

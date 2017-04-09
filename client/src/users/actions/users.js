@@ -71,7 +71,7 @@ export const startSigninUser = ({ email, password }, nextPathname) => {
       body: JSON.stringify({ email, password })
     })
       .then(res => {
-        console.log(res)
+
         localStorage.setItem('token', res.headers.get('x-auth'))
         return res.json()
       })

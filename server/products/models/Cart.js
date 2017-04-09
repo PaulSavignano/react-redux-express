@@ -1,23 +1,26 @@
 import mongoose, { Schema } from 'mongoose'
 
 const CartSchema = new Schema({
-  _owner: {
-    type: Schema.Types.ObjectId,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  productId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    minlength: 1,
-    trim: true
-  },
-  productQty: {
+  total: {
     type: Number,
     minlength: 1,
     trim: true
+  },
+  quantity: {
+    type: Number,
+    minlength: 1,
+    trim: true
+  },
+  items: [{
+    productId: { type: Schema.Types.ObjectId, required: true },
+    productQty: { type: Number, required: true },
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    total: { type: Number }
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 })
 

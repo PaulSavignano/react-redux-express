@@ -3,8 +3,8 @@ import { items, total, qty } from './cart'
 
 const cart = combineReducers({
   total,
+  qty,
   items,
-  qty
 })
 
 export default cart
