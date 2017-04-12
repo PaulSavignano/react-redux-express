@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addQty, minusQty, deleteItem } from '../actions/cart'
+import { startUpdateCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
@@ -34,28 +34,17 @@ class CartItem extends Component {
       zDepth: 1,
     })
   }
-  minus = () => {
-    const newQty = this.state.qty - 1
-    this.setState({ qty: newQty })
-    const item = {
-      productId: this.props.productId,
-      productQty: newQty,
-      price: this.props.price,
-      total: this.props.price * newQty
-    }
-    this.props.dispatch(minusQty(item))
-  }
   add = () => {
     const newQty = this.state.qty + 1
     this.setState({ qty: newQty })
-    const item = {
-      productId: this.props.productId,
-      productQty: newQty,
-      price: this.props.price,
-      total: this.props.price * newQty
-    }
-    console.log(item)
-    this.props.dispatch(addQty(item))
+    const product = { productId: this.props.productId, productQty: 1 }
+    this.props.dispatch(startUpdateCart({ type: 'ADD_TO_CART', product }))
+  }
+  minus = () => {
+    const newQty = this.state.qty - 1
+    this.setState({ qty: newQty })
+    const product = { productId: this.props.productId, productQty: 1 }
+    this.props.dispatch(startUpdateCart({ type: 'REDUCE_FROM_CART', product }))
   }
   render() {
     const { dispatch, index, productId, productQty, name, price, image, total } = this.props
@@ -98,7 +87,7 @@ class CartItem extends Component {
                 label="X"
                 primary={true}
                 onClick={() => {
-                  dispatch(deleteItem())
+                  dispatch(startUpdateCart({ type: 'REMOVE_FROM_CART', product: { productId } }))
                 }}
               />
             </div>

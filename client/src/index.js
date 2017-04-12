@@ -8,6 +8,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Theme from './Theme'
 
 import configureStore from './store/configureStore'
 import routes from './routes'
@@ -25,9 +26,8 @@ if (token) {
   store.dispatch(startAuthUser(token));
 }
 
-
 ReactDOM.render(
-  <MuiThemeProvider muiTheme={ getMuiTheme() }>
+  <MuiThemeProvider muiTheme={getMuiTheme(Theme)}>
     <Provider store={store}>
       {routes(history)}
     </Provider>

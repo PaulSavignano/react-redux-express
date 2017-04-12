@@ -8,12 +8,12 @@ a img{
 }
 
 ::-moz-selection {
-  background-color: #6ab344;
+  background-color: rgb(0, 188, 212);
   color: #fff;
 }
 
 ::selection {
-  background-color: #6ab344;
+  background-color: rgb(0, 188, 212);
   color: #fff;
 }
 

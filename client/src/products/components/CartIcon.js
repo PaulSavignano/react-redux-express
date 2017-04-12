@@ -11,17 +11,19 @@ const CartIcon = ({ qty }) => (
     badgeStyle={{top: 10, right: 12}}
   >
     <FontIcon
+      style={{ color: '#757575' }}
       className="fa fa-shopping-cart"
     />
   </Badge>
   :
   <FontIcon
+    style={{ color: '#757575' }}
     className="fa fa-shopping-cart"
   />
 )
 
 const mapStateToProps = (state) => ({
-  qty: state.cart.qty
+  qty: state.cart.quantity
 })
 
 export default connect(mapStateToProps)(CartIcon)

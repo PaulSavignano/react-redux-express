@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import './Drawer.css'
+import { Link } from 'react-router'
 
 class Drawer extends Component {
   render() {
     return (
       <div className="android-drawer mdl-layout__drawer">
         <nav className="mdl-navigation">
-          <a className="mdl-navigation__link" href="">Phones</a>
+          <Link className="mdl-navigation__link mdl-typography--text-uppercase" to="/contact">Contact</Link>
           <a className="mdl-navigation__link" href="">Tablets</a>
           <a className="mdl-navigation__link" href="">Wear</a>
           <a className="mdl-navigation__link" href="">TV</a>

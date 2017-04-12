@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-import { Field, reduxForm, SubmissionError  } from 'redux-form'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import { Field, reduxForm } from 'redux-form'
 import DialogAlert from '../../DialogAlert'
 import { startSigninUser } from '../actions/users'
 
@@ -19,9 +19,6 @@ const validate = values => {
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address'
   }
-  if (values.password !== values.passwordConfirm) {
-    errors.passwordConfirm = 'Passwords must match'
-  }
   return errors
 }
 
@@ -34,32 +31,12 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-
-const styles = {
-  grid: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    justifyContent: 'space-around',
-    padding: '80px 0'
-  },
-  cell: {
-    flex: '1 1 auto',
-    maxWidth: 600,
-    margin: '.8em 1em 0'
-  },
-  other: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'space-between'
-  }
-}
-
 let Signin = (props) => {
   console.log(props)
   const { error, dispatch, handleSubmit, submitting } = props
   return (
-    <div style={styles.grid}>
-      <Card style={styles.cell}>
+    <div className="section-forms">
+      <Card>
         <CardTitle title="Sign in" subtitle="Enter your information" />
         <form onSubmit={handleSubmit(values => dispatch(startSigninUser(values)))} className="">
           <CardText>
@@ -77,7 +54,7 @@ let Signin = (props) => {
             />
           </CardActions>
         </form>
-        <CardActions style={ styles.other }>
+        <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
           <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
           <p><Link to="/recover">Forgot your password?</Link></p>
         </CardActions>

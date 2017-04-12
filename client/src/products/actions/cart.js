@@ -1,39 +1,5 @@
-// Create Cart
-export const addItem = (item) => {
-  console.log(item)
-  return (dispatch, getState) => {
-    if (getState().cart.items.find(i => i.productId === item.productId)) {
-      return dispatch({ type: 'UPDATE_ITEM', item })
-    }
 
-    dispatch({ type: 'ADD_ITEM', item })
-  }
-}
 
-export const deleteItem = (item) => {
-  return {
-    type: 'DELETE_ITEM',
-      item
-  }
-}
-
-export const addQty = (item) => {
-  return (dispatch, getState) => {
-    dispatch({ type: 'UPDATE_ITEM', item })
-    dispatch({ type: 'ADD_QTY', item })
-  }
-}
-
-export const minusQty = (item) => {
-  return (dispatch, getState) => {
-    console.log(item.productQty)
-    if (item.productQty < 1) {
-      return dispatch({ type: 'DELETE_ITEM', item })
-    }
-    dispatch({ type: 'UPDATE_ITEM', item })
-    dispatch({ type: 'MINUS_QTY', item })
-  }
-}
 
 // Search
 export const searchCarts = (searchCartsText) => {
@@ -55,7 +21,7 @@ export const searchCarts = (searchCartsText) => {
 
 
 
-
+// Create
 export const addToCart = (cart) => {
   return {
     type: 'ADD_TO_CART',
@@ -71,7 +37,7 @@ export const startAddToCart = (product) => {
         headers: {
           'Content-Type': 'application/json' ,
         },
-        body: JSON.stringify({ type: 'ADD_QTY', product })
+        body: JSON.stringify(product)
       })
         .then(res => res.json())
         .then(json => dispatch(addToCart(json)))
@@ -85,6 +51,7 @@ export const startAddToCart = (product) => {
       body: JSON.stringify(product)
     })
       .then(res => {
+        console.log(res)
         localStorage.setItem('cart', res.headers.get('cart'))
         return res.json()
       })
@@ -94,13 +61,7 @@ export const startAddToCart = (product) => {
 }
 
 
-
-
-
-
-
-
-
+// Read
 export const fetchCart = (cart) => {
   return {
     type: 'FETCH_CART',
@@ -122,5 +83,55 @@ export const startFetchCart = () => {
       .catch(err => console.log(err))
     }
     console.log('no cart')
+  }
+}
+
+
+// Update
+export const updateCart = (cart) => {
+  return {
+    type: 'UPDATE_CART',
+    cart
+  }
+}
+export const startUpdateCart = (product) => {
+  console.log(product)
+  return (dispatch, getState) => {
+    const cartId = localStorage.getItem('cart')
+    if (cartId) {
+      return fetch(`/api/carts/${cartId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json' ,
+        },
+        body: JSON.stringify(product)
+      })
+        .then(res => res.json())
+        .then(json => dispatch(updateCart(json)))
+        .catch(err => console.log(err))
+    }
+  }
+}
+
+
+// Delete
+export const deleteCart = (cartId) => {
+  return {
+    type: 'DELETE_CART',
+    cartId
+  }
+}
+export const startDeleteCart = () => {
+  const cartId = localStorage.getItem('cart')
+  return (dispatch, getState) => {
+    return fetch(`/api/carts/${cartId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(json => dispatch(deleteCart(json._id)))
+      .catch(err => console.log(err))
   }
 }

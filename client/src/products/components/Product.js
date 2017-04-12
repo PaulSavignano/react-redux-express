@@ -84,14 +84,11 @@ class Product extends Component {
           primary={true}
           fullWidth={true}
           onClick={() => {
-            const qty = parseInt(this.qty.input.value, 10)
             const product = {
-              name,
-              price,
               productId: _id,
-              productQty: qty,
+              productQty: this.state.qty,
             }
-            dispatch(startAddToCart(product))
+            dispatch(startAddToCart({ type: 'ADD_TO_CART', product }))
           }}
         />
       </Card>

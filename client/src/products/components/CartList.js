@@ -8,11 +8,11 @@ class CartList extends Component {
     this.props.dispatch(startFetchCart())
   }
   render() {
-    const { cart } = this.props
+    const { items } = this.props
     return (
-      cart.items ?
+      items ?
       <div>
-        {cart.items.map((item, index) => (
+        {items.map((item, index) => (
           <CartItem
             key={item.productId}
             index={index}
@@ -29,7 +29,7 @@ class CartList extends Component {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-      cart: state.cart
+    items: state.cart.items
   }
 }
 
