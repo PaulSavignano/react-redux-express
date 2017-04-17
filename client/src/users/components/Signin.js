@@ -32,7 +32,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 let Signin = (props) => {
-  console.log(props)
   const { error, dispatch, handleSubmit, submitting } = props
   return (
     <div className="section-forms">

@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField'
 import { Link } from 'react-router'
 
 import { searchText } from '../actions/search'
+import SigninSignout2 from '../../users/components/SigninSignout2'
 import CartIcon from '../../products/components/CartIcon'
 
 import NavLink from './NavLink'
@@ -18,7 +19,7 @@ const styles = {
   search: {
     fontSize: 16,
     cursor: 'pointer',
-    paddingRight: 8
+    padding: '0 8px'
   },
   AppBarSearch: {
     display: 'flex',
@@ -47,10 +48,7 @@ const styles = {
 
 class AppBarNav extends Component {
   state = { open: false }
-  handleToggle = () => {
-    this.setState({open: !this.state.open})
-
-  }
+  handleToggle = () => this.setState({ open: !this.state.open })
   render() {
     let search
     return (
@@ -63,6 +61,8 @@ class AppBarNav extends Component {
             <NavLink to="/admin/products">Products Admin</NavLink>
             <NavLink to="/checkout">Checkout</NavLink>
             <FontIcon className="fa fa-search" style={styles.search} onClick={this.handleToggle}/>
+            <SigninSignout2 />
+            <Link to="/cart"><CartIcon /></Link>
           </span>
 
         </nav>

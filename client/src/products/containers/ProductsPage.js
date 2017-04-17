@@ -3,11 +3,10 @@ import ProductList from '../components/ProductList'
 import ProductSearch from '../components/ProductSearch'
 
 const ProductsPage = () => (
-  <section className="section">
-    <div className="android-section-title mdl-typography--display-1-color-contrast">Products</div>
-    <ProductSearch/>
+  <main>
+    <h3>Products</h3>
     <ProductList />
-  </section>
+  </main>
 )
 
 export default ProductsPage

@@ -27,7 +27,6 @@ const NavLink = ({ children, to, path }) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.routing.locationBeforeTransitions.pathname)
   return {
     path: state.routing.locationBeforeTransitions.pathname
   }

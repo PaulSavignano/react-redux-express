@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import CartList from '../components/CartList'
 import CartTotal from '../components/CartTotal'
 
-
 const CartPage = () => (
-  <section className="section">
-    <div className="android-section-title mdl-typography--display-1-color-contrast">Cart</div>
+  <main>
+    <h3>Cart</h3>
     <CartList />
     <CartTotal />
-  </section>
+  </main>
 )
 
 export default CartPage

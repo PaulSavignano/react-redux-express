@@ -5,22 +5,17 @@ import './App.css'
 import SearchList from './SearchList'
 import Header from './header/components/Header'
 import AppBarMain from './header/components/AppBarMain'
-import Drawer from './header/components/Drawer'
 import Footer from './footer/components/Footer'
 
 const App = ({ search, children }) => (
-  <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <div>
     <AppBarMain />
-    {/* <Drawer /> */}
-    <main className="android-content mdl-layout__content">
-      {search.length ? <SearchList /> : children}
-      <Footer />
-    </main>
+    {search.length ? <SearchList /> : children}
+    <Footer />
   </div>
 )
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return state
 }
 

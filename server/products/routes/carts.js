@@ -23,13 +23,8 @@ carts.post('/', (req, res) => {
         }]
       })
       cart.save()
-        .then(doc => {
-          res.header('cart', doc._id).send(doc)
-        })
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
+        .then(doc => res.header('cart', doc._id).send(doc))
+        .catch(err => res.status(400).send(err))
     })
 })
 

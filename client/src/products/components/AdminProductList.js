@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AdminProduct from './AdminProduct'
+import AdminProductAdd from './AdminProductAdd'
 import { startFetchProducts } from '../actions/product'
-
 
 const filterProducts = (products, searchText) => {
   const filteredProducts = products.filter(product => {
@@ -10,6 +10,13 @@ const filterProducts = (products, searchText) => {
     return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
   })
   return filteredProducts
+}
+
+const styles = {
+  grid: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+  }
 }
 
 export class AdminProductList extends Component {
@@ -20,7 +27,8 @@ export class AdminProductList extends Component {
     const { products, searchProducts } = this.props
     return (
       products.length > 0 ?
-      <div className="mdl-grid">
+      <div style={styles.grid}>
+        <AdminProductAdd key={1}/>
         {filterProducts(products, searchProducts).map(product => (
           <AdminProduct
             key={product._id}

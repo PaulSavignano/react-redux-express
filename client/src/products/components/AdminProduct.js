@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
+import TextField from 'material-ui/TextField'
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+
 import { startUpdateProduct, startDeleteProduct } from '../actions/product'
-import ImageUpload from './ImageUpload'
+import ImageForm from '../../images/components/ImageForm'
 
 const validate = values => {
   const errors = {}
@@ -19,80 +23,135 @@ const validate = values => {
   return errors
 }
 
-const renderField = ({ input, label, type, value, meta: { touched, error }}) => {
-  return (
-    <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input {...input} className="mdl-textfield__input" placeholder={label} type={type} value={input.value}/>
-      {touched && error && <span className="mdl-textfield__error">{error}</span>}
-    </div>
-  )
-}
-
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+  <TextField hintText={label}
+    floatingLabelText={label}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+  />
+)
 
 const styles = {
-  form: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    width: '100%',
-    minHeight: 'auto',
-    alignItems: 'center'
-  },
-  textField: {
+  Card: {
     flex: '1 1 auto',
+    width: 300,
+    minWidth: 300,
+    margin: '1em 1em',
+  },
+  buttons: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'space-between'
   }
 }
 
-
-let AdminProduct = ({ handleSubmit, _id, dispatch, image }) => (
-  <form
-    onSubmit={handleSubmit((values) => {
-      const image = document.querySelector('[name="' + _id + '"]').toDataURL('image/jpg')
-      dispatch(startUpdateProduct(values, image))
-    })}
-    style={styles.form}
-    className="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--3dp"
-  >
-    <ImageUpload width="275" height="250" image={image} _id={_id} />
-
-    <div className="mdl-cell mdl-cell--8-col">
-      <Field
-        name="name"
-        label="Name"
-        type="text"
-        component={renderField}
-      />
-      <Field
-        name="description"
-        label="Description"
-        type="text"
-        component={renderField}
-      />
-      <Field
-        name="price"
-        label="Price"
-        type="number"
-        component={renderField}
-      />
-      <button
-        className="mdl-button mdl-js-button mdl-button--raised"
-        type="submit"
+class AdminProduct extends Component {
+  state = {
+    zDepth: 1,
+    editing: true
+  }
+  handleMouseEnter = () => {
+    this.setState({
+      zDepth: 4,
+    })
+  }
+  handleMouseLeave = () => {
+    this.setState({
+      zDepth: 1,
+    })
+  }
+  handlePreview = () => {
+    this.editor.handleSave()
+    this.setState({ editing: false })
+  }
+  handleEdit = () => {
+    console.log('editing')
+    this.editor.handleEdit()
+    this.setState({ editing: true })
+  }
+  setEditorRef = (editor) => {
+    this.editor = editor
+  }
+  render() {
+    const { handleSubmit, _id, dispatch, image } = this.props
+    return (
+      <Card
+        style={styles.Card}
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
-        Update
-      </button>
-      <button
-        type="button"
-        className="mdl-button mdl-js-button mdl-button--raised"
-        onClick={() => dispatch(startDeleteProduct(_id))}
-      >
-        Delete
-      </button>
-    </div>
-  </form>
-)
+        <form
+          onSubmit={handleSubmit((values) => {
+            const image = this.editor.getBase64()
+            console.log(image.length)
+            dispatch(startUpdateProduct(values, image))
+          })}
+        >
+          <CardMedia>
+            <ImageForm
+              image={image}
+              width={1000}
+              height={1000}
+              _id={_id}
+              ref={this.setEditorRef}
+            />
+          </CardMedia>
+          <CardTitle
+            children={
+              <Field
+                name="name"
+                label="Name"
+                type="text"
+                fullWidth={true}
+                component={renderTextField}
+              />
+            }
+          />
+          <CardText>
+            <Field
+              name="price"
+              label="Price"
+              type="number"
+              fullWidth={true}
+              component={renderTextField}
+            />
+          </CardText>
+          <CardText>
+            <Field
+              name="description"
+              label="Description"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+          </CardText>
+          <div style={styles.buttons}>
+            {this.state.editing ?
+              <RaisedButton type="button" label="Preview" primary={true} onClick={this.handlePreview}/>
+              :
+              <div>
+                <RaisedButton type="button" label="Edit" primary={true} onClick={this.handleEdit}/>
+                <RaisedButton type="submit" label="Update" primary={true}/>
+              </div>
+
+            }
+            <RaisedButton
+              type="button"
+              label="X"
+              primary={true}
+              onClick={() => dispatch(startDeleteProduct(_id))}
+            />
+          </div>
+        </form>
+      </Card>
+    )
+  }
+}
 
 AdminProduct = compose(
   connect((state, props) => ({form: props._id})),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: [], validate}))(AdminProduct)
-
 
 export default AdminProduct

@@ -2,7 +2,7 @@ import React from 'react'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 import App from './App'
-import HomePage from './home/components/HomePage'
+import HomePage from './pages/home/components/HomePage'
 import TodosPage from './todos/components/TodosPage'
 import Signup from './users/components/Signup'
 import Signin from './users/components/Signin'
@@ -10,7 +10,9 @@ import Signout from './users/components/Signout'
 import Recover from './users/components/Recover'
 import Reset from './users/components/Reset'
 import ProductsPage from './products/containers/ProductsPage'
+import ProductPage from './products/containers/ProductPage'
 import AdminProductsPage from './products/containers/AdminProductsPage'
+import AdminHome from './pages/home/components/AdminHome'
 import CartPage from './products/containers/CartPage'
 import CheckoutPage from './products/containers/CheckoutPage'
 import ProfilePage from './users/containers/ProfilePage'
@@ -23,7 +25,9 @@ export default history => (
       <IndexRoute component={HomePage} />
       <Route path="todos" component={RequireAuth(TodosPage, ['user', 'admin'])} />
       <Route path="products" component={ProductsPage} />
+      <Route path="product/:productId" component={ProductPage} />
       <Route path="admin/products" component={AdminProductsPage} />
+      <Route path="admin/home" component={AdminHome} />
       <Route path="cart" component={CartPage} />
       <Route path="checkout" component={RequireAuth(CheckoutPage, ['user'])} />
       <Route path="signup" component={Signup} />

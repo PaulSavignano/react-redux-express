@@ -40,14 +40,12 @@ users.post('/signin', (req, res) => {
   //   body: `<p>Thank you for signing up!  I hope you enjoy our products!</p>`
   // })
   User.findByCredentials(email, password)
-    .then(user => {
-      return user.generateAuthToken()
-        .then(token => res.header('x-auth', token).send({ user: user.firstname, roles: user.roles }))
-    })
-    .catch(err => {
-      console.log('no user found')
-      res.status(400).send(err)
-    })
+    .then(user => user.generateAuthToken()
+      .then(token => res.header('x-auth', token).send({ user: user.firstname, roles: user.roles })))
+      .catch(err => {
+        console.log('error')
+        res.send({ error: 'error'})
+      })
 })
 
 users.post('/recovery', (req, res, next) => {
@@ -89,9 +87,7 @@ users.post('/recovery', (req, res, next) => {
 users.get('/reset/:token', (req, res) => {
   User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
-      if (!user) {
-        return Promise.reject()
-      }
+      if (!user) return Promise.reject()
     })
     .catch(err => {
       res.send(400).send(err)
@@ -99,12 +95,11 @@ users.get('/reset/:token', (req, res) => {
 })
 
 
+
 users.post('/reset/:token', (req, res) => {
   User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
-      if (!user) {
-        return Promise.reject()
-      }
+      if (!user) return Promise.reject()
       user.password = req.body.password
       user.passwordResetToken = undefined
       user.passwordResetExpires = undefined
@@ -127,7 +122,7 @@ users.post('/reset/:token', (req, res) => {
 
 
 // Signout
-users.delete('/me/token', authenticate, (req, res) => {
+users.delete('/me/token', authenticate(['user', ['admin']]), (req, res) => {
   req.user.removeToken(req.token)
     .then(() => {
       res.status(200).send()
@@ -150,7 +145,7 @@ users.get('/me', authenticate(['user','admin']), (req, res) => {
       .then(() => {
         res.send({ token: 'invalid'})
       })
-      .catch(err => res.status(400).send(err))
+      .catch(err => res.status(400).send({ error: 'this is the error your looking for'}))
   } else {
     res.send({ token: 'valid', roles: req.user.roles, name: req.user.firstname })
   }

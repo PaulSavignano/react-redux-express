@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import andy from './images/andy.png'
 
+// const styles = {
+//   hero: {
+//     backgroundImage: `url(${Background})`
+//   }
+// }
+
 class Hero extends Component {
   render() {
     return (

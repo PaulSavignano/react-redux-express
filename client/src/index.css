@@ -9,6 +9,33 @@
   color: rgb(0, 188, 212) !important
 }
 
+/* Main container for holding grids */
+main {
+  padding: 3em 0;
+  max-width: 1044px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* Section grid */
+section {
+  max-width: 1044px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+footer {
+  background-color: #eceff1;
+}
+
+footer > section > a {
+  padding: 0 15px
+}
+
+.fa.fa-shopping-cart {
+  font-size: 20px !important;
+}
 
 
 

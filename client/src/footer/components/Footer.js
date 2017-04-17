@@ -1,60 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Link } from 'react-router'
+import FontIcon from 'material-ui/FontIcon'
 
-import './Footer.css'
+const styles = {
+  section: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'center',
+    padding: '28px 36px'
 
-class Footer extends Component {
-  render() {
-    return (
-      <footer className="android-footer mdl-mega-footer">
-        <div className="mdl-mega-footer--top-section">
-          <div className="mdl-mega-footer--left-section">
-            <button className="mdl-mega-footer--social-btn"></button>
-            &nbsp;
-            <button className="mdl-mega-footer--social-btn"></button>
-            &nbsp;
-            <button className="mdl-mega-footer--social-btn"></button>
-          </div>
-          <div className="mdl-mega-footer--right-section">
-            <a className="mdl-typography--font-light" href="#top">
-              Back to Top
-              <i className="material-icons">expand_less</i>
-            </a>
-          </div>
-        </div>
-
-        <div className="mdl-mega-footer--middle-section">
-          <p className="mdl-typography--font-light">Satellite imagery: © 2014 Astrium, DigitalGlobe</p>
-          <p className="mdl-typography--font-light">Some features and devices may not be available in all areas</p>
-        </div>
-
-        <div className="mdl-mega-footer--bottom-section">
-          <a className="android-link android-link-menu mdl-typography--font-light" id="version-dropdown">
-            Versions
-            <i className="material-icons">arrow_drop_up</i>
-          </a>
-          <ul className="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect" htmlFor="version-dropdown">
-            <li className="mdl-menu__item">5.0 Lollipop</li>
-            <li className="mdl-menu__item">4.4 KitKat</li>
-            <li className="mdl-menu__item">4.3 Jelly Bean</li>
-            <li className="mdl-menu__item">Android History</li>
-          </ul>
-          <a className="android-link android-link-menu mdl-typography--font-light" id="developers-dropdown">
-            For Developers
-            <i className="material-icons">arrow_drop_up</i>
-          </a>
-          <ul className="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect" htmlFor="developers-dropdown">
-            <li className="mdl-menu__item">App developer resources</li>
-            <li className="mdl-menu__item">Android Open Source Project</li>
-            <li className="mdl-menu__item">Android SDK</li>
-            <li className="mdl-menu__item">Android for Work</li>
-          </ul>
-          <a className="android-link mdl-typography--font-light" href="">Blog</a>
-          <a className="android-link mdl-typography--font-light" href="">Privacy Policy</a>
-        </div>
-
-      </footer>
-    )
   }
 }
+
+const Footer = () => (
+  <footer>
+    <section style={styles.section}>
+      <a href="https://github.com/"><FontIcon className="fa fa-github-square" /></a>
+      <a href="https://twitter.com/"><FontIcon className="fa fa-twitter-square"/></a>
+      <a href="https://plus.google.com/"><FontIcon className="fa fa-google-plus-square"/></a>
+      <a href="https://www.linkedin.com/"><FontIcon className="fa fa-linkedin-square"/></a>
+      <a href="https://www.youtube.com/"><FontIcon className="fa fa-youtube-play"/></a>
+      <a href="https://www.facebook.com/"><FontIcon className="fa fa-facebook-square"/></a>
+      <a href="https://www.instagram.com/?hl=en"><FontIcon className="fa fa-instagram"/></a>
+    </section>
+
+  </footer>
+)
 
 export default Footer

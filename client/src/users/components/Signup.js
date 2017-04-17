@@ -47,7 +47,6 @@ const styles = {
 }
 
 let Signup = (props) => {
-  console.log(props)
   const { error, dispatch, handleSubmit, submitting } = props
   return (
     <div style={styles.grid}>

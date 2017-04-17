@@ -6,18 +6,17 @@ import Badge from 'material-ui/Badge'
 const CartIcon = ({ qty }) => (
   qty ?
   <Badge
+    style={{ padding: '0 12px 0 0' }}
     badgeContent={qty}
     primary={true}
-    badgeStyle={{top: 10, right: 12}}
+    badgeStyle={{top: 10, left: 10 }}
   >
     <FontIcon
-      style={{ color: '#757575' }}
       className="fa fa-shopping-cart"
     />
   </Badge>
   :
   <FontIcon
-    style={{ color: '#757575' }}
     className="fa fa-shopping-cart"
   />
 )

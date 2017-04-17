@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Product from './Product'
 import { startFetchProducts } from '../actions/product'
-import { GridList } from 'material-ui/GridList'
 
 
 const filterProducts = (products, searchText) => {
@@ -20,29 +19,18 @@ const styles = {
   }
 }
 
-export class ProductList extends Component {
-  componentWillMount() {
-    this.props.dispatch(startFetchProducts())
-  }
-  render() {
-    const { products, searchProducts } = this.props
-    return (
-      products.length > 0 ?
-      <div style={styles.grid}>
-        {Object
-          .keys(filterProducts(products, searchProducts))
-          .map(key => (
-            <Product
-              key={products[key]._id}
-              index={key}
-              {...products[key]}
-            />
-          ))}
-      </div> :
-      <div><p className="container__message">No products yet</p></div>
-    )
-  }
-}
+const ProductList = ({ products, searchProducts }) => (
+  products.length > 0 ?
+  <div style={styles.grid}>
+    {products.map(product => (
+      <Product
+        key={product._id}
+        {...product}
+      />
+    ))}
+  </div> :
+  <div><p className="container__message">No products yet</p></div>
+)
 
 const mapStateToProps = (state) => {
   return state

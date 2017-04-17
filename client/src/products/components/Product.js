@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { addItem, startAddToCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
@@ -63,7 +64,7 @@ class Product extends Component {
         onMouseLeave={this.handleMouseLeave}
       >
         <CardMedia>
-          <img className="article-image" src={image} alt="" />
+          <img src={image} alt="" onClick={() => dispatch(push(`/product/${_id}`))}/>
         </CardMedia>
         <CardTitle title={name} />
         <CardTitle title={formatPrice(price)} />

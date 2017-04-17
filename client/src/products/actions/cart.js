@@ -1,6 +1,3 @@
-
-
-
 // Search
 export const searchCarts = (searchCartsText) => {
   return {

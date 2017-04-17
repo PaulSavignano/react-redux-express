@@ -4,6 +4,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem'
 
 import AppBarNav from './AppBarNav'
+import DrawerMenu from './DrawerMenu'
 
 const styles = {
   AppBar: {
@@ -23,8 +24,7 @@ class Header2 extends Component {
     return (
       <div>
         <AppBar
-          title={
-            <AppBarNav />}
+          title={<AppBarNav />}
           onLeftIconButtonTouchTap={this.handleToggle}
         />
         <Drawer
@@ -32,8 +32,7 @@ class Header2 extends Component {
           onRequestChange={this.handleToggle}
           docked={false}
         >
-          <MenuItem>Menu Item</MenuItem>
-          <MenuItem>Menu Item 2</MenuItem>
+          <DrawerMenu handleToggle={this.handleToggle}/>
         </Drawer>
       </div>
 

@@ -103,16 +103,14 @@ export const startAuthUser = (token) => {
         'x-auth': token
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        res.json()
+      })
       .then(json => {
-        if (json.token === 'invalid') {
-          dispatch(signoutUser())
-        } else {
           dispatch(authUser(json))
-        }
       })
       .catch((err) => {
-        console.log(err)
+        console.log('Caught', err)
       })
   }
 }
