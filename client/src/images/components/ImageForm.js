@@ -4,14 +4,27 @@ import ImageEditor from './ImageEditor'
 
 const styles = {
   container: {
-    padding: 8
+    padding: '0 16px 0 16px'
   },
   controlContainer: {
     display: 'flex',
-    flexFlow: 'row nowrap'
+    flexFlow: 'row nowrap',
+    padding: '3px 0'
   },
   control: {
     flex: '1 1 auto'
+  },
+  fileInput: {
+    opacity: 0,
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
+  RaisedButton: {
+    margin: '16px 0'
   },
   button: {
     margin: '0 0 0 8px',
@@ -27,11 +40,9 @@ class ImageForm extends Component {
     rotate: 0,
     borderRadius: 0,
     preview: null,
-    editing: true
   }
 
   handleSave = (data) => {
-    console.log('saving')
     const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 0.5)
     this.setState({
       editing: false,
@@ -41,11 +52,7 @@ class ImageForm extends Component {
         borderRadius: this.state.borderRadius
       }
     })
-  }
-
-  handleEdit = () => {
-    console.log('handling edit')
-    this.setState({ editing: true })
+    return img
   }
 
   handleScale = (e) => {
@@ -83,8 +90,15 @@ class ImageForm extends Component {
   }
 
   handlePositionChange = position => {
-    console.log('Position set to', position)
     this.setState({ position })
+  }
+
+  handleUpload = (e) => {
+    e.preventDefault()
+    const reader = new FileReader()
+    const file = e.target.files[0]
+    reader.onload = (e) => this.editor.loadImage(e.target.result)
+    reader.readAsDataURL(file)
   }
 
   setEditorRef = (editor) => {
@@ -93,7 +107,6 @@ class ImageForm extends Component {
 
   render () {
     return (
-    this.state.editing === true ?
       <div>
         <ImageEditor
           ref={this.setEditorRef}
@@ -170,15 +183,10 @@ class ImageForm extends Component {
             <RaisedButton onClick={this.rotateLeft} style={styles.button}>Left</RaisedButton>
             <RaisedButton onClick={this.rotateRight} style={styles.button}>Right</RaisedButton>
           </div>
-
+          <RaisedButton label="Choose File" labelPosition="before" style={styles.RaisedButton} fullWidth={true}>
+            <input type="file" onChange={this.handleUpload} style={styles.fileInput}/>
+          </RaisedButton>
         </div>
-
-      </div> :
-      <div>
-        <img
-          src={this.state.preview.img}
-          style={{ width: '100%', height: 'auto' }}
-        />
       </div>
     )
   }

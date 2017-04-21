@@ -13,7 +13,7 @@ const styles = {
     flex: '1 1 auto',
     width: 300,
     minWidth: 300,
-    margin: '.8em 1em 0'
+    margin: '.8em 1em'
   },
   grid: {
     display: 'flex',
@@ -55,7 +55,7 @@ class Product extends Component {
   }
   render() {
     let qty
-    const { dispatch, _id, name, description, price, image } = this.props
+    const { dispatch, _id, name, description, price, image, slug } = this.props
     return (
       <Card
         style={styles.cell}
@@ -64,10 +64,15 @@ class Product extends Component {
         onMouseLeave={this.handleMouseLeave}
       >
         <CardMedia>
-          <img src={image} alt="" onClick={() => dispatch(push(`/product/${_id}`))}/>
+          <img src={image} alt="" onClick={() => dispatch(push(`/product/${slug}`))}/>
         </CardMedia>
-        <CardTitle title={name} />
-        <CardTitle title={formatPrice(price)} />
+        <CardTitle title={
+          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+            <div>{name}</div>
+            <div>{formatPrice(price)}</div>
+          </div>
+        }
+        />
         <CardText>{description}</CardText>
         <div style={styles.grid}>
           <RaisedButton label="-" primary={true} onClick={this.minus} labelStyle={styles.button} />

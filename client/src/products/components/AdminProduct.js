@@ -39,10 +39,14 @@ const styles = {
     minWidth: 300,
     margin: '1em 1em',
   },
-  buttons: {
+  buttonContainer: {
     display: 'flex',
     flexFlow: 'row nowrap',
     justifyContent: 'space-between'
+  },
+  button: {
+    flex: '1 1 auto',
+    margin: 8
   }
 }
 
@@ -61,15 +65,6 @@ class AdminProduct extends Component {
       zDepth: 1,
     })
   }
-  handlePreview = () => {
-    this.editor.handleSave()
-    this.setState({ editing: false })
-  }
-  handleEdit = () => {
-    console.log('editing')
-    this.editor.handleEdit()
-    this.setState({ editing: true })
-  }
   setEditorRef = (editor) => {
     this.editor = editor
   }
@@ -84,8 +79,7 @@ class AdminProduct extends Component {
       >
         <form
           onSubmit={handleSubmit((values) => {
-            const image = this.editor.getBase64()
-            console.log(image.length)
+            const image = this.editor.handleSave()
             dispatch(startUpdateProduct(values, image))
           })}
         >
@@ -99,25 +93,23 @@ class AdminProduct extends Component {
             />
           </CardMedia>
           <CardTitle
-            children={
-              <Field
-                name="name"
-                label="Name"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
-              />
+            title={
+              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+                <Field
+                  name="name"
+                  label="Name"
+                  type="text"
+                  component={renderTextField}
+                />
+                <Field
+                  name="price"
+                  label="Price"
+                  type="number"
+                  component={renderTextField}
+                />
+              </div>
             }
           />
-          <CardText>
-            <Field
-              name="price"
-              label="Price"
-              type="number"
-              fullWidth={true}
-              component={renderTextField}
-            />
-          </CardText>
           <CardText>
             <Field
               name="description"
@@ -127,20 +119,13 @@ class AdminProduct extends Component {
               component={renderTextField}
             />
           </CardText>
-          <div style={styles.buttons}>
-            {this.state.editing ?
-              <RaisedButton type="button" label="Preview" primary={true} onClick={this.handlePreview}/>
-              :
-              <div>
-                <RaisedButton type="button" label="Edit" primary={true} onClick={this.handleEdit}/>
-                <RaisedButton type="submit" label="Update" primary={true}/>
-              </div>
-
-            }
+          <div style={styles.buttonContainer}>
+            <RaisedButton type="submit" label="Update" primary={true} style={styles.button}/>
             <RaisedButton
               type="button"
               label="X"
               primary={true}
+              style={styles.button}
               onClick={() => dispatch(startDeleteProduct(_id))}
             />
           </div>

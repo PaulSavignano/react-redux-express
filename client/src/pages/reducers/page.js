@@ -3,7 +3,7 @@ export const pages = (state = [], action) => {
     case 'ADD_PAGE':
       return [
         ...state,
-        action.pages
+        action.page
       ]
     case 'FETCH_PAGE':
       return action.pages
@@ -17,6 +17,11 @@ export const pages = (state = [], action) => {
       return state.filter(page =>
         page._id !== action._id
       )
+    case 'ERROR':
+      return [
+        ...state,
+        action.error
+      ]
     default:
       return state
   }

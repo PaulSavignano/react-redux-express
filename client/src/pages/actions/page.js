@@ -1,3 +1,5 @@
+import { SubmissionError } from 'redux-form'
+
 // Create Features
 export const addPage = (page) => {
   return {
@@ -5,7 +7,12 @@ export const addPage = (page) => {
     page
   }
 }
-export const startAddPage = (name) => {
+export const startAddPage = (values, image) => {
+  const page = {
+    name: values.name,
+    image,
+    contents: { values }
+  }
   return (dispatch, getState) => {
     return fetch('/api/pages', {
       method: 'POST',
@@ -13,13 +20,15 @@ export const startAddPage = (name) => {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify({ name })
+      body: JSON.stringify(page)
     })
       .then(res => res.json())
       .then(json => {
         dispatch(addPage(json))
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+      throw new SubmissionError({ error: err, _error: err })
+    })
   }
 }
 
@@ -40,7 +49,6 @@ export const startFetchPages = () => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         dispatch(fetchPages(json))
       })
       .catch(err => console.log(err))
@@ -50,18 +58,15 @@ export const startFetchPages = () => {
 
 
 // Update Product
-export const updateProduct = (_id, updates) => {
+export const updatePage = (updates) => {
   return {
     type: 'UPDATE_PAGE',
-    _id,
     updates
   }
 }
-export const startUpdatePage = (values, image) => {
-  const { _id, name, description, price } = values
-  const updates = { name, description, price, image }
+export const startUpdatePage = (_id, updates) => {
   return (dispatch, getState) => {
-    return fetch(`/api/features/${_id}`, {
+    return fetch(`/api/pages/${_id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json' ,
@@ -70,10 +75,8 @@ export const startUpdatePage = (values, image) => {
       body: JSON.stringify(updates)
     })
       .then(res => res.json())
-      .then(json => {
-        dispatch(updateProduct(json.feature._id, json.feature))
-      })
-      .catch(err => console.log(err))
+      .then(json => dispatch(updatePage(json, { status: 'Updated'})))
+      .catch(err => dispatch(pageError(err)))
   }
 }
 
@@ -102,6 +105,15 @@ export const startDeleteProduct = (_id) => {
 }
 
 
+
+
+
+export const pageError = (error) => {
+  return {
+    type: 'ERROR',
+    error
+  };
+}
 
 // Search
 export const searchProducts = (searchProductsText) => {

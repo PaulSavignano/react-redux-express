@@ -9,7 +9,7 @@ const ProductSchema = new Schema({
   },
   image: {
     type: String,
-    default: 'http://placehold.it/275x250'
+    default: 'http://placehold.it/1920x1080'
   },
   description: {
     type: String,
@@ -19,6 +19,9 @@ const ProductSchema = new Schema({
   price: {
     type: Number,
     default: 0
+  },
+  slug: {
+    type: String,
   },
   createdAt: {
     type: Date,

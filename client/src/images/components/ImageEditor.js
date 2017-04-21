@@ -105,7 +105,7 @@ class AvatarEditor extends Component {
   static defaultProps = {
     scale: 1,
     rotate: 0,
-    border: 25,
+    border: 0,
     borderRadius: 0,
     width: 200,
     height: 200,
@@ -265,10 +265,19 @@ class AvatarEditor extends Component {
     if (!this.isDataURL(imageURL) && this.props.crossOrigin) imageObj.crossOrigin = this.props.crossOrigin
     imageObj.src = imageURL
   }
+
   componentDidMount() {
     const context = ReactDOM.findDOMNode(this.canvas).getContext('2d')
     if (this.props.image) {
-      this.loadImage(this.props.image)
+      fetch(this.props.image)
+        .then(response => response.blob())
+        .then(blob => new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result)
+          reader.onerror = reject
+          reader.readAsDataURL(blob)
+        }))
+        .then(result => this.loadImage(result))
     }
     this.paint(context)
     if (document) {
@@ -472,13 +481,6 @@ class AvatarEditor extends Component {
       reader.readAsDataURL(file)
     }
   }
-  handleChange = (e) => {
-    e.preventDefault()
-    const reader = new FileReader()
-    const file = e.target.files[0]
-    reader.onload = (e) => this.loadImage(e.target.result)
-    reader.readAsDataURL(file)
-  }
   setCanvas = (canvas) => {
     this.canvas = canvas
   }
@@ -501,13 +503,6 @@ class AvatarEditor extends Component {
     return (
       <div>
         <canvas ref={this.setCanvas} {...attributes} style={{ width: '100%', height: 'auto' }}/>
-        <RaisedButton label="Choose File" labelPosition="before" fullWidth={true}>
-          <input type="file" onChange={this.handleChange} style={{ opacity: 0, width: '100%', position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-          bottom: 0 }}/>
-        </RaisedButton>
       </div>
 
     )

@@ -21,8 +21,7 @@ main {
 /* Section grid */
 section {
   max-width: 1044px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 80px auto;
 }
 
 footer {

@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import ImageUpload from '../../images/components/ImageUpload'
+import ImageForm from '../../images/components/ImageForm'
 import { startAddProduct } from '../actions/product'
 
 const validate = values => {
@@ -36,6 +36,15 @@ const styles = {
     width: 300,
     minWidth: 300,
     margin: '1em 1em',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'space-between'
+  },
+  button: {
+    flex: '1 1 auto',
+    margin: 8
   }
 }
 
@@ -56,10 +65,6 @@ class AdminProductAdd extends Component {
   setEditorRef = (editor) => {
     if (editor) this.editor = editor
   }
-  handleSave = () => {
-    const canvas = this.editor.getImage()
-    console.log(canvas)
-  }
   render() {
     const { handleSubmit, _id, dispatch } = this.props
     return (
@@ -71,37 +76,39 @@ class AdminProductAdd extends Component {
       >
         <form
           onSubmit={handleSubmit((values) => {
-            const image = document.querySelector('[name="' + _id + '"]').toDataURL('image/jpg')
+            const image = this.editor.handleSave()
             dispatch(startAddProduct(values, image))
           })}
         >
           <CardMedia>
-            <ImageUpload
-              image='http://placehold.it/275x250'
-              width="300"
-              height="300"
+            <ImageForm
+              image='http://placehold.it/1000x1000'
+              width={1000}
+              height={1000}
+              _id={_id}
+              ref={this.setEditorRef}
             />
           </CardMedia>
           <CardTitle
-            children={
-              <Field
-                name="name"
-                label="Name"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
-              />
+            title={
+              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+                <Field
+                  name="name"
+                  label="Name"
+                  type="text"
+                  fullWidth={true}
+                  component={renderTextField}
+                />
+                <Field
+                  name="price"
+                  label="Price"
+                  type="number"
+                  fullWidth={true}
+                  component={renderTextField}
+                />
+              </div>
             }
           />
-          <CardText>
-            <Field
-              name="price"
-              label="Price"
-              type="number"
-              fullWidth={true}
-              component={renderTextField}
-            />
-          </CardText>
           <CardText>
             <Field
               name="description"
@@ -111,7 +118,9 @@ class AdminProductAdd extends Component {
               component={renderTextField}
             />
           </CardText>
-          <RaisedButton type="submit" label="Add" primary={true} fullWidth={true} />
+          <div style={styles.buttonContainer}>
+            <RaisedButton type="submit" label="Add" primary={true} style={styles.button}/>
+          </div>
         </form>
       </Card>
     )

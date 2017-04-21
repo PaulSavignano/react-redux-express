@@ -45,7 +45,7 @@ let Signin = (props) => {
           {props.user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
           <CardActions>
             <RaisedButton
-              label="Sign Up"
+              label="Sign In"
               fullWidth={true}
               disabled={submitting}
               type="submit"

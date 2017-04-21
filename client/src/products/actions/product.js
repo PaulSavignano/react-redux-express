@@ -5,10 +5,11 @@ export const addProduct = (product) => {
     product
   }
 }
-export const startAddProduct = (product) => {
+export const startAddProduct = (product, image) => {
   return (dispatch, getState) => {
     const newProduct = {
       name: product.name,
+      image,
       description: product.description,
       price: product.price,
     }
@@ -61,6 +62,7 @@ export const updateProduct = (_id, updates) => {
   }
 }
 export const startUpdateProduct = (values, image) => {
+  console.log(values)
   const { _id, name, description, price } = values
   const updates = { name, description, price, image }
   return (dispatch, getState) => {
@@ -74,7 +76,8 @@ export const startUpdateProduct = (values, image) => {
     })
       .then(res => res.json())
       .then(json => {
-        dispatch(updateProduct(json.product._id, json.product))
+        console.log(json)
+        dispatch(updateProduct(json._id, json.product))
       })
       .catch(err => console.log(err))
   }

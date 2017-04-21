@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { startAddPage } from '../../actions/page'
 
-import './HomePage.css'
 import AdminHero from './AdminHero'
 import FeatureList from './FeatureList'
 import DialogAlert from '../../../DialogAlert'
@@ -21,7 +20,6 @@ const styles = {
 }
 
 const AdminHome = ({ home, dispatch }) => {
-  console.log('home', home)
   return (
     home ?
     <div>
