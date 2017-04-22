@@ -48,7 +48,6 @@ export const startAddToCart = (product) => {
       body: JSON.stringify(product)
     })
       .then(res => {
-        console.log(res)
         localStorage.setItem('cart', res.headers.get('cart'))
         return res.json()
       })
@@ -92,7 +91,6 @@ export const updateCart = (cart) => {
   }
 }
 export const startUpdateCart = (product) => {
-  console.log(product)
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
     if (cartId) {

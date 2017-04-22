@@ -19,19 +19,19 @@ const styles = {
   }
 }
 
-const Hero = ({ contents }) => {
-  console.log(contents)
+const PageHero = ({ contents }) => {
+  console.log('PageHero', contents)
   return (
     contents ?
     <Card>
       <CardMedia>
-        <img src={contents.heroImage} />
-        <div style={styles.title}>{contents.heroTitle}</div>
-        <div style={styles.text}>{contents.heroText}</div>
+        <img src={contents.image} />
+        <div style={styles.title}>{contents.title}</div>
+        <div style={styles.text}>{contents.text}</div>
       </CardMedia>
     </Card>
     : null
   )
 }
 
-export default Hero
+export default PageHero

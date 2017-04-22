@@ -7,12 +7,7 @@ export const addPage = (page) => {
     page
   }
 }
-export const startAddPage = (values, image) => {
-  const page = {
-    name: values.name,
-    image,
-    contents: { values }
-  }
+export const startAddPage = (values) => {
   return (dispatch, getState) => {
     return fetch('/api/pages', {
       method: 'POST',
@@ -20,14 +15,17 @@ export const startAddPage = (values, image) => {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify(page)
+      body: JSON.stringify(values)
     })
       .then(res => res.json())
       .then(json => {
+        if (json.error) {
+          return Promise.reject(json)
+        }
         dispatch(addPage(json))
       })
       .catch(err => {
-      throw new SubmissionError({ error: err, _error: err })
+        throw new SubmissionError({ error: err.error, _error: err.error })
     })
   }
 }
@@ -41,6 +39,7 @@ export const fetchPages = (pages) => ({
 })
 export const startFetchPages = () => {
   return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_PAGES' })
     return fetch(`/api/pages/`, {
       method: 'GET',
       headers: {
@@ -64,7 +63,7 @@ export const updatePage = (updates) => {
     updates
   }
 }
-export const startUpdatePage = (_id, updates) => {
+export const startUpdatePage = (_id, update) => {
   return (dispatch, getState) => {
     return fetch(`/api/pages/${_id}`, {
       method: 'PATCH',
@@ -72,10 +71,10 @@ export const startUpdatePage = (_id, updates) => {
         'Content-Type': 'application/json' ,
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify(updates)
+      body: JSON.stringify(update)
     })
       .then(res => res.json())
-      .then(json => dispatch(updatePage(json, { status: 'Updated'})))
+      .then(json => dispatch(updatePage(json)))
       .catch(err => dispatch(pageError(err)))
   }
 }
@@ -83,15 +82,15 @@ export const startUpdatePage = (_id, updates) => {
 
 
 // Delete Product
-export const deleteProduct = (_id) => {
+export const deletePage = (_id) => {
   return {
     type: 'DELETE_PAGE',
     _id
   }
 }
-export const startDeleteProduct = (_id) => {
+export const startDeletePage = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/features/${_id}`, {
+    return fetch(`/api/pages/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +98,7 @@ export const startDeleteProduct = (_id) => {
       },
     })
       .then(res => res.json())
-      .then(json => dispatch(deleteProduct(json.feature._id)))
+      .then(json => dispatch(deletePage(json._id)))
       .catch(err => console.log(err))
   }
 }

@@ -30,7 +30,6 @@ export const signupUser = (user) => {
   }
 }
 export const startSignupUser = ({ firstname, lastname, email, password }) => {
-  console.log(firstname, lastname, email, password)
   return (dispatch, getState) => {
     return fetch('/api/users/signup', {
       method: 'POST',
@@ -44,7 +43,6 @@ export const startSignupUser = ({ firstname, lastname, email, password }) => {
         return res.json()
       })
       .then(json => {
-        console.log(json)
         dispatch(signupUser(json))
       })
       .catch(err => dispatch(authError(err.data.error)))
@@ -55,7 +53,6 @@ export const startSignupUser = ({ firstname, lastname, email, password }) => {
 
 
 export const signinUser = (user) => {
-  console.log(user)
   return {
     type: 'AUTH_USER',
     user
@@ -199,7 +196,6 @@ export const startReset = ({ password }, token) => {
       body: JSON.stringify({ password })
     })
       .then(res => {
-        console.log(res)
         dispatch(signinUser(res.json()))
         localStorage.setItem('token', res.headers.get('x-auth'))
         browserHistory.push('/');

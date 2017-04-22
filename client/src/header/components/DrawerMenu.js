@@ -4,15 +4,9 @@ import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
 
 const DrawerMenu = ({ pages, dispatch, handleToggle }) => {
-  console.log(pages)
   return (
     <div>
-      {pages.map(page => (
-        <MenuItem onClick={() => {
-          dispatch(push(`/admin/pages/update/${page._id}`))
-          handleToggle()
-        }}>{page.name} Page Admin</MenuItem>
-      ))}
+      
 
       <MenuItem onClick={() => {
         dispatch(push('/admin/pages/add'))
@@ -30,3 +24,12 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(DrawerMenu)
+
+/*
+{pages.map(page => (
+  <MenuItem key={page._id} onClick={() => {
+    dispatch(push(`/admin/pages/update/${page._id}`))
+    handleToggle()
+  }}>{page.name} Page Admin</MenuItem>
+))}
+*/

@@ -62,7 +62,6 @@ export const updateProduct = (_id, updates) => {
   }
 }
 export const startUpdateProduct = (values, image) => {
-  console.log(values)
   const { _id, name, description, price } = values
   const updates = { name, description, price, image }
   return (dispatch, getState) => {
@@ -76,7 +75,6 @@ export const startUpdateProduct = (values, image) => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         dispatch(updateProduct(json._id, json.product))
       })
       .catch(err => console.log(err))

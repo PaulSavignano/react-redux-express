@@ -10,24 +10,22 @@ import fs from 'fs'
 const pages = express.Router()
 
 // Create
-pages.post('/', authenticate(['admin']), (req, res) => {
-  const page = new Page({
-    name: req.body.name,
-    contents: req.body.contents
-  })
-  page.save()
-  .then(doc => {
-    uploadFile({ Key: `pages/${doc.name}/${doc._id}`, Body: req.body.image })
-      .then(data => {
-        Page.findOne({ _id: doc._id })
-          .then(page => {
-            page.contents.image = data.Location
-            product.save()
-              .then(doc => res.send(doc))
-          })
-      })
-  })
-  .catch(err => res.status(400).send(err))
+pages.post('/', (req, res) => {
+  Page.findOne({ name: req.body.name })
+    .then(doc => {
+      if (!doc) {
+        const page = new Page({
+          name: req.body.name,
+          slug: req.body.name.replace(/[^-a-zA-Z0-9\s+]+/ig, '').replace(/\s+/gi, "-").toLowerCase(),
+        })
+        page.save()
+        .then(doc => res.send(doc))
+        .catch(err => res.status(400).send(err))
+      } else {
+        return res.status(400).send({ error: 'That name already exists'})
+      }
+    })
+    .catch(err => console.log('err', err))
 })
 
 
@@ -53,21 +51,29 @@ pages.get('/:_id', (req, res) => {
 // Update
 pages.patch('/:_id', (req, res) => {
   const _id = req.params._id
-  const { type } = req.body
-  const { heroImage, heroTitle, heroText } = req.body.contents
+  const { type, name, visible, contents } = req.body
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Page.findOne({ _id })
     .then(page => {
       switch (type) {
         case 'UPDATE_HERO':
-          uploadFile({ Key: 'pages/home/heroImage', Body: heroImage })
+          uploadFile({ Key: 'pages/home/hero/image', Body: contents.image })
             .then(data => {
-              page.contents.heroImage = data.Location
-              page.contents.heroTitle = heroTitle
-              page.contents.heroText = heroText
+              page.components.push({
+                name,
+                visible,
+                contents: {
+                  image: data.Location,
+                  title: contents.title,
+                  text: contents.text,
+                }
+              })
               page.save().then(page => res.send(page))
             })
-            .catch(err => res.status(400).send(err))
+            .catch(err => {
+              console.log(err)
+              res.status(400).send(err)
+            })
           break
         // case 'UPDATE_FEATURES':
         //   const index = page.contents.features.map(f => f._id.toHexString()).indexOf(req.body.)

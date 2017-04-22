@@ -6,7 +6,13 @@ const PageSchema = new Schema({
     minlength: 1,
     trim: true
   },
-  contents: { type: Object },
+  slug: { type: String },
+  components: [{
+    createdAt: { type: Date, default: Date.now },
+    name: { type: String },
+    visible: { type: Boolean },
+    contents: { type: Object }
+  }],
   createdAt: {
     type: Date,
     default: Date.now

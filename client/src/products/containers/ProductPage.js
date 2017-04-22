@@ -13,7 +13,6 @@ const ProductPage = ({ product }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state.products.find(pro => pro.slug === ownProps.params.slug))
   return {
     product: state.products.find(pro => pro.slug === ownProps.params.slug)
   }

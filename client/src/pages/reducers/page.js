@@ -1,27 +1,39 @@
 export const pages = (state = [], action) => {
   switch (action.type) {
     case 'ADD_PAGE':
-      return [
+      return {
         ...state,
-        action.page
-      ]
+        items: action.page
+      }
     case 'FETCH_PAGE':
-      return action.pages
+      return {
+        ...state,
+        isFetching: false,
+        items: action.pages
+      }
+    case 'REQUEST_PAGES':
+      return {
+        ...state,
+        isFetching: true
+      }
     case 'UPDATE_PAGE':
-    return state.map(page =>
-      page._id === action._id ?
+    return {
+      ...state,
+      items: state.pages.map(page => page._id === action._id ?
         { ...page, ...action.updates } :
         page
       )
+    }
     case 'DELETE_PAGE':
-      return state.filter(page =>
-        page._id !== action._id
-      )
-    case 'ERROR':
-      return [
+      return {
         ...state,
-        action.error
-      ]
+        items: state.pages.filter(page => page._id !== action._id)
+      }
+    case 'ERROR':
+      return {
+        ...state,
+        error: action.error
+      }
     default:
       return state
   }
