@@ -52,16 +52,8 @@ class AdminProductAdd extends Component {
   state = {
     zDepth: 1,
   }
-  handleMouseEnter = () => {
-    this.setState({
-      zDepth: 4,
-    })
-  }
-  handleMouseLeave = () => {
-    this.setState({
-      zDepth: 1,
-    })
-  }
+  handleMouseEnter = () => this.setState({ zDepth: 4 })
+  handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => {
     if (editor) this.editor = editor
   }

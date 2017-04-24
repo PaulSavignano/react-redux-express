@@ -75,7 +75,7 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
 
 // Define global variables for standard.js
 /* global Image, FileReader */
-class AvatarEditor extends Component {
+class ImageEditor extends Component {
   static propTypes = {
     scale: React.PropTypes.number,
     rotate: React.PropTypes.number,
@@ -184,6 +184,7 @@ class AvatarEditor extends Component {
     if (this.isVertical()) {
         context.translate((canvas.width - canvas.height) / 2, (canvas.height - canvas.width) / 2)
     }
+
     context.drawImage(image.resource, -cropRect.x, -cropRect.y)
     return canvas
   }
@@ -356,6 +357,7 @@ class AvatarEditor extends Component {
     if (image.resource) {
       const position = this.calculatePosition(image, border)
       context.save()
+      context.globalAlpha = this.props.opacity
       context.translate((context.canvas.width / 2), (context.canvas.height / 2));
       context.rotate((this.props.rotate * Math.PI / 180))
       context.translate(-(context.canvas.width / 2), -(context.canvas.height / 2));
@@ -390,6 +392,7 @@ class AvatarEditor extends Component {
     const borderSize = dimensions.border
     const height = dimensions.canvas.height
     const width = dimensions.canvas.width
+
     // clamp border radius between zero (perfect rectangle) and half the size without borders (perfect circle or "pill")
     borderRadius = Math.max(borderRadius, 0)
     borderRadius = Math.min(borderRadius, width / 2 - borderSize, height / 2 - borderSize)
@@ -509,4 +512,4 @@ class AvatarEditor extends Component {
   }
 }
 
-export default AvatarEditor
+export default ImageEditor

@@ -29,6 +29,9 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 const styles = {
+  Card: {
+    margin: '1em 1em'
+  },
   controlContainer: {
     display: 'flex',
     flexFlow: 'row nowrap',
@@ -84,12 +87,13 @@ const styles = {
   }
 }
 
-class AdminHero extends Component {
+class AdminPageHero extends Component {
   state = {
     expanded: false,
     visible: false,
     position: { x: 0.5, y: 0.5 },
     scale: 1,
+    opacity: 1,
     rotate: 0,
     borderRadius: 0,
     preview: null,
@@ -102,13 +106,8 @@ class AdminHero extends Component {
       this.setState({ visible: nextProps.visible })
     }
   }
-  handleExpandChange = (expanded) => {
-    this.setState({expanded: expanded});
-  }
-  handleToggle = (event, toggle) => {
-    console.log(toggle)
-    this.setState({visible: toggle});
-  }
+  handleExpandChange = (expanded) => this.setState({ expanded: expanded })
+  handleToggle = (event, toggle) => this.setState({ visible: toggle })
   handleSave = (data) => {
     const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 0.5)
     this.setState({
@@ -124,6 +123,10 @@ class AdminHero extends Component {
   handleScale = (e) => {
     const scale = parseFloat(e.target.value)
     this.setState({ scale })
+  }
+  handleOpacity = (e) => {
+    const opacity = parseFloat(e.target.value)
+    this.setState({ opacity })
   }
   rotateLeft = (e) => {
     e.preventDefault()
@@ -159,21 +162,23 @@ class AdminHero extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { handleSubmit, _id, dispatch, name } = this.props
+    const { handleSubmit, dispatch, hero } = this.props
+    const image = hero.contents ? hero.contents.image : 'http://placehold.it/1920x1080'
     return (
       <form
         onSubmit={handleSubmit((values) => {
           const update = {
             type: 'UPDATE_HERO',
-            name: 'hero',
+            component: 'hero',
+            _id: hero._id,
             visible: this.state.visible,
             contents: {
               image: this.handleSave(),
-              title: values.heroTitle,
-              text: values.heroText,
+              title: values.title,
+              text: values.text,
             }
           }
-          dispatch(startUpdatePage(_id, update))
+          dispatch(startUpdatePage(this.props.page._id, update))
         })}
       >
         <Card
@@ -182,6 +187,7 @@ class AdminHero extends Component {
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          style={styles.Card}
         >
           <CardHeader
             title={
@@ -228,6 +234,7 @@ class AdminHero extends Component {
             <ImageEditor
               ref={this.setEditorRef}
               scale={parseFloat(this.state.scale)}
+              opacity={parseFloat(this.state.opacity)}
               width={1920}
               height={1080}
               position={this.state.position}
@@ -235,7 +242,7 @@ class AdminHero extends Component {
               rotate={parseFloat(this.state.rotate)}
               borderRadius={this.state.borderRadius}
               onSave={this.handleSave}
-              image={this.props.image}
+              image={image}
             />
 
           </CardMedia>
@@ -248,6 +255,20 @@ class AdminHero extends Component {
                 onChange={this.handleScale}
                 min="1"
                 max="2"
+                step="0.01"
+                defaultValue="1"
+                style={styles.control}
+              />
+            </div>
+
+            <div style={styles.controlContainer}>
+              <label>Opacity:</label>
+              <input
+                name="opacity"
+                type="range"
+                onChange={this.handleOpacity}
+                min="0"
+                max="1"
                 step="0.01"
                 defaultValue="1"
                 style={styles.control}
@@ -317,24 +338,18 @@ class AdminHero extends Component {
   }
 }
 
-AdminHero = reduxForm({
-  form: 'AdminHero',
-})(AdminHero)
+AdminPageHero = reduxForm({
+  form: 'AdminPageHero',
+})(AdminPageHero)
 
 const mapStateToProps = (state, ownProps) => {
-  if (!state.pages.isFetching) {
-    const page = state.pages.items.find(i => i.slug === ownProps.params.slug)
-    const component = page.components.find(c => c.name === 'hero')
-    return {
-      initialValues: component.contents,
-      name: component.name,
-      image: component.contents.image,
-      visible: component.visible
-    }
+  const hero = ownProps.page.components.find(c => c.component === 'hero') ? ownProps.page.components.find(c => c.component === 'hero') : {}
+  return {
+    initialValues: hero.contents,
+    hero
   }
-  return {}
 }
 
-AdminHero = connect(mapStateToProps)(AdminHero)
+AdminPageHero = connect(mapStateToProps)(AdminPageHero)
 
-export default AdminHero
+export default AdminPageHero

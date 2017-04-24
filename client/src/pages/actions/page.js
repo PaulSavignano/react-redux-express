@@ -57,15 +57,16 @@ export const startFetchPages = () => {
 
 
 // Update Product
-export const updatePage = (updates) => {
+export const updatePage = (update) => {
+  console.log(update)
   return {
     type: 'UPDATE_PAGE',
-    updates
+    update
   }
 }
-export const startUpdatePage = (_id, update) => {
+export const startUpdatePage = (pageId, update) => {
   return (dispatch, getState) => {
-    return fetch(`/api/pages/${_id}`, {
+    return fetch(`/api/pages/${pageId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json' ,
@@ -89,6 +90,7 @@ export const deletePage = (_id) => {
   }
 }
 export const startDeletePage = (_id) => {
+  console.log(_id)
   return (dispatch, getState) => {
     return fetch(`/api/pages/${_id}`, {
       method: 'DELETE',

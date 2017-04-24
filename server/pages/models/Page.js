@@ -8,10 +8,15 @@ const PageSchema = new Schema({
   },
   slug: { type: String },
   components: [{
-    createdAt: { type: Date, default: Date.now },
-    name: { type: String },
+    component: { type: String },
     visible: { type: Boolean },
-    contents: { type: Object }
+    contents: {
+       header: { type: String },
+       image: { type: String },
+       title: { type: String },
+       text: { type: String }
+     },
+    createdAt: { type: Date, default: Date.now }
   }],
   createdAt: {
     type: Date,

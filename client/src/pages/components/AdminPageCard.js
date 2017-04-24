@@ -6,22 +6,8 @@ import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { startUpdateProduct, startDeleteProduct } from '../actions/product'
+import { startUpdatePage } from '../actions/page'
 import ImageForm from '../../images/components/ImageForm'
-
-const validate = values => {
-  const errors = {}
-  if (!values.name) {
-    errors.name = 'Please enter a product name'
-  }
-  if (!values.description) {
-    errors.password = 'Please enter a description'
-  }
-  if (!values.price) {
-    errors.password = 'Please enter a price'
-  }
-  return errors
-}
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -50,7 +36,7 @@ const styles = {
   }
 }
 
-class AdminProduct extends Component {
+class AdminPageCard extends Component {
   state = {
     zDepth: 1,
     editing: true
@@ -59,7 +45,8 @@ class AdminProduct extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { handleSubmit, _id, dispatch, image } = this.props
+    const { handleSubmit, dispatch, page, card } = this.props
+    console.log(this.props)
     return (
       <Card
         style={styles.Card}
@@ -69,41 +56,54 @@ class AdminProduct extends Component {
       >
         <form
           onSubmit={handleSubmit((values) => {
-            const image = this.editor.handleSave()
-            dispatch(startUpdateProduct(values, image))
+            const update = {
+              type: 'UPDATE_CARD',
+              cardId: card._id,
+              component: 'card',
+              contents: {
+                header: values.header,
+                image: this.handleSave(),
+                title: values.heroTitle,
+                text: values.heroText,
+              }
+            }
+            dispatch(startUpdatePage(page._id, update))
           })}
         >
+          <CardTitle
+            title={
+              <Field
+                name="header"
+                label="Header"
+                type="text"
+                fullWidth={true}
+                component={renderTextField}
+              />
+            }
+            expandable={true}
+          />
           <CardMedia>
             <ImageForm
-              image={image}
+              image={card.contents.image}
               width={1000}
               height={1000}
-              _id={_id}
               ref={this.setEditorRef}
             />
           </CardMedia>
           <CardTitle
             title={
-              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-                <Field
-                  name="name"
-                  label="Name"
-                  type="text"
-                  component={renderTextField}
-                />
-                <Field
-                  name="price"
-                  label="Price"
-                  type="number"
-                  component={renderTextField}
-                />
-              </div>
+              <Field
+                name="title"
+                label="Title"
+                type="text"
+                component={renderTextField}
+              />
             }
           />
           <CardText>
             <Field
-              name="description"
-              label="Description"
+              name="text"
+              label="Text"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -116,7 +116,13 @@ class AdminProduct extends Component {
               label="X"
               primary={true}
               style={styles.button}
-              onClick={() => dispatch(startDeleteProduct(_id))}
+              onClick={() => {
+                const update = {
+                  type: 'DELETE_CARD',
+                  cardId: card._id
+                }
+                dispatch(startUpdatePage(page._id, update))
+              }}
             />
           </div>
         </form>
@@ -125,8 +131,8 @@ class AdminProduct extends Component {
   }
 }
 
-AdminProduct = compose(
-  connect((state, props) => ({form: props._id})),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: [], validate}))(AdminProduct)
+AdminPageCard = compose(
+  connect((state, props) => ({form: props.card._id})),
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminPageCard)
 
-export default AdminProduct
+export default AdminPageCard

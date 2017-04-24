@@ -37,6 +37,7 @@ class ImageForm extends Component {
   state = {
     position: { x: 0.5, y: 0.5 },
     scale: 1,
+    opacity: 1,
     rotate: 0,
     borderRadius: 0,
     preview: null,
@@ -58,6 +59,11 @@ class ImageForm extends Component {
   handleScale = (e) => {
     const scale = parseFloat(e.target.value)
     this.setState({ scale })
+  }
+
+  handleOpacity = (e) => {
+    const opacity = parseFloat(e.target.value)
+    this.setState({ opacity })
   }
 
   rotateLeft = (e) => {
@@ -111,6 +117,7 @@ class ImageForm extends Component {
         <ImageEditor
           ref={this.setEditorRef}
           scale={parseFloat(this.state.scale)}
+          opacity={parseFloat(this.state.opacity)}
           width={this.props.width}
           height={this.props.height}
           position={this.state.position}
@@ -130,6 +137,20 @@ class ImageForm extends Component {
               onChange={this.handleScale}
               min="1"
               max="2"
+              step="0.01"
+              defaultValue="1"
+              style={styles.control}
+            />
+          </div>
+
+          <div style={styles.controlContainer}>
+            <label>Opacity:</label>
+            <input
+              name="opacity"
+              type="range"
+              onChange={this.handleOpacity}
+              min="0"
+              max="1"
               step="0.01"
               defaultValue="1"
               style={styles.control}
