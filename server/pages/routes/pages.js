@@ -2,7 +2,7 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 import Page from '../models/Page'
 import { authenticate } from '../../middleware/authenticate'
-import uploadFile from '../../middleware/s3'
+import { uploadFile, deleteFile } from '../../middleware/s3'
 
 import path from 'path'
 import fs from 'fs'
@@ -51,87 +51,160 @@ pages.get('/:_id', (req, res) => {
 // Update
 pages.patch('/:pageId', (req, res) => {
   const pageId = req.params.pageId
-  const { type, component, visible, contents, _id } = req.body
-  console.log(component)
   if (!ObjectID.isValid(pageId)) return res.status(404).send()
+  const { type, component } = req.body
+  console.log(type)
   Page.findOne({ _id: pageId })
     .then(page => {
+      const componentId = ObjectID(component._id) || null
+
+      const comp = page.components.filter(c => {
+        console.log(c._id.toHexString() === component._id)
+        return c._id.toHexString() === component._id
+      })
+              console.log(comp.image)
+      const oldKey = `pages/${page.slug}/${component.type}s/${component._id}` || null
+      const Key = `pages/${page.slug}/${component.type}s/${component._id}` || null
+      const Body = component.image || null
+
       switch (type) {
-        case 'UPDATE_HERO':
-          uploadFile({ Key: `pages/${page.name}/hero/image`, Body: contents.image })
-            .then(data => {
-              console.log(_id)
-              const index = page.components.map(c => c._id.toHexString()).indexOf(_id)
-              console.log(index)
-              if (index === -1) {
-                page.components.push({
-                  visible,
-                  component,
-                  contents: {
-                    image: data.Location,
-                    title: contents.title,
-                    text: contents.text,
-                  }
-                })
-                page.save().then(page => res.send(page))
-              } else {
-                page.components[index] = {
-                  visible,
-                  component,
-                  contents: {
-                    image: data.Location,
-                    title: contents.title,
-                    text: contents.text,
-                  }
-                }
-                page.save().then(page => res.send(page))
-              }
-            })
-            .catch(err => {
-              console.log(err)
-              res.status(400).send(err)
-            })
-          break
-          case 'ADD_CARD':
-            uploadFile({ Key: `pages/${page.name}/cards/image`, Body: contents.image })
+
+        case 'ADD_COMPONENT':
+          if (component.image) {
+            console.log('has no componentId but has image')
+            const newComponentId = new ObjectID()
+            uploadFile({ Key: `pages/${page.slug}/${component.type}s/${newComponentId}`, Body: component.image })
               .then(data => {
-                page.components.push({
-                  component,
-                  contents: {
-                    header: contents.header,
-                    image: data.Location,
-                    title: contents.title,
-                    text: contents.text,
-                  }
-                })
-                page.save().then(page => res.send(page))
+                component._id = newComponentId
+                component.image = data.Location
+                Page.findOneAndUpdate({ _id: pageId }, { $push: { components: component }}, { new: true })
+                  .then(doc => {
+                    console.log(doc)
+                    res.send(doc)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    res.status(400).send(err)
+                  })
               })
               .catch(err => {
                 console.log(err)
                 res.status(400).send(err)
               })
-            break
-        // case 'UPDATE_FEATURES':
-        //   const index = page.contents.features.map(f => f._id.toHexString()).indexOf(req.body.)
-        //   contents.features[index].image = contents.features.image
-        //   contents.features[index].title = contents.features.title
-        //   contents.features[index].description = contents.features.description
-        //   page.save()
-        //     .then(page => res.send(page))
-        //   break
-        default:
-            return
+          } else {
+            console.log('has no componentId and no image')
+            component._id = newComponentId
+            Page.findOneAndUpdate({ _id: pageId }, { $push: { components: component }}, { new: true })
+              .then(doc => res.send(doc))
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
           }
+          break
 
 
+        case 'UPDATE_COMPONENT':
+          console.log('existing component')
+          if (Body) {
+            console.log('has Body')
+            uploadFile({ Key, Body })
+              .then(data => {
+                component._id = componentId
+                component.image = data.Location
+                Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
+                  .then(doc => {
+                    console.log(doc)
+                    res.send(doc)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    res.status(400).send(err)
+                  })
+              })
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
+          } else if (comp.image) {
+            console.log('has existing image')
+            deleteFile({ Key: oldKey })
+              .then(() => {
+                component._id = componentId
+                Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
+                  .then(doc => {
+                    console.log(doc)
+                    res.send(doc)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    res.status(400).send(err)
+                  })
+              })
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
+          } else {
+            console.log('has no Body and no existing image')
+            component._id = newComponentId
+            Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
+              .then(doc => {
+                console.log(doc)
+                res.send(doc)
+              })
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
+          }
+          break
+
+
+        case 'DELETE_COMPONENT':
+          console.log('delete component')
+          console.log(oldKey)
+          if (oldKey) {
+            console.log('has existing image')
+            deleteFile({ Key: oldKey })
+              .then(() => {
+                Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $pull: { 'components': { _id: componentId } }}, { new: true })
+                  .then(doc => {
+                    console.log(doc)
+                    res.send(doc)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    res.status(400).send(err)
+                  })
+              })
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
+          } else {
+            console.log('has no Body and no existing image')
+            Page.findOneAndUpdate({ _id: pageId, 'components._id': componentId }, { $pull: { 'components': { _id: componentId } }}, { new: true })
+              .then(doc => {
+                console.log(doc)
+                res.send(doc)
+              })
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
+          }
+          break
+        default:
+          return
+      }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err)
       res.status(400).send(err)
     })
-
-
 })
+
 
 
 

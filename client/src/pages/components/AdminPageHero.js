@@ -40,17 +40,18 @@ const styles = {
   control: {
     flex: '1 1 auto'
   },
-  fileInput: {
-    opacity: 0,
-    width: '100%',
+  imageButton: {
+    margin: '12px 0'
+  },
+  imageInput: {
+    cursor: 'pointer',
     position: 'absolute',
     top: 0,
-    left: 0,
+    bottom: 0,
     right: 0,
-    bottom: 0
-  },
-  RaisedButton: {
-    margin: '16px 0'
+    left: 0,
+    width: '100%',
+    opacity: 0,
   },
   rotateButton: {
     margin: '0 0 0 8px',
@@ -90,7 +91,7 @@ const styles = {
 class AdminPageHero extends Component {
   state = {
     expanded: false,
-    visible: false,
+    image: false,
     position: { x: 0.5, y: 0.5 },
     scale: 1,
     opacity: 1,
@@ -99,19 +100,16 @@ class AdminPageHero extends Component {
     preview: null,
   }
   componentWillMount() {
-    this.props.visible ? this.setState({ visible: this.props.visible }) : null
-  }
-  componentWillReceiveProps(nextProps){
-    if (nextProps.visible !== this.props.visible) {
-      this.setState({ visible: nextProps.visible })
-    }
+    const { image } = this.props.hero.contents ? this.props.hero.contents : false
+    const hasImage = image ? true : false
+    const imageUrl = image ? image : 'http://placehold.it/1000x1000'
+    this.setState({ expanded: hasImage, image: imageUrl })
   }
   handleExpandChange = (expanded) => this.setState({ expanded: expanded })
   handleToggle = (event, toggle) => this.setState({ visible: toggle })
   handleSave = (data) => {
     const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 0.5)
     this.setState({
-      editing: false,
       preview: {
         img,
         scale: this.state.scale,
@@ -162,20 +160,19 @@ class AdminPageHero extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { handleSubmit, dispatch, hero } = this.props
-    const image = hero.contents ? hero.contents.image : 'http://placehold.it/1920x1080'
+    const { handleSubmit, dispatch, page, hero } = this.props
+    console.log(hero._id)
     return (
       <form
         onSubmit={handleSubmit((values) => {
           const update = {
-            type: 'UPDATE_HERO',
-            component: 'hero',
-            _id: hero._id,
-            visible: this.state.visible,
-            contents: {
+            type: hero._id ? 'UPDATE_COMPONENT' : 'ADD_COMPONENT',
+            component: {
+              type: 'hero',
+              _id: hero._id || null,
               image: this.handleSave(),
-              title: values.title,
-              text: values.text,
+              title: values.title || null,
+              text: values.text || null,
             }
           }
           dispatch(startUpdatePage(this.props.page._id, update))
@@ -189,20 +186,27 @@ class AdminPageHero extends Component {
           onMouseLeave={this.handleMouseLeave}
           style={styles.Card}
         >
-          <CardHeader
-            title={
-              <div style={{ display: 'flex', flexFlow: 'row nowrap'}}>
-                <span style={{ marginRight: 16 }}>Hero</span>
-                <Toggle
-                  toggled={this.state.visible}
-                  onToggle={this.handleToggle}
-                  labelPosition="right"
-                  label="Visible"
-                />
-              </div>
-            }
-            showExpandableButton={true}
-          />
+          <CardActions>
+            <RaisedButton
+              onTouchTap={() => {
+                if (this.state.expanded && hero._id) {
+                  console.log('deleting')
+                  const update = {
+                    type: 'DELETE_COMPONENT',
+                    component: {
+                      _id: hero._id
+                    }
+                  }
+                  dispatch(startUpdatePage(page._id, update))
+                }
+                this.setState({ expanded: !this.state.expanded })
+              }}
+              type="button"
+              label={this.state.expanded ? "Remove Hero" : "Add Hero"}
+              labelColor="#ffffff"
+              backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+              fullWidth={true}/>
+          </CardActions>
           <CardMedia overlay={
             <div>
               <Field
@@ -242,7 +246,7 @@ class AdminPageHero extends Component {
               rotate={parseFloat(this.state.rotate)}
               borderRadius={this.state.borderRadius}
               onSave={this.handleSave}
-              image={image}
+              image={this.state.image}
             />
 
           </CardMedia>
@@ -322,8 +326,14 @@ class AdminPageHero extends Component {
               <RaisedButton onClick={this.rotateLeft} style={styles.rotateButton}>Left</RaisedButton>
               <RaisedButton onClick={this.rotateRight} style={styles.rotateButton}>Right</RaisedButton>
             </div>
-            <RaisedButton label="Choose File" labelPosition="before" style={styles.RaisedButton} fullWidth={true}>
-              <input type="file" onChange={this.handleUpload} style={styles.fileInput}/>
+            <RaisedButton
+              label="Choose an Image"
+              labelPosition="before"
+              style={styles.imageButton}
+              containerElement="label"
+              fullWidth={true}
+            >
+              <input type="file" style={styles.imageInput} onChange={this.handleUpload} />
             </RaisedButton>
             <RaisedButton
               label="Update"
@@ -343,7 +353,9 @@ AdminPageHero = reduxForm({
 })(AdminPageHero)
 
 const mapStateToProps = (state, ownProps) => {
-  const hero = ownProps.page.components.find(c => c.component === 'hero') ? ownProps.page.components.find(c => c.component === 'hero') : {}
+  const page = state.pages.items.find(p => p._id === ownProps.page._id)
+  console.log(page)
+  const hero = page.components.find(c => c.type === 'hero') || {}
   return {
     initialValues: hero.contents,
     hero

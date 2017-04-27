@@ -5,6 +5,7 @@ import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
+import Toggle from 'material-ui/Toggle'
 
 import { startUpdatePage } from '../actions/page'
 import ImageForm from '../../images/components/ImageForm'
@@ -39,7 +40,14 @@ const styles = {
 class AdminPageCard extends Component {
   state = {
     zDepth: 1,
-    editing: true
+    expanded: false,
+    image: null
+  }
+  componentWillMount() {
+    const { image } = this.props.card.contents
+    const hasImage = image ? true : false
+    const imageUrl = image ? image : 'http://placehold.it/1000x1000'
+    this.setState({ expanded: hasImage, image: imageUrl })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
@@ -48,43 +56,64 @@ class AdminPageCard extends Component {
     const { handleSubmit, dispatch, page, card } = this.props
     console.log(this.props)
     return (
-      <Card
-        style={styles.Card}
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <form
-          onSubmit={handleSubmit((values) => {
-            const update = {
-              type: 'UPDATE_CARD',
-              cardId: card._id,
-              component: 'card',
-              contents: {
-                header: values.header,
-                image: this.handleSave(),
-                title: values.heroTitle,
-                text: values.heroText,
-              }
+      <form
+        onSubmit={handleSubmit((values) => {
+          const image = this.state.expanded ? this.editor.handleSave() : null
+          const update = {
+            type: 'UPDATE_COMPONENT',
+            component: {
+              type: 'card',
+              _id: card._id,
+              header: values.header || null,
+              minWidth: values.minWidth,
+              image,
+              title: values.title || null,
+              text: values.text || null,
             }
-            dispatch(startUpdatePage(page._id, update))
-          })}
+          }
+          dispatch(startUpdatePage(page._id, update))
+        })}
+        style={styles.Card}
+      >
+        <Card
+          expanded={this.state.expanded}
+          zDepth={this.state.zDepth}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
         >
+
           <CardTitle
             title={
-              <Field
-                name="header"
-                label="Header"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
-              />
+              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+                <Field
+                  name="header"
+                  label="Header"
+                  type="text"
+                  component={renderTextField}
+                  style={{ flex: '1 1 auto' }}
+                />
+                <Field
+                  name="minWidth"
+                  label="Minimum Width"
+                  type="number"
+                  component={renderTextField}
+                  style={{ flex: '1 1 auto' }}
+                />
+              </div>
             }
-            expandable={true}
           />
-          <CardMedia>
+          <CardActions>
+            <RaisedButton
+              onTouchTap={() => this.setState({ expanded: !this.state.expanded })}
+              type="button"
+              label={this.state.expanded ? "Remove Image" : "Add Image"}
+              labelColor="#ffffff"
+              backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+              fullWidth={true}/>
+          </CardActions>
+          <CardMedia expandable={true}>
             <ImageForm
-              image={card.contents.image}
+              image={this.state.image}
               width={1000}
               height={1000}
               ref={this.setEditorRef}
@@ -96,6 +125,7 @@ class AdminPageCard extends Component {
                 name="title"
                 label="Title"
                 type="text"
+                fullWidth={true}
                 component={renderTextField}
               />
             }
@@ -118,15 +148,15 @@ class AdminPageCard extends Component {
               style={styles.button}
               onClick={() => {
                 const update = {
-                  type: 'DELETE_CARD',
-                  cardId: card._id
+                  type: 'DELETE_COMPONENT',
+                  componentId: card._id
                 }
                 dispatch(startUpdatePage(page._id, update))
               }}
             />
           </div>
-        </form>
-      </Card>
+        </Card>
+      </form>
     )
   }
 }

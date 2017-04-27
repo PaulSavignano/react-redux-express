@@ -8,14 +8,13 @@ const PageSchema = new Schema({
   },
   slug: { type: String },
   components: [{
-    component: { type: String },
-    visible: { type: Boolean },
-    contents: {
-       header: { type: String },
-       image: { type: String },
-       title: { type: String },
-       text: { type: String }
-     },
+    type: { type: String },
+    componentId: { type: String },
+    header: { type: String },
+    minWidth: { type: Number },
+    image: { type: String },
+    title: { type: String },
+    text: { type: String },
     createdAt: { type: Date, default: Date.now }
   }],
   createdAt: {

@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
+import Toggle from 'material-ui/Toggle'
 
 import ImageForm from '../../images/components/ImageForm'
 import { startUpdatePage } from '../actions/page'
@@ -22,7 +23,6 @@ class AdminPageCardAdd extends Component {
     zDepth: 1,
     expanded: false
   }
-  handleExpandChange = (expanded) => this.setState({ expanded: expanded })
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => {
@@ -47,14 +47,16 @@ class AdminPageCardAdd extends Component {
     return (
       <form
         onSubmit={handleSubmit((values) => {
+          const image = this.state.expanded ? this.editor.handleSave() : null
           const update = {
-            type: 'ADD_CARD',
-            component: 'card',
-            contents: {
-              header: values.header,
-              image: this.editor.handleSave(),
-              title: values.title,
-              text: values.text,
+            type: 'ADD_COMPONENT',
+            component: {
+              type: 'card',
+              header: values.header || null,
+              minWidth: values.minWidth || null,
+              image,
+              title: values.title || null,
+              text: values.text || null,
             }
           }
           dispatch(startUpdatePage(page._id, update))
@@ -62,15 +64,24 @@ class AdminPageCardAdd extends Component {
       >
         <Card
           expanded={this.state.expanded}
-          onExpandChange={this.handleExpandChange}
           style={styles.Card}
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >
           <CardHeader
-            title="Add Card"
-            showExpandableButton={true}
+            title={
+              <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <h4>Add Card</h4>
+                <Field
+                  name="minWidth"
+                  label="Minimum Width"
+                  type="number"
+                  component={renderTextField}
+                />
+              </div>
+            }
+            textStyle={{ width: '100%'}}
           />
           <CardTitle
             title={
@@ -82,9 +93,17 @@ class AdminPageCardAdd extends Component {
                 component={renderTextField}
               />
             }
-            expandable={true}
           />
-          <CardMedia expandable={true} >
+          <CardActions>
+            <RaisedButton
+              onTouchTap={() => this.setState({ expanded: !this.state.expanded })}
+              type="button"
+              label={this.state.expanded ? "Remove Image" : "Add Image"}
+              labelColor="#ffffff"
+              backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+              fullWidth={true}/>
+          </CardActions>
+          <CardMedia expandable={true}>
             <ImageForm
               image='http://placehold.it/1000x1000'
               width={1000}
@@ -102,9 +121,8 @@ class AdminPageCardAdd extends Component {
                 component={renderTextField}
               />
             }
-            expandable={true}
           />
-          <CardText expandable={true} >
+          <CardText>
             <Field
               name="text"
               label="Text"
@@ -115,7 +133,7 @@ class AdminPageCardAdd extends Component {
               component={renderTextField}
             />
           </CardText>
-          <CardActions expandable={true} >
+          <CardActions>
             <RaisedButton type="submit" label="Add" primary={true} fullWidth={true}/>
           </CardActions>
         </Card>

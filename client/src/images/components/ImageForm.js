@@ -14,17 +14,18 @@ const styles = {
   control: {
     flex: '1 1 auto'
   },
-  fileInput: {
-    opacity: 0,
-    width: '100%',
+  imageButton: {
+    margin: '12px 0'
+  },
+  imageInput: {
+    cursor: 'pointer',
     position: 'absolute',
     top: 0,
-    left: 0,
+    bottom: 0,
     right: 0,
-    bottom: 0
-  },
-  RaisedButton: {
-    margin: '16px 0'
+    left: 0,
+    width: '100%',
+    opacity: 0,
   },
   button: {
     margin: '0 0 0 8px',
@@ -46,7 +47,6 @@ class ImageForm extends Component {
   handleSave = (data) => {
     const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 0.5)
     this.setState({
-      editing: false,
       preview: {
         img,
         scale: this.state.scale,
@@ -204,8 +204,14 @@ class ImageForm extends Component {
             <RaisedButton onClick={this.rotateLeft} style={styles.button}>Left</RaisedButton>
             <RaisedButton onClick={this.rotateRight} style={styles.button}>Right</RaisedButton>
           </div>
-          <RaisedButton label="Choose File" labelPosition="before" style={styles.RaisedButton} fullWidth={true}>
-            <input type="file" onChange={this.handleUpload} style={styles.fileInput}/>
+          <RaisedButton
+            label="Choose an Image"
+            labelPosition="before"
+            style={styles.imageButton}
+            containerElement="label"
+            fullWidth={true}
+          >
+            <input type="file" style={styles.imageInput} onChange={this.handleUpload} />
           </RaisedButton>
         </div>
       </div>
