@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import {Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import React from 'react'
+import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 const styles = {
   title: {
@@ -19,15 +19,18 @@ const styles = {
   }
 }
 
-const PageHero = ({ image, title, text }) => {
+const PageHero = ({ header, image, title, text }) => {
   console.log(title)
   return (
     <Card>
+      <CardHeader title={header} />
       <CardMedia>
         <img src={image} />
-        <div style={styles.title}>{title}</div>
-        <div style={styles.text}>{text}</div>
       </CardMedia>
+      <CardTitle title={title} />
+      <CardText>
+        {text}
+      </CardText>
     </Card>
   )
 }

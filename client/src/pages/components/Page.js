@@ -2,14 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import PageHero from './PageHero'
+import PageCard from './PageCard'
 
-const Page = (props) => {
+const Page = ({ components }) => {
+  console.log(components)
   return (
-    props.components ?
+    components ?
     <div>
-      {props.components.map(component => {
-        if (component.name === 'hero') {
-          return (<PageHero key={component._id} contents={component.contents} />)
+      {components.map(component => {
+        if (component.type === 'hero') {
+          return (<PageHero key={component._id} {...component} />)
+        } else {
+          return (<PageCard key={component._id} {...component} />)
         }
       })}
 
@@ -21,11 +25,8 @@ const Page = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   if (!state.pages.isFetching) {
-    if (ownProps.params.slug) {
-      return {
-        page: state.pages.items.find(p => p.slug === ownProps.params.slug)
-      }
-    }
+    const page = ownProps.params.slug ? ownProps.params.slug : 'home'
+    const components = state.pages.items.find(p => p.slug === page).components
     return {
       components: state.pages.items.find(p => p.slug === 'home').components
     }

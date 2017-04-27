@@ -10,7 +10,6 @@ const styles = {
 
 const AdminPageCardList = ({ cards, page }) => {
   return (
-    cards ?
     cards.length > 0 ?
     <div style={styles.grid}>
       {cards.map(card => (
@@ -18,13 +17,11 @@ const AdminPageCardList = ({ cards, page }) => {
           key={card._id}
           card={card}
           page={page}
-          initialValues={card.contents}
+          initialValues={card}
         />
       ))}
     </div> :
     <div><p className="container__message">No products yet</p></div>
-    :
-    null
   )
 }
 

@@ -2,7 +2,7 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 import Product from '../models/Product'
 import { authenticate } from '../../middleware/authenticate'
-import uploadFile from '../../middleware/s3'
+import { uploadFile } from '../../middleware/s3'
 
 const products = express.Router()
 

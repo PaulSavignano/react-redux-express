@@ -59,6 +59,7 @@ class AdminPageCardAdd extends Component {
               text: values.text || null,
             }
           }
+          this.props.reset()
           dispatch(startUpdatePage(page._id, update))
         })}
       >

@@ -57,12 +57,8 @@ pages.patch('/:pageId', (req, res) => {
   Page.findOne({ _id: pageId })
     .then(page => {
       const componentId = ObjectID(component._id) || null
-
-      const comp = page.components.filter(c => {
-        console.log(c._id.toHexString() === component._id)
-        return c._id.toHexString() === component._id
-      })
-              console.log(comp.image)
+      const newComponentId = new ObjectID()
+      const existingComponent = page.components.filter(c => c._id.toHexString() === component._id)
       const oldKey = `pages/${page.slug}/${component.type}s/${component._id}` || null
       const Key = `pages/${page.slug}/${component.type}s/${component._id}` || null
       const Body = component.image || null
@@ -72,7 +68,6 @@ pages.patch('/:pageId', (req, res) => {
         case 'ADD_COMPONENT':
           if (component.image) {
             console.log('has no componentId but has image')
-            const newComponentId = new ObjectID()
             uploadFile({ Key: `pages/${page.slug}/${component.type}s/${newComponentId}`, Body: component.image })
               .then(data => {
                 component._id = newComponentId
@@ -126,7 +121,7 @@ pages.patch('/:pageId', (req, res) => {
                 console.log(err)
                 res.status(400).send(err)
               })
-          } else if (comp.image) {
+          } else if (existingComponent.image) {
             console.log('has existing image')
             deleteFile({ Key: oldKey })
               .then(() => {

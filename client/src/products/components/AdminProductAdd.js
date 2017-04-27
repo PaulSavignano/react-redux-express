@@ -69,6 +69,7 @@ class AdminProductAdd extends Component {
         <form
           onSubmit={handleSubmit((values) => {
             const image = this.editor.handleSave()
+            this.props.reset()
             dispatch(startAddProduct(values, image))
           })}
         >

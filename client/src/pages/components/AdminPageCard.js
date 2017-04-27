@@ -44,7 +44,7 @@ class AdminPageCard extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.card.contents
+    const { image } = this.props.card || null
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'http://placehold.it/1000x1000'
     this.setState({ expanded: hasImage, image: imageUrl })
@@ -149,7 +149,9 @@ class AdminPageCard extends Component {
               onClick={() => {
                 const update = {
                   type: 'DELETE_COMPONENT',
-                  componentId: card._id
+                  component: {
+                    _id: card._id
+                  }
                 }
                 dispatch(startUpdatePage(page._id, update))
               }}
