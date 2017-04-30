@@ -1,40 +1,43 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import AdminProduct from './AdminProduct'
-import AdminProductAdd from './AdminProductAdd'
 
 const filterProducts = (products, searchText) => {
   const filteredProducts = products.filter(product => {
-    const name = product.name.toLowerCase()
+    const name = product.values.name.toLowerCase()
+    console.log(name)
     return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
   })
   return filteredProducts
 }
 
-const styles = {
-  grid: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-  }
-}
-
-const AdminProductList = ({ products, searchProducts }) => (
-  products.length > 0 ?
-  <div style={styles.grid}>
-    <AdminProductAdd key={1}/>
+const AdminProductList = ({ dispatch, isFetching, products, searchProducts }) => (
+  isFetching ? null : products.length > 0 ?
+  <section>
     {filterProducts(products, searchProducts).map(product => (
       <AdminProduct
         key={product._id}
         {...product}
-        initialValues={product}
+        initialValues={product.values}
       />
     ))}
-  </div> :
-  <div><p className="container__message">No products yet</p></div>
+  </section> :
+  <section><h3 onTouchTap={() => dispatch(push('/admin/products'))}>No products yet, let's make some!</h3></section>
 )
 
 const mapStateToProps = (state) => {
-  return state
+  if (!state.products.isFetching) {
+    return {
+      isFetching: state.products.isFetching,
+      products: state.products.items || [],
+      searchProducts: state.searchProducts
+    }
+  }
+  return {
+    isFetching: state.products.isFetching,
+    products: []
+  }
 }
 
 export default connect(mapStateToProps)(AdminProductList)

@@ -34,7 +34,7 @@ class Quantity extends Component {
     let qty
     return (
       <div style={styles.grid}>
-        <RaisedButton label="-" primary={true} onClick={this.minus} labelStyle={styles.button} />
+        <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={styles.button} />
         <TextField
           style={styles.qty}
           inputStyle={styles.input}
@@ -42,7 +42,7 @@ class Quantity extends Component {
           value={this.state.qty}
           id={this.props.id}
         />
-        <RaisedButton label="+" primary={true} onClick={this.plus} labelStyle={styles.button} />
+        <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={styles.button} />
       </div>
     )
   }

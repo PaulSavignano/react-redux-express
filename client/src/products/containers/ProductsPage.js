@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ProductList from '../components/ProductList'
-import ProductSearch from '../components/ProductSearch'
 
 const ProductsPage = () => (
   <main>
-    <h3>Products</h3>
+    <h1>Products</h1>
     <ProductList />
   </main>
 )

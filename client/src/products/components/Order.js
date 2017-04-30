@@ -61,7 +61,7 @@ const Order = props => {
             style={styles.addToCart}
             type="button"
             className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => {
+            onTouchTap={() => {
               const product = {
                 name,
                 price,

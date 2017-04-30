@@ -149,8 +149,8 @@ export const startRecovery = ({ email }) => {
 
       //})
       .catch(res => {
-        throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
         dispatch(authError(res))
+        throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
       })
   }
 }
@@ -205,8 +205,8 @@ export const startReset = ({ password }, token) => {
 
       .catch(err => {
         console.log(err)
-        throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
         dispatch(authError(err))
+        throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
       })
   }
 }

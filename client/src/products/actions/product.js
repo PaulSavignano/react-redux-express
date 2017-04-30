@@ -5,21 +5,15 @@ export const addProduct = (product) => {
     product
   }
 }
-export const startAddProduct = (product, image) => {
+export const startAddProduct = (product) => {
   return (dispatch, getState) => {
-    const newProduct = {
-      name: product.name,
-      image,
-      description: product.description,
-      price: product.price,
-    }
     return fetch('/api/products', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify(newProduct)
+      body: JSON.stringify(product)
     })
       .then(res => res.json())
       .then(json => {
@@ -38,11 +32,11 @@ export const fetchProducts = (products) => ({
 })
 export const startFetchProducts = () => {
   return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_PRODUCTS' })
     return fetch('/api/products', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-auth': localStorage.getItem('token'),
       }
     })
       .then(res => res.json())
@@ -61,9 +55,8 @@ export const updateProduct = (_id, updates) => {
     updates
   }
 }
-export const startUpdateProduct = (values, image) => {
-  const { _id, name, description, price } = values
-  const updates = { name, description, price, image }
+export const startUpdateProduct = (product) => {
+  const { _id } = product
   return (dispatch, getState) => {
     return fetch(`/api/products/${_id}`, {
       method: 'PATCH',
@@ -71,11 +64,11 @@ export const startUpdateProduct = (values, image) => {
         'Content-Type': 'application/json' ,
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify(updates)
+      body: JSON.stringify(product)
     })
       .then(res => res.json())
       .then(json => {
-        dispatch(updateProduct(json._id, json.product))
+        dispatch(updateProduct(json))
       })
       .catch(err => console.log(err))
   }
@@ -100,7 +93,7 @@ export const startDeleteProduct = (_id) => {
       },
     })
       .then(res => res.json())
-      .then(json => dispatch(deleteProduct(json.product._id)))
+      .then(json => dispatch(deleteProduct(json._id)))
       .catch(err => console.log(err))
   }
 }

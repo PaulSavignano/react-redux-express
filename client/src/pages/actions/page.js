@@ -1,5 +1,15 @@
 import { SubmissionError } from 'redux-form'
 
+
+export const pageError = (error) => {
+  return {
+    type: 'ERROR',
+    error
+  };
+}
+
+
+
 // Create Features
 export const addPage = (page) => {
   return {
@@ -65,6 +75,7 @@ export const updatePage = (update) => {
   }
 }
 export const startUpdatePage = (pageId, update) => {
+  console.log(update)
   return (dispatch, getState) => {
     return fetch(`/api/pages/${pageId}`, {
       method: 'PATCH',
@@ -107,14 +118,6 @@ export const startDeletePage = (_id) => {
 
 
 
-
-
-export const pageError = (error) => {
-  return {
-    type: 'ERROR',
-    error
-  };
-}
 
 // Search
 export const searchProducts = (searchProductsText) => {

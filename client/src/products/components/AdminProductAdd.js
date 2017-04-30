@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageForm from '../../images/components/ImageForm'
@@ -30,28 +30,12 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-const styles = {
-  Card: {
-    flex: '1 1 auto',
-    width: 300,
-    minWidth: 300,
-    margin: '1em 1em',
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'space-between'
-  },
-  button: {
-    flex: '1 1 auto',
-    margin: 8
-  }
-}
-
 class AdminProductAdd extends Component {
   state = {
     zDepth: 1,
+    image: null,
   }
+  componentWillMount() { this.setState({ image: 'http://placehold.it/1000x1000' })}
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => {
@@ -61,58 +45,59 @@ class AdminProductAdd extends Component {
     const { handleSubmit, _id, dispatch } = this.props
     return (
       <Card
-        style={styles.Card}
+        style={{ flex: '1 1 auto', margin: 20 }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
         <form
           onSubmit={handleSubmit((values) => {
-            const image = this.editor.handleSave()
+            console.log('adding')
+            const product = {
+              image: this.editor.hasUpload() ? this.editor.handleSave() : null,
+              values
+            }
             this.props.reset()
-            dispatch(startAddProduct(values, image))
+            dispatch(startAddProduct(product))
+            this.editor.readImage(this.state.image)
           })}
         >
           <CardMedia>
             <ImageForm
-              image='http://placehold.it/1000x1000'
+              image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
               width={1000}
               height={1000}
               _id={_id}
               ref={this.setEditorRef}
             />
           </CardMedia>
-          <CardTitle
-            title={
-              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-                <Field
-                  name="name"
-                  label="Name"
-                  type="text"
-                  fullWidth={true}
-                  component={renderTextField}
-                />
-                <Field
-                  name="price"
-                  label="Price"
-                  type="number"
-                  fullWidth={true}
-                  component={renderTextField}
-                />
-              </div>
-            }
-          />
           <CardText>
             <Field
-              name="description"
-              label="Description"
+              name="name"
+              label="Name"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
+            <Field
+              name="price"
+              label="Price"
+              type="number"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="description"
+              label="Description"
+              type="text"
+              multiLine={true}
+              rows={2}
+              fullWidth={true}
+              component={renderTextField}
+            />
           </CardText>
-          <div style={styles.buttonContainer}>
-            <RaisedButton type="submit" label="Add" primary={true} style={styles.button}/>
+          <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+            <RaisedButton type="submit" label="Add" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
           </div>
         </form>
       </Card>

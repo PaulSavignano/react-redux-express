@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import './App.css'
 import SearchList from './SearchList'
-import Header from './header/components/Header'
 import AppBarMain from './header/components/AppBarMain'
 import Footer from './footer/components/Footer'
 

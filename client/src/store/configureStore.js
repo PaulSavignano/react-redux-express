@@ -1,6 +1,6 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { routerMiddleware, push } from 'react-router-redux'
+import { routerMiddleware } from 'react-router-redux'
 import { browserHistory } from 'react-router'
 
 import { reducer as formReducer } from 'redux-form'

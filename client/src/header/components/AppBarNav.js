@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField'
 import { Link } from 'react-router'
 
 import { searchText } from '../actions/search'
-import SigninSignout2 from '../../users/components/SigninSignout2'
+import SigninSignout from '../../users/components/SigninSignout'
 import CartIcon from '../../products/components/CartIcon'
 
 import NavLink from './NavLink'
@@ -50,7 +50,6 @@ class AppBarNav extends Component {
   state = { open: false }
   handleToggle = () => this.setState({ open: !this.state.open })
   render() {
-    let search
     return (
       this.state.open === false ?
         <nav style={styles.AppBarNav}>
@@ -60,8 +59,8 @@ class AppBarNav extends Component {
             <NavLink to="/products">Products</NavLink>
             <NavLink to="/admin/products">Products Admin</NavLink>
             <NavLink to="/checkout">Checkout</NavLink>
-            <FontIcon className="fa fa-search" style={styles.search} onClick={this.handleToggle}/>
-            <SigninSignout2 />
+            <FontIcon className="fa fa-search" style={styles.search} onTouchTap={this.handleToggle}/>
+            <SigninSignout />
             <Link to="/cart"><CartIcon /></Link>
           </span>
 
@@ -70,7 +69,7 @@ class AppBarNav extends Component {
         <nav style={styles.AppBarSearch}>
           <Link to="/" style={styles.title}>Brand</Link>
           <span style={styles.rightSearch}>
-            <FontIcon className="fa fa-search" style={styles.search} onClick={this.handleToggle}/>
+            <FontIcon className="fa fa-search" style={styles.search} onTouchTap={this.handleToggle}/>
             <TextField
               autoFocus
               underlineFocusStyle={styles.underlineStyle}

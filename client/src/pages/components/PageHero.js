@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import {Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import React from 'react'
+import {Card, CardMedia } from 'material-ui/Card'
 
 const styles = {
   title: {
-    top: '37vw',
+    top: '40vw',
     position: 'absolute',
     textAlign: 'center',
     fontSize: '6vw',
@@ -11,7 +11,7 @@ const styles = {
     padding: '8px 0 8px 0'
   },
   text: {
-    top: '45.8vw',
+    top: '50vw',
     position: 'absolute',
     textAlign: 'center',
     fontSize: '3vw',
@@ -19,14 +19,13 @@ const styles = {
   }
 }
 
-const PageHero = ({ image, title, text }) => {
-  console.log(title)
+const PageHero = ({ image, values }) => {
   return (
     <Card>
       <CardMedia>
-        <img src={image} />
-        <div style={styles.title}>{title}</div>
-        <div style={styles.text}>{text}</div>
+        <img src={image} alt="hero"/>
+        <div style={styles.title}>{values.title}</div>
+        <div style={styles.text}>{values.text}</div>
       </CardMedia>
     </Card>
   )

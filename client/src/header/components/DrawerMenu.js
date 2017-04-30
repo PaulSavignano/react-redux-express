@@ -3,33 +3,34 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
 
-const DrawerMenu = ({ pages, dispatch, handleToggle }) => {
+const DrawerMenu = ({ isFetching, pages, dispatch, handleToggle }) => {
+  console.log(pages)
   return (
+    !isFetching ?
     <div>
-      
+      {pages.map(page => (
+        <MenuItem key={page._id} onTouchTap={() => {
+          dispatch(push(`/admin/pages/${page.slug}`))
+          handleToggle()
+        }}>{page.name} Page Admin</MenuItem>
+      ))}
 
-      <MenuItem onClick={() => {
-        dispatch(push('/admin/pages/add'))
+      <MenuItem onTouchTap={() => {
+        dispatch(push('/admin/pages'))
         handleToggle()
       }}>Admin Pages Add</MenuItem>
       <MenuItem>Menu Item 2</MenuItem>
     </div>
+    : null
   )
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
-    pages: state.pages
+    isFetching: state.pages.isFetching,
+    pages: state.pages.items
   }
 }
 
 export default connect(mapStateToProps)(DrawerMenu)
-
-/*
-{pages.map(page => (
-  <MenuItem key={page._id} onClick={() => {
-    dispatch(push(`/admin/pages/update/${page._id}`))
-    handleToggle()
-  }}>{page.name} Page Admin</MenuItem>
-))}
-*/

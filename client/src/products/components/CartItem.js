@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { startUpdateCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import {Card } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -47,7 +47,7 @@ class CartItem extends Component {
     this.props.dispatch(startUpdateCart({ type: 'REDUCE_FROM_CART', product }))
   }
   render() {
-    const { dispatch, index, productId, productQty, name, price, image, total } = this.props
+    const { dispatch, productId, name, price, image, total } = this.props
     return (
       <Card
         style={{ flex: '1 1 auto', height: 100, width: '100%', marginBottom: 8 }}
@@ -56,7 +56,7 @@ class CartItem extends Component {
         onMouseLeave={this.handleMouseLeave}
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-          <img src={this.state.src} alt="" width="100" height="100"/>
+          <img src={image} alt="" width="100" height="100"/>
           <div style={{
             display: 'flex',
             flexFlow: 'row wrap',
@@ -73,20 +73,20 @@ class CartItem extends Component {
               flex: '1 1 auto',
               margin: 8
             }}>
-              <RaisedButton label="-" primary={true} onClick={this.minus} labelStyle={{ fontSize: 24 }} style={{ minWidth: 50 }} />
+              <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: 24 }} style={{ minWidth: 50 }} />
               <TextField
                 style={{ flex: '1 1 auto', width: 50, marginTop: -8 }}
                 inputStyle={{ textAlign: 'center'  }}
                 value={this.state.qty}
                 id={productId}
               />
-              <RaisedButton label="+" primary={true} onClick={this.add} labelStyle={{ fontSize: 24 }} style={{ minWidth: 50 }} />
+              <RaisedButton label="+" primary={true} onTouchTap={this.add} labelStyle={{ fontSize: 24 }} style={{ minWidth: 50 }} />
               <RaisedButton
                 style={{ margin: '0 8px 0 8px', minWidth: 50 }}
                 labelStyle={{ fontSize: 14 }}
                 label="X"
                 primary={true}
-                onClick={() => {
+                onTouchTap={() => {
                   dispatch(startUpdateCart({ type: 'REMOVE_FROM_CART', product: { productId } }))
                 }}
               />

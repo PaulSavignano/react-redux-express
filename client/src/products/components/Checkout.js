@@ -115,7 +115,7 @@ let Checkout = (props) => {
       </div>
       <div>
         <button type="submit" disabled={pristine || submitting}>Submit</button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values
+        <button type="button" disabled={pristine || submitting} onTouchTap={reset}>Clear Values
         </button>
       </div>
     </form>

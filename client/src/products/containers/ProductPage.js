@@ -1,20 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router';
 import Product from '../components/Product'
 
-const ProductPage = ({ product }) => {
+const ProductPage = ({ isFetching, product }) => {
   return (
+    isFetching ? null :
     <main>
-      <h3>Products</h3>
-      <Product {...product} />
+      <section>
+        <Product {...product} />
+      </section>
     </main>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
+  if (!state.products.isFetching) {
+    return {
+      isFetching: state.products.isFetching,
+      product: state.products.items.find(pro => pro.slug === ownProps.params.slug)
+    }
+  }
   return {
-    product: state.products.find(pro => pro.slug === ownProps.params.slug)
+    isFetching: state.products.isFetching
   }
 }
 

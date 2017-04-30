@@ -1,7 +1,11 @@
 export const pages = (state = [], action) => {
   switch (action.type) {
+    case 'REQUEST_PAGES':
+      return {
+        ...state,
+        isFetching: true
+      }
     case 'ADD_PAGE':
-    console.log('adding page', action.page)
       return {
         ...state,
         isFetching: false,
@@ -13,13 +17,7 @@ export const pages = (state = [], action) => {
         isFetching: false,
         items: action.pages
       }
-    case 'REQUEST_PAGES':
-      return {
-        ...state,
-        isFetching: true
-      }
     case 'UPDATE_PAGE':
-      console.log(action.update)
       return {
         ...state,
         items: state.items.map(page => page._id === action.update._id ?
@@ -28,7 +26,6 @@ export const pages = (state = [], action) => {
         )
       }
     case 'DELETE_PAGE':
-    console.log(state)
       return {
         ...state,
         items: state.items.filter(page => page._id !== action._id)

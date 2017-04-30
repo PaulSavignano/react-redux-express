@@ -9,9 +9,13 @@
   color: rgb(0, 188, 212) !important
 }
 
+html, body, #root, [data-reactroot], main {
+  height: 100%;
+}
 /* Main container for holding grids */
 main {
-  padding: 3em 0;
+  display: flex;
+  flex-flow: column;
   max-width: 1044px;
   margin-left: auto;
   margin-right: auto;
@@ -20,15 +24,26 @@ main {
 
 /* Section grid */
 section {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
   max-width: 1044px;
-  margin: 80px auto;
+  margin: 30px 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-footer {
-  background-color: #eceff1;
+h1 {
+  margin: 20px;
+  font-weight: normal
 }
 
-footer > section > a {
+h3 {
+  margin: 20px;
+  font-weight: normal
+}
+
+footer > a {
   padding: 0 15px
 }
 

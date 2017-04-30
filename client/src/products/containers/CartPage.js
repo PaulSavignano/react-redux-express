@@ -7,6 +7,7 @@ const CartPage = () => (
     <h3>Cart</h3>
     <CartList />
     <CartTotal />
+    <section></section>
   </main>
 )
 

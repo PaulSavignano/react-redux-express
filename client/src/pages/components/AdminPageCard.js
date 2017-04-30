@@ -3,9 +3,8 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import Toggle from 'material-ui/Toggle'
 
 import { startUpdatePage } from '../actions/page'
 import ImageForm from '../../images/components/ImageForm'
@@ -18,24 +17,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
     {...custom}
   />
 )
-
-const styles = {
-  Card: {
-    flex: '1 1 auto',
-    width: 300,
-    minWidth: 300,
-    margin: '1em 1em',
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'space-between'
-  },
-  button: {
-    flex: '1 1 auto',
-    margin: 8
-  }
-}
 
 class AdminPageCard extends Component {
   state = {
@@ -54,34 +35,40 @@ class AdminPageCard extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { handleSubmit, dispatch, page, card } = this.props
-    console.log(this.props)
     return (
       <form
         onSubmit={handleSubmit((values) => {
-          const image = this.state.expanded ? this.editor.handleSave() : null
+          let image
+          if (this.state.expanded) {
+            if (this.editor.hasUpload()) {
+              image = this.editor.handleSave()
+            } else {
+              image = card.image
+            }
+          } else {
+            image = null
+          }
           const update = {
             type: 'UPDATE_COMPONENT',
             component: {
-              type: 'card',
               _id: card._id,
-              header: values.header || null,
-              minWidth: values.minWidth,
+              type: 'card',
               image,
-              title: values.title || null,
-              text: values.text || null,
+              values
             }
           }
           dispatch(startUpdatePage(page._id, update))
         })}
-        style={styles.Card}
+        style={{ flex: '1 1 auto', width: card.values.width, margin: 30 }}
       >
         <Card
           expanded={this.state.expanded}
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
+          style={{ height: '100%' }}
         >
-
           <CardTitle
             title={
               <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -93,8 +80,8 @@ class AdminPageCard extends Component {
                   style={{ flex: '1 1 auto' }}
                 />
                 <Field
-                  name="minWidth"
-                  label="Minimum Width"
+                  name="width"
+                  label="Width"
                   type="number"
                   component={renderTextField}
                   style={{ flex: '1 1 auto' }}
@@ -104,7 +91,18 @@ class AdminPageCard extends Component {
           />
           <CardActions>
             <RaisedButton
-              onTouchTap={() => this.setState({ expanded: !this.state.expanded })}
+              onTouchTap={() => {
+                if (this.state.expanded && card.image) {
+                  const update = {
+                    type: 'DELETE_IMAGE',
+                    component: {
+                      _id: card._id
+                    }
+                  }
+                  dispatch(startUpdatePage(page._id, update))
+                }
+                this.setState({ expanded: !this.state.expanded })
+              }}
               type="button"
               label={this.state.expanded ? "Remove Image" : "Add Image"}
               labelColor="#ffffff"
@@ -119,34 +117,54 @@ class AdminPageCard extends Component {
               ref={this.setEditorRef}
             />
           </CardMedia>
-          <CardTitle
-            title={
-              <Field
-                name="title"
-                label="Title"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
-              />
-            }
-          />
           <CardText>
+            <Field
+              name="youtube"
+              label="Youtube iFrame src"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            {card.youtube ?
+              <div style={{ position: 'relative', paddingBottom: '50%'}}>
+                <iframe
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                  src={card.youtube} frameBorder="0" allowFullScreen>
+                </iframe></div>
+            : null}
+            <Field
+              name="title"
+              label="Title"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
             <Field
               name="text"
               label="Text"
+              type="text"
+              multiLine={true}
+              rows={2}
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="link"
+              label="Link to"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
           </CardText>
-          <div style={styles.buttonContainer}>
-            <RaisedButton type="submit" label="Update" primary={true} style={styles.button}/>
+          <div style={{ flex: '1 1 auto' }}></div>
+          <CardActions style={{ display: 'flex' }}>
+            <RaisedButton type="submit" label="Update" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
             <RaisedButton
               type="button"
               label="X"
               primary={true}
-              style={styles.button}
-              onClick={() => {
+              style={{ flex: '1 1 auto', margin: 8 }}
+              onTouchTap={() => {
                 const update = {
                   type: 'DELETE_COMPONENT',
                   component: {
@@ -156,7 +174,7 @@ class AdminPageCard extends Component {
                 dispatch(startUpdatePage(page._id, update))
               }}
             />
-          </div>
+          </CardActions>
         </Card>
       </form>
     )

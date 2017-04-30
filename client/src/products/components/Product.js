@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { addItem, startAddToCart } from '../actions/cart'
+import { startAddToCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -48,23 +48,26 @@ class Product extends Component {
     })
   }
   minus = () => {
-    this.state.qty > 1 ? this.setState({ qty: this.state.qty - 1 }) : null
+    if (this.state.qty > 1) {
+      return this.setState({ qty: this.state.qty - 1 })
+    }
   }
   plus = () => {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
     let qty
-    const { dispatch, _id, name, description, price, image, slug } = this.props
+    const { dispatch, _id, slug, image, values } = this.props
+    const { name, description, price } = values
     return (
       <Card
-        style={styles.cell}
+        style={{ flex: '1 1 auto', width: 300, margin: 20 }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
         <CardMedia>
-          <img src={image} alt="" onClick={() => dispatch(push(`/product/${slug}`))}/>
+          <img src={image} alt={name} onTouchTap={() => dispatch(push(`/product/${slug}`))}/>
         </CardMedia>
         <CardTitle title={
           <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -75,7 +78,7 @@ class Product extends Component {
         />
         <CardText>{description}</CardText>
         <div style={styles.grid}>
-          <RaisedButton label="-" primary={true} onClick={this.minus} labelStyle={styles.button} />
+          <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={styles.button} />
           <TextField
             style={styles.qty}
             inputStyle={styles.input}
@@ -83,13 +86,13 @@ class Product extends Component {
             value={this.state.qty}
             id={this.props._id}
           />
-          <RaisedButton label="+" primary={true} onClick={this.plus} labelStyle={styles.button} />
+          <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={styles.button} />
         </div>
         <RaisedButton
           label="Add To Cart"
           primary={true}
           fullWidth={true}
-          onClick={() => {
+          onTouchTap={() => {
             const product = {
               productId: _id,
               productQty: this.state.qty,

@@ -30,7 +30,7 @@ const CartTotal = ({ total }) => (
     </div>
     <div style={styles.checkout}>
       <p style={styles.p}>Shipping, taxes, and discounts calculated at checkout</p>
-      <RaisedButton label="Checkout" primary={true} onClick={() => browserHistory.push('/checkout')}/>
+      <RaisedButton label="Checkout" primary={true} onTouchTap={() => browserHistory.push('/checkout')}/>
     </div>
   </div>
 )

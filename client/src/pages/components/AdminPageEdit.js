@@ -8,11 +8,11 @@ const AdminPageEdit = (props) => {
   const { page, isFetching, cards } = props
   return (
     isFetching ? null :
-    <section>
+    <main>
       <AdminPageHero page={page} />
       <AdminPageCardAdd page={page} />
       <AdminPageCardList page={page} cards={cards} />
-    </section>
+    </main>
   )
 }
 

@@ -1,5 +1,6 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
+import url from 'url'
 import Page from '../models/Page'
 import { authenticate } from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
@@ -48,20 +49,21 @@ pages.get('/:_id', (req, res) => {
 
 
 
+
 // Update
 pages.patch('/:pageId', (req, res) => {
   const pageId = req.params.pageId
   if (!ObjectID.isValid(pageId)) return res.status(404).send()
   const { type, component } = req.body
-  console.log(type)
   Page.findOne({ _id: pageId })
     .then(page => {
       const componentId = ObjectID(component._id) || null
       const newComponentId = new ObjectID()
-      const existingComponent = page.components.filter(c => c._id.toHexString() === component._id)
-      const oldKey = `pages/${page.slug}/${component.type}s/${component._id}` || null
+      const hasComponent = component._id ? page.components.find(c => c._id.toHexString() === component._id) : null
+      const oldKey = component._id ? `pages/${page.slug}/${hasComponent.type}s/${component._id}` : null
       const Key = `pages/${page.slug}/${component.type}s/${component._id}` || null
       const Body = component.image || null
+      const hasImage = component.image ? url.parse(component.image) : null
 
       switch (type) {
 
@@ -102,26 +104,41 @@ pages.patch('/:pageId', (req, res) => {
         case 'UPDATE_COMPONENT':
           console.log('existing component')
           if (Body) {
-            console.log('has Body')
-            uploadFile({ Key, Body })
-              .then(data => {
-                component._id = componentId
-                component.image = data.Location
-                Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
-                  .then(doc => {
-                    console.log(doc)
-                    res.send(doc)
-                  })
-                  .catch(err => {
-                    console.log(err)
-                    res.status(400).send(err)
-                  })
-              })
-              .catch(err => {
-                console.log(err)
-                res.status(400).send(err)
-              })
-          } else if (existingComponent.image) {
+            if (hasImage.slashes) {
+              console.log('has image url with slashes')
+              component._id = componentId
+              Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
+                .then(doc => {
+                  console.log(doc)
+                  res.send(doc)
+                })
+                .catch(err => {
+                  console.log(err)
+                  res.status(400).send(err)
+                })
+            } else {
+              console.log('has Body with no url slashes')
+              uploadFile({ Key, Body })
+                .then(data => {
+                  component._id = componentId
+                  component.image = data.Location
+                  Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
+                    .then(doc => {
+                      console.log(doc)
+                      res.send(doc)
+                    })
+                    .catch(err => {
+                      console.log(err)
+                      res.status(400).send(err)
+                    })
+                })
+                .catch(err => {
+                  console.log(err)
+                  res.status(400).send(err)
+                })
+            }
+
+          } else if (hasComponent.image) {
             console.log('has existing image')
             deleteFile({ Key: oldKey })
               .then(() => {
@@ -142,7 +159,6 @@ pages.patch('/:pageId', (req, res) => {
               })
           } else {
             console.log('has no Body and no existing image')
-            component._id = newComponentId
             Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })
               .then(doc => {
                 console.log(doc)
@@ -190,6 +206,30 @@ pages.patch('/:pageId', (req, res) => {
               })
           }
           break
+
+
+
+
+        case 'DELETE_IMAGE':
+          console.log('deleting image')
+          deleteFile({ Key: oldKey })
+            .then(() => {
+              Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$.image': null }}, { new: true })
+                .then(doc => {
+                  console.log(doc)
+                  res.send(doc)
+                })
+                .catch(err => {
+                  console.log(err)
+                  res.status(400).send(err)
+                })
+            })
+            .catch(err => {
+              console.log(err)
+              res.status(400).send(err)
+            })
+          break
+
         default:
           return
       }

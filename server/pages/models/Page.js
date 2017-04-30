@@ -9,12 +9,15 @@ const PageSchema = new Schema({
   slug: { type: String },
   components: [{
     type: { type: String },
-    componentId: { type: String },
-    header: { type: String },
-    minWidth: { type: Number },
     image: { type: String },
-    title: { type: String },
-    text: { type: String },
+    values: {
+      header: { type: String },
+      width: { type: Number },
+      youtube: { type: String },
+      title: { type: String },
+      text: { type: String },
+      link: { type: String },
+    },
     createdAt: { type: Date, default: Date.now }
   }],
   createdAt: {

@@ -14,9 +14,6 @@ const styles = {
   control: {
     flex: '1 1 auto'
   },
-  imageButton: {
-    margin: '12px 0'
-  },
   imageInput: {
     cursor: 'pointer',
     position: 'absolute',
@@ -42,6 +39,7 @@ class ImageForm extends Component {
     rotate: 0,
     borderRadius: 0,
     preview: null,
+    hasUpload: false
   }
 
   handleSave = (data) => {
@@ -81,7 +79,7 @@ class ImageForm extends Component {
   }
 
   handleBorderRadius = (e) => {
-    const borderRadius = parseInt(e.target.value)
+    const borderRadius = parseInt(e.target.value, 10)
     this.setState({ borderRadius })
   }
 
@@ -105,10 +103,17 @@ class ImageForm extends Component {
     const file = e.target.files[0]
     reader.onload = (e) => this.editor.loadImage(e.target.result)
     reader.readAsDataURL(file)
+    this.setState({ hasUpload: true })
+  }
+  hasUpload = () => {
+    return this.state.hasUpload
   }
 
   setEditorRef = (editor) => {
     if (editor) this.editor = editor
+  }
+  readImage = (url) => {
+    return this.editor.readImage(url)
   }
 
   render () {
@@ -129,6 +134,15 @@ class ImageForm extends Component {
         />
         <br />
         <div style={styles.container}>
+          <RaisedButton
+            label="Choose an Image"
+            labelPosition="before"
+            containerElement="label"
+            style={{ margin: '0 0 12px 0'}}
+            fullWidth={true}
+          >
+            <input type="file" style={styles.imageInput} onChange={this.handleUpload} />
+          </RaisedButton>
           <div style={styles.controlContainer}>
             <label>Zoom:</label>
             <input
@@ -201,18 +215,9 @@ class ImageForm extends Component {
 
           <div style={styles.controlContainer}>
             <label>Rotate:</label>
-            <RaisedButton onClick={this.rotateLeft} style={styles.button}>Left</RaisedButton>
-            <RaisedButton onClick={this.rotateRight} style={styles.button}>Right</RaisedButton>
+            <RaisedButton onTouchTap={this.rotateLeft} style={styles.button}>Left</RaisedButton>
+            <RaisedButton onTouchTap={this.rotateRight} style={styles.button}>Right</RaisedButton>
           </div>
-          <RaisedButton
-            label="Choose an Image"
-            labelPosition="before"
-            style={styles.imageButton}
-            containerElement="label"
-            fullWidth={true}
-          >
-            <input type="file" style={styles.imageInput} onChange={this.handleUpload} />
-          </RaisedButton>
         </div>
       </div>
     )

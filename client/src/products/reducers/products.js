@@ -9,27 +9,39 @@ export const searchProducts = (state = '', action) => {
 
 export const products = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_PRODUCT':
-      return [
+    case 'REQUEST_PRODUCTS':
+      return {
         ...state,
-        action.product
-      ]
+        isFetching: true
+      }
+    case 'ADD_PRODUCT':
+      return {
+        ...state,
+        isFetching: false,
+        items: [
+          ...state.items,
+          action.product
+        ]
+      }
     case 'FETCH_PRODUCTS':
-      const updatedArray = [ ...state, ...action.products ]
-      const filteredArray = updatedArray.filter((object, index, self) => {
-        return self.findIndex(obj => obj._id === object._id) === index
-      })
-      return filteredArray
+      return {
+        ...state,
+        isFetching: false,
+        items: action.products
+      }
     case 'UPDATE_PRODUCT':
-    return state.map(product =>
-      product._id === action._id ?
-        { ...product, ...action.updates } :
+    return {
+      ...state,
+      items: state.items.map(product => product._id === action.product._id ?
+        { ...product, ...action.product } :
         product
       )
+    }
     case 'DELETE_PRODUCT':
-      return state.filter(product =>
-        product._id !== action._id
-      )
+      return {
+        ...state,
+        items: state.items.filter(product => product._id !== action._id)
+      }
     default:
       return state
   }

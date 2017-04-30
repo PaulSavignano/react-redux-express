@@ -32,7 +32,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 let Signin = (props) => {
-  const { error, dispatch, handleSubmit, submitting } = props
+  const { dispatch, handleSubmit, submitting, user } = props
   return (
     <div className="section-forms">
       <Card>
@@ -42,7 +42,7 @@ let Signin = (props) => {
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
             <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
           </CardText>
-          {props.user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
+          {user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
           <CardActions>
             <RaisedButton
               label="Sign In"

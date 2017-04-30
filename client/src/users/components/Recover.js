@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-import { Field, reduxForm, SubmissionError  } from 'redux-form'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import { Field, reduxForm } from 'redux-form'
 import { startRecovery } from '../actions/users'
 
 const validate = values => {
@@ -44,13 +43,13 @@ const styles = {
 }
 
 const RecoverForm = (props) => {
-  const { error, dispatch, handleSubmit, submitting } = props
-  props.dirty ? dispatch({ type: 'AUTH_ERROR', error: false }) : ''
+  const { dispatch, handleSubmit, submitting, user } = props
+  if (props.dirty) { return dispatch({ type: 'AUTH_ERROR', error: false })}
   return (
     <div style={styles.grid}>
       <Card style={styles.item}>
         <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
-        {props.user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
+        {user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
         <form onSubmit={handleSubmit(values => dispatch(startRecovery(values)))} className="">
           <CardText>
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
@@ -71,7 +70,7 @@ const RecoverForm = (props) => {
 }
 
 const RecoverSuccess = (props) => {
-  const { error, dispatch, handleSubmit, submitting, recover } = props
+  const { recover } = props
   return (
     <div style={styles.grid}>
       <Card style={styles.item}>
@@ -82,7 +81,7 @@ const RecoverSuccess = (props) => {
 }
 
 let Recover = (props) => {
-  const { error, dispatch, handleSubmit, submitting, submitSucceeded } = props
+  const { submitSucceeded } = props
   return (
     submitSucceeded ? <RecoverSuccess {...props} /> : <RecoverForm {...props} />
   )

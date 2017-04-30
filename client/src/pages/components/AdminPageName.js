@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { startDeletePage } from '../actions/page'
@@ -38,7 +38,7 @@ class AdminPageName extends Component {
     })
   }
   render() {
-    const { handleSubmit, _id, dispatch, name, slug } = this.props
+    const { _id, dispatch, name, slug } = this.props
     return (
         <Card
           zDepth={this.state.zDepth}
@@ -49,12 +49,12 @@ class AdminPageName extends Component {
           <CardText style={styles.CardText}>
             <div style={styles.name}>{name}</div>
             <RaisedButton
-              onClick={() => dispatch(push(`/admin/pages/${slug}`))}
+              onTouchTap={() => dispatch(push(`/admin/pages/${slug}`))}
               label="Edit"
               primary={true}
             />
             <RaisedButton
-              onClick={() => dispatch(startDeletePage(_id))}
+              onTouchTap={() => dispatch(startDeletePage(_id))}
               label="X"
               primary={true}
               style={{ marginLeft: 16 }}

@@ -1,41 +1,32 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { push } from 'react-router-redux'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
-class SigninSignout extends Component {
-  renderLinks() {
-    if (this.props.authenticated) {
-      return (
-        <ul className="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" htmlFor="more-button">
-          <li className="mdl-menu__item">
-            <Link to="/signout" className="mdl-navigation__link mdl-typography--text-uppercase">Sign out</Link>
-          </li>
-        </ul>
-      )
-    } else {
-      return (
-        <ul className="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" htmlFor="more-button">
-          <li className="mdl-menu__item">
-            <Link to="/signin" className="mdl-navigation__link mdl-typography--text-uppercase">Sign In</Link>
-          </li>
-          <li className="mdl-menu__item">
-            <Link to="/signup" className="mdl-navigation__link mdl-typography--text-uppercase">Sign Up</Link>
-          </li>
-        </ul>
-      )
-    }
-  }
-  render() {
-    return (
-      <div>
-        { this.renderLinks() }
-      </div>
-    )
-  }
+
+const SigninSignout = (props) => {
+  const { dispatch } = props
+  return (
+    <IconMenu
+      iconButtonElement={
+        <IconButton><MoreVertIcon /></IconButton>
+      }
+      style={{ verticalAlign: 'middle' }}
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+    >
+      <MenuItem primaryText="Sign in" onTouchTap={() => dispatch(push('/signin'))} />
+      <MenuItem primaryText="Sign up" onTouchTap={() => dispatch(push('/signup'))}/>
+    </IconMenu>
+  )
 }
 
+
 const mapStateToProps = (state) => ({
-  authenticated: state.user.authenticated
+  state
 })
 
 export default connect(mapStateToProps)(SigninSignout)

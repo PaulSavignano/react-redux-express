@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { startAddPage } from '../actions/page'
@@ -22,7 +21,7 @@ const renderTextField = ({ input, label, submissionError, meta: { touched, error
   <TextField
     hintText={label}
     floatingLabelText={label}
-    errorText={touched && error || submissionError}
+    errorText={(touched && error) || submissionError}
     {...input}
     {...custom}
   />

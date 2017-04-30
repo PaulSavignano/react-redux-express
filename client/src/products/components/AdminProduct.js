@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { startUpdateProduct, startDeleteProduct } from '../actions/product'
@@ -32,24 +32,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-const styles = {
-  Card: {
-    flex: '1 1 auto',
-    width: 300,
-    minWidth: 300,
-    margin: '1em 1em',
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'space-between'
-  },
-  button: {
-    flex: '1 1 auto',
-    margin: 8
-  }
-}
-
 class AdminProduct extends Component {
   state = {
     zDepth: 1,
@@ -60,17 +42,22 @@ class AdminProduct extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { handleSubmit, _id, dispatch, image } = this.props
+    console.log(this.props)
     return (
       <Card
-        style={styles.Card}
+        style={{ flex: '1 1 auto', width: 300, margin: 20 }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
         <form
           onSubmit={handleSubmit((values) => {
-            const image = this.editor.handleSave()
-            dispatch(startUpdateProduct(values, image))
+            const product = {
+              _id,
+              image: this.editor.hasUpload() ? this.editor.handleSave() : image,
+              values
+            }
+            dispatch(startUpdateProduct(values))
           })}
         >
           <CardMedia>
@@ -82,41 +69,39 @@ class AdminProduct extends Component {
               ref={this.setEditorRef}
             />
           </CardMedia>
-          <CardTitle
-            title={
-              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-                <Field
-                  name="name"
-                  label="Name"
-                  type="text"
-                  component={renderTextField}
-                />
-                <Field
-                  name="price"
-                  label="Price"
-                  type="number"
-                  component={renderTextField}
-                />
-              </div>
-            }
-          />
           <CardText>
             <Field
-              name="description"
-              label="Description"
+              name="name"
+              label="Name"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
+            <Field
+              name="price"
+              label="Price"
+              type="number"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="description"
+              label="Description"
+              type="text"
+              multiLine={true}
+              rows={2}
+              fullWidth={true}
+              component={renderTextField}
+            />
           </CardText>
-          <div style={styles.buttonContainer}>
-            <RaisedButton type="submit" label="Update" primary={true} style={styles.button}/>
+          <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+            <RaisedButton type="submit" label="Update" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
             <RaisedButton
               type="button"
               label="X"
               primary={true}
-              style={styles.button}
-              onClick={() => dispatch(startDeleteProduct(_id))}
+              style={{ flex: '1 1 auto', margin: 8 }}
+              onTouchTap={() => dispatch(startDeleteProduct(_id))}
             />
           </div>
         </form>

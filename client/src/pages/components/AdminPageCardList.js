@@ -1,27 +1,20 @@
 import React from 'react'
 import AdminPageCard from './AdminPageCard'
 
-const styles = {
-  grid: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-  }
-}
-
 const AdminPageCardList = ({ cards, page }) => {
   return (
     cards.length > 0 ?
-    <div style={styles.grid}>
+    <section>
       {cards.map(card => (
         <AdminPageCard
           key={card._id}
           card={card}
           page={page}
-          initialValues={card}
+          initialValues={card.values}
         />
       ))}
-    </div> :
-    <div><p className="container__message">No products yet</p></div>
+    </section> :
+    <section><h3>No products yet</h3></section>
   )
 }
 

@@ -37,7 +37,7 @@ export class Todo extends Component {
               id={_id}
               className="mdl-checkbox__input"
               checked={completed}
-              onClick={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
+              onTouchTap={() => dispatch(startUpdateTodo(_id, { completed: !completed }))} />
           </label>
 
 
@@ -59,7 +59,7 @@ export class Todo extends Component {
           <button
             type="button"
             className="mdl-button mdl-js-button mdl-button--raised"
-            onClick={() => dispatch(startDeleteTodo(_id))}
+            onTouchTap={() => dispatch(startDeleteTodo(_id))}
           >
             Delete
           </button>
