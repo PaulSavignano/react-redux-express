@@ -4,7 +4,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import FontIcon from 'material-ui/FontIcon'
 
 const Footer = (props) => (
-  <footer style={{ display: 'flex', justifyContent: 'center', padding: '28px 36px', backgroundColor: props.muiTheme.palette.primary3Color }}>
+  <footer style={{ display: 'flex', justifyContent: 'center', padding: '60px 30px', backgroundColor: props.muiTheme.palette.primary3Color }}>
     <Link to="https://github.com/"><FontIcon className="fa fa-github-square" /></Link>
     <Link to="https://twitter.com/"><FontIcon className="fa fa-twitter-square"/></Link>
     <Link to="https://plus.google.com/"><FontIcon className="fa fa-google-plus-square"/></Link>

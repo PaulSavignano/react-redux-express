@@ -15,21 +15,38 @@ const transporter = nodemailer.createTransport({
 
 export const sendEmail1 = (mail) => {
   const { to, subject, name, body } = mail
-  const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: to,
-      subject: subject,
-      html: `
-        <p>Hi ${name},</p>
-        <p>${body}</p>
-        <p>
-          Paul savignano<br />
-          1234 Pattern Ln<br />
-          Carlsbad, CA.<br />
-        </p>
-      `
+  const userMail = {
+    from: process.env.GMAIL_USER,
+    to: to,
+    subject: subject,
+    html: `
+      <p>Hi ${name},</p>
+      <p>${body}</p>
+      <p>
+        Paul savignano<br />
+        1234 Pattern Ln<br />
+        Carlsbad, CA.<br />
+      </p>
+    `
   }
-  transporter.sendMail(mailOptions)
-  //  .then(info => console.log(info))
-    .catch(err => console.log(err))
+  const adminMail = {
+    from: process.env.GMAIL_USER,
+    to: process.env.GMAIL_USER,
+    subject: subject,
+    html: `
+      <p>${name} just sent you an email.</p>
+      <p>${body}</p>
+      <p>
+        Paul savignano<br />
+        1234 Pattern Ln<br />
+        Carlsbad, CA.<br />
+      </p>
+    `
+  }
+  return transporter.sendMail(userMail)
+    .then(info => {
+      transporter.sendMail(adminMail)
+      return info
+    })
+    .catch(err => err)
 }

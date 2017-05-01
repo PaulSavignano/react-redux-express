@@ -4,15 +4,16 @@ import Product from './Product'
 
 const ProductList = ({ isFetching, products }) => (
   isFetching ? null : products.length > 0 ?
-  <section>
-    {products.map(product => (
-      <Product
-        key={product._id}
-        {...product}
-      />
-    ))}
-  </section> :
-  <section><p>No products yet</p></section>
+    <section>
+      {products.map(product => (
+        <Product
+          key={product._id}
+          {...product}
+        />
+      ))}
+    </section>
+  :
+    <section><p>No products yet</p></section>
 )
 
 const mapStateToProps = (state) => {

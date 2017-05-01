@@ -152,20 +152,26 @@ users.get('/me', authenticate(['user','admin']), (req, res) => {
 })
 
 
-// test
-users.get('/admin-only-route', authenticate(['user']), (req, res) => {
-  res.send(req.user)
-
-  // req.user.role.map(role => {
-  //   if (role === 'admin') {
-  //     Todo.find({})
-  //       .then(todos => res.send({todos}))
-  //       .catch(err => res.status(400).send(err))
-  //   } else {
-  //     res.state(401).send()
-  //   }
-  // })
+// Contact
+users.post('/contact', (req, res) => {
+  const { firstname, email, message } = req.body
+  if (!firstname || !email || !message) {
+    return res.status(422).send({ error: 'You must provide all fields' });
+  }
+  sendEmail1({
+    to: 'paul.savignano@gmail.com',
+    subject: 'Thank you for contacting us',
+    name: firstname,
+    body: `<p>Your message has been recieved and we will be contacting you shortly.</p>`
+  })
+    .then(info => {
+      console.log(info)
+      res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
+    })
+    .catch(err => res.status(400).send(err))
 })
+
+
 
 
 export default users

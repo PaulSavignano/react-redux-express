@@ -6,9 +6,7 @@ const ProductPage = ({ isFetching, product }) => {
   return (
     isFetching ? null :
     <main>
-      <section>
-        <Product {...product} />
-      </section>
+      <section><Product {...product} /></section>
     </main>
   )
 }

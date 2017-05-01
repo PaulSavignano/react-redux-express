@@ -14,8 +14,11 @@ import configureStore from './store/configureStore'
 import routes from './routes'
 import './index.css'
 import { startAuthUser } from './users/actions/users'
-import { startFetchProducts } from './products/actions/product'
 import { startFetchPages } from './pages/actions/page'
+import { startFetchCart } from './products/actions/cart'
+import { startFetchProducts } from './products/actions/product'
+
+
 
 injectTapEventPlugin()
 
@@ -28,8 +31,9 @@ if (token) {
   store.dispatch(startAuthUser(token));
 }
 
-store.dispatch(startFetchProducts())
 store.dispatch(startFetchPages())
+store.dispatch(startFetchCart())
+store.dispatch(startFetchProducts())
 
 ReactDOM.render(
   <MuiThemeProvider muiTheme={getMuiTheme(Theme)}>

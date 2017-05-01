@@ -19,6 +19,10 @@ const DrawerMenu = ({ isFetching, pages, dispatch, handleToggle }) => {
         dispatch(push('/admin/pages'))
         handleToggle()
       }}>Admin Pages Add</MenuItem>
+      <MenuItem onTouchTap={() => {
+        dispatch(push('/contact'))
+        handleToggle()
+      }}>Contact</MenuItem>
       <MenuItem>Menu Item 2</MenuItem>
     </div>
     : null

@@ -28,7 +28,7 @@ export const addToCart = (cart) => {
 export const startAddToCart = (product) => {
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
-    if (cartId) {
+    if (cartId !== null) {
       return fetch(`/api/carts/${cartId}`, {
         method: 'PATCH',
         headers: {
@@ -39,20 +39,24 @@ export const startAddToCart = (product) => {
         .then(res => res.json())
         .then(json => dispatch(addToCart(json)))
         .catch(err => console.log(err))
-    }
-    return fetch('/api/carts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(product)
-    })
-      .then(res => {
-        localStorage.setItem('cart', res.headers.get('cart'))
-        return res.json()
+    } else {
+      console.log('no cart id')
+      return fetch('/api/carts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product)
       })
-      .then(json => dispatch(addToCart(json)))
-      .catch(err => console.log(err))
+        .then(res => {
+          console.log(res)
+          localStorage.setItem('cart', res.headers.get('cart'))
+          return res.json()
+        })
+        .then(json => dispatch(addToCart(json)))
+        .catch(err => console.log(err))
+    }
+
   }
 }
 
@@ -75,7 +79,11 @@ export const startFetchCart = () => {
         },
       })
       .then(res => res.json())
-      .then(json => dispatch(fetchCart(json)))
+      .then(json => {
+        console.log(json)
+        dispatch(fetchCart(json))
+      })
+
       .catch(err => console.log(err))
     }
     console.log('no cart')

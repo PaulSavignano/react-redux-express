@@ -14,16 +14,17 @@ const filterProducts = (products, searchText) => {
 
 const AdminProductList = ({ dispatch, isFetching, products, searchProducts }) => (
   isFetching ? null : products.length > 0 ?
-  <section>
-    {filterProducts(products, searchProducts).map(product => (
-      <AdminProduct
-        key={product._id}
-        {...product}
-        initialValues={product.values}
-      />
-    ))}
-  </section> :
-  <section><h3 onTouchTap={() => dispatch(push('/admin/products'))}>No products yet, let's make some!</h3></section>
+    <section>
+      {filterProducts(products, searchProducts).map(product => (
+        <AdminProduct
+          key={product._id}
+          {...product}
+          initialValues={product.values}
+        />
+      ))}
+    </section>
+  :
+    <section><h3 onTouchTap={() => dispatch(push('/admin/products'))}>No products yet, let's make some!</h3></section>
 )
 
 const mapStateToProps = (state) => {

@@ -30,53 +30,45 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 
-const styles = {
-  grid: {
-    display: 'grid',
-    paddingTop: 80,
-    paddingBottom: 80,
-  },
-  item: {
-    maxWidth: 840,
-    margin: '0 auto'
-  }
-}
-
 const RecoverForm = (props) => {
   const { dispatch, handleSubmit, submitting, user } = props
   if (props.dirty) { return dispatch({ type: 'AUTH_ERROR', error: false })}
   return (
-    <div style={styles.grid}>
-      <Card style={styles.item}>
-        <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
-        {user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
-        <form onSubmit={handleSubmit(values => dispatch(startRecovery(values)))} className="">
-          <CardText>
-            <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-          </CardText>
-          <CardActions>
-            <RaisedButton
-              label="Recover"
-              fullWidth={true}
-              disabled={submitting}
-              type="submit"
-              primary={true}
-            />
-          </CardActions>
-        </form>
-      </Card>
-    </div>
+    <main>
+      <section>
+        <Card>
+          <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
+          {user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
+          <form onSubmit={handleSubmit(values => dispatch(startRecovery(values)))} className="">
+            <CardText>
+              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+            </CardText>
+            <CardActions>
+              <RaisedButton
+                label="Recover"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
+            </CardActions>
+          </form>
+        </Card>
+      </section>
+    </main>
   )
 }
 
 const RecoverSuccess = (props) => {
   const { recover } = props
   return (
-    <div style={styles.grid}>
-      <Card style={styles.item}>
-        <CardTitle title="Success!" subtitle={recover.message} />
-      </Card>
-    </div>
+    <main>
+      <section>
+        <Card>
+          <CardTitle title="Success!" subtitle={recover.message} />
+        </Card>
+      </section>
+    </main>
   )
 }
 

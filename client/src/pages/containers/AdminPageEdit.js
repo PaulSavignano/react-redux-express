@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import AdminPageHero from './AdminPageHero'
-import AdminPageCardAdd from './AdminPageCardAdd'
-import AdminPageCardList from './AdminPageCardList'
+import AdminPageHero from '../components/AdminPageHero'
+import AdminPageCardAdd from '../components/AdminPageCardAdd'
+import AdminPageCardList from '../components/AdminPageCardList'
 
 const AdminPageEdit = (props) => {
   const { page, isFetching, cards } = props

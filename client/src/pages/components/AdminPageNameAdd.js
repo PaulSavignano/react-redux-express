@@ -27,33 +27,17 @@ const renderTextField = ({ input, label, submissionError, meta: { touched, error
   />
 )
 
-const styles = {
-  Card: {
-    margin: '0 0 16px 0'
-  },
-  CardText: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    alignItems: 'center'
-  },
-  Field: {
-    flex: '1 1 auto'
-  },
-  RaisedButton: {
-    alignSelf: 'flex-end'
-  }
-}
-
 class AdminPageNameAdd extends Component {
   render() {
     const { error, handleSubmit, dispatch } = this.props
     return (
-        <Card style={styles.Card}>
+      <section>
+        <Card>
           <form
             onSubmit={handleSubmit(values => dispatch(startAddPage(values)))}
           >
-            <CardText style={styles.CardText}>
-              <div style={styles.Field}>
+            <CardText style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center' }}>
+              <div style={{ flex: '1 1 auto' }}>
                 <Field
                   name="name"
                   label="Add Page Name"
@@ -67,6 +51,7 @@ class AdminPageNameAdd extends Component {
             </CardText>
           </form>
         </Card>
+      </section>
     )
   }
 }

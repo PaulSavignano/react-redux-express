@@ -6,25 +6,35 @@ import { authenticate } from '../../middleware/authenticate'
 
 const carts = express.Router()
 
+
 // Create
 carts.post('/', (req, res) => {
   const { productId, productQty } = req.body.product
   Product.findOne({ _id: productId })
     .then(product => {
+      const { price, name } = product.values
+      console.log(product)
       const cart = new Cart({
-        total: productQty * product.price,
+        total: productQty * price,
         quantity: productQty,
         items: [{
           productId,
           productQty,
-          name: product.name,
-          price: product.price,
-          total: productQty * product.price
+          image: product.image,
+          name,
+          price,
+          total: productQty * price
         }]
       })
       cart.save()
-        .then(doc => res.header('cart', doc._id).send(doc))
-        .catch(err => res.status(400).send(err))
+        .then(doc => {
+          console.log(doc)
+          res.header('cart', doc._id).send(doc)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
     })
 })
 
@@ -66,6 +76,7 @@ carts.patch('/:_id', (req, res) => {
             cart.items[index] = {
               total: cart.items[index].price * (cart.items[index].productQty + product.productQty),
               price: cart.items[index].price,
+              image: cart.items[index].image,
               name: cart.items[index].name,
               productQty: cart.items[index].productQty + product.productQty,
               productId: cart.items[index].productId
@@ -81,6 +92,7 @@ carts.patch('/:_id', (req, res) => {
               cart.items[index] = {
                 total: cart.items[index].price * (cart.items[index].productQty - product.productQty),
                 price: cart.items[index].price,
+                image: cart.items[index].image,
                 name: cart.items[index].name,
                 productQty: cart.items[index].productQty - product.productQty,
                 productId: cart.items[index].productId
@@ -113,14 +125,15 @@ carts.patch('/:_id', (req, res) => {
       } else {
         Product.findOne({ _id: product.productId })
           .then(pro => {
-            cart.total = cart.total + (pro.price * product.productQty)
+            cart.total = cart.total + (pro.values.price * product.productQty)
             cart.quantity = cart.quantity + product.productQty
             const item = {
               productId: product.productId,
               productQty: product.productQty,
-              name: pro.name,
-              price: pro.price,
-              total: pro.price * product.productQty
+              image: pro.image,
+              name: pro.values.name,
+              price: pro.values.price,
+              total: pro.values.price * product.productQty
             }
             cart.items.push(item)
             cart.save()

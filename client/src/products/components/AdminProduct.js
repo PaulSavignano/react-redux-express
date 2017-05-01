@@ -34,8 +34,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class AdminProduct extends Component {
   state = {
-    zDepth: 1,
-    editing: true
+    zDepth: 1
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })

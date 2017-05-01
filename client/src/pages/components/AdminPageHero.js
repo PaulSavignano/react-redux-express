@@ -144,7 +144,6 @@ class AdminPageHero extends Component {
   }
   render() {
     const { handleSubmit, dispatch, isFetching, page, component } = this.props
-    console.log(component)
     return (
       isFetching ? null :
       <section>
@@ -331,7 +330,6 @@ class AdminPageHero extends Component {
           </Card>
         </form>
       </section>
-
     )
   }
 }

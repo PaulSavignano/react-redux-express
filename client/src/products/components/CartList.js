@@ -11,7 +11,7 @@ class CartList extends Component {
     const { items } = this.props
     return (
       items ?
-      <div>
+      <section>
         {items.map((item, index) => (
           <CartItem
             key={item.productId}
@@ -19,8 +19,9 @@ class CartList extends Component {
             {...item}
           />
         ))}
-      </div> :
-      <div><p className="container__message">Nothing in your cart yet</p></div>
+      </section>
+      :
+      <section><p>Nothing in your cart yet</p></section>
     )
   }
 }

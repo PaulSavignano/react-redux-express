@@ -5,15 +5,14 @@ import AdminPageName from './AdminPageName'
 
 
 const AdminPageNameList = (props) => (
-  <section>
-    <AdminPageNameAdd />
-    {props.pages.items ?
-      props.pages.items.map(page => (
+  props.pages.items ?
+    <section>
+      {props.pages.items.map(page => (
         <AdminPageName key={page._id} {...page} />
-      ))
-      :
-    null}
-  </section>
+      ))}
+    </section>
+  :
+    null
 )
 
 const mapStateToProps = (state) => {

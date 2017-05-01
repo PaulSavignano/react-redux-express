@@ -4,11 +4,11 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
-import { startSignupUser } from '../actions/users'
+import { startContact } from '../actions/users'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'firstname', 'lastname', 'email', 'password', 'passwordConfirm' ]
+  const requiredFields = [ 'firstname', 'email', 'message' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -16,9 +16,6 @@ const validate = values => {
   })
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address'
-  }
-  if (values.password !== values.passwordConfirm) {
-    errors.passwordConfirm = 'Passwords must match'
   }
   return errors
 }
@@ -32,25 +29,24 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-let Signup = (props) => {
+
+const ContactForm = (props) => {
   const { dispatch, handleSubmit, submitting, user } = props
   return (
     <main>
       <section>
         <Card>
-          <CardTitle title="Signup" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(startSignupUser(values)))} >
+          <CardTitle title="Contact" subtitle="Enter your information" />
+          <form onSubmit={handleSubmit(values => dispatch(startContact(values)))} >
             <CardText>
               <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
-              <Field name="lastname" component={renderTextField} label="Last Name" fullWidth={true} />
               <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-              <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
+              <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
             </CardText>
-            {user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
+            {user.error ? <CardText><p>{user.error}</p></CardText> : ''}
             <CardActions>
               <RaisedButton
-                label="Sign Up"
+                label="Contact"
                 fullWidth={true}
                 disabled={submitting}
                 type="submit"
@@ -61,19 +57,40 @@ let Signup = (props) => {
         </Card>
       </section>
     </main>
+
+  )
+}
+
+const ContactSuccess = (props) => {
+  const { message } = props
+  return (
+    <main>
+      <section>
+        <Card>
+          <CardTitle title="Success!" subtitle={message} />
+        </Card>
+      </section>
+    </main>
+  )
+}
+
+let Contact = (props) => {
+  const { submitSucceeded } = props
+  return (
+    submitSucceeded ? <ContactSuccess {...props} /> : <ContactForm {...props} />
   )
 }
 
 
-Signup = reduxForm({
-  form: 'signup',
+Contact = reduxForm({
+  form: 'contact',
   validate
-})(Signup)
+})(Contact)
 
 const mapStateToProps = (state) => ({
   user: state.user
 })
 
-Signup = connect(mapStateToProps)(Signup)
+Contact = connect(mapStateToProps)(Contact)
 
-export default Signup
+export default Contact

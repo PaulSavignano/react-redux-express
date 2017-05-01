@@ -2,24 +2,6 @@ import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-const styles = {
-  grid: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    marginBottom: 8
-  },
-  qty: {
-    flex: '1 1 auto',
-  },
-  input: {
-    textAlign: 'center'
-  },
-  button: {
-    fontSize: '24px'
-  }
-}
-
 class Quantity extends Component {
   state = {
     qty: 1
@@ -33,16 +15,16 @@ class Quantity extends Component {
   render() {
     let qty
     return (
-      <div style={styles.grid}>
-        <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={styles.button} />
+      <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
+        <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: 24 }} />
         <TextField
-          style={styles.qty}
+          style={{ flex: '1 1 auto' }}
           inputStyle={styles.input}
           ref={node => qty = node}
           value={this.state.qty}
           id={this.props.id}
         />
-        <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={styles.button} />
+        <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: 24 }} />
       </div>
     )
   }

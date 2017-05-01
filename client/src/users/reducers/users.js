@@ -3,9 +3,13 @@ export const user = (state = {}, action) => {
     case 'AUTH_USER':
       return { ...state, ...action.user, authenticated: true, error: null }
     case 'UNAUTH_USER':
-      return { }
+      return { ...state, authenticated: false, error: null}
     case 'AUTH_ERROR':
-      return { ...state, ...action.error }
+      return { ...state, error: action.error }
+    case 'ERROR':
+      return { ...state, error: action.error }
+    case 'CONTACT_USER':
+      return { ...state, message: action.values }
     default:
       return state
   }

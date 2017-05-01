@@ -44,63 +44,65 @@ class AdminProductAdd extends Component {
   render() {
     const { handleSubmit, _id, dispatch } = this.props
     return (
-      <Card
-        style={{ flex: '1 1 auto', margin: 20 }}
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <form
-          onSubmit={handleSubmit((values) => {
-            console.log('adding')
-            const product = {
-              image: this.editor.hasUpload() ? this.editor.handleSave() : null,
-              values
-            }
-            this.props.reset()
-            dispatch(startAddProduct(product))
-            this.editor.readImage(this.state.image)
-          })}
+      <section>
+        <Card
+          style={{ flex: '1 1 auto', margin: 20 }}
+          zDepth={this.state.zDepth}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
         >
-          <CardMedia>
-            <ImageForm
-              image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
-              width={1000}
-              height={1000}
-              _id={_id}
-              ref={this.setEditorRef}
-            />
-          </CardMedia>
-          <CardText>
-            <Field
-              name="name"
-              label="Name"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="price"
-              label="Price"
-              type="number"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="description"
-              label="Description"
-              type="text"
-              multiLine={true}
-              rows={2}
-              fullWidth={true}
-              component={renderTextField}
-            />
-          </CardText>
-          <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-            <RaisedButton type="submit" label="Add" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
-          </div>
-        </form>
-      </Card>
+          <form
+            onSubmit={handleSubmit((values) => {
+              console.log('adding')
+              const product = {
+                image: this.editor.hasUpload() ? this.editor.handleSave() : null,
+                values
+              }
+              this.props.reset()
+              dispatch(startAddProduct(product))
+              this.editor.readImage(this.state.image)
+            })}
+          >
+            <CardMedia>
+              <ImageForm
+                image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
+                width={1000}
+                height={1000}
+                _id={_id}
+                ref={this.setEditorRef}
+              />
+            </CardMedia>
+            <CardText>
+              <Field
+                name="name"
+                label="Name"
+                type="text"
+                fullWidth={true}
+                component={renderTextField}
+              />
+              <Field
+                name="price"
+                label="Price"
+                type="number"
+                fullWidth={true}
+                component={renderTextField}
+              />
+              <Field
+                name="description"
+                label="Description"
+                type="text"
+                multiLine={true}
+                rows={2}
+                fullWidth={true}
+                component={renderTextField}
+              />
+            </CardText>
+            <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+              <RaisedButton type="submit" label="Add" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
+            </div>
+          </form>
+        </Card>
+      </section>
     )
   }
 }

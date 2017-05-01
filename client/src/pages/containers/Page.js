@@ -1,18 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import PageHero from './PageHero'
-import PageCard from './PageCard'
+import PageHero from '../components/PageHero'
+import PageCardList from '../components/PageCardList'
 
 const Page = ({ isFetching, components, hero, cards }) => {
-  console.log(isFetching)
   return (
     !isFetching ?
     <div>
       {hero ? <PageHero key={hero._id} {...hero} /> : null }
-      <section>
-        {cards ? cards.map(card => <PageCard key={card._id} {...card} />) : null }
-      </section>
+      <main>
+        {cards ?  <PageCardList cards={cards} /> : null }
+      </main>
     </div>
     :
     null

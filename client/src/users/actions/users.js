@@ -1,16 +1,15 @@
 import { browserHistory } from 'react-router'
 import { SubmissionError } from 'redux-form'
 
-export const authError = (error) => {
+const error = (err) => {
   return {
-    type: 'AUTH_ERROR',
-    error
+    type: 'ERROR',
+    err
   }
 }
 
 export const signoutUser = () => {
   localStorage.removeItem('token')
-
   return {
     type: 'UNAUTH_USER',
     user: {
@@ -45,7 +44,7 @@ export const startSignupUser = ({ firstname, lastname, email, password }) => {
       .then(json => {
         dispatch(signupUser(json))
       })
-      .catch(err => dispatch(authError(err.data.error)))
+      .catch(err => dispatch(error(err.data.error)))
   }
 }
 
@@ -78,7 +77,7 @@ export const startSigninUser = ({ email, password }, nextPathname) => {
       })
       .catch((err) => {
         console.log(err)
-        dispatch(authError({ error: 'No user found, please try again'}));
+        dispatch(error({ error: 'No user found, please try again'}));
       })
   }
 }
@@ -100,9 +99,7 @@ export const startAuthUser = (token) => {
         'x-auth': token
       }
     })
-      .then(res => {
-        res.json()
-      })
+      .then(res => res.json())
       .then(json => {
           dispatch(authUser(json))
       })
@@ -149,7 +146,7 @@ export const startRecovery = ({ email }) => {
 
       //})
       .catch(res => {
-        dispatch(authError(res))
+        dispatch(error(res))
         throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
       })
   }
@@ -180,33 +177,29 @@ export const startFetchToken = (token) => {
   }
 }
 
-export const reset = (user) => {
+
+
+
+
+
+export const contact = (values) => {
   return {
-    type: 'AUTH_USER',
-    user
+    type: 'CONTACT_USER',
+    values
   }
 }
-export const startReset = ({ password }, token) => {
+export const startContact = (values) => {
   return function(dispatch, getState) {
-    return fetch(`/api/users/reset/${token}`, {
+    return fetch('/api/users/contact', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ password })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values)
     })
-      .then(res => {
-        dispatch(signinUser(res.json()))
-        localStorage.setItem('token', res.headers.get('x-auth'))
-        browserHistory.push('/');
-        //dispatch({ type: 'RECOVER', recovered: true })
-        //localStorage.setItem('token', res.headers.get('x-auth'))
-      })
-
+      .then(res => res.json())
+      .then(json => dispatch(contact(json)))
       .catch(err => {
         console.log(err)
-        dispatch(authError(err))
-        throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
+        dispatch(error(err))
       })
   }
 }

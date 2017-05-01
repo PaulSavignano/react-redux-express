@@ -34,31 +34,33 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 let Signin = (props) => {
   const { dispatch, handleSubmit, submitting, user } = props
   return (
-    <div className="section-forms">
-      <Card>
-        <CardTitle title="Sign in" subtitle="Enter your information" />
-        <form onSubmit={handleSubmit(values => dispatch(startSigninUser(values)))} className="">
-          <CardText>
-            <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-            <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-          </CardText>
-          {user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
-          <CardActions>
-            <RaisedButton
-              label="Sign In"
-              fullWidth={true}
-              disabled={submitting}
-              type="submit"
-              primary={true}
-            />
+    <main>
+      <section>
+        <Card>
+          <CardTitle title="Sign in" subtitle="Enter your information" />
+          <form onSubmit={handleSubmit(values => dispatch(startSigninUser(values)))}>
+            <CardText>
+              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+            </CardText>
+            {user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
+            <CardActions>
+              <RaisedButton
+                label="Sign In"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
+            </CardActions>
+          </form>
+          <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+            <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
+            <p><Link to="/recover">Forgot your password?</Link></p>
           </CardActions>
-        </form>
-        <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-          <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
-          <p><Link to="/recover">Forgot your password?</Link></p>
-        </CardActions>
-      </Card>
-    </div>
+        </Card>
+      </section>
+    </main>
   )
 }
 

@@ -3,11 +3,10 @@ import CartList from '../components/CartList'
 import CartTotal from '../components/CartTotal'
 
 const CartPage = () => (
-  <main>
-    <h3>Cart</h3>
+  <main  style={{ marginBottom: 90 }}>
+    <h1>Cart</h1>
     <CartList />
     <CartTotal />
-    <section></section>
   </main>
 )
 

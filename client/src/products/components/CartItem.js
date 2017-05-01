@@ -13,17 +13,6 @@ class CartItem extends Component {
     src: '',
     zDepth: 1
   }
-  componentWillMount() {
-    fetch(`/api/products/images/${this.props.productId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(res => res.json())
-      .then(json => this.setState({ src: json.src }))
-      .catch(err => console.log(err))
-  }
   handleMouseEnter = () => {
     this.setState({
       zDepth: 4,
@@ -50,7 +39,7 @@ class CartItem extends Component {
     const { dispatch, productId, name, price, image, total } = this.props
     return (
       <Card
-        style={{ flex: '1 1 auto', height: 100, width: '100%', marginBottom: 8 }}
+        style={{ flex: '1 1 auto', height: 100, width: '100%', margin: '10px 20px' }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -64,14 +53,14 @@ class CartItem extends Component {
             justifyContent: 'space-between',
             flex: '1 1 auto',
           }}>
-            <span style={{ flex: '3 3 auto', minWidth: 200, fontSize: '1.5rem', margin: '16px 8px 8px 8px' }}>{name}</span>
-            <span style={{ flex: '1 1 auto', fontSize: '1.5rem', textAlign: 'right', margin: '16px 8px 8px 8px', width: 75 }}>{formatPrice(price)}</span>
+            <span style={{ flex: '3 3 auto', minWidth: 200, fontSize: '1.5rem', margin: '20px 10px 10px 10px' }}>{name}</span>
+            <span style={{ flex: '1 1 auto', fontSize: '1.5rem', textAlign: 'right', margin: '20px 10px 10px 10px', width: 75 }}>{formatPrice(price)}</span>
             <div style={{
               display: 'flex',
               flexFlow: 'row nowrap',
               alignItems: 'center',
               flex: '1 1 auto',
-              margin: 8
+              margin: '15px 10px'
             }}>
               <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: 24 }} style={{ minWidth: 50 }} />
               <TextField
@@ -91,7 +80,7 @@ class CartItem extends Component {
                 }}
               />
             </div>
-            <span style={{ flex: '1 1 auto', textAlign: 'right', fontSize: '1.5rem', width: 75, margin: '16px 8px 8px 8px' }}>{formatPrice(total)}</span>
+            <span style={{ flex: '1 1 auto', textAlign: 'right', fontSize: '1.5rem', width: 75, margin: '20px 10px 10px 10px' }}>{formatPrice(total)}</span>
           </div>
         </div>
       </Card>
