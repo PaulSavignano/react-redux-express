@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
-import { startContact } from '../actions/users'
+import { fetchContact } from '../actions/users'
 
 const validate = values => {
   const errors = {}
@@ -37,7 +37,7 @@ const ContactForm = (props) => {
       <section>
         <Card>
           <CardTitle title="Contact" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(startContact(values)))} >
+          <form onSubmit={handleSubmit(values => dispatch(fetchContact(values)))} >
             <CardText>
               <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
               <Field name="email" component={renderTextField} label="Email" fullWidth={true} />

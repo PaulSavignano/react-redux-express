@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { startAddToCart } from '../actions/cart'
+import { fetchAddToCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
@@ -89,7 +89,7 @@ class Product extends Component {
                 productId: _id,
                 productQty: this.state.qty,
               }
-              dispatch(startAddToCart({ type: 'ADD_TO_CART', product }))
+              dispatch(fetchAddToCart({ type: 'ADD_TO_CART', product }))
             }}
           />
         </CSSTransitionGroup>

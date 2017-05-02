@@ -9,14 +9,14 @@ import { user } from '../users/reducers/users'
 import { searchProducts, products } from '../products/reducers/products'
 import { cart } from '../products/reducers/cart'
 import { pages } from '../pages/reducers/page'
-import { checkout } from '../products/reducers/checkout'
+import { order } from '../products/reducers/order'
 import { search } from '../header/reducers/search'
 import { routerReducer } from 'react-router-redux'
 
 
 const rootReducer = combineReducers({
   cart,
-  checkout,
+  order,
   form: formReducer,
   pages,
   products,

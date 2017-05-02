@@ -7,32 +7,42 @@ const RequireAuth = (ComposedComponent, roles) => {
     static contextTypes = {
       router: React.PropTypes.object
     }
-    hasRoles = (roles) => {
-      if (this.props.roles) {
-        return roles.some(v=> this.props.roles.indexOf(v) >= 0)
+    hasRoles = (roles, userRoles) => {
+      if (userRoles) {
+        console.log(userRoles)
+        return roles.some(v => userRoles.indexOf(v) >= 0)
       } else {
         return false
       }
     }
     componentWillMount() {
-      if (!this.hasRoles(roles)) {
-        this.context.router.push('/signin');
+      if (!this.hasRoles(roles, this.props.userRoles)) {
+        this.context.router.push('/signin')
       }
     }
     componentWillUpdate(nextProps) {
-      if (nextProps.roles !== roles) {
-        this.context.router.push('/signin');
+      if (!this.hasRoles(roles, nextProps.roles)) {
+        this.context.router.push('/signin')
       }
     }
     render() {
       return (
-        this.hasRoles(roles) ? <ComposedComponent {...this.props} /> : null
+        this.props.isFetching ? null : <ComposedComponent {...this.props} />
       )
     }
   }
-  const mapStateToProps = (state) => ({
-    roles: state.user.roles
-  })
+  const mapStateToProps = (state) => {
+    if (!state.user.isFetching) {
+      return {
+        isFetching: state.user.isFetching,
+        userRoles: state.user.roles
+      }
+    }
+    return {
+      isFetching: state.user.isFetching,
+      userRoles: []
+    }
+  }
   return connect(mapStateToProps)(Authentication);
 }
 

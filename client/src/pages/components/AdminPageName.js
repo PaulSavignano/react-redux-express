@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { startDeletePage } from '../actions/page'
+import { fetchDeletePage } from '../actions/page'
 
 const styles = {
   Card: {
@@ -54,7 +54,7 @@ class AdminPageName extends Component {
               primary={true}
             />
             <RaisedButton
-              onTouchTap={() => dispatch(startDeletePage(_id))}
+              onTouchTap={() => dispatch(fetchDeletePage(_id))}
               label="X"
               primary={true}
               style={{ marginLeft: 16 }}

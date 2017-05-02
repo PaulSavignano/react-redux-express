@@ -5,6 +5,7 @@ export const authenticate = (roles) => {
     const token = req.header('x-auth')
     User.findByToken(token, roles)
       .then((user) => {
+        console.log(user)
         if (!user) {
           return Promise.reject()
         }
@@ -12,6 +13,6 @@ export const authenticate = (roles) => {
         req.token = token
         next()
       })
-      .catch(e => res.status(401).send())
+      .catch(err => res.status(401).send(err))
   }
 }

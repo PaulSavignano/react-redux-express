@@ -36,7 +36,7 @@ checkout.post('/', authenticate(['user']), (req, res, next) => {
         .then(doc => sendEmail1({
           to: 'paul.savignano@gmail.com',
           subject: 'Thank you for your order!',
-          name: `${req.user.name}`,
+          name: `${req.body.firstName}`,
           body: `<p>Thank you for your recent order ${doc._id}.</p>`
         })
         .catch(err => res.status(400).send(err))

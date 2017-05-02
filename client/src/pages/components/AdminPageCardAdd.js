@@ -5,7 +5,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageForm from '../../images/components/ImageForm'
-import { startUpdatePage } from '../actions/page'
+import { fetchUpdatePage } from '../actions/page'
 
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -43,7 +43,7 @@ class AdminPageCardAdd extends Component {
               }
             }
             this.props.reset()
-            dispatch(startUpdatePage(page._id, update))
+            dispatch(fetchUpdatePage(page._id, update))
             this.setState({ expanded: !this.state.expanded })
           })}
           style={{ flex: '1 1 auto', margin: 30}}

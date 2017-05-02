@@ -6,7 +6,7 @@ import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageEditor from '../../images/components/ImageEditor'
-import { startUpdatePage } from '../actions/page'
+import { fetchUpdatePage } from '../actions/page'
 
 
 const renderHeroField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -158,7 +158,7 @@ class AdminPageHero extends Component {
                 values
               }
             }
-            dispatch(startUpdatePage(this.props.page._id, update))
+            dispatch(fetchUpdatePage(this.props.page._id, update))
           })}
           style={{ width: '100%', margin: 30}}
         >
@@ -179,7 +179,7 @@ class AdminPageHero extends Component {
                         _id: component._id
                       }
                     }
-                    dispatch(startUpdatePage(page._id, update))
+                    dispatch(fetchUpdatePage(page._id, update))
                     this.props.reset()
                   }
                   this.setState({ expanded: !this.state.expanded })

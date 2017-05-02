@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { startUpdatePage } from '../actions/page'
+import { fetchUpdatePage } from '../actions/page'
 import ImageForm from '../../images/components/ImageForm'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -57,7 +57,7 @@ class AdminPageCard extends Component {
               values
             }
           }
-          dispatch(startUpdatePage(page._id, update))
+          dispatch(fetchUpdatePage(page._id, update))
         })}
         style={{ flex: '1 1 auto', width: card.values.width, margin: 30 }}
       >
@@ -99,7 +99,7 @@ class AdminPageCard extends Component {
                       _id: card._id
                     }
                   }
-                  dispatch(startUpdatePage(page._id, update))
+                  dispatch(fetchUpdatePage(page._id, update))
                 }
                 this.setState({ expanded: !this.state.expanded })
               }}
@@ -171,7 +171,7 @@ class AdminPageCard extends Component {
                     _id: card._id
                   }
                 }
-                dispatch(startUpdatePage(page._id, update))
+                dispatch(fetchUpdatePage(page._id, update))
               }}
             />
           </CardActions>

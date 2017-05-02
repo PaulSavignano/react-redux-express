@@ -4,7 +4,6 @@ import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
 
 const DrawerMenu = ({ isFetching, pages, dispatch, handleToggle }) => {
-  console.log(pages)
   return (
     !isFetching ?
     <div>
@@ -30,7 +29,6 @@ const DrawerMenu = ({ isFetching, pages, dispatch, handleToggle }) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     isFetching: state.pages.isFetching,
     pages: state.pages.items

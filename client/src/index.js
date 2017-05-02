@@ -13,10 +13,10 @@ import Theme from './Theme'
 import configureStore from './store/configureStore'
 import routes from './routes'
 import './index.css'
-import { startAuthUser } from './users/actions/users'
-import { startFetchPages } from './pages/actions/page'
-import { startFetchCart } from './products/actions/cart'
-import { startFetchProducts } from './products/actions/product'
+import { fetchUser } from './users/actions/users'
+import { fetchPages } from './pages/actions/page'
+import { fetchCart } from './products/actions/cart'
+import { fetchProducts } from './products/actions/product'
 
 
 
@@ -28,12 +28,17 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 const token = localStorage.getItem('token');
 if (token) {
-  store.dispatch(startAuthUser(token));
+  store.dispatch(fetchUser(token));
 }
 
-store.dispatch(startFetchPages())
-store.dispatch(startFetchCart())
-store.dispatch(startFetchProducts())
+const cart = localStorage.getItem('cart');
+if (cart) {
+  store.dispatch(fetchCart(cart));
+}
+
+store.dispatch(fetchPages())
+store.dispatch(fetchCart())
+store.dispatch(fetchProducts())
 
 ReactDOM.render(
   <MuiThemeProvider muiTheme={getMuiTheme(Theme)}>

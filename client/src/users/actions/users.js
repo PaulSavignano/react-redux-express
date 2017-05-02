@@ -1,64 +1,32 @@
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
 
-const error = (err) => {
-  return {
-    type: 'ERROR',
-    err
-  }
-}
 
-export const signoutUser = () => {
-  localStorage.removeItem('token')
-  return {
-    type: 'UNAUTH_USER',
-    user: {
-      token: null,
-      roles: undefined,
-      name: undefined,
-      authenticated: false,
-      error: undefined
-    }
-  }
-}
-
-export const signupUser = (user) => {
-  return {
-    type: 'AUTH_USER',
-    user
-  }
-}
-export const startSignupUser = ({ firstname, lastname, email, password }) => {
+// Create
+const fetchSignupSuccess = (user) => ({ type: 'SUCCESS', user })
+const fetchSignupFailure = (error) => ({ type: 'ERROR', error })
+export const fetchSignup = (values) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ firstname, lastname, email, password })
+      body: JSON.stringify(values)
     })
       .then(res => {
-
+        if (res.json().error) return Promise.reject()
         localStorage.setItem('token', res.headers.get('x-auth'))
-        //browserHistory.push('/');
+        dispatch(fetchSignupSuccess(res.json()))
         return res.json()
       })
-      .then(json => {
-        dispatch(signupUser(json))
-      })
-      .catch(err => dispatch(error(err.data.error)))
+      .catch(err => dispatch(fetchSignupFailure(err)))
   }
 }
 
 
-
-
-export const signinUser = (user) => {
-  return {
-    type: 'AUTH_USER',
-    user
-  }
-}
-export const startSigninUser = ({ email, password }, nextPathname) => {
-  return function(dispatch, getState) {
+const fetchSigninSuccess = (user) => ({ type: 'SUCCESS', user })
+const fetchSigninFailure = (error) => ({ type: 'ERROR', error })
+export const fetchSignin = ({ email, password }, nextPathname) => {
+  return (dispatch, getState) => {
     return fetch('/api/users/signin', {
       method: 'POST',
       headers: {
@@ -67,32 +35,25 @@ export const startSigninUser = ({ email, password }, nextPathname) => {
       body: JSON.stringify({ email, password })
     })
       .then(res => {
-
+        if (res.json().error) return Promise.reject()
         localStorage.setItem('token', res.headers.get('x-auth'))
-        return res.json()
+        dispatch(fetchSigninSuccess(res.json()))
+        nextPathname ? dispatch(push(nextPathname)) : dispatch(push('/'))
       })
-      .then(json => {
-        dispatch(signinUser(json))
-        nextPathname ? browserHistory.push(nextPathname) : browserHistory.push('/')
-      })
-      .catch((err) => {
-        console.log(err)
-        dispatch(error({ error: 'No user found, please try again'}));
-      })
+      .catch(err => dispatch(fetchSigninFailure(err)))
   }
 }
 
 
 
-export const authUser = (user) => {
-  return {
-    type: 'AUTH_USER',
-    user
-  }
-}
-export const startAuthUser = (token) => {
-  return function(dispatch) {
-    return fetch('/api/users/me', {
+// Read
+const fetchUserRequest = () => ({ type: 'REQUEST' })
+const fetchUserSuccess = (user) => ({ type: 'SUCCESS', user })
+const fetchUserFailure = (error) => ({ type: 'ERROR', error })
+export const fetchUser = (token) => {
+  return (dispatch) => {
+    dispatch(fetchUserRequest())
+    return fetch('/api/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -101,22 +62,68 @@ export const startAuthUser = (token) => {
     })
       .then(res => res.json())
       .then(json => {
-          dispatch(authUser(json))
+        if (json.error) return Promise.reject()
+        dispatch(fetchUserSuccess(json))
       })
-      .catch((err) => {
-        console.log('Caught', err)
+      .catch(err => dispatch(fetchUserFailure(err)))
+    }
+}
+
+
+
+
+// Delete
+const fetchSignoutSuccess = () => ({ type: 'DELETE' })
+const fetchSignoutFailure = (error) => ({ type: 'ERROR', error })
+export const fetchSignout = () => {
+  return (dispatch, getState) => {
+    return fetch('/api/users/signout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token')
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.error) return Promise.reject()
+        localStorage.removeItem('token')
+        dispatch(fetchSignoutSuccess())
       })
+      .catch(err => dispatch(fetchSignoutFailure(err)))
   }
 }
 
 
-export const recovery = (message) => {
-  return {
-    type: 'RECOVERY',
-    message
+const fetchDeleteSuccess = () => ({ type: 'DELETE' })
+const fetchDeleteFailure = (error) => ({ type: 'ERROR', error })
+export const fetchDelete = () => {
+  return (dispatch, getState) => {
+    return fetch('/api/users/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token')
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.error) return Promise.reject()
+        localStorage.removeItem('token')
+        dispatch(fetchDeleteSuccess())
+      })
+      .catch(err => dispatch(fetchDeleteFailure(err)))
   }
 }
-export const startRecovery = ({ email }) => {
+
+
+
+
+
+
+const fetchRecoverySuccess = (message) => ({ type: 'RECOVERY', message })
+const fetchRecoveryFailure = (error) => ({ type: 'ERROR', error })
+export const fetchRecovery = ({ email }) => {
   return function(dispatch, getState) {
     return fetch('/api/users/recovery', {
       method: 'POST',
@@ -126,11 +133,9 @@ export const startRecovery = ({ email }) => {
       body: JSON.stringify({ email })
     })
       .then(res => res.json())
-      .then(user => {
-        if (user.error) {
-          return Promise.reject()
-        }
-        dispatch(recovery(user))
+      .then(json => {
+        if (json.error) return Promise.reject()
+        dispatch(fetchRecoverySuccess(json))
         //dispatch(signinUser())
         //localStorage.setItem('token', res.headers.get('x-auth'))
       })
@@ -146,15 +151,17 @@ export const startRecovery = ({ email }) => {
 
       //})
       .catch(res => {
-        dispatch(error(res))
+        dispatch(fetchRecoveryFailure(res))
         throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
       })
   }
 }
 
 
-export const startFetchToken = (token) => {
-  return function(dispatch, getState) {
+const fetchRecoveryTokenSuccess = (recovery) => ({ type: 'RECOVER', recovery })
+const fetchRecoveryTokenFailure = (error) => ({ type: 'ERROR', error })
+export const fetchRecoveryToken = (token) => {
+  return (dispatch, getState) => {
     return fetch(`/api/users/reset/${token}`, {
       method: 'GET',
       headers: {
@@ -162,17 +169,15 @@ export const startFetchToken = (token) => {
       }
     })
       .then(res => res.json())
-      .then(user => {
-        if (user.error) {
-          return Promise.reject()
-        }
-        dispatch({ type: 'AUTH', recovery: { token: 'valid' } })
+      .then(json => {
+        if (json.error) return Promise.reject()
+        dispatch(fetchRecoveryTokenSuccess({ recovery: { token: 'valid' } }))
         //localStorage.setItem('token', res.headers.get('x-auth'))
       })
 
       .catch(err => {
-        dispatch({ type: 'AUTH_ERROR', error: 'invalid token' })
-        browserHistory.push('/recovery')
+        dispatch(fetchRecoveryTokenFailure({ error: 'invalid token' }))
+        dispatch(push('/recovery'))
       })
   }
 }
@@ -182,13 +187,9 @@ export const startFetchToken = (token) => {
 
 
 
-export const contact = (values) => {
-  return {
-    type: 'CONTACT_USER',
-    values
-  }
-}
-export const startContact = (values) => {
+const fetchContactSuccess = (values) => ({ type: 'CONTACT_USER', values })
+const fetchContactFailure = (error) => ({ type: 'ERROR', error })
+export const fetchContact = (values) => {
   return function(dispatch, getState) {
     return fetch('/api/users/contact', {
       method: 'POST',
@@ -196,10 +197,10 @@ export const startContact = (values) => {
       body: JSON.stringify(values)
     })
       .then(res => res.json())
-      .then(json => dispatch(contact(json)))
-      .catch(err => {
-        console.log(err)
-        dispatch(error(err))
+      .then(json => {
+        if (json.error) return Promise.reject()
+        dispatch(fetchContactSuccess(json))
       })
+      .catch(err => dispatch(fetchContactFailure(err)))
   }
 }

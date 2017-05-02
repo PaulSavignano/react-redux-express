@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CartItem from './CartItem'
-import { startFetchCart } from '../actions/cart'
+import { fetchCart } from '../actions/cart'
 
 class CartList extends Component {
   componentWillMount() {
-    this.props.dispatch(startFetchCart())
+    this.props.dispatch(fetchCart())
   }
   render() {
     const { items } = this.props

@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { startUpdateProduct, startDeleteProduct } from '../actions/product'
+import { fetchUpdateProduct, fetchDeleteProduct } from '../actions/product'
 import ImageForm from '../../images/components/ImageForm'
 
 const validate = values => {
@@ -56,7 +56,7 @@ class AdminProduct extends Component {
               image: this.editor.hasUpload() ? this.editor.handleSave() : image,
               values
             }
-            dispatch(startUpdateProduct(values))
+            dispatch(fetchUpdateProduct(values))
           })}
         >
           <CardMedia>
@@ -100,7 +100,7 @@ class AdminProduct extends Component {
               label="X"
               primary={true}
               style={{ flex: '1 1 auto', margin: 8 }}
-              onTouchTap={() => dispatch(startDeleteProduct(_id))}
+              onTouchTap={() => dispatch(fetchDeleteProduct(_id))}
             />
           </div>
         </form>

@@ -5,7 +5,7 @@ import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageForm from '../../images/components/ImageForm'
-import { startAddProduct } from '../actions/product'
+import { fetchAddProduct } from '../actions/product'
 
 const validate = values => {
   const errors = {}
@@ -59,7 +59,7 @@ class AdminProductAdd extends Component {
                 values
               }
               this.props.reset()
-              dispatch(startAddProduct(product))
+              dispatch(fetchAddProduct(product))
               this.editor.readImage(this.state.image)
             })}
           >

@@ -8,7 +8,8 @@ import { sendEmail1 } from '../../middleware/nodemailer'
 
 const users = express.Router()
 
-// Sign up
+
+// Create
 users.post('/signup', (req, res) => {
   const { firstname, lastname, email, password } = req.body
   if (!firstname || !lastname || !email || !password) {
@@ -31,33 +32,25 @@ users.post('/signup', (req, res) => {
 })
 
 
-// Signin
 users.post('/signin', (req, res) => {
   const { email, password } = req.body
-  // sendEmail1({
-  //   to: 'paul.savignano@gmail.com',
-  //   subject: 'Welcome to our store!',
-  //   body: `<p>Thank you for signing up!  I hope you enjoy our products!</p>`
-  // })
   User.findByCredentials(email, password)
     .then(user => user.generateAuthToken()
       .then(token => res.header('x-auth', token).send({ user: user.firstname, roles: user.roles })))
       .catch(err => {
         console.log('error')
-        res.send({ error: 'error'})
+        res.status(400).send(err)
       })
+    .catch(err => res.status(400).send(err))
 })
 
 users.post('/recovery', (req, res, next) => {
   const { email } = req.body
   return new Promise((resolve, reject) => {
     crypto.randomBytes(20, (err, buf) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(buf.toString('hex'));
-      }
-    });
+      if (err) return reject(err)
+      resolve(buf.toString('hex'));
+    })
   })
     .then(token => {
       User.findOne({ email })
@@ -76,11 +69,9 @@ users.post('/recovery', (req, res, next) => {
             })
             .catch(err => res.status(400).send(err))
         })
-        .catch(err => {
-          res.status(400).send({ error: 'Email not found' })
-        })
+        .catch(err => res.status(400).send(err))
       })
-    .catch(err => console.log('crypto failed'))
+    .catch(err => res.status(400).send(err))
 })
 
 
@@ -122,16 +113,24 @@ users.post('/reset/:token', (req, res) => {
 
 
 // Signout
-users.delete('/me/token', authenticate(['user', ['admin']]), (req, res) => {
+users.delete('/signout', authenticate([ 'user', 'admin' ]), (req, res) => {
   req.user.removeToken(req.token)
-    .then(() => {
-      res.status(200).send()
-    })
+    .then(() => res.status(200).send())
     .catch((err) => res.status(400).send(err))
 })
 
+// Signout
+users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
+  User.findOneAndRemove({ _id: req.user._id })
+    .then(doc => res.send(doc))
+    .catch((err) => res.status(400).send(err))
+})
+
+
+
 // Get
-users.get('/me', authenticate(['user','admin']), (req, res) => {
+users.get('/', authenticate(['user','admin']), (req, res) => {
+  console.log('inside server')
   const now = Date.now()
   const ttl = 30000000
   if ((now - req.token.createdAt) > ttl) {

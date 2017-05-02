@@ -1,6 +1,6 @@
-export const pages = (state = [], action) => {
+export const pages = (state = {}, action) => {
   switch (action.type) {
-    case 'REQUEST_PAGES':
+    case 'REQUEST':
       return {
         ...state,
         isFetching: true
@@ -11,7 +11,7 @@ export const pages = (state = [], action) => {
         isFetching: false,
         items: [action.page]
       }
-    case 'FETCH_PAGE':
+    case 'FETCH_PAGES':
       return {
         ...state,
         isFetching: false,

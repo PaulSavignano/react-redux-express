@@ -1,11 +1,7 @@
 // Create Product
-export const addProduct = (product) => {
-  return {
-    type: 'ADD_PRODUCT',
-    product
-  }
-}
-export const startAddProduct = (product) => {
+const fetchAddProductSuccess = (product) => ({ type: 'ADD_PRODUCT', product })
+const fetchAddProductFailure = (error) => ({ type: 'ERROR', error })
+export const fetchAddProduct = (product) => {
   return (dispatch, getState) => {
     return fetch('/api/products', {
       method: 'POST',
@@ -17,22 +13,22 @@ export const startAddProduct = (product) => {
     })
       .then(res => res.json())
       .then(json => {
-        dispatch(addProduct(json))
+        if (json.error) return Promise.reject()
+        dispatch(fetchAddProductSuccess(json))
       })
-      .catch(err => console.log(err))
+      .catch(err => dispatch(fetchAddProductFailure(err)))
   }
 }
 
 
 
 // Read Product
-export const fetchProducts = (products) => ({
-  type: 'FETCH_PRODUCTS',
-  products
-})
-export const startFetchProducts = () => {
+const fetchProductsRequest = () => ({ type: 'REQUEST' })
+const fetchProductsSuccess = (products) => ({ type: 'FETCH_PRODUCTS', products })
+const fetchProductsFailure = (error) => ({ type: 'ERROR', error })
+export const fetchProducts = () => {
   return (dispatch, getState) => {
-    dispatch({ type: 'REQUEST_PRODUCTS' })
+    dispatch(fetchProductsRequest())
     return fetch('/api/products', {
       method: 'GET',
       headers: {
@@ -40,22 +36,21 @@ export const startFetchProducts = () => {
       }
     })
       .then(res => res.json())
-      .then(json => dispatch(fetchProducts(json)))
-      .catch(err => console.log(err))
+      .then(json => {
+        console.log(json)
+        if (json.error) return Promise.reject()
+        dispatch(fetchProductsSuccess(json))
+      })
+      .catch(err => dispatch(fetchProductsFailure(err)))
   }
 }
 
 
 
 // Update Product
-export const updateProduct = (_id, updates) => {
-  return {
-    type: 'UPDATE_PRODUCT',
-    _id,
-    updates
-  }
-}
-export const startUpdateProduct = (product) => {
+const fetchUpdateProductSuccess = (product) => ({ type: 'UPDATE_PRODUCT', product })
+const fetchUpdateProductFailure = (error) => ({ type: 'ERROR', error })
+export const fetchUpdateProduct = (product) => {
   const { _id } = product
   return (dispatch, getState) => {
     return fetch(`/api/products/${_id}`, {
@@ -68,22 +63,19 @@ export const startUpdateProduct = (product) => {
     })
       .then(res => res.json())
       .then(json => {
-        dispatch(updateProduct(json))
+        if (json.error) return Promise.reject()
+        dispatch(fetchUpdateProductSuccess(json))
       })
-      .catch(err => console.log(err))
+      .catch(err => dispatch(fetchUpdateProductFailure(err)))
   }
 }
 
 
 
 // Delete Product
-export const deleteProduct = (_id) => {
-  return {
-    type: 'DELETE_PRODUCT',
-    _id
-  }
-}
-export const startDeleteProduct = (_id) => {
+const fetchDeleteProductSuccess = (_id) => ({ type: 'DELETE_PRODUCT', _id })
+const fetchDeleteProductFailure = (error) => ({ type: 'ERROR', error })
+export const fetchDeleteProduct = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/products/${_id}`, {
       method: 'DELETE',
@@ -93,10 +85,18 @@ export const startDeleteProduct = (_id) => {
       },
     })
       .then(res => res.json())
-      .then(json => dispatch(deleteProduct(json._id)))
-      .catch(err => console.log(err))
+      .then(json => {
+        if (json.error) return Promise.reject()
+        dispatch(fetchDeleteProductSuccess(json._id))
+      })
+      .catch(err => dispatch(fetchDeleteProductFailure(err)))
   }
 }
+
+
+
+
+
 
 
 

@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
-import { startSignupUser } from '../actions/users'
+import { requestSignup } from '../actions/users'
 
 const validate = values => {
   const errors = {}
@@ -39,7 +39,7 @@ let Signup = (props) => {
       <section>
         <Card>
           <CardTitle title="Signup" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(startSignupUser(values)))} >
+          <form onSubmit={handleSubmit(values => dispatch(requestSignup(values)))} >
             <CardText>
               <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
               <Field name="lastname" component={renderTextField} label="Last Name" fullWidth={true} />

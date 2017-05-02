@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 import DialogAlert from '../../DialogAlert'
-import { startSigninUser } from '../actions/users'
+import { fetchSignin } from '../actions/users'
 
 const validate = values => {
   const errors = {}
@@ -38,7 +38,7 @@ let Signin = (props) => {
       <section>
         <Card>
           <CardTitle title="Sign in" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(startSigninUser(values)))}>
+          <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values)))}>
             <CardText>
               <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
               <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />

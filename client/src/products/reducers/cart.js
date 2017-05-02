@@ -8,7 +8,7 @@ export const searchCart = (state = '', action) => {
 }
 
 
-export const cart = (state = [], action) => {
+export const cart = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_TO_CART':
       return action.cart
@@ -16,10 +16,13 @@ export const cart = (state = [], action) => {
       return action.cart
     case 'UPDATE_CART':
       return action.cart
-    case 'DELETE_ITEM':
-      return state.filter(item =>
-        item.productId !== action.item.productId
-      )
+    case 'DELETE_CART':
+      return { }
+    case 'ERROR':
+      return {
+        ...state,
+        error: action.error
+      }
     default:
       return state
   }

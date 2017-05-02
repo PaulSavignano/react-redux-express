@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { signoutUser } from '../actions/users'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import { fetchSignout } from '../actions/users'
 
 class Signout extends Component {
   componentWillMount() {
-    const { dispatch } = this.props
-    dispatch(signoutUser())
+    this.props.dispatch(fetchSignout())
   }
   render() {
     return (
-      <div className="android-be-together-section mdl-typography--text-center">
-        <div className="logo-font android-slogan">Sorry to see you go!</div>
-        <div className="logo-font android-sub-slogan">Come again soon</div>
-      </div>
+      <section>
+        <Card>
+          <CardText>Sorry to see you go!</CardText>
+        </Card>
+      </section>
     )
   }
 }

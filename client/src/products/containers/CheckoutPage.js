@@ -4,7 +4,7 @@ import Checkout from '../components/Checkout'
 
 const CheckoutPage = ({ total, cart }) => (
   <main>
-    <h3>Checkout {total}</h3>
+    <h1>Checkout {total}</h1>
     <Checkout total={total} cart={cart} />
   </main>
 )

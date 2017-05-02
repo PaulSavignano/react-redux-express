@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startUpdateCart } from '../actions/cart'
+import { fetchUpdateCart } from '../actions/cart'
 import { formatPrice } from '../../modules/formatPrice'
 
 import {Card } from 'material-ui/Card'
@@ -27,13 +27,13 @@ class CartItem extends Component {
     const newQty = this.state.qty + 1
     this.setState({ qty: newQty })
     const product = { productId: this.props.productId, productQty: 1 }
-    this.props.dispatch(startUpdateCart({ type: 'ADD_TO_CART', product }))
+    this.props.dispatch(fetchUpdateCart({ type: 'ADD_TO_CART', product }))
   }
   minus = () => {
     const newQty = this.state.qty - 1
     this.setState({ qty: newQty })
     const product = { productId: this.props.productId, productQty: 1 }
-    this.props.dispatch(startUpdateCart({ type: 'REDUCE_FROM_CART', product }))
+    this.props.dispatch(fetchUpdateCart({ type: 'REDUCE_FROM_CART', product }))
   }
   render() {
     const { dispatch, productId, name, price, image, total } = this.props
@@ -76,7 +76,7 @@ class CartItem extends Component {
                 label="X"
                 primary={true}
                 onTouchTap={() => {
-                  dispatch(startUpdateCart({ type: 'REMOVE_FROM_CART', product: { productId } }))
+                  dispatch(fetchUpdateCart({ type: 'REMOVE_FROM_CART', product: { productId } }))
                 }}
               />
             </div>
