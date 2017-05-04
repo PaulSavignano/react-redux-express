@@ -27,40 +27,18 @@ const UserSchema = new Schema({
       message: '{VALUE} is not a valid email'
     }
   },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6
-  },
+  password: { type: String, required: true, minlength: 6 },
   roles: {
-    type: [{
-      type: String,
-      enum: ['user', 'admin']
-    }],
+    type: [{ type: String, enum: ['user', 'admin'] }],
     default: ['user']
   },
   tokens: [{
-    createdAt: {
-      type: Date,
-      default: Date.now
-    },
-    access: {
-      type: String,
-      required: true
-    },
-    token: {
-      type: String,
-      required: true
-    }
+    createdAt: { type: Date, default: Date.now },
+    access: { type: String, required: true },
+    token: { type: String, required: true }
   }],
-  passwordResetToken: {
-    type: String,
-    default: ''
-  },
-  passwordResetExpires: {
-    type: Date,
-    default: Date.now
-  }
+  passwordResetToken: { type: String, default: '' },
+  passwordResetExpires: { type: Date, default: Date.now }
 })
 
 UserSchema.methods.toJSON = function() {

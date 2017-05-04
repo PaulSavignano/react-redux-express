@@ -10,15 +10,25 @@ export const searchCart = (state = '', action) => {
 
 export const cart = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case 'REQUEST_CART':
+      return {
+        ...state,
+        isFetching: true
+      }
+    case 'ADD_CART':
       return action.cart
-    case 'FETCH_CART':
-      return action.cart
+    case 'RECEIVE_CART':
+      return {
+        ...action.cart,
+        isFetching: false
+      }
     case 'UPDATE_CART':
-      return action.cart
+      return {
+        ...action.cart
+      }
     case 'DELETE_CART':
       return { }
-    case 'ERROR':
+    case 'ERROR_CART':
       return {
         ...state,
         error: action.error

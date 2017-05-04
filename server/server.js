@@ -10,6 +10,7 @@ import todos from './todos/routes/todos'
 import users from './users/routes/users'
 import orders from './products/routes/orders'
 import pages from './pages/routes/pages'
+import themes from './themes/routes/themes'
 
 const app = express()
 const port = process.env.PORT
@@ -23,6 +24,7 @@ app.use('/api/users', users)
 app.use('/api/checkout', checkout)
 app.use('/api/orders', orders)
 app.use('/api/pages', pages)
+app.use('/api/themes', themes)
 
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))

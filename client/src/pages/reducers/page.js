@@ -1,21 +1,21 @@
 export const pages = (state = {}, action) => {
   switch (action.type) {
-    case 'REQUEST':
+    case 'REQUEST_PAGES':
       return {
         ...state,
         isFetching: true
+      }
+    case 'RECEIVE_PAGES':
+      return {
+        ...state,
+        isFetching: false,
+        items: action.pages
       }
     case 'ADD_PAGE':
       return {
         ...state,
         isFetching: false,
         items: [action.page]
-      }
-    case 'FETCH_PAGES':
-      return {
-        ...state,
-        isFetching: false,
-        items: action.pages
       }
     case 'UPDATE_PAGE':
       return {
@@ -30,7 +30,7 @@ export const pages = (state = {}, action) => {
         ...state,
         items: state.items.filter(page => page._id !== action._id)
       }
-    case 'ERROR':
+    case 'ERROR_PAGE':
       return {
         ...state,
         error: action.error

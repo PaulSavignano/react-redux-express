@@ -5,10 +5,9 @@ import Page from '../models/Page'
 import { authenticate } from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
 
-import path from 'path'
-import fs from 'fs'
-
 const pages = express.Router()
+
+
 
 // Create
 pages.post('/', (req, res) => {
@@ -63,7 +62,9 @@ pages.patch('/:pageId', (req, res) => {
       const oldKey = component._id ? `pages/${page.slug}/${hasComponent.type}s/${component._id}` : null
       const Key = `pages/${page.slug}/${component.type}s/${component._id}` || null
       const Body = component.image || null
-      const hasImage = component.image ? url.parse(component.image) : null
+      const hasImage = component.image ? true : false
+      const urlParse = hasImage ? url.parse(component.image) : null
+      const hasUrl = urlParse.slashes ? true : false
 
       switch (type) {
 
@@ -104,7 +105,7 @@ pages.patch('/:pageId', (req, res) => {
         case 'UPDATE_COMPONENT':
           console.log('existing component')
           if (Body) {
-            if (hasImage.slashes) {
+            if (hasUrl) {
               console.log('has image url with slashes')
               component._id = componentId
               Page.findOneAndUpdate({ _id: pageId, 'components._id': component._id }, { $set: { 'components.$': component }}, { new: true })

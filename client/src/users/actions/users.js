@@ -3,8 +3,8 @@ import { SubmissionError } from 'redux-form'
 
 
 // Create
-const fetchSignupSuccess = (user) => ({ type: 'SUCCESS', user })
-const fetchSignupFailure = (error) => ({ type: 'ERROR', error })
+const fetchSignupSuccess = (user) => ({ type: 'ADD_USER', user })
+const fetchSignupFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignup = (values) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signup', {
@@ -13,7 +13,7 @@ export const fetchSignup = (values) => {
       body: JSON.stringify(values)
     })
       .then(res => {
-        if (res.json().error) return Promise.reject()
+        if (res.json().error) return Promise.reject(res.json().error)
         localStorage.setItem('token', res.headers.get('x-auth'))
         dispatch(fetchSignupSuccess(res.json()))
         return res.json()
@@ -23,8 +23,8 @@ export const fetchSignup = (values) => {
 }
 
 
-const fetchSigninSuccess = (user) => ({ type: 'SUCCESS', user })
-const fetchSigninFailure = (error) => ({ type: 'ERROR', error })
+const fetchSigninSuccess = (user) => ({ type: 'RECEIVE_USER', user })
+const fetchSigninFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignin = ({ email, password }, nextPathname) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signin', {
@@ -35,7 +35,7 @@ export const fetchSignin = ({ email, password }, nextPathname) => {
       body: JSON.stringify({ email, password })
     })
       .then(res => {
-        if (res.json().error) return Promise.reject()
+        if (res.json().error) return Promise.reject(res.json().error)
         localStorage.setItem('token', res.headers.get('x-auth'))
         dispatch(fetchSigninSuccess(res.json()))
         nextPathname ? dispatch(push(nextPathname)) : dispatch(push('/'))
@@ -47,9 +47,9 @@ export const fetchSignin = ({ email, password }, nextPathname) => {
 
 
 // Read
-const fetchUserRequest = () => ({ type: 'REQUEST' })
-const fetchUserSuccess = (user) => ({ type: 'SUCCESS', user })
-const fetchUserFailure = (error) => ({ type: 'ERROR', error })
+const fetchUserRequest = () => ({ type: 'REQUEST_USER' })
+const fetchUserSuccess = (user) => ({ type: 'RECEIVE_USER', user })
+const fetchUserFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchUser = (token) => {
   return (dispatch) => {
     dispatch(fetchUserRequest())
@@ -62,10 +62,15 @@ export const fetchUser = (token) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchUserSuccess(json))
       })
-      .catch(err => dispatch(fetchUserFailure(err)))
+      .catch(err => {
+        const token = localStorage.getItem('token')
+        if (token) localStorage.removeItem('token')
+        dispatch(fetchUserFailure(err))
+
+      })
     }
 }
 
@@ -73,8 +78,8 @@ export const fetchUser = (token) => {
 
 
 // Delete
-const fetchSignoutSuccess = () => ({ type: 'DELETE' })
-const fetchSignoutFailure = (error) => ({ type: 'ERROR', error })
+const fetchSignoutSuccess = () => ({ type: 'DELETE_USER' })
+const fetchSignoutFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignout = () => {
   return (dispatch, getState) => {
     return fetch('/api/users/signout', {
@@ -86,7 +91,7 @@ export const fetchSignout = () => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
         dispatch(fetchSignoutSuccess())
       })
@@ -95,8 +100,8 @@ export const fetchSignout = () => {
 }
 
 
-const fetchDeleteSuccess = () => ({ type: 'DELETE' })
-const fetchDeleteFailure = (error) => ({ type: 'ERROR', error })
+const fetchDeleteSuccess = () => ({ type: 'DELETE_USER' })
+const fetchDeleteFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchDelete = () => {
   return (dispatch, getState) => {
     return fetch('/api/users/delete', {
@@ -108,7 +113,7 @@ export const fetchDelete = () => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
         dispatch(fetchDeleteSuccess())
       })
@@ -121,8 +126,8 @@ export const fetchDelete = () => {
 
 
 
-const fetchRecoverySuccess = (message) => ({ type: 'RECOVERY', message })
-const fetchRecoveryFailure = (error) => ({ type: 'ERROR', error })
+const fetchRecoverySuccess = (message) => ({ type: 'RECOVER_USER', message })
+const fetchRecoveryFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchRecovery = ({ email }) => {
   return function(dispatch, getState) {
     return fetch('/api/users/recovery', {
@@ -134,7 +139,7 @@ export const fetchRecovery = ({ email }) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchRecoverySuccess(json))
         //dispatch(signinUser())
         //localStorage.setItem('token', res.headers.get('x-auth'))
@@ -158,8 +163,8 @@ export const fetchRecovery = ({ email }) => {
 }
 
 
-const fetchRecoveryTokenSuccess = (recovery) => ({ type: 'RECOVER', recovery })
-const fetchRecoveryTokenFailure = (error) => ({ type: 'ERROR', error })
+const fetchRecoveryTokenSuccess = (recovery) => ({ type: 'RESET_USER', recovery })
+const fetchRecoveryTokenFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchRecoveryToken = (token) => {
   return (dispatch, getState) => {
     return fetch(`/api/users/reset/${token}`, {
@@ -170,7 +175,7 @@ export const fetchRecoveryToken = (token) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchRecoveryTokenSuccess({ recovery: { token: 'valid' } }))
         //localStorage.setItem('token', res.headers.get('x-auth'))
       })
@@ -188,7 +193,7 @@ export const fetchRecoveryToken = (token) => {
 
 
 const fetchContactSuccess = (values) => ({ type: 'CONTACT_USER', values })
-const fetchContactFailure = (error) => ({ type: 'ERROR', error })
+const fetchContactFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchContact = (values) => {
   return function(dispatch, getState) {
     return fetch('/api/users/contact', {

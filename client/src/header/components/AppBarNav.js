@@ -50,10 +50,11 @@ class AppBarNav extends Component {
   state = { open: false }
   handleToggle = () => this.setState({ open: !this.state.open })
   render() {
+    const { image } = this.props
     return (
       this.state.open === false ?
         <nav style={styles.AppBarNav}>
-          <Link to="/" style={styles.title}>Brand</Link>
+          <Link to="/" style={styles.title}>{image ? <img src={image} alt=""/> : 'Brand'}</Link>
           <span style={styles.rightNav}>
             <NavLink to="/todos">Todos</NavLink>
             <NavLink to="/products">Products</NavLink>
@@ -63,7 +64,6 @@ class AppBarNav extends Component {
             <SigninSignout />
             <Link to="/cart"><CartIcon /></Link>
           </span>
-
         </nav>
         :
         <nav style={styles.AppBarSearch}>
@@ -87,4 +87,8 @@ class AppBarNav extends Component {
   }
 }
 
-export default connect()(AppBarNav)
+const mapStateToProps = (state) => ({
+  image: state.theme.isFetching ? null : state.theme.image
+})
+
+export default connect(mapStateToProps)(AppBarNav)

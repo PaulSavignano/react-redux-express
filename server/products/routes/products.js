@@ -78,29 +78,17 @@ products.patch('/:_id', authenticate(['admin']), (req, res) => {
   const { image, values } = req.body
   const hasImage = image ? url.parse(image) : null
   if (hasImage.slashes) {
-    Product.findOneAndUpdate({ _id }, { $set: { image, values }}, { new: true })
-      .then(doc => {
-        console.log(doc)
-        res.send(doc)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(400).send(err)
-      })
+    return Product.findOneAndUpdate({ _id }, { $set: { image, values }}, { new: true })
+      .then(doc => res.send(doc))
+      .catch(err => res.status(400).send(err))
   }
   uploadFile({ Key: `pages/products/${_id}`, Body: req.body.image })
     .then(data => {
       Product.findOneAndUpdate({ _id }, { $set: { image: data.Location, values }}, { new: true })
-        .then(doc => {
-          console.log(doc)
-          res.send(doc)
-        })
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
+        .then(doc => res.send(doc))
+        .catch(err => res.status(400).send(err))
     })
-    .catch(err => console.log(err))
+    .catch(err => res.status(400).send(err))
 })
 
 

@@ -20,7 +20,8 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 class AdminPageCardAdd extends Component {
   state = {
     zDepth: 1,
-    expanded: false
+    expanded: false,
+    carousel: false
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
@@ -96,6 +97,27 @@ class AdminPageCardAdd extends Component {
                 ref={this.setEditorRef}
               />
             </CardMedia>
+
+            <CardActions>
+              <RaisedButton
+                onTouchTap={() => this.setState({ carousel: !this.state.carousel })}
+                type="button"
+                label={this.state.carousel ? "Remove Carousel" : "Add Carousel"}
+                labelColor="#ffffff"
+                backgroundColor={this.state.carousel ? "#D50000" : "#4CAF50" }
+                fullWidth={true}/>
+            </CardActions>
+            {!this.state.carousel ? null :
+
+              <CardMedia>
+                <ImageForm
+                  image='http://placehold.it/1000x1000'
+                  width={1000}
+                  height={1000}
+                  ref={this.setEditorRef}
+                />
+              </CardMedia>
+            }
             <CardText>
               <Field
                 name="youtube"

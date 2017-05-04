@@ -3,6 +3,9 @@ import { Router, Route, IndexRoute } from 'react-router'
 
 import App from './App'
 
+// Theme
+import AdminThemePage from './theme/containers/AdminThemePage'
+
 // Page
 import Page from './pages/containers/Page'
 import AdminPage from './pages/containers/AdminPage'
@@ -23,16 +26,20 @@ import ProductsPage from './products/containers/ProductsPage'
 import ProductPage from './products/containers/ProductPage'
 import AdminProductsPage from './products/containers/AdminProductsPage'
 import CartPage from './products/containers/CartPage'
-import CheckoutPage from './products/containers/CheckoutPage'
+import OrderAddPage from './products/containers/OrderAddPage'
 
 
 export default history => (
   <Router history={history}>
     <Route path="/" component={App}>
+
       {/* Page */}
       <IndexRoute page="home" component={Page} />
       <Route path="admin/pages/:slug" component={AdminPageEdit} />
       <Route path="admin/pages" component={AdminPage} />
+
+      {/* Theme */}
+      <Route path="admin/theme" component={AdminThemePage} />
 
       {/* User */}
       <Route path="signup" component={Signup} />
@@ -48,7 +55,7 @@ export default history => (
       <Route path="product/:slug" component={ProductPage} />
       <Route path="admin/products" component={AdminProductsPage} />
       <Route path="cart" component={CartPage} />
-      <Route path="checkout" component={RequireAuth(CheckoutPage, ['user'])} />
+      <Route path="checkout" component={RequireAuth(OrderAddPage, ['user'])} />
 
     </Route>
   </Router>

@@ -1,6 +1,6 @@
 // Create Product
 const fetchAddProductSuccess = (product) => ({ type: 'ADD_PRODUCT', product })
-const fetchAddProductFailure = (error) => ({ type: 'ERROR', error })
+const fetchAddProductFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
 export const fetchAddProduct = (product) => {
   return (dispatch, getState) => {
     return fetch('/api/products', {
@@ -13,7 +13,7 @@ export const fetchAddProduct = (product) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchAddProductSuccess(json))
       })
       .catch(err => dispatch(fetchAddProductFailure(err)))
@@ -23,9 +23,9 @@ export const fetchAddProduct = (product) => {
 
 
 // Read Product
-const fetchProductsRequest = () => ({ type: 'REQUEST' })
-const fetchProductsSuccess = (products) => ({ type: 'FETCH_PRODUCTS', products })
-const fetchProductsFailure = (error) => ({ type: 'ERROR', error })
+const fetchProductsRequest = () => ({ type: 'REQUEST_PRODUCTS' })
+const fetchProductsSuccess = (products) => ({ type: 'RECEIVE_PRODUCTS', products })
+const fetchProductsFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
 export const fetchProducts = () => {
   return (dispatch, getState) => {
     dispatch(fetchProductsRequest())
@@ -37,8 +37,7 @@ export const fetchProducts = () => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchProductsSuccess(json))
       })
       .catch(err => dispatch(fetchProductsFailure(err)))
@@ -49,7 +48,7 @@ export const fetchProducts = () => {
 
 // Update Product
 const fetchUpdateProductSuccess = (product) => ({ type: 'UPDATE_PRODUCT', product })
-const fetchUpdateProductFailure = (error) => ({ type: 'ERROR', error })
+const fetchUpdateProductFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
 export const fetchUpdateProduct = (product) => {
   const { _id } = product
   return (dispatch, getState) => {
@@ -63,7 +62,7 @@ export const fetchUpdateProduct = (product) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateProductSuccess(json))
       })
       .catch(err => dispatch(fetchUpdateProductFailure(err)))
@@ -74,7 +73,7 @@ export const fetchUpdateProduct = (product) => {
 
 // Delete Product
 const fetchDeleteProductSuccess = (_id) => ({ type: 'DELETE_PRODUCT', _id })
-const fetchDeleteProductFailure = (error) => ({ type: 'ERROR', error })
+const fetchDeleteProductFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
 export const fetchDeleteProduct = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/products/${_id}`, {
@@ -86,7 +85,7 @@ export const fetchDeleteProduct = (_id) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchDeleteProductSuccess(json._id))
       })
       .catch(err => dispatch(fetchDeleteProductFailure(err)))

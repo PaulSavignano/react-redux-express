@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Checkout from '../components/Checkout'
+import OrderAdd from '../components/OrderAdd'
 
-const CheckoutPage = ({ total, cart }) => (
+const OrderAddPage = ({ total, cart }) => (
   <main>
     <h1>Checkout {total}</h1>
-    <Checkout total={total} cart={cart} />
+    <OrderAdd total={total} cart={cart} />
   </main>
 )
 
@@ -14,4 +14,4 @@ const mapStateToProps = (state) => ({
   cart: state.cart.items
 })
 
-export default connect(mapStateToProps)(CheckoutPage)
+export default connect(mapStateToProps)(OrderAddPage)

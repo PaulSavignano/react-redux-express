@@ -11,6 +11,7 @@ import { cart } from '../products/reducers/cart'
 import { pages } from '../pages/reducers/page'
 import { order } from '../products/reducers/order'
 import { search } from '../header/reducers/search'
+import theme from '../theme/reducers/theme'
 import { routerReducer } from 'react-router-redux'
 
 
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   searchProducts,
   searchTodos,
   showCompleted,
+  theme,
   todos,
   user,
 })

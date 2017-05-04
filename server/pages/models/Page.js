@@ -8,22 +8,19 @@ const PageSchema = new Schema({
   },
   slug: { type: String },
   components: [{
-    type: { type: String },
-    image: { type: String },
+    type: { type: String, trim: true  },
+    image: { type: String, trim: true },
     values: {
-      header: { type: String },
+      header: { type: String, trim: true },
       width: { type: Number },
-      youtube: { type: String },
-      title: { type: String },
-      text: { type: String },
-      link: { type: String },
+      youtube: { type: String, trim: true },
+      title: { type: String, trim: true },
+      text: { type: String, trim: true },
+      link: { type: String, trim: true },
     },
     createdAt: { type: Date, default: Date.now }
   }],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: { type: Date, default: Date.now }
 })
 
 const Page = mongoose.model('Page', PageSchema)

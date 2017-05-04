@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 import TodoModel from './TodoModel'
 import { userSeeds } from '../users/seed'
 
-export { userSeeds } from '../users/seed'
 
 export const todoSeeds = [
   { _id: new ObjectID(), text: 'First test todo', _creator: userSeeds[0]._id, completed: false  },

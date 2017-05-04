@@ -23,10 +23,9 @@ export const fetchDeleteCart = () => {
 }
 
 
-
-const fetchOrderSuccess = (order) => ({ type: 'ADD_ORDER', order })
-const fetchOrderFailure = (error) => ({ type: 'ERROR', error })
-export const fetchOrder = (values) => {
+const fetchAddOrderSuccess = (order) => ({ type: 'ADD_ORDER', order })
+const fetchAddOrderFailure = (error) => ({ type: 'ERROR_ORDER', error })
+export const fetchAddOrder = (values) => {
   return (dispatch, getState) => {
     Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
     const cart = getState().cart
@@ -48,10 +47,10 @@ export const fetchOrder = (values) => {
           .then(res => res.json())
           .then(json => {
             if (json.error) return Promise.reject()
-            dispatch(fetchOrderSuccess(json))
+            dispatch(fetchAddOrderSuccess(json))
             dispatch(fetchDeleteCart())
           })
-          .catch(err => dispatch(fetchOrderFailure(err)))
+          .catch(err => dispatch(fetchAddOrderFailure(err)))
       })
   }
 }
@@ -64,10 +63,12 @@ export const fetchOrder = (values) => {
 
 
 
-
-export const fetchOrders = (orders) => ({ type: 'FETCH_ORDERS', orders })
-export const startFetchOrders = () => {
+const fetchOrdersRequest = () => ({ type: 'REQUEST_ORDERS' })
+const fetchOrdersSuccess = (orders) => ({ type: 'RECEIVE_ORDERS', orders })
+const fetchOrdersFailure = (error) => ({ type: 'ERROR_ORDER', error })
+export const fetchOrders = () => {
   return (dispatch, getState) => {
+    dispatch(fetchOrdersRequest())
     return fetch('/api/orders', {
       method: 'GET',
       headers: {
@@ -76,7 +77,10 @@ export const startFetchOrders = () => {
       }
     })
       .then(res => res.json())
-      .then(json => dispatch(fetchOrders(json)))
-      .catch(err => console.log(err))
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchOrdersSuccess(json))
+      })
+      .catch(err => dispatch(fetchOrdersFailure(err)))
   }
 }

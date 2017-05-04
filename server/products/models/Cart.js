@@ -1,16 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
 
 const CartSchema = new Schema({
-  total: {
-    type: Number,
-    minlength: 1,
-    trim: true
-  },
-  quantity: {
-    type: Number,
-    minlength: 1,
-    trim: true
-  },
+  total: { type: Number  },
+  quantity: { type: Number },
   items: [{
     productId: { type: Schema.Types.ObjectId, required: true },
     productQty: { type: Number, required: true },
@@ -19,10 +11,7 @@ const CartSchema = new Schema({
     price: { type: Number, required: true },
     total: { type: Number }
   }],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: { type: Date, default: Date.now }
 })
 
 const Cart = mongoose.model('Cart', CartSchema)

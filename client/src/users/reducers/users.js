@@ -1,38 +1,36 @@
-export const user = (state = {
-  isFetching: false,
-  name: '',
-  roles: [],
-  message: '',
-  error: ''
-}, action) => {
+export const user = (state = {}, action) => {
   switch(action.type) {
-    case 'REQUEST':
+    case 'REQUEST_USER':
       return {
         ...state,
         isFetching: true
       }
-    case 'SUCCESS':
+    case 'RECEIVE_USER':
       return {
         ...state,
         isFetching: false,
         ...action.user
       }
-    case 'ERROR':
+    case 'ERROR_USER':
       return { ...state, error: action.error }
-    case 'DELETE':
+    case 'DELETE_USER':
       return {
-        isFetching: false,
         name: '',
         roles: [],
         message: '',
         error: ''
       }
-    case 'RECOVER':
+    case 'RECOVER_USER':
       return {
         ...state,
         ...action.recovery
       }
-    case 'CONTACT':
+      case 'RESET_USER':
+        return {
+          ...state,
+          ...action.recovery
+        }
+    case 'CONTACT_USER':
       return {
         ...state,
         message: action.values

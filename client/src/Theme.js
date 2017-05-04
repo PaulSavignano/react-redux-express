@@ -1,29 +1,34 @@
-import {
-  cyan500, cyan700,
-  pinkA200,
-  grey100, grey300, grey400, grey500,
-  white, darkBlack, fullBlack,
-} from './Colors';
+import React from 'react'
+import { connect } from 'react-redux'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import routes from './routes'
+import { history } from './index'
 
-
-export default {
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
-    primary1Color: cyan500,
-    primary2Color: cyan700,
-    primary3Color: grey400,
-    accent1Color: pinkA200,
-    accent2Color: grey100,
-    accent3Color: grey500,
-    textColor: darkBlack,
-    alternateTextColor: white,
-    canvasColor: white,
-    borderColor: grey300,
-    pickerHeaderColor: cyan500,
-    shadowColor: fullBlack,
-  },
-    appBar: {
-    color: white,
-    textColor: darkBlack
+let Theme = ({ isFetching, theme }) => {
+  return (
+  isFetching ? null :
+  <CSSTransitionGroup
+    transitionName="image"
+    transitionAppear={true}
+    transitionAppearTimeout={1000}
+    transitionEnter={false}
+    transitionLeave={false}
+  >
+    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+      {routes(history)}
+    </MuiThemeProvider>
+  </CSSTransitionGroup>
+  )
+}
+const mapStateToProps = (state) => {
+  return {
+      isFetching: state.theme.isFetching,
+      theme: state.theme.values
   }
-};
+
+}
+Theme = connect(mapStateToProps)(Theme)
+
+export default Theme

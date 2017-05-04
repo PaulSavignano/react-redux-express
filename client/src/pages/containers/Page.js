@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import PageHero from '../components/PageHero'
 import PageCardList from '../components/PageCardList'
+import PageCarousel from '../components/PageCarousel'
 
 const Page = ({ isFetching, components, hero, cards }) => {
   return (
@@ -11,6 +12,7 @@ const Page = ({ isFetching, components, hero, cards }) => {
       {hero ? <PageHero key={hero._id} {...hero} /> : null }
       <main>
         {cards ?  <PageCardList cards={cards} /> : null }
+        <PageCarousel />
       </main>
     </div>
     :

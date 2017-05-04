@@ -8,7 +8,7 @@ AWS.config.update({
   subregion: 'us-west-2',
 })
 
-export const uploadFile = ({ Body, Key }) => {
+export const uploadFile = ({ Key, Body }) => {
   const buf = new Buffer(Body.replace(/^data:image\/\w+;base64,/, ""),'base64')
   return s3.upload({
     Bucket: process.env.AWS_S3_BUCKET,
@@ -25,11 +25,14 @@ export const deleteFile = ({ Key }) => {
   }).promise()
 }
 
-export const handleFile = ({ oldKey, Key, Body }) => {
-  if (Body) {
-    return uploadFile({ Body, Key })
-  } else if (oldKey) {
-    return deleteFile({ Key: oldKey })
+export const handleS3 = ({ hasUrl, hasImage, image, Key, Body }) => {
+  console.log(Key, Body)
+  if (hasImage) {
+    return uploadFile({ Key, Body })
   }
-  return Promise.resolve({ data: null })
+  if (hasUrl && !hasImage) {
+    return deleteFile({ Key })
+      .then(data => { data: { Location: null }})
+  }
+  return Promise.resolve({ data: { Location: image } })
 }

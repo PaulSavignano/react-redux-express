@@ -10,8 +10,8 @@ export const searchCarts = (searchCartsText) => {
 
 
 // Create
-const fetchAddToCartSuccess = (cart) => ({ type: 'ADD_TO_CART', cart })
-const fetchAddToCartFailure = (error) => ({ type: 'ERROR', error })
+const fetchAddToCartSuccess = (cart) => ({ type: 'ADD_CART', cart })
+const fetchAddToCartFailure = (error) => ({ type: 'ERROR_CART', error })
 export const fetchAddToCart = (product) => {
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
@@ -50,34 +50,32 @@ export const fetchAddToCart = (product) => {
 
 
 // Read
-const fetchCartRequest = () => ({ type: 'REQUEST' })
-const fetchCartSuccess = (cart) => ({ type: 'FETCH_CART', cart })
-const fetchCartFailure = (error) => ({ type: 'ERROR', error })
-export const fetchCart = () => {
+const fetchCartRequest = () => ({ type: 'REQUEST_CART' })
+const fetchCartSuccess = (cart) => ({ type: 'RECEIVE_CART', cart })
+const fetchCartFailure = (error) => ({ type: 'ERROR_CART', error })
+export const fetchCart = (cartId) => {
+  console.log(cartId)
   return (dispatch, getState) => {
-    const cartId = localStorage.getItem('cart')
-    if (cartId) {
-      return fetch(`/api/carts/${cartId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject()
-        dispatch(fetchCartSuccess(json))
-      })
-      .catch(err => dispatch(fetchCartFailure(err)))
-    }
-    console.log('no cart')
+    dispatch(fetchCartRequest())
+    return fetch(`/api/carts/${cartId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(res => res.json())
+    .then(json => {
+      if (json.error) return Promise.reject()
+      dispatch(fetchCartSuccess(json))
+    })
+    .catch(err => dispatch(fetchCartFailure(err)))
   }
 }
 
 
 // Update
 const fetchUpdateCartSuccess = (cart) => ({ type: 'UPDATE_CART', cart })
-const fetchUpdateCartFailure = (error) => ({ type: 'ERROR', error })
+const fetchUpdateCartFailure = (error) => ({ type: 'ERROR_CART', error })
 export const fetchUpdateCart = (product) => {
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
@@ -100,7 +98,7 @@ export const fetchUpdateCart = (product) => {
 
 // Delete
 const fetchDeleteCartSuccess = (cartId) => ({ type: 'DELETE_CART', cartId })
-const fetchDeleteCartFailure = (error) => ({ type: 'ERROR', error })
+const fetchDeleteCartFailure = (error) => ({ type: 'ERROR_CART', error })
 export const fetchDeleteCart = () => {
   const cartId = localStorage.getItem('cart')
   return (dispatch, getState) => {

@@ -9,7 +9,7 @@ export const searchProducts = (state = '', action) => {
 
 export const products = (state = {}, action) => {
   switch (action.type) {
-    case 'REQUEST':
+    case 'REQUEST_PRODUCTS':
       return {
         ...state,
         isFetching: true
@@ -17,13 +17,12 @@ export const products = (state = {}, action) => {
     case 'ADD_PRODUCT':
       return {
         ...state,
-        isFetching: false,
         items: [
           ...state.items,
           action.product
         ]
       }
-    case 'FETCH_PRODUCTS':
+    case 'RECEIVE_PRODUCTS':
       return {
         ...state,
         isFetching: false,
@@ -42,7 +41,7 @@ export const products = (state = {}, action) => {
         ...state,
         items: state.items.filter(product => product._id !== action._id)
       }
-    case 'ERROR':
+    case 'ERROR_PRODUCT':
       return {
         ...state,
         error: action.error

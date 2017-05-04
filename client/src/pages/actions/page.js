@@ -3,7 +3,7 @@ import { SubmissionError } from 'redux-form'
 
 // Create
 const fetchAddPageSuccess = (page) => ({ type: 'ADD_PAGE', page })
-const fetchAddPageFailure = (error) => ({ type: 'ERROR', error })
+const fetchAddPageFailure = (error) => ({ type: 'ERROR_PAGE', error })
 export const fetchAddPage = (values) => {
   return (dispatch, getState) => {
     return fetch('/api/pages', {
@@ -16,7 +16,7 @@ export const fetchAddPage = (values) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject(json)
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchAddPageSuccess(json))
       })
       .catch(err => {
@@ -29,13 +29,13 @@ export const fetchAddPage = (values) => {
 
 
 // Read
-const fetchPagesRequest = () => ({ type: 'REQUEST' })
-const fetchPagesSuccess = (pages) => ({ type: 'FETCH_PAGES', pages })
-const fetchPagesFailure = (error) => ({ type: 'ERROR', error })
+const fetchPagesRequest = () => ({ type: 'REQUEST_PAGES' })
+const fetchPagesSuccess = (pages) => ({ type: 'RECEIVE_PAGES', pages })
+const fetchPagesFailure = (error) => ({ type: 'ERROR_PAGE', error })
 export const fetchPages = () => {
   return (dispatch, getState) => {
     dispatch(fetchPagesRequest())
-    return fetch(`/api/pages`, {
+    return fetch('/api/pages', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +43,8 @@ export const fetchPages = () => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject(json)
+        console.log(json)
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchPagesSuccess(json))
       })
       .catch(err => dispatch(fetchPagesFailure(err)))
@@ -54,7 +55,7 @@ export const fetchPages = () => {
 
 // Update
 const fetchUpdatePageSuccess = (update) => ({ type: 'UPDATE_PAGE', update })
-const fetchUpdatePageFailure = (error) => ({ type: 'ERROR', error })
+const fetchUpdatePageFailure = (error) => ({ type: 'ERROR_PAGE', error })
 export const fetchUpdatePage = (pageId, update) => {
   return (dispatch, getState) => {
     return fetch(`/api/pages/${pageId}`, {
@@ -67,7 +68,7 @@ export const fetchUpdatePage = (pageId, update) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdatePageSuccess(json))
       })
       .catch(err => dispatch(fetchUpdatePageFailure(err)))
@@ -78,7 +79,7 @@ export const fetchUpdatePage = (pageId, update) => {
 
 // Delete
 const fetchDeletePageSuccess = (_id) => ({ type: 'DELETE_PAGE', _id })
-const fetchDeletePageFailure = (error) => ({ type: 'ERROR', error })
+const fetchDeletePageFailure = (error) => ({ type: 'ERROR_PAGE', error })
 export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/pages/${_id}`, {
@@ -90,7 +91,7 @@ export const fetchDelete = (_id) => {
     })
       .then(res => res.json())
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchDeletePageSuccess(json._id))
       })
       .catch(err => dispatch(fetchDeletePageFailure(err)))

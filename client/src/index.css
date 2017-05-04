@@ -1,3 +1,7 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+
 /**** Mobile layout ****/
 @media (max-width: 900px) {
   .appbar-nav {

@@ -42,7 +42,7 @@ class ImageForm extends Component {
     hasUpload: false
   }
 
-  handleSave = (data) => {
+  handleSave = () => {
     const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 0.5)
     this.setState({
       preview: {

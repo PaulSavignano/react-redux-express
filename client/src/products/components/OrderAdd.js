@@ -6,7 +6,7 @@ import Payment from 'payment'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import { fetchOrder } from '../actions/order'
+import { fetchAddOrder } from '../actions/order'
 import './CreditCard.css'
 
 const validate = values => {
@@ -46,12 +46,12 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 
-let Checkout = (props) => {
+let OrderAdd = (props) => {
   const { dispatch, handleSubmit, pristine, reset, submitting } = props
   return (
     <section>
       <Card style={{ margin: 20 }}>
-        <form onSubmit={handleSubmit((values) => dispatch(fetchOrder(values)))}>
+        <form onSubmit={handleSubmit((values) => dispatch(fetchAddOrder(values)))}>
           <CardText>
             <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
             <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
@@ -108,11 +108,11 @@ let Checkout = (props) => {
   )
 }
 
-Checkout = reduxForm({
+OrderAdd = reduxForm({
   form: 'CheckoutForm',  // a unique identifier for this form
   validate,
-})(Checkout)
+})(OrderAdd)
 
-Checkout = connect()(Checkout)
+OrderAdd = connect()(OrderAdd)
 
-export default Checkout
+export default OrderAdd
