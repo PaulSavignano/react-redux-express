@@ -43,7 +43,6 @@ export const fetchPages = () => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchPagesSuccess(json))
       })

@@ -71,7 +71,7 @@ const styles = {
   }
 }
 
-class AdminPageHero extends Component {
+class AdminHero extends Component {
   state = {
     expanded: false,
     image: false,
@@ -334,9 +334,9 @@ class AdminPageHero extends Component {
   }
 }
 
-AdminPageHero = reduxForm({
-  form: 'AdminPageHero',
-})(AdminPageHero)
+AdminHero = reduxForm({
+  form: 'AdminHero',
+})(AdminHero)
 
 const mapStateToProps = (state, ownProps) => {
   const page = state.pages.items.find(p => p._id === ownProps.page._id)
@@ -348,6 +348,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-AdminPageHero = connect(mapStateToProps)(AdminPageHero)
+AdminHero = connect(mapStateToProps)(AdminHero)
 
-export default AdminPageHero
+export default AdminHero

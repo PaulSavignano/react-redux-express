@@ -26,7 +26,6 @@ export const deleteFile = ({ Key }) => {
 }
 
 export const handleS3 = ({ hasUrl, hasImage, image, Key, Body }) => {
-  console.log(Key, Body)
   if (hasImage) {
     return uploadFile({ Key, Body })
   }

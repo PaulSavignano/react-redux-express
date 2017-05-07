@@ -18,7 +18,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminPageCard extends Component {
+class AdminCard extends Component {
   state = {
     zDepth: 1,
     expanded: false,
@@ -181,8 +181,8 @@ class AdminPageCard extends Component {
   }
 }
 
-AdminPageCard = compose(
+AdminCard = compose(
   connect((state, props) => ({form: props.card._id})),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminPageCard)
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCard)
 
-export default AdminPageCard
+export default AdminCard

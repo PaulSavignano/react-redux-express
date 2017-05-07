@@ -18,8 +18,7 @@ import { fetchPages } from './pages/actions/page'
 import { fetchCart } from './products/actions/cart'
 import { fetchProducts } from './products/actions/product'
 import { fetchTheme } from './theme/actions/theme'
-
-import { connect } from 'react-redux'
+import { fetchCards } from './cards/actions/card'
 
 injectTapEventPlugin()
 
@@ -40,6 +39,7 @@ if (cart) {
 store.dispatch(fetchTheme())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
+store.dispatch(fetchCards())
 
 
 
@@ -49,7 +49,7 @@ ReactDOM.render(
   <Provider store={store}>
 
     <Theme />
-
+    
   </Provider>,
   document.getElementById('root')
 );

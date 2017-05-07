@@ -1,12 +1,12 @@
 import React from 'react'
-import AdminPageCard from './AdminPageCard'
+import AdminCard from './AdminCard'
 
-const AdminPageCardList = ({ cards, page }) => {
+const AdminCardList = ({ cards, page }) => {
   return (
     cards.length > 0 ?
       <section>
         {cards.map(card => (
-          <AdminPageCard
+          <AdminCard
             key={card._id}
             card={card}
             page={page}
@@ -20,4 +20,4 @@ const AdminPageCardList = ({ cards, page }) => {
 }
 
 
-export default AdminPageCardList
+export default AdminCardList

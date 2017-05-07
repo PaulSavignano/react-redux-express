@@ -12,7 +12,6 @@ const fetchAddThemeSuccess = (item) => ({ type: ADD, item })
 const fetchAddThemeFailure = (error) => ({ type: ERROR, error })
 export const fetchAddTheme = () => {
   return (dispatch, getState) => {
-    console.log('adding')
     return fetch('/api/themes', {
       method: 'POST',
       headers: {

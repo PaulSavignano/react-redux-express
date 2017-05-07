@@ -6,7 +6,6 @@ import Product from './products/components/Product'
 const filter = (products, searchText) => {
   const filtered = products.filter(product => {
     const name = product.name.toLowerCase()
-    console.log(name)
     return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
   })
   return filtered

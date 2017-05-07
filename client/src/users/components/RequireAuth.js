@@ -9,7 +9,6 @@ const RequireAuth = (ComposedComponent, roles) => {
     }
     hasRoles = (roles, userRoles) => {
       if (userRoles) {
-        console.log(userRoles)
         return roles.some(v => userRoles.indexOf(v) >= 0)
       } else {
         return false

@@ -1,32 +1,33 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import AdminPageHero from '../components/AdminPageHero'
-import AdminPageCardAdd from '../components/AdminPageCardAdd'
-import AdminPageCardList from '../components/AdminPageCardList'
+import AdminHero from '../components/AdminHero'
+import CardAdd from '../../cards/components/CardAdd'
+import CardList from '../../cards/components/CardList'
+import AdminCardList from '../components/AdminCardList'
+import CompSelect from '../components/CompSelect'
 
 const AdminPageEdit = (props) => {
-  const { page, isFetching, cards } = props
+  const { isFetching, page, cards } = props
   return (
     isFetching ? null :
     <main>
-      <AdminPageHero page={page} />
-      <AdminPageCardAdd page={page} />
-      <AdminPageCardList page={page} cards={cards} />
+      <AdminHero page={page} />
+      <CardAdd page={page} />
+      <CardList page={page} cards={cards} />
+      <CompSelect page={page} />
     </main>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
-  if (!state.pages.isFetching) {
-    const page = state.pages.items.find(i => i.slug === ownProps.params.slug)
-    const cards = page.components.filter(c => c.type === 'card') || []
-    return {
-      page,
-      cards,
-      isFetching: state.pages.isFetching
-    }
+  const isFetching = state.pages.isFetching || state.cards.isFetching ? true : false
+  const page = isFetching ? {} : state.pages.items.find(item => item.slug === ownProps.params.slug)
+  const cards = isFetching ? [] : state.cards.items.filter(item => item.pageId === page._id)
+  return {
+    isFetching,
+    page,
+    cards
   }
-  return { isFetching: state.pages.isFetching }
 }
 
 export default connect(mapStateToProps)(AdminPageEdit)

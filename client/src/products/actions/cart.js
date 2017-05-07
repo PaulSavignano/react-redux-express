@@ -54,7 +54,6 @@ const fetchCartRequest = () => ({ type: 'REQUEST_CART' })
 const fetchCartSuccess = (cart) => ({ type: 'RECEIVE_CART', cart })
 const fetchCartFailure = (error) => ({ type: 'ERROR_CART', error })
 export const fetchCart = (cartId) => {
-  console.log(cartId)
   return (dispatch, getState) => {
     dispatch(fetchCartRequest())
     return fetch(`/api/carts/${cartId}`, {

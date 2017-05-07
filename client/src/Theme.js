@@ -24,10 +24,9 @@ let Theme = ({ isFetching, theme }) => {
 }
 const mapStateToProps = (state) => {
   return {
-      isFetching: state.theme.isFetching,
-      theme: state.theme.values
+    isFetching: state.theme.isFetching,
+    theme: state.theme.values
   }
-
 }
 Theme = connect(mapStateToProps)(Theme)
 

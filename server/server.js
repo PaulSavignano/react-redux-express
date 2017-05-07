@@ -11,6 +11,7 @@ import users from './users/routes/users'
 import orders from './products/routes/orders'
 import pages from './pages/routes/pages'
 import themes from './themes/routes/themes'
+import cards from './cards/routes/cards'
 
 const app = express()
 const port = process.env.PORT
@@ -25,6 +26,7 @@ app.use('/api/checkout', checkout)
 app.use('/api/orders', orders)
 app.use('/api/pages', pages)
 app.use('/api/themes', themes)
+app.use('/api/cards', cards)
 
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))

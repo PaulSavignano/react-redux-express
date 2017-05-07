@@ -16,7 +16,6 @@ export const fetchDeleteCart = () => {
       .then(json => {
         if (json.error) return Promise.reject()
         localStorage.removeItem('cart')
-        console.log(json)
       })
       .catch(err => console.log(err))
   }

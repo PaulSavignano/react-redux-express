@@ -38,7 +38,6 @@ class PageHero extends Component {
   }
   render() {
     const { _id, image, values } = this.props
-    console.log(this.props)
     return (
       this.state.loading ? null :
         <Card>

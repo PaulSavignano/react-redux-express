@@ -7,6 +7,7 @@ import { reducer as formReducer } from 'redux-form'
 import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
 import { user } from '../users/reducers/users'
 import { searchProducts, products } from '../products/reducers/products'
+import cards from '../cards/reducers/card'
 import { cart } from '../products/reducers/cart'
 import { pages } from '../pages/reducers/page'
 import { order } from '../products/reducers/order'
@@ -16,6 +17,7 @@ import { routerReducer } from 'react-router-redux'
 
 
 const rootReducer = combineReducers({
+  cards,
   cart,
   order,
   form: formReducer,

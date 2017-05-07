@@ -6,7 +6,6 @@ import AdminProduct from './AdminProduct'
 const filterProducts = (products, searchText) => {
   const filteredProducts = products.filter(product => {
     const name = product.values.name.toLowerCase()
-    console.log(name)
     return searchText.length === 0 || name.indexOf(searchText.toLowerCase()) > -1
   })
   return filteredProducts

@@ -26,8 +26,6 @@ const mapStateToProps = (state, ownProps) => {
     const components = state.pages.items.find(p => p.slug === page).components
     const hero = components.find(c => c.type === 'hero')
     const cards = components.filter(c => c.type === 'card')
-    console.log(cards.map(card => card._id))
-    console.log(cards)
     return {
       isFetching: state.pages.isFetching,
       components,

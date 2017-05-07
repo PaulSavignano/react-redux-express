@@ -10,6 +10,7 @@ import AdminThemePage from './theme/containers/AdminThemePage'
 import Page from './pages/containers/Page'
 import AdminPage from './pages/containers/AdminPage'
 import AdminPageEdit from './pages/containers/AdminPageEdit'
+import CompSelect from './pages/components/CompSelect'
 
 // User
 import RequireAuth from './users/components/RequireAuth'
@@ -37,6 +38,7 @@ export default history => (
       <IndexRoute page="home" component={Page} />
       <Route path="admin/pages/:slug" component={AdminPageEdit} />
       <Route path="admin/pages" component={AdminPage} />
+      <Route path="components" component={CompSelect} />
 
       {/* Theme */}
       <Route path="admin/theme" component={AdminThemePage} />

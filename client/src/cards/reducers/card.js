@@ -1,37 +1,40 @@
-const theme = (state = {}, action) => {
+const cards = (state = {}, action) => {
   switch (action.type) {
-    case 'REQUEST_THEME':
+    case 'REQUEST_CARDS':
       return {
         ...state,
         isFetching: true
       }
-    case 'RECEIVE_THEME':
+    case 'RECEIVE_CARDS':
       return {
         ...state,
-        ...action.item,
+        items: action.items,
         isFetching: false,
       }
-    case 'ADD_THEME':
+    case 'ADD_CARD':
       return {
         ...state,
         error: '',
-        ...action.item,
+        items: [
+          ...state.items,
+          action.item
+        ],
         isFetching: false,
       }
-    case 'UPDATE_THEME':
+    case 'UPDATE_CARD':
       return {
         ...state,
         error: '',
-        ...state.items.map(item => item._id === action.item._id ?
-          { ...item, ...action.item } :
-          item
+        items: state.items.map(product => product._id === action.product._id ?
+          { ...product, ...action.product } :
+          product
         )
       }
-    case 'DELETE_THEME':
+    case 'DELETE_CARD':
       return {
         ...state,
         error: '',
-        ...state.items.filter(item => item._id !== item._id)
+        items: state.items.filter(product => product._id !== action._id)
       }
     case 'ERROR_THEME':
       return {
@@ -43,4 +46,4 @@ const theme = (state = {}, action) => {
   }
 }
 
-export default theme
+export default cards

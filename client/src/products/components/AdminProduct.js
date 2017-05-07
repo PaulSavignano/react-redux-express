@@ -41,7 +41,6 @@ class AdminProduct extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { handleSubmit, _id, dispatch, image } = this.props
-    console.log(this.props)
     return (
       <Card
         style={{ flex: '1 1 auto', width: 300, margin: 20 }}

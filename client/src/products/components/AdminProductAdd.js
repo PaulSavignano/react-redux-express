@@ -53,7 +53,6 @@ class AdminProductAdd extends Component {
         >
           <form
             onSubmit={handleSubmit((values) => {
-              console.log('adding')
               const product = {
                 image: this.editor.hasUpload() ? this.editor.handleSave() : null,
                 values

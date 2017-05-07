@@ -34,7 +34,6 @@ class AdminTheme extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { handleSubmit, dispatch, theme } = this.props
-    console.log(theme._id)
     return (
       <section>
         <form

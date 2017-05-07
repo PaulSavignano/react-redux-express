@@ -5,6 +5,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageForm from '../../images/components/ImageForm'
+import AdminCarouselAdd from './AdminCarouselAdd'
 import { fetchUpdatePage } from '../actions/page'
 
 
@@ -17,7 +18,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminPageCardAdd extends Component {
+class AdminCardAdd extends Component {
   state = {
     zDepth: 1,
     expanded: false,
@@ -61,7 +62,7 @@ class AdminPageCardAdd extends Component {
                   <h4>Add Card</h4>
                   <Field
                     name="minWidth"
-                    label="Minimum Width"
+                    label="Width"
                     type="number"
                     component={renderTextField}
                   />
@@ -98,26 +99,7 @@ class AdminPageCardAdd extends Component {
               />
             </CardMedia>
 
-            <CardActions>
-              <RaisedButton
-                onTouchTap={() => this.setState({ carousel: !this.state.carousel })}
-                type="button"
-                label={this.state.carousel ? "Remove Carousel" : "Add Carousel"}
-                labelColor="#ffffff"
-                backgroundColor={this.state.carousel ? "#D50000" : "#4CAF50" }
-                fullWidth={true}/>
-            </CardActions>
-            {!this.state.carousel ? null :
-
-              <CardMedia>
-                <ImageForm
-                  image='http://placehold.it/1000x1000'
-                  width={1000}
-                  height={1000}
-                  ref={this.setEditorRef}
-                />
-              </CardMedia>
-            }
+            <AdminCarouselAdd />
             <CardText>
               <Field
                 name="youtube"
@@ -162,5 +144,5 @@ class AdminPageCardAdd extends Component {
 
 
 export default reduxForm({
-  form: 'AdminPageCardAdd',
-})(AdminPageCardAdd)
+  form: 'AdminCardAdd',
+})(AdminCardAdd)

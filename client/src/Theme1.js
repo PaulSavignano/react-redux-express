@@ -29,7 +29,7 @@ const Theme = ({ values }) => {
     },
   }
 }
-console.log(Theme)
+
 const mapStateToProps = (state) => {
   if (state.theme.isFetching) {
     return { values: null }
