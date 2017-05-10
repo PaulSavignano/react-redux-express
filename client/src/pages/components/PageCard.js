@@ -57,7 +57,7 @@ class PageCard extends Component {
           {title ? <CardTitle title={title} /> : null }
           {text ? <CardText>{text}</CardText> : null }
         </CSSTransitionGroup>
-        </Card>
+      </Card>
         :
         <Card
           style={{ flex: '1 1 auto', width: width, margin: 30 }}
@@ -81,7 +81,7 @@ class PageCard extends Component {
             {title ? <CardTitle title={title} /> : null }
             {text ? <CardText>{text}</CardText> : null }
           </CSSTransitionGroup>
-      </Card>
+        </Card>
     )
   }
 }

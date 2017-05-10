@@ -1,20 +1,20 @@
 import { SubmissionError } from 'redux-form'
 
-const ADD = 'ADD_CARD'
-const REQUEST = 'REQUEST_CARDS'
-const RECEIVE = 'RECEIVE_CARDS'
-const UPDATE = 'UPDATE_CARD'
-const DELETE = 'DELETE_CARD'
-const ERROR = 'ERROR_CARD'
+const ADD = 'ADD_CAROUSEL'
+const REQUEST = 'REQUEST_CARDOUSEL'
+const RECEIVE = 'RECEIVE_CARDOUSEL'
+const UPDATE = 'UPDATE_CAROUSEL'
+const DELETE = 'DELETE_CAROUSEL'
+const ERROR = 'ERROR_CAROUSEL'
 
 
 
 // Create
-const fetchAddCardSuccess = (item) => ({ type: ADD, item })
-const fetchAddCardFailure = (error) => ({ type: ERROR, error })
+const fetchAddCarouselSuccess = (item) => ({ type: ADD, item })
+const fetchAddCarouselFailure = (error) => ({ type: ERROR, error })
 export const fetchAddCard = (item) => {
   return (dispatch, getState) => {
-    return fetch('/api/cards', {
+    return fetch('/api/carousels', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,10 +25,10 @@ export const fetchAddCard = (item) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddCardSuccess(json))
+        dispatch(fetchAddCarouselSuccess(json))
       })
       .catch(err => {
-        dispatch(fetchAddCardFailure(err))
+        dispatch(fetchAddCarouselFailure(err))
         throw new SubmissionError({ error: err.error, _error: err.error })
     })
   }
@@ -37,23 +37,23 @@ export const fetchAddCard = (item) => {
 
 
 // Read
-const fetchCardsRequest = () => ({ type: REQUEST })
-const fetchCardsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchCardsFailure = (error) => ({ type: ERROR, error })
+const fetchCarouselsRequest = () => ({ type: REQUEST })
+const fetchCarouselsSuccess = (items) => ({ type: RECEIVE, items })
+const fetchCarouselsFailure = (error) => ({ type: ERROR, error })
 export const fetchCards = () => {
   return (dispatch, getState) => {
-    dispatch(fetchCardsRequest())
-    return fetch('/api/cards', {
+    dispatch(fetchCarouselsRequest())
+    return fetch('/api/carousels', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchCardsSuccess(json))
+        dispatch(fetchCarouselsSuccess(json))
       })
       .catch(err => {
-        dispatch(fetchCardsFailure(err))
+        dispatch(fetchCarouselsFailure(err))
       })
 
 
@@ -63,11 +63,11 @@ export const fetchCards = () => {
 
 
 // Update
-const fetchUpdateCardSuccess = (item) => ({ type: UPDATE, item })
-const fetchUpdateCardFailure = (error) => ({ type: ERROR, error })
-export const fetchUpdateCard = (update) => {
+const fetchUpdateCarouselSuccess = (item) => ({ type: UPDATE, item })
+const fetchUpdateCarouselFailure = (error) => ({ type: ERROR, error })
+export const fetchUpdateCarousel = (update) => {
   return (dispatch, getState) => {
-    return fetch(`/api/cards/${update.cardId}`, {
+    return fetch(`/api/carousels/${update.cardId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json' ,
@@ -78,20 +78,20 @@ export const fetchUpdateCard = (update) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateCardSuccess(json))
+        dispatch(fetchUpdateCarouselSuccess(json))
       })
-      .catch(err => dispatch(fetchUpdateCardFailure(err)))
+      .catch(err => dispatch(fetchUpdateCarouselFailure(err)))
   }
 }
 
 
 
 // Delete
-const fetchDeleteCardSuccess = (_id) => ({ type: DELETE, _id })
-const fetchDeleteCardFailure = (error) => ({ type: ERROR, error })
-export const fetchDeleteCard = (_id) => {
+const fetchDeleteCarouselSuccess = (_id) => ({ type: DELETE, _id })
+const fetchDeleteCarouselFailure = (error) => ({ type: ERROR, error })
+export const fetchDeleteCarousel = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/cards/${_id}`, {
+    return fetch(`/api/carousels/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -101,8 +101,8 @@ export const fetchDeleteCard = (_id) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteCardSuccess(json._id))
+        dispatch(fetchDeleteCarouselSuccess(json._id))
       })
-      .catch(err => dispatch(fetchDeleteCardFailure(err)))
+      .catch(err => dispatch(fetchDeleteCarouselFailure(err)))
   }
 }

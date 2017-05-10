@@ -1,55 +1,89 @@
 import React, { Component } from 'react'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
-
-
-import { fetchDeleteCard } from '../actions/card'
-
-import CardWidth from './CardWidth'
-import CardImage from './CardImage'
-import CardCarousel from './CardCarousel'
-
+import { push } from 'react-router-redux'
+import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 class CardItem extends Component {
   state = {
-    zDepth: 1
+    zDepth: 1,
+    loading: true,
+    image: ''
+  }
+  componentDidMount() {
+    if (this.props.card.image) {
+      this.setState({ loading: true })
+      const img = new Image;
+      const src = this.props.card.image
+      img.src = src
+      img.onload = (e) => {
+        this.setState({ loading: false, image: src })
+      }
+    } else {
+      this.setState({ loading: false })
+    }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { handleSubmit, dispatch, page, card } = this.props
+    const { dispatch, card } = this.props
+    const { image, values } = card
     return (
-        <Card
-          zDepth={this.state.zDepth}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-          style={{ margin: 20 }}
+      this.state.loading ? null :
+      values.link ?
+      <Card
+        onTouchTap={() => dispatch(push(`${values.link}`))}
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        style={{ flex: '1 1 auto', width: values.width, margin: 30, cursor: 'pointer' }}
+      >
+        <CSSTransitionGroup
+          transitionName="image"
+          transitionAppear={true}
+          transitionAppearTimeout={1000}
+          transitionEnter={false}
+          transitionLeave={false}
         >
-          <CardText>
-            <CardWidth page={page} card={card} initialValues={{ width: card.width }} />
-          </CardText>
-          <CardImage page={page} card={card} />
-          <CardCarousel page={page} card={card} />
-          <CardActions style={{ display: 'flex' }}>
-            <RaisedButton
-              type="button"
-              label="Remove Card"
-              fullWidth={true}
-              labelColor="#ffffff"
-              backgroundColor="#D50000"
-              onTouchTap={() => {
-                const item = { pageId: page._id, _id: card._id }
-                dispatch(fetchDeleteCard(item))
-              }}
-            />
-          </CardActions>
+          {values.header ? <CardHeader title={values.header} /> : null }
+          {image ? <CardMedia><img src={image} alt="card"/></CardMedia> : null }
+          {values.iFrame ?
+            <div style={{ position: 'relative', paddingBottom: '50%'}}>
+              <iframe
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src={values.iFrame} frameBorder="0" allowFullScreen>
+              </iframe></div>
+          : null}
+          {values.title ? <CardTitle title={values.title} /> : null }
+          {values.text ? <CardText>{values.text}</CardText> : null }
+        </CSSTransitionGroup>
         </Card>
+        :
+        <Card
+          style={{ flex: '1 1 auto', width: values.width, margin: 30 }}
+        >
+          <CSSTransitionGroup
+            transitionName="image"
+            transitionAppear={true}
+            transitionAppearTimeout={1000}
+            transitionEnter={false}
+            transitionLeave={false}
+          >
+            {values.header ? <CardHeader title={values.header} /> : null }
+            {values.image ? <CardMedia><img src={values.image} alt="card"/></CardMedia> : null }
+            {values.iFrame ?
+              <div style={{ position: 'relative', paddingBottom: '50%'}}>
+                <iframe
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                  src={values.iFrame} frameBorder="0" allowFullScreen>
+                </iframe></div>
+            : null}
+            {values.title ? <CardTitle title={values.title} /> : null }
+            {values.text ? <CardText>{values.text}</CardText> : null }
+          </CSSTransitionGroup>
+      </Card>
     )
   }
 }
 
-export default CardItem
+export default connect()(CardItem)

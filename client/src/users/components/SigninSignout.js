@@ -2,17 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import IconButton from 'material-ui/IconButton'
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
-
-const SigninSignout = (props) => {
-  const { dispatch } = props
+const SigninSignout = ({ dispatch }) => {
   return (
     <IconMenu
       iconButtonElement={
-        <IconButton><MoreVertIcon /></IconButton>
+        <IconButton style={{ padding: '20px 12px 4px 12px'}}><MoreVertIcon /></IconButton>
       }
       style={{ verticalAlign: 'middle' }}
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -25,8 +23,4 @@ const SigninSignout = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
-  state
-})
-
-export default connect(mapStateToProps)(SigninSignout)
+export default connect()(SigninSignout)

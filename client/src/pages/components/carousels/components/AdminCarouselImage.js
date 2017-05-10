@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import ImageForm from '../../../images/components/ImageForm'
-import { fetchUpdateCard } from '../../actions/card'
+import { fetchUpdateCarousel } from '../../actions/carousel'
 
-class CarouselImage extends Component {
+class AdminCarouselImage extends Component {
   state = {
     expanded: false,
     image: null
@@ -18,7 +18,7 @@ class CarouselImage extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { handleSubmit, dispatch, page, card, item } = this.props
+    const { handleSubmit, dispatch, page, carousel, item } = this.props
     return (
       <form
         onSubmit={(e) => {
@@ -28,7 +28,7 @@ class CarouselImage extends Component {
             if (this.editor.hasUpload()) {
               image = this.editor.handleSave()
             } else {
-              image = card.image
+              image = carousel.image
             }
           } else {
             image = null
@@ -36,7 +36,7 @@ class CarouselImage extends Component {
           const update = {
             type: 'UPDATE_CAROUSEL_IMAGE',
             pageId: page._id,
-            cardId: card._id,
+            cardId: carousel._id,
             update: {
               itemId: item._id,
               image
@@ -52,7 +52,7 @@ class CarouselImage extends Component {
                 const update = {
                   type: 'DELETE_IMAGE',
                   pageId: page._id,
-                  cardId: card._id,
+                  cardId: carousel._id,
                   update: {
                     itemId: item._id
                   }
@@ -88,4 +88,4 @@ class CarouselImage extends Component {
   }
 }
 
-export default connect()(CarouselImage)
+export default connect()(AdminCarouselImage)

@@ -1,17 +1,17 @@
 const cards = (state = {}, action) => {
   switch (action.type) {
-    case 'REQUEST_CARDS':
+    case 'REQUEST_CAROUSELS':
       return {
         ...state,
         isFetching: true
       }
-    case 'RECEIVE_CARDS':
+    case 'RECEIVE_CAROUSELS':
       return {
         ...state,
         items: action.items,
         isFetching: false,
       }
-    case 'ADD_CARD':
+    case 'ADD_CAROUSEL':
       return {
         ...state,
         error: '',
@@ -21,7 +21,7 @@ const cards = (state = {}, action) => {
         ],
         isFetching: false,
       }
-    case 'UPDATE_CARD':
+    case 'UPDATE_CAROUSEL':
       return {
         ...state,
         error: '',
@@ -30,13 +30,13 @@ const cards = (state = {}, action) => {
           product
         )
       }
-    case 'DELETE_CARD':
+    case 'DELETE_CAROUSEL':
       return {
         ...state,
         error: '',
         items: state.items.filter(product => product._id !== action._id)
       }
-    case 'ERROR_THEME':
+    case 'ERROR_CAROUSEL':
       return {
         ...state,
         error: action.error

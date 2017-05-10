@@ -25,13 +25,20 @@ export const deleteFile = ({ Key }) => {
   }).promise()
 }
 
-export const handleS3 = ({ hasUrl, hasImage, image, Key, Body }) => {
-  if (hasImage) {
-    return uploadFile({ Key, Body })
+export const handleS3 = ({ imageType, Key, Body }) => {
+  const hasImage = Body ? true : false
+  const urlParse = hasImage ? url.parse(component.image) : null
+  const hasUrl = urlParse.slashes ? true : false
+  switch (imageType) {
+    case 'HAS_IMAGE':
+      if (hasUrl) return Promise.resolve({ data: { Location: Body }})
+      if (hasImage) return uploadFile({ Key, Body })
+      break
+    case 'DELETE_IMAGE':
+      deleteFile({ Key })
+        .then(() => Promise.resolve({ data: { Location: null }}))
+      break
+    default:
+      return Promise.resolve({ data: { Location: null }})
   }
-  if (hasUrl && !hasImage) {
-    return deleteFile({ Key })
-      .then(data => { data: { Location: null }})
-  }
-  return Promise.resolve({ data: { Location: image } })
 }

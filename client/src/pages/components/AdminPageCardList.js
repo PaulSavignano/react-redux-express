@@ -2,6 +2,7 @@ import React from 'react'
 import AdminCard from './AdminCard'
 
 const AdminCardList = ({ cards, page }) => {
+  console.log(cards)
   return (
     cards.length > 0 ?
       <section>

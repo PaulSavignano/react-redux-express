@@ -6,9 +6,9 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import CarouselImage from './CarouselImage'
 import CarouselText from './CarouselText'
-import { fetchUpdateCard } from '../../actions/card'
+import { fetchUpdateCarousel } from '../../actions/carousel'
 
-const CarouselItem = ({ dispatch, page, card, item, initialValues }) => {
+const AdminCarouselItem = ({ dispatch, page, carousel, item, initialValues }) => {
   console.log()
   return (
     <Card>
@@ -17,7 +17,7 @@ const CarouselItem = ({ dispatch, page, card, item, initialValues }) => {
           onTouchTap={() => {
             const update = {
               type: 'DELETE_CAROUSEL_ITEM',
-              cardId: card._id,
+              carouselId: carousel._id,
               update: {}
             }
             dispatch(fetchUpdateCard(update))}
@@ -28,8 +28,8 @@ const CarouselItem = ({ dispatch, page, card, item, initialValues }) => {
           backgroundColor="#4CAF50"
           fullWidth={true}/>
       </CardActions>
-      <CarouselImage page={page} card={card} item={item} />
-      <CarouselText card={card} item={item} />
+      <CarouselImage page={page} carousel={carousel} item={item} />
+      <CarouselText carousel={carousel} item={item} />
     </Card>
   )
 }
@@ -40,4 +40,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect()(CarouselItem)
+export default connect()(AdminCarouselItem)

@@ -3,20 +3,18 @@ import { connect } from 'react-redux'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import RaisedButton from 'material-ui/RaisedButton'
-import { fetchUpdateCard } from '../../actions/card'
+import { fetchUpdateCarousel } from '../../actions/carousel'
 
-class CarouselItemAdd extends Component {
-
+class AdminCarouselItemAdd extends Component {
   render() {
-      console.log('carouselAdd')
-    const { dispatch, page, card } = this.props
+    const { dispatch, page, carousel } = this.props
     return (
       <CardActions>
         <RaisedButton
           onTouchTap={() => {
             const update = {
               type: 'ADD_CAROUSEL_ITEM',
-              cardId: card._id,
+              carouselId: carousel._id,
               update: {}
             }
             dispatch(fetchUpdateCard(update))}
@@ -31,4 +29,4 @@ class CarouselItemAdd extends Component {
   }
 }
 
-export default connect()(CarouselItemAdd)
+export default connect()(AdminCarouselItemAdd)

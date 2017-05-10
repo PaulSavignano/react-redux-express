@@ -5,7 +5,6 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageForm from '../../images/components/ImageForm'
-import AdminCarouselAdd from './AdminCarouselAdd'
 import { fetchUpdatePage } from '../actions/page'
 
 
@@ -99,7 +98,6 @@ class AdminCardAdd extends Component {
               />
             </CardMedia>
 
-            <AdminCarouselAdd />
             <CardText>
               <Field
                 name="youtube"

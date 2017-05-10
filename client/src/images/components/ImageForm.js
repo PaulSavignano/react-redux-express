@@ -38,12 +38,10 @@ class ImageForm extends Component {
     opacity: 1,
     rotate: 0,
     borderRadius: 0,
-    preview: null,
-    hasUpload: false
+    preview: null
   }
-
   handleSave = () => {
-    const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 0.5)
+    const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 1)
     this.setState({
       preview: {
         img,
@@ -51,71 +49,68 @@ class ImageForm extends Component {
         borderRadius: this.state.borderRadius
       }
     })
+    this.props.editing(false)
     return img
   }
-
   handleScale = (e) => {
     const scale = parseFloat(e.target.value)
-    this.setState({ scale })
+    this.setState({ scale }, () => this.handleEditing())
   }
-
   handleOpacity = (e) => {
     const opacity = parseFloat(e.target.value)
-    this.setState({ opacity })
+    this.setState({ opacity }, () => this.handleEditing())
   }
-
   rotateLeft = (e) => {
     e.preventDefault()
     this.setState({
       rotate: this.state.rotate - 90
-    })
+    }, () => this.handleEditing())
   }
-
   rotateRight = (e) => {
     e.preventDefault()
     this.setState({
       rotate: this.state.rotate + 90
-    })
+    }, () => this.handleEditing())
   }
-
   handleBorderRadius = (e) => {
     const borderRadius = parseInt(e.target.value, 10)
-    this.setState({ borderRadius })
+    this.setState({ borderRadius }, () => this.handleEditing())
   }
-
   handleXPosition = (e) => {
     const x = parseFloat(e.target.value)
-    this.setState({ position: { ...this.state.position, x } })
+    this.setState({ position: { ...this.state.position, x } }, () => this.handleEditing())
   }
-
   handleYPosition = (e) => {
     const y = parseFloat(e.target.value)
-    this.setState({ position: { ...this.state.position, y } })
+    this.setState({ position: { ...this.state.position, y } }, () => this.handleEditing())
   }
-
   handlePositionChange = position => {
-    this.setState({ position })
+    this.state.position.x || this.state.position.y === 0.5 ? this.props.editing(false) : this.props.editing(true)
+    this.setState({ position }, () => this.handleEditing())
   }
-
   handleUpload = (e) => {
     e.preventDefault()
     const reader = new FileReader()
     const file = e.target.files[0]
     reader.onload = (e) => this.editor.loadImage(e.target.result)
     reader.readAsDataURL(file)
-    this.setState({ hasUpload: true })
+    this.props.editing(true)
   }
-  hasUpload = () => {
-    return this.state.hasUpload
+  handleEditing = () => {
+    const { position, scale, opacity, rotate, borderRadius } = this.state
+    console.log(borderRadius)
+    if (position.x === 0.5 && position.y === 0.5 && scale === 1 && opacity === 1 && rotate === 0 && borderRadius === 0) {
+      this.props.editing(false)
+    } else {
+      this.props.editing(true)
+    }
   }
-
   setEditorRef = (editor) => {
     if (editor) this.editor = editor
   }
   readImage = (url) => {
     return this.editor.readImage(url)
   }
-
   render () {
     return (
       <div>
@@ -131,6 +126,7 @@ class ImageForm extends Component {
           borderRadius={this.state.borderRadius}
           onSave={this.handleSave}
           image={this.props.image}
+          crossOrigin="anonymous"
         />
         <br />
         <div style={styles.container}>

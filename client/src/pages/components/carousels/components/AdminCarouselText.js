@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
-import { fetchUpdateCard } from '../../actions/card'
+
+import { fetchUpdateCarousel } from '../../actions/carousel'
+
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -15,13 +17,13 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-let CarouselText = ({ handleSubmit, submitSucceeded, dispatch, page, card, item }) => (
+let AdminCarouselText = ({ handleSubmit, submitSucceeded, dispatch, page, carousel, item }) => (
   <CardText
     onBlur={handleSubmit((values) => {
       const update = {
         type: 'UPDATE_CAROUSEL_TEXT',
         pageId: page._id,
-        cardId: card._id,
+        carouselId: carousel._id,
         update: {
           itemId: item._id,
           text: values.text
@@ -41,8 +43,8 @@ let CarouselText = ({ handleSubmit, submitSucceeded, dispatch, page, card, item 
   </CardText>
 )
 
-CarouselText = compose(
-  connect((state, props) => ({form: `card${props.card._id}carousel${props.item._id}`})),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(CarouselText)
+AdminCarouselText = compose(
+  connect((state, props) => ({form: `carousel${props.carousel._id}item${props.item._id}`})),
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCarouselText)
 
-export default CarouselText
+export default AdminCarouselText

@@ -2,17 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import PageHero from '../components/PageHero'
-import PageCardList from '../components/PageCardList'
-import PageCarousel from '../components/PageCarousel'
+import CardList from '../../cards/containers/CardList'
 
-const Page = ({ isFetching, components, hero, cards }) => {
+const Page = ({ isFetching, page, hero, cards }) => {
+  console.log(page)
   return (
     !isFetching ?
     <div>
-      {hero ? <PageHero key={hero._id} {...hero} /> : null }
       <main>
-        {cards ?  <PageCardList cards={cards} /> : null }
-        <PageCarousel />
+        <CardList page={page} />
       </main>
     </div>
     :
@@ -21,19 +19,13 @@ const Page = ({ isFetching, components, hero, cards }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  if (!state.pages.isFetching) {
-    const page = ownProps.params.slug ? ownProps.params.slug : 'home'
-    const components = state.pages.items.find(p => p.slug === page).components
-    const hero = components.find(c => c.type === 'hero')
-    const cards = components.filter(c => c.type === 'card')
-    return {
-      isFetching: state.pages.isFetching,
-      components,
-      hero,
-      cards
-    }
+  const slug = ownProps.params.slug || 'home'
+  const isFetching = state.pages.isFetching ? true : false
+  const page = isFetching ? {} : state.pages.items.find(item => item.slug === slug)
+  return {
+    isFetching,
+    page
   }
-  return {}
 }
 
 export default connect(mapStateToProps)(Page)

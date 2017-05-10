@@ -53,7 +53,7 @@ pages.get('/:_id', (req, res) => {
 pages.patch('/:pageId', (req, res) => {
   const pageId = req.params.pageId
   if (!ObjectID.isValid(pageId)) return res.status(404).send()
-  const { type, component } = req.body
+  const { type, hero, card, carousel } = req.body
   Page.findOne({ _id: pageId })
     .then(page => {
       const componentId = ObjectID(component._id) || null

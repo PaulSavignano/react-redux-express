@@ -18,7 +18,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminCard extends Component {
+class AdminPageCard extends Component {
   state = {
     zDepth: 1,
     expanded: false,
@@ -49,10 +49,9 @@ class AdminCard extends Component {
             image = null
           }
           const update = {
-            type: 'UPDATE_COMPONENT',
-            component: {
+            type: 'UPDATE_CARD',
+            card: {
               _id: card._id,
-              type: 'card',
               image,
               values
             }
@@ -94,8 +93,8 @@ class AdminCard extends Component {
               onTouchTap={() => {
                 if (this.state.expanded && card.image) {
                   const update = {
-                    type: 'DELETE_IMAGE',
-                    component: {
+                    type: 'DELETE_CARD_IMAGE',
+                    card: {
                       _id: card._id
                     }
                   }
@@ -181,8 +180,8 @@ class AdminCard extends Component {
   }
 }
 
-AdminCard = compose(
+AdminPageCard = compose(
   connect((state, props) => ({form: props.card._id})),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCard)
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminPageCard)
 
-export default AdminCard
+export default AdminPageCard
