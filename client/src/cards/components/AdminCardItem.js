@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm, Field, reset } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchUpdatePage } from '../actions/page'
+import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -18,47 +18,58 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminPageCard extends Component {
+class AdminCardItem extends Component {
   state = {
     zDepth: 1,
     expanded: false,
+    submitted: false,
+    editing: false,
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.card || null
+    const { image } = this.props.item || null
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'http://placehold.it/1000x1000'
     this.setState({ expanded: hasImage, image: imageUrl })
+    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+  }
+  componentWillReceiveProps(nextProps) {
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
+    nextProps.dirty ? this.setState({ submitted: false }) : null
+  }
+  editing = (bool) => {
+    bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { handleSubmit, dispatch, page, card } = this.props
+    const { error, handleSubmit, dispatch, page, item } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {
-          let image
+          let type, image
           if (this.state.expanded) {
-            if (this.editor.hasUpload()) {
+            if (this.state.editing) {
+              console.log('has upload')
+              type = 'UPDATE_ITEM_UPDATE_IMAGE'
               image = this.editor.handleSave()
             } else {
-              image = card.image
+              type = 'UPDATE_ITEM'
+              image = item.image
             }
+          } else if (item.image) {
+            type = 'UPDATE_ITEM_DELETE_IMAGE'
+            image = item.image
           } else {
+            type = 'UPDATE_ITEM'
             image = null
           }
-          const update = {
-            type: 'UPDATE_CARD',
-            card: {
-              _id: card._id,
-              image,
-              values
-            }
-          }
-          dispatch(fetchUpdatePage(page._id, update))
+          const update = { type, image, values }
+          dispatch(fetchUpdate(item._id, update))
+          this.setState({ image: item.image })
         })}
-        style={{ flex: '1 1 auto', width: card.values.width, margin: 30 }}
+        style={{ flex: '1 1 auto', width: item.values.width, margin: 20 }}
       >
         <Card
           expanded={this.state.expanded}
@@ -68,39 +79,27 @@ class AdminPageCard extends Component {
           containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
           style={{ height: '100%' }}
         >
-          <CardTitle
-            title={
-              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-                <Field
-                  name="header"
-                  label="Header"
-                  type="text"
-                  component={renderTextField}
-                  style={{ flex: '1 1 auto' }}
-                />
-                <Field
-                  name="width"
-                  label="Width"
-                  type="number"
-                  component={renderTextField}
-                  style={{ flex: '1 1 auto' }}
-                />
-              </div>
-            }
-          />
+          <CardText>
+            <Field
+              name="width"
+              label="Width"
+              type="number"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="header"
+              label="Header"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+          </CardText>
           <CardActions>
             <RaisedButton
               onTouchTap={() => {
-                if (this.state.expanded && card.image) {
-                  const update = {
-                    type: 'DELETE_CARD_IMAGE',
-                    card: {
-                      _id: card._id
-                    }
-                  }
-                  dispatch(fetchUpdatePage(page._id, update))
-                }
-                this.setState({ expanded: !this.state.expanded })
+                const image = this.state.image || 'http://placehold.it/1000x1000'
+                this.setState({ expanded: !this.state.expanded, submitted: false, image })
               }}
               type="button"
               label={this.state.expanded ? "Remove Image" : "Add Image"}
@@ -111,6 +110,8 @@ class AdminPageCard extends Component {
           <CardMedia expandable={true}>
             <ImageForm
               image={this.state.image}
+              type="image/jpeg"
+              editing={this.editing}
               width={1000}
               height={1000}
               ref={this.setEditorRef}
@@ -118,17 +119,17 @@ class AdminPageCard extends Component {
           </CardMedia>
           <CardText>
             <Field
-              name="youtube"
+              name="iFrame"
               label="Youtube iFrame src"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
-            {card.youtube ?
+            {item.values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={card.youtube} frameBorder="0" allowFullScreen>
+                  src={item.values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>
             : null}
             <Field
@@ -154,23 +155,25 @@ class AdminPageCard extends Component {
               fullWidth={true}
               component={renderTextField}
             />
+            {error && <strong>{error}</strong>}
           </CardText>
           <div style={{ flex: '1 1 auto' }}></div>
           <CardActions style={{ display: 'flex' }}>
-            <RaisedButton type="submit" label="Update" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
+            <RaisedButton
+              type="submit"
+              label="Update"
+              label={this.state.submitted ? "Updated" : "Update"}
+              labelColor="#ffffff"
+              backgroundColor={this.state.submitted ? "#4CAF50" : "#00BCD4" }
+              style={{ flex: '1 1 auto', margin: 8 }}
+            />
             <RaisedButton
               type="button"
               label="X"
               primary={true}
               style={{ flex: '1 1 auto', margin: 8 }}
               onTouchTap={() => {
-                const update = {
-                  type: 'DELETE_COMPONENT',
-                  component: {
-                    _id: card._id
-                  }
-                }
-                dispatch(fetchUpdatePage(page._id, update))
+                dispatch(fetchDelete(item._id, item.image))
               }}
             />
           </CardActions>
@@ -180,8 +183,10 @@ class AdminPageCard extends Component {
   }
 }
 
-AdminPageCard = compose(
-  connect((state, props) => ({form: props.card._id})),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminPageCard)
+AdminCardItem = compose(
+  connect((state, props) => ({
+    form: `card_${props.item._id}`
+  })),
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCardItem)
 
-export default AdminPageCard
+export default AdminCardItem

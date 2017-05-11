@@ -85,6 +85,7 @@ class AdminTheme extends Component {
             <CardMedia expandable={true}>
               <ImageForm
                 image={this.state.image}
+                type="image/png"
                 width={280}
                 height={60}
                 ref={this.setEditorRef}

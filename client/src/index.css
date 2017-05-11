@@ -98,7 +98,7 @@ a {
 }
 
 .section {
-  padding: 80px 0;
+  margin: 80px 0;
   max-width: 1044px;
   margin-left: auto;
   margin-right: auto;
@@ -123,4 +123,19 @@ a img{
 ::selection {
   background-color: rgb(0, 188, 212);
   color: #fff;
+}
+
+
+
+
+.slick-dots {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.slick-slider {
+  margin: 80px 0 160px 0;
+  max-width: 1044px;
+  margin-left: auto;
+  margin-right: auto;
 }

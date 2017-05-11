@@ -1,26 +1,29 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { routerMiddleware } from 'react-router-redux'
+import { routerMiddleware, routerReducer } from 'react-router-redux'
 import { browserHistory } from 'react-router'
-
 import { reducer as formReducer } from 'redux-form'
-import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
-import { user } from '../users/reducers/users'
-import { searchProducts, products } from '../products/reducers/products'
+
 import cards from '../cards/reducers/index'
+import carousels from '../carousels/reducers/index'
 import { cart } from '../products/reducers/cart'
-import { pages } from '../pages/reducers/page'
+import heros from '../heros/reducers/index'
 import { order } from '../products/reducers/order'
+import { pages } from '../pages/reducers/page'
+import { searchProducts, products } from '../products/reducers/products'
 import { search } from '../header/reducers/search'
+import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
 import theme from '../theme/reducers/theme'
-import { routerReducer } from 'react-router-redux'
+import { user } from '../users/reducers/users'
 
 
 const rootReducer = combineReducers({
   cards,
+  carousels,
   cart,
-  order,
   form: formReducer,
+  heros,
+  order,
   pages,
   products,
   routing: routerReducer,

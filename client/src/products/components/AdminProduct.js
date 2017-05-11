@@ -61,6 +61,7 @@ class AdminProduct extends Component {
           <CardMedia>
             <ImageForm
               image={image}
+              type="image/jpeg"
               width={1000}
               height={1000}
               _id={_id}

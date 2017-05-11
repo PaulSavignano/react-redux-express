@@ -3,34 +3,30 @@ import { connect } from 'react-redux'
 
 import CardItem from '../components/CardItem'
 
-const CardList = ({ isFetching, page, cards }) => {
+const CardList = ({ isFetching, page, items }) => {
   return (
-    isFetching ? null :
-    <div>
-      {cards.length > 0 ?
-        <section>
-          {cards.map(card => (
-            <CardItem
-              key={card._id}
-              card={card}
-              page={page}
-            />
-          ))}
-        </section>
-        :
-        <section><h3>No items yet</h3></section>
-      }
-    </div>
+    isFetching ? null : items.length ?
+      <section>
+        {items.map(item => (
+          <CardItem
+            key={item._id}
+            item={item}
+            page={page}
+          />
+        ))}
+      </section>
+    :
+      null
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
   console.log(ownProps.page)
   const isFetching = state.cards.isFetching
-  const cards = isFetching ? [] : state.cards.items.filter(item => item.pageId === ownProps.page._id)
+  const items = isFetching ? [] : state.cards.items.filter(item => item.pageId === ownProps.page._id)
   return {
     isFetching,
-    cards
+    items
   }
 }
 

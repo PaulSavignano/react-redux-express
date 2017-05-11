@@ -2,21 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import AdminCardAdd from '../components/AdminCardAdd'
-import AdminCard from '../components/AdminCard'
+import AdminCardItem from '../components/AdminCardItem'
 
-const AdminCardList = ({ isFetching, page, cards }) => {
+const AdminCardList = ({ isFetching, page, items }) => {
   return (
     isFetching ? null :
     <div>
       <section><AdminCardAdd page={page} /></section>
-      {cards.length > 0 ?
+      {items.length > 0 ?
         <section>
-          {cards.map(card => (
-            <AdminCard
-              key={card._id}
-              card={card}
+          {items.map(item => (
+            <AdminCardItem
+              key={item._id}
+              item={item}
               page={page}
-              initialValues={card.values}
+              initialValues={item.values}
             />
           ))}
         </section>
@@ -29,10 +29,10 @@ const AdminCardList = ({ isFetching, page, cards }) => {
 
 const mapStateToProps = (state, ownProps) => {
   const isFetching = state.cards.isFetching
-  const cards = isFetching ? null : state.cards.items.filter(item => item.pageId === ownProps.page._id)
+  const items = isFetching ? null : state.cards.items.filter(item => item.pageId === ownProps.page._id)
   return {
     isFetching,
-    cards
+    items
   }
 }
 

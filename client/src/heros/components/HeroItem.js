@@ -22,7 +22,7 @@ const styles = {
 }
 
 
-class PageHero extends Component {
+class HeroItem extends Component {
   state = {
     loading: true,
     image: ''
@@ -30,14 +30,14 @@ class PageHero extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     const img = new Image;
-    const src = this.props.image
+    const src = this.props.hero.image
     img.src = src
     img.onload = (e) => {
       this.setState({ loading: false, image: src })
     }
   }
   render() {
-    const { _id, image, values } = this.props
+    const { hero } = this.props
     return (
       this.state.loading ? null :
         <Card>
@@ -50,8 +50,8 @@ class PageHero extends Component {
           >
             <CardMedia >
               <img src={this.state.image} alt="hero" />
-              <div style={styles.title}>{values.title}</div>
-              <div style={styles.text}>{values.text}</div>
+              <div style={styles.title}>{hero.values.title}</div>
+              <div style={styles.text}>{hero.values.text}</div>
             </CardMedia>
           </CSSTransitionGroup>
         </Card>
@@ -59,4 +59,4 @@ class PageHero extends Component {
   }
 }
 
-export default PageHero
+export default HeroItem

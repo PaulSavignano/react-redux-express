@@ -16,7 +16,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // Actions
 import { fetchCards } from './cards/actions/index'
+import { fetchCarousels } from './carousels/actions/index'
 import { fetchCart } from './products/actions/cart'
+import { fetchHeros } from './heros/actions/index'
 import { fetchPages } from './pages/actions/page'
 import { fetchProducts } from './products/actions/product'
 import { fetchUser } from './users/actions/users'
@@ -39,6 +41,8 @@ if (cart) {
 }
 
 store.dispatch(fetchCards())
+store.dispatch(fetchCarousels())
+store.dispatch(fetchHeros())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
 store.dispatch(fetchTheme())

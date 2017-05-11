@@ -11,10 +11,10 @@ class CardItem extends Component {
     image: ''
   }
   componentDidMount() {
-    if (this.props.card.image) {
+    if (this.props.item.image) {
       this.setState({ loading: true })
       const img = new Image;
-      const src = this.props.card.image
+      const src = this.props.item.image
       img.src = src
       img.onload = (e) => {
         this.setState({ loading: false, image: src })
@@ -26,8 +26,8 @@ class CardItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, card } = this.props
-    const { image, values } = card
+    const { dispatch, item } = this.props
+    const { image, values } = item
     return (
       this.state.loading ? null :
       values.link ?
@@ -46,7 +46,7 @@ class CardItem extends Component {
           transitionLeave={false}
         >
           {values.header ? <CardHeader title={values.header} /> : null }
-          {image ? <CardMedia><img src={image} alt="card"/></CardMedia> : null }
+          {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
           {values.iFrame ?
             <div style={{ position: 'relative', paddingBottom: '50%'}}>
               <iframe
@@ -70,7 +70,7 @@ class CardItem extends Component {
             transitionLeave={false}
           >
             {values.header ? <CardHeader title={values.header} /> : null }
-            {values.image ? <CardMedia><img src={values.image} alt="card"/></CardMedia> : null }
+            {values.image ? <CardMedia><img src={values.image} alt="item"/></CardMedia> : null }
             {values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe

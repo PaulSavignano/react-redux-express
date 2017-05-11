@@ -3,64 +3,43 @@ import { ObjectID } from 'mongodb'
 
 import { authenticate } from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
-import Carousel from '../models/Carousel'
+import Hero from '../models/Hero'
 
 
-const carousels = express.Router()
+const heros = express.Router()
 
-const s3Path = `${process.env.APP_NAME}/carousels`
+const s3Path = `${process.env.APP_NAME}/heros`
 
 // Create
-carousels.post('/', (req, res) => {
-  const { type, pageId, pageName, image, values } = req.body
+heros.post('/', (req, res) => {
+  const { type, pageId, pageName } = req.body
   const _id = new ObjectID()
-  const card = new Carousel({
+  const card = new Hero({
     _id,
     pageId: ObjectID(pageId),
-    pageName,
-    image,
-    values
+    pageName
   })
-  switch (type) {
-    case 'ADD_ITEM_ADD_IMAGE':
-    uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
-      .then(data => {
-        card.image = data.Location
-        card.save()
-          .then(doc => {
-              res.send(doc)
-            })
-          .catch(err => {
-            console.log(err)
-            res.status(400).send(err)
-          })
-      })
-      break
-    case 'ADD_ITEM':
-      card.save()
-        .then(doc => res.send(doc))
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-    default:
-      return
-  }
+  card.save()
+    .then(doc => res.send(doc))
+    .catch(err => {
+      console.log(err)
+      res.status(400).send(err)
+    })
 })
 
 
 
 // Read
-carousels.get('/', (req, res) => {
-  Carousel.find({})
+heros.get('/', (req, res) => {
+  Hero.find({})
     .then(docs => res.send(docs))
     .catch(err => res.status(400).send(err))
 })
 
 // By page name
-carousels.get('/:_id', (req, res) => {
+heros.get('/:_id', (req, res) => {
   const _id = req.params._id
-  Carousel.find({ _id })
+  Hero.find({ _id })
     .then(doc => res.send(doc))
     .catch(err => res.status(400).send(err))
 })
@@ -68,7 +47,7 @@ carousels.get('/:_id', (req, res) => {
 
 
 // Update
-carousels.patch('/:_id', (req, res) => {
+heros.patch('/:_id', (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
@@ -78,7 +57,7 @@ carousels.patch('/:_id', (req, res) => {
       uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
         .then(data => {
           const update = { image: data.Location, values }
-          Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Hero.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
               res.send(doc)
@@ -95,7 +74,7 @@ carousels.patch('/:_id', (req, res) => {
       deleteFile({ Key: `${s3Path}/${_id}` })
         .then(() => {
           const update = { image: null, values }
-          Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Hero.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
               res.send(doc)
@@ -109,7 +88,7 @@ carousels.patch('/:_id', (req, res) => {
       break
 
     case 'UPDATE_ITEM':
-      Carousel.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
+      Hero.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
         .then(doc => {
           console.log(doc)
           res.send(doc)
@@ -128,16 +107,16 @@ carousels.patch('/:_id', (req, res) => {
 
 
 // Delete
-carousels.delete('/:_id', (req, res) => {
+heros.delete('/:_id', (req, res) => {
   const _id = req.params._id
   console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Carousel.findOne({ _id })
+  Hero.findOne({ _id })
     .then(doc => {
       if (doc.image) {
         deleteFile({ Key: `${s3Path}/${_id}` })
           .then(() => {
-            Carousel.findOneAndRemove({ _id })
+            Hero.findOneAndRemove({ _id })
               .then(doc => res.send(doc))
               .catch(err => {
                 console.log(err)
@@ -145,7 +124,7 @@ carousels.delete('/:_id', (req, res) => {
               })
           })
       } else {
-        Carousel.findOneAndRemove({ _id,})
+        Hero.findOneAndRemove({ _id,})
           .then(doc => res.send(doc))
           .catch(err => {
             console.log(err)
@@ -157,4 +136,4 @@ carousels.delete('/:_id', (req, res) => {
 
 
 
-export default carousels
+export default heros

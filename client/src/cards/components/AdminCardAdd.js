@@ -33,7 +33,7 @@ class AdminCardAdd extends Component {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
   }
   render() {
-    const { handleSubmit, page, dispatch } = this.props
+    const { error, handleSubmit, page, dispatch } = this.props
     return (
       <section>
         <form
@@ -67,6 +67,7 @@ class AdminCardAdd extends Component {
                 name="width"
                 label="Width"
                 type="number"
+                fullWidth={true}
                 component={renderTextField}
               />
               <Field
@@ -89,6 +90,7 @@ class AdminCardAdd extends Component {
             <CardMedia expandable={true}>
               <ImageForm
                 image='http://placehold.it/1000x1000'
+                type="image/jpeg"
                 editing={this.editing}
                 width={1000}
                 height={1000}
@@ -127,6 +129,7 @@ class AdminCardAdd extends Component {
                 fullWidth={true}
                 component={renderTextField}
               />
+              {error && <strong>{error}</strong>}
             </CardText>
             <CardActions>
               <RaisedButton type="submit" label="Add" primary={true} fullWidth={true}/>

@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminPageHero from '../components/AdminPageHero'
+import AdminHero from '../../heros/containers/AdminHero'
 import AdminCardList from '../../cards/containers/AdminCardList'
+import AdminCarouselList from '../../carousels/containers/AdminCarouselList'
 
 
 const AdminPageEdit = (props) => {
@@ -10,8 +11,9 @@ const AdminPageEdit = (props) => {
   return (
     isFetching ? null :
     <main>
-      <AdminPageHero page={page} />
+      <AdminHero page={page} />
       <AdminCardList page={page} />
+      <AdminCarouselList page={page} />
     </main>
   )
 }

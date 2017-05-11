@@ -41,7 +41,7 @@ class ImageForm extends Component {
     preview: null
   }
   handleSave = () => {
-    const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 1)
+    const img = this.editor.getImageScaledToCanvas().toDataURL(this.props.type, 1)
     this.setState({
       preview: {
         img,
@@ -98,7 +98,6 @@ class ImageForm extends Component {
   }
   handleEditing = () => {
     const { position, scale, opacity, rotate, borderRadius } = this.state
-    console.log(borderRadius)
     if (position.x === 0.5 && position.y === 0.5 && scale === 1 && opacity === 1 && rotate === 0 && borderRadius === 0) {
       this.props.editing(false)
     } else {

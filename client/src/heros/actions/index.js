@@ -1,8 +1,8 @@
 import { SubmissionError } from 'redux-form'
 
-export const type = 'CARD'
-const route = 'cards'
-const fetchMethod = 'Cards'
+export const type = 'HERO'
+const route = 'heros'
+const fetchMethod = 'Heros'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -39,12 +39,13 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchCardsRequest = () => ({ type: REQUEST })
-const fetchCardsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchCardsFailure = (error) => ({ type: ERROR, error })
-export const fetchCards = () => {
+const fetchHerosRequest = () => ({ type: REQUEST })
+const fetchHerosSuccess = (items) => ({ type: RECEIVE, items })
+const fetchHerosFailure = (error) => ({ type: ERROR, error })
+export const fetchHeros = () => {
+  console.log('fetching Heros')
   return (dispatch, getState) => {
-    dispatch(fetchCardsRequest())
+    dispatch(fetchHerosRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
@@ -53,12 +54,13 @@ export const fetchCards = () => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log('heros', json)
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchCardsSuccess(json))
+        dispatch(fetchHerosSuccess(json))
       })
       .catch(err => {
         console.log(err)
-        dispatch(fetchCardsFailure(err))
+        dispatch(fetchHerosFailure(err))
       })
   }
 }

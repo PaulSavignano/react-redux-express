@@ -65,6 +65,7 @@ class AdminProductAdd extends Component {
             <CardMedia>
               <ImageForm
                 image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
+                type="image/jpeg"
                 width={1000}
                 height={1000}
                 _id={_id}
