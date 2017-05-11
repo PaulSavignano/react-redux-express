@@ -44,7 +44,6 @@ class AdminProductAdd extends Component {
   render() {
     const { handleSubmit, _id, dispatch } = this.props
     return (
-      <section>
         <Card
           style={{ flex: '1 1 auto', margin: 20 }}
           zDepth={this.state.zDepth}
@@ -102,7 +101,6 @@ class AdminProductAdd extends Component {
             </div>
           </form>
         </Card>
-      </section>
     )
   }
 }

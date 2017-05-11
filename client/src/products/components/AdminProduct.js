@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchUpdateProduct, fetchDeleteProduct } from '../actions/product'
+import { fetchUpdate, fetchDelete } from '../actions/product'
 import ImageForm from '../../images/components/ImageForm'
 
 const validate = values => {
@@ -34,13 +34,30 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class AdminProduct extends Component {
   state = {
-    zDepth: 1
+    zDepth: 1,
+    submitted: false,
+    editing: false,
+    image: null
+  }
+  componentWillMount() {
+    const { image } = this.props.item || null
+    const hasImage = image ? true : false
+    const imageUrl = image ? image : 'http://placehold.it/1000x1000'
+    this.setState({ expanded: hasImage, image: imageUrl })
+    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+  }
+  componentWillReceiveProps(nextProps) {
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
+    nextProps.dirty ? this.setState({ submitted: false }) : null
+  }
+  editing = (bool) => {
+    bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { handleSubmit, _id, dispatch, image } = this.props
+    const { error, handleSubmit, dispatch, item } = this.props
     return (
       <Card
         style={{ flex: '1 1 auto', width: 300, margin: 20 }}
@@ -50,21 +67,27 @@ class AdminProduct extends Component {
       >
         <form
           onSubmit={handleSubmit((values) => {
-            const product = {
-              _id,
-              image: this.editor.hasUpload() ? this.editor.handleSave() : image,
-              values
+            let type, image
+            if (this.state.editing) {
+              console.log('has upload')
+              type = 'UPDATE_ITEM_UPDATE_IMAGE'
+              image = this.editor.handleSave()
+            } else {
+              type = 'UPDATE_ITEM'
+              image = item.image
             }
-            dispatch(fetchUpdateProduct(values))
+            const update = { type, image, values }
+            dispatch(fetchUpdate(item._id, update))
+            this.setState({ image: item.image })
           })}
         >
           <CardMedia>
             <ImageForm
-              image={image}
+              image={this.state.image}
               type="image/jpeg"
+              editing={this.editing}
               width={1000}
               height={1000}
-              _id={_id}
               ref={this.setEditorRef}
             />
           </CardMedia>
@@ -94,13 +117,20 @@ class AdminProduct extends Component {
             />
           </CardText>
           <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-            <RaisedButton type="submit" label="Update" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
+            <RaisedButton
+              type="submit"
+              label="Update"
+              label={this.state.submitted ? "Updated" : "Update"}
+              labelColor="#ffffff"
+              backgroundColor={this.state.submitted ? "#4CAF50" : "#00BCD4" }
+              style={{ flex: '1 1 auto', margin: 8 }}
+            />
             <RaisedButton
               type="button"
               label="X"
               primary={true}
               style={{ flex: '1 1 auto', margin: 8 }}
-              onTouchTap={() => dispatch(fetchDeleteProduct(_id))}
+              onTouchTap={() => dispatch(fetchDelete(item._id))}
             />
           </div>
         </form>
@@ -110,7 +140,7 @@ class AdminProduct extends Component {
 }
 
 AdminProduct = compose(
-  connect((state, props) => ({form: props._id})),
+  connect((state, props) => ({form: `product_${props.item._id}`})),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: [], validate}))(AdminProduct)
 
 export default AdminProduct

@@ -30,14 +30,14 @@ class HeroItem extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     const img = new Image;
-    const src = this.props.hero.image
+    const src = this.props.item.image
     img.src = src
     img.onload = (e) => {
       this.setState({ loading: false, image: src })
     }
   }
   render() {
-    const { hero } = this.props
+    const { item } = this.props
     return (
       this.state.loading ? null :
         <Card>
@@ -50,8 +50,8 @@ class HeroItem extends Component {
           >
             <CardMedia >
               <img src={this.state.image} alt="hero" />
-              <div style={styles.title}>{hero.values.title}</div>
-              <div style={styles.text}>{hero.values.text}</div>
+              <div style={styles.title}>{item.values.title}</div>
+              <div style={styles.text}>{item.values.text}</div>
             </CardMedia>
           </CSSTransitionGroup>
         </Card>

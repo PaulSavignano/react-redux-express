@@ -25,14 +25,14 @@ class AdminCarouselItem extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.carousel || null
+    const { image } = this.props.item || null
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'http://placehold.it/280x60'
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.carousel.image }) : null
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
     nextProps.dirty ? this.setState({ submitted: false }) : null
   }
   editing = (bool) => {
@@ -42,7 +42,7 @@ class AdminCarouselItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, page, carousel } = this.props
+    const { error, handleSubmit, dispatch, page, item } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -53,11 +53,11 @@ class AdminCarouselItem extends Component {
             image = this.editor.handleSave()
           } else {
             type = 'UPDATE_ITEM'
-            image = carousel.image
+            image = item.image
           }
           const update = { type, image, values }
-          dispatch(fetchUpdate(carousel._id, update))
-          this.setState({ image: carousel.image })
+          dispatch(fetchUpdate(item._id, update))
+          this.setState({ image: item.image })
         })}
         style={{ flex: '1 1 auto' }}
       >
@@ -98,7 +98,7 @@ class AdminCarouselItem extends Component {
             primary={true}
             style={{ flex: '1 1 auto', margin: 8 }}
             onTouchTap={() => {
-              dispatch(fetchDelete(carousel._id, carousel.image))
+              dispatch(fetchDelete(item._id, item.image))
             }}
           />
         </CardActions>
@@ -109,7 +109,7 @@ class AdminCarouselItem extends Component {
 
 AdminCarouselItem = compose(
   connect((state, props) => ({
-    form: `carousel_${props.carousel._id}`
+    form: `carousel_${props.item._id}`
   })),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCarouselItem)
 

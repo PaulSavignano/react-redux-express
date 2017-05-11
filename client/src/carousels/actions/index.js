@@ -2,7 +2,6 @@ import { SubmissionError } from 'redux-form'
 
 export const type = 'CAROUSEL'
 const route = 'carousels'
-const fetchMethod = 'Carousels'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`

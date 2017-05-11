@@ -21,12 +21,13 @@ import Contact from './users/components/Contact'
 import ProfilePage from './users/containers/ProfilePage'
 
 // Product
-import TodosPage from './todos/components/TodosPage'
 import ProductsPage from './products/containers/ProductsPage'
 import ProductPage from './products/containers/ProductPage'
-import AdminProductsPage from './products/containers/AdminProductsPage'
+import AdminProductList from './products/containers/AdminProductList'
 import CartPage from './products/containers/CartPage'
 import OrderAddPage from './products/containers/OrderAddPage'
+
+import TodosPage from './todos/components/TodosPage'
 
 
 export default history => (
@@ -53,7 +54,7 @@ export default history => (
       <Route path="todos" component={RequireAuth(TodosPage, ['user', 'admin'])} />
       <Route path="products" component={ProductsPage} />
       <Route path="product/:slug" component={ProductPage} />
-      <Route path="admin/products" component={AdminProductsPage} />
+      <Route path="admin/products" component={AdminProductList} />
       <Route path="cart" component={CartPage} />
       <Route path="checkout" component={RequireAuth(OrderAddPage, ['user'])} />
 

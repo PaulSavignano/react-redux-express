@@ -1,35 +1,51 @@
-// Create Product
-const fetchAddProductSuccess = (product) => ({ type: 'ADD_PRODUCT', product })
-const fetchAddProductFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
-export const fetchAddProduct = (product) => {
+import { SubmissionError } from 'redux-form'
+
+export const type = 'PRODUCT'
+const route = 'products'
+
+
+const ADD = `ADD_${type}`
+const REQUEST = `REQUEST_${type}S`
+const RECEIVE = `RECEIVE_${type}S`
+const UPDATE = `UPDATE_${type}`
+const DELETE = `DELETE_${type}`
+const ERROR = `ERROR_${type}`
+
+// Create
+const fetchAddSuccess = (item) => ({ type: ADD, item })
+const fetchAddFailure = (error) => ({ type: ERROR, error })
+export const fetchAdd = (add) => {
   return (dispatch, getState) => {
-    return fetch('/api/products', {
+    return fetch(`/api/${route}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify(product)
+      body: JSON.stringify(add)
     })
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddProductSuccess(json))
+        dispatch(fetchAddSuccess(json))
       })
-      .catch(err => dispatch(fetchAddProductFailure(err)))
+      .catch(err => {
+        dispatch(fetchAddFailure(err))
+        throw new SubmissionError({ error: err.error, _error: err.error })
+    })
   }
 }
 
 
 
-// Read Product
-const fetchProductsRequest = () => ({ type: 'REQUEST_PRODUCTS' })
-const fetchProductsSuccess = (products) => ({ type: 'RECEIVE_PRODUCTS', products })
-const fetchProductsFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
+// Read
+const fetchProductsRequest = () => ({ type: REQUEST })
+const fetchProductsSuccess = (items) => ({ type: RECEIVE, items })
+const fetchProductsFailure = (error) => ({ type: ERROR, error })
 export const fetchProducts = () => {
   return (dispatch, getState) => {
     dispatch(fetchProductsRequest())
-    return fetch('/api/products', {
+    return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -40,43 +56,49 @@ export const fetchProducts = () => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchProductsSuccess(json))
       })
-      .catch(err => dispatch(fetchProductsFailure(err)))
+      .catch(err => {
+        console.log(err)
+        dispatch(fetchProductsFailure(err))
+      })
   }
 }
 
 
 
-// Update Product
-const fetchUpdateProductSuccess = (product) => ({ type: 'UPDATE_PRODUCT', product })
-const fetchUpdateProductFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
-export const fetchUpdateProduct = (product) => {
-  const { _id } = product
+// Update
+const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+const fetchUpdateFailure = (error) => ({ type: ERROR, error })
+export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
-    return fetch(`/api/products/${_id}`, {
+    return fetch(`/api/${route}/${_id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json' ,
         'x-auth': localStorage.getItem('token'),
       },
-      body: JSON.stringify(product)
+      body: JSON.stringify(update)
     })
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateProductSuccess(json))
+        console.log(json)
+        dispatch(fetchUpdateSuccess(json))
       })
-      .catch(err => dispatch(fetchUpdateProductFailure(err)))
+      .catch(err => {
+        dispatch(fetchUpdateFailure(err))
+        throw new SubmissionError({ error: err.err, _error: err.err })
+      })
   }
 }
 
 
 
-// Delete Product
-const fetchDeleteProductSuccess = (_id) => ({ type: 'DELETE_PRODUCT', _id })
-const fetchDeleteProductFailure = (error) => ({ type: 'ERROR_PRODUCT', error })
-export const fetchDeleteProduct = (_id) => {
+// Delete
+const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
+const fetchDeleteFailure = (error) => ({ type: ERROR, error })
+export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/products/${_id}`, {
+    return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -86,23 +108,11 @@ export const fetchDeleteProduct = (_id) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteProductSuccess(json._id))
+        dispatch(fetchDeleteSuccess(json._id))
       })
-      .catch(err => dispatch(fetchDeleteProductFailure(err)))
-  }
-}
-
-
-
-
-
-
-
-
-// Search
-export const searchProducts = (searchProductsText) => {
-  return {
-    type: 'SEARCH_PRODUCTS',
-    searchProductsText
+      .catch(err => {
+        dispatch(fetchDeleteFailure(err))
+        throw new SubmissionError({ error: err.err, _error: err.err })
+      })
   }
 }

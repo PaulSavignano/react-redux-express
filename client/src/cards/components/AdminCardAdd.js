@@ -35,7 +35,6 @@ class AdminCardAdd extends Component {
   render() {
     const { error, handleSubmit, page, dispatch } = this.props
     return (
-      <section>
         <form
           onSubmit={handleSubmit((values) => {
             const image = this.state.expanded ? this.editor.handleSave() : null
@@ -136,7 +135,6 @@ class AdminCardAdd extends Component {
             </CardActions>
           </Card>
         </form>
-      </section>
     )
   }
 }

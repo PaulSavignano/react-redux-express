@@ -13,20 +13,20 @@ class AdminCarouselList extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { isFetching, page, carousels } = this.props
+    const { isFetching, page, items } = this.props
     return (
       isFetching ? null :
       <section>
         <Card style={{ margin: 20 }}>
           <AdminCarouselAdd page={page} />
-          {carousels.length > 0 ?
+          {items.length > 0 ?
             <div>
-              {carousels.map(carousel => (
+              {items.map(item => (
                 <AdminCarouselItem
-                  key={carousel._id}
-                  carousel={carousel}
+                  key={item._id}
+                  item={item}
                   page={page}
-                  initialValues={carousel.values}
+                  initialValues={item.values}
                 />
               ))}
             </div>
@@ -41,10 +41,10 @@ class AdminCarouselList extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const isFetching = state.carousels.isFetching
-  const carousels = isFetching ? null : state.carousels.items.filter(item => item.pageId === ownProps.page._id)
+  const items = isFetching ? null : state.carousels.items.filter(item => item.pageId === ownProps.page._id)
   return {
     isFetching,
-    carousels
+    items
   }
 }
 

@@ -10,10 +10,10 @@ class CarouselItem extends Component {
     image: ''
   }
   componentDidMount() {
-    if (this.props.carousel.image) {
+    if (this.props.item.image) {
       this.setState({ loading: true })
       const img = new Image;
-      const src = this.props.carousel.image
+      const src = this.props.item.image
       img.src = src
       img.onload = (e) => {
         this.setState({ loading: false, image: src })
@@ -23,8 +23,8 @@ class CarouselItem extends Component {
     }
   }
   render() {
-    const { dispatch, carousel } = this.props
-    const { image, values } = carousel
+    const { dispatch, item } = this.props
+    const { image, values } = item
     return (
       this.state.loading ? null :
       <CSSTransitionGroup

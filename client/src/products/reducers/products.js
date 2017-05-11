@@ -7,41 +7,48 @@ export const searchProducts = (state = '', action) => {
   }
 }
 
-export const products = (state = {}, action) => {
+import { type } from '../actions/product'
+
+export const products = (state = {
+  isFetching: true,
+  items: []
+}, action) => {
   switch (action.type) {
-    case 'REQUEST_PRODUCTS':
+    case `REQUEST_${type}S`:
       return {
         ...state,
         isFetching: true
       }
-    case 'ADD_PRODUCT':
-      return {
-        ...state,
-        items: [
-          ...state.items,
-          action.product
-        ]
-      }
-    case 'RECEIVE_PRODUCTS':
+    case `RECEIVE_${type}S`:
       return {
         ...state,
         isFetching: false,
-        items: action.products
+        items: action.items
       }
-    case 'UPDATE_PRODUCT':
-    return {
-      ...state,
-      items: state.items.map(product => product._id === action.product._id ?
-        { ...product, ...action.product } :
-        product
-      )
-    }
-    case 'DELETE_PRODUCT':
+    case `ADD_${type}`:
       return {
         ...state,
-        items: state.items.filter(product => product._id !== action._id)
+        isFetching: false,
+        items: [
+          ...state.items,
+          action.item
+        ]
       }
-    case 'ERROR_PRODUCT':
+    case `UPDATE_${type}`:
+      console.log(action.item._id)
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action.item._id ?
+          { ...item, ...action.item } :
+          item
+        )
+      }
+    case `DELETE_${type}`:
+      return {
+        ...state,
+        items: state.items.filter(item => item._id !== action._id)
+      }
+    case `ERROR_${type}`:
       return {
         ...state,
         error: action.error

@@ -6,8 +6,7 @@ import CarouselItem from '../components/CarouselItem'
 
 class CarouselList extends Component {
   render() {
-    const { isFetching, page, carousels } = this.props
-    console.log(carousels)
+    const { isFetching, page, items } = this.props
     var settings = {
       dots: true,
       className: 'center',
@@ -23,11 +22,11 @@ class CarouselList extends Component {
     return (
       isFetching ? null :
         <Slider {...settings}>
-          {carousels.map(carousel => (
-            <div key={carousel._id} style={{ display: 'flex', justifyContent: 'center' }}>
+          {items.map(item => (
+            <div key={item._id} style={{ display: 'flex', justifyContent: 'center' }}>
               <CarouselItem
-                carousel={carousel}
                 page={page}
+                item={item}
               />
             </div>
           ))}
@@ -39,10 +38,10 @@ class CarouselList extends Component {
 const mapStateToProps = (state, ownProps) => {
   console.log(ownProps.page)
   const isFetching = state.carousels.isFetching
-  const carousels = isFetching ? [] : state.carousels.items.filter(item => item.pageId === ownProps.page._id)
+  const items = isFetching ? [] : state.carousels.items.filter(item => item.pageId === ownProps.page._id)
   return {
     isFetching,
-    carousels
+    items
   }
 }
 

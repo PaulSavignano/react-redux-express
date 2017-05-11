@@ -2,7 +2,6 @@ import { SubmissionError } from 'redux-form'
 
 export const type = 'HERO'
 const route = 'heros'
-const fetchMethod = 'Heros'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`

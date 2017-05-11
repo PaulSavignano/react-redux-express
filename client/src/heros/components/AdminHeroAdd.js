@@ -19,13 +19,13 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class AdminHeroAdd extends Component {
   render() {
-    const { error, handleSubmit, page, hero, dispatch, handleExpand, expanded } = this.props
+    const { error, handleSubmit, page, item, dispatch, handleExpand, expanded } = this.props
     return (
       <CardActions>
         <RaisedButton
           onTouchTap={() => {
-            if (expanded && hero._id) {
-              dispatch(fetchDelete(hero._id, hero.image))
+            if (expanded && item._id) {
+              dispatch(fetchDelete(item._id, item.image))
             } else {
               const add = {
                 pageId: page._id,

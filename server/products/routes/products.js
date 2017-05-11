@@ -1,51 +1,48 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
-import url from 'url'
-import Product from '../models/Product'
+
 import { authenticate } from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
+import Product from '../models/Product'
+
 
 const products = express.Router()
 
+const s3Path = `${process.env.APP_NAME}/products`
+
 // Create
-products.post('/', authenticate(['admin']), (req, res) => {
-  const { image, values } = req.body
+products.post('/', (req, res) => {
+  const { type, image, values } = req.body
   const _id = new ObjectID()
-  const hasImage = image ? url.parse(image) : null
-  if (hasImage.slashes) {
-    const product = new Product({
-      _id,
-      slug: values.name.replace(/[^-a-zA-Z0-9\s+]+/ig, '').replace(/\s+/gi, "-").toLowerCase(),
-      values
-    })
-    product.save()
-      .then(doc => {
-        console.log(doc)
-        res.send(doc)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(400).send(err)
-      })
-  } else {
-    uploadFile({ Key: `pages/products/${_id}`, Body: image })
+  const product = new Product({
+    _id,
+    image,
+    values
+  })
+  switch (type) {
+    case 'ADD_ITEM_ADD_IMAGE':
+    uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
       .then(data => {
-        const product = new Product({
-          _id,
-          image: data.Location,
-          slug: values.name.replace(/[^-a-zA-Z0-9\s+]+/ig, '').replace(/\s+/gi, "-").toLowerCase(),
-          values
-        })
+        product.image = data.Location
         product.save()
           .then(doc => {
-            console.log(doc)
-            res.send(doc)
-          })
+              res.send(doc)
+            })
           .catch(err => {
             console.log(err)
             res.status(400).send(err)
           })
       })
+      break
+    case 'ADD_ITEM':
+      product.save()
+        .then(doc => res.send(doc))
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+    default:
+      return
   }
 })
 
@@ -54,55 +51,105 @@ products.post('/', authenticate(['admin']), (req, res) => {
 // Read
 products.get('/', (req, res) => {
   Product.find({})
-    .then(products => res.send(products))
+    .then(docs => res.send(docs))
     .catch(err => res.status(400).send(err))
 })
 
+// By product name
 products.get('/:_id', (req, res) => {
   const _id = req.params._id
-  if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Product.findOne({ _id })
-    .then(product => {
-      if (!todo) return res.status(404).send()
-      res.send(product)
-    })
-    .catch((err) => res.status(400).send(err))
+  Product.find({ _id })
+    .then(doc => res.send(doc))
+    .catch(err => res.status(400).send(err))
 })
 
 
 
 // Update
-products.patch('/:_id', authenticate(['admin']), (req, res) => {
+products.patch('/:_id', (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { image, values } = req.body
-  const hasImage = image ? url.parse(image) : null
-  if (hasImage.slashes) {
-    return Product.findOneAndUpdate({ _id }, { $set: { image, values }}, { new: true })
-      .then(doc => res.send(doc))
-      .catch(err => res.status(400).send(err))
+  const { type, image, values } = req.body
+  switch (type) {
+
+    case 'UPDATE_ITEM_UPDATE_IMAGE':
+      uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
+        .then(data => {
+          const update = { image: data.Location, values }
+          Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+            .then(doc => {
+              console.log(doc)
+              res.send(doc)
+            })
+            .catch(err => {
+              console.log(err)
+              res.status(400).send(err)
+            })
+          .catch(err => res.status(400).send(err))
+        })
+      break
+
+    case 'UPDATE_ITEM_DELETE_IMAGE':
+      deleteFile({ Key: `${s3Path}/${_id}` })
+        .then(() => {
+          const update = { image: null, values }
+          Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+            .then(doc => {
+              console.log(doc)
+              res.send(doc)
+            })
+            .catch(err => {
+              console.log(err)
+              res.status(400).send(err)
+            })
+          .catch(err => res.status(400).send(err))
+        })
+      break
+
+    case 'UPDATE_ITEM':
+      Product.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
+        .then(doc => {
+          console.log(doc)
+          res.send(doc)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      break
+
+    default:
+      return
   }
-  uploadFile({ Key: `pages/products/${_id}`, Body: req.body.image })
-    .then(data => {
-      Product.findOneAndUpdate({ _id }, { $set: { image: data.Location, values }}, { new: true })
-        .then(doc => res.send(doc))
-        .catch(err => res.status(400).send(err))
-    })
-    .catch(err => res.status(400).send(err))
 })
 
 
 
-
 // Delete
-products.delete('/:_id', authenticate(['admin']), (req, res) => {
+products.delete('/:_id', (req, res) => {
   const _id = req.params._id
+  console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  deleteFile({ Key: `pages/products/${_id}` })
-    .then(() => {
-      Product.findOneAndRemove({ _id })
-        .then(product => res.send(product))
-        .catch((err) => res.status(400).send(err))
+  Product.findOne({ _id })
+    .then(doc => {
+      if (doc.image) {
+        deleteFile({ Key: `${s3Path}/${_id}` })
+          .then(() => {
+            Product.findOneAndRemove({ _id })
+              .then(doc => res.send(doc))
+              .catch(err => {
+                console.log(err)
+                res.status(400).send(err)
+              })
+          })
+      } else {
+        Product.findOneAndRemove({ _id,})
+          .then(doc => res.send(doc))
+          .catch(err => {
+            console.log(err)
+            res.status(400).send(err)
+          })
+      }
     })
 })
 

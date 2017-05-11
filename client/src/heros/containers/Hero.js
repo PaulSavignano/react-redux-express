@@ -3,18 +3,18 @@ import { connect } from 'react-redux'
 
 import HeroItem from '../components/HeroItem'
 
-const Hero = ({ isFetching, page, hero }) => {
+const Hero = ({ isFetching, page, item }) => {
   return (
-    <HeroItem page={page} hero={hero} />
+    <HeroItem page={page} item={item} />
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
   const isFetching = state.heros.isFetching
-  const hero = isFetching ? {} : state.heros.items.find(item => item.pageId === ownProps.page._id)
+  const item = isFetching ? {} : state.heros.items.find(item => item.pageId === ownProps.page._id)
   return {
     isFetching,
-    hero
+    item
   }
 }
 

@@ -17,7 +17,7 @@ class AdminHero extends Component {
     this.setState({ expanded: !this.state.expanded })
   }
   render() {
-    const { isFetching, page, hero } = this.props
+    const { isFetching, page, item } = this.props
     return (
       isFetching ? null :
       <section>
@@ -26,12 +26,12 @@ class AdminHero extends Component {
           onExpandChange={this.handleExpandChange}
           style={{ margin: 20 }}
         >
-          <AdminHeroAdd page={page} hero={hero} handleExpand={this.handleExpand} expanded={this.state.expanded}/>
+          <AdminHeroAdd page={page} item={item} handleExpand={this.handleExpand} expanded={this.state.expanded}/>
           {!this.state.expanded ? null :
             <AdminHeroItem
-              hero={hero}
+              item={item}
               page={page}
-              initialValues={hero.values}
+              initialValues={item.values}
             />
           }
         </Card>
@@ -42,10 +42,10 @@ class AdminHero extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const isFetching = state.heros.isFetching
-  const hero = isFetching ? {} : state.heros.items.find(item => item.pageId === ownProps.page._id)
+  const item = isFetching ? {} : state.heros.items.find(item => item.pageId === ownProps.page._id)
   return {
     isFetching,
-    hero
+    item
   }
 }
 

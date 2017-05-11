@@ -57,7 +57,6 @@ cards.get('/', (req, res) => {
     .catch(err => res.status(400).send(err))
 })
 
-// By page name
 cards.get('/:_id', (req, res) => {
   const _id = req.params._id
   Card.find({ _id })
