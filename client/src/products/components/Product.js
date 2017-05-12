@@ -41,12 +41,12 @@ class Product extends Component {
   }
   render() {
     let qty
-    const { dispatch, _id, slug, image, values } = this.props
-    const { name, description, price } = values
+    const { dispatch, item } = this.props
+    const { name, description, price } = item.values
     return (
       this.state.loading ? null :
       <Card
-        style={{ flex: '1 1 auto', width: 300, margin: 20 }}
+        style={{ width: 300 }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -59,7 +59,7 @@ class Product extends Component {
           transitionLeave={false}
         >
           <CardMedia>
-            <img src={image} alt={name} onTouchTap={() => dispatch(push(`/product/${slug}`))}/>
+            <img src={item.image} alt={item.name} onTouchTap={() => dispatch(push(`/product/${item.slug}`))}/>
           </CardMedia>
           <CardTitle title={
             <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -76,7 +76,7 @@ class Product extends Component {
               inputStyle={{ textAlign: 'center' }}
               ref={node => this.qty = node}
               value={this.state.qty}
-              id={this.props._id}
+              id={item._id}
             />
             <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
           </div>
@@ -86,7 +86,7 @@ class Product extends Component {
             fullWidth={true}
             onTouchTap={() => {
               const product = {
-                productId: _id,
+                productId: item._id,
                 productQty: this.state.qty,
               }
               dispatch(fetchAddToCart({ type: 'ADD_TO_CART', product }))

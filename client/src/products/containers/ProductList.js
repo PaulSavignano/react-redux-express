@@ -1,23 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminProductAdd from '../components/AdminProductAdd'
-import AdminProduct from '../components/AdminProduct'
+import Product from '../components/Product'
 
-const AdminProductList = ({ isFetching, page, items }) => {
-  console.log(items)
+const ProductList = ({ isFetching, page, items }) => {
   return (
     isFetching ? null :
     <main>
-      <section><h1>Products Admin</h1></section>
-      <section><AdminProductAdd /></section>
+      <section><h1>Products</h1></section>
       {items.length > 0 ?
         <section>
           {items.map(item => (
-            <AdminProduct
+            <Product
               key={item._id}
               item={item}
-              initialValues={item.values}
             />
           ))}
         </section>
@@ -37,4 +33,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(AdminProductList)
+export default connect(mapStateToProps)(ProductList)

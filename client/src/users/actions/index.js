@@ -13,10 +13,12 @@ export const fetchSignup = (values) => {
       body: JSON.stringify(values)
     })
       .then(res => {
-        if (res.json().error) return Promise.reject(res.json().error)
         localStorage.setItem('token', res.headers.get('x-auth'))
-        dispatch(fetchSignupSuccess(res.json()))
         return res.json()
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchSignupSuccess(json))
       })
       .catch(err => dispatch(fetchSignupFailure(err)))
   }
@@ -35,9 +37,12 @@ export const fetchSignin = ({ email, password }, nextPathname) => {
       body: JSON.stringify({ email, password })
     })
       .then(res => {
-        if (res.json().error) return Promise.reject(res.json().error)
         localStorage.setItem('token', res.headers.get('x-auth'))
-        dispatch(fetchSigninSuccess(res.json()))
+        return res.json()
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchSigninSuccess(json))
         nextPathname ? dispatch(push(nextPathname)) : dispatch(push('/'))
       })
       .catch(err => dispatch(fetchSigninFailure(err)))
@@ -83,7 +88,7 @@ const fetchSignoutFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignout = () => {
   return (dispatch, getState) => {
     return fetch('/api/users/signout', {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token')
@@ -91,6 +96,7 @@ export const fetchSignout = () => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log('signout')
         if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
         dispatch(fetchSignoutSuccess())

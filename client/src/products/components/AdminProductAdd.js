@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import TextField from 'material-ui/TextField'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -45,62 +46,70 @@ class AdminProductAdd extends Component {
     const { handleSubmit, _id, dispatch } = this.props
     return (
         <Card
-          style={{ flex: '1 1 auto', margin: 20 }}
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >
-          <form
-            onSubmit={handleSubmit((values) => {
-              const product = {
-                image: this.editor.hasUpload() ? this.editor.handleSave() : null,
-                values
-              }
-              this.props.reset()
-              dispatch(fetchAddProduct(product))
-              this.editor.readImage(this.state.image)
-            })}
+          <CSSTransitionGroup
+            transitionName="image"
+            transitionAppear={true}
+            transitionAppearTimeout={1000}
+            transitionEnter={false}
+            transitionLeave={false}
           >
-            <CardMedia>
-              <ImageForm
-                image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
-                type="image/jpeg"
-                width={1000}
-                height={1000}
-                _id={_id}
-                ref={this.setEditorRef}
-              />
-            </CardMedia>
-            <CardText>
-              <Field
-                name="name"
-                label="Name"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
-              />
-              <Field
-                name="price"
-                label="Price"
-                type="number"
-                fullWidth={true}
-                component={renderTextField}
-              />
-              <Field
-                name="description"
-                label="Description"
-                type="text"
-                multiLine={true}
-                rows={2}
-                fullWidth={true}
-                component={renderTextField}
-              />
-            </CardText>
-            <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              <RaisedButton type="submit" label="Add" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
-            </div>
-          </form>
-        </Card>
+            <form
+              onSubmit={handleSubmit((values) => {
+                const product = {
+                  image: this.editor.hasUpload() ? this.editor.handleSave() : null,
+                  values
+                }
+                this.props.reset()
+                dispatch(fetchAddProduct(product))
+                this.editor.readImage(this.state.image)
+              })}
+            >
+              <CardMedia>
+                <ImageForm
+                  image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
+                  type="image/jpeg"
+                  width={1000}
+                  height={1000}
+                  _id={_id}
+                  ref={this.setEditorRef}
+                />
+              </CardMedia>
+              <CardText>
+                <Field
+                  name="name"
+                  label="Name"
+                  type="text"
+                  fullWidth={true}
+                  component={renderTextField}
+                />
+                <Field
+                  name="price"
+                  label="Price"
+                  type="number"
+                  fullWidth={true}
+                  component={renderTextField}
+                />
+                <Field
+                  name="description"
+                  label="Description"
+                  type="text"
+                  multiLine={true}
+                  rows={2}
+                  fullWidth={true}
+                  component={renderTextField}
+                />
+              </CardText>
+              <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+                <RaisedButton type="submit" label="Add" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
+              </div>
+            </form>
+          </CSSTransitionGroup>
+          </Card>
+
     )
   }
 }

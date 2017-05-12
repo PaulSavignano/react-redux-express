@@ -21,7 +21,7 @@ import { fetchCart } from './products/actions/cart'
 import { fetchHeros } from './heros/actions/index'
 import { fetchPages } from './pages/actions/page'
 import { fetchProducts } from './products/actions/product'
-import { fetchUser } from './users/actions/users'
+import { fetchUser } from './users/actions/index'
 import { fetchTheme } from './theme/actions/theme'
 
 injectTapEventPlugin()

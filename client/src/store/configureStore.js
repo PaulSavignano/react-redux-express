@@ -14,7 +14,7 @@ import { searchProducts, products } from '../products/reducers/products'
 import { search } from '../header/reducers/search'
 import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
 import theme from '../theme/reducers/theme'
-import { user } from '../users/reducers/users'
+import user from '../users/reducers/index'
 
 
 const rootReducer = combineReducers({

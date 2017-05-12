@@ -49,7 +49,6 @@ class AdminCardAdd extends Component {
             this.props.reset()
             dispatch(fetchAdd(add))
           })}
-          style={{ flex: '1 1 auto', margin: 20}}
         >
           <Card
             expanded={this.state.expanded}

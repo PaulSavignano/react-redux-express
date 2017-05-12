@@ -1,15 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import './App.css'
 import SearchList from './SearchList'
-import AppBarMain from './header/components/AppBarMain'
+import Header from './header/containers/Header'
 import Footer from './footer/components/Footer'
 
 const App = ({ search, children }) => (
-  <div>
-    <AppBarMain />
+  <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'stretch', height: '100%' }}>
+    <Header />
     {search.length ? <SearchList /> : children}
+    <div style={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
+      <div style={{ flex: '1 1 auto' }}></div>
+    </div>
     <Footer />
   </div>
 )

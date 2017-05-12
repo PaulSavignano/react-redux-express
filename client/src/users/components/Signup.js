@@ -4,7 +4,8 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
-import { requestSignup } from '../actions/users'
+
+import { requestSignup } from '../actions/index'
 
 const validate = values => {
   const errors = {}

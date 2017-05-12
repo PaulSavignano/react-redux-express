@@ -13,31 +13,31 @@
   color: rgb(0, 188, 212) !important
 }
 
-html, body, #root, main {
+html, body, body > * {
   height: 100%;
 }
 
 
 /* Main container for holding grids */
-main {
-  max-width: 1044px;
-  margin: 0 auto 0 auto;
-}
+
 
 /* Section grid */
 section {
   display: flex;
   flex-flow: row wrap;
-  margin: 50px 0 50px 0;
+  max-width: 1044px;
+  margin: 30px auto 30px auto;
 }
 
 section > * {
   flex: 1 1 auto;
+  margin: 20px;
 }
 
 h1 {
-  margin: 60px 20px 0 20px;
-  font-weight: normal
+  font-weight: normal;
+  font-size: 2em;
+  margin-bottom: 0;
 }
 
 h3 {

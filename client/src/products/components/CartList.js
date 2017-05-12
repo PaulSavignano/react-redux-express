@@ -4,9 +4,6 @@ import CartItem from './CartItem'
 import { fetchCart } from '../actions/cart'
 
 class CartList extends Component {
-  componentWillMount() {
-    this.props.dispatch(fetchCart())
-  }
   render() {
     const { items } = this.props
     return (

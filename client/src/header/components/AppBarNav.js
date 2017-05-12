@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import { Link } from 'react-router'
+import AppBar from 'material-ui/AppBar'
 import FontIcon from 'material-ui/FontIcon'
 import TextField from 'material-ui/TextField'
-import { Link } from 'react-router'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
 import { searchText } from '../actions/search'
 import SigninSignout from '../../users/components/SigninSignout'
@@ -47,48 +53,68 @@ const styles = {
 }
 
 class AppBarNav extends Component {
-  state = { open: false }
-  handleToggle = () => this.setState({ open: !this.state.open })
+  state = { searching: false, openMenu: false }
+  handleChange = () => {
+    console.log('changing')
+    this.setState({ openMenu: false })
+  }
   render() {
-    const { image } = this.props
+    const { dispatch, user, image, handleDrawer, handleSearch, searching } = this.props
     return (
-      this.state.open === false ?
-        <nav style={styles.AppBarNav}>
-          <Link to="/" style={styles.title}>{image ? <img src={image} alt=""/> : 'Brand'}</Link>
-          <span style={styles.rightNav}>
-            <NavLink to="/todos">Todos</NavLink>
-            <NavLink to="/products">Products</NavLink>
-            <NavLink to="/admin/products">Products Admin</NavLink>
-            <NavLink to="/checkout">Checkout</NavLink>
-            <FontIcon className="fa fa-search" style={styles.search} onTouchTap={this.handleToggle}/>
-            <SigninSignout />
-            <Link to="/cart"><CartIcon /></Link>
-          </span>
-        </nav>
-        :
-        <nav style={styles.AppBarSearch}>
-          <Link to="/" style={styles.title}>Brand</Link>
-          <span style={styles.rightSearch}>
-            <FontIcon className="fa fa-search" style={styles.search} onTouchTap={this.handleToggle}/>
-            <TextField
-              autoFocus
-              underlineFocusStyle={styles.underlineStyle}
-              onBlur={this.handleToggle}
-              style={styles.searchField}
-              hintText="SEARCH"
-              fullWidth={true}
-              onChange={(e) => {
-                this.props.dispatch(searchText(e.target.value))
-              }}
-            />
-          </span>
-        </nav>
+      <AppBar
+        onLeftIconButtonTouchTap={handleDrawer}
+        title={
+          this.state.searching ?
+            <nav style={styles.AppBarSearch}>
+              <div style={{ cursor: 'pointer', margin: '0 15px 0 0' }} onTouchTap={() => dispatch(push('/'))}>
+                {image ? <img src={image} alt=""/> : 'Brand'}
+              </div>
+              <span style={styles.rightSearch}>
+                <FontIcon className="fa fa-search" style={styles.search} onTouchTap={() => this.setState({ searching: !this.state.searching }) }/>
+                <TextField
+                  autoFocus
+                  underlineFocusStyle={styles.underlineStyle}
+                  onBlur={handleSearch}
+                  style={styles.searchField}
+                  hintText="SEARCH"
+                  fullWidth={true}
+                  onChange={(e) => {
+                    this.props.dispatch(searchText(e.target.value))
+                  }}
+                />
+              </span>
+            </nav>
+            :
+          <nav style={styles.AppBarNav}>
+            <div style={{ cursor: 'pointer', margin: '0 15px 0 0' }} onTouchTap={() => dispatch(push('/'))}>
+              {image ? <img src={image} alt=""/> : 'Brand'}
+            </div>
+            <span style={styles.rightNav}>
+              <NavLink to="/todos">Todos</NavLink>
+              <NavLink to="/products">Products</NavLink>
+              <NavLink to="/admin/products">Products Admin</NavLink>
+              <NavLink to="/checkout">Checkout</NavLink>
+              <FontIcon className="fa fa-search" style={styles.search} onTouchTap={handleSearch}/>
+              <IconMenu
+                iconButtonElement={
+                  <IconButton style={{ padding: '20px 12px 4px 12px'}}><MoreVertIcon /></IconButton>
+                }
+                open={this.state.openMenu}
+                onRequestChange={(value) => this.setState({ openMenu: value })}
+                style={{ verticalAlign: 'middle' }}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+              >
+                <SigninSignout user={user} handleChange={this.handleChange} />
+              </IconMenu>
+              <Link to="/cart"><CartIcon /></Link>
+            </span>
+          </nav>
+
+        }/>
     )
   }
-}
+  }
 
-const mapStateToProps = (state) => ({
-  image: state.theme.isFetching ? null : state.theme.image
-})
 
-export default connect(mapStateToProps)(AppBarNav)
+export default connect()(AppBarNav)

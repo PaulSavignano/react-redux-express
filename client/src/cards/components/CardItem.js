@@ -36,7 +36,7 @@ class CardItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        style={{ flex: '1 1 auto', width: values.width, margin: 30, cursor: 'pointer' }}
+        style={{ flex: '1 1 auto', width: values.width, cursor: 'pointer' }}
       >
         <CSSTransitionGroup
           transitionName="image"
@@ -60,7 +60,7 @@ class CardItem extends Component {
         </Card>
         :
         <Card
-          style={{ flex: '1 1 auto', width: values.width, margin: 30 }}
+          style={{ flex: '1 1 auto', width: values.width }}
         >
           <CSSTransitionGroup
             transitionName="image"
