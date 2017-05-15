@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb'
 import crypto from 'crypto'
 
 import User from '../models/User'
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
 import { sendEmail1 } from '../../middleware/nodemailer'
 
 const users = express.Router()
@@ -11,23 +11,28 @@ const users = express.Router()
 
 // Create
 users.post('/signup', (req, res) => {
-  const { firstname, lastname, email, password } = req.body
-  if (!firstname || !lastname || !email || !password) {
+  const { values } = req.body
+  if (!values.firstname || !values.email || !values.password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const user = new User({ firstname, lastname, email, password })
+  const user = new User({
+    password: values.password,
+    values: {
+      email: values.email,
+      firstname: values.firstname,
+    }
+  })
   user.save()
     .then((doc) => {
       console.log(doc)
       return user.generateAuthToken()
-    })
-    .then((token) => {
-      console.log(user)
-      res.header('x-auth', token).send({ name: user.firstname })
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(400).send({ error: 'Email is already in use'})
+        .then(token => {
+          res.header('x-auth', token).send({ name: user.firstname })
+        })
+        .catch((err) => {
+          console.log(err)
+          res.status(400).send({ error: 'Email is already in use'})
+        })
     })
 })
 
@@ -35,13 +40,26 @@ users.post('/signup', (req, res) => {
 users.post('/signin', (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
-    .then(user => user.generateAuthToken()
-      .then(token => res.header('x-auth', token).send({ user: user.firstname, roles: user.roles })))
-      .catch(err => {
-        console.log('error')
-        res.status(400).send(err)
-      })
-    .catch(err => res.status(400).send(err))
+    .then(user => {
+      if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
+      return user.generateAuthToken()
+        .then(token => {
+          res.header('x-auth', token).send({
+            roles: user.roles,
+            values: {
+              email: user.values.email,
+              firstname: user.values.firstname,
+              lastname: user.values.lastname,
+              address: user.values.address,
+              zip: user.values.address
+            }
+          })
+        })
+        .catch(err => {
+          console.log('error', err)
+          res.send(err)
+        })
+    })
 })
 
 users.post('/recovery', (req, res, next) => {
@@ -55,6 +73,7 @@ users.post('/recovery', (req, res, next) => {
     .then(token => {
       User.findOne({ email })
         .then(user => {
+          if (!user) return Promise.reject({ error: { email: 'User not found' }})
           user.passwordResetToken = token
           user.passwordResetExpires = Date.now() + (60 * 60 * 1000)
           user.save()
@@ -67,21 +86,19 @@ users.post('/recovery', (req, res, next) => {
               })
               res.send({ message: `A password recovery email has been sent to ${user.email}`})
             })
-            .catch(err => res.status(400).send(err))
+            .catch(err => res.send(err))
         })
-        .catch(err => res.status(400).send(err))
-      })
-    .catch(err => res.status(400).send(err))
+    })
 })
 
 
 users.get('/reset/:token', (req, res) => {
   User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
-      if (!user) return Promise.reject()
+      if (!user) return Promise.reject({ error: { token: 'Token has expired'}})
     })
     .catch(err => {
-      res.send(400).send(err)
+      res.send(err)
     })
 })
 
@@ -98,15 +115,12 @@ users.post('/reset/:token', (req, res) => {
         .then(() => {
           return user.generateAuthToken()
         })
-        .then((token) => {
+        .then(token => {
           res.header('x-auth', token).send(user)
         })
-        .catch((err) => {
-          res.status(400).send(err)
+        .catch(err => {
+          res.send({ error: { token: err }})
         })
-    })
-    .catch(err => {
-      res.send(400).send(err)
     })
 })
 
@@ -116,14 +130,14 @@ users.post('/reset/:token', (req, res) => {
 users.delete('/signout', authenticate([ 'user', 'admin' ]), (req, res) => {
   req.user.removeToken(req.token)
     .then(() => res.status(200).send())
-    .catch((err) => res.status(400).send(err))
+    .catch(err => res.send({ error: { token: err }}))
 })
 
 // Signout
 users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
   User.findOneAndRemove({ _id: req.user._id })
     .then(doc => res.send(doc))
-    .catch((err) => res.status(400).send(err))
+    .catch(err => res.send({ error: { user: 'User not found' }}))
 })
 
 
@@ -134,7 +148,7 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
   const now = Date.now()
   const ttl = 30000000
   if ((now - req.token.createdAt) > ttl) {
-    res.status(401).send({ token: 'invalid' })
+    return Promise.reject({ error: { token: 'Token has expired'}})
   }
   const tokens = req.user.tokens.find(token => {
     return (now - token.createdAt) > ttl
@@ -144,9 +158,10 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
       .then(() => {
         res.send({ token: 'invalid'})
       })
-      .catch(err => res.status(400).send({ error: 'this is the error your looking for'}))
+      .catch(err => res.send({ error: err }))
   } else {
-    res.send({ token: 'valid', roles: req.user.roles, name: req.user.firstname })
+    console.log('user stuff', req.user)
+    res.send({ token: 'valid', roles: req.user.roles, values: req.user.values })
   }
 })
 
@@ -167,7 +182,7 @@ users.post('/contact', (req, res) => {
       console.log(info)
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
-    .catch(err => res.status(400).send(err))
+    .catch(err => res.send({ error: err }))
 })
 
 

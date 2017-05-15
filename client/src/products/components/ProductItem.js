@@ -3,13 +3,13 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { fetchAddToCart } from '../actions/cart'
-import { formatPrice } from '../../modules/formatPrice'
+import formatPrice from '../../modules/formatPrice'
 
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
-class Product extends Component {
+class ProductItem extends Component {
   state = {
     qty: 1,
     zDepth: 1,
@@ -99,4 +99,4 @@ class Product extends Component {
 }
 
 
-export default connect()(Product)
+export default connect()(ProductItem)

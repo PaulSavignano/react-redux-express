@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchAddTheme, fetchUpdateTheme } from '../actions/theme'
+import { fetchAdd, fetchUpdate } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -21,41 +21,40 @@ class AdminTheme extends Component {
   state = {
     zDepth: 1,
     expanded: false,
+    submitted: false,
+    editing: false,
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.theme || false
+    const { image } = this.props.item || false
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'http://placehold.it/280x60'
     this.setState({ expanded: hasImage, image: imageUrl })
+    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+  }
+  componentWillReceiveProps(nextProps) {
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
+    nextProps.dirty ? this.setState({ submitted: false }) : null
+  }
+  editing = (bool) => {
+    bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { handleSubmit, dispatch, theme } = this.props
+    const { error, handleSubmit, dispatch, item } = this.props
+    console.log('inside AdminTheme')
     return (
       <section>
         <form
           onSubmit={handleSubmit((values) => {
-            let image
-            if (this.state.expanded) {
-              if (this.editor.hasUpload()) {
-                image = this.editor.handleSave()
-              } else {
-                image = theme.image
-              }
-            } else {
-              image = null
-            }
             const update = {
-              _id: theme._id,
-              image,
+              type: 'UPDATE_ITEM',
               values
             }
-            dispatch(fetchUpdateTheme(theme._id, update))
+            dispatch(fetchUpdate(item._id, update))
           })}
-          style={{ margin: 20 }}
         >
           <Card
             expanded={this.state.expanded}
@@ -65,32 +64,10 @@ class AdminTheme extends Component {
             containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
             style={{ height: '100%' }}
           >
-            <CardActions>
-              <RaisedButton
-                onTouchTap={() => {
-                  if (theme.image) {
-                    const update = {
-                      type: 'DELETE_IMAGE',
-                    }
-                    dispatch(fetchUpdateTheme(theme._id, update))
-                  }
-                  this.setState({ expanded: !this.state.expanded })
-                }}
-                type="button"
-                label={this.state.expanded ? "Remove Image" : "Add Image"}
-                labelColor="#ffffff"
-                backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
-                fullWidth={true}/>
-            </CardActions>
-            <CardMedia expandable={true}>
-              <ImageForm
-                image={this.state.image}
-                type="image/png"
-                width={280}
-                height={60}
-                ref={this.setEditorRef}
-              />
-            </CardMedia>
+            <CardHeader
+              title="Edit Theme Styles"
+            />
+
             <CardText>
               <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />

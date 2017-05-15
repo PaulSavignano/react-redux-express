@@ -38,9 +38,11 @@ export const fetchAddToCart = (product) => {
         body: JSON.stringify(product)
       })
         .then(res => {
-          if (res.json().error) return Promise.reject()
           localStorage.setItem('cart', res.headers.get('cart'))
-          dispatch(fetchAddToCartSuccess(res.json()))
+        })
+        .then(json => {
+          if (json.error) return Promise.reject(json.error)
+          dispatch(fetchAddToCartSuccess(json))
         })
         .catch(err => dispatch(fetchAddToCartFailure(err)))
     }

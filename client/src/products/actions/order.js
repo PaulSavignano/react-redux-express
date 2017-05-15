@@ -28,20 +28,20 @@ export const fetchAddOrder = (values) => {
   return (dispatch, getState) => {
     Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
     const cart = getState().cart
-    const { number, exp, cvc, firstName, lastName, address, zip, state } = values
+    const { number, exp, cvc, firstname, lastname, address, zip, state } = values
     const expiration = exp.split('/')
     const exp_month = parseInt(expiration[0], 10)
     const exp_year = parseInt(expiration[1], 10)
     const card = { number, exp_month, exp_year, cvc }
     return getStripeToken(card)
       .then(token => {
-        fetch('/api/checkout', {
+        fetch('/api/orders', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'x-auth': localStorage.getItem('token')
           },
-          body: JSON.stringify({ token, cart, firstName, lastName, address, zip, state })
+          body: JSON.stringify({ token, cart, firstname, lastname, address, zip, state })
         })
           .then(res => res.json())
           .then(json => {

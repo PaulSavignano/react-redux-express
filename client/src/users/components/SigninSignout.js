@@ -7,7 +7,7 @@ import { fetchSignout } from '../actions/index'
 
 const SigninSignout = ({ dispatch, user, handleChange }) => {
   return (
-    user.roles ?
+    user.values ?
       <div>
         <MenuItem primaryText="Sign out" onTouchTap={() => {
           dispatch(fetchSignout())

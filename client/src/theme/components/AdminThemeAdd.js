@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchAdd } from '../actions/theme'
+import { fetchAdd } from '../actions/index'
 
 
 class AdminPageNameAdd extends Component {

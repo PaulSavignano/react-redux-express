@@ -20,11 +20,11 @@ import Contact from './users/components/Contact'
 import ProfilePage from './users/containers/ProfilePage'
 
 // Product
-import ProductList from './products/containers/ProductList'
-import ProductPage from './products/containers/ProductPage'
+import Products from './products/containers/Products'
+import Product from './products/containers/Product'
 import AdminProductList from './products/containers/AdminProductList'
-import CartPage from './products/containers/CartPage'
-import OrderAddPage from './products/containers/OrderAddPage'
+import Cart from './products/containers/Cart'
+import Order from './products/containers/Order'
 
 import TodosPage from './todos/components/TodosPage'
 
@@ -32,7 +32,7 @@ import TodosPage from './todos/components/TodosPage'
 export default history => (
   <Router history={history}>
     <Route path="/" component={App}>
-
+      
       {/* Page */}
       <IndexRoute page="home" component={Page} />
       <Route path="admin/pages/:slug" component={AdminPageEdit} />
@@ -50,11 +50,11 @@ export default history => (
 
       {/* Product */}
       <Route path="todos" component={RequireAuth(TodosPage, ['user', 'admin'])} />
-      <Route path="products" component={ProductList} />
-      <Route path="product/:slug" component={ProductPage} />
+      <Route path="products" component={Products} />
+      <Route path="product/:slug" component={Product} />
       <Route path="admin/products" component={AdminProductList} />
-      <Route path="cart" component={CartPage} />
-      <Route path="checkout" component={RequireAuth(OrderAddPage, ['user'])} />
+      <Route path="cart" component={Cart} />
+      <Route path="order" component={RequireAuth(Order, ['user'])} />
 
     </Route>
   </Router>

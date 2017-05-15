@@ -1,5 +1,6 @@
 import express from 'express'
-import { authenticate } from '../../middleware/authenticate'
+
+import authenticate from '../../middleware/authenticate'
 import Order from '../models/Order'
 import { sendEmail1 } from '../../middleware/nodemailer'
 

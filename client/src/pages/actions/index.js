@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
-export const type = 'CARD'
-const route = 'cards'
+export const type = 'PAGE'
+const route = 'pages'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -41,12 +41,12 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchCardsRequest = () => ({ type: REQUEST })
-const fetchCardsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchCardsFailure = (error) => ({ type: ERROR, error })
-export const fetchCards = () => {
+const fetchPagesRequest = () => ({ type: REQUEST })
+const fetchPagesSuccess = (items) => ({ type: RECEIVE, items })
+const fetchPagesFailure = (error) => ({ type: ERROR, error })
+export const fetchPages = () => {
   return (dispatch, getState) => {
-    dispatch(fetchCardsRequest())
+    dispatch(fetchPagesRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
@@ -59,10 +59,10 @@ export const fetchCards = () => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchCardsSuccess(json))
+        dispatch(fetchPagesSuccess(json))
       })
       .catch(err => {
-        dispatch(fetchCardsFailure(err))
+        dispatch(fetchPagesFailure(err))
       })
   }
 }

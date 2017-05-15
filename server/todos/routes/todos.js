@@ -1,10 +1,12 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
+
 import Todo from '../models/Todo'
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
+
+
 
 const todos = express.Router()
-
 
 // Create
 todos.post('/', authenticate(['user']), (req, res) => {

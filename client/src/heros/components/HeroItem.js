@@ -18,6 +18,7 @@ const styles = {
     textAlign: 'center',
     fontSize: '3vw',
     height: 'auto',
+    color: 'white'
   }
 }
 
@@ -34,6 +35,7 @@ class HeroItem extends Component {
     img.src = src
     img.onload = (e) => {
       this.setState({ loading: false, image: src })
+      this.props.handleImage()
     }
   }
   render() {

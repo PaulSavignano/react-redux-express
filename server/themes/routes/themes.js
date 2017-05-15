@@ -2,11 +2,12 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 import url from 'url'
 import Theme from '../models/Theme'
-import { authenticate } from '../../middleware/authenticate'
-import { handleS3 } from '../../middleware/s3'
+import authenticate from '../../middleware/authenticate'
+import { uploadFile, deleteFile } from '../../middleware/s3'
 
 const themes = express.Router()
 
+const s3Path = `${process.env.APP_NAME}/theme/favicon_`
 
 
 // Create
@@ -46,13 +47,8 @@ themes.get('/:_id', (req, res) => {
 themes.patch('/:_id', (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { image, values } = req.body
-  const hasImage = image ? true : false
-  const urlParse = hasImage ? url.parse(image) : null
-  const hasUrl = urlParse.slashes ? true : false
-  const Key = `theme/favicon/${_id}`
-  const Body = hasUrl ? null : image
-  const newValues = {
+  const { type, image, values } = req.body
+  const newValues = !values ? null : {
     fontFamily: values.fontFamily,
     appBar: {
       appBarColor: values.appBarColor,
@@ -75,13 +71,57 @@ themes.patch('/:_id', (req, res) => {
       shadowColor: values.shadowColor
     }
   }
-  handleS3({ hasUrl, hasImage, image, Key, Body })
-    .then(data => {
-      Theme.findOneAndUpdate({ _id }, { $set: { image: data.Location, values: newValues }}, { new: true })
-        .then(doc => res.send(doc))
-        .catch(err => res.status(400).send(err))
-    })
-    .catch(err => res.status(400).send(err))
+
+  switch (type) {
+    case 'UPDATE_IMAGE':
+      uploadFile({ Key: `${s3Path}${_id}`, Body: image })
+        .then(data => {
+          const update = { image: data.Location }
+          Theme.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+            .then(doc => {
+              console.log('update image success', doc)
+              res.send(doc)
+            })
+            .catch(err => {
+              console.log(err)
+              res.status(400).send(err)
+            })
+          .catch(err => res.status(400).send(err))
+        })
+      break
+
+    case 'DELETE_IMAGE':
+      deleteFile({ Key: `${s3Path}/${_id}` })
+        .then(() => {
+          const update = { image: null, values: newValues }
+          Theme.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+            .then(doc => {
+              console.log(doc)
+              res.send(doc)
+            })
+            .catch(err => {
+              console.log(err)
+              res.status(400).send(err)
+            })
+          .catch(err => res.status(400).send(err))
+        })
+      break
+
+    case 'UPDATE_ITEM':
+      Theme.findOneAndUpdate({ _id }, { $set: { values: newValues }}, { new: true })
+        .then(doc => {
+          console.log(doc)
+          res.send(doc)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      break
+
+    default:
+      return
+  }
 })
 
 

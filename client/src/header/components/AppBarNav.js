@@ -20,7 +20,8 @@ const styles = {
   AppBarNav: {
     display: 'flex',
     flexFlow: 'row nowrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    height: 'inherit'
   },
   search: {
     fontSize: 16,
@@ -49,6 +50,11 @@ const styles = {
   },
   underlineStyle: {
     borderColor: 'rgb(0, 188, 212)'
+  },
+  favicon: {
+    position: 'absolute',
+    maxHeight: 100,
+    maxWidth: 100
   }
 }
 
@@ -67,14 +73,14 @@ class AppBarNav extends Component {
           this.state.searching ?
             <nav style={styles.AppBarSearch}>
               <div style={{ cursor: 'pointer', margin: '0 15px 0 0' }} onTouchTap={() => dispatch(push('/'))}>
-                {image ? <img src={image} alt=""/> : 'Brand'}
+                {image ? <img src={image} alt="" style={styles.favicon}/> : 'Brand'}
               </div>
               <span style={styles.rightSearch}>
                 <FontIcon className="fa fa-search" style={styles.search} onTouchTap={() => this.setState({ searching: !this.state.searching }) }/>
                 <TextField
                   autoFocus
                   underlineFocusStyle={styles.underlineStyle}
-                  onBlur={handleSearch}
+                  onBlur={() => this.setState({ searching: !this.state.searching })}
                   style={styles.searchField}
                   hintText="SEARCH"
                   fullWidth={true}
@@ -87,14 +93,15 @@ class AppBarNav extends Component {
             :
           <nav style={styles.AppBarNav}>
             <div style={{ cursor: 'pointer', margin: '0 15px 0 0' }} onTouchTap={() => dispatch(push('/'))}>
-              {image ? <img src={image} alt=""/> : 'Brand'}
+              {image ? <img src={image} style={styles.favicon} alt=""/> : 'Brand'}
             </div>
             <span style={styles.rightNav}>
-              <NavLink to="/todos">Todos</NavLink>
+              <NavLink to="/residential">Residential</NavLink>
+              <NavLink to="/commercial">Commercial</NavLink>
+              <NavLink to="/storage">Storage</NavLink>
               <NavLink to="/products">Products</NavLink>
-              <NavLink to="/admin/products">Products Admin</NavLink>
-              <NavLink to="/checkout">Checkout</NavLink>
-              <FontIcon className="fa fa-search" style={styles.search} onTouchTap={handleSearch}/>
+              <NavLink to="/contact">Contact</NavLink>
+              <FontIcon className="fa fa-search" style={styles.search} onTouchTap={() => this.setState({ searching: !this.state.searching })}/>
               <IconMenu
                 iconButtonElement={
                   <IconButton style={{ padding: '20px 12px 4px 12px'}}><MoreVertIcon /></IconButton>

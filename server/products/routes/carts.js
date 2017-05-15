@@ -2,7 +2,7 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 import Cart from '../models/Cart'
 import Product from '../models/Product'
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
 
 const carts = express.Router()
 

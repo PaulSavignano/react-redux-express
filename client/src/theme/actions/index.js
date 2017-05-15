@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
-export const type = 'CARD'
-const route = 'cards'
+export const type = 'THEME'
+const route = 'themes'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -41,12 +41,12 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchCardsRequest = () => ({ type: REQUEST })
-const fetchCardsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchCardsFailure = (error) => ({ type: ERROR, error })
-export const fetchCards = () => {
+const fetchThemeRequest = () => ({ type: REQUEST })
+const fetchThemeSuccess = (items) => ({ type: RECEIVE, items })
+const fetchThemeFailure = (error) => ({ type: ERROR, error })
+export const fetchTheme = () => {
   return (dispatch, getState) => {
-    dispatch(fetchCardsRequest())
+    dispatch(fetchThemeRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
@@ -59,10 +59,10 @@ export const fetchCards = () => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchCardsSuccess(json))
+        dispatch(fetchThemeSuccess(json[0]))
       })
       .catch(err => {
-        dispatch(fetchCardsFailure(err))
+        dispatch(fetchThemeFailure(err))
       })
   }
 }
@@ -91,6 +91,7 @@ export const fetchUpdate = (_id, update) => {
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchUpdateFailure(err))
         throw new SubmissionError({ ...err, _error: 'Update failed!' })
       })

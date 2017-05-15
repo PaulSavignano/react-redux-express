@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 import { SubmissionError } from 'redux-form'
 
 
@@ -12,40 +13,63 @@ export const fetchSignup = (values) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values)
     })
-      .then(res => {
+    .then(res => {
+      if (res.ok) {
         localStorage.setItem('token', res.headers.get('x-auth'))
         return res.json()
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchSignupSuccess(json))
-      })
-      .catch(err => dispatch(fetchSignupFailure(err)))
+      }
+      throw new Error('Network response was not ok.')
+    })
+    .then(json => {
+      if (json.error) return Promise.reject(json.error)
+      dispatch(fetchSigninSuccess(json))
+      const path = getState().user.redirect || null
+      if (path) return dispatch(push(path))
+    })
+    .catch(err => {
+      dispatch(fetchSigninFailure(err))
+      throw new SubmissionError({ ...err, _error: 'Signup failed!' })
+    })
   }
 }
 
+export const redirectUser = (path) => {
+  console.log(path)
+  return {
+    type: 'REDIRECT_USER',
+    path
+  }
+}
 
 const fetchSigninSuccess = (user) => ({ type: 'RECEIVE_USER', user })
 const fetchSigninFailure = (error) => ({ type: 'ERROR_USER', error })
-export const fetchSignin = ({ email, password }, nextPathname) => {
+export const fetchSignin = (values) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify(values)
     })
       .then(res => {
-        localStorage.setItem('token', res.headers.get('x-auth'))
-        return res.json()
+        if (res.ok) {
+          localStorage.setItem('token', res.headers.get('x-auth'))
+          return res.json()
+        }
+        throw new Error('Network response was not ok.')
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchSigninSuccess(json))
-        nextPathname ? dispatch(push(nextPathname)) : dispatch(push('/'))
+        const path = getState().user.redirect || null
+        if (path) return dispatch(push(path))
       })
-      .catch(err => dispatch(fetchSigninFailure(err)))
+      .catch(err => {
+        console.log('error', err)
+        dispatch(fetchSigninFailure(err))
+        throw new SubmissionError({ ...err, _error: 'Signin failed!' })
+      })
   }
 }
 
@@ -65,7 +89,10 @@ export const fetchUser = (token) => {
         'x-auth': token
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUserSuccess(json))
@@ -74,7 +101,6 @@ export const fetchUser = (token) => {
         const token = localStorage.getItem('token')
         if (token) localStorage.removeItem('token')
         dispatch(fetchUserFailure(err))
-
       })
     }
 }
@@ -94,12 +120,12 @@ export const fetchSignout = () => {
         'x-auth': localStorage.getItem('token')
       }
     })
-      .then(res => res.json())
-      .then(json => {
-        console.log('signout')
-        if (json.error) return Promise.reject(json.error)
-        localStorage.removeItem('token')
-        dispatch(fetchSignoutSuccess())
+      .then(res => {
+        if (res.ok) {
+          localStorage.removeItem('token')
+          dispatch(fetchSignoutSuccess())
+        }
+        throw new Error('Network response was not ok.')
       })
       .catch(err => dispatch(fetchSignoutFailure(err)))
   }
@@ -117,7 +143,10 @@ export const fetchDelete = () => {
         'x-auth': localStorage.getItem('token')
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
@@ -143,7 +172,10 @@ export const fetchRecovery = ({ email }) => {
       },
       body: JSON.stringify({ email })
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchRecoverySuccess(json))
@@ -161,9 +193,9 @@ export const fetchRecovery = ({ email }) => {
 
 
       //})
-      .catch(res => {
-        dispatch(fetchRecoveryFailure(res))
-        throw new SubmissionError({ email: 'Email does not exist', _error: 'Email does not exist' })
+      .catch(err => {
+        dispatch(fetchRecoveryFailure(err))
+        throw new SubmissionError({ ...err, _error: 'Signin failed!' })
       })
   }
 }
@@ -179,7 +211,10 @@ export const fetchRecoveryToken = (token) => {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchRecoveryTokenSuccess({ recovery: { token: 'valid' } }))
@@ -207,9 +242,12 @@ export const fetchContact = (values) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchContactSuccess(json))
       })
       .catch(err => dispatch(fetchContactFailure(err)))

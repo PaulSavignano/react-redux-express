@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push, goBack } from 'react-router-redux'
 import { Link } from 'react-router'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -32,38 +33,46 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-let Signin = (props) => {
-  const { dispatch, handleSubmit, submitting, user } = props
-  return (
-    <main>
-      <section>
-        <Card style={{ flex: '1 1 auto', width: 300, margin: 20 }}>
-          <CardTitle title="Sign in" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values)))}>
-            <CardText>
-              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-            </CardText>
-            {user.error ? <DialogAlert message={props.user.error} error={true}/> : ''}
-            <CardActions>
-              <RaisedButton
-                label="Sign In"
-                fullWidth={true}
-                disabled={submitting}
-                type="submit"
-                primary={true}
-              />
+class Signin extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object
+  }
+  render() {
+    const { error, dispatch, handleSubmit, submitting, user } = this.props
+    return (
+      <main>
+        <section>
+          <Card style={{ flex: '1 1 auto', width: 300, margin: 20 }}>
+            <CardTitle title="Sign in" subtitle="Enter your information" />
+            <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values)))}>
+              <CardText>
+                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+              </CardText>
+              <CardActions>
+                <RaisedButton
+                  label="Sign In"
+                  fullWidth={true}
+                  disabled={submitting}
+                  type="submit"
+                  primary={true}
+                />
+              </CardActions>
+            </form>
+            <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+              <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
+              <p><Link to="/recover">Forgot your password?</Link></p>
             </CardActions>
-          </form>
-          <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-            <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
-            <p><Link to="/recover">Forgot your password?</Link></p>
-          </CardActions>
-        </Card>
-      </section>
-    </main>
-  )
+          </Card>
+        </section>
+      </main>
+    )
+  }
+
 }
+
+
 
 
 Signin = reduxForm({
@@ -71,9 +80,12 @@ Signin = reduxForm({
   validate
 })(Signin)
 
-const mapStateToProps = (state) => ({
-  user: state.user
-})
+const mapStateToProps = (state, nextProps) => {
+
+  return {
+    user: state.user,
+  }
+}
 
 Signin = connect(mapStateToProps)(Signin)
 

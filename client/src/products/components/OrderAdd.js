@@ -1,17 +1,20 @@
 /* global Stripe */
 import React from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+
+import formatPrice from '../../modules/formatPrice'
 import { fetchAddOrder } from '../actions/order'
 import './CreditCard.css'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'firstName', 'lastName', 'email', 'address', 'zip', 'state' ]
+  const requiredFields = [ 'firstName', 'lastName', 'email', 'address', 'zip', 'state', 'number', 'exp', 'cvc' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -47,14 +50,14 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 
 let OrderAdd = (props) => {
-  const { dispatch, handleSubmit, pristine, reset, submitting } = props
+  const { errors, dispatch, handleSubmit, total, pristine, reset, submitting } = props
   return (
     <section>
       <Card style={{ margin: 20 }}>
         <form onSubmit={handleSubmit((values) => dispatch(fetchAddOrder(values)))}>
           <CardText>
-            <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-            <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
+            <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
+            <Field name="lastname" component={renderTextField} label="Last Name" fullWidth={true} />
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
             <Field name="address" component={renderTextField} label="Address" fullWidth={true} />
             <Field name="zip" component={renderTextField} label="Zip" fullWidth={true} />
@@ -84,23 +87,30 @@ let OrderAdd = (props) => {
                 component={renderTextField}
                 label="Card Expiration"
                 onFocus={e => Payment.formatCardExpiry(e.target)}
-                style={{ marginRight: 20 }}
+                style={{ flex: '1 1 auto', marginRight: 20 }}
               />
               <Field
                 name="cvc"
                 component={renderTextField}
                 label="Card CVC"
                 onFocus={e => Payment.formatCardCVC(e.target)}
+                style={{ flex: '1 1 auto' }}
               />
             </div>
           </CardText>
           <CardActions>
-            <RaisedButton type="submit" disabled={pristine || submitting}>
-              Submit
-            </RaisedButton>
-            <RaisedButton type="button" disabled={pristine || submitting} onTouchTap={reset}>
-              Clear Values
-            </RaisedButton>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+              <span>subtotal</span>
+              <h3>{formatPrice(total)}</h3>
+            </div>
+            <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'flex-end' }}>
+              <p style={{ textAlign: 'right' }}>Shipping, taxes, and discounts</p>
+              <RaisedButton
+                label="Place Order"
+                primary={true}
+                type="submit"
+              />
+            </div>
           </CardActions>
         </form>
       </Card>
@@ -113,6 +123,10 @@ OrderAdd = reduxForm({
   validate,
 })(OrderAdd)
 
-OrderAdd = connect()(OrderAdd)
+const mapStateToProps = (state) => ({
+  initialValues: state.user.values
+})
+
+OrderAdd = connect(mapStateToProps)(OrderAdd)
 
 export default OrderAdd

@@ -1,6 +1,6 @@
 import User from '../users/models/User'
 
-export const authenticate = (roles) => {
+const authenticate = (roles) => {
   return (req, res, next) => {
     const token = req.header('x-auth')
     User.findByToken(token, roles)
@@ -16,3 +16,5 @@ export const authenticate = (roles) => {
       .catch(err => res.status(401).send(err))
   }
 }
+
+export default authenticate

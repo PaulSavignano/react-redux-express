@@ -4,12 +4,9 @@ import { push } from 'react-router-redux'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchDeletePage } from '../actions/page'
+import { fetchDelete } from '../actions/index'
 
 const styles = {
-  Card: {
-    margin: '8px 0 8px 0'
-  },
   CardText: {
     display: 'flex',
     flexFlow: 'row wrap',
@@ -44,7 +41,6 @@ class AdminPageName extends Component {
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          style={styles.Card}
         >
           <CardText style={styles.CardText}>
             <div style={styles.name}>{name}</div>
@@ -54,7 +50,7 @@ class AdminPageName extends Component {
               primary={true}
             />
             <RaisedButton
-              onTouchTap={() => dispatch(fetchDeletePage(_id))}
+              onTouchTap={() => dispatch(fetchDelete(_id))}
               label="X"
               primary={true}
               style={{ marginLeft: 16 }}

@@ -131,7 +131,8 @@ class AdminProduct extends Component {
                   label="Update"
                   label={this.state.submitted ? "Updated" : "Update"}
                   labelColor="#ffffff"
-                  backgroundColor={this.state.submitted ? "#4CAF50" : "#00BCD4" }
+                  primary={this.state.submitted ? false : true}
+                  backgroundColor={this.state.submitted ? "#4CAF50" : null }
                   style={{ flex: '1 1 auto', margin: 8 }}
                 />
                 <RaisedButton

@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import ImageForm from '../../images/components/ImageForm'
+import ImageFormHor from '../../images/components/ImageFormHor'
 import { fetchAdd } from '../actions/index'
 
 
@@ -19,12 +19,12 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class AdminCarouselAdd extends Component {
   state = {
-    image: 'http://placehold.it/280x60',
+    image: 'http://placehold.it/300x300',
     submitted: false,
     editing: false
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: 'http://placehold.it/280x60' }) : null
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: 'http://placehold.it/300x300' }) : null
     nextProps.dirty ? this.setState({ submitted: false }) : null
   }
   setEditorRef = (editor) => {
@@ -57,12 +57,12 @@ class AdminCarouselAdd extends Component {
             textStyle={{ width: '100%'}}
           />
           <CardMedia>
-            <ImageForm
+            <ImageFormHor
               image={this.state.image}
               type="image/jpeg"
               editing={this.editing}
-              width={280}
-              height={60}
+              width={300}
+              height={300}
               ref={this.setEditorRef}
             />
           </CardMedia>
@@ -78,7 +78,7 @@ class AdminCarouselAdd extends Component {
             />
             {error && <strong>{error}</strong>}
           </CardText>
-          <CardActions>
+          <CardActions style={{ marginBottom: 20 }}>
             <RaisedButton type="submit" label="Add" primary={true} fullWidth={true}/>
           </CardActions>
         </form>

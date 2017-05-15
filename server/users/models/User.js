@@ -4,27 +4,40 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
 const UserSchema = new Schema({
-  firstname: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-  },
-  lastname: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    unique: true,
-    validate: {
-      validator: validator.isEmail,
-      message: '{VALUE} is not a valid email'
+  values: {
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      unique: true,
+      validate: {
+        validator: validator.isEmail,
+        message: '{VALUE} is not a valid email'
+      }
+    },
+    firstname: {
+      type: String,
+      trim: true,
+      minlength: 1
+    },
+    lastname: {
+      type: String,
+      trim: true,
+      minlength: 1
+    },
+    address: {
+      type: String,
+      trim: true,
+      minlength: 1
+    },
+    zip: {
+      type: Number,
+      minlength: 1
+    },
+    state: {
+      type: String,
+      minlength: 1
     }
   },
   password: { type: String, required: true, minlength: 6 },
@@ -44,7 +57,8 @@ const UserSchema = new Schema({
 UserSchema.methods.toJSON = function() {
   const user = this
   const userObject = user.toObject()
-  const { _id, email } = userObject
+  const { _id } = userObject
+  const { email } = userObject.values
   return { _id, email }
 }
 
@@ -54,7 +68,7 @@ UserSchema.methods.generateAuthToken = function() {
   const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString()
   user.tokens.push({ access, token })
   return user.save()
-    .then(() => {
+    .then(() =>  {
       return token
     })
 }
@@ -87,7 +101,7 @@ UserSchema.statics.findByToken = function(token, roles) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET)
   } catch (err) {
-    return Promise.reject()
+    return Promise.reject(err)
   }
   return User.findOne({
     _id: decoded._id,
@@ -101,21 +115,18 @@ UserSchema.statics.findByToken = function(token, roles) {
 
 UserSchema.statics.findByCredentials = function(email, password) {
   const User = this
-  return User.findOne({ email })
+  return User.findOne({ 'values.email': email })
     .then(user => {
       if (!user) {
-        return Promise.reject()
+        return Promise.reject({
+          error: { email: 'User not found'}
+        })
       }
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password, (err, res) => {
-          if (res) {
-            resolve(user)
-          } else {
-            reject()
-          }
+      return bcrypt.compare(password, user.password)
+        .then(res => {
+          return user
         })
       })
-    })
 }
 
 UserSchema.pre('save', function(next) {

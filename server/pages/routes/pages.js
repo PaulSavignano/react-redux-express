@@ -2,7 +2,7 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 import url from 'url'
 import Page from '../models/Page'
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
 
 const pages = express.Router()

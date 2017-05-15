@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import SearchList from './SearchList'
+import SearchList from './products/containers/SearchList'
 import Header from './header/containers/Header'
 import Footer from './footer/components/Footer'
 

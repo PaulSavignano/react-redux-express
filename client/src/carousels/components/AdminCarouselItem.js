@@ -7,7 +7,7 @@ import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/C
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate, fetchDelete } from '../actions/index'
-import ImageForm from '../../images/components/ImageForm'
+import ImageFormHor from '../../images/components/ImageFormHor'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -62,12 +62,12 @@ class AdminCarouselItem extends Component {
         style={{ flex: '1 1 auto' }}
       >
         <CardMedia expandable={true}>
-          <ImageForm
+          <ImageFormHor
             image={this.state.image}
             type="image/jpeg"
             editing={this.editing}
-            width={280}
-            height={60}
+            width={300}
+            height={300}
             ref={this.setEditorRef}
           />
         </CardMedia>
@@ -89,7 +89,8 @@ class AdminCarouselItem extends Component {
             label="Update"
             label={this.state.submitted ? "Updated" : "Update"}
             labelColor="#ffffff"
-            backgroundColor={this.state.submitted ? "#4CAF50" : "#00BCD4" }
+            primary={this.state.submitted ? false : true}
+            backgroundColor={this.state.submitted ? "#4CAF50" : null }
             style={{ flex: '1 1 auto', margin: 8 }}
           />
           <RaisedButton

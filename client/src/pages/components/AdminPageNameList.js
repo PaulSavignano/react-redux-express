@@ -1,22 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import AdminPageNameAdd from './AdminPageNameAdd'
+
 import AdminPageName from './AdminPageName'
 
-
-const AdminPageNameList = (props) => (
-  props.pages.items ?
+const AdminPageNameList = ({ items }) => (
+  items.length ?
     <section>
-      {props.pages.items.map(page => (
-        <AdminPageName key={page._id} {...page} />
+      {items.map(item => (
+        <AdminPageName key={item._id} {...item} />
       ))}
     </section>
   :
     null
 )
 
-const mapStateToProps = (state) => {
-  return state
-}
-
-export default connect(mapStateToProps)(AdminPageNameList)
+export default AdminPageNameList

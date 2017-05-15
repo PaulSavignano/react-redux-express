@@ -28,6 +28,7 @@ class CardItem extends Component {
   render() {
     const { dispatch, item } = this.props
     const { image, values } = item
+    console.log(image)
     return (
       this.state.loading ? null :
       values.link ?
@@ -70,7 +71,7 @@ class CardItem extends Component {
             transitionLeave={false}
           >
             {values.header ? <CardHeader title={values.header} /> : null }
-            {values.image ? <CardMedia><img src={values.image} alt="item"/></CardMedia> : null }
+            {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
             {values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe

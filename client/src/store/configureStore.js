@@ -6,14 +6,14 @@ import { reducer as formReducer } from 'redux-form'
 
 import cards from '../cards/reducers/index'
 import carousels from '../carousels/reducers/index'
-import { cart } from '../products/reducers/cart'
+import cart from '../products/reducers/cart'
 import heros from '../heros/reducers/index'
 import { order } from '../products/reducers/order'
-import { pages } from '../pages/reducers/page'
+import pages from '../pages/reducers/index'
 import { searchProducts, products } from '../products/reducers/products'
 import { search } from '../header/reducers/search'
 import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
-import theme from '../theme/reducers/theme'
+import theme from '../theme/reducers/index'
 import user from '../users/reducers/index'
 
 

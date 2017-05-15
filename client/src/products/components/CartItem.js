@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchUpdateCart } from '../actions/cart'
-import { formatPrice } from '../../modules/formatPrice'
+import formatPrice from '../../modules/formatPrice'
 
 import {Card } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
@@ -39,7 +39,7 @@ class CartItem extends Component {
     const { dispatch, productId, name, price, image, total } = this.props
     return (
       <Card
-        style={{ flex: '1 1 auto', height: 100, width: '100%', margin: '10px 20px' }}
+        style={{ flex: '1 1 auto', margin: '10px 20px' }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

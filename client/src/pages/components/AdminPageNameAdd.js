@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchAddPage } from '../actions/page'
+import { fetchAdd } from '../actions/index'
 
 const validate = values => {
   const errors = {}
@@ -34,7 +34,7 @@ class AdminPageNameAdd extends Component {
       <section>
         <Card>
           <form
-            onSubmit={handleSubmit(values => dispatch(fetchAddPage(values)))}
+            onSubmit={handleSubmit(values => dispatch(fetchAdd(values)))}
           >
             <CardText style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center' }}>
               <div style={{ flex: '1 1 auto' }}>
@@ -60,7 +60,5 @@ AdminPageNameAdd = reduxForm({
   form: 'AdminPageAdd',
   validate
 })(AdminPageNameAdd)
-
-
 
 export default AdminPageNameAdd

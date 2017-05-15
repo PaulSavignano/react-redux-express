@@ -1,14 +1,14 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
 import Card from '../models/Card'
 
 
 const cards = express.Router()
 
-const s3Path = `${process.env.APP_NAME}/cards`
+const s3Path = `${process.env.APP_NAME}/cards/card_`
 
 // Create
 cards.post('/', (req, res) => {
@@ -23,7 +23,7 @@ cards.post('/', (req, res) => {
   })
   switch (type) {
     case 'ADD_ITEM_ADD_IMAGE':
-    uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
+    uploadFile({ Key: `${s3Path}${_id}`, Body: image })
       .then(data => {
         card.image = data.Location
         card.save()
@@ -74,7 +74,7 @@ cards.patch('/:_id', (req, res) => {
   switch (type) {
 
     case 'UPDATE_ITEM_UPDATE_IMAGE':
-      uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
+      uploadFile({ Key: `${s3Path}${_id}`, Body: image })
         .then(data => {
           const update = { image: data.Location, values }
           Card.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -91,7 +91,7 @@ cards.patch('/:_id', (req, res) => {
       break
 
     case 'UPDATE_ITEM_DELETE_IMAGE':
-      deleteFile({ Key: `${s3Path}/${_id}` })
+      deleteFile({ Key: `${s3Path}${_id}` })
         .then(() => {
           const update = { image: null, values }
           Card.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -134,7 +134,7 @@ cards.delete('/:_id', (req, res) => {
   Card.findOne({ _id })
     .then(doc => {
       if (doc.image) {
-        deleteFile({ Key: `${s3Path}/${_id}` })
+        deleteFile({ Key: `${s3Path}${_id}` })
           .then(() => {
             Card.findOneAndRemove({ _id })
               .then(doc => res.send(doc))

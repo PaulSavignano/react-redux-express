@@ -1,7 +1,7 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
 import Hero from '../models/Hero'
 

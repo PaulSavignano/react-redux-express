@@ -5,6 +5,8 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import {List, ListItem} from 'material-ui/List'
 
+import SigninSignout from '../../users/components/SigninSignout'
+
 const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) => {
   const isUser = user.roles ? user.roles.find(role => role === 'user') : null
   const isAdmin = user.roles ? user.roles.find(role => role === 'admin') : null
@@ -39,6 +41,14 @@ const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) 
           nestedItems={[
             <ListItem
               key={1}
+              primaryText="Theme"
+              onTouchTap={() => {
+                dispatch(push(`/admin/theme`))
+                handleDrawer()
+              }}
+            />,
+            <ListItem
+              key={2}
               primaryText="Pages"
               onTouchTap={() => {
                 dispatch(push(`/admin/pages`))
@@ -46,7 +56,7 @@ const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) 
               }}
             />,
             <ListItem
-              key={2}
+              key={3}
               primaryText="Products"
               onTouchTap={() => {
                 dispatch(push(`/admin/products`))
@@ -56,17 +66,7 @@ const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) 
           ]}
         />
       }
-      {isUser ?
-        <MenuItem onTouchTap={() => {
-          dispatch(push('/signout'))
-          handleDrawer()
-        }}>Signout</MenuItem>
-        :
-        <MenuItem onTouchTap={() => {
-          dispatch(push('/signin'))
-          handleDrawer()
-        }}>Signin</MenuItem>
-        }
+      <SigninSignout user={user} handleChange={handleDrawer}/>
 
     </Drawer>
   )

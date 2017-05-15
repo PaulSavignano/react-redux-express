@@ -7,7 +7,7 @@ const CardSchema = new Schema({
   values: {
     header: { type: String, trim: true },
     width: { type: Number },
-    youtube: { type: String, trim: true },
+    iFrame: { type: String, trim: true },
     title: { type: String, trim: true },
     text: { type: String, trim: true },
     link: { type: String, trim: true },

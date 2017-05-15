@@ -1,14 +1,4 @@
-export const searchCart = (state = '', action) => {
-  switch (action.type) {
-    case 'SEARCH_CARTS':
-      return action.searchCartsText
-    default:
-      return state
-  }
-}
-
-
-export const cart = (state = {}, action) => {
+const cart = (state = {}, action) => {
   switch (action.type) {
     case 'REQUEST_CART':
       return {
@@ -37,3 +27,5 @@ export const cart = (state = {}, action) => {
       return state
   }
 }
+
+export default cart

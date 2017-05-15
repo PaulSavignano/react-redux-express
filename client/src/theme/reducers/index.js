@@ -1,39 +1,37 @@
+import { type } from '../actions/index'
+
 const theme = (state = {}, action) => {
   switch (action.type) {
-    case 'REQUEST_THEME':
+    case `REQUEST_${type}S`:
       return {
         ...state,
         isFetching: true
       }
-    case 'RECEIVE_THEME':
+    case `RECEIVE_${type}S`:
+      return {
+        ...state,
+        isFetching: false,
+        ...action.items
+      }
+    case `ADD_${type}`:
+      return {
+        ...state,
+        isFetching: false,
+        ...action.item
+      }
+    case `UPDATE_${type}`:
+      console.log(action.item)
       return {
         ...state,
         ...action.item,
-        isFetching: false,
+        testing: 1
       }
-    case 'ADD_THEME':
+    case `DELETE_${type}`:
       return {
         ...state,
-        error: '',
-        ...action.item,
-        isFetching: false,
+        ...state.items
       }
-    case 'UPDATE_THEME':
-      return {
-        ...state,
-        error: '',
-        ...state.items.map(item => item._id === action.item._id ?
-          { ...item, ...action.item } :
-          item
-        )
-      }
-    case 'DELETE_THEME':
-      return {
-        ...state,
-        error: '',
-        ...state.items.filter(item => item._id !== item._id)
-      }
-    case 'ERROR_THEME':
+    case `ERROR_${type}`:
       return {
         ...state,
         error: action.error

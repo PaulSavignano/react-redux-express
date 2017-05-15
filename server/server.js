@@ -6,7 +6,6 @@ import mongoose from './db/mongoose'
 import cards from './cards/routes/cards'
 import carousels from './carousels/routes/carousels'
 import carts from './products/routes/carts'
-import checkout from './products/routes/checkout'
 import heros from './heros/routes/heros'
 import orders from './products/routes/orders'
 import pages from './pages/routes/pages'
@@ -25,7 +24,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/api/cards', cards)
 app.use('/api/carousels', carousels)
 app.use('/api/carts', carts)
-app.use('/api/checkout', checkout)
 app.use('/api/heros', heros)
 app.use('/api/orders', orders)
 app.use('/api/pages', pages)

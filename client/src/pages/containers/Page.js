@@ -1,39 +1,43 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Hero from '../../heros/containers/Hero'
 import CardList from '../../cards/containers/CardList'
 import CarouselList from '../../carousels/containers/CarouselList'
 
-const Page = ({ isFetching, page, hasHero, hasCards, hasCarousel }) => {
-  console.log('hasHero', hasHero, 'hasCards', hasCards, 'hasCarousel', hasCarousel)
-  return (
-    !isFetching ?
-    <div>
-      {hasHero ? <Hero page={page} /> : null}
-      <main>
-        <CardList page={page} />
-        {hasCarousel ? <CarouselList page={page} /> : null}
-      </main>
-    </div>
-    :
-    null
-  )
+class Page extends Component {
+  state = {
+    imageLoaded: false
+  }
+  componentDidMount() {
+    this.props.hero ? null : this.setState({ imageLoaded: true })
+  }
+  handleImage = () => this.setState({ imageLoaded: true })
+  render() {
+    const { isFetching, page, hero, cards, carousel } = this.props
+    return (
+      isFetching ? null :
+      <div>
+        {hero ? <Hero page={page} handleImage={this.handleImage}/> : null}
+        {!this.state.imageLoaded ? null :
+          <main>
+            {cards ? <CardList page={page} /> : null}
+            {carousel ? <CarouselList page={page} /> : null}
+          </main>
+        }
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const slug = ownProps.params.slug || 'home'
-  const isFetching = state.pages.isFetching ? true : false
-  const page = isFetching ? {} : state.pages.items.find(item => item.slug === slug)
-  const hasHero = isFetching ? false : state.heros.items.find(item => item.pageId === page._id) ? true : false
-  const hasCards = isFetching ? false : state.cards.items.find(item => item.pageId === page._id) ? true : false
-  const hasCarousel = isFetching ? false : state.carousels.items.find(item => item.pageId === page._id) ? true : false
+  const page = state.pages.items.find(item => item.slug === ownProps.params.slug || 'home')
   return {
-    isFetching,
+    isFetching: state.pages.isFetching,
     page,
-    hasHero,
-    hasCards,
-    hasCarousel
+    hero: state.heros.items.find(item => item.pageId === page._id) || null,
+    cards: state.cards.items.find(item => item.pageId === page._id) || null,
+    carousel: state.carousels.items.find(item => item.pageId === page._id) || null
   }
 }
 

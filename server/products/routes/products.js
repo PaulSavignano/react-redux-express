@@ -1,8 +1,9 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 
-import { authenticate } from '../../middleware/authenticate'
+import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
+import slugIt from '../../middleware/slugIt'
 import Product from '../models/Product'
 
 
@@ -16,6 +17,7 @@ products.post('/', (req, res) => {
   const _id = new ObjectID()
   const product = new Product({
     _id,
+    slug: slugIt(values.name),
     image,
     values
   })
@@ -75,7 +77,7 @@ products.patch('/:_id', (req, res) => {
     case 'UPDATE_ITEM_UPDATE_IMAGE':
       uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
         .then(data => {
-          const update = { image: data.Location, values }
+          const update = { image: data.Location, values, slug: slugIt(values.name) }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
@@ -92,7 +94,7 @@ products.patch('/:_id', (req, res) => {
     case 'UPDATE_ITEM_DELETE_IMAGE':
       deleteFile({ Key: `${s3Path}/${_id}` })
         .then(() => {
-          const update = { image: null, values }
+          const update = { image: null, values, slug: slugIt(values.name) }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
@@ -107,7 +109,7 @@ products.patch('/:_id', (req, res) => {
       break
 
     case 'UPDATE_ITEM':
-      Product.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
+      Product.findOneAndUpdate({ _id }, { $set: { values: values, slug: slugIt(values.name) }}, { new: true })
         .then(doc => {
           console.log(doc)
           res.send(doc)
