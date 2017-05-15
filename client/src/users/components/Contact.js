@@ -54,22 +54,23 @@ class Contact extends Component {
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
                 <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
               </CardText>
-              <Dialog
-                title="Dialog With Actions"
-                actions={
-                  <FlatButton
-                    label="Close"
-                    primary={true}
-                    onTouchTap={this.handleClose}
-                  />
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
-              >
-                Email was successfully sent!
-              </Dialog>
-              {user.error ? <CardText><p>{user.error}</p></CardText> : ''}
+              {!this.state.open ? null :
+                <Dialog
+                  actions={
+                    <FlatButton
+                      label="Close"
+                      primary={true}
+                      onTouchTap={this.handleClose}
+                    />
+                  }
+                  modal={false}
+                  open={this.state.open}
+                  onRequestClose={this.handleClose}
+                >
+                  Email was successfully sent!
+                </Dialog>
+              }
+              {user.error.length ? <CardText><p>{user.error}</p></CardText> : ''}
               <CardActions>
                 <RaisedButton
                   label="Contact"

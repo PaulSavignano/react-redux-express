@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import { Field, reduxForm } from 'redux-form'
 
-import { requestSignup } from '../actions/index'
+import { fetchSignup } from '../actions/index'
 
 const validate = values => {
   const errors = {}
@@ -33,36 +35,59 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-let Signup = (props) => {
-  const { dispatch, handleSubmit, submitting, user } = props
-  return (
-    <main>
-      <section>
-        <Card>
-          <CardTitle title="Signup" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(requestSignup(values)))} >
-            <CardText>
-              <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
-              <Field name="lastname" component={renderTextField} label="Last Name" fullWidth={true} />
-              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-              <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
-            </CardText>
-            {user.error ? <CardText><p>Your token has expired, please try again.</p></CardText> : ''}
-            <CardActions>
-              <RaisedButton
-                label="Sign Up"
-                fullWidth={true}
-                disabled={submitting}
-                type="submit"
-                primary={true}
-              />
-            </CardActions>
-          </form>
-        </Card>
-      </section>
-    </main>
-  )
+class Signup extends Component {
+  state = { open: false }
+  handleClose = () => this.setState({open: false})
+  componentWillReceiveProps(nextProps) {
+    this.props.submitSucceeded === nextProps.submitSucceeded ? null : nextProps.submitSucceeded ? this.setState({ open: true }) : null
+  }
+  render() {
+    const { dispatch, submitSucceeded, handleSubmit, submitting, user } = this.props
+    return (
+      <main>
+        <section>
+          <Card>
+            <CardTitle title="Signup" subtitle="Enter your information" />
+            <form onSubmit={handleSubmit(values => dispatch(fetchSignup({ values })))} >
+              <CardText>
+                <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
+                <Field name="lastname" component={renderTextField} label="Last Name" fullWidth={true} />
+                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
+              </CardText>
+              {!this.state.open ? null :
+                <Dialog
+                  actions={
+                    <FlatButton
+                      label="Close"
+                      primary={true}
+                      onTouchTap={this.handleClose}
+                    />
+                  }
+                  modal={false}
+                  open={this.state.open}
+                  onRequestClose={this.handleClose}
+                >
+                  Welcome {user.values ? user.values.firstname : null}
+                </Dialog>
+              }
+              {user.error.length ? <CardText><p>{user.error}</p></CardText> : ''}
+              <CardActions>
+                <RaisedButton
+                  label="Sign Up"
+                  fullWidth={true}
+                  disabled={submitting}
+                  type="submit"
+                  primary={true}
+                />
+              </CardActions>
+            </form>
+          </Card>
+        </section>
+      </main>
+    )
+  }
 }
 
 

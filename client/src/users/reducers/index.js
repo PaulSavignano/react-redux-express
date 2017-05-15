@@ -1,4 +1,8 @@
-const user = (state = {}, action) => {
+const user = (state = {
+  roles: [],
+  values: [],
+  error: {}
+}, action) => {
   switch(action.type) {
     case 'REQUEST_USER':
       return {
@@ -20,10 +24,9 @@ const user = (state = {}, action) => {
       return { ...state, error: action.error }
     case 'DELETE_USER':
       return {
-        name: '',
         roles: [],
-        message: '',
-        error: ''
+        values: [],
+        error: null
       }
     case 'RECOVER_USER':
       return {

@@ -51,7 +51,8 @@ const UserSchema = new Schema({
     token: { type: String, required: true }
   }],
   passwordResetToken: { type: String, default: '' },
-  passwordResetExpires: { type: Date, default: Date.now }
+  passwordResetExpires: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 })
 
 UserSchema.methods.toJSON = function() {

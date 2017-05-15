@@ -12,28 +12,36 @@ const users = express.Router()
 // Create
 users.post('/signup', (req, res) => {
   const { values } = req.body
+  console.log(req.body)
   if (!values.firstname || !values.email || !values.password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
   const user = new User({
     password: values.password,
-    values: {
-      email: values.email,
-      firstname: values.firstname,
-    }
+    values
   })
   user.save()
     .then((doc) => {
       console.log(doc)
       return user.generateAuthToken()
         .then(token => {
-          res.header('x-auth', token).send({ name: user.firstname })
+          sendEmail1({
+            to: doc.values.email,
+            subject: `Welcome to ${process.env.APP_NAME}`,
+            name: doc.values.firstname,
+            body: `<p>Welcome to ${process.env.APP_NAME}!</p>`
+          })
+          res.header('x-auth', token).send({
+            roles: doc.roles,
+            values: doc.values
+          })
         })
         .catch((err) => {
           console.log(err)
           res.status(400).send({ error: 'Email is already in use'})
         })
     })
+    .catch(err => console.log(err))
 })
 
 

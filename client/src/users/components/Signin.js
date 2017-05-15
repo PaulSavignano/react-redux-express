@@ -6,7 +6,8 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
-import DialogAlert from '../../DialogAlert'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
 import { fetchSignin } from '../actions/index'
 
@@ -34,10 +35,13 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 class Signin extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object
+  state = { open: false }
+  handleClose = () => this.setState({open: false})
+  componentWillReceiveProps(nextProps) {
+    this.props.submitSucceeded === nextProps.submitSucceeded ? null : nextProps.submitSucceeded ? this.setState({ open: true }) : null
   }
   render() {
+    console.log(this.props)
     const { error, dispatch, handleSubmit, submitting, user } = this.props
     return (
       <main>
@@ -60,6 +64,22 @@ class Signin extends Component {
                 />
               </CardActions>
             </form>
+            {!this.state.open ? null :
+              <Dialog
+                actions={
+                  <FlatButton
+                    label="Close"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                  />
+                }
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+              >
+                Welcome back {user.values ? user.values.firstname : null}
+              </Dialog>
+            }
             <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
               <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
               <p><Link to="/recover">Forgot your password?</Link></p>
