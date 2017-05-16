@@ -17,7 +17,7 @@ const App = ({ search, children, theme }) => (
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
-        transitionAppearTimeout={1000}
+        transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
       >

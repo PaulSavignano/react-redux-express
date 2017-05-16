@@ -29,13 +29,13 @@ import Order from './products/containers/Order'
 
 import TodosPage from './todos/components/TodosPage'
 
-
 const Routes = ({ history }) => (
   <Router history={history}>
     <Route path="/" component={App}>
 
       {/* Page */}
       <IndexRoute page="home" component={Page} />
+      <Route path="pages/:slug" component={Page} />
       <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
 
@@ -60,7 +60,5 @@ const Routes = ({ history }) => (
     </Route>
   </Router>
 )
-
-
 
 export default Routes

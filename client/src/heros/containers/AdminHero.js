@@ -9,7 +9,7 @@ class AdminHero extends Component {
   state = {
     expanded: false
   }
-  componentWillMount() {
+  componentDidMount() {
     const hasHero = this.props.item.image ? true : false
     this.setState({ expanded: hasHero })
   }
@@ -42,7 +42,8 @@ class AdminHero extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const isFetching = state.heros.isFetching
-  const item = isFetching ? {} : state.heros.items.find(item => item.pageId === ownProps.page._id)
+  const item = state.heros.items.find(item => item.pageId === ownProps.page._id) || {}
+  console.log(item)
   return {
     isFetching,
     item

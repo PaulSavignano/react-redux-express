@@ -73,7 +73,7 @@ class AppBarNav extends Component {
           this.state.searching ?
             <nav style={styles.AppBarSearch}>
               <div style={{ cursor: 'pointer', margin: '0 15px 0 0' }} onTouchTap={() => dispatch(push('/'))}>
-                {image ? <img src={image} alt="" style={styles.favicon}/> : 'Brand'}
+                {image ? null : 'Brand'}
               </div>
               <span style={styles.rightSearch}>
                 <FontIcon className="fa fa-search" style={styles.search} onTouchTap={() => this.setState({ searching: !this.state.searching }) }/>

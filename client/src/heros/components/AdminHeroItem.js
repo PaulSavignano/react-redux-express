@@ -81,12 +81,19 @@ class AdminHeroItem extends Component {
     borderRadius: 0,
     editing: false,
     preview: null,
+    submitted: false,
+    editing: false,
   }
   componentWillMount() {
-    const { image } = this.props.hero || false
+    const { image } = this.props.item || false
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'https://placehold.it/1920x1080'
     this.setState({ expanded: hasImage, image: imageUrl }, () => this.handleEditing())
+    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+  }
+  componentWillReceiveProps(nextProps) {
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
+    nextProps.dirty ? this.setState({ submitted: false }) : null
   }
   handleSave = (data) => {
     const img = this.editor.getImageScaledToCanvas().toDataURL('image/jpeg', 1)
@@ -97,7 +104,6 @@ class AdminHeroItem extends Component {
         borderRadius: this.state.borderRadius
       }
     })
-    this.setState({ editing: false })
     return img
   }
   handleScale = (e) => {
@@ -152,7 +158,7 @@ class AdminHeroItem extends Component {
   }
   render() {
     console.log('AdminHeroItem')
-    const { error, handleSubmit, dispatch, page, hero } = this.props
+    const { error, handleSubmit, dispatch, page, item } = this.props
     return (
         <form
           onSubmit={handleSubmit((values) => {
@@ -164,11 +170,11 @@ class AdminHeroItem extends Component {
               image = this.handleSave()
             } else {
               type = 'UPDATE_ITEM'
-              image = hero.image
+              image = item.image
             }
             const update = { type, image, values }
-            dispatch(fetchUpdate(hero._id, update))
-            this.setState({ image: hero.image })
+            dispatch(fetchUpdate(item._id, update))
+            this.setState({ image: item.image })
           })}
           style={{ width: '100%'}}
         >
@@ -302,7 +308,10 @@ class AdminHeroItem extends Component {
             <RaisedButton
               label="Update"
               type="submit"
-              primary={true}
+              label={this.state.submitted ? "Updated" : "Update"}
+              labelColor="#ffffff"
+              primary={this.state.submitted ? false : true}
+              backgroundColor={this.state.submitted ? "#4CAF50" : null }
               fullWidth={true}
             />
           </CardActions>
@@ -315,7 +324,7 @@ class AdminHeroItem extends Component {
 AdminHeroItem = compose(
   connect((state, props) => ({
     form: `hero_${props.page.slug}`,
-    hero: state.heros.items.find(item => item.pageId === props.page._id)
+    item: state.heros.items.find(item => item.pageId === props.page._id)
   })),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminHeroItem)
 

@@ -15,6 +15,7 @@ class Page extends Component {
   handleImage = () => this.setState({ imageLoaded: true })
   render() {
     const { isFetching, page, hero, cards, carousel } = this.props
+    console.log(page)
     return (
       isFetching ? null :
       <div>
@@ -31,7 +32,8 @@ class Page extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const page = state.pages.items.find(item => item.slug === ownProps.params.slug || 'home')
+  console.log(ownProps.params.slug)
+  const page = state.pages.items.find(item => item.slug === ownProps.params.slug) || state.pages.items.find(item => item.slug === 'home')
   return {
     isFetching: state.pages.isFetching,
     page,
