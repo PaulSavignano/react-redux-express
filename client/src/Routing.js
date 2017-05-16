@@ -29,7 +29,7 @@ import Order from './products/containers/Order'
 
 import TodosPage from './todos/components/TodosPage'
 
-const Routes = ({ history }) => (
+const Routing = ({ history }) => (
   <Router history={history}>
     <Route path="/" component={App}>
 
@@ -61,4 +61,4 @@ const Routes = ({ history }) => (
   </Router>
 )
 
-export default Routes
+export default Routing

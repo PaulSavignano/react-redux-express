@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
 import configureStore from './store/configureStore'
-import Routes from './Routes'
+import Routing from './Routing'
 import './index.css'
 
 // Actions
@@ -42,7 +42,7 @@ store.dispatch(fetchTheme())
 
 ReactDOM.render(
   <Provider store={store}>
-    <Routes history={history} />
+    <Routing history={history} />
   </Provider>,
   document.getElementById('root')
 )
