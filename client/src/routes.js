@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 
 import App from './App'
@@ -29,17 +30,17 @@ import Order from './products/containers/Order'
 import TodosPage from './todos/components/TodosPage'
 
 
-export default history => (
+const Routes = ({ history }) => (
   <Router history={history}>
     <Route path="/" component={App}>
-      
+
       {/* Page */}
       <IndexRoute page="home" component={Page} />
-      <Route path="admin/pages/:slug" component={AdminPageEdit} />
-      <Route path="admin/pages" component={AdminPage} />
+      <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
+      <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
 
       {/* Theme */}
-      <Route path="admin/theme" component={AdminThemePage} />
+      <Route path="admin/theme" component={RequireAuth(AdminThemePage, ['admin'])} />
 
       {/* User */}
       <Route path="signup" component={Signup} />
@@ -52,10 +53,14 @@ export default history => (
       <Route path="todos" component={RequireAuth(TodosPage, ['user', 'admin'])} />
       <Route path="products" component={Products} />
       <Route path="product/:slug" component={Product} />
-      <Route path="admin/products" component={AdminProductList} />
+      <Route path="admin/products" component={RequireAuth(AdminProductList, ['admin'])} />
       <Route path="cart" component={Cart} />
       <Route path="order" component={RequireAuth(Order, ['user'])} />
 
     </Route>
   </Router>
 )
+
+
+
+export default Routes

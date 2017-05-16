@@ -11,7 +11,7 @@ const heros = express.Router()
 const s3Path = `${process.env.APP_NAME}/heros`
 
 // Create
-heros.post('/', (req, res) => {
+heros.post('/', authenticate(['admin']), (req, res) => {
   const { type, pageId, pageName } = req.body
   const _id = new ObjectID()
   const card = new Hero({
@@ -46,7 +46,7 @@ heros.get('/:_id', (req, res) => {
 
 
 // Update
-heros.patch('/:_id', (req, res) => {
+heros.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
@@ -106,7 +106,7 @@ heros.patch('/:_id', (req, res) => {
 
 
 // Delete
-heros.delete('/:_id', (req, res) => {
+heros.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()

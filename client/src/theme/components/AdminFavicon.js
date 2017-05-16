@@ -65,7 +65,6 @@ const styles = {
 class AdminTheme extends Component {
   state = {
     zDepth: 1,
-    expanded: false,
     submitted: false,
     editing: false,
     image: null
@@ -74,7 +73,7 @@ class AdminTheme extends Component {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'https://placehold.it/1000x1000'
-    this.setState({ expanded: hasImage, image: imageUrl })
+    this.setState({ image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
@@ -101,7 +100,6 @@ class AdminTheme extends Component {
           })}
         >
           <Card
-            expanded={this.state.expanded}
             zDepth={this.state.zDepth}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
@@ -114,7 +112,7 @@ class AdminTheme extends Component {
               height={200}
               ref={this.setEditorRef}
             />
-            <CardActions expandable={true}>
+            <CardActions>
               <RaisedButton
                 type="submit"
                 label="Update"

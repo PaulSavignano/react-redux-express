@@ -11,7 +11,7 @@ const s3Path = `${process.env.APP_NAME}/theme/favicon_`
 
 
 // Create
-themes.post('/', (req, res) => {
+themes.post('/', authenticate(['admin']), (req, res) => {
   console.log('inside route')
   const _id = new ObjectID()
   const theme = new Theme({ _id })
@@ -44,7 +44,7 @@ themes.get('/:_id', (req, res) => {
 
 
 // Update
-themes.patch('/:_id', (req, res) => {
+themes.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
@@ -128,7 +128,7 @@ themes.patch('/:_id', (req, res) => {
 
 
 // Delete
-themes.delete('/:_id', (req, res) => {
+themes.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Theme.findOneAndRemove({ _id,})

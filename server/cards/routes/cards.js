@@ -11,7 +11,7 @@ const cards = express.Router()
 const s3Path = `${process.env.APP_NAME}/cards/card_`
 
 // Create
-cards.post('/', (req, res) => {
+cards.post('/', authenticate(['admin']), (req, res) => {
   const { type, pageId, pageName, image, values } = req.body
   const _id = new ObjectID()
   const card = new Card({
@@ -67,7 +67,7 @@ cards.get('/:_id', (req, res) => {
 
 
 // Update
-cards.patch('/:_id', (req, res) => {
+cards.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
@@ -127,7 +127,7 @@ cards.patch('/:_id', (req, res) => {
 
 
 // Delete
-cards.delete('/:_id', (req, res) => {
+cards.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()

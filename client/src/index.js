@@ -1,18 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
 import configureStore from './store/configureStore'
-import routes from './routes'
+import Routes from './Routes'
 import './index.css'
-
-// material-ui
-import Theme from './Theme'
-import injectTapEventPlugin from 'react-tap-event-plugin'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // Actions
 import { fetchCards } from './cards/actions/index'
@@ -24,11 +18,9 @@ import { fetchProducts } from './products/actions/product'
 import { fetchUser } from './users/actions/index'
 import { fetchTheme } from './theme/actions/index'
 
-injectTapEventPlugin()
-
 const store = configureStore()
+const history = syncHistoryWithStore(browserHistory, store)
 
-export const history = syncHistoryWithStore(browserHistory, store)
 
 const token = localStorage.getItem('token')
 if (token) {
@@ -50,7 +42,7 @@ store.dispatch(fetchTheme())
 
 ReactDOM.render(
   <Provider store={store}>
-    <Theme />
+    <Routes history={history} />
   </Provider>,
   document.getElementById('root')
-);
+)
