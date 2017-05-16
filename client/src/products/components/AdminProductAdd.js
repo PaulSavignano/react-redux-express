@@ -36,7 +36,7 @@ class AdminProductAdd extends Component {
     zDepth: 1,
     image: null,
   }
-  componentWillMount() { this.setState({ image: 'http://placehold.it/1000x1000' })}
+  componentWillMount() { this.setState({ image: 'https://placehold.it/1000x1000' })}
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => {
@@ -70,7 +70,7 @@ class AdminProductAdd extends Component {
             >
               <CardMedia>
                 <ImageForm
-                  image={this.state.new ? this.state.image : 'http://placehold.it/1000x1000'}
+                  image={this.state.new ? this.state.image : 'https://placehold.it/1000x1000'}
                   type="image/jpeg"
                   width={1000}
                   height={1000}

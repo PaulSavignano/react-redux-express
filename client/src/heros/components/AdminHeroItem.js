@@ -85,7 +85,7 @@ class AdminHeroItem extends Component {
   componentWillMount() {
     const { image } = this.props.hero || false
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'http://placehold.it/1920x1080'
+    const imageUrl = image ? image : 'https://placehold.it/1920x1080'
     this.setState({ expanded: hasImage, image: imageUrl }, () => this.handleEditing())
   }
   handleSave = (data) => {

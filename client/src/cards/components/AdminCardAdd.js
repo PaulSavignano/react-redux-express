@@ -87,7 +87,7 @@ class AdminCardAdd extends Component {
             </CardActions>
             <CardMedia expandable={true}>
               <ImageForm
-                image='http://placehold.it/1000x1000'
+                image='https://placehold.it/1000x1000'
                 type="image/jpeg"
                 editing={this.editing}
                 width={1000}

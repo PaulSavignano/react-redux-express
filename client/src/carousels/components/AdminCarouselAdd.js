@@ -19,12 +19,12 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class AdminCarouselAdd extends Component {
   state = {
-    image: 'http://placehold.it/300x300',
+    image: 'https://placehold.it/300x300',
     submitted: false,
     editing: false
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: 'http://placehold.it/300x300' }) : null
+    nextProps.submitSucceeded ? this.setState({ submitted: true, image: 'https://placehold.it/300x300' }) : null
     nextProps.dirty ? this.setState({ submitted: false }) : null
   }
   setEditorRef = (editor) => {

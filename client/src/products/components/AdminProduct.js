@@ -43,7 +43,7 @@ class AdminProduct extends Component {
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'http://placehold.it/1000x1000'
+    const imageUrl = image ? image : 'https://placehold.it/1000x1000'
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }

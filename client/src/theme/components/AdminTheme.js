@@ -28,7 +28,7 @@ class AdminTheme extends Component {
   componentWillMount() {
     const { image } = this.props.item || false
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'http://placehold.it/280x60'
+    const imageUrl = image ? image : 'https://placehold.it/280x60'
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }

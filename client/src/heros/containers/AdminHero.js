@@ -10,7 +10,7 @@ class AdminHero extends Component {
     expanded: false
   }
   componentWillMount() {
-    const hasHero = this.props.hero ? true : false
+    const hasHero = this.props.item.image ? true : false
     this.setState({ expanded: hasHero })
   }
   handleExpand = () => {

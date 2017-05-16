@@ -16,7 +16,7 @@ const ProductSchema = new Schema({
     },
     price: { type: Number, required: true, default: 0 }
   },
-  image: { type: String, default: 'http://placehold.it/1000x1000' },
+  image: { type: String, default: 'https://placehold.it/1000x1000' },
   slug: { type: String },
   createdAt: { type: Date, default: Date.now }
 })
