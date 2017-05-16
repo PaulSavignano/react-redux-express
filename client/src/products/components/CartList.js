@@ -3,6 +3,7 @@ import CartItem from './CartItem'
 import { fetchCart } from '../actions/cart'
 
 const CartList = ({ items }) => (
+  items.length ?
   <section>
     {items.map((item, index) => (
       <CartItem
@@ -12,6 +13,8 @@ const CartList = ({ items }) => (
       />
     ))}
   </section>
+  :
+  <section><h1>Nothing in your cart yet</h1></section>
 )
 
 export default CartList
