@@ -33,7 +33,7 @@ export const fetchSignup = (values) => {
 }
 
 export const redirectUser = (path) => {
-  console.log(path)
+  console.log('redirecting', path)
   return {
     type: 'REDIRECT_USER',
     path

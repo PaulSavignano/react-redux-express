@@ -19,7 +19,7 @@ const CartTotal = ({ dispatch, total, user }) => (
         label="Checkout"
         primary={true}
         onTouchTap={() => {
-          !user.values && dispatch(redirectUser('/order'))
+          !user.values.email && dispatch(redirectUser('/order'))
           dispatch(push('/order'))
         }}
       />

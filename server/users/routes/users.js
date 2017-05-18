@@ -53,13 +53,7 @@ users.post('/signin', (req, res) => {
         .then(token => {
           res.header('x-auth', token).send({
             roles: user.roles,
-            values: {
-              email: user.values.email,
-              firstname: user.values.firstname,
-              lastname: user.values.lastname,
-              address: user.values.address,
-              zip: user.values.address
-            }
+            values: user.values
           })
         })
         .catch(err => {

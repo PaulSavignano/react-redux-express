@@ -7,15 +7,12 @@ class SectionItem extends Component {
     image: ''
   }
   componentDidMount() {
-          console.log(this.props.item.image)
     if (this.props.item.image) {
-
       const img = new Image()
       const src = this.props.item.image
       img.src = src
       img.onload = (e) => {
         this.setState({ image: src })
-        this.props.handleImage()
       }
     }
   }

@@ -7,7 +7,7 @@ const OrderConfirmation = ({ user, item }) => {
     <main>
       <section>
         <Card>
-          <CardTitle title="Order" subtitle="#{item._id}" />
+          <CardTitle title="Order" subtitle={item._id} />
           <CardText>
             Hi {user.values.firstname}, thank you for your order {item._id}!
           </CardText>
