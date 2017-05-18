@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Dialog from 'material-ui/Dialog'
+import { Field, reduxForm } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import { Field, reduxForm } from 'redux-form'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 
-import { fetchContact } from '../actions/index'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+
+import { fetchReset } from '../actions/index'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'firstname', 'email', 'message' ]
+  const requiredFields = [ 'password', 'passwordConfirm' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
     }
   })
-  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address'
+  if (values.password !== values.passwordConfirm) {
+    errors.passwordConfirm = 'Passwords must match'
   }
   return errors
 }
@@ -33,26 +34,32 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 
-class Contact extends Component {
-  state = {
-    open: false,
+const styles = {
+  item: {
+    maxWidth: 840,
+    margin: '0 auto'
   }
+}
+
+class Reset extends Component {
+  state = { open: false }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ open: true }) : null
+    console.log(nextProps)
+    this.props.submitSucceeded === nextProps.submitSucceeded ? null : nextProps.submitSucceeded ? this.setState({ open: true }) : null
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, user } = this.props
+    const { error, dispatch, handleSubmit, submitting, params, user } = this.props
     return (
       <main>
         <section>
-          <Card>
-            <CardTitle title="Contact" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchContact(values)))} >
+          <Card style={styles.item}>
+            <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
+            <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">
               <CardText>
-                <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
-                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
+                <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
+                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
+                {error && <strong>{error}</strong>}
               </CardText>
               {!this.state.open ? null :
                 <Dialog
@@ -67,13 +74,12 @@ class Contact extends Component {
                   open={this.state.open}
                   onRequestClose={this.handleClose}
                 >
-                  Email was successfully sent!
+                  Welcome back {user.values ? user.values.firstname : null}
                 </Dialog>
               }
-              {error && <strong>{error}</strong>}
               <CardActions>
                 <RaisedButton
-                  label="Contact"
+                  label="Recover"
                   fullWidth={true}
                   disabled={submitting}
                   type="submit"
@@ -88,17 +94,18 @@ class Contact extends Component {
   }
 }
 
-
-Contact = reduxForm({
-  form: 'contact',
+Reset = reduxForm({
+  form: 'recovery',
   validate
-})(Contact)
+})(Reset)
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  initialValues: state.user.values
-})
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
 
-Contact = connect(mapStateToProps)(Contact)
+}
 
-export default Contact
+Reset = connect(mapStateToProps)(Reset)
+
+export default Reset

@@ -86,6 +86,7 @@ class AdminTheme extends Component {
               <Field name="pickerHeaderColor" label="pickerHeaderColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="clockCircleColor" label="clockCircleColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="shadowColor" label="shadowColor" type="text" fullWidth={true} component={renderTextField} />
+              {error && <strong>{error}</strong>}
             </CardText>
             <CardActions style={{ display: 'flex' }}>
               <RaisedButton type="submit" label="Update" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>

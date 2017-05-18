@@ -2,23 +2,24 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
-const styles = {
-  active: {
-    color: 'rgb(0, 188, 212)',
-  },
-  inActive: {
-    color: 'black',
-  },
-  both: {
-    fontSize: 14,
-    fontWeight: 400,
-    padding: '10px 15px',
-    textTransform: 'uppercase',
-    textDecoration: 'none'
-  }
-}
 
-const NavLink = ({ children, to, path }) => {
+
+const NavLink = ({ children, to, path, linkColor }) => {
+  const styles = {
+    active: {
+      color: linkColor,
+    },
+    inActive: {
+      color: 'black',
+    },
+    both: {
+      fontSize: 14,
+      fontWeight: 400,
+      padding: '10px 15px',
+      textTransform: 'uppercase',
+      textDecoration: 'none'
+    }
+  }
   const props = { children, to }
   const style = to === path ? styles.active : styles.inActive
   return (
@@ -28,7 +29,8 @@ const NavLink = ({ children, to, path }) => {
 
 const mapStateToProps = (state) => {
   return {
-    path: state.routing.locationBeforeTransitions.pathname
+    path: state.routing.locationBeforeTransitions.pathname,
+    linkColor: state.theme.values.palette.primary1Color
   }
 }
 

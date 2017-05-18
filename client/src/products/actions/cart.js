@@ -23,9 +23,12 @@ export const fetchAddToCart = (product) => {
         },
         body: JSON.stringify(product)
       })
-        .then(res => res.json())
+        .then(res => {
+          if (res.ok) return res.json()
+          throw new Error('Network response was not ok.')
+        })
         .then(json => {
-          if (json.error) return Promise.reject()
+          if (json.error) return Promise.reject(json.error)
           dispatch(fetchAddToCartSuccess(json))
         })
         .catch(err => dispatch(fetchAddToCartFailure(err)))
@@ -38,7 +41,11 @@ export const fetchAddToCart = (product) => {
         body: JSON.stringify(product)
       })
         .then(res => {
-          localStorage.setItem('cart', res.headers.get('cart'))
+          if (res.ok) {
+            localStorage.setItem('cart', res.headers.get('cart'))
+            return res.json()
+          }
+          throw new Error('Network response was not ok.')
         })
         .then(json => {
           if (json.error) return Promise.reject(json.error)
@@ -87,9 +94,12 @@ export const fetchUpdateCart = (product) => {
       },
       body: JSON.stringify(product)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateCartSuccess(json))
       })
       .catch(err => dispatch(fetchUpdateCartFailure(err)))
@@ -109,10 +119,14 @@ export const fetchDeleteCart = () => {
         'Content-Type': 'application/json',
       },
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
-        if (json.error) return Promise.reject()
+        if (json.error) return Promise.reject(json.error)
         dispatch(fetchDeleteCartSuccess(json._id))
+        localStorage.removeItem('cart')
       })
       .catch(err => fetchDeleteCartFailure(err))
   }

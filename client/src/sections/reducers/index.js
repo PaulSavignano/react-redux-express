@@ -1,6 +1,6 @@
 import { type } from '../actions/index'
 
-const heros = (state = {
+const sections = (state = {
   isFetching: true,
   items: []
 }, action) => {
@@ -26,7 +26,6 @@ const heros = (state = {
         ]
       }
     case `UPDATE_${type}`:
-      console.log(action.item._id)
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?
@@ -49,4 +48,4 @@ const heros = (state = {
   }
 }
 
-export default heros
+export default sections

@@ -13,16 +13,8 @@ class CartItem extends Component {
     src: '',
     zDepth: 1
   }
-  handleMouseEnter = () => {
-    this.setState({
-      zDepth: 4,
-    })
-  }
-  handleMouseLeave = () => {
-    this.setState({
-      zDepth: 1,
-    })
-  }
+  handleMouseEnter = () => this.setState({ zDepth: 4 })
+  handleMouseLeave = () => this.setState({ zDepth: 1 })
   add = () => {
     const newQty = this.state.qty + 1
     this.setState({ qty: newQty })

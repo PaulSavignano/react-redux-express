@@ -36,7 +36,7 @@ const user = (state = {
       case 'RESET_USER':
         return {
           ...state,
-          ...action.recovery
+          ...action.user
         }
     case 'CONTACT_USER':
       return {

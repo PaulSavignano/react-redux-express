@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const CardSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, required: true },
-  pageName: { type: String, required: true, trim: true },
+  sectionId: { type: String, required: true, trim: true },
   image: { type: String },
   values: {
     header: { type: String, trim: true },

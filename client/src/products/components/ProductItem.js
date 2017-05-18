@@ -54,7 +54,7 @@ class ProductItem extends Component {
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
-          transitionAppearTimeout={600}
+          transitionAppearTimeout={900}
           transitionEnter={false}
           transitionLeave={false}
         >

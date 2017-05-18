@@ -52,7 +52,6 @@ export const fetchCarousels = () => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchCarouselsSuccess(json))
       })

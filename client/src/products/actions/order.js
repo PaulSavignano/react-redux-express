@@ -1,28 +1,13 @@
 
 /* global Stripe */
 import { getStripeToken } from '../../stripe/getStripeToken'
+import { SubmissionError } from 'redux-form'
+import { push } from 'react-router-redux'
+
+import { fetchDeleteCart } from './cart'
 
 
-export const fetchDeleteCart = () => {
-  const cartId = localStorage.getItem('cart')
-  return (dispatch, getState) => {
-    return fetch(`/api/carts/${cartId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject()
-        localStorage.removeItem('cart')
-      })
-      .catch(err => console.log(err))
-  }
-}
-
-
-const fetchAddOrderSuccess = (order) => ({ type: 'ADD_ORDER', order })
+const fetchAddOrderSuccess = (item) => ({ type: 'ADD_ORDER', item })
 const fetchAddOrderFailure = (error) => ({ type: 'ERROR_ORDER', error })
 export const fetchAddOrder = (values) => {
   return (dispatch, getState) => {
@@ -43,13 +28,22 @@ export const fetchAddOrder = (values) => {
           },
           body: JSON.stringify({ token, cart, firstname, lastname, address, zip, state })
         })
-          .then(res => res.json())
+          .then(res => {
+            if (res.ok) return res.json()
+            throw new Error('Network response was not ok.')
+          })
           .then(json => {
-            if (json.error) return Promise.reject()
+            if (json.error) return Promise.reject(json.error)
+            console.log(json)
             dispatch(fetchAddOrderSuccess(json))
             dispatch(fetchDeleteCart())
+            dispatch(push(`/order/${json._id}`))
           })
-          .catch(err => dispatch(fetchAddOrderFailure(err)))
+          .catch(err => {
+                        console.log(err)
+            dispatch(fetchAddOrderFailure(err))
+            throw new SubmissionError({ ...err, _error: err })
+          })
       })
   }
 }
@@ -63,7 +57,7 @@ export const fetchAddOrder = (values) => {
 
 
 const fetchOrdersRequest = () => ({ type: 'REQUEST_ORDERS' })
-const fetchOrdersSuccess = (orders) => ({ type: 'RECEIVE_ORDERS', orders })
+const fetchOrdersSuccess = (items) => ({ type: 'RECEIVE_ORDERS', items })
 const fetchOrdersFailure = (error) => ({ type: 'ERROR_ORDER', error })
 export const fetchOrders = () => {
   return (dispatch, getState) => {
@@ -75,7 +69,10 @@ export const fetchOrders = () => {
         'x-auth': localStorage.getItem('token'),
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchOrdersSuccess(json))

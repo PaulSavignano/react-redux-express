@@ -49,9 +49,9 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 
-let OrderAdd = (props) => {
-  const { errors, dispatch, handleSubmit, total, pristine, reset, submitting } = props
+let OrderAdd = ({ error, dispatch, handleSubmit, isFetching, total, pristine, reset, submitting }) => {
   return (
+    isFetching ? null :
     <section>
       <Card style={{ margin: 20 }}>
         <form onSubmit={handleSubmit((values) => dispatch(fetchAddOrder(values)))}>
@@ -97,6 +97,7 @@ let OrderAdd = (props) => {
                 style={{ flex: '1 1 auto' }}
               />
             </div>
+            {error && <strong>{error}</strong>}
           </CardText>
           <CardActions>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -124,6 +125,9 @@ OrderAdd = reduxForm({
 })(OrderAdd)
 
 const mapStateToProps = (state) => ({
+  isFetching: state.cart.isFetching,
+  total: state.cart.total,
+  cart: state.cart.items,
   initialValues: state.user.values
 })
 

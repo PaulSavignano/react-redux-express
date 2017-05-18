@@ -1,4 +1,4 @@
-export const order = (state = {}, action) => {
+const orders = (state = {}, action) => {
   switch (action.type) {
     case 'REQUEST_ORDERS':
       return {
@@ -8,12 +8,16 @@ export const order = (state = {}, action) => {
     case 'RECEIVE_ORDERS':
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        items: action.items
       }
     case 'ADD_ORDER':
       return {
         ...state,
-        ...action.order
+        items: [
+          ...state.items,
+          action.item
+        ]
       }
     case 'ERROR_ORDER':
       return {
@@ -24,3 +28,5 @@ export const order = (state = {}, action) => {
       return state
   }
 }
+
+export default orders

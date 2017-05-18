@@ -107,6 +107,7 @@ class AppBarNav extends Component {
                   <IconButton style={{ padding: '20px 12px 4px 12px'}}><MoreVertIcon /></IconButton>
                 }
                 open={this.state.openMenu}
+                onTouchTap={() => this.setState({ openMenu: !this.state.openMenu })}
                 onRequestChange={(value) => this.setState({ openMenu: value })}
                 style={{ verticalAlign: 'middle' }}
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}

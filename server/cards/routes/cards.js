@@ -12,12 +12,11 @@ const s3Path = `${process.env.APP_NAME}/cards/card_`
 
 // Create
 cards.post('/', authenticate(['admin']), (req, res) => {
-  const { type, pageId, pageName, image, values } = req.body
+  const { type, sectionId, image, values } = req.body
   const _id = new ObjectID()
   const card = new Card({
     _id,
-    pageId: ObjectID(pageId),
-    pageName,
+    sectionId: ObjectID(sectionId),
     image,
     values
   })
@@ -70,7 +69,7 @@ cards.get('/:_id', (req, res) => {
 cards.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, pageId, image, values } = req.body
+  const { type, sectionId, image, values } = req.body
   switch (type) {
 
     case 'UPDATE_ITEM_UPDATE_IMAGE':

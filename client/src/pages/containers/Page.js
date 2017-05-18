@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
-import Hero from '../../heros/containers/Hero'
-import CardList from '../../cards/containers/CardList'
+import Sections from '../../sections/containers/Sections'
 import CarouselList from '../../carousels/containers/CarouselList'
 
 class Page extends Component {
@@ -14,31 +14,34 @@ class Page extends Component {
   }
   handleImage = () => this.setState({ imageLoaded: true })
   render() {
-    const { isFetching, page, hero, cards, carousel } = this.props
-    console.log(page)
+    const { isFetching, page, hero, cards, sections, carousel } = this.props
     return (
-      isFetching ? null :
-      <div>
-        {hero ? <Hero page={page} handleImage={this.handleImage}/> : null}
+      isFetching ? null : !this.state.imageLoaded ? null :
+      <CSSTransitionGroup
+        transitionName="image"
+        transitionAppear={true}
+        transitionAppearTimeout={1000}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        {sections ? <Sections page={page} handleImage={this.handleImage}/> : null}
         {!this.state.imageLoaded ? null :
           <main>
-            {cards ? <CardList page={page} /> : null}
             {carousel ? <CarouselList page={page} /> : null}
           </main>
         }
-      </div>
+      </CSSTransitionGroup>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.params.slug)
-  const page = state.pages.items.find(item => item.slug === ownProps.params.slug) || state.pages.items.find(item => item.slug === 'home')
+  const slug = ownProps.params.slug
+  const page = slug ? state.pages.items.find(item => item.slug === ownProps.params.slug) : state.pages.items.find(item => item.slug === 'home')
   return {
     isFetching: state.pages.isFetching,
     page,
-    hero: state.heros.items.find(item => item.pageId === page._id) || null,
-    cards: state.cards.items.find(item => item.pageId === page._id) || null,
+    sections: state.sections.items.find(item => item.pageId === page._id) || null,
     carousel: state.carousels.items.find(item => item.pageId === page._id) || null
   }
 }

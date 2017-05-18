@@ -165,6 +165,7 @@ const fetchRecoverySuccess = (message) => ({ type: 'RECOVER_USER', message })
 const fetchRecoveryFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchRecovery = ({ email }) => {
   return function(dispatch, getState) {
+            console.log('recovery')
     return fetch('/api/users/recovery', {
       method: 'POST',
       headers: {
@@ -201,32 +202,49 @@ export const fetchRecovery = ({ email }) => {
 }
 
 
-const fetchRecoveryTokenSuccess = (recovery) => ({ type: 'RESET_USER', recovery })
-const fetchRecoveryTokenFailure = (error) => ({ type: 'ERROR_USER', error })
-export const fetchRecoveryToken = (token) => {
+
+
+
+
+
+
+
+
+const fetchResetSuccess = (user) => ({ type: 'RESET_USER', user })
+const fetchResetFailure = (error) => ({ type: 'ERROR_USER', error })
+export const fetchReset = ({ password }, token) => {
   return (dispatch, getState) => {
     return fetch(`/api/users/reset/${token}`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({ password })
     })
       .then(res => {
-        if (res.ok) return res.json()
+        if (res.ok) {
+          localStorage.setItem('token', res.headers.get('x-auth'))
+          return res.json()
+        }
         throw new Error('Network response was not ok.')
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchRecoveryTokenSuccess({ recovery: { token: 'valid' } }))
-        //localStorage.setItem('token', res.headers.get('x-auth'))
+        dispatch(fetchResetSuccess(json))
+
       })
 
       .catch(err => {
-        dispatch(fetchRecoveryTokenFailure({ error: 'invalid token' }))
-        dispatch(push('/recovery'))
+        dispatch(fetchResetFailure({ error: 'invalid token' }))
+        throw new SubmissionError({ ...err, _error: 'Reset failed!' })
       })
   }
 }
+
+
+
+
+
 
 
 

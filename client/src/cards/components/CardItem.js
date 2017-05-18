@@ -28,7 +28,6 @@ class CardItem extends Component {
   render() {
     const { dispatch, item } = this.props
     const { image, values } = item
-    console.log(image)
     return (
       this.state.loading ? null :
       values.link ?
@@ -42,7 +41,7 @@ class CardItem extends Component {
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
-          transitionAppearTimeout={600}
+          transitionAppearTimeout={900}
           transitionEnter={false}
           transitionLeave={false}
         >
@@ -58,7 +57,7 @@ class CardItem extends Component {
           {values.title ? <CardTitle title={values.title} /> : null }
           {values.text ? <CardText>{values.text}</CardText> : null }
         </CSSTransitionGroup>
-        </Card>
+      </Card>
         :
         <Card
           style={{ flex: '1 1 auto', width: values.width }}
@@ -66,7 +65,7 @@ class CardItem extends Component {
           <CSSTransitionGroup
             transitionName="image"
             transitionAppear={true}
-            transitionAppearTimeout={600}
+            transitionAppearTimeout={900}
             transitionEnter={false}
             transitionLeave={false}
           >
@@ -82,7 +81,7 @@ class CardItem extends Component {
             {values.title ? <CardTitle title={values.title} /> : null }
             {values.text ? <CardText>{values.text}</CardText> : null }
           </CSSTransitionGroup>
-      </Card>
+        </Card>
     )
   }
 }

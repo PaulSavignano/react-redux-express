@@ -1,15 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminHero from '../../heros/containers/AdminHero'
-import AdminCardList from '../../cards/containers/AdminCardList'
+import AdminSections from '../../sections/containers/AdminSections'
 import AdminCarouselList from '../../carousels/containers/AdminCarouselList'
 
 const AdminPageEdit = ({ isFetching, page }) => (
   isFetching ? null :
   <main>
-    <AdminHero page={page} />
-    <AdminCardList page={page} />
+    <AdminSections page={page} />
     <AdminCarouselList page={page} />
   </main>
 )

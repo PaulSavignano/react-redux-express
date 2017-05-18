@@ -12,7 +12,8 @@ import './index.css'
 import { fetchCards } from './cards/actions/index'
 import { fetchCarousels } from './carousels/actions/index'
 import { fetchCart } from './products/actions/cart'
-import { fetchHeros } from './heros/actions/index'
+import { fetchSections } from './sections/actions/index'
+import { fetchOrders } from './products/actions/order'
 import { fetchPages } from './pages/actions/index'
 import { fetchProducts } from './products/actions/product'
 import { fetchUser } from './users/actions/index'
@@ -25,6 +26,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 const token = localStorage.getItem('token')
 if (token) {
   store.dispatch(fetchUser(token))
+  store.dispatch(fetchOrders())
 }
 
 const cart = localStorage.getItem('cart')
@@ -34,7 +36,7 @@ if (cart) {
 
 store.dispatch(fetchCards())
 store.dispatch(fetchCarousels())
-store.dispatch(fetchHeros())
+store.dispatch(fetchSections())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
 store.dispatch(fetchTheme())

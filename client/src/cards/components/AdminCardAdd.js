@@ -21,6 +21,7 @@ class AdminCardAdd extends Component {
   state = {
     zDepth: 1,
     expanded: false,
+    imageOpen: false,
     submitted: false,
     editing: false
   }
@@ -33,21 +34,22 @@ class AdminCardAdd extends Component {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
   }
   render() {
-    const { error, handleSubmit, page, dispatch } = this.props
+    const { error, handleSubmit, section, dispatch } = this.props
     return (
         <form
           onSubmit={handleSubmit((values) => {
-            const image = this.state.expanded ? this.editor.handleSave() : null
+            const image = this.state.imageOpen ? this.editor.handleSave() : null
             const type = image ? 'ADD_ITEM_ADD_IMAGE' : 'ADD_ITEM'
             const add = {
               type,
-              pageId: page._id,
-              pageName: page.slug,
+              sectionId: section._id,
               image,
               values
             }
             this.props.reset()
             dispatch(fetchAdd(add))
+            this.setState({ imageOpen: false, expanded: false })
+
           })}
         >
           <Card
@@ -56,11 +58,16 @@ class AdminCardAdd extends Component {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            <CardHeader
-              title="Add Card"
-              textStyle={{ width: '100%'}}
-            />
-            <CardText>
+            <CardActions>
+              <RaisedButton
+                onTouchTap={() => this.setState({ expanded: !this.state.expanded })}
+                type="button"
+                label={this.state.expanded ? "Remove Card" : "Add Card"}
+                labelColor="#ffffff"
+                backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+                fullWidth={true}/>
+            </CardActions>
+            <CardText expandable={true}>
               <Field
                 name="width"
                 label="Width"
@@ -76,27 +83,28 @@ class AdminCardAdd extends Component {
                 component={renderTextField}
               />
             </CardText>
-            <CardActions>
+            <CardActions expandable={true}>
               <RaisedButton
-                onTouchTap={() => this.setState({ expanded: !this.state.expanded })}
+                onTouchTap={() => this.setState({ imageOpen: !this.state.imageOpen })}
                 type="button"
-                label={this.state.expanded ? "Remove Image" : "Add Image"}
+                label={this.state.imageOpen ? "Remove Image" : "Add Image"}
                 labelColor="#ffffff"
-                backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+                backgroundColor={this.state.imageOpen ? "#D50000" : "#4CAF50" }
                 fullWidth={true}/>
             </CardActions>
-            <CardMedia expandable={true}>
-              <ImageForm
-                image='https://placehold.it/1000x1000'
-                type="image/jpeg"
-                editing={this.editing}
-                width={1000}
-                height={1000}
-                ref={this.setEditorRef}
-              />
-            </CardMedia>
-
-            <CardText>
+            {!this.state.imageOpen ? null :
+              <CardMedia expandable={true}>
+                <ImageForm
+                  image='https://placehold.it/1000x1000'
+                  type="image/jpeg"
+                  editing={this.editing}
+                  width={1000}
+                  height={1000}
+                  ref={this.setEditorRef}
+                />
+              </CardMedia>
+            }
+            <CardText expandable={true}>
               <Field
                 name="iFrame"
                 label="Youtube iFrame"
@@ -129,7 +137,7 @@ class AdminCardAdd extends Component {
               />
               {error && <strong>{error}</strong>}
             </CardText>
-            <CardActions>
+            <CardActions expandable={true}>
               <RaisedButton type="submit" label="Add" primary={true} fullWidth={true}/>
             </CardActions>
           </Card>

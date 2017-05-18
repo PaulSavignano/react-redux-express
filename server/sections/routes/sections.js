@@ -3,26 +3,26 @@ import { ObjectID } from 'mongodb'
 
 import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
-import Hero from '../models/Hero'
+import Section from '../models/Section'
 
 
-const heros = express.Router()
+const sections = express.Router()
 
-const s3Path = `${process.env.APP_NAME}/heros`
+const s3Path = `${process.env.APP_NAME}/sections/section_`
 
 // Create
-heros.post('/', authenticate(['admin']), (req, res) => {
-  const { type, pageId, pageName } = req.body
-  const _id = new ObjectID()
-  const card = new Hero({
-    _id,
+sections.post('/', authenticate(['admin']), (req, res) => {
+  const { pageId, pageName } = req.body
+  const section = new Section({
     pageId: ObjectID(pageId),
-    pageName
+    pageName,
+    values: []
   })
-  card.save()
-    .then(doc => res.send(doc))
+  section.save()
+    .then(doc => {
+        res.send(doc)
+      })
     .catch(err => {
-      console.log(err)
       res.status(400).send(err)
     })
 })
@@ -30,15 +30,15 @@ heros.post('/', authenticate(['admin']), (req, res) => {
 
 
 // Read
-heros.get('/', (req, res) => {
-  Hero.find({})
+sections.get('/', (req, res) => {
+  Section.find({})
     .then(docs => res.send(docs))
     .catch(err => res.status(400).send(err))
 })
 
-heros.get('/:_id', (req, res) => {
+sections.get('/:_id', (req, res) => {
   const _id = req.params._id
-  Hero.find({ _id })
+  Section.find({ _id })
     .then(doc => res.send(doc))
     .catch(err => res.status(400).send(err))
 })
@@ -46,17 +46,17 @@ heros.get('/:_id', (req, res) => {
 
 
 // Update
-heros.patch('/:_id', authenticate(['admin']), (req, res) => {
+sections.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
   switch (type) {
 
     case 'UPDATE_ITEM_UPDATE_IMAGE':
-      uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
+      uploadFile({ Key: `${s3Path}${_id}`, Body: image })
         .then(data => {
           const update = { image: data.Location, values }
-          Hero.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
               res.send(doc)
@@ -70,10 +70,10 @@ heros.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_ITEM_DELETE_IMAGE':
-      deleteFile({ Key: `${s3Path}/${_id}` })
+      deleteFile({ Key: `${s3Path}${_id}` })
         .then(() => {
           const update = { image: null, values }
-          Hero.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
               res.send(doc)
@@ -87,7 +87,7 @@ heros.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_ITEM':
-      Hero.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
+      Section.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
         .then(doc => {
           console.log(doc)
           res.send(doc)
@@ -106,16 +106,16 @@ heros.patch('/:_id', authenticate(['admin']), (req, res) => {
 
 
 // Delete
-heros.delete('/:_id', authenticate(['admin']), (req, res) => {
+sections.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Hero.findOne({ _id })
+  Section.findOne({ _id })
     .then(doc => {
       if (doc.image) {
-        deleteFile({ Key: `${s3Path}/${_id}` })
+        deleteFile({ Key: `${s3Path}${_id}` })
           .then(() => {
-            Hero.findOneAndRemove({ _id })
+            Section.findOneAndRemove({ _id })
               .then(doc => res.send(doc))
               .catch(err => {
                 console.log(err)
@@ -123,7 +123,7 @@ heros.delete('/:_id', authenticate(['admin']), (req, res) => {
               })
           })
       } else {
-        Hero.findOneAndRemove({ _id,})
+        Section.findOneAndRemove({ _id,})
           .then(doc => res.send(doc))
           .catch(err => {
             console.log(err)
@@ -135,4 +135,4 @@ heros.delete('/:_id', authenticate(['admin']), (req, res) => {
 
 
 
-export default heros
+export default sections

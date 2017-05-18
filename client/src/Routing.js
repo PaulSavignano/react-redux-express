@@ -16,7 +16,8 @@ import AdminPageEdit from './pages/containers/AdminPageEdit'
 import RequireAuth from './users/components/RequireAuth'
 import Signup from './users/components/Signup'
 import Signin from './users/components/Signin'
-import Recover from './users/components/Recover'
+import Recovery from './users/components/Recovery'
+import Reset from './users/components/Reset'
 import Contact from './users/components/Contact'
 import ProfilePage from './users/containers/ProfilePage'
 
@@ -25,7 +26,10 @@ import Products from './products/containers/Products'
 import Product from './products/containers/Product'
 import AdminProductList from './products/containers/AdminProductList'
 import Cart from './products/containers/Cart'
-import Order from './products/containers/Order'
+import OrderAdd from './products/containers/OrderAdd'
+import Orders from './products/containers/Orders'
+import OrderConfirmation from './products/containers/OrderConfirmation'
+import OrderDetail from './products/containers/OrderDetail'
 
 import TodosPage from './todos/components/TodosPage'
 
@@ -45,7 +49,8 @@ const Routing = ({ history }) => (
       {/* User */}
       <Route path="signup" component={Signup} />
       <Route path="signin" component={Signin} />
-      <Route path="recover" component={Recover} />
+      <Route path="recovery" component={Recovery} />
+      <Route path="reset/:token" component={Reset} />
       <Route path="contact" component={Contact} />
       <Route path="profile" component={ProfilePage} />
 
@@ -55,7 +60,10 @@ const Routing = ({ history }) => (
       <Route path="product/:slug" component={Product} />
       <Route path="admin/products" component={RequireAuth(AdminProductList, ['admin'])} />
       <Route path="cart" component={Cart} />
-      <Route path="order" component={RequireAuth(Order, ['user'])} />
+      <Route path="order" component={RequireAuth(OrderAdd, ['user'])} />
+      <Route path="order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
+      <Route path="orders" component={RequireAuth(Orders, ['user'])} />
+      <Route path="orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
 
     </Route>
   </Router>

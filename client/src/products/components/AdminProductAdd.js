@@ -55,7 +55,7 @@ class AdminProductAdd extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { handleSubmit, _id, dispatch } = this.props
+    const { error, handleSubmit, _id, dispatch } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -65,7 +65,7 @@ class AdminProductAdd extends Component {
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
-          transitionAppearTimeout={600}
+          transitionAppearTimeout={900}
           transitionEnter={false}
           transitionLeave={false}
         >
@@ -121,6 +121,7 @@ class AdminProductAdd extends Component {
                 fullWidth={true}
                 component={renderTextField}
               />
+              {error && <strong>{error}</strong>}
             </CardText>
             <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
               <RaisedButton

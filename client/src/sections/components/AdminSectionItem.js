@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import AdminCards from '../../cards/containers/AdminCards'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
@@ -18,9 +19,8 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminCardItem extends Component {
+class AdminSectionItem extends Component {
   state = {
-    zDepth: 1,
     expanded: false,
     submitted: false,
     editing: false,
@@ -40,56 +40,59 @@ class AdminCardItem extends Component {
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, item } = this.props
+    const { error, handleSubmit, dispatch, page, item } = this.props
     return (
-      <form
-        onSubmit={handleSubmit((values) => {
-          let type, image
-          if (this.state.expanded) {
-            if (this.state.editing) {
-              console.log('has upload')
-              type = 'UPDATE_ITEM_UPDATE_IMAGE'
-              image = this.editor.handleSave()
+      <Card
+        expanded={this.state.expanded}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        zDepth={3}
+        containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
+        style={{ height: '100%', margin: '60px 0'}}
+      >
+        <form
+          onSubmit={handleSubmit((values) => {
+            let type, image
+            if (this.state.expanded) {
+              if (this.state.editing) {
+                type = 'UPDATE_ITEM_UPDATE_IMAGE'
+                image = this.editor.handleSave()
+              } else {
+                type = 'UPDATE_ITEM'
+                image = item.image
+              }
+            } else if (item.image) {
+              type = 'UPDATE_ITEM_DELETE_IMAGE'
+              image = item.image
             } else {
               type = 'UPDATE_ITEM'
-              image = item.image
+              image = null
             }
-          } else if (item.image) {
-            type = 'UPDATE_ITEM_DELETE_IMAGE'
-            image = item.image
-          } else {
-            type = 'UPDATE_ITEM'
-            image = null
-          }
-          const update = { type, image, values }
-          dispatch(fetchUpdate(item._id, update))
-          this.setState({ image: item.image })
-        })}
-        style={{ flex: '1 1 auto', width: item.values.width, margin: 20 }}
-      >
-        <Card
-          expanded={this.state.expanded}
-          zDepth={this.state.zDepth}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-          style={{ height: '100%' }}
+            const update = { type, image, values }
+            dispatch(fetchUpdate(item._id, update))
+            this.setState({ image: item.image })
+          })}
         >
           <CardText>
             <Field
-              name="width"
-              label="Width"
-              type="number"
+              name="height"
+              label="height"
+              type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
-              name="header"
-              label="Header"
+              name="backgroundAttachment"
+              label="backgroundAttachment"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="backgroundColor"
+              label="backgroundColor"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -102,36 +105,25 @@ class AdminCardItem extends Component {
                 this.setState({ expanded: !this.state.expanded, submitted: false, image })
               }}
               type="button"
-              label={this.state.expanded ? "Remove Image" : "Add Image"}
+              label={this.state.expanded ? "Remove Background Image" : "Add Background Image"}
               labelColor="#ffffff"
               backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
               fullWidth={true}/>
           </CardActions>
-          <CardMedia expandable={true}>
-            <ImageForm
-              image={this.state.image}
-              type="image/jpeg"
-              editing={this.editing}
-              width={1000}
-              height={1000}
-              ref={this.setEditorRef}
-            />
-          </CardMedia>
+          {!this.state.expanded ? null :
+            <CardMedia>
+              <ImageForm
+                image={this.state.image}
+                type="image/jpeg"
+                editing={this.editing}
+                width={1920}
+                height={1080}
+                ref={this.setEditorRef}
+              />
+            </CardMedia>
+          }
+
           <CardText>
-            <Field
-              name="iFrame"
-              label="Youtube iFrame src"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            {item.values.iFrame ?
-              <div style={{ position: 'relative', paddingBottom: '50%'}}>
-                <iframe
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={item.values.iFrame} frameBorder="0" allowFullScreen>
-                </iframe></div>
-            : null}
             <Field
               name="title"
               label="Title"
@@ -149,15 +141,28 @@ class AdminCardItem extends Component {
               component={renderTextField}
             />
             <Field
-              name="link"
-              label="Link to"
+              name="margin"
+              label="Text Margin"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="padding"
+              label="Text Padding"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="color"
+              label="Text Color"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             {error && <strong>{error}</strong>}
           </CardText>
-          <div style={{ flex: '1 1 auto' }}></div>
           <CardActions style={{ display: 'flex' }}>
             <RaisedButton
               type="submit"
@@ -178,16 +183,17 @@ class AdminCardItem extends Component {
               }}
             />
           </CardActions>
-        </Card>
-      </form>
+        </form>
+        <AdminCards page={page} section={item} />
+      </Card>
     )
   }
 }
 
-AdminCardItem = compose(
+AdminSectionItem = compose(
   connect((state, props) => ({
-    form: `card_${props.item._id}`
+    form: `section_${props.item._id}`
   })),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCardItem)
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminSectionItem)
 
-export default AdminCardItem
+export default AdminSectionItem

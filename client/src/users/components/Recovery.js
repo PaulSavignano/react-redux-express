@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Dialog from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
-import { fetchContact } from '../actions/index'
+import { fetchRecovery } from '../actions/index'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'firstname', 'email', 'message' ]
+  const requiredFields = [ 'email' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -33,26 +33,28 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 
-class Contact extends Component {
-  state = {
-    open: false,
-  }
+class Recovery extends Component {
+  state = { open: false, email: null }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ open: true }) : null
+    console.log(nextProps)
+    this.props.submitSucceeded === nextProps.submitSucceeded ? null : nextProps.submitSucceeded ? this.setState({ open: true }) : null
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, user } = this.props
+    const { dispatch, error, handleSubmit, submitting, isFetching, values, user } = this.props
     return (
+      isFetching ? null :
       <main>
         <section>
           <Card>
-            <CardTitle title="Contact" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchContact(values)))} >
+            <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
+            <form onSubmit={handleSubmit(values => {
+              this.setState({ email: values.email })
+              dispatch(fetchRecovery(values))
+            })} className="">
               <CardText>
-                <Field name="firstname" component={renderTextField} label="First Name" fullWidth={true} />
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
+                {error && <strong>{error}</strong>}
               </CardText>
               {!this.state.open ? null :
                 <Dialog
@@ -67,13 +69,12 @@ class Contact extends Component {
                   open={this.state.open}
                   onRequestClose={this.handleClose}
                 >
-                  Email was successfully sent!
+                  An email has been sent to {this.state.email}
                 </Dialog>
               }
-              {error && <strong>{error}</strong>}
               <CardActions>
                 <RaisedButton
-                  label="Contact"
+                  label="Recovery"
                   fullWidth={true}
                   disabled={submitting}
                   type="submit"
@@ -89,16 +90,16 @@ class Contact extends Component {
 }
 
 
-Contact = reduxForm({
-  form: 'contact',
+Recovery = reduxForm({
+  form: 'recovery',
   validate
-})(Contact)
+})(Recovery)
 
 const mapStateToProps = (state) => ({
-  user: state.user,
-  initialValues: state.user.values
+  isFetching: state.user.isFetching,
+  user: state.user
 })
 
-Contact = connect(mapStateToProps)(Contact)
+Recovery = connect(mapStateToProps)(Recovery)
 
-export default Contact
+export default Recovery

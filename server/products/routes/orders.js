@@ -32,16 +32,14 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
           })
           order.save()
             .then(doc => {
-              console.log('striping')
               res.send(doc)
-              return doc
+              sendEmail1({
+                to: 'paul.savignano@gmail.com',
+                subject: 'Thank you for your order!',
+                name: `${firstname}`,
+                body: `<p>Thank you for your recent order ${doc._id}.</p>`
+              })
             })
-            .then(doc => sendEmail1({
-              to: 'paul.savignano@gmail.com',
-              subject: 'Thank you for your order!',
-              name: `${firstname}`,
-              body: `<p>Thank you for your recent order ${doc._id}.</p>`
-            }))
             .catch(err => {
               console.log('error: ', err)
               res.status(400).send(err)

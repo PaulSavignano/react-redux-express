@@ -67,7 +67,7 @@ footer > a {
 
 .image-appear.image-appear-active {
   opacity: 1;
-  transition: opacity 0.6s ease-in;
+  transition: opacity 0.9s ease-in;
 }
 
 

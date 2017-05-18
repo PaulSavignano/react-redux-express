@@ -12,7 +12,6 @@ const users = express.Router()
 // Create
 users.post('/signup', (req, res) => {
   const { values } = req.body
-  console.log(req.body)
   if (!values.firstname || !values.email || !values.password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
@@ -22,7 +21,6 @@ users.post('/signup', (req, res) => {
   })
   user.save()
     .then((doc) => {
-      console.log(doc)
       return user.generateAuthToken()
         .then(token => {
           sendEmail1({
@@ -37,11 +35,12 @@ users.post('/signup', (req, res) => {
           })
         })
         .catch((err) => {
-          console.log(err)
           res.status(400).send({ error: 'Email is already in use'})
         })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      res.status(422).send(err)
+    })
 })
 
 
@@ -64,7 +63,6 @@ users.post('/signin', (req, res) => {
           })
         })
         .catch(err => {
-          console.log('error', err)
           res.send(err)
         })
     })
@@ -79,7 +77,7 @@ users.post('/recovery', (req, res, next) => {
     })
   })
     .then(token => {
-      User.findOne({ email })
+      User.findOne({ 'values.email': email })
         .then(user => {
           if (!user) return Promise.reject({ error: { email: 'User not found' }})
           user.passwordResetToken = token
@@ -100,16 +98,6 @@ users.post('/recovery', (req, res, next) => {
 })
 
 
-users.get('/reset/:token', (req, res) => {
-  User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
-    .then(user => {
-      if (!user) return Promise.reject({ error: { token: 'Token has expired'}})
-    })
-    .catch(err => {
-      res.send(err)
-    })
-})
-
 
 
 users.post('/reset/:token', (req, res) => {
@@ -124,7 +112,16 @@ users.post('/reset/:token', (req, res) => {
           return user.generateAuthToken()
         })
         .then(token => {
-          res.header('x-auth', token).send(user)
+          res.header('x-auth', token).send({
+            roles: user.roles,
+            values: {
+              email: user.values.email,
+              firstname: user.values.firstname,
+              lastname: user.values.lastname,
+              address: user.values.address,
+              zip: user.values.address
+            }
+          })
         })
         .catch(err => {
           res.send({ error: { token: err }})
@@ -135,7 +132,7 @@ users.post('/reset/:token', (req, res) => {
 
 
 // Signout
-users.delete('/signout', authenticate([ 'user', 'admin' ]), (req, res) => {
+users.delete('/signout', authenticate([ 'user' ]), (req, res) => {
   req.user.removeToken(req.token)
     .then(() => res.status(200).send())
     .catch(err => res.send({ error: { token: err }}))
@@ -152,7 +149,6 @@ users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
 
 // Get
 users.get('/', authenticate(['user','admin']), (req, res) => {
-  console.log('inside server')
   const now = Date.now()
   const ttl = 30000000
   if ((now - req.token.createdAt) > ttl) {
@@ -168,7 +164,6 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
       })
       .catch(err => res.send({ error: err }))
   } else {
-    console.log('user stuff', req.user)
     res.send({ token: 'valid', roles: req.user.roles, values: req.user.values })
   }
 })
@@ -187,7 +182,6 @@ users.post('/contact', (req, res) => {
     body: `<p>Your message has been recieved and we will be contacting you shortly.</p>`
   })
     .then(info => {
-      console.log(info)
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
     .catch(err => res.send({ error: err }))
