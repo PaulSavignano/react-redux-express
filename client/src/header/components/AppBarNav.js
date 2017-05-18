@@ -7,12 +7,11 @@ import FontIcon from 'material-ui/FontIcon'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
 import { searchText } from '../actions/search'
 import SigninSignout from '../../users/components/SigninSignout'
-import CartIcon from '../../products/components/CartIcon'
+import CartIcon from '../../carts/components/CartIcon'
 
 import NavLink from './NavLink'
 
@@ -65,7 +64,7 @@ class AppBarNav extends Component {
     this.setState({ openMenu: false })
   }
   render() {
-    const { dispatch, user, image, handleDrawer, handleSearch, searching } = this.props
+    const { dispatch, user, image, handleDrawer } = this.props
     return (
       <AppBar
         onLeftIconButtonTouchTap={handleDrawer}

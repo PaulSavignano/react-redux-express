@@ -7,7 +7,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchUpdate, fetchDelete } from '../actions/product'
+import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
 const validate = values => {
@@ -48,8 +48,8 @@ class AdminProduct extends Component {
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
-    nextProps.dirty ? this.setState({ submitted: false }) : null
+    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.dirty) return this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
@@ -128,7 +128,6 @@ class AdminProduct extends Component {
             <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
               <RaisedButton
                 type="submit"
-                label="Update"
                 label={this.state.submitted ? "Updated" : "Update"}
                 labelColor="#ffffff"
                 primary={this.state.submitted ? false : true}

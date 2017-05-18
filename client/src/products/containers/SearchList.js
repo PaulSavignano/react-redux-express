@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ProductItem from '../components/ProductItem'
 
-
 const filter = (items, searchText) => {
   const filtered = items.filter(item => {
     console.log(item)
@@ -12,17 +11,9 @@ const filter = (items, searchText) => {
   return filtered
 }
 
-const styles = {
-  grid: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-  }
-}
-
 export class SearchList extends Component {
   render() {
     const { items, search } = this.props
-    console.log(items)
     return (
       items.length > 0 ?
       <main>
@@ -40,13 +31,10 @@ export class SearchList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const items = state.products.items
-  const search = state.search
-  return {
-    items,
-    search
-  }
-}
+const mapStateToProps = (state) => ({
+  items: state.products.items,
+  search: state.search
+})
+
 
 export default connect(mapStateToProps)(SearchList)

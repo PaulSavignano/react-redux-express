@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardHeader, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchAdd, fetchUpdate } from '../actions/index'
-import ImageForm from '../../images/components/ImageForm'
+import { fetchUpdate } from '../actions/index'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -33,8 +32,8 @@ class AdminTheme extends Component {
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
-    nextProps.dirty ? this.setState({ submitted: false }) : null
+    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.dirty) return this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })

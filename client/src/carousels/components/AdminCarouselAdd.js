@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { CardActions, CardHeader, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageFormHor from '../../images/components/ImageFormHor'
@@ -24,8 +24,8 @@ class AdminCarouselAdd extends Component {
     editing: false
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: 'https://placehold.it/300x300' }) : null
-    nextProps.dirty ? this.setState({ submitted: false }) : null
+    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: 'https://placehold.it/300x300' })
+    if (nextProps.dirty) return this.setState({ submitted: false })
   }
   setEditorRef = (editor) => {
     if (editor) this.editor = editor

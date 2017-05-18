@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import AppBar from 'material-ui/AppBar'
-import Drawer from 'material-ui/Drawer'
 
 import AppBarNav from '../components/AppBarNav'
 import DrawerNav from '../components/DrawerNav'

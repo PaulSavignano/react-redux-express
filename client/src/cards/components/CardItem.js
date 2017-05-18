@@ -13,7 +13,7 @@ class CardItem extends Component {
   componentDidMount() {
     if (this.props.item.image) {
       this.setState({ loading: true })
-      const img = new Image;
+      const img = new Image()
       const src = this.props.item.image
       img.src = src
       img.onload = (e) => {

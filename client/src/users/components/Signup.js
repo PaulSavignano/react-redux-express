@@ -39,10 +39,10 @@ class Signup extends Component {
   state = { open: false }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    this.props.submitSucceeded === nextProps.submitSucceeded ? null : nextProps.submitSucceeded ? this.setState({ open: true }) : null
+    if (nextProps.submitSucceeded) return this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, submitSucceeded, handleSubmit, submitting, user } = this.props
+    const { dispatch, error, handleSubmit, submitting, user } = this.props
     return (
       <main>
         <section>

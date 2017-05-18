@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm, Field, reset } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate, fetchDelete } from '../actions/index'
@@ -32,8 +32,8 @@ class AdminCarouselItem extends Component {
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    nextProps.submitSucceeded ? this.setState({ submitted: true, image: nextProps.item.image }) : null
-    nextProps.dirty ? this.setState({ submitted: false }) : null
+    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.dirty) return this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
@@ -42,7 +42,7 @@ class AdminCarouselItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, page, item } = this.props
+    const { error, handleSubmit, dispatch, item } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -86,7 +86,6 @@ class AdminCarouselItem extends Component {
         <CardActions style={{ display: 'flex' }}>
           <RaisedButton
             type="submit"
-            label="Update"
             label={this.state.submitted ? "Updated" : "Update"}
             labelColor="#ffffff"
             primary={this.state.submitted ? false : true}

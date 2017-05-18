@@ -1,6 +1,5 @@
 import React from 'react'
 import { push } from 'react-router-redux'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUpdateCart } from '../actions/cart'
-import formatPrice from '../../modules/formatPrice'
-
 import {Card } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+
+import { fetchUpdateCart } from '../actions/index'
+import formatPrice from '../../modules/formatPrice'
 
 class CartItem extends Component {
   state = {

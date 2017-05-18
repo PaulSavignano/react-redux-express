@@ -6,17 +6,10 @@ import Sections from '../../sections/containers/Sections'
 import CarouselList from '../../carousels/containers/CarouselList'
 
 class Page extends Component {
-  state = {
-    imageLoaded: false
-  }
-  componentDidMount() {
-    this.props.hero ? null : this.setState({ imageLoaded: true })
-  }
-  handleImage = () => this.setState({ imageLoaded: true })
   render() {
-    const { isFetching, page, hero, cards, sections, carousel } = this.props
+    const { isFetching, page, sections, carousel } = this.props
     return (
-      isFetching ? null : !this.state.imageLoaded ? null :
+      isFetching ? null :
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
@@ -24,12 +17,10 @@ class Page extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        {sections ? <Sections page={page} handleImage={this.handleImage}/> : null}
-        {!this.state.imageLoaded ? null :
-          <main>
-            {carousel ? <CarouselList page={page} /> : null}
-          </main>
-        }
+        {sections ? <Sections page={page} /> : null}
+        <main>
+          {carousel ? <CarouselList page={page} /> : null}
+        </main>
       </CSSTransitionGroup>
     )
   }

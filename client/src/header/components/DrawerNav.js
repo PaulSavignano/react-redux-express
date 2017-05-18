@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
-import {List, ListItem} from 'material-ui/List'
+import { ListItem } from 'material-ui/List'
 
 import SigninSignout from '../../users/components/SigninSignout'
 
 const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) => {
-  const isUser = user.roles ? user.roles.find(role => role === 'user') : null
   const isAdmin = user.roles ? user.roles.find(role => role === 'admin') : null
   return (
     <Drawer

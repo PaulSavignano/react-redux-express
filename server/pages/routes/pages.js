@@ -1,9 +1,11 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 import url from 'url'
+
 import Page from '../models/Page'
 import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
+import slugIt from '../../middleware/slugIt'
 
 const pages = express.Router()
 
@@ -16,7 +18,7 @@ pages.post('/', authenticate(['admin']), (req, res) => {
       if (!doc) {
         const page = new Page({
           name: req.body.name,
-          slug: req.body.name.replace(/[^-a-zA-Z0-9\s+]+/ig, '').replace(/\s+/gi, "-").toLowerCase(),
+          slug: slugIt(req.body.name),
         })
         page.save()
         .then(doc => res.send(doc))

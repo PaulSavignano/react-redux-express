@@ -1,6 +1,6 @@
 const user = (state = {
   roles: [],
-  values: [],
+  values: {},
   error: {}
 }, action) => {
   switch(action.type) {

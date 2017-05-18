@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUpdateCart } from '../actions/cart'
-import formatPrice from '../../modules/formatPrice'
-
 import {Card } from 'material-ui/Card'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+
+import formatPrice from '../../modules/formatPrice'
 
 class CartItem extends Component {
   state = {
@@ -15,8 +12,8 @@ class CartItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, item } = this.props
-    const { productId, productQty, name, price, image, total } = item
+    const { item } = this.props
+    const { productQty, name, price, image, total } = item
     return (
       <Card
         style={{ flex: '1 1 auto', margin: '10px 20px' }}

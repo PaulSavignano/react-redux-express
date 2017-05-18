@@ -7,7 +7,7 @@ export const searchProducts = (state = '', action) => {
   }
 }
 
-import { type } from '../actions/product'
+import { type } from '../actions/index'
 
 export const products = (state = {
   isFetching: true,

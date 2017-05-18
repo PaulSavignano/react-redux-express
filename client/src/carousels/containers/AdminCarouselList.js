@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 
 
 import AdminCarouselAdd from '../components/AdminCarouselAdd'

@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchAddToCart } from '../actions/cart'
-import formatPrice from '../../modules/formatPrice'
-
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+
+import { fetchAddToCart } from '../../carts/actions/index'
+import formatPrice from '../../modules/formatPrice'
 
 class ProductItem extends Component {
   state = {
@@ -19,7 +19,7 @@ class ProductItem extends Component {
   componentDidMount() {
     if (this.props.image) {
       this.setState({ loading: true })
-      const img = new Image;
+      const img = new Image()
       const src = this.props.image
       img.src = src
       img.onload = (e) => {
@@ -40,7 +40,6 @@ class ProductItem extends Component {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
-    let qty
     const { dispatch, item } = this.props
     const { name, description, price } = item.values
     return (

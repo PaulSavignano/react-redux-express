@@ -23,10 +23,8 @@ const App = ({ search, children, theme }) => (
       >
         <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'stretch', height: '100%' }}>
           <Header />
-          {search.length ? <SearchList /> : children}
-          <div style={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
-            <div style={{ flex: '1 1 auto' }}></div>
-          </div>
+          <main>{search.length ? <SearchList /> : children}</main>
+          <div style={{ flex: '1 1 auto' }}></div>
           <Footer />
         </div>
       </CSSTransitionGroup>

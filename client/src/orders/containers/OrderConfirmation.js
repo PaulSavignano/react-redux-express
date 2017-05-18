@@ -1,10 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import Dialog from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import {Card, CardTitle, CardText} from 'material-ui/Card'
 
 const OrderConfirmation = ({ user, item }) => {
   return (

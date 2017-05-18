@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 class CarouselItem extends Component {
   state = {
@@ -12,7 +10,7 @@ class CarouselItem extends Component {
   componentDidMount() {
     if (this.props.item.image) {
       this.setState({ loading: true })
-      const img = new Image;
+      const img = new Image()
       const src = this.props.item.image
       img.src = src
       img.onload = (e) => {
@@ -23,7 +21,7 @@ class CarouselItem extends Component {
     }
   }
   render() {
-    const { dispatch, item } = this.props
+    const { item } = this.props
     const { image, values } = item
     return (
       this.state.loading ? null :

@@ -4,7 +4,7 @@ import { getStripeToken } from '../../stripe/getStripeToken'
 import { SubmissionError } from 'redux-form'
 import { push } from 'react-router-redux'
 
-import { fetchDeleteCart } from './cart'
+import { fetchDeleteCart } from '../../carts/actions/index'
 
 
 const fetchAddOrderSuccess = (item) => ({ type: 'ADD_ORDER', item })

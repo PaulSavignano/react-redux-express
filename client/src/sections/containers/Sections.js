@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 import SectionList from '../components/SectionList'
 
-const Sections = ({ isFetching, handleImage, page, items }) => (
+const Sections = ({ isFetching, page, items }) => (
   isFetching ? null :
-    <SectionList page={page} items={items} handleImage={handleImage} />
+    <SectionList page={page} items={items} />
 )
 
 const mapStateToProps = (state, ownProps) => ({

@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 
 import App from './App'
@@ -25,11 +24,15 @@ import ProfilePage from './users/containers/ProfilePage'
 import Products from './products/containers/Products'
 import Product from './products/containers/Product'
 import AdminProductList from './products/containers/AdminProductList'
-import Cart from './products/containers/Cart'
-import OrderAdd from './products/containers/OrderAdd'
-import Orders from './products/containers/Orders'
-import OrderConfirmation from './products/containers/OrderConfirmation'
-import OrderDetail from './products/containers/OrderDetail'
+
+// Cart
+import Cart from './carts/containers/Cart'
+
+//Order
+import OrderAdd from './orders/containers/OrderAdd'
+import Orders from './orders/containers/Orders'
+import OrderConfirmation from './orders/containers/OrderConfirmation'
+import OrderDetail from './orders/containers/OrderDetail'
 
 import TodosPage from './todos/components/TodosPage'
 

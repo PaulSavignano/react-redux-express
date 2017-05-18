@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import CartItem from '../components/CartItem'
 import CartList from '../components/CartList'
 import CartTotal from '../components/CartTotal'
-import { fetchCart } from '../actions/cart'
 
 const Cart = ({ isFetching, items, total, user }) => (
   isFetching ? null :
@@ -15,18 +13,11 @@ const Cart = ({ isFetching, items, total, user }) => (
   </main>
 )
 
-const mapStateToProps = (state) => {
-  const isFetching = state.cart.isFetching
-  const items = isFetching ? [] : state.cart.items
-  const total = isFetching ? null : state.cart.total
-  const user = state.user
-  console.log('Cart', total, user)
-  return {
-    isFetching,
-    items,
-    total,
-    user
-  }
-}
+const mapStateToProps = (state) => ({
+  isFetching: state.cart.isFetching,
+  items: state.cart.items,
+  total: state.cart.total,
+  user: state.user
+})
 
 export default connect(mapStateToProps)(Cart)

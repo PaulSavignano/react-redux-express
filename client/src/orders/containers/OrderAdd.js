@@ -1,15 +1,14 @@
 /* global Stripe */
 import React from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import {Card, CardActions, CardText} from 'material-ui/Card'
 
 import formatPrice from '../../modules/formatPrice'
-import { fetchAddOrder } from '../actions/order'
+import { fetchAddOrder } from '../actions/index'
 import './CreditCard.css'
 
 const validate = values => {

@@ -1,5 +1,4 @@
 import { push } from 'react-router-redux'
-import { browserHistory } from 'react-router'
 import { SubmissionError } from 'redux-form'
 
 
@@ -22,12 +21,12 @@ export const fetchSignup = (values) => {
     })
     .then(json => {
       if (json.error) return Promise.reject(json.error)
-      dispatch(fetchSigninSuccess(json))
+      dispatch(fetchSignupSuccess(json))
       const path = getState().user.redirect || null
       if (path) return dispatch(push(path))
     })
     .catch(err => {
-      dispatch(fetchSigninFailure(err))
+      dispatch(fetchSignupFailure(err))
       throw new SubmissionError({ ...err, _error: 'Signup failed!' })
     })
   }

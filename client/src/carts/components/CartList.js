@@ -1,6 +1,5 @@
 import React from 'react'
 import CartItem from './CartItem'
-import { fetchCart } from '../actions/cart'
 
 const CartList = ({ items }) => (
   items.length ?
