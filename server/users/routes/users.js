@@ -8,7 +8,6 @@ import { sendEmail1 } from '../../middleware/nodemailer'
 
 const users = express.Router()
 
-
 // Create
 users.post('/signup', (req, res) => {
   const { values } = req.body
@@ -34,13 +33,8 @@ users.post('/signup', (req, res) => {
             values: doc.values
           })
         })
-        .catch((err) => {
-          res.status(400).send({ error: 'Email is already in use'})
-        })
     })
-    .catch(err => {
-      res.status(422).send(err)
-    })
+    .catch(err => res.status(400).send({ error: { email: 'Email is already in use' }}))
 })
 
 
@@ -48,6 +42,7 @@ users.post('/signin', (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
     .then(user => {
+      console.log('inside signin', user)
       if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
       return user.generateAuthToken()
         .then(token => {
@@ -56,10 +51,9 @@ users.post('/signin', (req, res) => {
             values: user.values
           })
         })
-        .catch(err => {
-          res.send(err)
-        })
+        .catch(err => res.status(400).send(err))
     })
+    .catch(err => res.status(400).send(err))
 })
 
 users.post('/recovery', (req, res, next) => {
@@ -88,6 +82,7 @@ users.post('/recovery', (req, res, next) => {
             })
             .catch(err => res.send(err))
         })
+        .catch(err => res.status(400).send(err))
     })
 })
 
@@ -97,30 +92,21 @@ users.post('/recovery', (req, res, next) => {
 users.post('/reset/:token', (req, res) => {
   User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
-      if (!user) return Promise.reject()
+      if (!user) return Promise.reject({ error: { token: 'token not valid' }})
       user.password = req.body.password
       user.passwordResetToken = undefined
       user.passwordResetExpires = undefined
       user.save()
-        .then(() => {
-          return user.generateAuthToken()
-        })
+        .then(() => user.generateAuthToken())
         .then(token => {
           res.header('x-auth', token).send({
             roles: user.roles,
-            values: {
-              email: user.values.email,
-              firstname: user.values.firstname,
-              lastname: user.values.lastname,
-              address: user.values.address,
-              zip: user.values.address
-            }
+            values: user.values
           })
         })
-        .catch(err => {
-          res.send({ error: { token: err }})
-        })
+        .catch(err => res.send({ error: { token: err }}))
     })
+    .catch(err => res.status(400).send(err))
 })
 
 
@@ -136,7 +122,7 @@ users.delete('/signout', authenticate([ 'user' ]), (req, res) => {
 users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
   User.findOneAndRemove({ _id: req.user._id })
     .then(doc => res.send(doc))
-    .catch(err => res.send({ error: { user: 'User not found' }}))
+    .catch(err => res.send({ error: err }))
 })
 
 
@@ -180,8 +166,6 @@ users.post('/contact', (req, res) => {
     })
     .catch(err => res.send({ error: err }))
 })
-
-
 
 
 export default users

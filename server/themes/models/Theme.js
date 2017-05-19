@@ -21,6 +21,7 @@ const ThemeSchema = new Schema({
       shadowColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 1)' }
     },
     appBar: {
+      fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' }
     }

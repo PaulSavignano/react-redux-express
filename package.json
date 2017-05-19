@@ -1,5 +1,5 @@
 {
-  "name": "todo",
+  "name": "redux-express-mongo",
   "version": "1.0.0",
   "main": "index.js",
   "repository": {},
@@ -8,7 +8,7 @@
     "node": "6.9.1"
   },
   "dependencies": {
-    "concurrently": "^3.1.0"
+    "concurrently": "^3.4.0"
   },
   "scripts": {
     "test": "concurrently \"cd client && PORT=3000 yarn test\" \"cd server && PORT=3001 yarn test-watch\"",

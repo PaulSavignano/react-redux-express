@@ -135,7 +135,7 @@ class AdminCardAdd extends Component {
                 fullWidth={true}
                 component={renderTextField}
               />
-              {error && <strong>{error}</strong>}
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
             </CardText>
             <CardActions expandable={true}>
               <RaisedButton type="submit" label="Add" primary={true} fullWidth={true}/>

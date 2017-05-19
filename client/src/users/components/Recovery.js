@@ -53,7 +53,7 @@ class Recovery extends Component {
             })} className="">
               <CardText>
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                {error && <strong>{error}</strong>}
+                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
               </CardText>
               {!this.state.open ? null :
                 <Dialog

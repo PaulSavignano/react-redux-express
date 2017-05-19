@@ -51,7 +51,7 @@ class Signin extends Component {
               <CardText>
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
                 <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-                {error && <strong>{error}</strong>}
+                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
               </CardText>
               <CardActions>
                 <RaisedButton
@@ -76,7 +76,7 @@ class Signin extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleClose}
               >
-                Welcome back {user.values ? user.values.firstname : null}
+                Welcome back {user.values ? user.values.firstname : null}!
               </Dialog>
             }
             <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>

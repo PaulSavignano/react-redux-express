@@ -155,7 +155,7 @@ class AdminCardItem extends Component {
               fullWidth={true}
               component={renderTextField}
             />
-            {error && <strong>{error}</strong>}
+            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
           </CardText>
           <div style={{ flex: '1 1 auto' }}></div>
           <CardActions style={{ display: 'flex' }}>

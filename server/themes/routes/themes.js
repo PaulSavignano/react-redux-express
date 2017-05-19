@@ -51,8 +51,9 @@ themes.patch('/:_id', authenticate(['admin']), (req, res) => {
   const newValues = !values ? null : {
     fontFamily: values.fontFamily,
     appBar: {
-      appBarColor: values.appBarColor,
-      appBarTextColor: values.appBarTextColor,
+      fontFamily: values.appBarFontFamily,
+      color: values.appBarColor,
+      textColor: values.appBarTextColor,
     },
     palette: {
       primary1Color: values.primary1Color,

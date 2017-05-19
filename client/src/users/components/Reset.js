@@ -58,7 +58,7 @@ class Reset extends Component {
               <CardText>
                 <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
                 <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
-                {error && <strong>{error}</strong>}
+                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
               </CardText>
               {!this.state.open ? null :
                 <Dialog

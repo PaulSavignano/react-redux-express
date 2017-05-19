@@ -70,7 +70,7 @@ class Contact extends Component {
                   Email was successfully sent!
                 </Dialog>
               }
-              {error && <strong>{error}</strong>}
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
               <CardActions>
                 <RaisedButton
                   label="Contact"

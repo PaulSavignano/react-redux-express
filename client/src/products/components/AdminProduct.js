@@ -123,7 +123,7 @@ class AdminProduct extends Component {
                 fullWidth={true}
                 component={renderTextField}
               />
-              {error && <strong>{error}</strong>}
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
             </CardText>
             <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
               <RaisedButton

@@ -17,7 +17,7 @@ class AdminCarouselList extends Component {
     return (
       isFetching ? null :
       <section>
-        <Card style={{ margin: 20 }}>
+        <Card style={{ margin: '100px 20px' }}>
           <AdminCarouselAdd page={page} />
           {items.length > 0 ?
             <div>

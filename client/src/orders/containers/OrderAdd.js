@@ -96,7 +96,7 @@ let OrderAdd = ({ error, dispatch, handleSubmit, isFetching, total, pristine, re
                 style={{ flex: '1 1 auto' }}
               />
             </div>
-            {error && <strong>{error}</strong>}
+            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
           </CardText>
           <CardActions>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>

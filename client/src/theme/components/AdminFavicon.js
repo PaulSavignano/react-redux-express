@@ -57,7 +57,7 @@ class AdminTheme extends Component {
               height={200}
               ref={this.setEditorRef}
             />
-            {error && <strong>{error}</strong>}
+            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
             <CardActions>
               <RaisedButton
                 type="submit"

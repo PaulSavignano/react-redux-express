@@ -23,7 +23,7 @@ export const sendEmail1 = (mail) => {
       <p>Hi ${name},</p>
       <p>${body}</p>
       <p>
-        Paul savignano<br />
+        Paul Savignano<br />
         1234 Pattern Ln<br />
         Carlsbad, CA.<br />
       </p>
@@ -37,7 +37,7 @@ export const sendEmail1 = (mail) => {
       <p>${name} just sent you an email.</p>
       <p>${body}</p>
       <p>
-        Paul savignano<br />
+        Paul Savignano<br />
         1234 Pattern Ln<br />
         Carlsbad, CA.<br />
       </p>

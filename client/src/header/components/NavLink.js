@@ -30,7 +30,7 @@ const NavLink = ({ children, to, path, linkColor }) => {
 const mapStateToProps = (state) => {
   return {
     path: state.routing.locationBeforeTransitions.pathname,
-    linkColor: state.theme.values.palette.primary1Color
+    linkColor: state.theme.values ? state.theme.values.palette.primary1Color : null
   }
 }
 
