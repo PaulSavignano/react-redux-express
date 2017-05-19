@@ -42,7 +42,7 @@ class Signup extends Component {
     if (nextProps.submitSucceeded) return this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, user, firstname } = this.props
+    const { dispatch, error, handleSubmit, submitting, signup } = this.props
     return (
       <main>
         <section>
@@ -70,7 +70,7 @@ class Signup extends Component {
                   open={this.state.open}
                   onRequestClose={this.handleClose}
                 >
-                  Welcome {firstname}!
+                  Welcome {signup.values ? signup.values.firstname : null}!
                 </Dialog>
               }
               <CardActions>
@@ -97,8 +97,7 @@ Signup = reduxForm({
 })(Signup)
 
 const mapStateToProps = (state) => ({
-  user: state.user,
-  firstname: state.form.signup.values.firstname
+  values: state.form.signup || {}
 })
 
 Signup = connect(mapStateToProps)(Signup)

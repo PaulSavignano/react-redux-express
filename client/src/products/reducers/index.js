@@ -1,3 +1,5 @@
+import { type } from '../actions/index'
+
 export const searchProducts = (state = '', action) => {
   switch (action.type) {
     case 'SEARCH_PRODUCTS':
@@ -6,8 +8,6 @@ export const searchProducts = (state = '', action) => {
       return state
   }
 }
-
-import { type } from '../actions/index'
 
 export const products = (state = {
   isFetching: true,

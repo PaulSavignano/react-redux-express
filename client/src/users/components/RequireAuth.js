@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 
 const RequireAuth = (ComposedComponent, roles) => {
   class Authentication extends Component {
-    static contextTypes = {
-      router: React.PropTypes.object
-    }
     hasRoles = (roles, userRoles) => {
       if (userRoles) {
         return roles.some(v => userRoles.indexOf(v) >= 0)
@@ -16,12 +14,12 @@ const RequireAuth = (ComposedComponent, roles) => {
     }
     componentWillMount() {
       if (!this.hasRoles(roles, this.props.userRoles)) {
-        this.context.router.push('/signin')
+        this.props.dispatch(push('/signin'))
       }
     }
     componentWillUpdate(nextProps) {
       if (!this.hasRoles(roles, nextProps.roles)) {
-        this.context.router.push('/signin')
+        this.props.dispatch(push('/signin'))
       }
     }
     render() {

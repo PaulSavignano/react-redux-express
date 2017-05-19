@@ -50,6 +50,7 @@ class CardItem extends Component {
           {values.iFrame ?
             <div style={{ position: 'relative', paddingBottom: '50%'}}>
               <iframe
+                title="google youtube"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                 src={values.iFrame} frameBorder="0" allowFullScreen>
               </iframe></div>
@@ -74,6 +75,7 @@ class CardItem extends Component {
             {values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe
+                  title="google youtube"
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                   src={values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>

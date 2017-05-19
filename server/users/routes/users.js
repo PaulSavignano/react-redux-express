@@ -42,7 +42,6 @@ users.post('/signin', (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
     .then(user => {
-      console.log('inside signin', user)
       if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
       return user.generateAuthToken()
         .then(token => {
@@ -53,7 +52,10 @@ users.post('/signin', (req, res) => {
         })
         .catch(err => res.status(400).send(err))
     })
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.log('myerror', err)
+      res.status(400).send(err)
+    })
 })
 
 users.post('/recovery', (req, res, next) => {

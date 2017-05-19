@@ -15,9 +15,9 @@ export const fetchSignup = (values) => {
     .then(res => {
       if (res.ok) {
         localStorage.setItem('token', res.headers.get('x-auth'))
-        return res.json()
+
       }
-      throw new Error('Network response was not ok.')
+      return res.json()
     })
     .then(json => {
       if (json.error) return Promise.reject(json.error)
@@ -26,6 +26,7 @@ export const fetchSignup = (values) => {
       if (path) return dispatch(push(path))
     })
     .catch(err => {
+      console.log(err)
       dispatch(fetchSignupFailure(err))
       throw new SubmissionError({ ...err, _error: 'Signup failed!' })
     })
@@ -54,9 +55,8 @@ export const fetchSignin = (values) => {
       .then(res => {
         if (res.ok) {
           localStorage.setItem('token', res.headers.get('x-auth'))
-          return res.json()
         }
-        throw new Error('Network response was not ok.')
+        return res.json()
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)

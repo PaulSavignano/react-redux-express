@@ -12,7 +12,7 @@ const UserSchema = new Schema({
       minlength: 1,
       unique: true,
       validate: {
-        validator: validator.isEmail,
+        validator: value => validator.isEmail(value),
         message: '{VALUE} is not a valid email'
       }
     },
@@ -119,13 +119,17 @@ UserSchema.statics.findByCredentials = function(email, password) {
   return User.findOne({ 'values.email': email })
     .then(user => {
       if (!user) {
-        return Promise.reject({
-          error: { email: 'User not found'}
-        })
+        return Promise.reject({ error: { email: 'User not found'}})
       }
-      return bcrypt.compare(password, user.password)
-        .then(res => {
-          return user
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password)
+          .then(res => {
+            if (res) {
+              resolve(user)
+            } else {
+              reject({ error: { password: 'Password does not match' }})
+            }
+          })
         })
       })
 }

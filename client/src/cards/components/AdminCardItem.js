@@ -128,6 +128,7 @@ class AdminCardItem extends Component {
             {item.values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe
+                  title="google youtube"
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                   src={item.values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>
