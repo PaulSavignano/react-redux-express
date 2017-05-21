@@ -21,8 +21,9 @@ class SectionItem extends Component {
     return {__html: html};
   }
   render() {
-    const { item } = this.props
+    const { item, theme } = this.props
     const { values } = item
+    const { fontFamily } = theme
     if (values) {
 
       const height = values.height ? values.height : null
@@ -52,8 +53,8 @@ class SectionItem extends Component {
             padding,
             width
           }}>
-            {title ? <h1 style={{ color, textAlign }}>{title}</h1> : null}
-            {text ? <div style={{ color }}>{renderHTML(text)}</div> : null}
+            {title ? <h1 style={{ color, textAlign, fontFamily }}>{title}</h1> : null}
+            {text ? <div style={{ color, fontFamily }}>{renderHTML(text)}</div> : null}
           </div>
           <Cards section={ item } />
         </div>

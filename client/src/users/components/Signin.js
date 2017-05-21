@@ -76,7 +76,7 @@ class Signin extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleClose}
               >
-                Welcome back {user.values ? user.values.firstname : null}!
+                Welcome back {user.values ? user.values.firstName : null}!
               </Dialog>
             }
             <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
@@ -88,7 +88,6 @@ class Signin extends Component {
       </main>
     )
   }
-
 }
 
 

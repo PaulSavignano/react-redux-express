@@ -13,7 +13,7 @@ export const fetchAddOrder = (values) => {
   return (dispatch, getState) => {
     Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
     const cart = getState().cart
-    const { number, exp, cvc, firstname, lastname, address, zip, state } = values
+    const { number, exp, cvc, firstName, lastName, address, zip, state } = values
     const expiration = exp.split('/')
     const exp_month = parseInt(expiration[0], 10)
     const exp_year = parseInt(expiration[1], 10)
@@ -26,7 +26,7 @@ export const fetchAddOrder = (values) => {
             'Content-Type': 'application/json',
             'x-auth': localStorage.getItem('token')
           },
-          body: JSON.stringify({ token, cart, firstname, lastname, address, zip, state })
+          body: JSON.stringify({ token, cart, firstName, lastName, address, zip, state })
         })
           .then(res => {
             if (res.ok) return res.json()

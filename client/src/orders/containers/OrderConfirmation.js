@@ -9,7 +9,7 @@ const OrderConfirmation = ({ user, item }) => {
         <Card>
           <CardTitle title="Order" subtitle={item._id} />
           <CardText>
-            Hi {user.values.firstname}, thank you for your order {item._id}!
+            Hi {user.values.firstName}, thank you for your order {item._id}!
           </CardText>
         </Card>
       </section>

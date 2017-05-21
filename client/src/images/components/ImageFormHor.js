@@ -110,7 +110,7 @@ class ImageForm extends Component {
   render () {
     return (
       <div style={{ display: 'flex', flexFlow: 'row wrap', padding: '8px 8px 0 8px' }}>
-        <div style={{ flex: '1 1 60px' }}>
+        <div style={{ flex: '1 1 auto' }}>
           <div style={{ margin: '0 auto 16px auto' }}>
             <ImageEditor
               ref={this.setEditorRef}
@@ -140,7 +140,7 @@ class ImageForm extends Component {
         </div>
 
 
-        <div style={{ flex: '3 1 auto', padding: '0 16px 0 16px'}}>
+        <div style={{ flex: '1 1 auto', padding: '0 16px 0 16px', alignSelf: 'center' }}>
           <div style={styles.controlContainer}>
             <label>Zoom:</label>
             <input

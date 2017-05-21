@@ -3,11 +3,11 @@ import AdminProductList from '../components/AdminProductList'
 import AdminProductAdd from '../components/AdminProductAdd'
 
 const AdminProductsPage = () => (
-  <main>
+  <div>
     <h1>Products Admin</h1>
     <AdminProductAdd />
     <AdminProductList />
-  </main>
+  </div>
 )
 
 export default AdminProductsPage

@@ -25,14 +25,14 @@ class AdminTheme extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.item || false
+    const { image } = this.props.theme || false
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'https://placehold.it/280x60'
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.theme.image })
     if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
@@ -42,7 +42,7 @@ class AdminTheme extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, item } = this.props
+    const { error, handleSubmit, dispatch, theme } = this.props
     console.log('inside AdminTheme')
     return (
       <section>
@@ -52,7 +52,7 @@ class AdminTheme extends Component {
               type: 'UPDATE_ITEM',
               values
             }
-            dispatch(fetchUpdate(item._id, update))
+            dispatch(fetchUpdate(theme._id, update))
           })}
         >
           <Card
@@ -89,7 +89,14 @@ class AdminTheme extends Component {
               {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
             </CardText>
             <CardActions style={{ display: 'flex' }}>
-              <RaisedButton type="submit" label="Update" primary={true} style={{ flex: '1 1 auto', margin: 8 }}/>
+              <RaisedButton
+                type="submit"
+                label={this.state.submitted ? "Updated" : "Update"}
+                labelColor="#ffffff"
+                primary={this.state.submitted ? false : true}
+                backgroundColor={this.state.submitted ? "#4CAF50" : null }
+                style={{ flex: '1 1 auto', margin: 8 }}
+              />
             </CardActions>
           </Card>
         </form>
@@ -102,40 +109,6 @@ AdminTheme = reduxForm({
   form: 'adminTheme'
 })(AdminTheme)
 
-const mapStateToProps = (state) => {
-  if (state.theme) {
-    return {
-      isFetching: state.theme.isFetching,
-      initialValues: {
-        appBarFontFamily: state.theme.values.appBar.fontFamily,
-        appBarColor: state.theme.values.appBar.color,
-        appBarTextColor: state.theme.values.appBar.textColor,
-        fontFamily: state.theme.values.fontFamily,
-        primary1Color: state.theme.values.palette.primary1Color,
-        primary2Color: state.theme.values.palette.primary2Color,
-        primary3Color: state.theme.values.palette.primary3Color,
-        accent1Color: state.theme.values.palette.accent1Color,
-        accent2Color: state.theme.values.palette.accent2Color,
-        accent3Color: state.theme.values.palette.accent3Color,
-        textColor: state.theme.values.palette.textColor,
-        alternateTextColor: state.theme.values.palette.alternateTextColor,
-        canvasColor: state.theme.values.palette.canvasColor,
-        borderColor: state.theme.values.palette.borderColor,
-        disabledColor: state.theme.values.palette.disabledColor,
-        pickerHeaderColor: state.theme.values.palette.pickerHeaderColor,
-        clockCircleColor: state.theme.values.palette.clockCircleColor,
-        shadowColor: state.theme.values.palette.shadowColor
-      },
-      theme: { _id: state.theme._id, image: state.theme.image }
-    }
-  }
-  return {
-    isFetching: false,
-    initialValues: null,
-    theme: { _id: null, image: null }
-  }
-}
-
-AdminTheme = connect(mapStateToProps)(AdminTheme)
+AdminTheme = connect()(AdminTheme)
 
 export default AdminTheme

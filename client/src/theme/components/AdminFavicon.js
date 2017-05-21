@@ -15,14 +15,14 @@ class AdminTheme extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.item || null
+    const { image } = this.props.theme || null
     const hasImage = image ? true : false
-    const imageUrl = hasImage ? image : 'https://placehold.it/1000x1000'
+    const imageUrl = hasImage ? image : this.props.placeholdit
     this.setState({ image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.theme.image })
     if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
@@ -32,16 +32,16 @@ class AdminTheme extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { error, handleSubmit, dispatch, item } = this.props
+    const { error, handleSubmit, dispatch, theme, imageSize } = this.props
     return (
       <section>
         <form
           onSubmit={handleSubmit(() => {
-            const image = this.state.editing ? this.editor.handleSave() : item.image
+            const image = this.state.editing ? this.editor.handleSave() : theme.image
             const type = 'UPDATE_IMAGE'
             const update = { type, image }
-            dispatch(fetchUpdate(item._id, update))
-            this.setState({ image: item.image })
+            dispatch(fetchUpdate(theme._id, update))
+            this.setState({ image: theme.image })
           })}
         >
           <Card
@@ -53,8 +53,8 @@ class AdminTheme extends Component {
               image={this.state.image}
               type="image/png"
               editing={this.editing}
-              width={200}
-              height={200}
+              width={imageSize.width}
+              height={imageSize.height}
               ref={this.setEditorRef}
             />
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
@@ -81,10 +81,10 @@ AdminTheme = reduxForm({
 
 const mapStateToProps = (state) => {
   const isFetching = state.theme.isFetching
-  const item = isFetching ? null : state.theme
+  const theme = isFetching ? null : state.theme
   return {
     isFetching,
-    item
+    theme
   }
 }
 

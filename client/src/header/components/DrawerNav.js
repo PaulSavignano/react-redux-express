@@ -7,7 +7,7 @@ import { ListItem } from 'material-ui/List'
 
 import SigninSignout from '../../users/components/SigninSignout'
 
-const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) => {
+const DrawerNav = ({ user, handleDrawer, pages, open, handleSearch, dispatch }) => {
   const isAdmin = user.roles ? user.roles.find(role => role === 'admin') : null
   return (
     <Drawer
@@ -15,11 +15,11 @@ const DrawerNav = ({ user, handleDrawer, items, open, handleSearch, dispatch }) 
       open={open}
       onRequestChange={handleDrawer}
     >
-      {items.filter(item => item.slug !== 'home').map(item => (
-        <MenuItem key={item._id} onTouchTap={() => {
-          dispatch(push(`/${item.slug}`))
+      {pages.filter(page => page.slug !== 'home').map(page => (
+        <MenuItem key={page._id} onTouchTap={() => {
+          dispatch(push(`/${page.slug}`))
           handleDrawer()
-        }}>{item.name}</MenuItem>
+        }}>{page.name}</MenuItem>
       ))}
 
       <MenuItem onTouchTap={() => {

@@ -8,7 +8,7 @@ const AdminProductList = ({ isFetching, page, items }) => {
   console.log(items)
   return (
     isFetching ? null :
-    <main>
+    <div>
       <section><h1>Products Admin</h1></section>
       <section><AdminProductAdd /></section>
       {items.length > 0 ?
@@ -24,7 +24,7 @@ const AdminProductList = ({ isFetching, page, items }) => {
         :
         <section><h3>No items yet</h3></section>
       }
-    </main>
+    </div>
   )
 }
 

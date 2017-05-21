@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { Link } from 'react-router'
 
 
 
 class NavLink extends Component {
   state = {
-    color: this.props.primary2Color,
+    color: this.props.theme.values.palette.textColor,
   }
-  handleMouseEnter = () => this.setState({ color: this.props.primary1Color })
-  handleMouseLeave = () => this.setState({ color: this.props.primary2Color })
+  handleMouseEnter = () => this.setState({ color: this.props.theme.values.palette.primary1Color })
+  handleMouseLeave = () => this.setState({ color: this.props.theme.values.palette.textColor })
   render() {
-    const { children, to, path, primary1Color, primary2Color } = this.props
+    const { dispatch, children, to, path, theme } = this.props
     const styles = {
       active: {
-        color: primary1Color,
+        color: theme.values.palette.primary1Color,
       },
       inActive: {
         color: this.state.color
@@ -24,15 +25,20 @@ class NavLink extends Component {
         fontWeight: 400,
         padding: '10px 15px',
         textTransform: 'uppercase',
-        textDecoration: 'none'
+        textDecoration: 'none',
+        cursor: 'pointer'
       }
     }
     const props = { children, to }
     const style = to === path ? styles.active : styles.inActive
     return (
-      <Link
+      <span
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        onTouchTap={() => {
+          console.log('hello')
+          dispatch(push(to))
+        }}
         {...props}
         style={Object.assign({}, style, styles.both)}
       />
@@ -40,12 +46,5 @@ class NavLink extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    path: state.routing.locationBeforeTransitions.pathname,
-    primary1Color: state.theme.values ? state.theme.values.palette.primary1Color : null,
-    primary2Color: state.theme.values ? state.theme.values.palette.primary2Color : null
-  }
-}
 
-export default connect(mapStateToProps)(NavLink)
+export default connect()(NavLink)

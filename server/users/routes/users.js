@@ -12,7 +12,7 @@ const users = express.Router()
 // Create
 users.post('/signup', (req, res) => {
   const { values } = req.body
-  if (!values.firstname || !values.email || !values.password) {
+  if (!values.firstName || !values.email || !values.password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
   const user = new User({
@@ -26,7 +26,7 @@ users.post('/signup', (req, res) => {
           sendEmail1({
             to: doc.values.email,
             subject: `Welcome to ${process.env.APP_NAME}`,
-            name: doc.values.firstname,
+            name: doc.values.firstName,
             body: `<p>Welcome to ${process.env.APP_NAME}!</p>`
           })
           res.header('x-auth', token).send({
@@ -76,10 +76,10 @@ users.post('/recovery', (req, res, next) => {
           user.save()
             .then(() => {
               sendEmail1({
-                to: 'paul.savignano@gmail.com',
+                to: email,
                 subject: 'Reset Password',
-                name: 'Paul',
-                body: `<p>Click the link below to recover your password.<br />http://localhost:3000/reset/${token}</p>`
+                name: user.values.firstName,
+                body: `<p>Click the link below to recover your password.<br />${process.env.ROOT_URL}reset/${token}</p>`
               })
               res.send({ message: `A password recovery email has been sent to ${user.email}`})
             })
@@ -200,7 +200,7 @@ users.post('/request-estimate', (req, res) => {
   sendEmail1({
     to: 'paul.savignano@gmail.com',
     subject: 'Thank you for contacting us',
-    name: firstname,
+    name: firstName,
     body: `<p>Your message has been recieved and we will be contacting you shortly.</p>`
   })
     .then(info => {

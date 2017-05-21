@@ -16,12 +16,12 @@ const UserSchema = new Schema({
         message: '{VALUE} is not a valid email'
       }
     },
-    firstname: {
+    firstName: {
       type: String,
       trim: true,
       minlength: 1
     },
-    lastname: {
+    lastName: {
       type: String,
       trim: true,
       minlength: 1

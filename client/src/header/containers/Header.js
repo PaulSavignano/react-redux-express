@@ -8,37 +8,36 @@ class Header extends Component {
   state = { open: false }
   handleDrawer = () => this.setState({ open: !this.state.open })
   render() {
-    const { isFetching, items, user, image } = this.props
+    const { isFetching, pages, user, theme, path } = this.props
     return (
       isFetching ? null :
       <div>
         <AppBarNav
           handleDrawer={this.handleDrawer}
-          image={image}
           user={user}
+          pages={pages}
+          theme={theme}
+          path={path}
         />
         <DrawerNav
           handleDrawer={this.handleDrawer}
           open={this.state.open}
-          items={items}
+          pages={pages}
           user={user}
+          theme={theme}
+          path={path}
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  const isFetching = state.pages.isFetching
-  const items = isFetching ? [] : state.pages.items
-  const user = state.user.isFetching ? {} : state.user
-  const image = state.theme.isFetching ? null : state.theme.image
-  return {
-    isFetching,
-    items,
-    user,
-    image
-  }
-}
+const mapStateToProps = (state) => ({
+  isFetching: state.pages.isFetching,
+  pages: state.pages.items,
+  path: state.routing.locationBeforeTransitions.pathname,
+  user: state.user,
+  theme: state.theme
+})
 
 export default connect(mapStateToProps)(Header)

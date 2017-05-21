@@ -5,7 +5,7 @@
 /**** Mobile layout ****/
 @media (max-width: 900px) {
   .appbar-nav {
-    display: none
+    display: none !important;
   }
 }
 
@@ -41,6 +41,9 @@ footer {
 
 
 /* Section grid */
+main {
+  margin: 80px 0 0 0;
+}
 section {
   display: flex;
   flex-flow: row wrap;

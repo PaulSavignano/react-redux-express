@@ -6,7 +6,7 @@ import AdminCardList from '../components/AdminCardList'
 
 const imageSize = {
   width: 300,
-  height: 100
+  height: 200
 }
 const placeholdit = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 

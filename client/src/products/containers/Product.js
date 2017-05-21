@@ -5,9 +5,11 @@ import ProductItem from '../components/ProductItem'
 const Product = ({ isFetching, item }) => {
   return (
     isFetching ? null :
-    <main>
-      <section><ProductItem item={item} /></section>
-    </main>
+      <main>
+        <section>
+          <ProductItem item={item} />
+        </section>
+      </main>
   )
 }
 

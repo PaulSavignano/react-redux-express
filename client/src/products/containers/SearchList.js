@@ -16,7 +16,6 @@ export class SearchList extends Component {
     const { items, search } = this.props
     return (
       items.length > 0 ?
-      <main>
         <section>
           {filter(items, search).map(item => (
             <ProductItem
@@ -24,9 +23,8 @@ export class SearchList extends Component {
               item={item}
             />
           ))}
-        </section>
-      </main> :
-      <main><section><p>No products yet</p></section></main>
+        </section> :
+      <section><p>No products yet</p></section>
     )
   }
 }

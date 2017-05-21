@@ -9,7 +9,7 @@ const orders = express.Router()
 
 // Create
 orders.post('/', authenticate(['user']), (req, res, next) => {
-  const { token, cart, firstname, lastname, address, zip, state } = req.body
+  const { token, cart, firstName, lastName, address, zip, state } = req.body
   User.findOneAndUpdate({ _id: req.user._id }, { $set: { 'values.address': address, 'values.zip': zip, 'values.state': state } }, { new: true })
     .then(() => {
       const stripe = require("stripe")(process.env.STRIPE_SK_TEST)
@@ -26,8 +26,8 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
             address,
             zip,
             state,
-            firstname,
-            lastname,
+            firstName,
+            lastName,
             paymentId: charge.id
           })
           order.save()
@@ -36,7 +36,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
               sendEmail1({
                 to: 'paul.savignano@gmail.com',
                 subject: 'Thank you for your order!',
-                name: `${firstname}`,
+                name: `${firstName}`,
                 body: `<p>Thank you for your recent order ${doc._id}.</p>`
               })
             })
