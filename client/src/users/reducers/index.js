@@ -20,6 +20,12 @@ const user = (state = {
         ...state,
         redirect: action.path
       }
+    case `ADD_USER`:
+      return {
+        ...state,
+        isFetching: false,
+        ...action.user
+      }
     case 'ERROR_USER':
       return { ...state, error: action.error }
     case 'DELETE_USER':

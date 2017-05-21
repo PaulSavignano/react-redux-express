@@ -34,10 +34,10 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   isFetching: state.pages.isFetching,
-  pages: state.pages.items,
-  path: state.routing.locationBeforeTransitions.pathname,
-  user: state.user,
-  theme: state.theme
+  pages: state.pages.items || null,
+  path: state.routing.locationBeforeTransitions.pathname || null,
+  user: state.user || null,
+  theme: state.theme || null
 })
 
 export default connect(mapStateToProps)(Header)

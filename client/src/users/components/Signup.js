@@ -97,7 +97,7 @@ Signup = reduxForm({
 })(Signup)
 
 const mapStateToProps = (state) => ({
-  values: state.form.signup || {}
+  signup: state.form.signup || {}
 })
 
 Signup = connect(mapStateToProps)(Signup)

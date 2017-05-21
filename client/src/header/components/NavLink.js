@@ -1,21 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { push } from 'react-router-redux'
 import { Link } from 'react-router'
-
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
 class NavLink extends Component {
   state = {
-    color: this.props.theme.values.palette.textColor,
+    color: this.props.muiTheme.palette.textColor,
   }
-  handleMouseEnter = () => this.setState({ color: this.props.theme.values.palette.primary1Color })
-  handleMouseLeave = () => this.setState({ color: this.props.theme.values.palette.textColor })
+  handleMouseEnter = () => this.setState({ color: this.props.muiTheme.palette.primary1Color })
+  handleMouseLeave = () => this.setState({ color: this.props.muiTheme.palette.textColor })
   render() {
-    const { dispatch, children, to, path, theme } = this.props
+    const { dispatch, children, to, path, muiTheme } = this.props
+    console.log(muiTheme)
+    const { primary1Color } = muiTheme.palette
     const styles = {
       active: {
-        color: theme.values.palette.primary1Color,
+        color: primary1Color,
       },
       inActive: {
         color: this.state.color
@@ -46,5 +49,6 @@ class NavLink extends Component {
   }
 }
 
+NavLink = compose(connect(), muiThemeable())(NavLink)
 
-export default connect()(NavLink)
+export default NavLink

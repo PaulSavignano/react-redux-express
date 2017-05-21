@@ -2,7 +2,7 @@ import React from 'react'
 import CartItem from './CartItem'
 
 const CartList = ({ items }) => (
-  items.length ?
+  items ?
   <section>
     {items.map((item, index) => (
       <CartItem

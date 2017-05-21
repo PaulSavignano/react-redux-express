@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { push } from 'react-router-redux'
 import { Link } from 'react-router'
 import AppBar from 'material-ui/AppBar'
@@ -8,6 +9,7 @@ import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import { searchText } from '../actions/search'
 import SigninSignout from '../../users/components/SigninSignout'
@@ -19,12 +21,11 @@ import NavLink from './NavLink'
 class AppBarNav extends Component {
   state = { searching: false, openMenu: false }
   handleChange = () => {
-    console.log('changing')
     this.setState({ openMenu: false })
   }
   render() {
-    const { dispatch, user, image, handleDrawer, pages, theme, path } = this.props
-    const color = theme.values.appBar.textColor || null
+    const { dispatch, user, image, handleDrawer, pages, theme, muiTheme, path } = this.props
+    const { textColor, primary1Color } = muiTheme.palette
     const styles = {
       AppBarNav: {
         display: 'flex',
@@ -36,7 +37,7 @@ class AppBarNav extends Component {
         fontSize: 16,
         cursor: 'pointer',
         padding: '0 8px',
-        color
+        color: textColor,
       },
       AppBarSearch: {
         display: 'flex',
@@ -64,6 +65,7 @@ class AppBarNav extends Component {
         maxWidth: 200
       }
     }
+
     return (
       <AppBar
         onLeftIconButtonTouchTap={handleDrawer}
@@ -96,7 +98,7 @@ class AppBarNav extends Component {
             </div>
 
             <span style={{ display: 'flex', flexFlow: 'column' }}>
-              <span style={{ alignSelf: 'flex-end', color: theme.values.palette.primary1Color, height: 50, marginTop: '-10px', fontSize: 30 }}>805.456.6498</span>
+              <span style={{ alignSelf: 'flex-end', color: primary1Color, height: 50, marginTop: '-10px', fontSize: 30 }}>805.456.6498</span>
               <span style={{ alignSelf: 'flex-end'}}>
                 <span className="appbar-nav">
                   {pages.map(page => (
@@ -137,5 +139,6 @@ class AppBarNav extends Component {
   }
 }
 
+AppBarNav = compose(connect(), muiThemeable())(AppBarNav)
 
-export default connect()(AppBarNav)
+export default AppBarNav

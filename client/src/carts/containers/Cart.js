@@ -15,7 +15,7 @@ const Cart = ({ isFetching, items, total, user }) => (
 
 const mapStateToProps = (state) => ({
   isFetching: state.cart.isFetching,
-  items: state.cart.items,
+  items: state.cart.items || null,
   total: state.cart.total,
   user: state.user
 })

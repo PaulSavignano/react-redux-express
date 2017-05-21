@@ -33,6 +33,7 @@ const App = ({ search, children, theme }) => (
 )
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return state
 }
 
