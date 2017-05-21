@@ -5,6 +5,8 @@ import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 
 import AdminCards from '../../cards/containers/AdminCards'
 import { fetchUpdate, fetchDelete } from '../actions/index'
@@ -28,6 +30,23 @@ const renderRichField = ({ input, meta: { touched, error } }) => (
   </div>
 )
 
+const renderSelectField = ({
+  input,
+  label,
+  meta: {touched, error},
+  children,
+  ...custom
+}) => (
+  <SelectField
+    floatingLabelText={label}
+    errorText={touched && error}
+    {...input}
+    onChange={(event, index, value) => input.onChange(value)}
+    children={children}
+    {...custom}
+  />
+)
+
 
 
 class AdminSectionItem extends Component {
@@ -40,15 +59,13 @@ class AdminSectionItem extends Component {
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'https://placehold.it/1000x1000'
+    const imageUrl = image ? image : this.props.placeholdit
     if (hasImage) {
       this.setState({ expanded: hasImage, image: imageUrl })
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     const { submitSucceeded, dirty, item } = nextProps
-    console.log({ submitSucceeded, dirty })
     if (submitSucceeded) this.setState({ submitted: true, image: item.image })
     if (dirty) this.setState({ submitted: false })
   }
@@ -57,8 +74,8 @@ class AdminSectionItem extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, page, item } = this.props
-
+    const { error, handleSubmit, dispatch, page, item, imageSize, placeholdit } = this.props
+console.log(imageSize, placeholdit)
     return (
       <Card
         expanded={this.state.expanded}
@@ -106,30 +123,35 @@ class AdminSectionItem extends Component {
           <CardText>
             <Field
               name="height"
-              label="height"
+              label="Height px"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="backgroundColor"
-              label="backgroundColor"
+              label="Background Color Hexadecimal"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="backgroundAttachment"
-              label="backgroundAttachment"
-              type="text"
+              component={renderSelectField}
+              label="Select backgroundAttachment"
               fullWidth={true}
-              component={renderTextField}
-            />
+            >
+              <MenuItem value={null} primaryText="" />
+              <MenuItem value="scroll" primaryText="scroll" />
+              <MenuItem value="fixed" primaryText="fixed" />
+              <MenuItem value="local" primaryText="local" />
+              <MenuItem value="inherit" primaryText="inherit" />
+            </Field>
           </CardText>
           <CardActions>
             <RaisedButton
               onTouchTap={() => {
-                const image = this.state.image || 'https://placehold.it/1000x1000'
+                const image = this.state.image || placeholdit
                 this.setState({ expanded: !this.state.expanded, submitted: false, image })
               }}
               type="button"
@@ -144,8 +166,8 @@ class AdminSectionItem extends Component {
                 image={this.state.image}
                 type="image/jpeg"
                 editing={this.editing}
-                width={1920}
-                height={1080}
+                width={imageSize.width}
+                height={imageSize.height}
                 ref={this.setEditorRef}
               />
             </CardMedia>
@@ -161,11 +183,15 @@ class AdminSectionItem extends Component {
             />
             <Field
               name="titleAlign"
-              label="titleAlign"
-              type="text"
+              component={renderSelectField}
+              label="Title Align"
               fullWidth={true}
-              component={renderTextField}
-            />
+            >
+              <MenuItem value={null} primaryText="" />
+              <MenuItem value="left" primaryText="left" />
+              <MenuItem value="center" primaryText="center" />
+              <MenuItem value="right" primaryText="right" />
+            </Field>
             <Field
               name="text"
               label="Text"
@@ -174,36 +200,40 @@ class AdminSectionItem extends Component {
               component={renderRichField}
             />
             <Field
+              name="textAlign"
+              component={renderSelectField}
+              label="Text Align"
+              fullWidth={true}
+            >
+              <MenuItem value={null} primaryText="" />
+              <MenuItem value="left" primaryText="left" />
+              <MenuItem value="center" primaryText="center" />
+              <MenuItem value="right" primaryText="right" />
+            </Field>
+            <Field
               name="margin"
-              label="Text Margin"
+              label="Text Area Margin (10px auto 20px auto"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="padding"
-              label="Text Padding"
+              label="Text Area Padding (10px 5px 10px 5px)"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="textWidth"
-              label="textWidth"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="textAlign"
-              label="textAlign"
+              label="Text Area Width px"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="color"
-              label="Text Color"
+              label="Text Color Hexadecimal"
               type="text"
               fullWidth={true}
               component={renderTextField}

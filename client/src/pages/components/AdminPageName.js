@@ -41,6 +41,7 @@ class AdminPageName extends Component {
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          style={{ width: '100%' }}
         >
           <CardText style={styles.CardText}>
             <div style={styles.name}>{name}</div>

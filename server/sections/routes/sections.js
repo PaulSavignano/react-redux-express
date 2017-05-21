@@ -50,6 +50,7 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
+  console.log(values)
   switch (type) {
 
     case 'UPDATE_ITEM_UPDATE_IMAGE':

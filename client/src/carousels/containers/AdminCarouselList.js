@@ -23,7 +23,7 @@ class AdminCarouselList extends Component {
       <div style={{ margin: '130px 20px 20px 20px' }}>
         <Card>
           <AdminCarouselAdd page={page} imageSize={imageSize} placeholdit={placeholdit} />
-          <div style={{ paddingBottom: 20 }}>
+          <div>
             {items.length < 1 ? null : items.map(item => (
               <AdminCarouselItem
                 key={item._id}

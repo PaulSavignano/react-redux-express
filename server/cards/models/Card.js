@@ -6,9 +6,13 @@ const CardSchema = new Schema({
   values: {
     header: { type: String, trim: true },
     width: { type: String, trim: true },
+    margin: { type: String, trim: true },
+    maxWidth: { type: String, trim: true },
+    backgroundColor: { type: String, trim: true },
     iFrame: { type: String, trim: true },
     title: { type: String, trim: true },
     text: { type: String, trim: true },
+    color: { type: String, trim: true },
     link: { type: String, trim: true },
   },
   createdAt: { type: Date, default: Date.now }

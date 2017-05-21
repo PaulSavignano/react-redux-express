@@ -2,8 +2,8 @@ import React from 'react'
 
 import AdminSectionItem from '../components/AdminSectionItem'
 
-const AdminSectionList = ({ page, items }) => (
-  items.length < 1 ? <div><h3>No items yet</h3></div> :
+const AdminSectionList = ({ page, items, imageSize, placeholdit }) => (
+  items.length < 1 ? null :
   <div>
     {items.map(item => (
       <AdminSectionItem
@@ -11,6 +11,8 @@ const AdminSectionList = ({ page, items }) => (
         item={item}
         page={page}
         initialValues={item.values}
+        imageSize={imageSize}
+        placeholdit={placeholdit}
       />
     ))}
   </div>

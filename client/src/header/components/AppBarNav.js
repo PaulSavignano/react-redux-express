@@ -117,8 +117,8 @@ class AppBarNav extends Component {
               <Link to="/cart"><CartIcon /></Link>
             </span>
           </nav>
-
-        }/>
+        }
+      />
     )
   }
   }

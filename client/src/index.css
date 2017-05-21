@@ -9,10 +9,6 @@
   }
 }
 
-.fa.fa-search:hover, .appbar-nav:hover {
-  color: rgb(0, 188, 212) !important
-}
-
 html {
   height: 100%;
   box-sizing: border-box;
@@ -34,12 +30,10 @@ body {
 
 footer {
   position: absolute;
-right: 0;
-bottom: 0;
-left: 0;
-padding: 1rem;
-background-color: #efefef;
-text-align: center;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
 }
 
 
@@ -97,33 +91,6 @@ footer > a {
 
 
 
-
-
-
-
-
-
-
-
-
-a {
-  color: rgb(0, 188, 212);
-}
-
-
-a img{
-  border: 0px;
-}
-
-::-moz-selection {
-  background-color: rgb(0, 188, 212);
-  color: #fff;
-}
-
-::selection {
-  background-color: rgb(0, 188, 212);
-  color: #fff;
-}
 
 
 

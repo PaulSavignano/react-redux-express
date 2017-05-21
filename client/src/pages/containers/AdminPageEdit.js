@@ -6,10 +6,10 @@ import AdminCarouselList from '../../carousels/containers/AdminCarouselList'
 
 const AdminPageEdit = ({ isFetching, page }) => (
   isFetching ? null :
-  <main>
+  <div>
     <AdminSections page={page} />
     <AdminCarouselList page={page} />
-  </main>
+  </div>
 )
 
 const mapStateToProps = (state, ownProps) => ({

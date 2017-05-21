@@ -54,9 +54,9 @@ class AdminCarouselAdd extends Component {
             }
             this.props.reset()
             dispatch(fetchAdd(add))
-            this.setState({ image: placeholdit })
+            this.setState({ open: false })
           })}
-          style={{ flex: '1 1 auto', marginBottom: 60 }}
+          style={{ flex: '1 1 auto'}}
         >
           <CardActions>
             <RaisedButton

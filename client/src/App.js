@@ -23,11 +23,9 @@ const App = ({ search, children, theme }) => (
       >
         <div>
           <Header />
-          <main style={{ marginBottom: 100 }}>
+          <main style={{ paddingBottom: 100 }}>
             {search.length ? <SearchList /> : children}
-
           </main>
-
           <Footer />
         </div>
       </CSSTransitionGroup>

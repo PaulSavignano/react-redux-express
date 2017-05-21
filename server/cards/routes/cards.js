@@ -12,39 +12,18 @@ const s3Path = `${process.env.APP_NAME}/cards/card_`
 
 // Create
 cards.post('/', authenticate(['admin']), (req, res) => {
-  const { type, sectionId, image, values } = req.body
-  const _id = new ObjectID()
+  const { sectionId } = req.body
   const card = new Card({
-    _id,
     sectionId: ObjectID(sectionId),
-    image,
-    values
+    values: []
   })
-  switch (type) {
-    case 'ADD_ITEM_ADD_IMAGE':
-    uploadFile({ Key: `${s3Path}${_id}`, Body: image })
-      .then(data => {
-        card.image = data.Location
-        card.save()
-          .then(doc => {
-              res.send(doc)
-            })
-          .catch(err => {
-            console.log(err)
-            res.status(400).send(err)
-          })
+  card.save()
+    .then(doc => {
+        res.send(doc)
       })
-      break
-    case 'ADD_ITEM':
-      card.save()
-        .then(doc => res.send(doc))
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-    default:
-      return
-  }
+    .catch(err => {
+      res.status(400).send(err)
+    })
 })
 
 

@@ -46,6 +46,7 @@ class AdminCardItem extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { error, handleSubmit, dispatch, item, imageSize } = this.props
+    const width = !item.values ? null : item.values.width ? item.values.width : null
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -70,7 +71,7 @@ class AdminCardItem extends Component {
           dispatch(fetchUpdate(item._id, update))
           this.setState({ image: item.image })
         })}
-        style={{ flex: '1 1 auto', width: item.values.width, margin: 20 }}
+        style={{ flex: '1 1 auto', width, margin: 20 }}
       >
         <Card
           expanded={this.state.expanded}
@@ -83,7 +84,28 @@ class AdminCardItem extends Component {
           <CardText>
             <Field
               name="width"
-              label="Width"
+              label="Width px"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="maxWidth"
+              label="Max Width px"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="margin"
+              label="Margin"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="backgroundColor"
+              label="Background Color"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -126,7 +148,7 @@ class AdminCardItem extends Component {
               fullWidth={true}
               component={renderTextField}
             />
-            {item.values.iFrame ?
+            {!item.values ? null : item.values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe
                   title="google youtube"
@@ -147,6 +169,13 @@ class AdminCardItem extends Component {
               type="text"
               multiLine={true}
               rows={2}
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="color"
+              label="Text Color"
+              type="text"
               fullWidth={true}
               component={renderTextField}
             />

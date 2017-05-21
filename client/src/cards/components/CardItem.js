@@ -28,6 +28,11 @@ class CardItem extends Component {
   render() {
     const { dispatch, item } = this.props
     const { image, values } = item
+    const width = values.width || null
+    const maxWidth = values.maxWidth || null
+    const margin = values.margin || null
+    const backgroundColor = values.backgroundColor || null
+    const color = values.color || null
     return (
       this.state.loading ? null :
       values.link ?
@@ -36,7 +41,7 @@ class CardItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        style={{ flex: '1 1 auto', width: values.width, cursor: 'pointer' }}
+        style={{ flex: '1 1 auto', width, backgroundColor, maxWidth, margin, cursor: 'pointer' }}
       >
         <CSSTransitionGroup
           transitionName="image"
@@ -45,7 +50,7 @@ class CardItem extends Component {
           transitionEnter={false}
           transitionLeave={false}
         >
-          {values.header ? <CardHeader title={values.header} /> : null }
+          {values.header ? <CardHeader title={values.header} style={{ color }} /> : null }
           {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
           {values.iFrame ?
             <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
@@ -57,13 +62,13 @@ class CardItem extends Component {
               </iframe>
             </div>
           : null}
-          {!values.title ? null : values.text ? <CardTitle title={values.title} /> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center'}} /> }
-          {values.text ? <CardText>{values.text}</CardText> : null }
+          {!values.title ? null : values.text ? <CardTitle title={values.title} style={{ color }}/> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center', color }} /> }
+          {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
         </CSSTransitionGroup>
       </Card>
         :
         <Card
-          style={{ flex: '1 1 auto', width: values.width }}
+          style={{ flex: '1 1 auto',  width, color, maxWidth, margin }}
         >
           <CSSTransitionGroup
             transitionName="image"
@@ -72,7 +77,7 @@ class CardItem extends Component {
             transitionEnter={false}
             transitionLeave={false}
           >
-            {values.header ? <CardHeader title={values.header} /> : null }
+            {values.header ? <CardHeader title={values.header} style={{ color }}/> : null }
             {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
             {values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
@@ -82,8 +87,8 @@ class CardItem extends Component {
                   src={values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>
             : null}
-            {!values.title ? null : values.text ? <CardTitle title={values.title} /> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center'}} /> }
-            {values.text ? <CardText>{values.text}</CardText> : null }
+            {!values.title ? null : values.text ? <CardTitle title={values.title} style={{ color }}/> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center', color }} /> }
+            {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
           </CSSTransitionGroup>
         </Card>
     )

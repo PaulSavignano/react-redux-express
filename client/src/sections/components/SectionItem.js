@@ -5,8 +5,7 @@ import Cards from '../../cards/containers/Cards'
 
 class SectionItem extends Component {
   state = {
-    image: '',
-    text: this.props.item.values.text
+    image: ''
   }
   componentDidMount() {
     if (this.props.item.image) {
@@ -19,8 +18,8 @@ class SectionItem extends Component {
     }
   }
   createMarkup = (html) => {
-  return {__html: html};
-}
+    return {__html: html};
+  }
   render() {
     const { item } = this.props
     const { values } = item
@@ -28,7 +27,7 @@ class SectionItem extends Component {
 
       const height = values.height ? values.height : null
       const backgroundImage = item.image ? `url(${item.image})` : null
-      const backgroundAttachment =values.backgroundAttachment ?values.backgroundAttachment : null
+      const backgroundAttachment = values.backgroundAttachment ? values.backgroundAttachment : null
       const backgroundColor = values.backgroundColor ? values.backgroundColor : null
       const margin = values.margin ? values.margin : null
       const padding = values.padding ? values.padding : null
