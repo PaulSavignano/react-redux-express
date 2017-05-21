@@ -11,7 +11,6 @@ import orders from './orders/routes/orders'
 import pages from './pages/routes/pages'
 import products from './products/routes/products'
 import themes from './themes/routes/themes'
-import todos from './todos/routes/todos'
 import users from './users/routes/users'
 
 
@@ -29,7 +28,6 @@ app.use('/api/orders', orders)
 app.use('/api/pages', pages)
 app.use('/api/products', products)
 app.use('/api/themes', themes)
-app.use('/api/todos', todos)
 app.use('/api/users', users)
 
 

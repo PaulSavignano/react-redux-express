@@ -19,6 +19,7 @@ import Recovery from './users/components/Recovery'
 import Reset from './users/components/Reset'
 import Contact from './users/components/Contact'
 import ProfilePage from './users/containers/ProfilePage'
+import RequestEstimate from './users/components/RequestEstimate'
 
 // Product
 import Products from './products/containers/Products'
@@ -34,8 +35,7 @@ import Orders from './orders/containers/Orders'
 import OrderConfirmation from './orders/containers/OrderConfirmation'
 import OrderDetail from './orders/containers/OrderDetail'
 
-import TodosPage from './todos/components/TodosPage'
-import RequestEstimate from './users/components/RequestEstimate'
+
 
 const Routing = ({ history }) => (
   <Router history={history}>
@@ -60,7 +60,6 @@ const Routing = ({ history }) => (
       <Route path="request-estimate" component={RequestEstimate} />
 
       {/* Product */}
-      <Route path="todos" component={RequireAuth(TodosPage, ['user', 'admin'])} />
       <Route path="products" component={Products} />
       <Route path="product/:slug" component={Product} />
       <Route path="admin/products" component={RequireAuth(AdminProductList, ['admin'])} />

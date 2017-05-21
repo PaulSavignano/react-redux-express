@@ -12,7 +12,6 @@ import orders from '../orders/reducers/index'
 import pages from '../pages/reducers/index'
 import { searchProducts, products } from '../products/reducers/index'
 import { search } from '../header/reducers/search'
-import { searchTodos, showCompleted, todos } from '../todos/reducers/todos'
 import theme from '../theme/reducers/index'
 import user from '../users/reducers/index'
 
@@ -29,10 +28,7 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   search,
   searchProducts,
-  searchTodos,
-  showCompleted,
   theme,
-  todos,
   user,
 })
 
