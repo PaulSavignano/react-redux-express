@@ -270,3 +270,33 @@ export const fetchContact = (values) => {
       .catch(err => dispatch(fetchContactFailure(err)))
   }
 }
+
+
+
+
+
+
+
+
+
+
+const fetchRequestEstimateSuccess = (values) => ({ type: 'CONTACT_USER', values })
+const fetchRequestEstimateFailure = (error) => ({ type: 'ERROR_USER', error })
+export const fetchRequestEstimate = (values) => {
+  return function(dispatch, getState) {
+    return fetch('/api/users/request-estimate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values)
+    })
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchRequestEstimateSuccess(json))
+      })
+      .catch(err => dispatch(fetchRequestEstimateFailure(err)))
+  }
+}

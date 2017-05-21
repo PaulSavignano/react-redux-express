@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import renderHTML from 'react-render-html'
 
 import Cards from '../../cards/containers/Cards'
 
 class SectionItem extends Component {
   state = {
-    image: ''
+    image: '',
+    text: this.props.item.values.text
   }
   componentDidMount() {
     if (this.props.item.image) {
@@ -16,16 +18,22 @@ class SectionItem extends Component {
       }
     }
   }
+  createMarkup = (html) => {
+  return {__html: html};
+}
   render() {
     const { item } = this.props
     const { values } = item
     if (values) {
+
       const height = values.height ? values.height : null
       const backgroundImage = item.image ? `url(${item.image})` : null
       const backgroundAttachment =values.backgroundAttachment ?values.backgroundAttachment : null
       const backgroundColor = values.backgroundColor ? values.backgroundColor : null
       const margin = values.margin ? values.margin : null
       const padding = values.padding ? values.padding : null
+      const width = values.textWidth ? values.textWidth : null
+      const textAlign = values.textAlign ? values.textAlign : null
       const color = values.color ? values.color : null
       const title = values.title ? values.title : null
       const text = values.text ? values.text : null
@@ -43,11 +51,10 @@ class SectionItem extends Component {
           <div style={{
             margin,
             padding,
-            textAlign: 'center',
-            maxWidth: 575
+            width
           }}>
-            {title ? <h1 style={{ color }}>{title}</h1> : null}
-            {text ? <h2 style={{ color }}>{text}</h2> : null}
+            {title ? <h1 style={{ color, textAlign }}>{title}</h1> : null}
+            {text ? <div style={{ color }}>{renderHTML(text)}</div> : null}
           </div>
           <Cards section={ item } />
         </div>

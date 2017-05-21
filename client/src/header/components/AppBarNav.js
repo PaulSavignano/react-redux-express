@@ -103,7 +103,7 @@ class AppBarNav extends Component {
               <FontIcon className="fa fa-search" style={styles.search} onTouchTap={() => this.setState({ searching: !this.state.searching })}/>
               <IconMenu
                 iconButtonElement={
-                  <IconButton style={{ padding: '20px 12px 4px 12px'}}><MoreVertIcon /></IconButton>
+                  <IconButton style={{ margin: '10px 0 4px 0'}}><MoreVertIcon /></IconButton>
                 }
                 open={this.state.openMenu}
                 onTouchTap={() => this.setState({ openMenu: !this.state.openMenu })}

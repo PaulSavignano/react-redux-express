@@ -43,8 +43,8 @@ class AdminProductAdd extends Component {
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ submitted: true })
-    if (nextProps.dirty) return this.setState({ submitted: false })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true })
+    if (nextProps.dirty) this.setState({ submitted: false })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })

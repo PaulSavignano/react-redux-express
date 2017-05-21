@@ -18,6 +18,7 @@
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.1",
+    "node-fetch": "^1.6.3",
     "nodemailer": "^4.0.1",
     "npm": "^4.4.4",
     "stripe": "^4.15.1",

@@ -37,7 +37,7 @@ class Signin extends Component {
   state = { open: false }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ open: true })
+    if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
     console.log(this.props)

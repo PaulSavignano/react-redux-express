@@ -37,7 +37,7 @@ class Recovery extends Component {
   state = { open: false, email: null }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ open: true })
+    if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
     const { dispatch, error, handleSubmit, submitting, isFetching } = this.props

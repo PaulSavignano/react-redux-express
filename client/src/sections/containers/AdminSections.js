@@ -7,7 +7,7 @@ import AdminSectionList from '../components/AdminSectionList'
 const AdminSections = ({ isFetching, page, items }) => {
   return (
     isFetching ? null :
-    <div style={{ marginTop: 30 }}>
+    <div style={{ margin: 20 }}>
       <AdminSectionList page={page} items={items} />
       <br/><br/><br/>
       <AdminSectionAdd page={page} />

@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { CardActions, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate, fetchDelete } from '../actions/index'
@@ -20,20 +20,23 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 class AdminCarouselItem extends Component {
   state = {
+    zDepth: 1,
     submitted: false,
     editing: false,
     image: null
   }
+  handleMouseEnter = () => this.setState({ zDepth: 4 })
+  handleMouseLeave = () => this.setState({ zDepth: 1 })
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'https://placehold.it/280x60'
+    const imageUrl = image ? image : this.props.placeholdit
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
-    if (nextProps.dirty) return this.setState({ submitted: false })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
@@ -42,7 +45,7 @@ class AdminCarouselItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, item } = this.props
+    const { error, handleSubmit, dispatch, item, imageSize } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -61,47 +64,55 @@ class AdminCarouselItem extends Component {
         })}
         style={{ flex: '1 1 auto' }}
       >
-        <CardMedia expandable={true}>
-          <ImageFormHor
-            image={this.state.image}
-            type="image/jpeg"
-            editing={this.editing}
-            width={300}
-            height={300}
-            ref={this.setEditorRef}
-          />
-        </CardMedia>
-        <CardText>
-          <Field
-            name="text"
-            label="Text"
-            type="text"
-            multiLine={true}
-            rows={2}
-            fullWidth={true}
-            component={renderTextField}
-          />
-          {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-        </CardText>
-        <CardActions style={{ display: 'flex' }}>
-          <RaisedButton
-            type="submit"
-            label={this.state.submitted ? "Updated" : "Update"}
-            labelColor="#ffffff"
-            primary={this.state.submitted ? false : true}
-            backgroundColor={this.state.submitted ? "#4CAF50" : null }
-            style={{ flex: '1 1 auto', margin: 8 }}
-          />
-          <RaisedButton
-            type="button"
-            label="X"
-            primary={true}
-            style={{ flex: '1 1 auto', margin: 8 }}
-            onTouchTap={() => {
-              dispatch(fetchDelete(item._id, item.image))
-            }}
-          />
-        </CardActions>
+        <Card
+          style={{ margin: 20}}
+          zDepth={this.state.zDepth}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        >
+          <CardMedia>
+            <ImageFormHor
+              image={this.state.image}
+              type="image/png"
+              editing={this.editing}
+              width={imageSize.width}
+              height={imageSize.height}
+              ref={this.setEditorRef}
+            />
+          </CardMedia>
+          <CardText>
+            <Field
+              name="text"
+              label="Text"
+              type="text"
+              multiLine={true}
+              rows={2}
+              fullWidth={true}
+              component={renderTextField}
+            />
+            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+          </CardText>
+          <CardActions style={{ display: 'flex' }}>
+            <RaisedButton
+              type="submit"
+              label={this.state.submitted ? "Updated" : "Update"}
+              labelColor="#ffffff"
+              primary={this.state.submitted ? false : true}
+              backgroundColor={this.state.submitted ? "#4CAF50" : null }
+              style={{ flex: '1 1 auto', margin: 8 }}
+            />
+            <RaisedButton
+              type="button"
+              label="X"
+              primary={true}
+              style={{ flex: '1 1 auto', margin: 8 }}
+              onTouchTap={() => {
+                dispatch(fetchDelete(item._id, item.image))
+              }}
+            />
+          </CardActions>
+        </Card>
+
       </form>
     )
   }

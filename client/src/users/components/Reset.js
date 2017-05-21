@@ -45,7 +45,7 @@ class Reset extends Component {
   state = { open: false }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ open: true })
+    if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
     const { error, dispatch, handleSubmit, submitting, params, user } = this.props

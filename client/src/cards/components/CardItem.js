@@ -48,14 +48,16 @@ class CardItem extends Component {
           {values.header ? <CardHeader title={values.header} /> : null }
           {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
           {values.iFrame ?
-            <div style={{ position: 'relative', paddingBottom: '50%'}}>
+            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
+              <div>What people</div>
               <iframe
                 title="google youtube"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                 src={values.iFrame} frameBorder="0" allowFullScreen>
-              </iframe></div>
+              </iframe>
+            </div>
           : null}
-          {values.title ? <CardTitle title={values.title} /> : null }
+          {!values.title ? null : values.text ? <CardTitle title={values.title} /> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center'}} /> }
           {values.text ? <CardText>{values.text}</CardText> : null }
         </CSSTransitionGroup>
       </Card>
@@ -73,14 +75,14 @@ class CardItem extends Component {
             {values.header ? <CardHeader title={values.header} /> : null }
             {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
             {values.iFrame ?
-              <div style={{ position: 'relative', paddingBottom: '50%'}}>
+              <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
                 <iframe
                   title="google youtube"
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                   src={values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>
             : null}
-            {values.title ? <CardTitle title={values.title} /> : null }
+            {!values.title ? null : values.text ? <CardTitle title={values.title} /> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center'}} /> }
             {values.text ? <CardText>{values.text}</CardText> : null }
           </CSSTransitionGroup>
         </Card>

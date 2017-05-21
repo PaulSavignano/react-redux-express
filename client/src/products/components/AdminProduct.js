@@ -48,8 +48,8 @@ class AdminProduct extends Component {
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
-    if (nextProps.dirty) return this.setState({ submitted: false })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.item.image })
+    if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })

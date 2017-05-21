@@ -18,9 +18,9 @@ class Page extends Component {
         transitionLeave={false}
       >
         {sections ? <Sections page={page} /> : null}
-        <main>
+        <section>
           {carousel ? <CarouselList page={page} /> : null}
-        </main>
+        </section>
       </CSSTransitionGroup>
     )
   }

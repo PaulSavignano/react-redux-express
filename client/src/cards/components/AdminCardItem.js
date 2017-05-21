@@ -29,13 +29,14 @@ class AdminCardItem extends Component {
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'https://placehold.it/1000x1000'
+    const imageUrl = image ? image : this.props.placeholdit
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
-    if (nextProps.dirty) return this.setState({ submitted: false })
+    const { submitSucceeded, dirty, item } = nextProps
+    if (submitSucceeded) this.setState({ submitted: true, image: item.image })
+    if (dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
@@ -44,7 +45,7 @@ class AdminCardItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, item } = this.props
+    const { error, handleSubmit, dispatch, item, imageSize } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -83,7 +84,7 @@ class AdminCardItem extends Component {
             <Field
               name="width"
               label="Width"
-              type="number"
+              type="text"
               fullWidth={true}
               component={renderTextField}
             />
@@ -112,8 +113,8 @@ class AdminCardItem extends Component {
               image={this.state.image}
               type="image/jpeg"
               editing={this.editing}
-              width={1000}
-              height={1000}
+              width={imageSize.width}
+              height={imageSize.height}
               ref={this.setEditorRef}
             />
           </CardMedia>

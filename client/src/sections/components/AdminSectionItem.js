@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import AdminCards from '../../cards/containers/AdminCards'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
+import RichTextMarkdown from '../../RichTextMarkdown'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -18,6 +19,16 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
     {...custom}
   />
 )
+
+const renderRichField = ({ input, meta: { touched, error } }) => (
+  <div style={{ margin: '16px 0 8px 0'}}>
+    <label style={{ color: 'rgba(0, 0, 0, 0.3)', fontSize: 12 }}>Text</label>
+    <RichTextMarkdown {...input} />
+    {touched && (error && <div className="formValidationErrorText">{error}</div>)}
+  </div>
+)
+
+
 
 class AdminSectionItem extends Component {
   state = {
@@ -30,12 +41,16 @@ class AdminSectionItem extends Component {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'https://placehold.it/1000x1000'
-    this.setState({ expanded: hasImage, image: imageUrl })
-    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+    if (hasImage) {
+      this.setState({ expanded: hasImage, image: imageUrl })
+    }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ submitted: true, image: nextProps.item.image })
-    if (nextProps.dirty) return this.setState({ submitted: false })
+    console.log(nextProps)
+    const { submitSucceeded, dirty, item } = nextProps
+    console.log({ submitSucceeded, dirty })
+    if (submitSucceeded) this.setState({ submitted: true, image: item.image })
+    if (dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
     bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
@@ -43,6 +58,7 @@ class AdminSectionItem extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { error, handleSubmit, dispatch, page, item } = this.props
+
     return (
       <Card
         expanded={this.state.expanded}
@@ -50,8 +66,20 @@ class AdminSectionItem extends Component {
         onMouseLeave={this.handleMouseLeave}
         zDepth={3}
         containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-        style={{ height: '100%', margin: '60px 0'}}
+        style={{ height: '100%', margin: '130px 0'}}
       >
+        <CardActions style={{ display: 'flex' }}>
+          <RaisedButton
+            type="button"
+            label="Remove Section"
+            labelColor="#ffffff"
+            backgroundColor="#D50000"
+            fullWidth={true}
+            onTouchTap={() => {
+              dispatch(fetchDelete(item._id, item.image))
+            }}
+          />
+        </CardActions>
         <form
           onSubmit={handleSubmit((values) => {
             let type, image
@@ -70,9 +98,9 @@ class AdminSectionItem extends Component {
               type = 'UPDATE_ITEM'
               image = null
             }
+            console.log(values)
             const update = { type, image, values }
             dispatch(fetchUpdate(item._id, update))
-            this.setState({ image: item.image })
           })}
         >
           <CardText>
@@ -84,15 +112,15 @@ class AdminSectionItem extends Component {
               component={renderTextField}
             />
             <Field
-              name="backgroundAttachment"
-              label="backgroundAttachment"
+              name="backgroundColor"
+              label="backgroundColor"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
-              name="backgroundColor"
-              label="backgroundColor"
+              name="backgroundAttachment"
+              label="backgroundAttachment"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -132,13 +160,18 @@ class AdminSectionItem extends Component {
               component={renderTextField}
             />
             <Field
+              name="titleAlign"
+              label="titleAlign"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
               name="text"
               label="Text"
               type="text"
-              multiLine={true}
-              rows={2}
               fullWidth={true}
-              component={renderTextField}
+              component={renderRichField}
             />
             <Field
               name="margin"
@@ -150,6 +183,20 @@ class AdminSectionItem extends Component {
             <Field
               name="padding"
               label="Text Padding"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="textWidth"
+              label="textWidth"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="textAlign"
+              label="textAlign"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -170,16 +217,7 @@ class AdminSectionItem extends Component {
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}
               backgroundColor={this.state.submitted ? "#4CAF50" : null }
-              style={{ flex: '1 1 auto', margin: 8 }}
-            />
-            <RaisedButton
-              type="button"
-              label="X"
-              primary={true}
-              style={{ flex: '1 1 auto', margin: 8 }}
-              onTouchTap={() => {
-                dispatch(fetchDelete(item._id, item.image))
-              }}
+              fullWidth={true}
             />
           </CardActions>
         </form>
@@ -193,6 +231,9 @@ AdminSectionItem = compose(
   connect((state, props) => ({
     form: `section_${props.item._id}`
   })),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminSectionItem)
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: []
+  }))(AdminSectionItem)
 
 export default AdminSectionItem

@@ -35,6 +35,7 @@ import OrderConfirmation from './orders/containers/OrderConfirmation'
 import OrderDetail from './orders/containers/OrderDetail'
 
 import TodosPage from './todos/components/TodosPage'
+import RequestEstimate from './users/components/RequestEstimate'
 
 const Routing = ({ history }) => (
   <Router history={history}>
@@ -56,6 +57,7 @@ const Routing = ({ history }) => (
       <Route path="reset/:token" component={Reset} />
       <Route path="contact" component={Contact} />
       <Route path="profile" component={ProfilePage} />
+      <Route path="request-estimate" component={RequestEstimate} />
 
       {/* Product */}
       <Route path="todos" component={RequireAuth(TodosPage, ['user', 'admin'])} />

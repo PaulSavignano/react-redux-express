@@ -6,35 +6,40 @@ import { Card } from 'material-ui/Card'
 import AdminCarouselAdd from '../components/AdminCarouselAdd'
 import AdminCarouselItem from '../components/AdminCarouselItem'
 
+const imageSize = {
+  width: 300,
+  height: 100
+}
+const placeholdit = `https://placehold.it/${imageSize.width}x${imageSize.height}`
+
 class AdminCarouselList extends Component {
   state = {
-    zDepth: 1,
+    open: false
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
     const { isFetching, page, items } = this.props
     return (
       isFetching ? null :
-      <section>
-        <Card style={{ margin: '100px 20px' }}>
-          <AdminCarouselAdd page={page} />
-          {items.length > 0 ?
-            <div>
-              {items.map(item => (
-                <AdminCarouselItem
-                  key={item._id}
-                  item={item}
-                  page={page}
-                  initialValues={item.values}
-                />
-              ))}
-            </div>
-            :
-            <h3>No items yet</h3>
-          }
+      <div style={{ margin: '130px 20px 20px 20px' }}>
+        <Card>
+          <AdminCarouselAdd page={page} imageSize={imageSize} placeholdit={placeholdit} />
+          <div style={{ paddingBottom: 20 }}>
+            {items.length < 1 ? null : items.map(item => (
+              <AdminCarouselItem
+                key={item._id}
+                item={item}
+                page={page}
+                initialValues={item.values}
+                imageSize={imageSize}
+                placeholdit={placeholdit}
+              />
+            ))
+            }
+          </div>
+
         </Card>
-      </section>
+
+      </div>
     )
   }
 }

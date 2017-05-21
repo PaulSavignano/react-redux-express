@@ -111,7 +111,7 @@ class ImageForm extends Component {
     return (
       <div style={{ display: 'flex', flexFlow: 'row wrap', padding: '8px 8px 0 8px' }}>
         <div style={{ flex: '1 1 60px' }}>
-          <div style={{ maxWidth: 100, maxHeight: 100, margin: '0 auto 16px auto' }}>
+          <div style={{ margin: '0 auto 16px auto' }}>
             <ImageEditor
               ref={this.setEditorRef}
               scale={parseFloat(this.state.scale)}

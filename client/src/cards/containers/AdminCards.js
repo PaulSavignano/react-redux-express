@@ -4,12 +4,18 @@ import { connect } from 'react-redux'
 import AdminCardAdd from '../components/AdminCardAdd'
 import AdminCardList from '../components/AdminCardList'
 
+const imageSize = {
+  width: 300,
+  height: 100
+}
+const placeholdit = `https://placehold.it/${imageSize.width}x${imageSize.height}`
+
 const AdminCards = ({ isFetching, section, items }) => {
   return (
     isFetching ? null :
     <div>
-      <section><AdminCardAdd section={section} /></section>
-      <AdminCardList section={section} items={items} />
+      <section><AdminCardAdd section={section} imageSize={imageSize} placeholdit={placeholdit} /></section>
+      <AdminCardList section={section} items={items} imageSize={imageSize} placeholdit={placeholdit} />
     </div>
   )
 }

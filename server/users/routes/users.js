@@ -1,6 +1,7 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 import crypto from 'crypto'
+import fetch from 'node-fetch'
 
 import User from '../models/User'
 import authenticate from '../../middleware/authenticate'
@@ -152,11 +153,50 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
 
 
 // Contact
-users.post('/contact', (req, res) => {
-  const { firstname, email, message } = req.body
-  if (!firstname || !email || !message) {
-    return res.status(422).send({ error: 'You must provide all fields' });
-  }
+users.post('/request-estimate', (req, res) => {
+  const { values } = req.body
+  console.log(req.body)
+  var auth = 'Basic ' + new Buffer(process.env.MOVERBASE_KEY + ':').toString('base64')
+  return fetch(`https://api.moverbase.com/v1/leads/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: auth
+    },
+    body: JSON.stringify({
+     date: req.body.date,
+     firstName: req.body.firstName,
+     lastName: req.body.lastName,
+     phone: req.body.phone,
+     email: req.body.email,
+     from: { postalCode: req.body.from },
+     to: { postalCode: req.body.to },
+     size: { title: req.body.size },
+     note: req.body.note
+    })
+  })
+  .then(res => {
+    if (res.ok) return res.json()
+    throw new Error('Network response was not ok.')
+  })
+  .then(json => {
+    console.log(json)
+    res.send(json)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(400).send({ error: err })
+  })
+
+
+
+
+
+
+
+
+
+
   sendEmail1({
     to: 'paul.savignano@gmail.com',
     subject: 'Thank you for contacting us',

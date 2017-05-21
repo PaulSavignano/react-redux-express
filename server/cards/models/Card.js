@@ -5,7 +5,7 @@ const CardSchema = new Schema({
   image: { type: String },
   values: {
     header: { type: String, trim: true },
-    width: { type: Number },
+    width: { type: String, trim: true },
     iFrame: { type: String, trim: true },
     title: { type: String, trim: true },
     text: { type: String, trim: true },

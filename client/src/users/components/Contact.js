@@ -39,7 +39,7 @@ class Contact extends Component {
   }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) return this.setState({ open: true })
+    if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
     const { dispatch, error, handleSubmit, submitting } = this.props

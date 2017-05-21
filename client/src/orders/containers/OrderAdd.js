@@ -9,7 +9,6 @@ import {Card, CardActions, CardText} from 'material-ui/Card'
 
 import formatPrice from '../../modules/formatPrice'
 import { fetchAddOrder } from '../actions/index'
-import './CreditCard.css'
 
 const validate = values => {
   const errors = {}

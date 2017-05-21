@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminCardItem from '../components/AdminCardItem'
 
-const AdminCardList = ({ section, items }) => (
+const AdminCardList = ({ section, items, imageSize, placeholdit }) => (
   items.length < 1 ? null  :
   <section>
     {items.map(item => (
@@ -11,6 +11,8 @@ const AdminCardList = ({ section, items }) => (
         item={item}
         section={section}
         initialValues={item.values}
+        imageSize={imageSize}
+        placeholdit={placeholdit}
       />
     ))}
   </section>
