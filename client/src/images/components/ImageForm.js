@@ -144,7 +144,7 @@ class ImageForm extends Component {
               name="scale"
               type="range"
               onChange={this.handleScale}
-              min="1"
+              min="0"
               max="2"
               step="0.01"
               defaultValue="1"

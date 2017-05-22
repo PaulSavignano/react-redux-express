@@ -68,7 +68,7 @@ class CardItem extends Component {
       </Card>
         :
         <Card
-          style={{ flex: '1 1 auto',  width, color, maxWidth, margin }}
+          style={{ flex: '1 1 auto',  width, color, backgroundColor, maxWidth, margin }}
         >
           <CSSTransitionGroup
             transitionName="image"

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
 import { connect } from 'react-redux'
+import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 import CarouselItem from '../components/CarouselItem'
 

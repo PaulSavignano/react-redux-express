@@ -3,7 +3,7 @@
 
 
 /**** Mobile layout ****/
-@media (max-width: 900px) {
+@media (max-width: 890px) {
   .appbar-nav {
     display: none !important;
   }

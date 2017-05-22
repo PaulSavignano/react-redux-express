@@ -33,7 +33,7 @@ class SectionItem extends Component {
       const margin = values.margin ? values.margin : null
       const padding = values.padding ? values.padding : null
       const width = values.textWidth ? values.textWidth : null
-      const textAlign = values.textAlign ? values.textAlign : null
+      const textAlign = values.titleAlign ? values.titleAlign : null
       const color = values.color ? values.color : null
       const title = values.title ? values.title : null
       const text = values.text ? values.text : null

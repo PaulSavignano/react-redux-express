@@ -101,7 +101,7 @@ class AppBarNav extends Component {
               <span style={{ alignSelf: 'flex-end', color: primary1Color, height: 50, marginTop: '-10px', fontSize: 30 }}>805.456.6498</span>
               <span style={{ alignSelf: 'flex-end'}}>
                 <span className="appbar-nav">
-                  {pages.map(page => (
+                  {pages.filter(page => page.slug !== 'home').map(page => (
                     <NavLink
                       key={page._id}
                       to={`/pages/${page.slug}`}
