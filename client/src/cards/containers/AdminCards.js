@@ -5,8 +5,8 @@ import AdminCardAdd from '../components/AdminCardAdd'
 import AdminCardList from '../components/AdminCardList'
 
 const imageSize = {
-  width: 300,
-  height: 200
+  width: 900,
+  height: 600
 }
 const placeholdit = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 

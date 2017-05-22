@@ -17,7 +17,7 @@ const DrawerNav = ({ user, handleDrawer, pages, open, handleSearch, dispatch }) 
     >
       {pages.filter(page => page.slug !== 'home').map(page => (
         <MenuItem key={page._id} onTouchTap={() => {
-          dispatch(push(`/${page.slug}`))
+          dispatch(push(`/pages/${page.slug}`))
           handleDrawer()
         }}>{page.name}</MenuItem>
       ))}

@@ -19,7 +19,7 @@ const CarouselItem = ({ item, muiTheme }) => {
       transitionLeave={false}
     >
       <div style={{ margin: '0 auto 0 auto'}}>
-        <div style={{ textAlign: 'center', fontSize: 24, padding: 10, fontStyle: 'italic', fontFamily: muiTheme.fontFamily, color: muiTheme.palette.primary2Color }}>
+        <div style={{ textAlign: 'center', fontSize: 24, padding: 10, fontStyle: 'italic', fontFamily: muiTheme.fontFamily, color: muiTheme.palette.textColor }}>
           {text}
         </div>
         <img src={image} alt="card" style={{ padding: 10 }}/>
