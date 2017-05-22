@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { connect } from 'react-redux'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
-const CarouselItem = ({ item }) => {
+const CarouselItem = ({ item, muiTheme }) => {
   const { image, values } = item
   let text
   if (item.values) {
@@ -19,7 +19,7 @@ const CarouselItem = ({ item }) => {
       transitionLeave={false}
     >
       <div style={{ margin: '0 auto 0 auto'}}>
-        <div style={{ textAlign: 'center', fontSize: 24, padding: 10, fontStyle: 'italic' }}>
+        <div style={{ textAlign: 'center', fontSize: 24, padding: 10, fontStyle: 'italic', fontFamily: muiTheme.fontFamily, color: muiTheme.palette.primary2Color }}>
           {text}
         </div>
         <img src={image} alt="card" style={{ padding: 10 }}/>
@@ -28,4 +28,4 @@ const CarouselItem = ({ item }) => {
   )
 }
 
-export default connect()(CarouselItem)
+export default muiThemeable()(CarouselItem)
