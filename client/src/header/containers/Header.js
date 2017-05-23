@@ -1,32 +1,42 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import AppBar from 'material-ui/AppBar'
+import Drawer from 'material-ui/Drawer'
 
-import AppBarNav from '../components/AppBarNav'
-import DrawerNav from '../components/DrawerNav'
+import AppBarMenu from '../components/AppBarMenu'
+import DrawerMenu from '../components/DrawerMenu'
 
 class Header extends Component {
-  state = { open: false }
-  handleDrawer = () => this.setState({ open: !this.state.open })
+  state = {
+    open: false
+  }
+  handleToggle = () => this.setState({open: !this.state.open})
+  handleClose = () => this.setState({open: false})
   render() {
-    const { isFetching, pages, user, theme, path } = this.props
+    const { isFetching, theme, pages, user, path } = this.props
     return (
       isFetching ? null :
       <div>
-        <AppBarNav
-          handleDrawer={this.handleDrawer}
-          user={user}
-          pages={pages}
-          theme={theme}
-          path={path}
+        <AppBar
+          onLeftIconButtonTouchTap={this.handleToggle}
+          title={
+            <AppBarMenu
+              theme={theme}
+              pages={pages}
+              user={user}
+              path={path}
+            />
+          }
         />
-        <DrawerNav
-          handleDrawer={this.handleDrawer}
-          open={this.state.open}
-          pages={pages}
-          user={user}
-          theme={theme}
-          path={path}
-        />
+        <Drawer docked={false} open={this.state.open} onRequestChange={(open) => this.setState({open}) }>
+          <DrawerMenu 
+            theme={theme}
+            pages={pages}
+            user={user}
+            path={path}
+            handleClose={this.handleClose}
+          />
+        </Drawer>
       </div>
     )
   }

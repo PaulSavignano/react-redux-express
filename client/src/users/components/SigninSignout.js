@@ -5,14 +5,14 @@ import MenuItem from 'material-ui/MenuItem'
 
 import { fetchSignout } from '../actions/index'
 
-const SigninSignout = ({ dispatch, user, handleChange }) => {
+const SigninSignout = ({ dispatch, user, handleCloseMenu }) => {
   return (
     user.values.email ?
       <div>
         <MenuItem primaryText="Sign out" onTouchTap={() => {
           dispatch(fetchSignout())
           dispatch(push('/signin'))
-          handleChange()
+          handleCloseMenu()
         }}/>
       </div>
     :
@@ -20,13 +20,13 @@ const SigninSignout = ({ dispatch, user, handleChange }) => {
         <MenuItem primaryText="Sign in"
           onTouchTap={() => {
             dispatch(push('/signin'))
-            handleChange()
+            handleCloseMenu()
           }}
         />
         <MenuItem primaryText="Sign up"
           onTouchTap={() => {
             dispatch(push('/signup'))
-            handleChange()
+            handleCloseMenu()
           }}/>
       </div>
   )

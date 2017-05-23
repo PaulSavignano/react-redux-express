@@ -4,7 +4,6 @@ import path from 'path'
 
 import mongoose from './db/mongoose'
 import cards from './cards/routes/cards'
-import carousels from './carousels/routes/carousels'
 import carts from './carts/routes/carts'
 import sections from './sections/routes/sections'
 import orders from './orders/routes/orders'
@@ -21,7 +20,6 @@ app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api/cards', cards)
-app.use('/api/carousels', carousels)
 app.use('/api/carts', carts)
 app.use('/api/sections', sections)
 app.use('/api/orders', orders)

@@ -1,35 +1,35 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
 
 import SigninSignout from '../../users/components/SigninSignout'
 
-const DrawerNav = ({ user, handleDrawer, pages, open, handleSearch, dispatch }) => {
+const DrawerNav = ({ dispatch, theme, pages, user, handleClose }) => {
   const isAdmin = user.roles ? user.roles.find(role => role === 'admin') : null
   return (
-    <Drawer
-      docked={false}
-      open={open}
-      onRequestChange={handleDrawer}
-    >
+    <div>
+      <div style={{ cursor: 'pointer', padding: '0 16px' }} onTouchTap={() => dispatch(push('/'))}>
+        {theme.image ? <img src={theme.image} style={{ maxHeight: 80 }} alt=""/> : 'Brand'}
+      </div>
+      {user.values.firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {user.values.firstName}</div>}
+
       {pages.filter(page => page.slug !== 'home').map(page => (
         <MenuItem key={page._id} onTouchTap={() => {
           dispatch(push(`/pages/${page.slug}`))
-          handleDrawer()
+          handleClose()
         }}>{page.name}</MenuItem>
       ))}
 
       <MenuItem onTouchTap={() => {
         dispatch(push('/products'))
-        handleDrawer()
+        handleClose()
       }}>Products</MenuItem>
 
       <MenuItem onTouchTap={() => {
         dispatch(push('/contact'))
-        handleDrawer()
+        handleClose()
       }}>Contact</MenuItem>
 
       {!isAdmin ? null :
@@ -43,7 +43,7 @@ const DrawerNav = ({ user, handleDrawer, pages, open, handleSearch, dispatch }) 
               primaryText="Theme"
               onTouchTap={() => {
                 dispatch(push(`/admin/theme`))
-                handleDrawer()
+                handleClose()
               }}
             />,
             <ListItem
@@ -51,7 +51,7 @@ const DrawerNav = ({ user, handleDrawer, pages, open, handleSearch, dispatch }) 
               primaryText="Pages"
               onTouchTap={() => {
                 dispatch(push(`/admin/pages`))
-                handleDrawer()
+                handleClose()
               }}
             />,
             <ListItem
@@ -59,15 +59,15 @@ const DrawerNav = ({ user, handleDrawer, pages, open, handleSearch, dispatch }) 
               primaryText="Products"
               onTouchTap={() => {
                 dispatch(push(`/admin/products`))
-                handleDrawer()
+                handleClose()
               }}
             />
           ]}
         />
       }
-      <SigninSignout user={user} handleChange={handleDrawer}/>
+      <SigninSignout user={user}/>
+    </div>
 
-    </Drawer>
   )
 }
 

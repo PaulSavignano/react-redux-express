@@ -5,7 +5,6 @@ import { browserHistory } from 'react-router'
 import { reducer as formReducer } from 'redux-form'
 
 import cards from '../cards/reducers/index'
-import carousels from '../carousels/reducers/index'
 import cart from '../carts/reducers/index'
 import sections from '../sections/reducers/index'
 import orders from '../orders/reducers/index'
@@ -18,7 +17,6 @@ import user from '../users/reducers/index'
 
 const rootReducer = combineReducers({
   cards,
-  carousels,
   cart,
   form: formReducer,
   sections,

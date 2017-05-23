@@ -9,7 +9,7 @@ const CartIcon = ({ qty }) => (
     style={{ padding: '0 16px 0 0' }}
     badgeContent={qty}
     primary={true}
-    badgeStyle={{top: 10, left: 10 }}
+    badgeStyle={{top: -10, left: 10 }}
   >
     <FontIcon
       className="fa fa-shopping-cart"

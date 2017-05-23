@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import AdminTheme from '../components/AdminTheme'
-import AdminFavicon from '../components/AdminFavicon'
+import AdminThemeForm from '../components/AdminThemeForm'
+import AdminThemeImage from '../components/AdminThemeImage'
 
 import { fetchAdd } from '../actions/index'
 
 const imageSize = {
-  width: 400,
-  height: 400
+  width: 300,
+  height: 100
 }
 const placeholdit = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
@@ -17,8 +17,8 @@ const AdminThemePage = ({ dispatch, isFetching, theme, initialValues }) => {
     isFetching ? null : !theme.values ? null :
     <main>
       <section><h1>Theme Admin</h1></section>
-      <AdminFavicon theme={theme} imageSize={imageSize} placeholdit={placeholdit} />
-      <AdminTheme theme={theme} initialValues={initialValues}/>
+      <AdminThemeImage theme={theme} imageSize={imageSize} placeholdit={placeholdit} />
+      <AdminThemeForm theme={theme} initialValues={initialValues}/>
     </main>
 
   )

@@ -2,13 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import AdminSections from '../../sections/containers/AdminSections'
-import AdminCarouselList from '../../carousels/containers/AdminCarouselList'
 
 const AdminPageEdit = ({ isFetching, page }) => (
   isFetching ? null :
   <main>
     <AdminSections page={page} />
-    <AdminCarouselList page={page} />
   </main>
 )
 

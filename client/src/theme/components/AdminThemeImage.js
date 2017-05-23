@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { fetchUpdate } from '../actions/index'
 import ImageFormHor from '../../images/components/ImageFormHor'
 
-class AdminTheme extends Component {
+class AdminThemeImage extends Component {
   state = {
     zDepth: 1,
     submitted: false,
@@ -75,9 +75,9 @@ class AdminTheme extends Component {
   }
 }
 
-AdminTheme = reduxForm({
+AdminThemeImage = reduxForm({
   form: 'adminFavicon'
-})(AdminTheme)
+})(AdminThemeImage)
 
 const mapStateToProps = (state) => {
   const isFetching = state.theme.isFetching
@@ -88,6 +88,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-AdminTheme = connect(mapStateToProps)(AdminTheme)
+AdminThemeImage = connect(mapStateToProps)(AdminThemeImage)
 
-export default AdminTheme
+export default AdminThemeImage

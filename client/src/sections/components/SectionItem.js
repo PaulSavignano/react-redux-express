@@ -25,10 +25,7 @@ class SectionItem extends Component {
     const { values } = item
     const { fontFamily } = theme
     if (values) {
-
       const height = values.height ? values.height : null
-      const backgroundImage = item.image ? `url(${item.image})` : null
-      const backgroundAttachment = values.backgroundAttachment ? values.backgroundAttachment : null
       const backgroundColor = values.backgroundColor ? values.backgroundColor : null
       const margin = values.margin ? values.margin : null
       const padding = values.padding ? values.padding : null
@@ -37,24 +34,31 @@ class SectionItem extends Component {
       const color = values.color ? values.color : null
       const title = values.title ? values.title : null
       const text = values.text ? values.text : null
+      const backgrounds = item.image ? {
+        backgroundImage: `url(${item.image})`,
+        backgroundAttachment: values.backgroundAttachment,
+        backgroundPosition: 'center center',
+        backgroundRepeat:  'no-repeat',
+        backgroundSize:  'cover',
+        width: '100%',
+        height: '100%',
+        zIndex: -1
+      } : null
       return (
         <div style={{
           height,
-          backgroundImage,
-          backgroundPosition: 'center center',
-          backgroundRepeat:  'no-repeat',
-          backgroundAttachment,
-          backgroundSize:  'cover',
+          ...backgrounds,
           backgroundColor,
           overflow: 'hidden',
         }}>
           <div style={{
             margin,
             padding,
-            width
+            maxWidth: width
           }}>
             {title ? <h1 style={{ color, textAlign, fontFamily }}>{title}</h1> : null}
             {text ? <div style={{ color, fontFamily }}>{renderHTML(text)}</div> : null}
+
           </div>
           <Cards section={ item } />
         </div>

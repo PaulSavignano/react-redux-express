@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute } from 'react-router'
 import App from './App'
 
 // Theme
-import AdminThemePage from './theme/containers/AdminThemePage'
+import AdminTheme from './theme/containers/AdminTheme'
 
 // Page
 import Page from './pages/containers/Page'
@@ -24,7 +24,7 @@ import RequestEstimate from './users/components/RequestEstimate'
 // Product
 import Products from './products/containers/Products'
 import Product from './products/containers/Product'
-import AdminProductList from './products/containers/AdminProductList'
+import AdminProducts from './products/containers/AdminProducts'
 
 // Cart
 import Cart from './carts/containers/Cart'
@@ -48,7 +48,7 @@ const Routing = ({ history }) => (
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
 
       {/* Theme */}
-      <Route path="admin/theme" component={RequireAuth(AdminThemePage, ['admin'])} />
+      <Route path="admin/theme" component={RequireAuth(AdminTheme, ['admin'])} />
 
       {/* User */}
       <Route path="signup" component={Signup} />
@@ -62,7 +62,7 @@ const Routing = ({ history }) => (
       {/* Product */}
       <Route path="products" component={Products} />
       <Route path="product/:slug" component={Product} />
-      <Route path="admin/products" component={RequireAuth(AdminProductList, ['admin'])} />
+      <Route path="admin/products" component={RequireAuth(AdminProducts, ['admin'])} />
       <Route path="cart" component={Cart} />
       <Route path="order" component={RequireAuth(OrderAdd, ['user'])} />
       <Route path="order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />

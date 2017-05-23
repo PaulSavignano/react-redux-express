@@ -43,7 +43,7 @@ class AdminProduct extends Component {
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'https://placehold.it/1000x1000'
+    const imageUrl = image ? image : this.props.placeholdIt
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
@@ -58,7 +58,7 @@ class AdminProduct extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, item } = this.props
+    const { error, handleSubmit, dispatch, item, imageSize, placeholdIt } = this.props
     return (
       <Card
         style={{ flex: '1 1 auto', width: 300, margin: 20 }}
@@ -94,8 +94,8 @@ class AdminProduct extends Component {
                 image={this.state.image}
                 type="image/jpeg"
                 editing={this.editing}
-                width={1000}
-                height={1000}
+                width={imageSize.width}
+                height={imageSize.height}
                 ref={this.setEditorRef}
               />
             </CardMedia>

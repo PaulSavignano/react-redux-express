@@ -16,7 +16,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminTheme extends Component {
+class AdminThemeForm extends Component {
   state = {
     zDepth: 1,
     expanded: false,
@@ -43,7 +43,7 @@ class AdminTheme extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { error, handleSubmit, dispatch, theme } = this.props
-    console.log('inside AdminTheme')
+    console.log('inside AdminThemeForm')
     return (
       <section>
         <form
@@ -105,10 +105,10 @@ class AdminTheme extends Component {
   }
 }
 
-AdminTheme = reduxForm({
+AdminThemeForm = reduxForm({
   form: 'adminTheme'
-})(AdminTheme)
+})(AdminThemeForm)
 
-AdminTheme = connect()(AdminTheme)
+AdminThemeForm = connect()(AdminThemeForm)
 
-export default AdminTheme
+export default AdminThemeForm

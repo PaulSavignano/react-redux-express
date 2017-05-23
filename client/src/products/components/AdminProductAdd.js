@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import TextField from 'material-ui/TextField'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import ImageForm from '../../images/components/ImageForm'
@@ -34,6 +33,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 class AdminProductAdd extends Component {
   state = {
     zDepth: 1,
+    expanded: false,
     submitted: false,
     editing: false,
     image: null,
@@ -57,85 +57,92 @@ class AdminProductAdd extends Component {
   render() {
     const { error, handleSubmit, _id, dispatch } = this.props
     return (
-      <Card
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={900}
-          transitionEnter={false}
-          transitionLeave={false}
-        >
-          <form
-            onSubmit={handleSubmit((values) => {
-              let type, image
-              if (this.state.editing) {
-                console.log('has upload')
-                type = 'ADD_ITEM_ADD_IMAGE'
-                image = this.editor.handleSave()
-              } else {
-                type = 'ADD_ITEM'
-              }
-              const add = { type, image, values }
+      <form
+        onSubmit={handleSubmit((values) => {
+            let type, image
+          if (this.state.editing) {
+            console.log('has upload')
+              type = 'ADD_ITEM_ADD_IMAGE'
+            image = this.editor.handleSave()
+          } else {
+              type = 'ADD_ITEM'
+          }
+          const add = { type, image, values }
 
-              dispatch(fetchAdd(add))
-              this.props.reset()
-              this.setState({ image: 'https://placehold.it/1000x1000' })
-            })}
-          >
-            <CardMedia>
-              <ImageForm
-                image={this.state.new ? this.state.image : 'https://placehold.it/1000x1000'}
-                type="image/jpeg"
-                editing={this.editing}
-                width={1000}
-                height={1000}
-                _id={_id}
-                ref={this.setEditorRef}
-              />
-            </CardMedia>
-            <CardText>
-              <Field
-                name="name"
-                label="Name"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
-              />
-              <Field
-                name="price"
-                label="Price"
-                type="number"
-                fullWidth={true}
-                component={renderTextField}
-              />
-              <Field
-                name="description"
-                label="Description"
-                type="text"
-                multiLine={true}
-                rows={2}
-                fullWidth={true}
-                component={renderTextField}
-              />
-              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-            </CardText>
-            <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              <RaisedButton
-                type="submit"
-                label={this.state.submitted ? "Added" : "Add"}
-                labelColor="#ffffff"
-                primary={this.state.submitted ? false : true}
-                backgroundColor={this.state.submitted ? "#4CAF50" : null }
-                style={{ flex: '1 1 auto', margin: 8 }}
-              />
-            </div>
-          </form>
-        </CSSTransitionGroup>
-      </Card>
+          dispatch(fetchAdd(add))
+          this.props.reset()
+          this.setState({ image: 'https://placehold.it/1000x1000' })
+        })}
+      >
+        <Card
+          zDepth={this.state.zDepth}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          expanded={this.state.expanded}
+        >
+          <CardActions>
+            <RaisedButton
+              onTouchTap={() => {
+                this.setState({ expanded: !this.state.expanded })
+              }}
+              type="button"
+              label={this.state.expanded ? "Remove Product" : "Add Product"}
+              labelColor="#ffffff"
+              backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+              fullWidth={true}/>
+          </CardActions>
+
+
+          <CardMedia expandable={true}>
+            <ImageForm
+              image={this.state.new ? this.state.image : 'https://placehold.it/1000x1000'}
+              type="image/jpeg"
+              editing={this.editing}
+              width={1000}
+              height={1000}
+              _id={_id}
+              ref={this.setEditorRef}
+            />
+          </CardMedia>
+          <CardText expandable={true}>
+            <Field
+              name="name"
+              label="Name"
+              type="text"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="price"
+              label="Price"
+              type="number"
+              fullWidth={true}
+              component={renderTextField}
+            />
+            <Field
+              name="description"
+              label="Description"
+              type="text"
+              multiLine={true}
+              rows={2}
+              fullWidth={true}
+              component={renderTextField}
+            />
+            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+          </CardText>
+          <CardActions expandable={true}>
+            <RaisedButton
+              type="submit"
+              label={this.state.submitted ? "Added" : "Add"}
+              labelColor="#ffffff"
+              primary={this.state.submitted ? false : true}
+              backgroundColor={this.state.submitted ? "#4CAF50" : null }
+              fullWidth={true}
+            />
+          </CardActions>
+
+        </Card>
+      </form>
     )
   }
 }
