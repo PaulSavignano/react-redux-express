@@ -17,7 +17,7 @@ const DrawerNav = ({ dispatch, theme, pages, user, handleClose }) => {
 
       {pages.filter(page => page.slug !== 'home').map(page => (
         <MenuItem key={page._id} onTouchTap={() => {
-          dispatch(push(`/pages/${page.slug}`))
+          dispatch(push(`/${page.slug}`))
           handleClose()
         }}>{page.name}</MenuItem>
       ))}
@@ -65,7 +65,7 @@ const DrawerNav = ({ dispatch, theme, pages, user, handleClose }) => {
           ]}
         />
       }
-      <SigninSignout user={user}/>
+      <SigninSignout user={user} handleClose={handleClose} />
     </div>
 
   )

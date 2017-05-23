@@ -153,61 +153,24 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
 
 
 // Contact
-users.post('/request-estimate', (req, res) => {
-  const { values } = req.body
-  console.log(req.body)
-  var auth = 'Basic ' + new Buffer(process.env.MOVERBASE_KEY + ':').toString('base64')
-  return fetch(`https://api.moverbase.com/v1/leads/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: auth
-    },
-    body: JSON.stringify({
-     date: req.body.date,
-     firstName: req.body.firstName,
-     lastName: req.body.lastName,
-     phone: req.body.phone,
-     email: req.body.email,
-     from: { postalCode: req.body.from },
-     to: { postalCode: req.body.to },
-     size: { title: req.body.size },
-     note: req.body.note
-    })
-  })
-  .then(res => {
-    if (res.ok) return res.json()
-    throw new Error('Network response was not ok.')
-  })
-  .then(json => {
-    console.log(json)
-    res.send(json)
-  })
-  .catch(err => {
-    console.log(err)
-    res.status(400).send({ error: err })
-  })
-
-
-
-
-
-
-
-
-
-
+users.post('/contact', (req, res) => {
+  const { firstname, email, message } = req.body
+  if (!firstname || !email || !message) {
+    return res.status(422).send({ error: 'You must provide all fields' });
+  }
   sendEmail1({
     to: 'paul.savignano@gmail.com',
     subject: 'Thank you for contacting us',
-    name: firstName,
+    name: firstname,
     body: `<p>Your message has been recieved and we will be contacting you shortly.</p>`
   })
     .then(info => {
+      console.log(info)
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
-    .catch(err => res.send({ error: err }))
+    .catch(err => res.status(400).send(err))
 })
+
 
 
 export default users

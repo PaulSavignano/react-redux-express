@@ -40,8 +40,6 @@ class SectionItem extends Component {
         backgroundPosition: 'center center',
         backgroundRepeat:  'no-repeat',
         backgroundSize:  'cover',
-        width: '100%',
-        height: '100%',
         zIndex: -1
       } : null
       return (

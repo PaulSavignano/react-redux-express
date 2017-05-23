@@ -14,12 +14,12 @@ const RequireAuth = (ComposedComponent, roles) => {
     }
     componentWillMount() {
       if (!this.hasRoles(roles, this.props.userRoles)) {
-        this.props.dispatch(push('/signin'))
+        this.props.dispatch(push('/user/signin'))
       }
     }
     componentWillUpdate(nextProps) {
       if (!this.hasRoles(roles, nextProps.roles)) {
-        this.props.dispatch(push('/signin'))
+        this.props.dispatch(push('/user/signin'))
       }
     }
     render() {

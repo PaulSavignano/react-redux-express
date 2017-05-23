@@ -23,14 +23,14 @@ class AppBarMenu extends Component {
     openMenu: false,
     color: this.props.muiTheme.palette.textColor
   }
-  handleOpenMenu = (e) => {
+  handleOpen = (e) => {
     e.preventDefault()
     this.setState({
       openMenu: true,
       anchorEl: e.currentTarget,
     })
   }
-  handleCloseMenu = () => this.setState({ openMenu: false })
+  handleClose = () => this.setState({ openMenu: false })
   render() {
     const { dispatch, user, image, handleDrawer, pages, theme, muiTheme, path } = this.props
     const { textColor, primary1Color } = muiTheme.palette
@@ -85,8 +85,8 @@ class AppBarMenu extends Component {
                 {pages.filter(page => page.slug !== 'home').map(page => (
                   <FlatButton
                     key={page._id}
-                    style={{ color: path === `/pages/${page.slug}` ? primary1Color : textColor }}
-                    onTouchTap={() => dispatch(push(`/pages/${page.slug}`))}
+                    style={{ color: path === `/${page.slug}` ? primary1Color : textColor }}
+                    onTouchTap={() => dispatch(push(`/${page.slug}`))}
                     label={page.name}
                     hoverColor="none"
                   />
@@ -115,7 +115,7 @@ class AppBarMenu extends Component {
 
               <FlatButton
                 style={styles.user}
-                onTouchTap={this.handleOpenMenu}
+                onTouchTap={this.handleOpen}
                 label={user.values.firstName ? `Hello, ${user.values.firstName}`: `SIGN IN`}
                 hoverColor="none"
               />
@@ -125,11 +125,11 @@ class AppBarMenu extends Component {
                 anchorEl={this.state.anchorEl}
                 anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                onRequestClose={this.handleCloseMenu}
+                onRequestClose={this.handleClose}
                 animation={PopoverAnimationVertical}
               >
                 <Menu>
-                  <SigninSignout user={user} handleCloseMenu={this.handleCloseMenu} />
+                  <SigninSignout user={user} handleClose={this.handleClose} />
                 </Menu>
               </Popover>
 
@@ -139,9 +139,7 @@ class AppBarMenu extends Component {
                 style={{ padding: '12px 0' }}
               />
 
-
-
-
+              
             </span>
 
           </nav>
