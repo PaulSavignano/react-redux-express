@@ -1,9 +1,19 @@
 import mongoose, { Schema } from 'mongoose'
 
-const ThemeSchema = new Schema({
-  image: { type: String, minLength: 1, trim: true },
+const BrandSchema = new Schema({
+  image: { type: String, minlength: 1, trim: true },
   values: {
+    name: { type: String, minlength: 1, trim: true, default: 'Brand' },
+    phone: { type: String, minlength: 1, trim: true, default: '888-888-8888' },
+    address: { type: String, minlength: 1, trim: true, default: '1234 Pattern Ln' },
+    city: { type: String, minlength: 1, trim: true, default: 'Patternville' },
+    state: { type: String, minlength: 1, trim: true, default: 'Ca' },
+    zip: { type: String, minlength: 1, trim: true, default: '92011' },
     fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+    appBar: {
+      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' }
+    },
     palette: {
       primary1Color: { type: String, minlength: 1, trim: true, default: '#00BCD4' },
       primary2Color: { type: String, minlength: 1, trim: true, default: '#0097A7' },
@@ -19,16 +29,11 @@ const ThemeSchema = new Schema({
       pickerHeaderColor: { type: String, minlength: 1, trim: true, default: '#00BCD4' },
       clockCircleColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, .7)' },
       shadowColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 1)' }
-    },
-    appBar: {
-      fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
-      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' }
     }
   },
   createdAt: { type: Date, default: Date.now }
 })
 
-const Theme = mongoose.model('Theme', ThemeSchema)
+const Brand = mongoose.model('Brand', BrandSchema)
 
-export default Theme
+export default Brand

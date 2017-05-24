@@ -3,15 +3,41 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
+import {spacing, typography, zIndex} from 'material-ui/styles'
 
+import { fetchAdd } from '../../brand/actions/index'
 import SigninSignout from '../../users/components/SigninSignout'
 
-const DrawerNav = ({ dispatch, theme, pages, user, handleClose }) => {
+const DrawerNav = ({ dispatch, brand, pages, user, handleClose }) => {
   const isAdmin = user.roles ? user.roles.find(role => role === 'admin') : null
+  const styles = {
+    logo: {
+      cursor: 'pointer',
+      fontSize: 24,
+      color: brand.values.appBar.textColor,
+      backgroundColor: brand.values.appBar.color,
+      lineHeight: `${spacing.desktopKeylineIncrement}px`,
+      fontWeight: typography.fontWeightLight,
+      paddingLeft: spacing.desktopGutter,
+      marginBottom: 8,
+    }
+  }
   return (
     <div>
-      <div style={{ cursor: 'pointer', padding: '0 16px' }} onTouchTap={() => dispatch(push('/'))}>
-        {theme.image ? <img src={theme.image} style={{ maxHeight: 80 }} alt=""/> : 'Brand'}
+      <div
+        style={{ cursor: 'pointer', width: '100%', margin: '0 auto 0 auto' }}
+        onTouchTap={() => {
+          dispatch(push('/'))
+          handleClose()
+        }}
+      >
+        {brand.image ?
+          <img src={brand.image} style={{ maxHeight: 80, margin: '0 auto 8px auto' }} alt=""/>
+          :
+          <div style={styles.logo}>
+            {brand.values.name ? brand.values.name : 'Brand'}
+          </div>
+        }
       </div>
       {user.values.firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {user.values.firstName}</div>}
 
@@ -32,7 +58,13 @@ const DrawerNav = ({ dispatch, theme, pages, user, handleClose }) => {
         handleClose()
       }}>Contact</MenuItem>
 
-      {!isAdmin ? null :
+      {!isAdmin ? null : !brand.values.name ?
+        <MenuItem onTouchTap={() => {
+          dispatch(fetchAdd())
+          .then(()=> dispatch(push(`/admin/brand`)))
+          handleClose()
+        }}>Add Brand</MenuItem>
+         :
         <ListItem
           primaryText="Admin"
           initiallyOpen={false}
@@ -40,9 +72,9 @@ const DrawerNav = ({ dispatch, theme, pages, user, handleClose }) => {
           nestedItems={[
             <ListItem
               key={1}
-              primaryText="Theme"
+              primaryText="Brand"
               onTouchTap={() => {
-                dispatch(push(`/admin/theme`))
+                dispatch(push(`/admin/brand`))
                 handleClose()
               }}
             />,

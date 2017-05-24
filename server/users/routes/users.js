@@ -25,9 +25,11 @@ users.post('/signup', (req, res) => {
         .then(token => {
           sendEmail1({
             to: doc.values.email,
-            subject: `Welcome to ${process.env.APP_NAME}`,
+            toSubject: 'Thank you for your order!',
             name: doc.values.firstName,
-            body: `<p>Welcome to ${process.env.APP_NAME}!</p>`
+            toBody: `Welcome to ${process.env.APP_NAME}`,
+            fromSubject: `New ${process.env.APP_NAME} user!`,
+            fromBody: `${firstName} ${lastName} just signed up at ${process.env.APP_NAME}`
           })
           res.header('x-auth', token).send({
             roles: doc.roles,
@@ -77,9 +79,9 @@ users.post('/recovery', (req, res, next) => {
             .then(() => {
               sendEmail1({
                 to: email,
-                subject: 'Reset Password',
+                toSubject: 'Reset Password',
                 name: user.values.firstName,
-                body: `<p>Click the link below to recover your password.<br />${process.env.ROOT_URL}reset/${token}</p>`
+                toBody: `<p>Click the link below to recover your password.<br />${process.env.ROOT_URL}reset/${token}</p>`
               })
               res.send({ message: `A password recovery email has been sent to ${user.email}`})
             })
@@ -159,10 +161,12 @@ users.post('/contact', (req, res) => {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
   sendEmail1({
-    to: 'paul.savignano@gmail.com',
-    subject: 'Thank you for contacting us',
-    name: firstname,
-    body: `<p>Your message has been recieved and we will be contacting you shortly.</p>`
+    to: email,
+    toSubject: 'Thank you for contacting us!',
+    name: firstName,
+    toBody: `Thank you for reaching out.  We will contact you shortly!`,
+    fromSubject: `New Contact Request`,
+    fromBody: `${firstName} ${lastName} just contacted you through ${process.env.APP_NAME}.`
   })
     .then(info => {
       console.log(info)

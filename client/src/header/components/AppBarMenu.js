@@ -32,7 +32,7 @@ class AppBarMenu extends Component {
   }
   handleClose = () => this.setState({ openMenu: false })
   render() {
-    const { dispatch, user, image, handleDrawer, pages, theme, muiTheme, path } = this.props
+    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path } = this.props
     const { textColor, primary1Color } = muiTheme.palette
     const styles = {
       nav: {
@@ -78,7 +78,7 @@ class AppBarMenu extends Component {
 
           <nav style={styles.nav} key={2}>
             <div style={styles.brand} onTouchTap={() => dispatch(push('/'))}>
-              {theme.image ? <img src={theme.image} style={{ maxHeight: 80 }} alt=""/> : 'Brand'}
+              {brand.image ? <img src={brand.image} style={{ maxHeight: 80 }} alt=""/> : brand.values.name || 'Brand'}
             </div>
             <span>
               <span className="appbar-nav">
@@ -139,7 +139,7 @@ class AppBarMenu extends Component {
                 style={{ padding: '12px 0' }}
               />
 
-              
+
             </span>
 
           </nav>

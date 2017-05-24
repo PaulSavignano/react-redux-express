@@ -16,7 +16,7 @@ import { fetchOrders } from './orders/actions/index'
 import { fetchPages } from './pages/actions/index'
 import { fetchProducts } from './products/actions/index'
 import { fetchUser } from './users/actions/index'
-import { fetchTheme } from './theme/actions/index'
+import { fetchBrand } from './brand/actions/index'
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
@@ -37,7 +37,7 @@ store.dispatch(fetchCards())
 store.dispatch(fetchSections())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
-store.dispatch(fetchTheme())
+store.dispatch(fetchBrand())
 
 
 ReactDOM.render(

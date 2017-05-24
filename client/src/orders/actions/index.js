@@ -37,7 +37,7 @@ export const fetchAddOrder = (values) => {
             console.log(json)
             dispatch(fetchAddOrderSuccess(json))
             dispatch(fetchDeleteCart())
-            dispatch(push(`/order/${json._id}`))
+            dispatch(push(`user/order/${json._id}`))
           })
           .catch(err => {
                         console.log(err)

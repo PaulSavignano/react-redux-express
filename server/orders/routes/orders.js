@@ -22,6 +22,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
         .then(charge => {
           const order = new Order({
             user: req.user._id,
+            email: req.user.values.email,
             cart,
             address,
             zip,
@@ -34,10 +35,12 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
             .then(doc => {
               res.send(doc)
               sendEmail1({
-                to: 'paul.savignano@gmail.com',
-                subject: 'Thank you for your order!',
+                to: req.user.values.email,
+                toSubject: 'Thank you for your order!',
                 name: `${firstName}`,
-                body: `<p>Thank you for your recent order ${doc._id}.</p>`
+                toBody: `Thank you for your recent order ${doc._id}.`,
+                fromSubject: `New order received!`,
+                fromBody: `${firstName} ${lastName} just placed order ${doc._id}`
               })
             })
             .catch(err => {

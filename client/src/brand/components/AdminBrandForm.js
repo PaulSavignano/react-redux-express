@@ -16,7 +16,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-class AdminThemeForm extends Component {
+class AdminBrandForm extends Component {
   state = {
     zDepth: 1,
     expanded: false,
@@ -25,14 +25,14 @@ class AdminThemeForm extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.theme || false
+    const { image } = this.props.brand || false
     const hasImage = image ? true : false
     const imageUrl = image ? image : 'https://placehold.it/280x60'
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.theme.image })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.brand.image })
     if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
@@ -42,8 +42,8 @@ class AdminThemeForm extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, theme } = this.props
-    console.log('inside AdminThemeForm')
+    const { error, handleSubmit, dispatch, brand } = this.props
+    console.log('inside AdminBrandForm')
     return (
       <section>
         <form
@@ -52,7 +52,7 @@ class AdminThemeForm extends Component {
               type: 'UPDATE_ITEM',
               values
             }
-            dispatch(fetchUpdate(theme._id, update))
+            dispatch(fetchUpdate(brand._id, update))
           })}
         >
           <Card
@@ -64,14 +64,19 @@ class AdminThemeForm extends Component {
             style={{ height: '100%' }}
           >
             <CardHeader
-              title="Edit Theme Styles"
+              title="Edit Brand"
             />
 
             <CardText>
-              <Field name="appBarFontFamily" label="appBarFontFamily" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="address" label="Address" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="zip" label="Zip" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
               <Field name="primary1Color" label="primary1Color" type="text" fullWidth={true} component={renderTextField} />
               <Field name="primary2Color" label="primary2Color" type="text" fullWidth={true} component={renderTextField} />
               <Field name="primary3Color" label="primary3Color" type="text" fullWidth={true} component={renderTextField} />
@@ -105,10 +110,10 @@ class AdminThemeForm extends Component {
   }
 }
 
-AdminThemeForm = reduxForm({
-  form: 'adminTheme'
-})(AdminThemeForm)
+AdminBrandForm = reduxForm({
+  form: 'adminBrand'
+})(AdminBrandForm)
 
-AdminThemeForm = connect()(AdminThemeForm)
+AdminBrandForm = connect()(AdminBrandForm)
 
-export default AdminThemeForm
+export default AdminBrandForm

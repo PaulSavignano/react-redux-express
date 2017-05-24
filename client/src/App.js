@@ -11,9 +11,9 @@ import Footer from './footer/components/Footer'
 
 injectTapEventPlugin()
 
-const App = ({ search, children, theme }) => (
-  theme.isFetching ? null :
-    <MuiThemeProvider muiTheme={getMuiTheme(theme.values)}>
+const App = ({ search, children, brand }) => (
+  brand.isFetching ? null :
+    <MuiThemeProvider muiTheme={getMuiTheme(brand.values)}>
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}

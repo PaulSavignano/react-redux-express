@@ -13,7 +13,7 @@ class Header extends Component {
   handleToggle = () => this.setState({open: !this.state.open})
   handleClose = () => this.setState({open: false})
   render() {
-    const { isFetching, theme, pages, user, path } = this.props
+    const { isFetching, brand, pages, user, path } = this.props
     return (
       isFetching ? null :
       <div>
@@ -21,7 +21,7 @@ class Header extends Component {
           onLeftIconButtonTouchTap={this.handleToggle}
           title={
             <AppBarMenu
-              theme={theme}
+              brand={brand}
               pages={pages}
               user={user}
               path={path}
@@ -29,8 +29,8 @@ class Header extends Component {
           }
         />
         <Drawer docked={false} open={this.state.open} onRequestChange={(open) => this.setState({open}) }>
-          <DrawerMenu 
-            theme={theme}
+          <DrawerMenu
+            brand={brand}
             pages={pages}
             user={user}
             path={path}
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => ({
   pages: state.pages.items || null,
   path: state.routing.locationBeforeTransitions.pathname || null,
   user: state.user || null,
-  theme: state.theme || null
+  brand: state.brand || null
 })
 
 export default connect(mapStateToProps)(Header)

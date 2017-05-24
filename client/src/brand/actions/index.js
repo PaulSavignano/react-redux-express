@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
-export const type = 'THEME'
-const route = 'themes'
+export const type = 'BRAND'
+const route = 'brands'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -41,12 +41,12 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchThemeRequest = () => ({ type: REQUEST })
-const fetchThemeSuccess = (items) => ({ type: RECEIVE, items })
-const fetchThemeFailure = (error) => ({ type: ERROR, error })
-export const fetchTheme = () => {
+const fetchBrandRequest = () => ({ type: REQUEST })
+const fetchBrandSuccess = (items) => ({ type: RECEIVE, items })
+const fetchBrandFailure = (error) => ({ type: ERROR, error })
+export const fetchBrand = () => {
   return (dispatch, getState) => {
-    dispatch(fetchThemeRequest())
+    dispatch(fetchBrandRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
@@ -59,10 +59,10 @@ export const fetchTheme = () => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchThemeSuccess(json[0]))
+        dispatch(fetchBrandSuccess(json[0]))
       })
       .catch(err => {
-        dispatch(fetchThemeFailure(err))
+        dispatch(fetchBrandFailure(err))
       })
   }
 }

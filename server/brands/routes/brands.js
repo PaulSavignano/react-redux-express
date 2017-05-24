@@ -1,21 +1,21 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 import url from 'url'
-import Theme from '../models/Theme'
+import Brand from '../models/Brand'
 import authenticate from '../../middleware/authenticate'
 import { uploadFile, deleteFile } from '../../middleware/s3'
 
-const themes = express.Router()
+const brands = express.Router()
 
-const s3Path = `${process.env.APP_NAME}/theme/favicon_`
+const s3Path = `${process.env.APP_NAME}/brand/image_`
 
 
 // Create
-themes.post('/', authenticate(['admin']), (req, res) => {
+brands.post('/', authenticate(['admin']), (req, res) => {
   console.log('inside route')
   const _id = new ObjectID()
-  const theme = new Theme({ _id })
-  theme.save()
+  const brand = new Brand({ _id })
+  brand.save()
     .then(doc => res.send(doc))
     .catch(err => res.status(400).send(err))
 })
@@ -23,8 +23,8 @@ themes.post('/', authenticate(['admin']), (req, res) => {
 
 
 // Read
-themes.get('/', (req, res) => {
-  Theme.find({})
+brands.get('/', (req, res) => {
+  Brand.find({})
     .then(doc => {
       res.send(doc)
     })
@@ -32,9 +32,9 @@ themes.get('/', (req, res) => {
 })
 
 // By page name
-themes.get('/:_id', (req, res) => {
+brands.get('/:_id', (req, res) => {
   const _id = req.params._id
-  Theme.find({ _id })
+  Brand.find({ _id })
     .then((doc) => res.send(doc))
     .catch((err) => res.status(400).send(err))
 })
@@ -44,14 +44,19 @@ themes.get('/:_id', (req, res) => {
 
 
 // Update
-themes.patch('/:_id', authenticate(['admin']), (req, res) => {
+brands.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
   const newValues = !values ? null : {
+    name: values.name,
+    address: values.address,
+    city: values.city,
+    state: values.state,
+    zip: values.zip,
+    phone: values.phone,
     fontFamily: values.fontFamily,
     appBar: {
-      fontFamily: values.appBarFontFamily,
       color: values.appBarColor,
       textColor: values.appBarTextColor,
     },
@@ -78,7 +83,7 @@ themes.patch('/:_id', authenticate(['admin']), (req, res) => {
       uploadFile({ Key: `${s3Path}${_id}`, Body: image })
         .then(data => {
           const update = { image: data.Location }
-          Theme.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log('update image success', doc)
               res.send(doc)
@@ -95,7 +100,7 @@ themes.patch('/:_id', authenticate(['admin']), (req, res) => {
       deleteFile({ Key: `${s3Path}/${_id}` })
         .then(() => {
           const update = { image: null, values: newValues }
-          Theme.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               console.log(doc)
               res.send(doc)
@@ -109,7 +114,7 @@ themes.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_ITEM':
-      Theme.findOneAndUpdate({ _id }, { $set: { values: newValues }}, { new: true })
+      Brand.findOneAndUpdate({ _id }, { $set: { values: newValues }}, { new: true })
         .then(doc => {
           console.log(doc)
           res.send(doc)
@@ -129,10 +134,10 @@ themes.patch('/:_id', authenticate(['admin']), (req, res) => {
 
 
 // Delete
-themes.delete('/:_id', authenticate(['admin']), (req, res) => {
+brands.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Theme.findOneAndRemove({ _id,})
+  Brand.findOneAndRemove({ _id,})
     .then(_id => res.send(_id))
     .catch(err => res.status(400).send(err))
 })
@@ -140,4 +145,4 @@ themes.delete('/:_id', authenticate(['admin']), (req, res) => {
 
 
 
-export default themes
+export default brands

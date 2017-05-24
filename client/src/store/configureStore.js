@@ -11,11 +11,12 @@ import orders from '../orders/reducers/index'
 import pages from '../pages/reducers/index'
 import { searchProducts, products } from '../products/reducers/index'
 import { search } from '../header/reducers/search'
-import theme from '../theme/reducers/index'
+import brand from '../brand/reducers/index'
 import user from '../users/reducers/index'
 
 
 const rootReducer = combineReducers({
+  brand,
   cards,
   cart,
   form: formReducer,
@@ -26,7 +27,6 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   search,
   searchProducts,
-  theme,
   user,
 })
 

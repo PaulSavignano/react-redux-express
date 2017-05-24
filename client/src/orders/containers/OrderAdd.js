@@ -1,6 +1,7 @@
 /* global Stripe */
 import React from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import TextField from 'material-ui/TextField'
@@ -49,7 +50,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 let OrderAdd = ({ error, dispatch, handleSubmit, isFetching, total, pristine, reset, submitting }) => {
   return (
-    isFetching ? null :
+    isFetching ? null : !total ? dispatch(push('/')) :
     <main>
       <section>
         <Card style={{ margin: 20 }}>
@@ -127,7 +128,6 @@ OrderAdd = reduxForm({
 const mapStateToProps = (state) => ({
   isFetching: state.cart.isFetching,
   total: state.cart.total,
-  cart: state.cart.items,
   initialValues: state.user.values
 })
 

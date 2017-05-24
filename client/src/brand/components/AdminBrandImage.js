@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { fetchUpdate } from '../actions/index'
 import ImageFormHor from '../../images/components/ImageFormHor'
 
-class AdminThemeImage extends Component {
+class AdminBrandImage extends Component {
   state = {
     zDepth: 1,
     submitted: false,
@@ -15,14 +15,14 @@ class AdminThemeImage extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.theme || null
+    const { image } = this.props.brand || null
     const hasImage = image ? true : false
     const imageUrl = hasImage ? image : this.props.placeholdit
     this.setState({ image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.theme.image })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.brand.image })
     if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
@@ -32,16 +32,16 @@ class AdminThemeImage extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { error, handleSubmit, dispatch, theme, imageSize } = this.props
+    const { error, handleSubmit, dispatch, brand, imageSize } = this.props
     return (
       <section>
         <form
           onSubmit={handleSubmit(() => {
-            const image = this.state.editing ? this.editor.handleSave() : theme.image
+            const image = this.state.editing ? this.editor.handleSave() : brand.image
             const type = 'UPDATE_IMAGE'
             const update = { type, image }
-            dispatch(fetchUpdate(theme._id, update))
-            this.setState({ image: theme.image })
+            dispatch(fetchUpdate(brand._id, update))
+            this.setState({ image: brand.image })
           })}
         >
           <Card
@@ -75,19 +75,19 @@ class AdminThemeImage extends Component {
   }
 }
 
-AdminThemeImage = reduxForm({
-  form: 'adminFavicon'
-})(AdminThemeImage)
+AdminBrandImage = reduxForm({
+  form: 'adminBrandImage'
+})(AdminBrandImage)
 
 const mapStateToProps = (state) => {
-  const isFetching = state.theme.isFetching
-  const theme = isFetching ? null : state.theme
+  const isFetching = state.brand.isFetching
+  const brand = isFetching ? null : state.brand
   return {
     isFetching,
-    theme
+    brand
   }
 }
 
-AdminThemeImage = connect(mapStateToProps)(AdminThemeImage)
+AdminBrandImage = connect(mapStateToProps)(AdminBrandImage)
 
-export default AdminThemeImage
+export default AdminBrandImage

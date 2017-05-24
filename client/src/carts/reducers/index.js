@@ -17,7 +17,7 @@ const cart = (state = {}, action) => {
         ...action.cart
       }
     case 'DELETE_CART':
-      return { }
+      return {}
     case 'ERROR_CART':
       return {
         ...state,

@@ -3,8 +3,8 @@ import { Router, Route, IndexRoute } from 'react-router'
 
 import App from './App'
 
-// Theme
-import AdminTheme from './theme/containers/AdminTheme'
+// Brand
+import AdminBrand from './brand/containers/AdminBrand'
 
 // Page
 import Page from './pages/containers/Page'
@@ -46,8 +46,8 @@ const Routing = ({ history }) => (
       <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
 
-      {/* Theme */}
-      <Route path="admin/theme" component={RequireAuth(AdminTheme, ['admin'])} />
+      {/* Brand */}
+      <Route path="admin/brand" component={RequireAuth(AdminBrand, ['admin'])} />
 
       {/* User */}
       <Route path="user/signup" component={Signup} />
@@ -60,7 +60,7 @@ const Routing = ({ history }) => (
       <Route path="product/:slug" component={Product} />
       <Route path="admin/products" component={RequireAuth(AdminProducts, ['admin'])} />
       <Route path="user/order" component={RequireAuth(OrderAdd, ['user'])} />
-      <Route path="user/orders/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
+      <Route path="user/order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
       <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
       <Route path="user/orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
 
