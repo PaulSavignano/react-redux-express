@@ -14,6 +14,10 @@ const SigninSignout = ({ dispatch, user, handleClose }) => {
           dispatch(push('/user/signin'))
           handleClose()
         }}/>
+        <MenuItem primaryText="Profile" onTouchTap={() => {
+          dispatch(push('/user/profile'))
+          handleClose()
+        }}/>
       </div>
     :
       <div>

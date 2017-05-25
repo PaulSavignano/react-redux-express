@@ -73,7 +73,7 @@ class Reset extends Component {
                   open={this.state.open}
                   onRequestClose={this.handleClose}
                 >
-                  Welcome back {user.values ? user.values.firstName : null}
+                  Welcome back {user.values.firstName || null}
                 </Dialog>
               }
               <CardActions>

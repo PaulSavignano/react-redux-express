@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { Link } from 'react-router'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -7,6 +8,7 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import { fetchSignin } from '../actions/index'
 
@@ -40,8 +42,8 @@ class Signin extends Component {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    console.log(this.props)
-    const { error, dispatch, handleSubmit, submitting, user } = this.props
+    const { dispatch, error, handleSubmit, submitting, user, muiTheme } = this.props
+    const { primary1Color } = muiTheme.palette
     return (
       <main>
         <section>
@@ -76,12 +78,12 @@ class Signin extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleClose}
               >
-                Welcome back {user.values ? user.values.firstName : null}!
+                Welcome back {user.values.firstName || null}!
               </Dialog>
             }
             <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              <p>Don't have an account? <Link to="/signup">Sign up instead!</Link></p>
-              <p><Link to="/recovery">Forgot your password?</Link></p>
+              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>
+              <p><Link to="/user/recovery" style={{ color: primary1Color }}>Forgot your password?</Link></p>
             </CardActions>
           </Card>
         </section>
@@ -90,21 +92,15 @@ class Signin extends Component {
   }
 }
 
-
-
-
 Signin = reduxForm({
-  form: 'signup',
+  form: 'signin',
   validate
 })(Signin)
 
-const mapStateToProps = (state, nextProps) => {
+const mapStateToProps = (state, nextProps) => ({
+  user: state.user
+})
 
-  return {
-    user: state.user,
-  }
-}
-
-Signin = connect(mapStateToProps)(Signin)
+Signin = compose(connect(mapStateToProps), muiThemeable())(Signin)
 
 export default Signin

@@ -7,7 +7,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { Field, reduxForm } from 'redux-form'
 
-import { fetchSignup } from '../actions/index'
+import { fetchAdd } from '../actions/index'
 
 const validate = values => {
   const errors = {}
@@ -48,7 +48,7 @@ class Signup extends Component {
         <section>
           <Card>
             <CardTitle title="Signup" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchSignup({ values })))} >
+            <form onSubmit={handleSubmit(values => dispatch(fetchAdd({ values })))} >
               <CardText>
                 <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
                 <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />

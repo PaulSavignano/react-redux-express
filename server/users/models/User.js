@@ -16,30 +16,21 @@ const UserSchema = new Schema({
         message: '{VALUE} is not a valid email'
       }
     },
-    firstName: {
-      type: String,
-      trim: true,
-      minlength: 1
-    },
-    lastName: {
-      type: String,
-      trim: true,
-      minlength: 1
-    },
-    address: {
-      type: String,
-      trim: true,
-      minlength: 1
-    },
-    zip: {
-      type: Number,
-      minlength: 1
-    },
-    state: {
-      type: String,
-      minlength: 1
-    }
+    firstName: { type: String, trim: true, minlength: 1, required: true },
+    lastName: { type: String, trim: true, minlength: 1, required: true },
+    phone: { type: String, trim: true, minlength: 1, required: true },
   },
+  addresses: [{
+    values: {
+      fullName: { type: String, trim: true, minlength: 1, required: true },
+      address: { type: String, trim: true, minlength: 1 },
+      city: { type: String, trim: true, minlength: 1 },
+      zip: { type: String, trim: true, minlength: 1 },
+      state: { type: String, trim: true, minlength: 1 },
+      phone: { type: String, trim: true, minlength: 1 },
+    },
+    createdAt: { type: Date, default: Date.now }
+  }],
   password: { type: String, required: true, minlength: 6 },
   roles: {
     type: [{ type: String, enum: ['user', 'admin'] }],
@@ -69,14 +60,12 @@ UserSchema.methods.generateAuthToken = function() {
   const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString()
   user.tokens.push({ access, token })
   return user.save()
-    .then(() =>  {
-      return token
-    })
+    .then(() => token)
 }
 
 UserSchema.methods.removeToken = function(token) {
   const user = this
-  return user.update({
+  user.update({
     $pull: {
       tokens: {
         token
@@ -118,9 +107,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
   const User = this
   return User.findOne({ 'values.email': email })
     .then(user => {
-      if (!user) {
-        return Promise.reject({ error: { email: 'User not found'}})
-      }
+      if (!user) return Promise.reject({ error: { email: 'User not found'}})
       return new Promise((resolve, reject) => {
         bcrypt.compare(password, user.password)
           .then(res => {

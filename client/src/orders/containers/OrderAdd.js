@@ -7,6 +7,8 @@ import Payment from 'payment'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardText} from 'material-ui/Card'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 
 import formatPrice from '../../modules/formatPrice'
 import { fetchAddOrder } from '../actions/index'
@@ -60,8 +62,9 @@ let OrderAdd = ({ error, dispatch, handleSubmit, isFetching, total, pristine, re
               <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
               <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
               <Field name="address" component={renderTextField} label="Address" fullWidth={true} />
-              <Field name="zip" component={renderTextField} label="Zip" fullWidth={true} />
+              <Field name="city" component={renderTextField} label="City" fullWidth={true} />
               <Field name="state" component={renderTextField} label="State" fullWidth={true} />
+              <Field name="zip" component={renderTextField} label="Zip" fullWidth={true} />
             </CardText>
             <CardText>
               <ul className="credit-card-list">
@@ -125,10 +128,10 @@ OrderAdd = reduxForm({
   validate,
 })(OrderAdd)
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   isFetching: state.cart.isFetching,
   total: state.cart.total,
-  initialValues: state.user.values
+  initialValues: state.user
 })
 
 OrderAdd = connect(mapStateToProps)(OrderAdd)

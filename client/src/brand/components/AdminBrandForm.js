@@ -27,7 +27,7 @@ class AdminBrandForm extends Component {
   componentWillMount() {
     const { image } = this.props.brand || false
     const hasImage = image ? true : false
-    const imageUrl = image ? image : 'https://placehold.it/280x60'
+    const imageUrl = image ? image : this.props.placeholdIt
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }

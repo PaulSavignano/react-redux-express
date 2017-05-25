@@ -39,7 +39,7 @@ class AdminProductAdd extends Component {
     image: null,
   }
   componentWillMount() {
-    this.setState({ image: 'https://placehold.it/1000x1000' })
+    this.setState({ image: this.props.placeholdIt })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
@@ -71,7 +71,7 @@ class AdminProductAdd extends Component {
 
           dispatch(fetchAdd(add))
           this.props.reset()
-          this.setState({ image: 'https://placehold.it/1000x1000' })
+          this.setState({ image: this.props.placeholdIt })
         })}
       >
         <Card

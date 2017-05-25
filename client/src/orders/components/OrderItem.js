@@ -18,7 +18,7 @@ class OrderItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onTouchTap={() => dispatch(push(`/orders/${item._id}`))}
+        onTouchTap={() => dispatch(push(`/user/orders/${item._id}`))}
       >
         <CardTitle title={
           <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>

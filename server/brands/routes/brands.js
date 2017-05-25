@@ -12,7 +12,6 @@ const s3Path = `${process.env.APP_NAME}/brand/image_`
 
 // Create
 brands.post('/', authenticate(['admin']), (req, res) => {
-  console.log('inside route')
   const _id = new ObjectID()
   const brand = new Brand({ _id })
   brand.save()

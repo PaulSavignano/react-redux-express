@@ -10,57 +10,115 @@ import { sendEmail1 } from '../../middleware/nodemailer'
 const users = express.Router()
 
 // Create
-users.post('/signup', (req, res) => {
+users.post('/', (req, res) => {
   const { values } = req.body
-  if (!values.firstName || !values.email || !values.password) {
+  if ( !email || !firstName || !firstName || !password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const user = new User({
-    password: values.password,
-    values
-  })
+  const user = new User({ values })
   user.save()
-    .then((doc) => {
+    .then(doc => {
+      const { email, firstName, lastName, roles } = doc.values
       return user.generateAuthToken()
         .then(token => {
           sendEmail1({
-            to: doc.values.email,
-            toSubject: 'Thank you for your order!',
-            name: doc.values.firstName,
-            toBody: `Welcome to ${process.env.APP_NAME}`,
+            to: email,
+            toSubject: `Welcome to ${process.env.APP_NAME}!`,
+            toBody: `
+              <p>Hi ${firstName},</p>
+              <p>Thank you for joining ${process.env.APP_NAME}!</p>
+              <p>I hope you enjoy our offerings.  You may modify your profile settings at ${process.env.ROOT_URL}/user/profile.</p>
+              <p>Please let us know if there is anything we can do to better assist you.</p>
+            `,
             fromSubject: `New ${process.env.APP_NAME} user!`,
-            fromBody: `${firstName} ${lastName} just signed up at ${process.env.APP_NAME}`
+            fromBody: `
+              <p>New user ${firstName} ${lastName} just signed up at ${process.env.APP_NAME}.</p>
+              `
           })
-          res.header('x-auth', token).send({
-            roles: doc.roles,
-            values: doc.values
-          })
+          res.header('x-auth', token).send({ email, firstName, lastName, roles })
         })
+        .catch(err => res.status(400).send())
     })
     .catch(err => res.status(400).send({ error: { email: 'Email is already in use' }}))
 })
 
 
+// Read
+users.get('/', authenticate(['user','admin']), (req, res) => {
+  const { token, user } = req
+  const { values, addresses, roles } = user
+  const now = Date.now()
+  const ttl = 30000000
+  if ((now - token.createdAt) > ttl) {
+    return Promise.reject({ error: { token: 'Token has expired'}})
+  }
+  const tokens = user.tokens.find(token => (now - token.createdAt) > ttl)
+  if (tokens) {
+    user.removeTokens(tokens.token)
+      .then(() => {
+        res.send({ token: 'invalid'})
+      })
+      .catch(err => res.state(400).send({ error: err }))
+  } else {
+    res.send({ token: 'valid', values, addresses, roles })
+  }
+})
+
+
+// Update
+users.patch('/', authenticate(['user', 'admin']), (req, res) => {
+  const { values } = req.body
+  User.findOneAndUpdate({ _id: req.user._id }, { $set: { values } }, { new: true })
+    .then(doc => {
+      console.log(doc)
+      const { values, addresses, roles } = doc
+      res.send({ values, addresses, roles })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(400).send({ error: err })
+    })
+})
+
+
+// Delete
+users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
+  User.findOneAndRemove({ _id: req.user._id })
+    .then(doc => res.status(200).send())
+    .catch(err => res.send({ error: err }))
+})
+
+
+
+
+
+
+
+
+
+
+// Signin
 users.post('/signin', (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
     .then(user => {
+      const { values, roles, addresses } = user
+      const { email, firstName, lastName } = values
       if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
       return user.generateAuthToken()
         .then(token => {
-          res.header('x-auth', token).send({
-            roles: user.roles,
-            values: user.values
-          })
+          res.header('x-auth', token).send({ email, firstName, lastName, roles, addresses })
         })
         .catch(err => res.status(400).send(err))
     })
     .catch(err => {
-      console.log('myerror', err)
+      console.log(err)
       res.status(400).send(err)
     })
 })
 
+
+// Recovery
 users.post('/recovery', (req, res, next) => {
   const { email } = req.body
   return new Promise((resolve, reject) => {
@@ -73,6 +131,7 @@ users.post('/recovery', (req, res, next) => {
       User.findOne({ 'values.email': email })
         .then(user => {
           if (!user) return Promise.reject({ error: { email: 'User not found' }})
+          const { firstName, email } = user.values
           user.passwordResetToken = token
           user.passwordResetExpires = Date.now() + (60 * 60 * 1000)
           user.save()
@@ -80,10 +139,11 @@ users.post('/recovery', (req, res, next) => {
               sendEmail1({
                 to: email,
                 toSubject: 'Reset Password',
-                name: user.values.firstName,
-                toBody: `<p>Click the link below to recover your password.<br />${process.env.ROOT_URL}reset/${token}</p>`
+                toBody: `
+                  <p>Hi ${firstName},</p>
+                  <p>Click the link below to recover your password.<br />${process.env.ROOT_URL}reset/${token}</p>`
               })
-              res.send({ message: `A password recovery email has been sent to ${user.email}`})
+              res.send({ message: `A password recovery email has been sent to ${email}`})
             })
             .catch(err => res.send(err))
         })
@@ -92,22 +152,19 @@ users.post('/recovery', (req, res, next) => {
 })
 
 
-
-
+// Reset
 users.post('/reset/:token', (req, res) => {
   User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
       if (!user) return Promise.reject({ error: { token: 'token not valid' }})
+      const { values, roles, addresses } = user
       user.password = req.body.password
       user.passwordResetToken = undefined
       user.passwordResetExpires = undefined
       user.save()
         .then(() => user.generateAuthToken())
         .then(token => {
-          res.header('x-auth', token).send({
-            roles: user.roles,
-            values: user.values
-          })
+          res.header('x-auth', token).send({ values, roles, addresses })
         })
         .catch(err => res.send({ error: { token: err }}))
     })
@@ -123,40 +180,10 @@ users.delete('/signout', authenticate([ 'user' ]), (req, res) => {
     .catch(err => res.send({ error: { token: err }}))
 })
 
-// Signout
-users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
-  User.findOneAndRemove({ _id: req.user._id })
-    .then(doc => res.send(doc))
-    .catch(err => res.send({ error: err }))
-})
-
-
-
-// Get
-users.get('/', authenticate(['user','admin']), (req, res) => {
-  const now = Date.now()
-  const ttl = 30000000
-  if ((now - req.token.createdAt) > ttl) {
-    return Promise.reject({ error: { token: 'Token has expired'}})
-  }
-  const tokens = req.user.tokens.find(token => {
-    return (now - token.createdAt) > ttl
-  })
-  if (tokens) {
-    req.user.removeTokens(tokens.token)
-      .then(() => {
-        res.send({ token: 'invalid'})
-      })
-      .catch(err => res.send({ error: err }))
-  } else {
-    res.send({ token: 'valid', roles: req.user.roles, values: req.user.values })
-  }
-})
-
 
 // Contact
 users.post('/contact', (req, res) => {
-  const { firstname, email, message } = req.body
+  const { email, firstname, phone, message } = req.body
   if (!firstname || !email || !message) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
@@ -164,9 +191,14 @@ users.post('/contact', (req, res) => {
     to: email,
     toSubject: 'Thank you for contacting us!',
     name: firstName,
-    toBody: `Thank you for reaching out.  We will contact you shortly!`,
+    toBody: `<p>Thank you for reaching out.  We will contact you shortly!</p>`,
     fromSubject: `New Contact Request`,
-    fromBody: `${firstName} ${lastName} just contacted you through ${process.env.APP_NAME}.`
+    fromBody: `
+      <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
+      ${phone && `<div>Phone: ${phone}</div>`}
+      <div>Email: ${email}</div>
+      <div>Message: ${message}</div>
+    `
   })
     .then(info => {
       console.log(info)

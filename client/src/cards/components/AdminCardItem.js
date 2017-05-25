@@ -29,7 +29,7 @@ class AdminCardItem extends Component {
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : this.props.placeholdit
+    const imageUrl = image ? image : this.props.placeholdIt
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
@@ -121,7 +121,7 @@ class AdminCardItem extends Component {
           <CardActions>
             <RaisedButton
               onTouchTap={() => {
-                const image = this.state.image || 'https://placehold.it/1000x1000'
+                const image = this.state.image || this.props.placeholdIt
                 this.setState({ expanded: !this.state.expanded, submitted: false, image })
               }}
               type="button"

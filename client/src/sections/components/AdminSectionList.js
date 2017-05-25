@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminSectionItem from '../components/AdminSectionItem'
 
-const AdminSectionList = ({ page, items, imageSize, placeholdit }) => (
+const AdminSectionList = ({ page, items, imageSize, placeholdIt }) => (
   items.length < 1 ? null :
   <div>
     {items.map(item => (
@@ -12,7 +12,7 @@ const AdminSectionList = ({ page, items, imageSize, placeholdit }) => (
         page={page}
         initialValues={item.values}
         imageSize={imageSize}
-        placeholdit={placeholdit}
+        placeholdIt={placeholdIt}
       />
     ))}
   </div>

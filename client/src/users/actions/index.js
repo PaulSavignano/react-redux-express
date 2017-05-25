@@ -1,47 +1,151 @@
 import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
 
+export const type = 'USER'
+const route = 'users'
+
+const ADD = `ADD_${type}`
+const REQUEST = `REQUEST_${type}`
+const RECEIVE = `RECEIVE_${type}`
+const UPDATE = `UPDATE_${type}`
+const DELETE = `DELETE_${type}`
+const ERROR = `ERROR_${type}`
+
 
 // Create
-const fetchSignupSuccess = (user) => ({ type: 'ADD_USER', user })
-const fetchSignupFailure = (error) => ({ type: 'ERROR_USER', error })
-export const fetchSignup = (values) => {
+const fetchAddSuccess = (item) => ({ type: ADD, item })
+const fetchAddFailure = (error) => ({ type: ERROR, error })
+export const fetchAdd = (add) => {
   return (dispatch, getState) => {
-    return fetch('/api/users/signup', {
+    return fetch(`/api/${route}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values)
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token'),
+      },
+      body: JSON.stringify(add)
     })
-    .then(res => {
-      if (res.ok) {
-        localStorage.setItem('token', res.headers.get('x-auth'))
-
-      }
-      return res.json()
-    })
-    .then(json => {
-      if (json.error) return Promise.reject(json.error)
-      dispatch(fetchSignupSuccess(json))
-      const path = getState().user.redirect || null
-      if (path) return dispatch(push(path))
-    })
-    .catch(err => {
-      console.log(err)
-      dispatch(fetchSignupFailure(err))
-      throw new SubmissionError({ ...err, _error: 'Signup failed!' })
+      .then(res => {
+        if (res.ok) localStorage.setItem('token', res.headers.get('x-auth'))
+        return res.json()
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchAddSuccess(json))
+        const path = getState().user.redirect || null
+        if (path) return dispatch(push(path))
+      })
+      .catch(err => {
+        dispatch(fetchAddFailure(err))
+        throw new SubmissionError({ ...err, _error: 'Signup failed' })
     })
   }
 }
 
+
+// Read
+const fetchUserRequest = () => ({ type: REQUEST })
+const fetchUserSuccess = (item) => ({ type: RECEIVE, item })
+const fetchUserFailure = (error) => ({ type: ERROR, error })
+export const fetchUser = (token) => {
+  return (dispatch) => {
+    dispatch(fetchUserRequest())
+    return fetch(`/api/${route}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': token
+      }
+    })
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchUserSuccess(json))
+      })
+      .catch(err => {
+        const token = localStorage.getItem('token')
+        if (token) localStorage.removeItem('token')
+        dispatch(fetchUserFailure(err))
+      })
+    }
+}
+
+
+// Update
+const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+const fetchUpdateFailure = (error) => ({ type: ERROR, error })
+export const fetchUpdate = (update) => {
+  return (dispatch, getState) => {
+    return fetch(`/api/${route}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json' ,
+        'x-auth': localStorage.getItem('token'),
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        console.log(json)
+        dispatch(fetchUpdateSuccess(json))
+      })
+      .catch(err => {
+        dispatch(fetchUpdateFailure(err))
+        throw new SubmissionError({ ...err, _error: err })
+      })
+  }
+}
+
+
+
+// Delete
+const fetchDeleteSuccess = () => ({ type: 'DELETE_USER' })
+const fetchDeleteFailure = (error) => ({ type: 'ERROR_USER', error })
+export const fetchDelete = () => {
+  return (dispatch, getState) => {
+    return fetch(`/api/${route}/delete`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth': localStorage.getItem('token')
+      }
+    })
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        localStorage.removeItem('token')
+        dispatch(fetchDeleteSuccess())
+      })
+      .catch(err => dispatch(fetchDeleteFailure(err)))
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 export const redirectUser = (path) => {
-  console.log('redirecting', path)
   return {
     type: 'REDIRECT_USER',
     path
   }
 }
 
-const fetchSigninSuccess = (user) => ({ type: 'RECEIVE_USER', user })
+
+const fetchSigninSuccess = (item) => ({ type: 'RECEIVE_USER', item })
 const fetchSigninFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignin = (values) => {
   return (dispatch, getState) => {
@@ -73,41 +177,6 @@ export const fetchSignin = (values) => {
 }
 
 
-
-// Read
-const fetchUserRequest = () => ({ type: 'REQUEST_USER' })
-const fetchUserSuccess = (user) => ({ type: 'RECEIVE_USER', user })
-const fetchUserFailure = (error) => ({ type: 'ERROR_USER', error })
-export const fetchUser = (token) => {
-  return (dispatch) => {
-    dispatch(fetchUserRequest())
-    return fetch('/api/users', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth': token
-      }
-    })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUserSuccess(json))
-      })
-      .catch(err => {
-        const token = localStorage.getItem('token')
-        if (token) localStorage.removeItem('token')
-        dispatch(fetchUserFailure(err))
-      })
-    }
-}
-
-
-
-
-// Delete
 const fetchSignoutSuccess = () => ({ type: 'DELETE_USER' })
 const fetchSignoutFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignout = () => {
@@ -131,40 +200,10 @@ export const fetchSignout = () => {
 }
 
 
-const fetchDeleteSuccess = () => ({ type: 'DELETE_USER' })
-const fetchDeleteFailure = (error) => ({ type: 'ERROR_USER', error })
-export const fetchDelete = () => {
-  return (dispatch, getState) => {
-    return fetch('/api/users/delete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth': localStorage.getItem('token')
-      }
-    })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        localStorage.removeItem('token')
-        dispatch(fetchDeleteSuccess())
-      })
-      .catch(err => dispatch(fetchDeleteFailure(err)))
-  }
-}
-
-
-
-
-
-
 const fetchRecoverySuccess = (message) => ({ type: 'RECOVER_USER', message })
 const fetchRecoveryFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchRecovery = ({ email }) => {
   return function(dispatch, getState) {
-            console.log('recovery')
     return fetch('/api/users/recovery', {
       method: 'POST',
       headers: {
@@ -179,34 +218,13 @@ export const fetchRecovery = ({ email }) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchRecoverySuccess(json))
-        //dispatch(signinUser())
-        //localStorage.setItem('token', res.headers.get('x-auth'))
       })
-      // .then(user => {
-      //   if (user.error) {
-      //     return dispatch(authError(user))
-      //   }
-      //   dispatch(signinUser(user))
-      //
-      //   browserHistory.push(nextPathname)
-      // })
-
-
-      //})
       .catch(err => {
         dispatch(fetchRecoveryFailure(err))
         throw new SubmissionError({ ...err, _error: 'Signin failed!' })
       })
   }
 }
-
-
-
-
-
-
-
-
 
 
 const fetchResetSuccess = (user) => ({ type: 'RESET_USER', user })
@@ -241,15 +259,6 @@ export const fetchReset = ({ password }, token) => {
 }
 
 
-
-
-
-
-
-
-
-
-
 const fetchContactSuccess = (values) => ({ type: 'CONTACT_USER', values })
 const fetchContactFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchContact = (values) => {
@@ -268,35 +277,5 @@ export const fetchContact = (values) => {
         dispatch(fetchContactSuccess(json))
       })
       .catch(err => dispatch(fetchContactFailure(err)))
-  }
-}
-
-
-
-
-
-
-
-
-
-
-const fetchRequestEstimateSuccess = (values) => ({ type: 'CONTACT_USER', values })
-const fetchRequestEstimateFailure = (error) => ({ type: 'ERROR_USER', error })
-export const fetchRequestEstimate = (values) => {
-  return function(dispatch, getState) {
-    return fetch('/api/users/request-estimate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values)
-    })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchRequestEstimateSuccess(json))
-      })
-      .catch(err => dispatch(fetchRequestEstimateFailure(err)))
   }
 }

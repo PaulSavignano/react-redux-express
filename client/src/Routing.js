@@ -18,7 +18,7 @@ import Signin from './users/components/Signin'
 import Recovery from './users/components/Recovery'
 import Reset from './users/components/Reset'
 import Contact from './users/components/Contact'
-import ProfilePage from './users/containers/ProfilePage'
+import Profile from './users/containers/Profile'
 
 // Product
 import Products from './products/containers/Products'
@@ -54,15 +54,16 @@ const Routing = ({ history }) => (
       <Route path="user/signin" component={Signin} />
       <Route path="user/recovery" component={Recovery} />
       <Route path="user/reset/:token" component={Reset} />
-      <Route path="user/profile" component={ProfilePage} />
-
-      {/* Product */}
-      <Route path="product/:slug" component={Product} />
-      <Route path="admin/products" component={RequireAuth(AdminProducts, ['admin'])} />
+      <Route path="user/profile" component={RequireAuth(Profile, ['admin', 'user'])} />
       <Route path="user/order" component={RequireAuth(OrderAdd, ['user'])} />
       <Route path="user/order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
       <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
       <Route path="user/orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
+
+      {/* Product */}
+      <Route path="product/:slug" component={Product} />
+      <Route path="admin/products" component={RequireAuth(AdminProducts, ['admin'])} />
+
 
       <Route path='*' component={NotFound} />
     </Route>

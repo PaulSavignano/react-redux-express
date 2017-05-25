@@ -16,12 +16,16 @@ const transporter = nodemailer.createTransport({
 })
 
 export const sendEmail1 = (mail) => {
-  const { to, toSubject, name, toBody, fromSubject, fromBody } = mail
+  const { to, toSubject, toBody, fromSubject, fromBody } = mail
   Brand.findOne({})
     .then(doc => {
       const brand = `
       ${doc.image ? `<img src=${doc.image} alt="item"/>` : `<div>${doc.name}</div>`}
-      <div>${process.env.GMAIL_USER}</div>
+      <div>
+        <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none;">
+          ${process.env.GMAIL_USER}
+        </a>
+      </div>
       ${doc.values.address ? `<div>${doc.values.address}</div>` : ''}
       ${doc.values.zip ? `<div>${doc.values.city} ${doc.values.state}, ${doc.values.zip}</div>` : ''}
       `
@@ -29,31 +33,26 @@ export const sendEmail1 = (mail) => {
         from: process.env.GMAIL_USER,
         to: to,
         subject: toSubject,
-        html: `
-          <p>Hi ${name},</p>
-          <p>${body}</p>
-          <br/>
-          ${brand}
-        `
+        html: `${toBody}<br/>${brand}`
       }
       const adminMail = {
         from: process.env.GMAIL_USER,
         to: process.env.GMAIL_USER,
         subject: fromSubject,
-        html: `
-          <div>${fromSubject}</div>
-          <div>${body}</div>
-          <br/>
-          ${brand}
-        `
+        html: `${fromBody}<br/>${brand}`
       }
       return transporter.sendMail(userMail)
         .then(info => {
           transporter.sendMail(adminMail)
           return info
         })
-        .catch(err => err)
+        .catch(err => {
+          console.log(err)
+          return err
+        })
     })
-    .catch(err => res.status(400).send(err))
-
+    .catch(err => {
+      console.log(err)
+      res.status(400).send(err)
+    })
 }

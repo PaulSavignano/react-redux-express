@@ -59,7 +59,7 @@ class AdminSectionItem extends Component {
   componentWillMount() {
     const { image } = this.props.item || null
     const hasImage = image ? true : false
-    const imageUrl = image ? image : this.props.placeholdit
+    const imageUrl = image ? image : this.props.placeholdIt
     if (hasImage) {
       this.setState({ expanded: hasImage, image: imageUrl })
     }
@@ -74,13 +74,10 @@ class AdminSectionItem extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, page, item, imageSize, placeholdit } = this.props
-console.log(imageSize, placeholdit)
+    const { error, handleSubmit, dispatch, page, item, imageSize, placeholdIt } = this.props
     return (
       <Card
         expanded={this.state.expanded}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
         zDepth={3}
         containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
         style={{ height: '100%', margin: '130px 0'}}
@@ -151,7 +148,7 @@ console.log(imageSize, placeholdit)
           <CardActions>
             <RaisedButton
               onTouchTap={() => {
-                const image = this.state.image || placeholdit
+                const image = this.state.image || placeholdIt
                 this.setState({ expanded: !this.state.expanded, submitted: false, image })
               }}
               type="button"

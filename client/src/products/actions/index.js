@@ -3,7 +3,6 @@ import { SubmissionError } from 'redux-form'
 export const type = 'PRODUCT'
 const route = 'products'
 
-
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
@@ -31,7 +30,7 @@ export const fetchAdd = (add) => {
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
-        throw new SubmissionError({ error: err.error, _error: err.error })
+        throw new SubmissionError({ ...err, _error: err.error })
     })
   }
 }
@@ -86,7 +85,7 @@ export const fetchUpdate = (_id, update) => {
       })
       .catch(err => {
         dispatch(fetchUpdateFailure(err))
-        throw new SubmissionError({ error: err.err, _error: err.err })
+        throw new SubmissionError({ ...err, _error: err.err })
       })
   }
 }

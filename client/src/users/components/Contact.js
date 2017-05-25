@@ -94,9 +94,9 @@ Contact = reduxForm({
   validate
 })(Contact)
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  initialValues: state.user.values
+const mapStateToProps = ({ user }) => ({
+  initialValues: user.values,
+  user
 })
 
 Contact = connect(mapStateToProps)(Contact)
