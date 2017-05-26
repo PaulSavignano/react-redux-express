@@ -16,7 +16,7 @@ class Header extends Component {
     const { isFetching, brand, pages, user, path } = this.props
     return (
       isFetching ? null :
-      <div>
+      <header>
         <AppBar
           onLeftIconButtonTouchTap={this.handleToggle}
           title={
@@ -37,7 +37,7 @@ class Header extends Component {
             handleClose={this.handleClose}
           />
         </Drawer>
-      </div>
+      </header>
     )
   }
 }

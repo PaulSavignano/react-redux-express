@@ -26,7 +26,7 @@ export const sendEmail1 = (mail) => {
           ${process.env.GMAIL_USER}
         </a>
       </div>
-      ${doc.values.address ? `<div>${doc.values.address}</div>` : ''}
+      ${doc.values.street ? `<div>${doc.values.street}</div>` : ''}
       ${doc.values.zip ? `<div>${doc.values.city} ${doc.values.state}, ${doc.values.zip}</div>` : ''}
       `
       const userMail = {

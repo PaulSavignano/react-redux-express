@@ -12,11 +12,11 @@ const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}
 
 const AdminProducts = ({ isFetching, items }) => (
   isFetching ? null :
-  <main>
-    <section><h1>Products Admin</h1></section>
-    <section><AdminProductAdd imageSize={imageSize} placeholdIt={placeholdIt} /></section>
+  <section>
+    <h1>Products Admin</h1>
+    <AdminProductAdd imageSize={imageSize} placeholdIt={placeholdIt} />
     <AdminProductList items={items} imageSize={imageSize} placeholdIt={placeholdIt} />
-  </main>
+  </section>
 )
 
 const mapStateToProps = ({ products }) => ({

@@ -79,6 +79,7 @@ class AdminProductAdd extends Component {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           expanded={this.state.expanded}
+          className="cards"
         >
           <CardActions>
             <RaisedButton
@@ -91,8 +92,6 @@ class AdminProductAdd extends Component {
               backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
               fullWidth={true}/>
           </CardActions>
-
-
           <CardMedia expandable={true}>
             <ImageForm
               image={this.state.new ? this.state.image : 'https://placehold.it/1000x1000'}
@@ -140,7 +139,6 @@ class AdminProductAdd extends Component {
               fullWidth={true}
             />
           </CardActions>
-
         </Card>
       </form>
     )

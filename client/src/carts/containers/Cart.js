@@ -6,18 +6,18 @@ import CartTotal from '../components/CartTotal'
 
 const Cart = ({ isFetching, items, total, user }) => (
   isFetching ? null :
-  <main>
-    <section><h1>Cart</h1></section>
+  <section>
+    <h1>Cart</h1>
     <CartList items={items} />
-    <section><CartTotal total={total} user={user} /></section>
-  </main>
+    <CartTotal total={total} user={user} />
+  </section>
 )
 
-const mapStateToProps = (state) => ({
-  isFetching: state.cart.isFetching,
-  items: state.cart.items || null,
-  total: state.cart.total,
-  user: state.user
+const mapStateToProps = ({ cart, user }) => ({
+  isFetching: cart.isFetching,
+  items: cart.items || null,
+  total: cart.total,
+  user
 })
 
 export default connect(mapStateToProps)(Cart)

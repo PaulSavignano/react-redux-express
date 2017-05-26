@@ -71,7 +71,7 @@ class AdminCardItem extends Component {
           dispatch(fetchUpdate(item._id, update))
           this.setState({ image: item.image })
         })}
-        style={{ flex: '1 1 auto', width, margin: 20 }}
+        style={{ flex: '1 1 auto', width, margin: 16 }}
       >
         <Card
           expanded={this.state.expanded}
@@ -79,7 +79,7 @@ class AdminCardItem extends Component {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-          style={{ height: '100%' }}
+          className="cards"
         >
           <CardText>
             <Field

@@ -133,7 +133,7 @@ class ImageForm extends Component {
             label="Choose an Image"
             labelPosition="before"
             containerElement="label"
-            style={{ margin: '0 0 12px 0'}}
+            style={{ margin: '0 0 8px 0'}}
             fullWidth={true}
           >
             <input type="file" style={styles.imageInput} onChange={this.handleUpload} />

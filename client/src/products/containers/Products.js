@@ -6,10 +6,10 @@ import ProductList from '../components/ProductList'
 const Products = ({ isFetching, items }) => {
   return (
     isFetching ? null :
-    <main>
-      <section><h1>Products</h1></section>
+    <section>
+      <h1>Products</h1>
       <ProductList items={items} />
-    </main>
+    </section>
   )
 }
 

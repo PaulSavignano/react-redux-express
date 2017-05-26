@@ -1,8 +1,9 @@
 import { type } from '../actions/index'
 
 const user = (state = {
-  roles: [],
   values: {},
+  addresses: [],
+  roles: [],
   error: {}
 }, action) => {
   switch(action.type) {
@@ -11,6 +12,14 @@ const user = (state = {
         ...state,
         isFetching: false,
         ...action.item
+      }
+    case 'ADD_ADDRESS':
+      return {
+        ...state,
+        addresses: [
+          ...state.addresses,
+          action.address
+        ]
       }
     case `REQUEST_${type}`:
       return {
@@ -24,13 +33,9 @@ const user = (state = {
         ...action.item
       }
     case `UPDATE_${type}`:
-      console.log(action.item._id)
       return {
         ...state,
-        items: state.items.map(item => item._id === action.item._id ?
-          { ...item, ...action.item } :
-          item
-        )
+        ...action.item
       }
     case `DELETE_${type}`:
       return {

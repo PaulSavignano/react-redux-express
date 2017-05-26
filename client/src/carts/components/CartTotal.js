@@ -8,7 +8,7 @@ import formatPrice from '../../modules/formatPrice'
 
 const CartTotal = ({ dispatch, total, user }) => (
   !total ? null :
-  <div style={{ margin: 20 }}>
+  <div style={{ margin: 24 }}>
     <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
       <span>subtotal</span>
       <h3>{formatPrice(total)}</h3>

@@ -9,16 +9,17 @@ import { sendEmail1 } from '../../middleware/nodemailer'
 
 const users = express.Router()
 
-// Create
+// Create User
 users.post('/', (req, res) => {
-  const { values } = req.body
+  const { email, firstName, lastName, password } = req.body
   if ( !email || !firstName || !firstName || !password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const user = new User({ values })
+  const user = new User({ values: { email, firstName, lastName }})
   user.save()
     .then(doc => {
-      const { email, firstName, lastName, roles } = doc.values
+      const { values, roles } = doc
+      const { email, firstName, lastName } = values
       return user.generateAuthToken()
         .then(token => {
           sendEmail1({
@@ -35,12 +36,13 @@ users.post('/', (req, res) => {
               <p>New user ${firstName} ${lastName} just signed up at ${process.env.APP_NAME}.</p>
               `
           })
-          res.header('x-auth', token).send({ email, firstName, lastName, roles })
+          res.header('x-auth', token).send({ values, roles })
         })
         .catch(err => res.status(400).send())
     })
     .catch(err => res.status(400).send({ error: { email: 'Email is already in use' }}))
 })
+
 
 
 // Read
@@ -67,17 +69,81 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
 
 // Update
 users.patch('/', authenticate(['user', 'admin']), (req, res) => {
-  const { values } = req.body
-  User.findOneAndUpdate({ _id: req.user._id }, { $set: { values } }, { new: true })
-    .then(doc => {
-      console.log(doc)
-      const { values, addresses, roles } = doc
-      res.send({ values, addresses, roles })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(400).send({ error: err })
-    })
+  const { type, _id, values } = req.body
+  const { firstName, lastName, email, phone, password } = values
+  const updatedValues = { password, values: { firstName, lastName, email, phone }}
+  console.log(type)
+  switch (type) {
+
+    case 'UPDATE_VALUES':
+      console.log('updating values', values)
+      User.findOneAndUpdate({ _id: req.user._id }, { $set: updatedValues }, { new: true })
+        .then(doc => {
+          console.log(doc)
+          const { values, addresses, roles } = doc
+          res.send({ values })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      break
+
+    case 'ADD_ADDRESS':
+      User.findOneAndUpdate({ _id: req.user._id }, { $push: { addresses: { values } }}, { new: true })
+        .then(doc => {
+          const { values, addresses, roles } = doc
+          res.send({ addresses })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      .catch(err => {
+        console.log(err)
+        res.status(400).send(err)
+      })
+      break
+
+    case 'UPDATE_ADDRESS':
+      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': _id }, { $set: { 'addresss.$.values': values }}, { new: true })
+        .then(doc => {
+          const { values, addresses, roles } = doc
+          res.send({ addresses })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      break
+
+    case 'DELETE_ADDRESS':
+      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': _id }, { $pull: { 'addresses': { _id } }}, { new: true })
+        .then(doc => {
+          const { values, addresses, roles } = doc
+          res.send({ addresses })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      break
+
+    default:
+      return
+  }
 })
 
 
@@ -103,13 +169,15 @@ users.post('/signin', (req, res) => {
   User.findByCredentials(email, password)
     .then(user => {
       const { values, roles, addresses } = user
-      const { email, firstName, lastName } = values
       if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
       return user.generateAuthToken()
         .then(token => {
-          res.header('x-auth', token).send({ email, firstName, lastName, roles, addresses })
+          res.header('x-auth', token).send({ values, roles, addresses })
         })
-        .catch(err => res.status(400).send(err))
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
     })
     .catch(err => {
       console.log(err)
@@ -174,9 +242,11 @@ users.post('/reset/:token', (req, res) => {
 
 
 // Signout
-users.delete('/signout', authenticate([ 'user' ]), (req, res) => {
+users.patch('/signout', authenticate(['admin','user']), (req, res) => {
   req.user.removeToken(req.token)
-    .then(() => res.status(200).send())
+    .then(() => {
+      res.status(200).send()
+    })
     .catch(err => res.send({ error: { token: err }}))
 })
 

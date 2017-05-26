@@ -21,13 +21,11 @@ const App = ({ search, children, brand }) => (
         transitionEnter={false}
         transitionLeave={false}
       >
-        <div>
-          <Header />
-          <div style={{ paddingBottom: 100 }}>
-            {search.length ? <SearchList /> : children}
-          </div>
-          <Footer />
-        </div>
+        <Header />
+        <main>
+          {search.length ? <SearchList /> : children}
+        </main>
+        <Footer />
       </CSSTransitionGroup>
     </MuiThemeProvider>
 )

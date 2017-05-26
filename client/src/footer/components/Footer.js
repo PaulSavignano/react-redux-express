@@ -6,7 +6,7 @@ import FontIcon from 'material-ui/FontIcon'
 const Footer = ({ muiTheme }) => {
   const { primary2Color, primary3Color } = muiTheme.palette
   return (
-    <footer style={{ display: 'flex', justifyContent: 'center', padding: '60px 30px', backgroundColor: primary3Color }}>
+    <footer style={{ display: 'flex', justifyContent: 'center', padding: '64px 32px', backgroundColor: primary3Color }}>
       <Link to="https://github.com/"><FontIcon className="fa fa-github-square" style={{ color: primary2Color }} /></Link>
       <Link to="https://twitter.com/"><FontIcon className="fa fa-twitter-square" style={{ color: primary2Color }} /></Link>
       <Link to="https://plus.google.com/"><FontIcon className="fa fa-google-plus-square" style={{ color: primary2Color }} /></Link>

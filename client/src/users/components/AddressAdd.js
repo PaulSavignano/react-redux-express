@@ -8,7 +8,7 @@ import { fetchUpdate } from '../actions/index'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'fullName', 'address', 'city', 'state', 'zip' ]
+  const requiredFields = [ 'name', 'street', 'city', 'state', 'zip' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -35,7 +35,7 @@ class AddressAdd extends Component {
     return (
       <form
         onSubmit={handleSubmit((values) => {
-          const update = { type: 'ADD', values }
+          const update = { type: 'ADD_ADDRESS', values }
           dispatch(fetchUpdate(update))
           this.setState({ expanded: false })
         })}
@@ -43,6 +43,7 @@ class AddressAdd extends Component {
         <Card
           zDepth={1}
           expanded={this.state.expanded}
+          className="cards"
         >
           <CardActions>
             <RaisedButton
@@ -56,15 +57,15 @@ class AddressAdd extends Component {
 
           <CardText expandable={true}>
             <Field
-              name="fullName"
+              name="name"
               label="Full Name"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
-              name="address"
-              label="Address"
+              name="street"
+              label="Street"
               type="text"
               fullWidth={true}
               component={renderTextField}

@@ -70,7 +70,7 @@ class AdminBrandForm extends Component {
             <CardText>
               <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
               <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="address" label="Address" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="street" label="Street" type="text" fullWidth={true} component={renderTextField} />
               <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />
               <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
               <Field name="zip" label="Zip" type="text" fullWidth={true} component={renderTextField} />

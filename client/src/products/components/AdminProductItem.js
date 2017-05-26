@@ -61,7 +61,8 @@ class AdminProduct extends Component {
     const { error, handleSubmit, dispatch, item, imageSize, placeholdIt } = this.props
     return (
       <Card
-        style={{ flex: '1 1 auto', width: 300, margin: 20 }}
+        className="cards"
+        style={{ width: 300 }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

@@ -4,11 +4,11 @@ import AdminPageName from './AdminPageName'
 
 const AdminPageNameList = ({ items }) => (
   !items.length ? null :
-    <section>
+    <div>
       {items.map(item => (
         <AdminPageName key={item._id} {...item} />
       ))}
-    </section>
+    </div>
 )
 
 export default AdminPageNameList

@@ -80,7 +80,7 @@ class AdminSectionItem extends Component {
         expanded={this.state.expanded}
         zDepth={3}
         containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-        style={{ height: '100%', margin: '130px 0'}}
+        className="cards"
       >
         <CardActions style={{ display: 'flex' }}>
           <RaisedButton

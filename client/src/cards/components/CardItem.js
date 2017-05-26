@@ -41,7 +41,8 @@ class CardItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        style={{ flex: '1 1 auto', width, backgroundColor, maxWidth, margin, cursor: 'pointer' }}
+        className="cards"
+        style={{ width, backgroundColor, maxWidth, cursor: 'pointer' }}
       >
         <CSSTransitionGroup
           transitionName="image"
@@ -66,31 +67,32 @@ class CardItem extends Component {
           {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
         </CSSTransitionGroup>
       </Card>
-        :
-        <Card
-          style={{ flex: '1 1 auto',  width, color, backgroundColor, maxWidth, margin }}
+      :
+      <Card
+        className="cards"
+        style={{ width, color, backgroundColor, maxWidth }}
+      >
+        <CSSTransitionGroup
+          transitionName="image"
+          transitionAppear={true}
+          transitionAppearTimeout={900}
+          transitionEnter={false}
+          transitionLeave={false}
         >
-          <CSSTransitionGroup
-            transitionName="image"
-            transitionAppear={true}
-            transitionAppearTimeout={900}
-            transitionEnter={false}
-            transitionLeave={false}
-          >
-            {values.header ? <CardHeader title={values.header} style={{ color }}/> : null }
-            {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
-            {values.iFrame ?
-              <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
-                <iframe
-                  title="google youtube"
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={values.iFrame} frameBorder="0" allowFullScreen>
-                </iframe></div>
-            : null}
-            {!values.title ? null : values.text ? <CardTitle title={values.title} style={{ color }}/> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center', color }} /> }
-            {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
-          </CSSTransitionGroup>
-        </Card>
+          {values.header ? <CardHeader title={values.header} style={{ color }}/> : null }
+          {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
+          {values.iFrame ?
+            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
+              <iframe
+                title="google youtube"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src={values.iFrame} frameBorder="0" allowFullScreen>
+              </iframe></div>
+          : null}
+          {!values.title ? null : values.text ? <CardTitle title={values.title} style={{ color }}/> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center', color }} /> }
+          {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
+        </CSSTransitionGroup>
+      </Card>
     )
   }
 }

@@ -49,7 +49,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
   const { type, image, values } = req.body
   const newValues = !values ? null : {
     name: values.name,
-    address: values.address,
+    street: values.street,
     city: values.city,
     state: values.state,
     zip: values.zip,

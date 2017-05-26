@@ -4,6 +4,7 @@ import { getStripeToken } from '../../stripe/getStripeToken'
 import { SubmissionError } from 'redux-form'
 import { push } from 'react-router-redux'
 
+import { fetchUpdate } from '../../users/actions/index'
 import { fetchDeleteCart } from '../../carts/actions/index'
 
 
@@ -13,7 +14,7 @@ export const fetchAddOrder = (values) => {
   return (dispatch, getState) => {
     Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
     const cart = getState().cart
-    const { number, exp, cvc, firstName, lastName, address, zip, state } = values
+    const { number, exp, cvc, firstName, lastName, street, zip, state } = values
     const expiration = exp.split('/')
     const exp_month = parseInt(expiration[0], 10)
     const exp_year = parseInt(expiration[1], 10)
@@ -26,7 +27,7 @@ export const fetchAddOrder = (values) => {
             'Content-Type': 'application/json',
             'x-auth': localStorage.getItem('token')
           },
-          body: JSON.stringify({ token, cart, firstName, lastName, address, zip, state })
+          body: JSON.stringify({ token, cart, firstName, lastName, street, zip, state })
         })
           .then(res => {
             if (res.ok) return res.json()
@@ -35,6 +36,8 @@ export const fetchAddOrder = (values) => {
           .then(json => {
             if (json.error) return Promise.reject(json.error)
             console.log(json)
+            const { address } = json
+            dispatch(fetchUpdate({ type: 'UPDATE_ADDRESS', values: { ...address }}))
             dispatch(fetchAddOrderSuccess(json))
             dispatch(fetchDeleteCart())
             dispatch(push(`user/order/${json._id}`))

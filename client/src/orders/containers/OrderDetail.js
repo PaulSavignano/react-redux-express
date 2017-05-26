@@ -7,16 +7,14 @@ import OrderCartList from '../components/OrderCartList'
 const OrderDetail = ({ isFetching, item }) => {
   return (
     isFetching ? null :
-    <main>
-      <section><h1>Order {item._id}</h1></section>
+    <section>
+      <h1>Order {item._id}</h1>
       <OrderCartList items={item.cart.items} />
-      <section>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1>Total</h1>
-          <h1>{formatPrice(item.cart.total)}</h1>
-        </div>
-      </section>
-    </main>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Total</h1>
+        <h1>{formatPrice(item.cart.total)}</h1>
+      </div>
+    </section>
   )
 }
 

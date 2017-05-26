@@ -28,19 +28,11 @@ const RequireAuth = (ComposedComponent, roles) => {
       )
     }
   }
-  const mapStateToProps = (state) => {
-    if (!state.user.isFetching) {
-      return {
-        isFetching: state.user.isFetching,
-        userRoles: state.user.roles
-      }
-    }
-    return {
-      isFetching: state.user.isFetching,
-      userRoles: []
-    }
-  }
-  return connect(mapStateToProps)(Authentication);
+  const mapStateToProps = (state) => ({
+    isFetching: state.user.isFetching,
+    userRoles: state.user.roles
+  })
+  return connect(mapStateToProps)(Authentication)
 }
 
 

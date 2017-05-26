@@ -34,44 +34,40 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 let ProfileForm = ({ dispatch, handleSubmit, user, submitSucceeded, error, initialValues }) => (
-  <main>
-    <section>
-      <Card>
-        <CardTitle title="Profile" subtitle="Enter your information" />
-        <form onSubmit={handleSubmit(values => dispatch(fetchUpdate({ values })))} >
-          <CardText>
-            <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-            <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
-            <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-            <Field name="phone" component={renderTextField} label="Phone" fullWidth={true} />
-            <Field name="newPassword" component={renderTextField} label="New Password" fullWidth={true} type="password" />
-            <Field name="newPasswordConfirm" component={renderTextField} label="New Password Confirm" fullWidth={true} type="password"/>
-            <Field name="address" component={renderTextField} label="Address" fullWidth={true} />
-            <Field name="zip" component={renderTextField} label="Zip" fullWidth={true} />
-            <Field name="state" component={renderTextField} label="State" fullWidth={true} />
-            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-          </CardText>
-          <CardActions>
-            <RaisedButton
-              type="submit"
-              label={submitSucceeded ? "Updated" : "Update"}
-              labelColor="#ffffff"
-              primary={submitSucceeded ? false : true}
-              backgroundColor={submitSucceeded ? "#4CAF50" : null }
-              style={{ flex: '1 1 auto', margin: 8 }}
-            />
-            <RaisedButton
-              type="button"
-              label="Delete Account"
-              primary={true}
-              style={{ flex: '1 1 auto', margin: 8 }}
-              onTouchTap={() => dispatch(fetchDelete())}
-            />
-          </CardActions>
-        </form>
-      </Card>
-    </section>
-  </main>
+  <Card className="cards">
+    <form onSubmit={handleSubmit(values => {
+      const update = { type: 'UPDATE_VALUES', values}
+      dispatch(fetchUpdate(update))
+    })}
+    >
+      <CardText>
+        <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
+        <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
+        <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+        <Field name="phone" component={renderTextField} label="Phone" fullWidth={true} />
+        <Field name="newPassword" component={renderTextField} label="New Password" fullWidth={true} type="password" />
+        <Field name="newPasswordConfirm" component={renderTextField} label="New Password Confirm" fullWidth={true} type="password"/>
+        {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+      </CardText>
+      <CardActions style={{ display: 'flex', flexFlow: 'row wrap' }}>
+        <RaisedButton
+          type="submit"
+          label={submitSucceeded ? "Updated" : "Update"}
+          labelColor="#ffffff"
+          primary={submitSucceeded ? false : true}
+          backgroundColor={submitSucceeded ? "#4CAF50" : null }
+          style={{ flex: '1 1 auto', margin: 8 }}
+        />
+        <RaisedButton
+          type="button"
+          label="Delete Account"
+          primary={true}
+          style={{ flex: '1 1 auto', margin: 8 }}
+          onTouchTap={() => dispatch(fetchDelete())}
+        />
+      </CardActions>
+    </form>
+  </Card>
 )
 
 

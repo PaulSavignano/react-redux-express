@@ -4,16 +4,14 @@ import {Card, CardTitle, CardText} from 'material-ui/Card'
 
 const OrderConfirmation = ({ user, item }) => {
   return (
-    <main>
-      <section>
-        <Card>
-          <CardTitle title="Order" subtitle={item._id} />
-          <CardText>
-            Hi {user.values.firstName}, thank you for your order {item._id}!
-          </CardText>
-        </Card>
-      </section>
-    </main>
+    <section>
+      <Card className="cards">
+        <CardTitle title="Order" subtitle={item._id} />
+        <CardText>
+          Hi {user.values.firstName}, thank you for your order {item._id}!
+        </CardText>
+      </Card>
+    </section>
   )
 }
 

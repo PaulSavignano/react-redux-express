@@ -5,9 +5,9 @@ import AdminSections from '../../sections/containers/AdminSections'
 
 const AdminPageEdit = ({ isFetching, page }) => (
   isFetching ? null :
-  <main>
+  <section>
     <AdminSections page={page} />
-  </main>
+  </section>
 )
 
 const mapStateToProps = (state, ownProps) => ({

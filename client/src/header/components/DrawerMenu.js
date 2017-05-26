@@ -25,7 +25,7 @@ const DrawerNav = ({ dispatch, brand, pages, user, handleClose }) => {
   return (
     <div>
       <div
-        style={{ cursor: 'pointer', width: '100%', margin: '0 auto 0 auto' }}
+        style={{ cursor: 'pointer', width: '100%', margin: '0 auto' }}
         onTouchTap={() => {
           dispatch(push('/'))
           handleClose()

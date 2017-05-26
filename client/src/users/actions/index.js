@@ -89,11 +89,13 @@ export const fetchUpdate = (update) => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
         console.log(json)
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchUpdateFailure(err))
         throw new SubmissionError({ ...err, _error: err })
       })
@@ -163,6 +165,7 @@ export const fetchSignin = (values) => {
         return res.json()
       })
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchSigninSuccess(json))
         const path = getState().user.redirect || null
@@ -182,13 +185,14 @@ const fetchSignoutFailure = (error) => ({ type: 'ERROR_USER', error })
 export const fetchSignout = () => {
   return (dispatch, getState) => {
     return fetch('/api/users/signout', {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token')
       }
     })
       .then(res => {
+        console.log(res)
         if (res.ok) {
           localStorage.removeItem('token')
           dispatch(fetchSignoutSuccess())

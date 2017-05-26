@@ -3,7 +3,7 @@ import CartItem from './CartItem'
 
 const CartList = ({ items }) => (
   items ?
-  <section>
+  <div>
     {items.map((item, index) => (
       <CartItem
         key={item.productId}
@@ -11,7 +11,7 @@ const CartList = ({ items }) => (
         {...item}
       />
     ))}
-  </section>
+  </div>
   :
   <section><h1>Nothing in your cart yet</h1></section>
 )

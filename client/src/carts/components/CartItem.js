@@ -31,10 +31,10 @@ class CartItem extends Component {
     const { dispatch, productId, name, price, image, total } = this.props
     return (
       <Card
-        style={{ flex: '1 1 auto', margin: '10px 20px' }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        className="cards"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
           <img src={image} alt="" width="100" height="100"/>
@@ -45,14 +45,14 @@ class CartItem extends Component {
             justifyContent: 'space-between',
             flex: '1 1 auto',
           }}>
-            <span style={{ flex: '3 3 auto', minWidth: 200, fontSize: '1.5rem', margin: '20px 10px 10px 10px' }}>{name}</span>
-            <span style={{ flex: '1 1 auto', fontSize: '1.5rem', textAlign: 'right', margin: '20px 10px 10px 10px', width: 75 }}>{formatPrice(price)}</span>
+            <span style={{ flex: '3 3 auto', minWidth: 200, fontSize: '1.5rem', margin: 16 }}>{name}</span>
+            <span style={{ flex: '1 1 auto', fontSize: '1.5rem', textAlign: 'right', margin: 16, width: 75 }}>{formatPrice(price)}</span>
             <div style={{
               display: 'flex',
               flexFlow: 'row nowrap',
               alignItems: 'center',
               flex: '1 1 auto',
-              margin: '15px 10px'
+              margin: '16px 8px'
             }}>
               <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: 24 }} style={{ minWidth: 50 }} />
               <TextField
@@ -72,7 +72,7 @@ class CartItem extends Component {
                 }}
               />
             </div>
-            <span style={{ flex: '1 1 auto', textAlign: 'right', fontSize: '1.5rem', width: 75, margin: '20px 10px 10px 10px' }}>{formatPrice(total)}</span>
+            <span style={{ flex: '1 1 auto', textAlign: 'right', fontSize: '1.5rem', width: 75, margin: 16 }}>{formatPrice(total)}</span>
           </div>
         </div>
       </Card>

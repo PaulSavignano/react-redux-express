@@ -18,16 +18,16 @@ const UserSchema = new Schema({
     },
     firstName: { type: String, trim: true, minlength: 1, required: true },
     lastName: { type: String, trim: true, minlength: 1, required: true },
-    phone: { type: String, trim: true, minlength: 1, required: true },
+    phone: { type: String, trim: true, minlength: 1 },
   },
   addresses: [{
     values: {
-      fullName: { type: String, trim: true, minlength: 1, required: true },
-      address: { type: String, trim: true, minlength: 1 },
+      name: { type: String, trim: true, minlength: 1 },
+      phone: { type: String, trim: true, minlength: 1 },
+      street: { type: String, trim: true, minlength: 1 },
       city: { type: String, trim: true, minlength: 1 },
       zip: { type: String, trim: true, minlength: 1 },
-      state: { type: String, trim: true, minlength: 1 },
-      phone: { type: String, trim: true, minlength: 1 },
+      state: { type: String, trim: true, minlength: 1 }
     },
     createdAt: { type: Date, default: Date.now }
   }],
@@ -64,8 +64,9 @@ UserSchema.methods.generateAuthToken = function() {
 }
 
 UserSchema.methods.removeToken = function(token) {
+  console.log('removing token')
   const user = this
-  user.update({
+  return user.update({
     $pull: {
       tokens: {
         token

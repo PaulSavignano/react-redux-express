@@ -31,27 +31,25 @@ class AdminPageNameAdd extends Component {
   render() {
     const { error, handleSubmit, dispatch } = this.props
     return (
-      <section>
-        <Card>
-          <form
-            onSubmit={handleSubmit(values => dispatch(fetchAdd(values)))}
-          >
-            <CardText style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center' }}>
-              <div style={{ flex: '1 1 auto' }}>
-                <Field
-                  name="name"
-                  label="Add Page Name"
-                  type="text"
-                  component={renderTextField}
-                  fullWidth={true}
-                  submissionError={error}
-                />
-              </div>
-              <RaisedButton type="submit" label="Add" primary={true}/>
-            </CardText>
-          </form>
-        </Card>
-      </section>
+      <Card className="cards">
+        <form
+          onSubmit={handleSubmit(values => dispatch(fetchAdd(values)))}
+        >
+          <CardText style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center' }}>
+            <div style={{ flex: '1 1 auto' }}>
+              <Field
+                name="name"
+                label="Add Page Name"
+                type="text"
+                component={renderTextField}
+                fullWidth={true}
+                submissionError={error}
+              />
+            </div>
+            <RaisedButton type="submit" label="Add" primary={true}/>
+          </CardText>
+        </form>
+      </Card>
     )
   }
 }

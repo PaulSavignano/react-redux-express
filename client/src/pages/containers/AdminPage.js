@@ -5,10 +5,10 @@ import AdminPageNameAdd from '../components/AdminPageNameAdd'
 import AdminPageNameList from '../components/AdminPageNameList'
 
 const AdminPage = ({ items }) => (
-  <main>
+  <section>
     <AdminPageNameAdd />
     <AdminPageNameList items={items} />
-  </main>
+  </section>
 )
 
 const mapStateToProps = (state) => ({

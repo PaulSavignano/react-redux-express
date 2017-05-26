@@ -43,47 +43,45 @@ class Recovery extends Component {
     const { dispatch, error, handleSubmit, submitting, isFetching } = this.props
     return (
       isFetching ? null :
-      <main>
-        <section>
-          <Card>
-            <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
-            <form onSubmit={handleSubmit(values => {
-              this.setState({ email: values.email })
-              dispatch(fetchRecovery(values))
-            })} className="">
-              <CardText>
-                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-              </CardText>
-              {!this.state.open ? null :
-                <Dialog
-                  actions={
-                    <FlatButton
-                      label="Close"
-                      primary={true}
-                      onTouchTap={this.handleClose}
-                    />
-                  }
-                  modal={false}
-                  open={this.state.open}
-                  onRequestClose={this.handleClose}
-                >
-                  An email has been sent to {this.state.email}
-                </Dialog>
-              }
-              <CardActions>
-                <RaisedButton
-                  label="Recovery"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
-                />
-              </CardActions>
-            </form>
-          </Card>
-        </section>
-      </main>
+      <section>
+        <Card className="cards">
+          <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
+          <form onSubmit={handleSubmit(values => {
+            this.setState({ email: values.email })
+            dispatch(fetchRecovery(values))
+          })} className="">
+            <CardText>
+              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+            </CardText>
+            {!this.state.open ? null :
+              <Dialog
+                actions={
+                  <FlatButton
+                    label="Close"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                  />
+                }
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+              >
+                An email has been sent to {this.state.email}
+              </Dialog>
+            }
+            <CardActions>
+              <RaisedButton
+                label="Recovery"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
+            </CardActions>
+          </form>
+        </Card>
+      </section>
     )
   }
 }

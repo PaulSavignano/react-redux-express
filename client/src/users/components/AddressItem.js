@@ -37,56 +37,57 @@ class AddressItem extends Component {
   render() {
     const { error, handleSubmit, dispatch, item, user } = this.props
     return (
-      <form
-        onSubmit={handleSubmit((values) => {
-          const update = { type: 'UPDATE_ITEM', values }
-          dispatch(fetchUpdate(item._id, update))
-        })}
-        style={{ flex: '1 1 auto', width: '100%', margin: 20 }}
+      <Card
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        className="cards"
       >
-        <Card
-          zDepth={this.state.zDepth}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-          style={{ height: '100%' }}
+        <form
+          onSubmit={handleSubmit((values) => {
+            const update = { type: 'UPDATE_ADDRESS', _id: item._id, values }
+            dispatch(fetchUpdate(item._id, update))
+          })}
+          style={{ flex: '1 1 auto' }}
         >
           <CardText>
             <Field
-              name="fullName"
-              label="Full Name"
+              name="name"
+              label="Name"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
-              name="address"
-              label="Address"
+              name="street"
+              label="Street"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
-            <Field
-              name="city"
-              label="City"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="state"
-              label="State"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="zip"
-              label="Zip"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
+            <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+              <Field
+                name="city"
+                label="City"
+                type="text"
+                component={renderTextField}
+                style={{ flex: '1 1 auto' }}
+              />
+              <Field
+                name="state"
+                label="State"
+                type="text"
+                component={renderTextField}
+                style={{ flex: '1 1 auto' }}
+              />
+              <Field
+                name="zip"
+                label="Zip"
+                type="text"
+                component={renderTextField}
+                style={{ flex: '1 1 auto' }}
+              />
+            </div>
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
           </CardText>
           <CardActions style={{ display: 'flex' }}>
@@ -104,12 +105,13 @@ class AddressItem extends Component {
               primary={true}
               style={{ flex: '1 1 auto', margin: 8 }}
               onTouchTap={() => {
-                dispatch(fetchDelete(item._id, item.image))
+                const update = { type: 'DELETE_ADDRESS', _id: item._id }
+                dispatch(fetchUpdate(update))
               }}
             />
           </CardActions>
-        </Card>
-      </form>
+        </form>
+      </Card>
     )
   }
 }

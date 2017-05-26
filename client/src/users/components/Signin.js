@@ -45,49 +45,47 @@ class Signin extends Component {
     const { dispatch, error, handleSubmit, submitting, user, muiTheme } = this.props
     const { primary1Color } = muiTheme.palette
     return (
-      <main>
-        <section>
-          <Card style={{ flex: '1 1 auto', width: 300, margin: 20 }}>
-            <CardTitle title="Sign in" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values)))}>
-              <CardText>
-                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-              </CardText>
-              <CardActions>
-                <RaisedButton
-                  label="Sign In"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
-                />
-              </CardActions>
-            </form>
-            {!this.state.open ? null :
-              <Dialog
-                actions={
-                  <FlatButton
-                    label="Close"
-                    primary={true}
-                    onTouchTap={this.handleClose}
-                  />
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
-              >
-                Welcome back {user.values.firstName || null}!
-              </Dialog>
-            }
-            <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>
-              <p><Link to="/user/recovery" style={{ color: primary1Color }}>Forgot your password?</Link></p>
+      <section>
+        <Card className="cards">
+          <CardTitle title="Sign in" subtitle="Enter your information" />
+          <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values)))}>
+            <CardText>
+              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+            </CardText>
+            <CardActions>
+              <RaisedButton
+                label="Sign In"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
             </CardActions>
-          </Card>
-        </section>
-      </main>
+          </form>
+          {!this.state.open ? null :
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={this.handleClose}
+                />
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              Welcome back {user.values.firstName || null}!
+            </Dialog>
+          }
+          <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+            <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>
+            <p><Link to="/user/recovery" style={{ color: primary1Color }}>Forgot your password?</Link></p>
+          </CardActions>
+        </Card>
+      </section>
     )
   }
 }

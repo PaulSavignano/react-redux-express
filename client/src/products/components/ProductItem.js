@@ -45,7 +45,8 @@ class ProductItem extends Component {
     return (
       this.state.loading ? null :
       <Card
-        style={{ width: 300 }}
+        className="cards"
+        style={{ flex: '1 1 auto', width: 300 }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -56,6 +57,7 @@ class ProductItem extends Component {
           transitionAppearTimeout={900}
           transitionEnter={false}
           transitionLeave={false}
+          style={{ flex: '1 1 auto' }}
         >
           <CardMedia>
             <img src={item.image} alt={item.name} onTouchTap={() => dispatch(push(`/product/${item.slug}`))}/>

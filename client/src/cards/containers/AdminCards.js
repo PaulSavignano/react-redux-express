@@ -13,10 +13,10 @@ const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}
 const AdminCards = ({ isFetching, section, items }) => {
   return (
     isFetching ? null :
-    <div>
-      <section><AdminCardAdd section={section} imageSize={imageSize} placeholdIt={placeholdIt} /></section>
+    <section>
+      <AdminCardAdd section={section} imageSize={imageSize} placeholdIt={placeholdIt} />
       <AdminCardList section={section} items={items} imageSize={imageSize} placeholdIt={placeholdIt} />
-    </div>
+    </section>
   )
 }
 

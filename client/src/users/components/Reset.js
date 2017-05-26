@@ -34,13 +34,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 )
 
 
-const styles = {
-  item: {
-    maxWidth: 840,
-    margin: '0 auto'
-  }
-}
-
 class Reset extends Component {
   state = { open: false }
   handleClose = () => this.setState({open: false})
@@ -50,45 +43,43 @@ class Reset extends Component {
   render() {
     const { error, dispatch, handleSubmit, submitting, params, user } = this.props
     return (
-      <main>
-        <section>
-          <Card style={styles.item}>
-            <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">
-              <CardText>
-                <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
-                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
-                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-              </CardText>
-              {!this.state.open ? null :
-                <Dialog
-                  actions={
-                    <FlatButton
-                      label="Close"
-                      primary={true}
-                      onTouchTap={this.handleClose}
-                    />
-                  }
-                  modal={false}
-                  open={this.state.open}
-                  onRequestClose={this.handleClose}
-                >
-                  Welcome back {user.values.firstName || null}
-                </Dialog>
-              }
-              <CardActions>
-                <RaisedButton
-                  label="Recover"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
-                />
-              </CardActions>
-            </form>
-          </Card>
-        </section>
-      </main>
+      <section>
+        <Card className="cards">
+          <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
+          <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">
+            <CardText>
+              <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
+              <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+            </CardText>
+            {!this.state.open ? null :
+              <Dialog
+                actions={
+                  <FlatButton
+                    label="Close"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                  />
+                }
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+              >
+                Welcome back {user.values.firstName || null}
+              </Dialog>
+            }
+            <CardActions>
+              <RaisedButton
+                label="Recover"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
+            </CardActions>
+          </form>
+        </Card>
+      </section>
     )
   }
 }

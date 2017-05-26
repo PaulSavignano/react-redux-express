@@ -4,7 +4,7 @@ import CardItem from './CardItem'
 
 const CardList = ({ isFetching, page, items }) => (
 !items.length ? null :
-  <section>
+  <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
     {items.map(item => (
       <CardItem
         key={item._id}
@@ -12,7 +12,7 @@ const CardList = ({ isFetching, page, items }) => (
         page={page}
       />
     ))}
-  </section>
+  </div>
 )
 
 export default CardList

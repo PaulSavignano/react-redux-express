@@ -6,15 +6,15 @@ import OrderList from '../components/OrderList'
 const Orders = ({ isFetching, items }) => {
   return (
     isFetching ? null :
-    <main>
-      <section><h1>Orders</h1></section>
+    <section>
+      <h1>Orders</h1>
       <OrderList items={items} />
-    </main>
+    </section>
   )
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.products.isFetching,
+  isFetching: state.orders.isFetching,
   items: state.orders.items
 })
 

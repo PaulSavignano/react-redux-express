@@ -11,7 +11,7 @@ const filter = (items, searchText) => {
 }
 
 const SearchList = ({ items, search }) => (
-  items.length < 1 ? <section><p>No products yet</p></section> :
+  items.length < 1 ? <section><p>No matches</p></section> :
     <section>
       {filter(items, search).map(item => (
         <ProductItem

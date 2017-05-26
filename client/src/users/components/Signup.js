@@ -44,48 +44,46 @@ class Signup extends Component {
   render() {
     const { dispatch, error, handleSubmit, submitting, signup } = this.props
     return (
-      <main>
-        <section>
-          <Card>
-            <CardTitle title="Signup" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchAdd({ values })))} >
-              <CardText>
-                <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-                <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
-                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
-                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-              </CardText>
-              {!this.state.open ? null :
-                <Dialog
-                  actions={
-                    <FlatButton
-                      label="Close"
-                      primary={true}
-                      onTouchTap={this.handleClose}
-                    />
-                  }
-                  modal={false}
-                  open={this.state.open}
-                  onRequestClose={this.handleClose}
-                >
-                  Welcome {signup.values ? signup.values.firstName : null}!
-                </Dialog>
-              }
-              <CardActions>
-                <RaisedButton
-                  label="Sign Up"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
-                />
-              </CardActions>
-            </form>
-          </Card>
-        </section>
-      </main>
+      <section>
+        <Card className="cards">
+          <CardTitle title="Signup" subtitle="Enter your information" />
+          <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)))} >
+            <CardText>
+              <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
+              <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
+              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+              <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+            </CardText>
+            {!this.state.open ? null :
+              <Dialog
+                actions={
+                  <FlatButton
+                    label="Close"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                  />
+                }
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+              >
+                Welcome {signup.values ? signup.values.firstName : null}!
+              </Dialog>
+            }
+            <CardActions>
+              <RaisedButton
+                label="Sign Up"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
+            </CardActions>
+          </form>
+        </Card>
+      </section>
     )
   }
 }
