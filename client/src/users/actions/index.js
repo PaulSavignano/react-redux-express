@@ -1,6 +1,8 @@
 import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
 
+import { fetchOrders } from '../../orders/actions/index'
+
 export const type = 'USER'
 const route = 'users'
 
@@ -168,6 +170,7 @@ export const fetchSignin = (values) => {
         console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchSigninSuccess(json))
+        dispatch(fetchOrders())
         const path = getState().user.redirect || null
         if (path) return dispatch(push(path))
       })

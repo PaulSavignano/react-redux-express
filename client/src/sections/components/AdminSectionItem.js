@@ -79,6 +79,7 @@ class AdminSectionItem extends Component {
       <Card
         expanded={this.state.expanded}
         zDepth={3}
+        style={{ margin: '64px 0 128px 0'}}
         containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
         className="cards"
       >
@@ -222,13 +223,6 @@ class AdminSectionItem extends Component {
               component={renderTextField}
             />
             <Field
-              name="textWidth"
-              label="Text Area Width px"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
               name="color"
               label="Text Color Hexadecimal"
               type="text"
@@ -240,7 +234,7 @@ class AdminSectionItem extends Component {
           <CardActions style={{ display: 'flex' }}>
             <RaisedButton
               type="submit"
-              label={this.state.submitted ? "Updated" : "Update"}
+              label={this.state.submitted ? "Section Updated" : "Update Section"}
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}
               backgroundColor={this.state.submitted ? "#4CAF50" : null }

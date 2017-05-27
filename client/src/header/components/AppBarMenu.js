@@ -104,22 +104,18 @@ class AppBarMenu extends Component {
                   hoverColor="none"
                 />
               </span>
-
               <IconButton
                 iconClassName="fa fa-search"
                 iconStyle={{ fontSize: 18}}
                 style={styles.search}
                 onTouchTap={() => this.setState({ searching: !this.state.searching })}
               />
-
-
               <FlatButton
                 style={styles.user}
                 onTouchTap={this.handleOpen}
                 label={user.values.firstName ? `Hello, ${user.values.firstName}`: `SIGN IN`}
                 hoverColor="none"
               />
-
               <Popover
                 open={this.state.openMenu}
                 anchorEl={this.state.anchorEl}
@@ -132,16 +128,12 @@ class AppBarMenu extends Component {
                   <SigninSignout user={user} handleClose={this.handleClose} />
                 </Menu>
               </Popover>
-
               <IconButton
                 children={<CartIcon  />}
                 onTouchTap={() => dispatch(push('/cart'))}
                 style={{ padding: '12px 0' }}
               />
-
-
             </span>
-
           </nav>
         }
       </CSSTransitionGroup>

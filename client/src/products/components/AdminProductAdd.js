@@ -55,7 +55,7 @@ class AdminProductAdd extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { error, handleSubmit, _id, dispatch } = this.props
+    const { error, handleSubmit, _id, dispatch, imageSize, placeholdIt } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -71,7 +71,7 @@ class AdminProductAdd extends Component {
 
           dispatch(fetchAdd(add))
           this.props.reset()
-          this.setState({ image: this.props.placeholdIt })
+          this.setState({ image: placeholdIt, expanded: false })
         })}
       >
         <Card
@@ -94,11 +94,11 @@ class AdminProductAdd extends Component {
           </CardActions>
           <CardMedia expandable={true}>
             <ImageForm
-              image={this.state.new ? this.state.image : 'https://placehold.it/1000x1000'}
+              image={this.state.image}
               type="image/jpeg"
               editing={this.editing}
-              width={1000}
-              height={1000}
+              width={imageSize.width}
+              height={imageSize.height}
               _id={_id}
               ref={this.setEditorRef}
             />

@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Sections from '../../sections/containers/Sections'
+import Cart from '../../carts/containers/Cart'
+import CarouselList from '../../carousels/containers/CarouselList'
 import Contact from '../../users/components/Contact'
 import Products from '../../products/containers/Products'
-import Cart from '../../carts/containers/Cart'
+import Sections from '../../sections/containers/Sections'
 import NotFound from '../../NotFound'
 
 const defaultPages = [ 'contact', 'products', 'cart' ]
 
-const Page = ({ isFetching, pageSlug, page, sections }) => (
+const Page = ({ isFetching, pageSlug, page, sections, carousel }) => (
   (() => {
     switch (pageSlug) {
       case 'notFound':
@@ -21,7 +22,12 @@ const Page = ({ isFetching, pageSlug, page, sections }) => (
       case 'cart':
           return <Cart />
       default:
-          return sections ? <Sections page={page} /> : null
+          return (
+            <div>
+              {sections ? <Sections page={page} /> : null}
+              {carousel ? <CarouselList page={page} /> : null}
+            </div>
+          )
       }
   })()
 )
@@ -33,11 +39,13 @@ const mapStateToProps = (state, ownProps) => {
   const allPages = defaultPages.concat(pages)
   const pageSlug = allPages.find(page => page === slug) || 'notFound'
   const sections = page ? state.sections.items.find(item => item.pageId === page._id) : null
+  const carousel = page ? state.carousels.items.find(item => item.pageId === page._id) : null
   return {
     isFetching: state.pages.isFetching,
     pageSlug,
     page,
-    sections
+    sections,
+    carousel
   }
 }
 

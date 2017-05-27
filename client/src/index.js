@@ -11,6 +11,7 @@ import './index.css'
 // Actions
 import { fetchCards } from './cards/actions/index'
 import { fetchCart } from './carts/actions/index'
+import { fetchCarousels } from './carousels/actions/index'
 import { fetchSections } from './sections/actions/index'
 import { fetchOrders } from './orders/actions/index'
 import { fetchPages } from './pages/actions/index'
@@ -34,6 +35,7 @@ if (cart) {
 }
 
 store.dispatch(fetchCards())
+store.dispatch(fetchCarousels())
 store.dispatch(fetchSections())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())

@@ -20,6 +20,7 @@
     "react-router-redux": "^4.0.8",
     "react-rte": "^0.11.0",
     "react-scripts": "^1.0.1",
+    "react-slick": "^0.14.11",
     "react-tap-event-plugin": "^2.0.1",
     "react-transition-group": "^1.1.2",
     "redux": "^3.6.0",

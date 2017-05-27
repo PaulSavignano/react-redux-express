@@ -4,7 +4,7 @@ import AdminCardItem from '../components/AdminCardItem'
 
 const AdminCardList = ({ section, items, imageSize, placeholdIt }) => (
   items.length < 1 ? null  :
-  <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+  <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
     {items.map(item => (
       <AdminCardItem
         key={item._id}

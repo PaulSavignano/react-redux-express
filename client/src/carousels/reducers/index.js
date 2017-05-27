@@ -1,8 +1,8 @@
 import { type } from '../actions/index'
 
-const brand = (state = {
-  isFetching: false,
-  values: {}
+const carousels = (state = {
+  isFetching: true,
+  items: []
 }, action) => {
   switch (action.type) {
     case `REQUEST_${type}S`:
@@ -14,25 +14,30 @@ const brand = (state = {
       return {
         ...state,
         isFetching: false,
-        ...action.items
+        items: action.items
       }
     case `ADD_${type}`:
       return {
         ...state,
         isFetching: false,
-        ...action.item
+        items: [
+          ...state.items,
+          action.item
+        ]
       }
     case `UPDATE_${type}`:
-      console.log(action.item)
+      console.log(action.item._id)
       return {
         ...state,
-        ...action.item,
-        testing: 1
+        items: state.items.map(item => item._id === action.item._id ?
+          { ...item, ...action.item } :
+          item
+        )
       }
     case `DELETE_${type}`:
       return {
         ...state,
-        ...state.items
+        items: state.items.filter(item => item._id !== action._id)
       }
     case `ERROR_${type}`:
       return {
@@ -44,4 +49,4 @@ const brand = (state = {
   }
 }
 
-export default brand
+export default carousels

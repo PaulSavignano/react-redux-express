@@ -1,3 +1,6 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
 
 /**** Mobile layout ****/
 @media (max-width: 890px) {
@@ -34,16 +37,21 @@ footer {
 }
 
 
-/* Main container for holding grids */
+
+
+
+
+
 
 
 main {
   margin-bottom: 96px;
 }
 
+/* maring: 32px */
 section {
   max-width: 1044px;
-  margin: 32px auto;
+  margin: 96px auto;
 }
 
 section > h1 {
@@ -139,23 +147,4 @@ footer > a {
 .exp-cvc {
   margin-bottom: 8px;
   span:first-child { margin-right: 16px; }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Aussiemoving */
-ul {
-  padding: 0 0 0 16px;
 }

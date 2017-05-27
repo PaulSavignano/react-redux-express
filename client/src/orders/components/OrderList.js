@@ -2,8 +2,8 @@ import React from 'react'
 
 import OrderItem from './OrderItem'
 
-const OrderList = ({ items }) => (
-  !items.length ? <h3>No items yet</h3> :
+const OrderList = ({ items, fontFamily, color }) => (
+  !items.length ? <h3 style={{ fontFamily, color }}>No items yet</h3> :
   <div>
     {items.map(item => (
       <OrderItem

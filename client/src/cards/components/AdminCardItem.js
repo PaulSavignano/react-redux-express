@@ -71,7 +71,7 @@ class AdminCardItem extends Component {
           dispatch(fetchUpdate(item._id, update))
           this.setState({ image: item.image })
         })}
-        style={{ flex: '1 1 auto', width, margin: 16 }}
+        style={{ flex: '1 1 auto' }}
       >
         <Card
           expanded={this.state.expanded}

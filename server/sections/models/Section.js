@@ -12,10 +12,9 @@ const SectionSchema = new Schema({
     title: { type: String, trim: true },
     titleAlign: { type: String, trim: true },
     text: { type: String, trim: true },
+    textAlign: { type: String, trim: true },
     margin: { type: String, trim: true },
     padding: { type: String, trim: true },
-    textWidth: { type: String, trim: true },
-    textAlign: { type: String, trim: true },
     color: { type: String, trim: true }
   },
   createdAt: { type: Date, default: Date.now }

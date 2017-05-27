@@ -6,6 +6,7 @@ import { push } from 'react-router-redux'
 const RequireAuth = (ComposedComponent, roles) => {
   class Authentication extends Component {
     hasRoles = (roles, userRoles) => {
+      console.log(roles, userRoles)
       if (userRoles) {
         return roles.some(v => userRoles.indexOf(v) >= 0)
       } else {

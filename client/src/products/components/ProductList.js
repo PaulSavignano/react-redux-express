@@ -3,7 +3,7 @@ import React from 'react'
 import ProductItem from './ProductItem'
 
 const ProductList = ({ items }) => (
-  items.length ?
+  !items.length ? null :
   <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
     {items.map(item => (
       <ProductItem
@@ -12,8 +12,6 @@ const ProductList = ({ items }) => (
       />
     ))}
   </div>
-  :
-  <section><h3>No items yet</h3></section>
 )
 
 export default ProductList

@@ -15,7 +15,7 @@ users.post('/', (req, res) => {
   if ( !email || !firstName || !firstName || !password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const user = new User({ values: { email, firstName, lastName }})
+  const user = new User({ password, values: { email, firstName, lastName }})
   user.save()
     .then(doc => {
       const { values, roles } = doc
@@ -40,7 +40,10 @@ users.post('/', (req, res) => {
         })
         .catch(err => res.status(400).send())
     })
-    .catch(err => res.status(400).send({ error: { email: 'Email is already in use' }}))
+    .catch(err => {
+      console.log(err)
+      res.status(400).send({ error: { email: 'Email is already in use' }})
+    })
 })
 
 
@@ -67,29 +70,28 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
 })
 
 
+
 // Update
 users.patch('/', authenticate(['user', 'admin']), (req, res) => {
+  const { user } = req
   const { type, _id, values } = req.body
   const { firstName, lastName, email, phone, password } = values
-  const updatedValues = { password, values: { firstName, lastName, email, phone }}
-  console.log(type)
   switch (type) {
 
     case 'UPDATE_VALUES':
-      console.log('updating values', values)
-      User.findOneAndUpdate({ _id: req.user._id }, { $set: updatedValues }, { new: true })
-        .then(doc => {
-          console.log(doc)
-          const { values, addresses, roles } = doc
-          res.send({ values })
+      if (password) {
+        user.password = password
+      }
+      user.values = { firstName, lastName, email, phone }
+      user.save()
+        .then(() => user.generateAuthToken())
+        .then(token => {
+          const { values } = user
+          res.header('x-auth', token).send({ values })
         })
         .catch(err => {
           console.log(err)
-          res.status(400).send(err)
-        })
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          res.send({ error: { token: err }})
         })
       break
 
@@ -112,7 +114,7 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
     case 'UPDATE_ADDRESS':
       User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': _id }, { $set: { 'addresss.$.values': values }}, { new: true })
         .then(doc => {
-          const { values, addresses, roles } = doc
+          const { addresses } = doc
           res.send({ addresses })
         })
         .catch(err => {
@@ -168,10 +170,10 @@ users.post('/signin', (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
     .then(user => {
-      const { values, roles, addresses } = user
       if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
       return user.generateAuthToken()
         .then(token => {
+          const { values, roles, addresses } = user
           res.header('x-auth', token).send({ values, roles, addresses })
         })
         .catch(err => {
@@ -213,7 +215,10 @@ users.post('/recovery', (req, res, next) => {
               })
               res.send({ message: `A password recovery email has been sent to ${email}`})
             })
-            .catch(err => res.send(err))
+            .catch(err => {
+              console.log(err)
+              res.send(err)
+            })
         })
         .catch(err => res.status(400).send(err))
     })
@@ -225,13 +230,13 @@ users.post('/reset/:token', (req, res) => {
   User.findOne({ passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() } })
     .then(user => {
       if (!user) return Promise.reject({ error: { token: 'token not valid' }})
-      const { values, roles, addresses } = user
       user.password = req.body.password
       user.passwordResetToken = undefined
       user.passwordResetExpires = undefined
       user.save()
         .then(() => user.generateAuthToken())
         .then(token => {
+          const { values, roles, addresses } = user
           res.header('x-auth', token).send({ values, roles, addresses })
         })
         .catch(err => res.send({ error: { token: err }}))

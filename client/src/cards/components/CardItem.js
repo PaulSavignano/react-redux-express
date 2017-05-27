@@ -28,21 +28,30 @@ class CardItem extends Component {
   render() {
     const { dispatch, item } = this.props
     const { image, values } = item
-    const width = values.width || null
-    const maxWidth = values.maxWidth || null
-    const margin = values.margin || null
-    const backgroundColor = values.backgroundColor || null
-    const color = values.color || null
+    let width, maxWidth, margin, backgroundColor, color, link, header, iFrame, title, text
+    if (values) {
+      width = values.width || null
+      maxWidth = values.maxWidth || null
+      margin = values.margin || null
+      backgroundColor = values.backgroundColor || null
+      color = values.color || null
+      link = values.link || null
+      header = values.header || null
+      iFrame = values.iFrame || null
+      title = values.title || null
+      text = values.text || null
+    }
+
     return (
       this.state.loading ? null :
-      values.link ?
+      link ?
       <Card
-        onTouchTap={() => dispatch(push(`${values.link}`))}
+        onTouchTap={() => dispatch(push(`${link}`))}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="cards"
-        style={{ width, backgroundColor, maxWidth, cursor: 'pointer' }}
+        style={{ width, backgroundColor, maxWidth, margin, cursor: 'pointer' }}
       >
         <CSSTransitionGroup
           transitionName="image"
@@ -51,26 +60,26 @@ class CardItem extends Component {
           transitionEnter={false}
           transitionLeave={false}
         >
-          {values.header ? <CardHeader title={values.header} style={{ color }} /> : null }
+          {header ? <CardHeader title={header} style={{ color }} /> : null }
           {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
-          {values.iFrame ?
+          {iFrame ?
             <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
               <div>What people</div>
               <iframe
                 title="google youtube"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                src={values.iFrame} frameBorder="0" allowFullScreen>
+                src={iFrame} frameBorder="0" allowFullScreen>
               </iframe>
             </div>
           : null}
-          {!values.title ? null : values.text ? <CardTitle title={values.title} style={{ color }}/> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center', color }} /> }
-          {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
+          {!title ? null : text ? <CardTitle title={title} style={{ color }}/> : <CardTitle title={title} titleStyle={{ textAlign: 'center', color }} /> }
+          {text ? <CardText style={{ color }}>{text}</CardText> : null }
         </CSSTransitionGroup>
       </Card>
       :
       <Card
         className="cards"
-        style={{ width, color, backgroundColor, maxWidth }}
+        style={{ width, color, backgroundColor, maxWidth, margin }}
       >
         <CSSTransitionGroup
           transitionName="image"
@@ -79,18 +88,18 @@ class CardItem extends Component {
           transitionEnter={false}
           transitionLeave={false}
         >
-          {values.header ? <CardHeader title={values.header} style={{ color }}/> : null }
+          {header ? <CardHeader title={header} style={{ color }}/> : null }
           {image ? <CardMedia><img src={image} alt="item"/></CardMedia> : null }
-          {values.iFrame ?
+          {iFrame ?
             <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
               <iframe
                 title="google youtube"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                src={values.iFrame} frameBorder="0" allowFullScreen>
+                src={iFrame} frameBorder="0" allowFullScreen>
               </iframe></div>
           : null}
-          {!values.title ? null : values.text ? <CardTitle title={values.title} style={{ color }}/> : <CardTitle title={values.title} titleStyle={{ textAlign: 'center', color }} /> }
-          {values.text ? <CardText style={{ color }}>{values.text}</CardText> : null }
+          {!title ? null : text ? <CardTitle title={title} style={{ color }}/> : <CardTitle title={title} titleStyle={{ textAlign: 'center', color }} /> }
+          {text ? <CardText style={{ color }}>{text}</CardText> : null }
         </CSSTransitionGroup>
       </Card>
     )

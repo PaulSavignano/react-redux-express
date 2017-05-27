@@ -5,11 +5,19 @@ const BrandSchema = new Schema({
   values: {
     name: { type: String, minlength: 1, trim: true, default: 'Brand' },
     phone: { type: String, minlength: 1, trim: true, default: '888-888-8888' },
-    address: { type: String, minlength: 1, trim: true, default: '1234 Pattern Ln' },
+    street: { type: String, minlength: 1, trim: true, default: '1234 Pattern Ln' },
     city: { type: String, minlength: 1, trim: true, default: 'Patternville' },
     state: { type: String, minlength: 1, trim: true, default: 'Ca' },
     zip: { type: String, minlength: 1, trim: true, default: '92011' },
+    facebook: { type: String, minlength: 1, trim: true },
+    github: { type: String, minlength: 1, trim: true },
+    google: { type: String, minlength: 1, trim: true },
+    instagram: { type: String, minlength: 1, trim: true },
+    linkedin: { type: String, minlength: 1, trim: true },
+    twitter: { type: String, minlength: 1, trim: true },
+    youtube: { type: String, minlength: 1, trim: true },
     fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+    fontFamily2: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
     appBar: {
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' }

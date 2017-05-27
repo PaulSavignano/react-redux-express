@@ -43,8 +43,9 @@ const Routing = ({ history }) => (
       {/* Page */}
       <IndexRoute component={Page} />
       <Route path=":slug" component={Page} />
-      <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
+      <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
+
 
       {/* Brand */}
       <Route path="admin/brand" component={RequireAuth(AdminBrand, ['admin'])} />

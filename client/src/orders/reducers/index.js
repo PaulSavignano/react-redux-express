@@ -1,4 +1,7 @@
-const orders = (state = {}, action) => {
+const orders = (state = {
+  isFetching: false,
+  items: []
+}, action) => {
   switch (action.type) {
     case 'REQUEST_ORDERS':
       return {

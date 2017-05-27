@@ -6,9 +6,9 @@ import CardList from '../components/CardList'
 const Cards = ({ isFetching, section, items }) => {
   return (
     isFetching ? null : !items.length ? null :
-    <section>
+    <div style={{ maxWidth: 1044, margin: '0 auto' }}>
       <CardList section={section} items={items} />
-    </section>
+    </div>
   )
 }
 

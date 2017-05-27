@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
-export const type = 'BRAND'
-const route = 'brands'
+export const type = 'CAROUSEL'
+const route = 'carousels'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -23,17 +23,14 @@ export const fetchAdd = (add) => {
       },
       body: JSON.stringify(add)
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchAddSuccess(json))
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Update failed!' })
+        throw new SubmissionError({ error: err.error, _error: err.error })
     })
   }
 }
@@ -41,30 +38,31 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchBrandRequest = () => ({ type: REQUEST })
-const fetchBrandSuccess = (items) => ({ type: RECEIVE, items })
-const fetchBrandFailure = (error) => ({ type: ERROR, error })
-export const fetchBrand = () => {
+const fetchCarouselsRequest = () => ({ type: REQUEST })
+const fetchCarouselsSuccess = (items) => ({ type: RECEIVE, items })
+const fetchCarouselsFailure = (error) => ({ type: ERROR, error })
+export const fetchCarousels = () => {
+        console.log('fetching Carousels')
   return (dispatch, getState) => {
-    dispatch(fetchBrandRequest())
+    dispatch(fetchCarouselsRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       }
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchBrandSuccess(json[0]))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(fetchBrandFailure(err))
-      })
+    .then(res => {
+      if (res.ok) return res.json()
+      throw new Error('Network response was not ok.')
+    })
+    .then(json => {
+      if (json.error) return Promise.reject(json.error)
+      dispatch(fetchCarouselsSuccess(json))
+    })
+    .catch(err => {
+      dispatch(fetchCarouselsFailure(err))
+      throw new SubmissionError({ ...err, _error: 'Update failed!' })
+    })
   }
 }
 
@@ -83,18 +81,15 @@ export const fetchUpdate = (_id, update) => {
       },
       body: JSON.stringify(update)
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
+        console.log(json)
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
-        console.log(err)
         dispatch(fetchUpdateFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Update failed!' })
+        throw new SubmissionError({ error: err.err, _error: err.err })
       })
   }
 }
@@ -113,17 +108,14 @@ export const fetchDelete = (_id) => {
         'x-auth': localStorage.getItem('token'),
       },
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchDeleteSuccess(json._id))
       })
       .catch(err => {
         dispatch(fetchDeleteFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Delete failed!' })
+        throw new SubmissionError({ error: err.err, _error: err.err })
       })
   }
 }

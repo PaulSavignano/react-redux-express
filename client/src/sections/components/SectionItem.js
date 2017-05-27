@@ -6,10 +6,12 @@ import Cards from '../../cards/containers/Cards'
 
 class SectionItem extends Component {
   state = {
+    hasImage: false,
     image: null
   }
   componentWillMount() {
     if (this.props.item.image) {
+      this.setState({ hasImage: true })
       const img = new Image()
       const src = this.props.item.image
       img.src = src
@@ -43,7 +45,27 @@ class SectionItem extends Component {
       zIndex: -1
     } : null
     return (
-      !this.state.image ? null :
+      !this.state.hasImage ?
+
+      <div style={{
+        height,
+        ...backgrounds,
+        backgroundColor,
+        overflow: 'hidden',
+      }}>
+        <div style={{ maxWidth: 1044, margin: '0 auto' }}>
+          <div style={{ margin, padding }}>
+            {title ? <h1 style={{ color, textAlign, fontFamily }}>{title}</h1> : null}
+            {text ? <div style={{ color, fontFamily }}>{renderHTML(text)}</div> : null}
+          </div>
+
+
+        </div>
+        <Cards section={ item } />
+      </div>
+
+
+      : !this.state.image ? null :
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
@@ -57,13 +79,12 @@ class SectionItem extends Component {
           backgroundColor,
           overflow: 'hidden',
         }}>
-          <div style={{
-            margin,
-            padding,
-            maxWidth: width
-          }}>
-            {title ? <h1 style={{ color, textAlign, fontFamily }}>{title}</h1> : null}
-            {text ? <div style={{ color, fontFamily }}>{renderHTML(text)}</div> : null}
+          <div style={{ maxWidth: 1044, margin: '0 auto' }}>
+            <div style={{ margin, padding }}>
+              {title ? <h1 style={{ color, textAlign, fontFamily }}>{title}</h1> : null}
+              {text ? <div style={{ color, fontFamily }}>{renderHTML(text)}</div> : null}
+            </div>
+
 
           </div>
           <Cards section={ item } />

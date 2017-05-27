@@ -5,17 +5,21 @@ import AdminBrandImage from '../components/AdminBrandImage'
 
 import { fetchAdd } from '../actions/index'
 
+// width: 255
+// height: 65
 const imageSize = {
-  width: 255,
-  height: 65
+  width: 400,
+  height: 400
 }
 const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
 const AdminBrandPage = ({ dispatch, isFetching, brand, initialValues }) => {
+  const fontFamily = brand.values.fontFamily
+  const color = brand.values.palette.textColor
   return (
     isFetching ? null : !brand.values ? null :
     <main>
-      <section><h1>Brand Admin</h1></section>
+      <section><h1 style={{ fontFamily, color }}>Brand Admin</h1></section>
       <AdminBrandImage brand={brand} imageSize={imageSize} placeholdIt={placeholdIt} />
       <AdminBrandForm brand={brand} initialValues={initialValues}/>
     </main>
@@ -23,34 +27,42 @@ const AdminBrandPage = ({ dispatch, isFetching, brand, initialValues }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  if (state.brand.values.name) {
-    return {
-      isFetching: state.brand.isFetching,
-      brand: state.brand,
-      initialValues: {
-        fontFamily: state.brand.values.fontFamily,
-        primary1Color: state.brand.values.palette.primary1Color,
-        primary2Color: state.brand.values.palette.primary2Color,
-        primary3Color: state.brand.values.palette.primary3Color,
-        accent1Color: state.brand.values.palette.accent1Color,
-        accent2Color: state.brand.values.palette.accent2Color,
-        accent3Color: state.brand.values.palette.accent3Color,
-        textColor: state.brand.values.palette.textColor,
-        alternateTextColor: state.brand.values.palette.alternateTextColor,
-        canvasColor: state.brand.values.palette.canvasColor,
-        borderColor: state.brand.values.palette.borderColor,
-        disabledColor: state.brand.values.palette.disabledColor,
-        pickerHeaderColor: state.brand.values.palette.pickerHeaderColor,
-        clockCircleColor: state.brand.values.palette.clockCircleColor,
-        shadowColor: state.brand.values.palette.shadowColor
-      }
-    }
-  } else {
-    return {
-      isFetching: state.brand.isFetching,
-      brand: state.brand,
-      initialValues: {}
+const mapStateToProps = ({ brand }) => {
+  return {
+    isFetching: brand.isFetching,
+    brand: brand,
+    initialValues: {
+      name: brand.values.name,
+      phone: brand.values.phone,
+      street: brand.values.street,
+      city: brand.values.city,
+      state: brand.values.state,
+      zip: brand.values.zip,
+      facebook: brand.values.facebook,
+      github: brand.values.github,
+      google: brand.values.google,
+      instagram: brand.values.instagram,
+      linkedin: brand.values.linkedin,
+      twitter: brand.values.twitter,
+      youtube: brand.values.youtube,
+      fontFamily: brand.values.fontFamily,
+      fontFamily2: brand.values.fontFamily2,
+      appBarColor: brand.values.appBar.color,
+      appBarTextColor: brand.values.appBar.textColor,
+      primary1Color: brand.values.palette.primary1Color,
+      primary2Color: brand.values.palette.primary2Color,
+      primary3Color: brand.values.palette.primary3Color,
+      accent1Color: brand.values.palette.accent1Color,
+      accent2Color: brand.values.palette.accent2Color,
+      accent3Color: brand.values.palette.accent3Color,
+      textColor: brand.values.palette.textColor,
+      alternateTextColor: brand.values.palette.alternateTextColor,
+      canvasColor: brand.values.palette.canvasColor,
+      borderColor: brand.values.palette.borderColor,
+      disabledColor: brand.values.palette.disabledColor,
+      pickerHeaderColor: brand.values.palette.pickerHeaderColor,
+      clockCircleColor: brand.values.palette.clockCircleColor,
+      shadowColor: brand.values.palette.shadowColor
     }
   }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 
-import AppBarMenu from '../components/AppBarMenu'
+import AppBarMenuAussie from '../components/AppBarMenuAussie'
 import DrawerMenu from '../components/DrawerMenu'
 
 class Header extends Component {
@@ -19,8 +19,9 @@ class Header extends Component {
       <header>
         <AppBar
           onLeftIconButtonTouchTap={this.handleToggle}
+          titleStyle={{ height: 'auto'}}
           title={
-            <AppBarMenu
+            <AppBarMenuAussie
               brand={brand}
               pages={pages}
               user={user}
@@ -42,12 +43,15 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  isFetching: state.pages.isFetching,
-  pages: state.pages.items || null,
-  path: state.routing.locationBeforeTransitions.pathname || null,
-  user: state.user || null,
-  brand: state.brand || null
-})
+const mapStateToProps = (state) => {
+  return {
+    isFetching: state.pages.isFetching,
+    pages: state.pages.items || null,
+    path: state.routing.locationBeforeTransitions.pathname || null,
+    user: state.user || null,
+    brand: state.brand || null
+  }
+
+}
 
 export default connect(mapStateToProps)(Header)

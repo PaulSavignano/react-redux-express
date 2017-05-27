@@ -19,20 +19,11 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 class AdminBrandForm extends Component {
   state = {
     zDepth: 1,
-    expanded: false,
     submitted: false,
-    editing: false,
-    image: null
-  }
-  componentWillMount() {
-    const { image } = this.props.brand || false
-    const hasImage = image ? true : false
-    const imageUrl = image ? image : this.props.placeholdIt
-    this.setState({ expanded: hasImage, image: imageUrl })
-    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+    editing: false
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.brand.image })
+    if (nextProps.submitSucceeded) this.setState({ submitted: true })
     if (nextProps.dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
@@ -75,6 +66,16 @@ class AdminBrandForm extends Component {
               <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
               <Field name="zip" label="Zip" type="text" fullWidth={true} component={renderTextField} />
               <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
+
+              <Field name="facebook" label="facebook" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="github" label="github" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="google" label="google" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="instagram" label="instagram" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="linkedin" label="linkedin" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="twitter" label="twitter" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="youtube" label="youtube" type="text" fullWidth={true} component={renderTextField} />
+
+              <Field name="fontFamily2" label="fontFamily2" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="primary1Color" label="primary1Color" type="text" fullWidth={true} component={renderTextField} />

@@ -55,6 +55,13 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
     zip: values.zip,
     phone: values.phone,
     fontFamily: values.fontFamily,
+    facebook: values.facebook,
+    github: values.github,
+    google: values.google,
+    instagram: values.instagram,
+    linkedin: values.linkedin,
+    twitter: values.twitter,
+    youtube: values.youtube,
     appBar: {
       color: values.appBarColor,
       textColor: values.appBarTextColor,

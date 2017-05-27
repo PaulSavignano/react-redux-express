@@ -2,26 +2,61 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
-import { ListItem } from 'material-ui/List'
+import { List, ListItem } from 'material-ui/List'
 import {spacing, typography, zIndex} from 'material-ui/styles'
 
 import { fetchAdd } from '../../brand/actions/index'
 import SigninSignout from '../../users/components/SigninSignout'
 
-const DrawerNav = ({ dispatch, brand, pages, user, handleClose }) => {
-  const isAdmin = user.roles ? user.roles.find(role => role === 'admin') : null
+
+const recursiveList = (node, index) => (
+    <ListItem
+      key={index}
+      primaryText={node.name}
+      primaryTogglesNestedList={true}
+
+    />
+  )
+
+
+
+const DrawerMenu = ({ dispatch, brand, pages, user, handleClose }) => {
+  const isAdmin = user.roles.find(role => role === 'admin') ? true : false
+  const color = brand.values.appBar ? brand.values.appBar.textColor : null
+  const backgroundColor = brand.values.appBar ? brand.values.appBar.color : null
   const styles = {
     logo: {
       cursor: 'pointer',
       fontSize: 24,
-      color: brand.values.appBar.textColor,
-      backgroundColor: brand.values.appBar.color,
+      color,
+      backgroundColor,
       lineHeight: `${spacing.desktopKeylineIncrement}px`,
       fontWeight: typography.fontWeightLight,
       paddingLeft: spacing.desktopGutter,
       marginBottom: 8,
     }
   }
+  const adminPages = pages.map(page => (
+    <ListItem
+      key={page._id}
+      primaryText={page.name}
+      onTouchTap={() => {
+        dispatch(push(`/admin/pages/${page.slug}`))
+        handleClose()
+      }}
+    />
+  ))
+  const adminPagesAndAdd = [
+    ...adminPages,
+    <ListItem
+      key={1}
+      primaryText="Add Page"
+      onTouchTap={() => {
+        dispatch(push(`/admin/pages`))
+        handleClose()
+      }}
+    />
+  ]
   return (
     <div>
       <div
@@ -81,28 +116,18 @@ const DrawerNav = ({ dispatch, brand, pages, user, handleClose }) => {
             <ListItem
               key={2}
               primaryText="Pages"
-              onTouchTap={() => {
-                dispatch(push(`/admin/pages`))
-                handleClose()
-              }}
-            />,
-            <ListItem
-              key={3}
-              primaryText="Products"
-              onTouchTap={() => {
-                dispatch(push(`/admin/products`))
-                handleClose()
-              }}
+              initiallyOpen={true}
+              primaryTogglesNestedList={true}
+              nestedItems={adminPagesAndAdd}
             />
           ]}
         />
       }
       <SigninSignout user={user} handleClose={handleClose} />
     </div>
-
   )
 }
 
 
 
-export default connect()(DrawerNav)
+export default connect()(DrawerMenu)
