@@ -9,6 +9,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
 import AdminCards from '../../cards/containers/AdminCards'
+import AdminCarouselList from '../../carousels/containers/AdminCarouselList'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 import RichTextMarkdown from '../../RichTextMarkdown'
@@ -79,7 +80,7 @@ class AdminSectionItem extends Component {
       <Card
         expanded={this.state.expanded}
         zDepth={3}
-        style={{ margin: '64px 0 128px 0'}}
+        style={{ margin: '64px 0'}}
         containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
         className="cards"
       >
@@ -210,7 +211,7 @@ class AdminSectionItem extends Component {
             </Field>
             <Field
               name="margin"
-              label="Text Area Margin (10px auto 20px auto"
+              label="Text Area Margin (10px auto 20px auto)"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -243,6 +244,7 @@ class AdminSectionItem extends Component {
           </CardActions>
         </form>
         <AdminCards page={page} section={item} />
+        <AdminCarouselList section={item} />
       </Card>
     )
   }

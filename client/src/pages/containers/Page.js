@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Cart from '../../carts/containers/Cart'
-import CarouselList from '../../carousels/containers/CarouselList'
 import Contact from '../../users/components/Contact'
 import Products from '../../products/containers/Products'
 import Sections from '../../sections/containers/Sections'
@@ -25,7 +24,6 @@ const Page = ({ isFetching, pageSlug, page, sections, carousel }) => (
           return (
             <div>
               {sections ? <Sections page={page} /> : null}
-              {carousel ? <CarouselList page={page} /> : null}
             </div>
           )
       }

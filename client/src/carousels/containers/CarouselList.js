@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
-import { connect } from 'react-redux'
 import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 import CarouselItem from '../components/CarouselItem'
 
 class CarouselList extends Component {
   render() {
-    const { isFetching, page, items } = this.props
+    const { isFetching, section, carousels } = this.props
+    console.log(section)
     var settings = {
       dots: true,
       className: 'center',
@@ -21,13 +21,13 @@ class CarouselList extends Component {
       slidesToScroll: 1
     }
     return (
-      isFetching ? null :
+      isFetching ? null : !carousels.length ? null :
         <Slider {...settings}>
-          {items.map(item => (
-            <div key={item._id} style={{ display: 'flex', justifyContent: 'center' }}>
+          {carousels.map(carousel => (
+            <div key={carousel._id} style={{ display: 'flex', justifyContent: 'center' }}>
               <CarouselItem
-                page={page}
-                item={item}
+                section={section}
+                carousel={carousel}
               />
             </div>
           ))}
@@ -36,14 +36,4 @@ class CarouselList extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.page)
-  const isFetching = state.carousels.isFetching
-  const items = isFetching ? [] : state.carousels.items.filter(item => item.pageId === ownProps.page._id)
-  return {
-    isFetching,
-    items
-  }
-}
-
-export default connect(mapStateToProps)(CarouselList)
+export default CarouselList

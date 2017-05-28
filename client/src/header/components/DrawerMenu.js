@@ -9,16 +9,6 @@ import { fetchAdd } from '../../brand/actions/index'
 import SigninSignout from '../../users/components/SigninSignout'
 
 
-const recursiveList = (node, index) => (
-    <ListItem
-      key={index}
-      primaryText={node.name}
-      primaryTogglesNestedList={true}
-
-    />
-  )
-
-
 
 const DrawerMenu = ({ dispatch, brand, pages, user, handleClose }) => {
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false

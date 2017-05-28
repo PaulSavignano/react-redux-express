@@ -12,12 +12,11 @@ const s3Path = `${process.env.APP_NAME}/carousels`
 
 // Create
 carousels.post('/', authenticate(['admin']), (req, res) => {
-  const { type, pageId, pageName, image, values } = req.body
+  const { type, sectionId, image, values } = req.body
   const _id = new ObjectID()
   const card = new Carousel({
     _id,
-    pageId: ObjectID(pageId),
-    pageName,
+    sectionId: ObjectID(sectionId),
     image,
     values
   })
@@ -73,7 +72,7 @@ carousels.get('/:_id', (req, res) => {
 carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, pageId, image, values } = req.body
+  const { type, sectionId, image, values } = req.body
   switch (type) {
 
     case 'UPDATE_ITEM_UPDATE_IMAGE':

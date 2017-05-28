@@ -8,8 +8,8 @@ import { fetchAdd } from '../actions/index'
 // width: 255
 // height: 65
 const imageSize = {
-  width: 400,
-  height: 400
+  width: 300,
+  height: 300
 }
 const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
@@ -18,11 +18,10 @@ const AdminBrandPage = ({ dispatch, isFetching, brand, initialValues }) => {
   const color = brand.values.palette.textColor
   return (
     isFetching ? null : !brand.values ? null :
-    <main>
-      <section><h1 style={{ fontFamily, color }}>Brand Admin</h1></section>
-      <AdminBrandImage brand={brand} imageSize={imageSize} placeholdIt={placeholdIt} />
+    <section>
+      <AdminBrandImage brand={brand} imageSize={imageSize} placeholdIt={placeholdIt} /><br/><br/>
       <AdminBrandForm brand={brand} initialValues={initialValues}/>
-    </main>
+    </section>
 
   )
 }
@@ -43,6 +42,7 @@ const mapStateToProps = ({ brand }) => {
       google: brand.values.google,
       instagram: brand.values.instagram,
       linkedin: brand.values.linkedin,
+      yelp: brand.values.yelp,
       twitter: brand.values.twitter,
       youtube: brand.values.youtube,
       fontFamily: brand.values.fontFamily,

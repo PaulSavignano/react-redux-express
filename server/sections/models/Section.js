@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
 
 const SectionSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, required: true },
-  pageName: { type: String, required: true, trim: true },
+  pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageName: { type: String },
   order: { type: Number },
   image: { type: String },
   values: {

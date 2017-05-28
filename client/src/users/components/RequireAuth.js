@@ -5,8 +5,8 @@ import { push } from 'react-router-redux'
 
 const RequireAuth = (ComposedComponent, roles) => {
   class Authentication extends Component {
-    hasRoles = (roles, userRoles) => {
-      console.log(roles, userRoles)
+    hasRoles = (roles) => {
+      const userRoles = this.props.userRoles
       if (userRoles) {
         return roles.some(v => userRoles.indexOf(v) >= 0)
       } else {
@@ -29,10 +29,13 @@ const RequireAuth = (ComposedComponent, roles) => {
       )
     }
   }
-  const mapStateToProps = (state) => ({
-    isFetching: state.user.isFetching,
-    userRoles: state.user.roles
-  })
+  const mapStateToProps = (state) => {
+    return {
+      isFetching: state.user.isFetching,
+      userRoles: state.user.roles
+    }
+
+  }
   return connect(mapStateToProps)(Authentication)
 }
 

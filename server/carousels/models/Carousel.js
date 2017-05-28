@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const CarouselSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, required: true },
-  pageName: { type: String, required: true, trim: true },
+  sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: { type: String },
   values: {
     text: { type: String, trim: true }

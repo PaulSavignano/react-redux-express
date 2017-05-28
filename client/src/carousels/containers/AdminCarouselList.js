@@ -17,40 +17,32 @@ class AdminCarouselList extends Component {
     open: false
   }
   render() {
-    const { isFetching, page, items } = this.props
+    const { isFetching, section, carousels } = this.props
     return (
       isFetching ? null :
-      <div style={{ margin: '130px 20px 20px 20px' }}>
+      <div style={{ margin: '16px 32px' }}>
         <Card>
-          <AdminCarouselAdd page={page} imageSize={imageSize} placeholdit={placeholdit} />
-          <div>
-            {items.length < 1 ? null : items.map(item => (
-              <AdminCarouselItem
-                key={item._id}
-                item={item}
-                page={page}
-                initialValues={item.values}
-                imageSize={imageSize}
-                placeholdit={placeholdit}
-              />
-            ))
-            }
-          </div>
-
+          {carousels.length < 1 ? null : carousels.map(carousel => (
+            <AdminCarouselItem
+              key={carousel._id}
+              carousel={carousel}
+              section={section}
+              initialValues={carousel.values}
+              imageSize={imageSize}
+              placeholdit={placeholdit}
+            />
+          ))
+          }
+          <AdminCarouselAdd section={section} imageSize={imageSize} placeholdit={placeholdit} />
         </Card>
-
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const isFetching = state.carousels.isFetching
-  const items = isFetching ? null : state.carousels.items.filter(item => item.pageId === ownProps.page._id)
-  return {
-    isFetching,
-    items
-  }
-}
+const mapStateToProps = ({ carousels }, ownProps) => ({
+  isFetching: carousels.isFetching,
+  carousels: carousels.items.filter(carousel => carousel.sectionId === ownProps.section._id) || null
+})
 
 export default connect(mapStateToProps)(AdminCarouselList)

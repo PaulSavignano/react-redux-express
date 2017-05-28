@@ -15,6 +15,7 @@ const BrandSchema = new Schema({
     instagram: { type: String, minlength: 1, trim: true },
     linkedin: { type: String, minlength: 1, trim: true },
     twitter: { type: String, minlength: 1, trim: true },
+    yelp: { type: String, minlength: 1, trim: true },
     youtube: { type: String, minlength: 1, trim: true },
     fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
     fontFamily2: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },

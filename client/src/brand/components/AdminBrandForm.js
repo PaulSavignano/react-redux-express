@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardHeader, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate } from '../actions/index'
@@ -36,7 +36,6 @@ class AdminBrandForm extends Component {
     const { error, handleSubmit, dispatch, brand } = this.props
     console.log('inside AdminBrandForm')
     return (
-      <section>
         <form
           onSubmit={handleSubmit((values) => {
             const update = {
@@ -54,10 +53,7 @@ class AdminBrandForm extends Component {
             containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
             style={{ height: '100%' }}
           >
-            <CardHeader
-              title="Edit Brand"
-            />
-
+            <CardTitle title="Brand" />
             <CardText>
               <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
               <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
@@ -65,16 +61,21 @@ class AdminBrandForm extends Component {
               <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />
               <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
               <Field name="zip" label="Zip" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
-
+            </CardText>
+            <CardTitle title="Social Media" />
+            <CardText>
               <Field name="facebook" label="facebook" type="text" fullWidth={true} component={renderTextField} />
               <Field name="github" label="github" type="text" fullWidth={true} component={renderTextField} />
               <Field name="google" label="google" type="text" fullWidth={true} component={renderTextField} />
               <Field name="instagram" label="instagram" type="text" fullWidth={true} component={renderTextField} />
               <Field name="linkedin" label="linkedin" type="text" fullWidth={true} component={renderTextField} />
               <Field name="twitter" label="twitter" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="yelp" label="yelp" type="text" fullWidth={true} component={renderTextField} />
               <Field name="youtube" label="youtube" type="text" fullWidth={true} component={renderTextField} />
-
+            </CardText>
+            <CardTitle title="Theme" />
+            <CardText>
+              <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
               <Field name="fontFamily2" label="fontFamily2" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
               <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />
@@ -106,7 +107,6 @@ class AdminBrandForm extends Component {
             </CardActions>
           </Card>
         </form>
-      </section>
     )
   }
 }

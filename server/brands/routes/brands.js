@@ -61,6 +61,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
     instagram: values.instagram,
     linkedin: values.linkedin,
     twitter: values.twitter,
+    yelp: values.yelp,
     youtube: values.youtube,
     appBar: {
       color: values.appBarColor,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
-import { Card, CardActions } from 'material-ui/Card'
+import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate } from '../actions/index'
@@ -34,7 +34,6 @@ class AdminBrandImage extends Component {
   render() {
     const { error, handleSubmit, dispatch, brand, imageSize } = this.props
     return (
-      <section>
         <form
           onSubmit={handleSubmit(() => {
             const image = this.state.editing ? this.editor.handleSave() : brand.image
@@ -49,6 +48,7 @@ class AdminBrandImage extends Component {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
+            <CardTitle title="Brand Image" />
             <ImageFormHor
               image={this.state.image}
               type="image/png"
@@ -70,7 +70,6 @@ class AdminBrandImage extends Component {
             </CardActions>
           </Card>
         </form>
-      </section>
     )
   }
 }
