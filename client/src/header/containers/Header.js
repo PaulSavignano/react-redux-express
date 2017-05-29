@@ -13,7 +13,7 @@ class Header extends Component {
   handleToggle = () => this.setState({open: !this.state.open})
   handleClose = () => this.setState({open: false})
   render() {
-    const { isFetching, brand, pages, user, path } = this.props
+    const { isFetching, brand, pages, user, path, hasProducts } = this.props
     return (
       isFetching ? null :
       <header>
@@ -26,6 +26,7 @@ class Header extends Component {
               pages={pages}
               user={user}
               path={path}
+              hasProducts={hasProducts}
             />
           }
         />
@@ -49,7 +50,8 @@ const mapStateToProps = (state) => {
     pages: state.pages.items || null,
     path: state.routing.locationBeforeTransitions.pathname || null,
     user: state.user || null,
-    brand: state.brand || null
+    brand: state.brand || null,
+    hasProducts: state.products.items.length ? true : false
   }
 
 }

@@ -34,8 +34,9 @@ class AppBarMenuAussie extends Component {
   }
   handleClose = () => this.setState({ openMenu: false })
   render() {
-    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path } = this.props
+    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path, hasProducts } = this.props
     const { textColor, primary1Color } = muiTheme.palette
+    console
     const styles = {
       nav: {
         display: 'flex',
@@ -97,12 +98,14 @@ class AppBarMenuAussie extends Component {
                       hoverColor="none"
                     />
                   ))}
-                  <FlatButton
-                    style={{ color: path === `/products` ? primary1Color : textColor }}
-                    onTouchTap={() => dispatch(push(`/products`))}
-                    label="Products"
-                    hoverColor="none"
-                  />
+                  {!hasProducts ? null :
+                    <FlatButton
+                      style={{ color: path === `/products` ? primary1Color : textColor }}
+                      onTouchTap={() => dispatch(push(`/products`))}
+                      label="Products"
+                      hoverColor="none"
+                    />
+                  }
                   <FlatButton
                     style={{ color: path === `/contact` ? primary1Color : textColor }}
                     onTouchTap={() => dispatch(push(`/contact`))}
@@ -110,12 +113,14 @@ class AppBarMenuAussie extends Component {
                     hoverColor="none"
                   />
                 </span>
-                <IconButton
-                  iconClassName="fa fa-search"
-                  iconStyle={{ fontSize: 18}}
-                  style={styles.search}
-                  onTouchTap={() => this.setState({ searching: !this.state.searching })}
-                />
+                {!hasProducts ? null :
+                  <IconButton
+                    iconClassName="fa fa-search"
+                    iconStyle={{ fontSize: 18}}
+                    style={styles.search}
+                    onTouchTap={() => this.setState({ searching: !this.state.searching })}
+                  />
+                }
                 <FlatButton
                   style={styles.user}
                   className="appbar-nav"
@@ -135,11 +140,14 @@ class AppBarMenuAussie extends Component {
                     <SigninSignout user={user} handleClose={this.handleClose} />
                   </Menu>
                 </Popover>
-                <IconButton
-                  children={<CartIcon  />}
-                  onTouchTap={() => dispatch(push('/cart'))}
-                  style={{ padding: '12px 0' }}
-                />
+                { !hasProducts ? null :
+                  <IconButton
+                    children={<CartIcon  />}
+                    onTouchTap={() => dispatch(push('/cart'))}
+                    style={{ padding: '12px 0' }}
+                  />
+                }
+
               </span>
             </span>
           </nav>

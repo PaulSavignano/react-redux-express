@@ -109,6 +109,14 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose }) => {
               initiallyOpen={true}
               primaryTogglesNestedList={true}
               nestedItems={adminPagesAndAdd}
+            />,
+            <ListItem
+              key={3}
+              primaryText="Products"
+              onTouchTap={() => {
+                dispatch(push(`/admin/products`))
+                handleClose()
+              }}
             />
           ]}
         />

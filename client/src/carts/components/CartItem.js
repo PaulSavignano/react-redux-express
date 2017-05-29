@@ -37,7 +37,7 @@ class CartItem extends Component {
         className="cards"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-          <img src={image} alt="" width="100" height="100"/>
+          <img src={image} alt="" width="auto" height="100px"/>
           <div style={{
             display: 'flex',
             flexFlow: 'row wrap',
