@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendEmail1 = (mail) => {
   const { to, toSubject, toBody, fromSubject, fromBody } = mail
-  Brand.findOne({})
+  return Brand.findOne({})
     .then(doc => {
       const brand = `
       ${doc.image ? `<img src=${doc.image} alt="item"/>` : `<div>${doc.name}</div>`}
@@ -41,14 +41,11 @@ export const sendEmail1 = (mail) => {
         subject: fromSubject,
         html: `${fromBody}<br/>${brand}`
       }
+      transporter.sendMail(adminMail)
       return transporter.sendMail(userMail)
         .then(info => {
-          transporter.sendMail(adminMail)
+          console.log('transporter: ', info)
           return info
-        })
-        .catch(err => {
-          console.log(err)
-          return err
         })
     })
     .catch(err => {

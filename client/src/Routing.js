@@ -19,6 +19,7 @@ import Recovery from './users/components/Recovery'
 import Reset from './users/components/Reset'
 import Contact from './users/components/Contact'
 import Profile from './users/containers/Profile'
+import RequestEstimate from './users/components/RequestEstimate'
 
 // Product
 import Products from './products/containers/Products'
@@ -60,6 +61,7 @@ const Routing = ({ history }) => (
       <Route path="user/order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
       <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
       <Route path="user/orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
+      <Route path="user/request-estimate" component={RequestEstimate} />
 
       {/* Product */}
       <Route path="product/:slug" component={Product} />

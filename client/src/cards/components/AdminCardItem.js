@@ -27,15 +27,15 @@ class AdminCardItem extends Component {
     image: null
   }
   componentWillMount() {
-    const { image } = this.props.item || null
+    const { image } = this.props.card || null
     const hasImage = image ? true : false
     const imageUrl = image ? image : this.props.placeholdIt
     this.setState({ expanded: hasImage, image: imageUrl })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, dirty, item } = nextProps
-    if (submitSucceeded) this.setState({ submitted: true, image: item.image })
+    const { submitSucceeded, dirty, card } = nextProps
+    if (submitSucceeded) this.setState({ submitted: true, image: card.image })
     if (dirty) this.setState({ submitted: false })
   }
   editing = (bool) => {
@@ -45,8 +45,8 @@ class AdminCardItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, item, imageSize } = this.props
-    const width = !item.values ? null : item.values.width ? item.values.width : null
+    const { error, handleSubmit, dispatch, card, imageSize } = this.props
+    const width = !card.values ? null : card.values.width ? card.values.width : null
     return (
       <form
         onSubmit={handleSubmit((values) => {
@@ -58,18 +58,18 @@ class AdminCardItem extends Component {
               image = this.editor.handleSave()
             } else {
               type = 'UPDATE_ITEM'
-              image = item.image
+              image = card.image
             }
-          } else if (item.image) {
+          } else if (card.image) {
             type = 'UPDATE_ITEM_DELETE_IMAGE'
-            image = item.image
+            image = card.image
           } else {
             type = 'UPDATE_ITEM'
             image = null
           }
           const update = { type, image, values }
-          dispatch(fetchUpdate(item._id, update))
-          this.setState({ image: item.image })
+          dispatch(fetchUpdate(card._id, update))
+          this.setState({ image: card.image })
         })}
         style={{ flex: '1 1 auto', margin: 32 }}
       >
@@ -148,12 +148,12 @@ class AdminCardItem extends Component {
               fullWidth={true}
               component={renderTextField}
             />
-            {!item.values ? null : item.values.iFrame ?
+            {!card.values ? null : card.values.iFrame ?
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe
                   title="google youtube"
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={item.values.iFrame} frameBorder="0" allowFullScreen>
+                  src={card.values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>
             : null}
             <Field
@@ -204,7 +204,7 @@ class AdminCardItem extends Component {
               primary={true}
               style={{ flex: '1 1 auto', margin: 8 }}
               onTouchTap={() => {
-                dispatch(fetchDelete(item._id, item.image))
+                dispatch(fetchDelete(card._id, card.image))
               }}
             />
           </CardActions>
@@ -216,7 +216,7 @@ class AdminCardItem extends Component {
 
 AdminCardItem = compose(
   connect((state, props) => ({
-    form: `card_${props.item._id}`
+    form: `card_${props.card._id}`
   })),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCardItem)
 

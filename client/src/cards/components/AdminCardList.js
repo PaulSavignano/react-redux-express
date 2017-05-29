@@ -2,15 +2,15 @@ import React from 'react'
 
 import AdminCardItem from '../components/AdminCardItem'
 
-const AdminCardList = ({ section, items, imageSize, placeholdIt }) => (
-  items.length < 1 ? null  :
+const AdminCardList = ({ section, cards, imageSize, placeholdIt }) => (
+  cards.length < 1 ? null  :
   <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
-    {items.map(item => (
+    {cards.map(card => (
       <AdminCardItem
-        key={item._id}
-        item={item}
+        key={card._id}
+        card={card}
         section={section}
-        initialValues={item.values}
+        initialValues={card.values}
         imageSize={imageSize}
         placeholdIt={placeholdIt}
       />

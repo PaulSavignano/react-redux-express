@@ -284,4 +284,64 @@ users.post('/contact', (req, res) => {
 
 
 
+
+
+
+
+users.post('/request-estimate', (req, res) => {
+  const { date, firstName, lastName, phone, email, from, to, size, note } = req.body
+  var auth = 'Basic ' + new Buffer(process.env.MOVERBASE_KEY + ':').toString('base64')
+  return fetch(`https://api.moverbase.com/v1/leads/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: auth
+    },
+    body: JSON.stringify({
+     date,
+     firstName,
+     lastName,
+     phone,
+     email,
+     from: { postalCode: from },
+     to: { postalCode: to },
+     size: { title: size },
+     note
+    })
+  })
+  .then(res => {
+    if (res.ok) return res.json()
+    throw new Error('Network response was not ok.')
+  })
+  .then(json => {
+    sendEmail1({
+      to: email,
+      toSubject: 'Thank you for contacting us for a free estimate',
+      name: firstName,
+      toBody: `<p>Thank you for requesting a free estimate.  We will contact you shortly!</p>`,
+      fromSubject: `New Estimate Request`,
+      fromBody: `
+        <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
+        ${phone && `<div>Phone: ${phone}</div>`}
+        <div>Email: ${email}</div>
+        <div>Note: ${note}</div>
+      `
+    })
+      .then(info => {
+        console.log('callback from email send', info)
+        res.status(200).send()
+      })
+      .catch(err => {
+        console.log(err)
+        res.send({ error: err })
+      })
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(400).send({ error: err })
+  })
+})
+
+
+
 export default users

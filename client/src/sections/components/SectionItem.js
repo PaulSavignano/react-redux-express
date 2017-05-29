@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 
 import Cards from '../../cards/containers/Cards'
@@ -32,24 +33,32 @@ class SectionItem extends Component {
       zIndex: -1
     } : null
     return (
-      <div style={{
-        height,
-        ...backgrounds,
-        backgroundColor,
-        overflow: 'hidden',
-      }}>
-        <div style={{ maxWidth: 1044, margin: '64px auto' }}>
-          <div style={{
-            margin,
-            padding
-          }}>
-            {title ? <h1 style={{ color, fontFamily, ...titleAlign }}>{title}</h1> : null}
-            {text ? <div style={{ color, fontFamily, ...textAlign }}>{renderHTML(text)}</div> : null}
+      <CSSTransitionGroup
+        transitionName="image"
+        transitionAppear={true}
+        transitionAppearTimeout={900}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        <div style={{
+          height,
+          ...backgrounds,
+          backgroundColor,
+          overflow: 'hidden',
+        }}>
+          <div style={{ maxWidth: 1044, margin: '64px auto' }}>
+            <div style={{
+              margin,
+              padding
+            }}>
+              {title ? <h1 style={{ color, fontFamily, ...titleAlign }}>{title}</h1> : null}
+              {text ? <div style={{ color, fontFamily, ...textAlign }}>{renderHTML(text)}</div> : null}
+            </div>
+            { cards ? <Cards section={ section } cards={ cards }/> : null }
           </div>
-          { cards ? <Cards section={ section } cards={ cards }/> : null }
+          { carousels ? <CarouselList section={ section } carousels={carousels} /> : null }
         </div>
-        { carousels ? <CarouselList section={ section } carousels={carousels} /> : null }
-      </div>
+      </CSSTransitionGroup>
     )
   }
   render() {
