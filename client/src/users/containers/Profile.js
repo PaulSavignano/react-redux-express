@@ -9,7 +9,7 @@ import OrderList from '../../orders/components/OrderList'
 
 const Profile = ({ user, initialValues, addresses, orders, brand }) => {
   const fontFamily = brand.values.fontFamily || null
-  const color = brand.values.palette.textColor || null
+  const color = brand.values.palette ? brand.values.palette.textColor : null
   return (
     <section>
       <h1 style={{ fontFamily, color }}>Profile</h1>

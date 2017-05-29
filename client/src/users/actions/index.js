@@ -23,7 +23,6 @@ export const fetchAdd = (add) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-auth': localStorage.getItem('token'),
       },
       body: JSON.stringify(add)
     })

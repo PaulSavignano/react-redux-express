@@ -52,8 +52,8 @@ class AppBarMenuAussie extends Component {
     return (
       <CSSTransitionGroup
         transitionName="example"
-        transitionEnterTimeout={900}
-        transitionLeaveTimeout={600}
+        transitionEnterTimeout={200}
+        transitionLeaveTimeout={200}
       >
         {this.state.searching ?
           <nav style={styles.nav} key={1}>
@@ -84,7 +84,7 @@ class AppBarMenuAussie extends Component {
             </div>
             <span style={{ display: 'flex', flexFlow: 'column' }}>
               <span style={{ alignSelf: 'flex-end', color: primary1Color }} className="phone">
-                805.456.6498
+                { brand.values.phone || null }
               </span>
               <span style={{ alignSelf: 'flex-end' }}>
                 <span className="appbar-nav">

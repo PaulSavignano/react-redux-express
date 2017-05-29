@@ -20,7 +20,7 @@ export const sendEmail1 = (mail) => {
   return Brand.findOne({})
     .then(doc => {
       const brand = `
-      ${doc.image ? `<img src=${doc.image} alt="item"/>` : `<div>${doc.name}</div>`}
+      ${doc.image ? `<img src=${doc.image} alt="item" height="64px" width="auto"/>` : `<div>${doc.name}</div>`}
       <div>
         <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none;">
           ${process.env.GMAIL_USER}
