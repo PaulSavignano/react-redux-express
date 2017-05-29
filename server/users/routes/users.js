@@ -9,6 +9,8 @@ import { sendEmail1 } from '../../middleware/nodemailer'
 
 const users = express.Router()
 
+
+
 // Create User
 users.post('/', (req, res) => {
   const { email, firstName, lastName, password } = req.body
