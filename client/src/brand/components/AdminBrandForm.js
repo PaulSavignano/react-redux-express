@@ -34,7 +34,6 @@ class AdminBrandForm extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { error, handleSubmit, dispatch, brand } = this.props
-    console.log('inside AdminBrandForm')
     return (
         <form
           onSubmit={handleSubmit((values) => {

@@ -32,7 +32,7 @@ class AppBarMenu extends Component {
   }
   handleClose = () => this.setState({ openMenu: false })
   render() {
-    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path } = this.props
+    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path, hasProducts } = this.props
     const { textColor, primary1Color } = muiTheme.palette
     const styles = {
       nav: {
@@ -42,6 +42,7 @@ class AppBarMenu extends Component {
       },
       brand: {
         cursor: 'pointer',
+        maxHeight: 64
       },
       search: {
         color: textColor
@@ -78,7 +79,7 @@ class AppBarMenu extends Component {
 
           <nav style={styles.nav} key={2}>
             <div style={styles.brand} onTouchTap={() => dispatch(push('/'))}>
-              {brand.image ? <img src={brand.image} style={{ maxHeight: 80 }} alt=""/> : brand.values.name || 'Brand'}
+              {brand.image ? <img src={brand.image} style={{ width: 'auto', height: 64 }} alt=""/> : brand.values.name || 'Brand'}
             </div>
             <span>
               <span className="appbar-nav">
@@ -91,12 +92,14 @@ class AppBarMenu extends Component {
                     hoverColor="none"
                   />
                 ))}
-                <FlatButton
-                  style={{ color: path === `/products` ? primary1Color : textColor }}
-                  onTouchTap={() => dispatch(push(`/products`))}
-                  label="Products"
-                  hoverColor="none"
-                />
+                {!hasProducts ? null :
+                  <FlatButton
+                    style={{ color: path === `/products` ? primary1Color : textColor }}
+                    onTouchTap={() => dispatch(push(`/products`))}
+                    label="Products"
+                    hoverColor="none"
+                  />
+                }
                 <FlatButton
                   style={{ color: path === `/contact` ? primary1Color : textColor }}
                   onTouchTap={() => dispatch(push(`/contact`))}
@@ -104,12 +107,14 @@ class AppBarMenu extends Component {
                   hoverColor="none"
                 />
               </span>
-              <IconButton
-                iconClassName="fa fa-search"
-                iconStyle={{ fontSize: 18}}
-                style={styles.search}
-                onTouchTap={() => this.setState({ searching: !this.state.searching })}
-              />
+              {!hasProducts ? null :
+                <IconButton
+                  iconClassName="fa fa-search"
+                  iconStyle={{ fontSize: 18}}
+                  style={styles.search}
+                  onTouchTap={() => this.setState({ searching: !this.state.searching })}
+                />
+              }
               <FlatButton
                 style={styles.user}
                 onTouchTap={this.handleOpen}
@@ -128,11 +133,13 @@ class AppBarMenu extends Component {
                   <SigninSignout user={user} handleClose={this.handleClose} />
                 </Menu>
               </Popover>
-              <IconButton
-                children={<CartIcon  />}
-                onTouchTap={() => dispatch(push('/cart'))}
-                style={{ padding: '12px 0' }}
-              />
+              { !hasProducts ? null :
+                <IconButton
+                  children={<CartIcon  />}
+                  onTouchTap={() => dispatch(push('/cart'))}
+                  style={{ padding: '12px 0' }}
+                />
+              }
             </span>
           </nav>
         }

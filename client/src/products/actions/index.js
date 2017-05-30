@@ -80,7 +80,6 @@ export const fetchUpdate = (_id, update) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        console.log(json)
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {

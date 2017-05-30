@@ -57,7 +57,6 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
           const update = { image: data.Location, values }
           Card.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
-              console.log(doc)
               res.send(doc)
             })
             .catch(err => {
@@ -74,7 +73,6 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
           const update = { image: null, values }
           Card.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
-              console.log(doc)
               res.send(doc)
             })
             .catch(err => {
@@ -88,7 +86,6 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
     case 'UPDATE_ITEM':
       Card.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
         .then(doc => {
-          console.log(doc)
           res.send(doc)
         })
         .catch(err => {
@@ -107,7 +104,6 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
 // Delete
 cards.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
-  console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Card.findOne({ _id })
     .then(doc => {

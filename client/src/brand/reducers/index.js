@@ -23,11 +23,9 @@ const brand = (state = {
         ...action.item
       }
     case `UPDATE_${type}`:
-      console.log(action.item)
       return {
         ...state,
-        ...action.item,
-        testing: 1
+        ...action.item
       }
     case `DELETE_${type}`:
       return {

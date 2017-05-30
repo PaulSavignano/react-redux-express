@@ -3,7 +3,6 @@ import React from 'react'
 import AdminSectionItem from '../components/AdminSectionItem'
 
 const AdminSectionList = ({ page, items, imageSize, placeholdIt }) => {
-  console.log(page, items)
   return (
     items.length < 1 ? null :
     <div>

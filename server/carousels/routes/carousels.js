@@ -51,7 +51,6 @@ carousels.post('/', authenticate(['admin']), (req, res) => {
 
 // Read
 carousels.get('/', (req, res) => {
-        console.log('fetching carousels')
   Carousel.find({})
     .then(docs => {
       res.send(docs)
@@ -81,7 +80,6 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
           const update = { image: data.Location, values }
           Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
-              console.log(doc)
               res.send(doc)
             })
             .catch(err => {
@@ -98,7 +96,6 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
           const update = { image: null, values }
           Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
-              console.log(doc)
               res.send(doc)
             })
             .catch(err => {
@@ -112,7 +109,6 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
     case 'UPDATE_ITEM':
       Carousel.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
         .then(doc => {
-          console.log(doc)
           res.send(doc)
         })
         .catch(err => {
@@ -131,7 +127,6 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
 // Delete
 carousels.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
-  console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Carousel.findOne({ _id })
     .then(doc => {

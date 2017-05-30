@@ -35,7 +35,6 @@ export const fetchAddOrder = (values) => {
           })
           .then(json => {
             if (json.error) return Promise.reject(json.error)
-            console.log(json)
             const { address } = json
             dispatch(fetchUpdate({ type: 'UPDATE_ADDRESS', values: { ...address }}))
             dispatch(fetchAddOrderSuccess(json))

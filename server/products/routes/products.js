@@ -80,7 +80,6 @@ products.patch('/:_id', (req, res) => {
           const update = { image: data.Location, values, slug: slugIt(values.name) }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
-              console.log(doc)
               res.send(doc)
             })
             .catch(err => {
@@ -97,7 +96,6 @@ products.patch('/:_id', (req, res) => {
           const update = { image: null, values, slug: slugIt(values.name) }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
-              console.log(doc)
               res.send(doc)
             })
             .catch(err => {
@@ -111,7 +109,6 @@ products.patch('/:_id', (req, res) => {
     case 'UPDATE_ITEM':
       Product.findOneAndUpdate({ _id }, { $set: { values: values, slug: slugIt(values.name) }}, { new: true })
         .then(doc => {
-          console.log(doc)
           res.send(doc)
         })
         .catch(err => {
@@ -130,7 +127,6 @@ products.patch('/:_id', (req, res) => {
 // Delete
 products.delete('/:_id', (req, res) => {
   const _id = req.params._id
-  console.log(_id)
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Product.findOne({ _id })
     .then(doc => {

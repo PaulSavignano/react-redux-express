@@ -14,7 +14,6 @@ carts.post('/', (req, res) => {
   Product.findOne({ _id: productId })
     .then(product => {
       const { price, name } = product.values
-      console.log(product)
       const cart = new Cart({
         total: productQty * price,
         quantity: productQty,
@@ -29,7 +28,6 @@ carts.post('/', (req, res) => {
       })
       cart.save()
         .then(doc => {
-          console.log(doc)
           res.header('cart', doc._id).send(doc)
         })
         .catch(err => {
@@ -71,7 +69,6 @@ carts.patch('/:_id', (req, res) => {
       if (index !== -1) {
         switch (type) {
           case 'ADD_TO_CART':
-            console.log('adding to existing')
             cart.total = cart.total + (cart.items[index].price * product.productQty)
             cart.quantity = cart.quantity + product.productQty
             cart.items[index] = {
@@ -86,7 +83,6 @@ carts.patch('/:_id', (req, res) => {
               .then(cart => res.send(cart))
             break
           case 'REDUCE_FROM_CART':
-            console.log('reducing')
             if (cart.items[index].productQty - product.productQty > 0) {
               cart.total = cart.total - (cart.items[index].price * product.productQty)
               cart.quantity = cart.quantity - product.productQty
@@ -111,7 +107,6 @@ carts.patch('/:_id', (req, res) => {
             }
             break
           case 'REMOVE_FROM_CART':
-            console.log('removing')
             cart.total = cart.total - (cart.items[index].price * cart.items[index].productQty)
             cart.quantity = cart.quantity - cart.items[index].productQty
             cart.items = cart.items.filter(item =>

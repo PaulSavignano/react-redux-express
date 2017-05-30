@@ -35,7 +35,6 @@ export const products = (state = {
         ]
       }
     case `UPDATE_${type}`:
-      console.log(action.item._id)
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?

@@ -42,7 +42,6 @@ const fetchCarouselsRequest = () => ({ type: REQUEST })
 const fetchCarouselsSuccess = (items) => ({ type: RECEIVE, items })
 const fetchCarouselsFailure = (error) => ({ type: ERROR, error })
 export const fetchCarousels = () => {
-        console.log('fetching Carousels')
   return (dispatch, getState) => {
     dispatch(fetchCarouselsRequest())
     return fetch(`/api/${route}`, {
@@ -84,7 +83,6 @@ export const fetchUpdate = (_id, update) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        console.log(json)
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {

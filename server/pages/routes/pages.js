@@ -27,7 +27,10 @@ pages.post('/', authenticate(['admin']), (req, res) => {
         return res.status(400).send({ error: 'That name already exists'})
       }
     })
-    .catch(err => console.log('err', err))
+    .catch(err => {
+      console.log('err', err)
+      res.status(400).send({ error: 'That user was not found' })
+    })
 })
 
 

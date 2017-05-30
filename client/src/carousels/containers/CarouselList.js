@@ -7,7 +7,6 @@ import CarouselItem from '../components/CarouselItem'
 class CarouselList extends Component {
   render() {
     const { isFetching, section, carousels } = this.props
-    console.log(section)
     var settings = {
       dots: true,
       className: 'center',

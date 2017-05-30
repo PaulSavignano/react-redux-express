@@ -61,7 +61,6 @@ class AdminProductAdd extends Component {
         onSubmit={handleSubmit((values) => {
             let type, image
           if (this.state.editing) {
-            console.log('has upload')
               type = 'ADD_ITEM_ADD_IMAGE'
             image = this.editor.handleSave()
           } else {

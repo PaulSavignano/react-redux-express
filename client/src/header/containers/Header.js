@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 
-import AppBarMenuAussie from '../components/AppBarMenuAussie'
+import AppBarMenu from '../components/AppBarMenu'
 import DrawerMenu from '../components/DrawerMenu'
 
 class Header extends Component {
@@ -21,7 +21,7 @@ class Header extends Component {
           onLeftIconButtonTouchTap={this.handleToggle}
           titleStyle={{ height: 'auto'}}
           title={
-            <AppBarMenuAussie
+            <AppBarMenu
               brand={brand}
               pages={pages}
               user={user}
@@ -37,6 +37,7 @@ class Header extends Component {
             user={user}
             path={path}
             handleClose={this.handleClose}
+            hasProducts={hasProducts}
           />
         </Drawer>
       </header>

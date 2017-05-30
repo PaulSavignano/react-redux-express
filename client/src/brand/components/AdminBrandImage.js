@@ -11,6 +11,7 @@ class AdminBrandImage extends Component {
   state = {
     zDepth: 1,
     submitted: false,
+    expanded: false,
     editing: false,
     image: null
   }
@@ -18,7 +19,7 @@ class AdminBrandImage extends Component {
     const { image } = this.props.brand || null
     const hasImage = image ? true : false
     const imageUrl = hasImage ? image : this.props.placeholdIt
-    this.setState({ image: imageUrl })
+    this.setState({ image: imageUrl, expanded: true })
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
@@ -44,21 +45,38 @@ class AdminBrandImage extends Component {
           })}
         >
           <Card
+            expanded={this.state.expanded}
             zDepth={this.state.zDepth}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            <CardTitle title="Brand Image" />
-            <ImageFormHor
-              image={this.state.image}
-              type="image/png"
-              editing={this.editing}
-              width={imageSize.width}
-              height={imageSize.height}
-              ref={this.setEditorRef}
-            />
-            {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
             <CardActions>
+              <RaisedButton
+                onTouchTap={() => {
+                  if (this.state.expanded) {
+                    const update = { type: 'DELETE_IMAGE', image: brand.image }
+                    dispatch(fetchUpdate(brand._id, update))
+                  }
+                  this.setState({ expanded: !this.state.expanded })
+                }}
+                type="button"
+                label={this.state.expanded ? "Remove Brand Image" : "Add Brand Image"}
+                labelColor="#ffffff"
+                backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+                fullWidth={true}/>
+            </CardActions>
+            <CardActions expandable={true}>
+              <ImageFormHor
+                image={this.state.image}
+                type="image/png"
+                editing={this.editing}
+                width={imageSize.width}
+                height={imageSize.height}
+                ref={this.setEditorRef}
+              />
+              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+            </CardActions>
+            <CardActions expandable={true}>
               <RaisedButton
                 type="submit"
                 label={this.state.submitted ? "Updated" : "Update"}

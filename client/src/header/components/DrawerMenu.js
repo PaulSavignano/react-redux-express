@@ -10,7 +10,7 @@ import SigninSignout from '../../users/components/SigninSignout'
 
 
 
-const DrawerMenu = ({ dispatch, brand, pages, user, handleClose }) => {
+const DrawerMenu = ({ dispatch, brand, pages, user, handleClose, hasProducts }) => {
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false
   const color = brand.values.appBar ? brand.values.appBar.textColor : null
   const backgroundColor = brand.values.appBar ? brand.values.appBar.color : null
@@ -50,14 +50,14 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose }) => {
   return (
     <div>
       <div
-        style={{ cursor: 'pointer', width: '100%', margin: '0 auto' }}
+        style={{ cursor: 'pointer', width: '100%', margin: '0 auto', maxHeight: 64 }}
         onTouchTap={() => {
           dispatch(push('/'))
           handleClose()
         }}
       >
         {brand.image ?
-          <img src={brand.image} style={{ maxHeight: 80, margin: '0 auto 8px auto' }} alt=""/>
+          <img src={brand.image} style={{ margin: '0 auto 8px auto', width: 'auto', height: 64 }} alt=""/>
           :
           <div style={styles.logo}>
             {brand.values.name ? brand.values.name : 'Brand'}
@@ -73,10 +73,12 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose }) => {
         }}>{page.name}</MenuItem>
       ))}
 
-      <MenuItem onTouchTap={() => {
-        dispatch(push('/products'))
-        handleClose()
-      }}>Products</MenuItem>
+      {!hasProducts ? null :
+        <MenuItem onTouchTap={() => {
+          dispatch(push('/products'))
+          handleClose()
+        }}>Products</MenuItem>
+      }
 
       <MenuItem onTouchTap={() => {
         dispatch(push('/contact'))

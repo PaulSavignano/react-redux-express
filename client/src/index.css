@@ -51,7 +51,7 @@ main {
 /* maring: 32px */
 section {
   max-width: 1044px;
-  margin: 96px auto;
+  margin: 64px auto;
 }
 
 section > h1 {

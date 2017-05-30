@@ -44,7 +44,6 @@ export const sendEmail1 = (mail) => {
       transporter.sendMail(adminMail)
       return transporter.sendMail(userMail)
         .then(info => {
-          console.log('transporter: ', info)
           return info
         })
     })

@@ -5,11 +5,11 @@ import AdminBrandImage from '../components/AdminBrandImage'
 
 import { fetchAdd } from '../actions/index'
 
-// width: 255
-// height: 65
+// width: 256
+// height: 128
 const imageSize = {
-  width: 300,
-  height: 300
+  width: 128,
+  height: 128
 }
 const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 

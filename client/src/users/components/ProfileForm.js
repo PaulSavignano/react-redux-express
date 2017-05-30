@@ -42,7 +42,6 @@ class ProfileForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, dirty, item } = nextProps
-    console.log(submitSucceeded)
     if (submitSucceeded) this.setState({ submitted: true })
     if (dirty) this.setState({ submitted: false })
   }

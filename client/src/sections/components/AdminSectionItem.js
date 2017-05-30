@@ -114,7 +114,6 @@ class AdminSectionItem extends Component {
               type = 'UPDATE_ITEM'
               image = null
             }
-            console.log(values)
             const update = { type, image, values }
             dispatch(fetchUpdate(item._id, update))
           })}
@@ -211,21 +210,21 @@ class AdminSectionItem extends Component {
             </Field>
             <Field
               name="margin"
-              label="Text Area Margin (10px auto 20px auto)"
+              label="Title and Text Margin px"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="padding"
-              label="Text Area Padding (10px 5px 10px 5px)"
+              label="Title and Text Padding px"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="color"
-              label="Text Color Hexadecimal"
+              label="Text Color"
               type="text"
               fullWidth={true}
               component={renderTextField}
