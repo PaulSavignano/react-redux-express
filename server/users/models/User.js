@@ -11,6 +11,7 @@ const UserSchema = new Schema({
       trim: true,
       minlength: 1,
       unique: true,
+      lowercase: true,
       validate: {
         validator: value => validator.isEmail(value),
         message: '{VALUE} is not a valid email'
@@ -105,7 +106,7 @@ UserSchema.statics.findByToken = function(token, roles) {
 
 UserSchema.statics.findByCredentials = function(email, password) {
   const User = this
-  return User.findOne({ 'values.email': email })
+  return User.findOne({ 'values.email': email.toLowerCase() })
     .then(user => {
       if (!user) return Promise.reject({ error: { email: 'User not found'}})
       return new Promise((resolve, reject) => {
