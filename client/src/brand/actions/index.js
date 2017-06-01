@@ -62,7 +62,6 @@ export const fetchBrand = () => {
         dispatch(fetchBrandSuccess(json[0]))
       })
       .catch(err => {
-        console.log(err)
         dispatch(fetchBrandFailure(err))
       })
   }
@@ -92,7 +91,6 @@ export const fetchUpdate = (_id, update) => {
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
-        console.log(err)
         dispatch(fetchUpdateFailure(err))
         throw new SubmissionError({ ...err, _error: 'Update failed!' })
       })

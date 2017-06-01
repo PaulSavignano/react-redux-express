@@ -33,6 +33,7 @@ const mapStateToProps = ({ brand }) => {
     initialValues: {
       name: brand.values.name,
       phone: brand.values.phone,
+      email: brand.values.email,
       street: brand.values.street,
       city: brand.values.city,
       state: brand.values.state,

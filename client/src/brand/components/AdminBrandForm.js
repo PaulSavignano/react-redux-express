@@ -16,6 +16,20 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
+const validate = values => {
+  const errors = {}
+  const requiredFields = [ 'name', 'email' ]
+  requiredFields.forEach(field => {
+    if (!values[ field ]) {
+      errors[ field ] = 'Required'
+    }
+  })
+  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address'
+  }
+  return errors
+}
+
 class AdminBrandForm extends Component {
   state = {
     zDepth: 1,
@@ -56,6 +70,7 @@ class AdminBrandForm extends Component {
             <CardText>
               <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
               <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
+              <Field name="email" label="Email" type="text" fullWidth={true} component={renderTextField} />
               <Field name="street" label="Street" type="text" fullWidth={true} component={renderTextField} />
               <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />
               <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
@@ -111,7 +126,8 @@ class AdminBrandForm extends Component {
 }
 
 AdminBrandForm = reduxForm({
-  form: 'adminBrand'
+  form: 'adminBrand',
+  validate
 })(AdminBrandForm)
 
 AdminBrandForm = connect()(AdminBrandForm)
