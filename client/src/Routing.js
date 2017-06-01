@@ -1,5 +1,6 @@
 import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
+import ReactGA from 'react-ga'
 
 import App from './App'
 
@@ -37,8 +38,15 @@ import OrderDetail from './orders/containers/OrderDetail'
 
 import NotFound from './NotFound'
 
+ReactGA.initialize('UA-100349397-1')
+
+const logPageView = () => {
+  ReactGA.set({ page: window.location.pathname + window.location.search })
+  ReactGA.pageview(window.location.pathname + window.location.search)
+}
+
 const Routing = ({ history }) => (
-  <Router history={history}>
+  <Router history={history} onUpdate={logPageView}>
     <Route path="/" component={App}>
 
       {/* Page */}

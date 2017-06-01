@@ -85,7 +85,7 @@ class AppBarMenuAussie extends Component {
             </div>
             <span style={{ display: 'flex', flexFlow: 'column' }}>
               <span style={{ alignSelf: 'flex-end', color: primary1Color }} className="phone">
-                { brand.values.phone || null }
+                <a href={`tel:${brand.values.phone}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a>
               </span>
               <span style={{ alignSelf: 'flex-end' }}>
                 <span className="appbar-nav">

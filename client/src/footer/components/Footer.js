@@ -38,7 +38,7 @@ const Footer = ({ isFetching, brand, muiTheme }) => {
       </div>
       <div style={{ backgroundColor: primary2Color, padding: '0 0 32px 0', color: textColor }}>
         <div>{name} {new Date().getFullYear()}</div>
-        { phone ? <div>{phone}</div> : null }
+        { phone ? <a href={`tel:${phone}`}>{phone}</a> : null }
         { email ? <div>{email}</div> : null }
         { street ? <div>{street}</div> : null }
         { city ? <div>{city}, {state}. {zip}</div> : null }

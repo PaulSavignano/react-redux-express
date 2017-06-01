@@ -41,7 +41,9 @@ footer {
   text-align: center;
 }
 footer > div > a {
-  padding: 0 16px
+  padding: 0 16px;
+  text-decoration: none;
+  color: inherit;
 }
 
 
