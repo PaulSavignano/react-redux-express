@@ -16,20 +16,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   />
 )
 
-const validate = values => {
-  const errors = {}
-  const requiredFields = [ 'name', 'email' ]
-  requiredFields.forEach(field => {
-    if (!values[ field ]) {
-      errors[ field ] = 'Required'
-    }
-  })
-  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address'
-  }
-  return errors
-}
-
 class AdminBrandForm extends Component {
   state = {
     zDepth: 1,
@@ -49,15 +35,6 @@ class AdminBrandForm extends Component {
   render() {
     const { error, handleSubmit, dispatch, brand } = this.props
     return (
-        <form
-          onSubmit={handleSubmit((values) => {
-            const update = {
-              type: 'UPDATE_ITEM',
-              values
-            }
-            dispatch(fetchUpdate(brand._id, update))
-          })}
-        >
           <Card
             expanded={this.state.expanded}
             zDepth={this.state.zDepth}
@@ -66,68 +43,75 @@ class AdminBrandForm extends Component {
             containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
             style={{ height: '100%' }}
           >
-            <CardTitle title="Brand" />
-            <CardText>
-              <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="email" label="Email" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="street" label="Street" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="zip" label="Zip" type="text" fullWidth={true} component={renderTextField} />
-            </CardText>
-            <CardTitle title="Social Media" />
-            <CardText>
-              <Field name="facebook" label="facebook" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="github" label="github" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="google" label="google" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="instagram" label="instagram" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="linkedin" label="linkedin" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="twitter" label="twitter" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="yelp" label="yelp" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="youtube" label="youtube" type="text" fullWidth={true} component={renderTextField} />
-            </CardText>
-            <CardTitle title="Theme" />
-            <CardText>
-              <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="fontFamily2" label="fontFamily2" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="primary1Color" label="primary1Color" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="primary2Color" label="primary2Color" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="primary3Color" label="primary3Color" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="accent1Color" label="accent1Color" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="accent2Color" label="accent2Color" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="accent3Color" label="accent3Color" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="textColor" label="textColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="alternateTextColor" label="alternateTextColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="canvasColor" label="canvasColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="borderColor" label="borderColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="disabledColor" label="disabledColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="pickerHeaderColor" label="pickerHeaderColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="clockCircleColor" label="clockCircleColor" type="text" fullWidth={true} component={renderTextField} />
-              <Field name="shadowColor" label="shadowColor" type="text" fullWidth={true} component={renderTextField} />
-              {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-            </CardText>
-            <CardActions style={{ display: 'flex' }}>
-              <RaisedButton
-                type="submit"
-                label={this.state.submitted ? "Updated" : "Update"}
-                labelColor="#ffffff"
-                primary={this.state.submitted ? false : true}
-                backgroundColor={this.state.submitted ? "#4CAF50" : null }
-                style={{ flex: '1 1 auto', margin: 8 }}
-              />
-            </CardActions>
+            <form
+              onSubmit={handleSubmit((values) => {
+                const update = { type: 'UPDATE_VALUES', values }
+                dispatch(fetchUpdate(brand._id, update))
+              })}
+            >
+              <CardTitle title="Brand" />
+              <CardText>
+                <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="description" label="Brand Description" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="email" label="Email" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="street" label="Street" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="state" label="State" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="zip" label="Zip" type="text" fullWidth={true} component={renderTextField} />
+              </CardText>
+              <CardTitle title="Social Media" />
+              <CardText>
+                <Field name="facebook" label="facebook" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="github" label="github" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="google" label="google" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="instagram" label="instagram" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="linkedin" label="linkedin" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="twitter" label="twitter" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="yelp" label="yelp" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="youtube" label="youtube" type="text" fullWidth={true} component={renderTextField} />
+              </CardText>
+              <CardTitle title="Theme" />
+              <CardText>
+                <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="fontFamily2" label="fontFamily2" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="primary1Color" label="primary1Color" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="primary2Color" label="primary2Color" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="primary3Color" label="primary3Color" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="accent1Color" label="accent1Color" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="accent2Color" label="accent2Color" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="accent3Color" label="accent3Color" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="textColor" label="textColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="alternateTextColor" label="alternateTextColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="canvasColor" label="canvasColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="borderColor" label="borderColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="disabledColor" label="disabledColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="pickerHeaderColor" label="pickerHeaderColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="clockCircleColor" label="clockCircleColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="shadowColor" label="shadowColor" type="text" fullWidth={true} component={renderTextField} />
+                {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+              </CardText>
+              <CardActions style={{ display: 'flex' }}>
+                <RaisedButton
+                  type="submit"
+                  label={this.state.submitted ? "Updated" : "Update"}
+                  labelColor="#ffffff"
+                  primary={this.state.submitted ? false : true}
+                  backgroundColor={this.state.submitted ? "#4CAF50" : null }
+                  style={{ flex: '1 1 auto', margin: 8 }}
+                />
+              </CardActions>
+            </form>
           </Card>
-        </form>
+
     )
   }
 }
 
 AdminBrandForm = reduxForm({
-  form: 'adminBrand',
-  validate
+  form: 'adminBrand'
 })(AdminBrandForm)
 
 AdminBrandForm = connect()(AdminBrandForm)

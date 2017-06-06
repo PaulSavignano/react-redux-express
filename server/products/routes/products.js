@@ -13,39 +13,19 @@ const s3Path = `${process.env.APP_NAME}/products`
 
 // Create
 products.post('/', (req, res) => {
-  const { type, image, values } = req.body
-  const _id = new ObjectID()
+  const { sectionId } = req.body
   const product = new Product({
-    _id,
-    slug: slugIt(values.name),
-    image,
-    values
+    sectionId: ObjectID(sectionId),
+    image: null,
+    values: []
   })
-  switch (type) {
-    case 'ADD_ITEM_ADD_IMAGE':
-    uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
-      .then(data => {
-        product.image = data.Location
-        product.save()
-          .then(doc => {
-              res.send(doc)
-            })
-          .catch(err => {
-            console.log(err)
-            res.status(400).send(err)
-          })
+  product.save()
+    .then(doc => {
+        res.send(doc)
       })
-      break
-    case 'ADD_ITEM':
-      product.save()
-        .then(doc => res.send(doc))
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-    default:
-      return
-  }
+    .catch(err => {
+      res.status(400).send(err)
+    })
 })
 
 
@@ -74,10 +54,10 @@ products.patch('/:_id', (req, res) => {
   const { type, image, values } = req.body
   switch (type) {
 
-    case 'UPDATE_ITEM_UPDATE_IMAGE':
+    case 'UPDATE_IMAGE':
       uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
         .then(data => {
-          const update = { image: data.Location, values, slug: slugIt(values.name) }
+          const update = { image: data.Location }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
@@ -90,10 +70,10 @@ products.patch('/:_id', (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM_DELETE_IMAGE':
+    case 'DELETE_IMAGE':
       deleteFile({ Key: `${s3Path}/${_id}` })
         .then(() => {
-          const update = { image: null, values, slug: slugIt(values.name) }
+          const update = { image: null }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
@@ -106,7 +86,7 @@ products.patch('/:_id', (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM':
+    case 'UPDATE_VALUES':
       Product.findOneAndUpdate({ _id }, { $set: { values: values, slug: slugIt(values.name) }}, { new: true })
         .then(doc => {
           res.send(doc)

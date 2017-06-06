@@ -6,15 +6,18 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { redirectUser } from '../../users/actions/index'
 import formatPrice from '../../modules/formatPrice'
 
-const CartTotal = ({ dispatch, total, user }) => (
-  !total ? null :
+const CartTotal = ({ dispatch, cart, user }) => (
+  !cart.total ? null :
   <div style={{ margin: 24 }}>
     <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-      <span>subtotal</span>
-      <h3>{formatPrice(total)}</h3>
+      <div style={{ textAlign: 'right' }}>
+        <h2>Subtotal {formatPrice(cart.subTotal)}</h2>
+        <h2>Taxes {cart.tax *100}%</h2>
+        <h2>Total {formatPrice(cart.total)}</h2>
+      </div>
+
     </div>
     <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'flex-end' }}>
-      <p style={{ textAlign: 'right' }}>Shipping, taxes, and discounts calculated at checkout</p>
       <RaisedButton
         label="Checkout"
         primary={true}

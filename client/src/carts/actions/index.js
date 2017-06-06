@@ -12,7 +12,7 @@ export const searchCarts = (searchCartsText) => {
 // Create
 const fetchAddToCartSuccess = (cart) => ({ type: 'ADD_CART', cart })
 const fetchAddToCartFailure = (error) => ({ type: 'ERROR_CART', error })
-export const fetchAddToCart = (product) => {
+export const fetchAddToCart = (update) => {
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
     if (cartId !== null) {
@@ -21,7 +21,7 @@ export const fetchAddToCart = (product) => {
         headers: {
           'Content-Type': 'application/json' ,
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify(update)
       })
         .then(res => {
           if (res.ok) return res.json()
@@ -38,7 +38,7 @@ export const fetchAddToCart = (product) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify(update)
       })
         .then(res => {
           if (res.ok) {
@@ -84,7 +84,7 @@ export const fetchCart = (cartId) => {
 // Update
 const fetchUpdateCartSuccess = (cart) => ({ type: 'UPDATE_CART', cart })
 const fetchUpdateCartFailure = (error) => ({ type: 'ERROR_CART', error })
-export const fetchUpdateCart = (product) => {
+export const fetchUpdateCart = (update) => {
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
     return fetch(`/api/carts/${cartId}`, {
@@ -92,7 +92,7 @@ export const fetchUpdateCart = (product) => {
       headers: {
         'Content-Type': 'application/json' ,
       },
-      body: JSON.stringify(product)
+      body: JSON.stringify(update)
     })
       .then(res => {
         if (res.ok) return res.json()
@@ -108,9 +108,10 @@ export const fetchUpdateCart = (product) => {
 
 
 // Delete
-const fetchDeleteCartSuccess = (cartId) => ({ type: 'DELETE_CART', cartId })
+const fetchDeleteCartSuccess = () => ({ type: 'DELETE_CART' })
 const fetchDeleteCartFailure = (error) => ({ type: 'ERROR_CART', error })
 export const fetchDeleteCart = () => {
+  console.log('fetching Delete Cart')
   const cartId = localStorage.getItem('cart')
   return (dispatch, getState) => {
     return fetch(`/api/carts/${cartId}`, {
@@ -124,8 +125,9 @@ export const fetchDeleteCart = () => {
         throw new Error('Network response was not ok.')
       })
       .then(json => {
+        console.log('cart deleted')
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteCartSuccess(json._id))
+        dispatch(fetchDeleteCartSuccess())
         localStorage.removeItem('cart')
       })
       .catch(err => fetchDeleteCartFailure(err))

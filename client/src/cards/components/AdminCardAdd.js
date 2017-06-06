@@ -14,9 +14,7 @@ const AdminCardAdd = ({ dispatch, section, imageSize }) => (
         primary={true}
         fullWidth={true}
         onTouchTap={() => {
-          const add = {
-            sectionId: section._id,
-          }
+          const add = { sectionId: section._id }
           dispatch(fetchAdd(add))
         }}
       />

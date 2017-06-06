@@ -4,6 +4,7 @@ import {Card, CardTitle, CardText} from 'material-ui/Card'
 
 const OrderConfirmation = ({ user, item }) => {
   return (
+    !item ? null :
     <section>
       <Card className="cards">
         <CardTitle title="Order" subtitle={item._id} />
@@ -15,9 +16,12 @@ const OrderConfirmation = ({ user, item }) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  user: state.user,
-  item: state.orders.items.find(order => order._id === ownProps.params.orderId)
-})
+const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps.params)
+  return {
+    user: state.user,
+    item: state.orders.items.find(order => order._id === ownProps.params.orderId)
+  }
+}
 
 export default connect(mapStateToProps)(OrderConfirmation)

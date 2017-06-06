@@ -73,6 +73,10 @@ h1 {
   font-size: 2em;
 }
 
+h2 {
+  font-weight: normal;
+}
+
 h3 {
   margin: 32px;
   font-weight: normal
@@ -83,7 +87,6 @@ h3 {
 .cards {
   flex: 1 1 auto;
   margin: 16px;
-  height: 100%;
 }
 
 .fa.fa-shopping-cart {

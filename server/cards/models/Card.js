@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const CardSchema = new Schema({
-  sectionId: { type: String, required: true, trim: true },
+  sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: { type: String },
   values: {
     header: { type: String, trim: true },

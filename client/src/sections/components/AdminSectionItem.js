@@ -9,7 +9,8 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
 import AdminCards from '../../cards/containers/AdminCards'
-import AdminCarouselList from '../../carousels/containers/AdminCarouselList'
+import AdminCarousels from '../../carousels/containers/AdminCarousels'
+import AdminProducts from '../../products/containers/AdminProducts'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 import RichTextMarkdown from '../../RichTextMarkdown'
@@ -53,29 +54,15 @@ const renderSelectField = ({
 class AdminSectionItem extends Component {
   state = {
     expanded: false,
-    submitted: false,
-    editing: false,
-    image: null
-  }
-  componentWillMount() {
-    const { image } = this.props.item || null
-    const hasImage = image ? true : false
-    const imageUrl = image ? image : this.props.placeholdIt
-    if (hasImage) {
-      this.setState({ expanded: hasImage, image: imageUrl })
-    }
+    submitted: false
   }
   componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, dirty, item } = nextProps
-    if (submitSucceeded) this.setState({ submitted: true, image: item.image })
+    const { submitSucceeded, dirty } = nextProps
+    if (submitSucceeded) this.setState({ submitted: true })
     if (dirty) this.setState({ submitted: false })
   }
-  editing = (bool) => {
-    bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
-  }
-  setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, page, item, imageSize, placeholdIt } = this.props
+    const { error, handleSubmit, dispatch, page, section, imageSize, placeholdIt } = this.props
     return (
       <Card
         expanded={this.state.expanded}
@@ -92,30 +79,24 @@ class AdminSectionItem extends Component {
             backgroundColor="#D50000"
             fullWidth={true}
             onTouchTap={() => {
-              dispatch(fetchDelete(item._id, item.image))
+              dispatch(fetchDelete(section._id, section.image))
             }}
           />
         </CardActions>
+        <ImageForm
+          type="image/jpg"
+          handleUpdate={fetchUpdate}
+          width={imageSize.width}
+          height={imageSize.height}
+          ref={this.setEditorRef}
+          placeholdIt={placeholdIt}
+          item={section}
+        />
         <form
           onSubmit={handleSubmit((values) => {
-            let type, image
-            if (this.state.expanded) {
-              if (this.state.editing) {
-                type = 'UPDATE_ITEM_UPDATE_IMAGE'
-                image = this.editor.handleSave()
-              } else {
-                type = 'UPDATE_ITEM'
-                image = item.image
-              }
-            } else if (item.image) {
-              type = 'UPDATE_ITEM_DELETE_IMAGE'
-              image = item.image
-            } else {
-              type = 'UPDATE_ITEM'
-              image = null
-            }
-            const update = { type, image, values }
-            dispatch(fetchUpdate(item._id, update))
+            const type = 'UPDATE_VALUES'
+            const update = { type, values }
+            dispatch(fetchUpdate(section._id, update))
           })}
         >
           <CardText>
@@ -145,33 +126,6 @@ class AdminSectionItem extends Component {
               <MenuItem value="local" primaryText="local" />
               <MenuItem value="inherit" primaryText="inherit" />
             </Field>
-          </CardText>
-          <CardActions>
-            <RaisedButton
-              onTouchTap={() => {
-                const image = this.state.image || placeholdIt
-                this.setState({ expanded: !this.state.expanded, submitted: false, image })
-              }}
-              type="button"
-              label={this.state.expanded ? "Remove Background Image" : "Add Background Image"}
-              labelColor="#ffffff"
-              backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
-              fullWidth={true}/>
-          </CardActions>
-          {!this.state.expanded ? null :
-            <CardMedia>
-              <ImageForm
-                image={this.state.image}
-                type="image/jpeg"
-                editing={this.editing}
-                width={imageSize.width}
-                height={imageSize.height}
-                ref={this.setEditorRef}
-              />
-            </CardMedia>
-          }
-
-          <CardText>
             <Field
               name="title"
               label="Title"
@@ -242,8 +196,9 @@ class AdminSectionItem extends Component {
             />
           </CardActions>
         </form>
-        <AdminCards page={page} section={item} />
-        <AdminCarouselList section={item} />
+        <AdminCards page={page} section={section} />
+        <AdminCarousels section={section} />
+        <AdminProducts section={section} />
       </Card>
     )
   }
@@ -251,7 +206,7 @@ class AdminSectionItem extends Component {
 
 AdminSectionItem = compose(
   connect((state, props) => ({
-    form: `section_${props.item._id}`
+    form: `section_${props.section._id}`
   })),
   reduxForm({
     destroyOnUnmount: false,

@@ -39,7 +39,6 @@ import OrderDetail from './orders/containers/OrderDetail'
 import NotFound from './NotFound'
 
 ReactGA.initialize('UA-100349397-1')
-
 const logPageView = () => {
   ReactGA.set({ page: window.location.pathname + window.location.search })
   ReactGA.pageview(window.location.pathname + window.location.search)
@@ -70,9 +69,9 @@ const Routing = ({ history }) => (
       <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
       <Route path="user/orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
       <Route path="user/request-estimate" component={RequestEstimate} />
-
+      
       {/* Product */}
-      <Route path="product/:slug" component={Product} />
+      <Route path="product/:productId" component={Product} />
       <Route path="admin/products" component={RequireAuth(AdminProducts, ['admin'])} />
 
 

@@ -2,18 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import ProductItem from '../components/ProductItem'
 
-const Product = ({ isFetching, item }) => {
+const Product = ({ isFetching, product }) => {
+  console.log(product)
   return (
     isFetching ? null :
     <section>
-      <ProductItem item={item} />
+      <ProductItem product={product} fullWidth={true} />
     </section>
   )
 }
 
 const mapStateToProps = (state, ownProps) => ({
   isFetching: state.products.isFetching,
-  item: state.products.items.find(pro => pro.slug === ownProps.params.slug)
+  product: state.products.items.find(pro => pro._id === ownProps.params.productId)
 })
 
 export default connect(mapStateToProps)(Product)

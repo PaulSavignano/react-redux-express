@@ -4,6 +4,7 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { Helmet } from "react-helmet"
 
 import SearchList from './products/containers/SearchList'
 import Header from './header/containers/Header'
@@ -12,6 +13,7 @@ import Footer from './footer/components/Footer'
 injectTapEventPlugin()
 
 const App = ({ search, children, brand }) => {
+  console.log(process.env)
   return (
     brand.isFetching ? null : brand.values.palette ?
       <MuiThemeProvider muiTheme={getMuiTheme(brand.values)}>
@@ -22,6 +24,12 @@ const App = ({ search, children, brand }) => {
           transitionEnter={false}
           transitionLeave={false}
         >
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>{brand.values.name}</title>
+            <meta name="description" content={brand.values.description} />
+            <link rel="canonical" href={process.env.ROOT_URL} />
+          </Helmet>
           <Header />
           <main>
             {search.length ? <SearchList /> : children}

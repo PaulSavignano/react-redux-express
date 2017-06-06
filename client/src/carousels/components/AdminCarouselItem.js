@@ -7,7 +7,7 @@ import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate, fetchDelete } from '../actions/index'
-import ImageFormHor from '../../images/components/ImageFormHor'
+import ImageForm from '../../images/components/ImageForm'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -21,75 +21,55 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 class AdminCarouselItem extends Component {
   state = {
     zDepth: 1,
-    submitted: false,
-    editing: false,
-    image: null
-  }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
-  componentWillMount() {
-    const { image } = this.props.carousel || null
-    const hasImage = image ? true : false
-    const imageUrl = image ? image : this.props.placeholdit
-    this.setState({ expanded: hasImage, image: imageUrl })
-    this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
+    submitted: false
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ submitted: true, image: nextProps.carousel.image })
-    if (nextProps.dirty) this.setState({ submitted: false })
-  }
-  editing = (bool) => {
-    bool ? this.setState({ submitted: false, editing: true }) : this.setState({ submitted: true, editing: true })
+    const { submitSucceeded, dirty } = nextProps
+    if (submitSucceeded) this.setState({ submitted: true })
+    if (dirty) this.setState({ submitted: false })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, carousel, imageSize } = this.props
+    const { error, handleSubmit, dispatch, carousel, imageSize, placeholdIt } = this.props
+    const width = !carousel.values ? null : carousel.values.width || null
     return (
-      <form
-        onSubmit={handleSubmit((values) => {
-          let type, image
-          if (this.state.editing) {
-            type = 'UPDATE_ITEM_UPDATE_IMAGE'
-            image = this.editor.handleSave()
-          } else {
-            type = 'UPDATE_ITEM'
-            image = carousel.image
-          }
-          const update = { type, image, values }
-          dispatch(fetchUpdate(carousel._id, update))
-          this.setState({ image: carousel.image })
-        })}
-        style={{ flex: '1 1 auto', margin: '32px 16px' }}
+      <Card
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
+        className="cards"
       >
-        <Card
-          zDepth={this.state.zDepth}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
+        <ImageForm
+          type="image/jpg"
+          handleUpdate={fetchUpdate}
+          width={imageSize.width}
+          height={imageSize.height}
+          ref={this.setEditorRef}
+          placeholdIt={placeholdIt}
+          item={carousel}
+        />
+        <form
+          onSubmit={handleSubmit((values) => {
+            const type = 'UPDATE_VALUES'
+            const update = { type, values }
+            dispatch(fetchUpdate(carousel._id, update))
+          })}
+          style={{ flex: '1 1 auto', margin: 32 }}
         >
-          <CardMedia>
-            <ImageFormHor
-              image={this.state.image}
-              type="image/png"
-              editing={this.editing}
-              width={imageSize.width}
-              height={imageSize.height}
-              ref={this.setEditorRef}
-            />
-          </CardMedia>
           <CardText>
             <Field
               name="text"
-              label="Text"
+              label="text"
               type="text"
-              multiLine={true}
-              rows={2}
               fullWidth={true}
               component={renderTextField}
             />
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+
           </CardText>
+          <div style={{ flex: '1 1 auto' }}></div>
           <CardActions style={{ display: 'flex' }}>
             <RaisedButton
               type="submit"
@@ -109,17 +89,14 @@ class AdminCarouselItem extends Component {
               }}
             />
           </CardActions>
-        </Card>
-
-      </form>
+        </form>
+      </Card>
     )
   }
 }
 
 AdminCarouselItem = compose(
-  connect((state, props) => ({
-    form: `carousel_${props.carousel._id}`
-  })),
+  connect((state, props) => ({ form: `carousel_${props.carousel._id}` })),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCarouselItem)
 
 export default AdminCarouselItem

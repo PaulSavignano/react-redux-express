@@ -260,8 +260,8 @@ users.patch('/signout', authenticate(['admin','user']), (req, res) => {
 
 // Contact
 users.post('/contact', (req, res) => {
-  const { email, firstname, phone, message } = req.body
-  if (!firstname || !email || !message) {
+  const { email, firstName, phone, message } = req.body
+  if (!firstName || !email || !message) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
   sendEmail1({
@@ -280,7 +280,10 @@ users.post('/contact', (req, res) => {
     .then(info => {
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.log(err)
+      res.status(400).send(err)
+    })
 })
 
 

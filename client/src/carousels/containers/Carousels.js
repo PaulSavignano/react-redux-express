@@ -4,7 +4,7 @@ import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Car
 
 import CarouselItem from '../components/CarouselItem'
 
-class CarouselList extends Component {
+class Carousels extends Component {
   render() {
     const { isFetching, section, carousels } = this.props
     var settings = {
@@ -35,4 +35,4 @@ class CarouselList extends Component {
   }
 }
 
-export default CarouselList
+export default Carousels

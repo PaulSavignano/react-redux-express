@@ -85,7 +85,7 @@ class AppBarMenuAussie extends Component {
             </div>
             <span style={{ display: 'flex', flexFlow: 'column' }}>
               <span style={{ alignSelf: 'flex-end', color: primary1Color }} className="phone">
-                <a href={`tel:${brand.values.phone}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a>
+                <a href={`tel:${brand.values.phone}`} style={{ textDecoration: 'none', color: 'inherit' }}>{brand.values.phone}</a>
               </span>
               <span style={{ alignSelf: 'flex-end' }}>
                 <span className="appbar-nav">
@@ -98,14 +98,6 @@ class AppBarMenuAussie extends Component {
                       hoverColor="none"
                     />
                   ))}
-                  {!hasProducts ? null :
-                    <FlatButton
-                      style={{ color: path === `/products` ? primary1Color : textColor }}
-                      onTouchTap={() => dispatch(push(`/products`))}
-                      label="Products"
-                      hoverColor="none"
-                    />
-                  }
                   <FlatButton
                     style={{ color: path === `/contact` ? primary1Color : textColor }}
                     onTouchTap={() => dispatch(push(`/contact`))}

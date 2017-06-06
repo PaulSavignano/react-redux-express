@@ -4,6 +4,7 @@ const BrandSchema = new Schema({
   image: { type: String, minlength: 1, trim: true },
   values: {
     name: { type: String, minlength: 1, trim: true, default: 'Brand' },
+    description: { type: String, minlength: 1, trim: true },
     phone: { type: String, minlength: 1, trim: true },
     email: { type: String, minlength: 1, trim: true },
     street: { type: String, minlength: 1, trim: true },

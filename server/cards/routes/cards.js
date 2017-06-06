@@ -15,6 +15,7 @@ cards.post('/', authenticate(['admin']), (req, res) => {
   const { sectionId } = req.body
   const card = new Card({
     sectionId: ObjectID(sectionId),
+    image: null,
     values: []
   })
   card.save()
@@ -51,7 +52,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
   const { type, sectionId, image, values } = req.body
   switch (type) {
 
-    case 'UPDATE_ITEM_UPDATE_IMAGE':
+    case 'UPDATE_IMAGE':
       uploadFile({ Key: `${s3Path}${_id}`, Body: image })
         .then(data => {
           const update = { image: data.Location, values }
@@ -67,7 +68,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM_DELETE_IMAGE':
+    case 'DELETE_IMAGE':
       deleteFile({ Key: `${s3Path}${_id}` })
         .then(() => {
           const update = { image: null, values }
@@ -83,7 +84,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM':
+    case 'UPDATE_VALUES':
       Card.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
         .then(doc => {
           res.send(doc)

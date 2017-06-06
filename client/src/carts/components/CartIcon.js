@@ -21,8 +21,8 @@ const CartIcon = ({ qty }) => (
   />
 )
 
-const mapStateToProps = (state) => ({
-  qty: state.cart.quantity
+const mapStateToProps = ({ cart }) => ({
+  qty: cart.cart.quantity
 })
 
 export default connect(mapStateToProps)(CartIcon)

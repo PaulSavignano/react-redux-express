@@ -73,13 +73,6 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose, hasProducts }) 
         }}>{page.name}</MenuItem>
       ))}
 
-      {!hasProducts ? null :
-        <MenuItem onTouchTap={() => {
-          dispatch(push('/products'))
-          handleClose()
-        }}>Products</MenuItem>
-      }
-
       <MenuItem onTouchTap={() => {
         dispatch(push('/contact'))
         handleClose()

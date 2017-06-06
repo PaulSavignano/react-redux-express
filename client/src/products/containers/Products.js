@@ -5,19 +5,13 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import ProductList from '../components/ProductList'
 
-const Products = ({ isFetching, items, muiTheme }) => {
+const Products = ({ isFetching, section, products }) => {
   return (
     isFetching ? null :
     <section>
-      <h1 style={{ fontFamily: muiTheme.fontFamily, color: muiTheme.palette.textColor }}>Products</h1>
-      <ProductList items={items} />
+      <ProductList products={products} />
     </section>
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.products.isFetching,
-  items: state.products.items
-})
-
-export default compose(connect(mapStateToProps), muiThemeable())(Products)
+export default Products

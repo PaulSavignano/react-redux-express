@@ -18,14 +18,14 @@ class CartItem extends Component {
   add = () => {
     const newQty = this.state.qty + 1
     this.setState({ qty: newQty })
-    const product = { productId: this.props.productId, productQty: 1 }
-    this.props.dispatch(fetchUpdateCart({ type: 'ADD_TO_CART', product }))
+    const update = { type: 'ADD_TO_CART', productId: this.props.productId, productQty: 1 }
+    this.props.dispatch(fetchUpdateCart(update))
   }
   minus = () => {
     const newQty = this.state.qty - 1
     this.setState({ qty: newQty })
-    const product = { productId: this.props.productId, productQty: 1 }
-    this.props.dispatch(fetchUpdateCart({ type: 'REDUCE_FROM_CART', product }))
+    const update = { type: 'REDUCE_FROM_CART', productId: this.props.productId, productQty: 1 }
+    this.props.dispatch(fetchUpdateCart(update))
   }
   render() {
     const { dispatch, productId, name, price, image, total } = this.props
@@ -68,7 +68,8 @@ class CartItem extends Component {
                 label="X"
                 primary={true}
                 onTouchTap={() => {
-                  dispatch(fetchUpdateCart({ type: 'REMOVE_FROM_CART', product: { productId } }))
+                  const update = { type: 'REMOVE_FROM_CART', productId }
+                  dispatch(fetchUpdateCart(update))
                 }}
               />
             </div>

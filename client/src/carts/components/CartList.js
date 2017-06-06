@@ -1,10 +1,10 @@
 import React from 'react'
 import CartItem from './CartItem'
 
-const CartList = ({ items }) => (
-  items ?
+const CartList = ({ cart }) => (
+  cart.items.length ?
   <div>
-    {items.map((item, index) => (
+    {cart.items.map((item, index) => (
       <CartItem
         key={item.productId}
         index={index}

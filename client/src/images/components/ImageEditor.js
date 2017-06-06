@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 
 const isTouchDevice = !!(
   typeof window !== 'undefined' &&
@@ -265,22 +266,10 @@ class ImageEditor extends Component {
     imageObj.src = imageURL
   }
 
-  readImage = (url) => {
-    fetch(url)
-      .then(response => response.blob())
-      .then(blob => new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onloadend = () => resolve(reader.result)
-        reader.onerror = reject
-        reader.readAsDataURL(blob)
-      }))
-      .then(result => this.loadImage(result))
-  }
-
   componentDidMount() {
     const context = ReactDOM.findDOMNode(this.canvas).getContext('2d')
     if (this.props.image) {
-      this.readImage(this.props.image)
+      this.loadImage(this.props.image)
     }
     this.paint(context)
     if (document) {

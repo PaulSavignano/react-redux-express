@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
-import AdminProductList from '../components/AdminProductList'
 import AdminProductAdd from '../components/AdminProductAdd'
+import AdminProductList from '../components/AdminProductList'
 
 const imageSize = {
   width: 900,
@@ -12,19 +10,19 @@ const imageSize = {
 }
 const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
-const AdminProducts = ({ isFetching, items, muiTheme }) => (
-  isFetching ? null :
-  <section>
-    <h1 style={{ fontFamily: muiTheme.fontFamily }}>Products Admin</h1>
-    <AdminProductAdd imageSize={imageSize} placeholdIt={placeholdIt} />
-    <AdminProductList items={items} imageSize={imageSize} placeholdIt={placeholdIt} />
-  </section>
-)
+const AdminProducts = ({ isFetching, section, products }) => {
+  return (
+    isFetching ? null :
+    <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
+      <AdminProductList section={section} products={products} imageSize={imageSize} placeholdIt={placeholdIt} />
+      <AdminProductAdd section={section} imageSize={imageSize} placeholdIt={placeholdIt} />
+    </div>
+  )
+}
 
-const mapStateToProps = ({ products }) => ({
-  isFetching: products.isFetching,
-  items: products.items
+const mapStateToProps = (state, ownProps) => ({
+  isFetching: state.products.isFetching,
+  products: state.products.items.filter(product => product.sectionId === ownProps.section._id)
 })
 
-
-export default compose(connect(mapStateToProps), muiThemeable())(AdminProducts)
+export default connect(mapStateToProps)(AdminProducts)

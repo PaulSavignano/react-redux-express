@@ -12,39 +12,19 @@ const s3Path = `${process.env.APP_NAME}/carousels`
 
 // Create
 carousels.post('/', authenticate(['admin']), (req, res) => {
-  const { type, sectionId, image, values } = req.body
-  const _id = new ObjectID()
-  const card = new Carousel({
-    _id,
+  const { sectionId } = req.body
+  const carousel = new Carousel({
     sectionId: ObjectID(sectionId),
-    image,
-    values
+    image: null,
+    values: []
   })
-  switch (type) {
-    case 'ADD_ITEM_ADD_IMAGE':
-    uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
-      .then(data => {
-        card.image = data.Location
-        card.save()
-          .then(doc => {
-              res.send(doc)
-            })
-          .catch(err => {
-            console.log(err)
-            res.status(400).send(err)
-          })
+  carousel.save()
+    .then(doc => {
+        res.send(doc)
       })
-      break
-    case 'ADD_ITEM':
-      card.save()
-        .then(doc => res.send(doc))
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-    default:
-      return
-  }
+    .catch(err => {
+      res.status(400).send(err)
+    })
 })
 
 
@@ -74,10 +54,10 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
   const { type, sectionId, image, values } = req.body
   switch (type) {
 
-    case 'UPDATE_ITEM_UPDATE_IMAGE':
+    case 'UPDATE_IMAGE':
       uploadFile({ Key: `${s3Path}/${_id}`, Body: image })
         .then(data => {
-          const update = { image: data.Location, values }
+          const update = { image: data.Location }
           Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
@@ -90,10 +70,10 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM_DELETE_IMAGE':
+    case 'DELETE_IMAGE':
       deleteFile({ Key: `${s3Path}/${_id}` })
         .then(() => {
-          const update = { image: null, values }
+          const update = { image: null }
           Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
@@ -106,8 +86,8 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM':
-      Carousel.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
+    case 'UPDATE_VALUES':
+      Carousel.findOneAndUpdate({ _id }, { $set: { values }}, { new: true })
         .then(doc => {
           res.send(doc)
         })

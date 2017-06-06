@@ -10,13 +10,12 @@ import {Card, CardActions, CardText} from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
-import AddressAdd from '../../users/components/AddressAdd'
 import formatPrice from '../../modules/formatPrice'
 import { fetchAddOrder } from '../actions/index'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'firstName', 'lastName', 'email', 'address', 'zip', 'state', 'number', 'exp', 'cvc' ]
+  const requiredFields = [ 'firstName', 'lastName', 'fullAddress', 'number', 'exp', 'cvc' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -38,6 +37,20 @@ const validate = values => {
     })
   }
   return errors
+}
+
+const normalizePhone = value => {
+  if (!value) {
+    return value
+  }
+  const onlyNums = value.replace(/[^\d]/g, '')
+  if (onlyNums.length <= 3) {
+    return onlyNums
+  }
+  if (onlyNums.length <= 7) {
+    return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`
+  }
+  return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 6)}-${onlyNums.slice(6, 10)}`
 }
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -71,31 +84,18 @@ const renderSelectField = ({
 class OrderAdd extends Component {
   state = {
     newAddress: false,
-    total: null,
     tax: .0725
   }
-  componentWillMount() {
-    const total = this.props.total + (this.props.total * .0725)
-    this.setState({ total })
-  }
   render() {
-    const { error, dispatch, handleSubmit, isFetching, total, pristine, reset, submitting, addresses, user } = this.props
+    const { error, dispatch, handleSubmit, isFetching, cart, pristine, reset, submitting, addresses } = this.props
     return (
-      isFetching ? null : !total ? dispatch(push('/')) :
+      isFetching ? null : !cart.total ? dispatch(push('/')) :
       <section>
         <Card className="cards">
           <form onSubmit={handleSubmit((values) => {
-            const tax = this.state.tax
-            const subTotal = values.total
-            const total = this.props.total + (this.props.total * .0725)
-            const order = { ...values, tax, subTotal, total }
+            const order = { ...values, cart: this.props.cart }
             dispatch(fetchAddOrder(order))
           })}>
-            <CardText>
-              <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-              <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
-
-            </CardText>
             <CardText>
               <ul className="credit-card-list">
                 <li><i data-brand="visa" className="fa fa-cc-visa"></i></li>
@@ -127,7 +127,6 @@ class OrderAdd extends Component {
                   onFocus={e => Payment.formatCardCVC(e.target)}
                   style={{ flex: '1 1 auto' }}
                 />
-                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
               </div>
               <Field
                 name="fullAddress"
@@ -142,13 +141,14 @@ class OrderAdd extends Component {
                     onTouchTap={() => this.setState({ newAddress: false })}
                     primaryText={`
                       ${address.values.name}
+                      ${address.values.phone}
                       ${address.values.street}
                       ${address.values.city},
                       ${address.values.state}
                       ${address.values.zip}`
                     }/>
                 ))}
-                <MenuItem value="new" primaryText="Enter new address" onTouchTap={() => this.setState({ newAddress: true })} />
+                <MenuItem value="newAddress" primaryText="Enter new address" onTouchTap={() => this.setState({ newAddress: true })} />
               </Field>
               {!this.state.newAddress ? null :
                 <div>
@@ -158,6 +158,14 @@ class OrderAdd extends Component {
                     type="text"
                     fullWidth={true}
                     component={renderTextField}
+                  />
+                  <Field
+                    name="phone"
+                    label="Phone"
+                    type="text"
+                    fullWidth={true}
+                    component={renderTextField}
+                    normalize={normalizePhone}
                   />
                   <Field
                     name="street"
@@ -191,23 +199,24 @@ class OrderAdd extends Component {
               }
               {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
             </CardText>
+
+            <CardText style={{ float: 'right' }}>
+              <h2 style={{ textAlign: 'right '}}>Subtotal {formatPrice(cart.subTotal)}</h2>
+              <h2 style={{ textAlign: 'right '}}>Tax {(cart.tax * 100).toFixed(2)}%</h2>
+              <h2 style={{ textAlign: 'right '}}>Total {formatPrice(cart.total)}</h2>
+            </CardText>
+            <CardText style={{ float: 'right' }}>
+              <p style={{ textAlign: 'right' }}></p>
+            </CardText>
+            <CardActions>
+              <RaisedButton
+                label="Place Order"
+                primary={true}
+                type="submit"
+                fullWidth={true}
+              />
+            </CardActions>
           </form>
-          <CardText style={{ float: 'right' }}>
-            <h2 style={{ textAlign: 'right '}}>subtotal {formatPrice(total)}</h2>
-            <h2 style={{ textAlign: 'right '}}>tax {(this.state.tax * 100).toFixed(2)}%</h2>
-            <h2 style={{ textAlign: 'right '}}>total {formatPrice(this.state.total)}</h2>
-          </CardText>
-          <CardText style={{ float: 'right' }}>
-            <p style={{ textAlign: 'right' }}></p>
-          </CardText>
-          <CardActions>
-            <RaisedButton
-              label="Place Order"
-              primary={true}
-              type="submit"
-              fullWidth={true}
-            />
-          </CardActions>
         </Card>
       </section>
     )
@@ -221,10 +230,8 @@ OrderAdd = reduxForm({
 
 const mapStateToProps = ({ user, cart }) => ({
   isFetching: cart.isFetching,
-  total: cart.total,
-  initialValues: user.values,
-  addresses: user.addresses,
-  user,
+  cart: cart.cart,
+  addresses: user.addresses
 })
 
 OrderAdd = connect(mapStateToProps)(OrderAdd)

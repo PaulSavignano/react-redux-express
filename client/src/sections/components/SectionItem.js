@@ -4,13 +4,14 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 
 import Cards from '../../cards/containers/Cards'
-import CarouselList from '../../carousels/containers/CarouselList'
+import Products from '../../products/containers/Products'
+import Carousels from '../../carousels/containers/Carousels'
 
 class SectionItem extends Component {
   createMarkup = (html) => {
     return {__html: html};
   }
-  renderWithValues = (section, cards, carousels) => {
+  renderWithValues = (section, cards, products, carousels) => {
     const { values } = section
     const { fontFamily } = this.props.brand
     const height = values.height || null
@@ -55,19 +56,21 @@ class SectionItem extends Component {
               {text ? <div style={{ color, fontFamily, ...textAlign }}>{renderHTML(text)}</div> : null}
             </div>
             { cards ? <Cards section={ section } cards={ cards }/> : null }
+            { products ? <Products section={ section } products={ products }/> : null }
           </div>
-          { carousels ? <CarouselList section={ section } carousels={carousels} /> : null }
+          { carousels ? <Carousels section={ section } carousels={carousels} /> : null }
         </div>
       </CSSTransitionGroup>
     )
   }
   render() {
-    const { isFetching, section, cards, carousels } = this.props
+    const { isFetching, section, cards, products, carousels } = this.props
     return (
-      isFetching ? null : section.values ? this.renderWithValues(section, cards, carousels) :
+      isFetching ? null : section.values ? this.renderWithValues(section, cards, products, carousels) :
       <section>
         { cards ? <Cards section={ section } cards={ cards }/> : null }
-        { carousels ? <CarouselList section={ section } carousels={carousels} /> : null }
+        { products ? <Products section={ section } products={ products }/> : null }
+        { carousels ? <Carousels section={ section } carousels={carousels} /> : null }
       </section>
     )
   }
@@ -77,6 +80,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isFetching: state.cards.isFetching,
     cards: state.cards.items.filter(item => item.sectionId === ownProps.section._id) || null,
+    products: state.products.items.filter(item => item.sectionId === ownProps.section._id) || null,
     carousels: state.carousels.items.filter(item => item.sectionId === ownProps.section._id) || null
   }
 }

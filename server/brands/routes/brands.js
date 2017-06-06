@@ -103,6 +103,10 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
             res.status(400).send(err)
           })
         })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
       break
 
     case 'DELETE_IMAGE':
@@ -124,7 +128,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM':
+    case 'UPDATE_VALUES':
       Brand.findOneAndUpdate({ _id }, { $set: { values: newValues }}, { new: true })
         .then(doc => {
           console.log(doc)

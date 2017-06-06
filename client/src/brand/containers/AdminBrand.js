@@ -16,6 +16,7 @@ const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}
 const AdminBrandPage = ({ dispatch, isFetching, brand, initialValues }) => {
   const fontFamily = brand.values.fontFamily
   const color = brand.values.palette.textColor
+  const image = brand.image || placeholdIt
   return (
     isFetching ? null : !brand.values ? null :
     <section>

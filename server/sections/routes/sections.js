@@ -23,6 +23,7 @@ sections.post('/', authenticate(['admin']), (req, res) => {
         res.send(doc)
       })
     .catch(err => {
+      console.log(err)
       res.status(400).send(err)
     })
 })
@@ -52,10 +53,10 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
   const { type, pageId, image, values } = req.body
   switch (type) {
 
-    case 'UPDATE_ITEM_UPDATE_IMAGE':
+    case 'UPDATE_IMAGE':
       uploadFile({ Key: `${s3Path}${_id}`, Body: image })
         .then(data => {
-          const update = { image: data.Location, values }
+          const update = { image: data.Location }
           Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
@@ -68,10 +69,10 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM_DELETE_IMAGE':
+    case 'DELETE_IMAGE':
       deleteFile({ Key: `${s3Path}${_id}` })
         .then(() => {
-          const update = { image: null, values }
+          const update = { image: null }
           Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
@@ -84,7 +85,7 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
-    case 'UPDATE_ITEM':
+    case 'UPDATE_VALUES':
       Section.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
         .then(doc => {
           res.send(doc)

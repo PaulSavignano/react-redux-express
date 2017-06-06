@@ -16,8 +16,6 @@ const Page = ({ isFetching, pageSlug, page, sections, carousel, hasProducts }) =
       switch (pageSlug) {
         case 'notFound':
             return <NotFound />
-        case 'products':
-            return <Products />
         case 'contact':
             return <Contact />
         case 'cart':

@@ -5,6 +5,8 @@ import { push } from 'react-router-redux'
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
 import { fetchAddToCart } from '../../carts/actions/index'
 import formatPrice from '../../modules/formatPrice'
@@ -14,13 +16,14 @@ class ProductItem extends Component {
     qty: 1,
     zDepth: 1,
     loading: true,
-    image: ''
+    image: '',
+    open: false
   }
   componentDidMount() {
-    if (this.props.image) {
+    if (this.props.product.image) {
       this.setState({ loading: true })
       const img = new Image()
-      const src = this.props.image
+      const src = this.props.product.image
       img.src = src
       img.onload = (e) => {
         this.setState({ loading: false, image: src })
@@ -40,13 +43,14 @@ class ProductItem extends Component {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
-    const { dispatch, item } = this.props
-    const { name, description, price } = item.values
+    const { dispatch, product } = this.props
+    const { name, description, price } = product.values
+    const width = this.props.fullWidth ? null : 300
     return (
       this.state.loading ? null :
       <Card
         className="cards"
-        style={{ flex: '1 1 auto', width: 300 }}
+        style={{ flex: '1 1 auto', width }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -60,7 +64,7 @@ class ProductItem extends Component {
           style={{ flex: '1 1 auto' }}
         >
           <CardMedia>
-            <img src={item.image} alt={item.name} onTouchTap={() => dispatch(push(`/product/${item.slug}`))}/>
+            <img src={product.image} alt={product.name} onTouchTap={() => dispatch(push(`/product/${product._id}`))}/>
           </CardMedia>
           <CardTitle title={
             <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -77,7 +81,7 @@ class ProductItem extends Component {
               inputStyle={{ textAlign: 'center' }}
               ref={node => this.qty = node}
               value={this.state.qty}
-              id={item._id}
+              id={product._id}
             />
             <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
           </div>
@@ -86,14 +90,32 @@ class ProductItem extends Component {
             primary={true}
             fullWidth={true}
             onTouchTap={() => {
-              const product = {
-                productId: item._id,
+              const update = {
+                type: 'ADD_TO_CART',
+                productId: product._id,
                 productQty: this.state.qty,
               }
-              dispatch(fetchAddToCart({ type: 'ADD_TO_CART', product }))
+              dispatch(fetchAddToCart(update))
+              this.setState({ open: true })
             }}
           />
         </CSSTransitionGroup>
+        {!this.state.open ? null :
+          <Dialog
+            actions={
+              <FlatButton
+                label="Close"
+                primary={true}
+                onTouchTap={() => this.setState({ open: false })}
+              />
+            }
+            modal={false}
+            open={this.state.open}
+            onRequestClose={() => this.setState({ open: false })}
+          >
+            Added To Cart!
+          </Dialog>
+        }
       </Card>
     )
   }
