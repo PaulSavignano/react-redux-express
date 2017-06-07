@@ -2,7 +2,7 @@ import React from 'react'
 
 import OrderCartItem from './OrderCartItem'
 
-const OrderList = ({ items }) => (
+const OrderCartList = ({ items }) => (
   !items.length ? <h3>No items yet</h3> :
   <div>
     {items.map(item => (
@@ -14,4 +14,4 @@ const OrderList = ({ items }) => (
   </div>
 )
 
-export default OrderList
+export default OrderCartList

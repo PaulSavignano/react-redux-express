@@ -7,6 +7,8 @@ const OrderSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true },
+  shipped: { type: Boolean },
+  shipDate: { type: Date },
   address: {
     name: { type: String },
     phone: { type: String },

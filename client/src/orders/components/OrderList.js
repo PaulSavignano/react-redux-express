@@ -2,13 +2,13 @@ import React from 'react'
 
 import OrderItem from './OrderItem'
 
-const OrderList = ({ items, fontFamily, color }) => (
-  !items.length ? <h3 style={{ fontFamily, color }}>No items yet</h3> :
+const OrderList = ({ orders, fontFamily, color }) => (
+  !orders.length ? <h3 style={{ fontFamily, color }}>No orders yet</h3> :
   <div>
-    {items.map(item => (
+    {orders.map(order => (
       <OrderItem
-        key={item._id}
-        item={item}
+        key={order._id}
+        order={order}
       />
     ))}
   </div>

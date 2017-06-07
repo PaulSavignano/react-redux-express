@@ -5,7 +5,7 @@ import {Card } from 'material-ui/Card'
 
 import formatPrice from '../../modules/formatPrice'
 
-class CartItem extends Component {
+class OrderCartItem extends Component {
   state = {
     src: '',
     zDepth: 1
@@ -17,7 +17,10 @@ class CartItem extends Component {
     const { productId, productQty, name, price, image, total } = item
     return (
       <Card
-        onTouchTap={() => dispatch(push(`/product/${productId}`))}
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        onTouchTap={() => dispatch(push(`/products/${productId}`))}
         className="cards"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
@@ -43,4 +46,4 @@ class CartItem extends Component {
 }
 
 
-export default connect()(CartItem)
+export default connect()(OrderCartItem)

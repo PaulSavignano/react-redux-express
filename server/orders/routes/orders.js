@@ -1,4 +1,5 @@
 import express from 'express'
+import { ObjectID } from 'mongodb'
 
 import User from '../../users/models/User'
 import Order from '../models/Order'
@@ -27,7 +28,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
         console.log('address variable: ', address)
         user.addresses.push(address)
       } else {
-        address = user.addresses.find(item => item._id.toHexString() === fullAddress).values
+        address = user.addresses.find(item => item._id.toHexString() === fullAddress)
         console.log('index found address: ', address)
       }
       console.log('address: ', address)
@@ -51,7 +52,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
             firstName,
             lastName,
             email,
-            address,
+            address: address.values,
             cart
           })
           newOrder.save()
@@ -78,7 +79,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
                   <div>Quantity: ${order.cart.quantity}</div>
                   <div>Items:</div>
                   <ul>
-                    ${order.cart.items.map(item => `<li>${item.productQty} of ${item.name}</li>`)}
+                    ${order.cart.items.map(item => `<li>${item.productQty} of ${item.name} ${item.productId}</li>`)}
                   </ul>
                   <div>Once shipped, you can mark the item as shipped in at ${process.env.ROOT_URL}/admin/orders to send confirmation to ${firstName}.</div>
                 `
@@ -89,10 +90,46 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
     })
 })
 
+// Update
+orders.patch('/:_id', (req, res) => {
+  const _id = req.params._id
+  if (!ObjectID.isValid(_id)) return res.status(404).send()
+  const { type } = req.body
+  console.log(req.body)
+  switch (type) {
+    case 'SHIPPED':
+      Order.findOneAndUpdate({ _id }, { $set: { shipped: true, shipDate: new Date() } }, { new: true })
+        .then(doc => {
+          res.send(doc)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+      break
+    default:
+      return
+  }
+})
 
 // Read
-orders.get('/', authenticate(['user']), (req, res) => {
-  Order.find({ userId: req.user._id })
+orders.get('/', authenticate(['user', 'admin']), (req, res) => {
+  const isAdmin = req.user.roles.some(role => role === 'admin')
+  console.log(isAdmin)
+  if (isAdmin) {
+    Order.find({})
+      .then(orders => res.send(orders))
+      .catch(err => res.status(400).send(err))
+  } else {
+    Order.find({ userId: req.user._id })
+      .then(orders => res.send(orders))
+      .catch(err => res.status(400).send(err))
+  }
+})
+
+// Read
+orders.get('/admin', authenticate(['admin']), (req, res) => {
+  Order.find({})
     .then(orders => res.send(orders))
     .catch(err => res.status(400).send(err))
 })

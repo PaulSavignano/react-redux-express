@@ -1,3 +1,5 @@
+import { type } from '../actions/index'
+
 const orders = (state = {
   isFetching: false,
   items: []
@@ -21,6 +23,14 @@ const orders = (state = {
           ...state.items,
           action.item
         ]
+      }
+    case `UPDATE_${type}`:
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action.item._id ?
+          { ...item, ...action.item } :
+          item
+        )
       }
     case 'ERROR_ORDER':
       return {

@@ -112,6 +112,7 @@ class ProductItem extends Component {
             modal={false}
             open={this.state.open}
             onRequestClose={() => this.setState({ open: false })}
+            bodyStyle={{ textAlign: 'center', fontSize: 24 }}
           >
             Added To Cart!
           </Dialog>

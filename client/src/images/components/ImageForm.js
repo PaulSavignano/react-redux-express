@@ -242,7 +242,7 @@ class ImageForm extends Component {
             </div>
           </CardMedia>
           :
-          <img src={this.state.image} style={{ alignSelf: 'center', width: '100%', height: 'auto' }}/>
+          <img src={this.state.image} style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 'auto' }}/>
         }
 
         {!this.state.open ? null :

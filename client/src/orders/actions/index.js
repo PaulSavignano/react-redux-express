@@ -1,10 +1,19 @@
-
 /* global Stripe */
 import { getStripeToken } from '../../stripe/getStripeToken'
 import { SubmissionError } from 'redux-form'
 import { push } from 'react-router-redux'
 
 import { fetchDeleteCart } from '../../carts/actions/index'
+
+export const type = 'ORDER'
+const route = 'orders'
+
+const ADD = `ADD_${type}`
+const REQUEST = `REQUEST_${type}S`
+const RECEIVE = `RECEIVE_${type}S`
+const UPDATE = `UPDATE_${type}`
+const DELETE = `DELETE_${type}`
+const ERROR = `ERROR_${type}`
 
 
 const fetchAddOrderSuccess = (item) => ({ type: 'ADD_ORDER', item })
@@ -81,5 +90,35 @@ export const fetchOrders = () => {
         dispatch(fetchOrdersSuccess(json))
       })
       .catch(err => dispatch(fetchOrdersFailure(err)))
+  }
+}
+
+
+
+// Update
+const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+const fetchUpdateFailure = (error) => ({ type: ERROR, error })
+export const fetchUpdate = (_id, update) => {
+  return (dispatch, getState) => {
+    return fetch(`/api/${route}/${_id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json' ,
+        'x-auth': localStorage.getItem('token'),
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchUpdateSuccess(json))
+      })
+      .catch(err => {
+        dispatch(fetchUpdateFailure(err))
+        throw new SubmissionError({ ...err, _error: 'Update failed!' })
+      })
   }
 }

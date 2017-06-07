@@ -107,9 +107,9 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose, hasProducts }) 
             />,
             <ListItem
               key={3}
-              primaryText="Products"
+              primaryText="Orders"
               onTouchTap={() => {
-                dispatch(push(`/admin/products`))
+                dispatch(push(`/admin/orders`))
                 handleClose()
               }}
             />

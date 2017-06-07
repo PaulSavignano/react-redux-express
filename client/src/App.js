@@ -28,7 +28,7 @@ const App = ({ search, children, brand }) => {
             <meta charSet="utf-8" />
             <title>{brand.values.name}</title>
             <meta name="description" content={brand.values.description} />
-            <link rel="canonical" href={process.env.ROOT_URL} />
+            <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Header />
           <main>

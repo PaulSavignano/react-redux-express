@@ -6,6 +6,7 @@ import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate } from '../actions/index'
+import normalizePhone from '../../modules/normalizePhone'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -53,7 +54,7 @@ class AdminBrandForm extends Component {
               <CardText>
                 <Field name="name" label="Brand Name" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="description" label="Brand Description" type="text" fullWidth={true} component={renderTextField} />
-                <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="phone" label="Phone" type="text" fullWidth={true} component={renderTextField} normalize={normalizePhone} />
                 <Field name="email" label="Email" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="street" label="Street" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="city" label="City" type="text" fullWidth={true} component={renderTextField} />

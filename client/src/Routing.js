@@ -25,7 +25,6 @@ import RequestEstimate from './users/components/RequestEstimate'
 // Product
 import Products from './products/containers/Products'
 import Product from './products/containers/Product'
-import AdminProducts from './products/containers/AdminProducts'
 
 // Cart
 import Cart from './carts/containers/Cart'
@@ -35,6 +34,8 @@ import OrderAdd from './orders/containers/OrderAdd'
 import Orders from './orders/containers/Orders'
 import OrderConfirmation from './orders/containers/OrderConfirmation'
 import OrderDetail from './orders/containers/OrderDetail'
+import AdminOrders from './orders/containers/AdminOrders'
+import AdminOrderDetail from './orders/containers/AdminOrderDetail'
 
 import NotFound from './NotFound'
 
@@ -69,11 +70,13 @@ const Routing = ({ history }) => (
       <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
       <Route path="user/orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
       <Route path="user/request-estimate" component={RequestEstimate} />
-      
-      {/* Product */}
-      <Route path="product/:productId" component={Product} />
-      <Route path="admin/products" component={RequireAuth(AdminProducts, ['admin'])} />
 
+      {/* Product */}
+      <Route path="products/:productId" component={Product} />
+
+      {/* Orders */}
+      <Route path="admin/orders" component={RequireAuth(AdminOrders, ['admin'])} />
+      <Route path="admin/orders/:orderId" component={RequireAuth(AdminOrderDetail, ['admin'])} />
 
       <Route path='*' component={NotFound} />
     </Route>
