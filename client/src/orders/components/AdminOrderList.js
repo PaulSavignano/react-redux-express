@@ -3,7 +3,6 @@ import React from 'react'
 import AdminOrderItem from './AdminOrderItem'
 
 const AdminOrderList = ({ orders, fontFamily, color }) => {
-  console.log('inside AdminOrderList')
   return (
     !orders.length ? <h3 style={{ fontFamily, color }}>No orders yet</h3> :
     <div>

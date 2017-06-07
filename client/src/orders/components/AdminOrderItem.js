@@ -14,7 +14,6 @@ class AdminOrderItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
     const { dispatch, order } = this.props
-    console.log('inside AdminOrderItem')
     return (
       <Card
         zDepth={this.state.zDepth}

@@ -25,7 +25,6 @@ const cart = (state = {
         cart: action.cart
       }
     case 'DELETE_CART':
-      console.log('delete cart reducer')
       return {
         ...state,
         cart: {}

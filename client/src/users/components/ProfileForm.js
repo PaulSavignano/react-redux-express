@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card'
+import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
@@ -41,12 +41,12 @@ class ProfileForm extends Component {
     open: false
   }
   componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, dirty, item } = nextProps
+    const { submitSucceeded, dirty } = nextProps
     if (submitSucceeded) this.setState({ submitted: true })
     if (dirty) this.setState({ submitted: false })
   }
   render() {
-    const { dispatch, handleSubmit, user, submitSucceeded, error, initialValues, reset } = this.props
+    const { dispatch, handleSubmit, user, error, reset } = this.props
     return (
       <Card className="cards">
         <form onSubmit={handleSubmit(values => {

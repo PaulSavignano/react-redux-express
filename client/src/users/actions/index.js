@@ -104,12 +104,12 @@ export const fetchUpdate = (update) => {
 
 
 // Delete
-const fetchDeleteSuccess = () => ({ type: 'DELETE_USER' })
-const fetchDeleteFailure = (error) => ({ type: 'ERROR_USER', error })
+const fetchDeleteSuccess = () => ({ type: DELETE })
+const fetchDeleteFailure = (error) => ({ type: ERROR, error })
 export const fetchDelete = () => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/delete`, {
-      method: 'POST',
+    return fetch(`/api/${route}`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token')
@@ -191,7 +191,6 @@ export const fetchSignout = () => {
       }
     })
       .then(res => {
-        console.log(res)
         if (res.ok) {
           localStorage.removeItem('token')
           dispatch(fetchSignoutSuccess())

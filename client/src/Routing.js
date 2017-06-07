@@ -18,16 +18,11 @@ import Signup from './users/components/Signup'
 import Signin from './users/components/Signin'
 import Recovery from './users/components/Recovery'
 import Reset from './users/components/Reset'
-import Contact from './users/components/Contact'
 import Profile from './users/containers/Profile'
 import RequestEstimate from './users/components/RequestEstimate'
 
 // Product
-import Products from './products/containers/Products'
 import Product from './products/containers/Product'
-
-// Cart
-import Cart from './carts/containers/Cart'
 
 //Order
 import OrderAdd from './orders/containers/OrderAdd'

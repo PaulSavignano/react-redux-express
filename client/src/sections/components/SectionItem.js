@@ -18,7 +18,6 @@ class SectionItem extends Component {
     const backgroundColor = values.backgroundColor || null
     const margin = values.margin || null
     const padding = values.padding || null
-    const width = values.textWidth || null
     const titleAlign = values.titleAlign ? { textAlign: values.titleAlign } : null
     const textAlign = values.textAlign ? { textAlign: values.textAlign } : null
     const color = values.color || null

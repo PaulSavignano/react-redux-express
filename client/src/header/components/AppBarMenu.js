@@ -3,13 +3,11 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { push } from 'react-router-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import { searchText } from '../actions/search'
@@ -32,7 +30,7 @@ class AppBarMenu extends Component {
   }
   handleClose = () => this.setState({ openMenu: false })
   render() {
-    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path, hasProducts } = this.props
+    const { dispatch, user, pages, brand, muiTheme, path, hasProducts } = this.props
     const { textColor, primary1Color } = muiTheme.palette
     const styles = {
       nav: {

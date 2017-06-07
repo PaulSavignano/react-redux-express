@@ -21,7 +21,7 @@ class SectionList extends Component {
     }
   }
   render() {
-    const { isFetching, page, sections, brand } = this.props
+    const { sections, brand } = this.props
     return (
     !sections.length ? null : !this.state.hasImage ?
     <div>

@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate, fetchDelete } from '../actions/index'
@@ -50,7 +50,6 @@ class AdminProductItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
     const { error, handleSubmit, dispatch, product, imageSize, placeholdIt } = this.props
-    const width = !product.values ? null : product.values.width || null
     return (
       <Card
         zDepth={this.state.zDepth}

@@ -3,11 +3,10 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchUpdate, fetchDelete } from '../actions/index'
-import ImageForm from '../../images/components/ImageForm'
+import { fetchUpdate } from '../actions/index'
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <TextField hintText={label}
@@ -28,14 +27,14 @@ class AddressItem extends Component {
     this.props.submitSucceeded ? this.setState({ submitted: true }) : this.setState({ submitted: false })
   }
   componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, dirty, item } = nextProps
+    const { submitSucceeded, dirty } = nextProps
     if (submitSucceeded) this.setState({ submitted: true })
     if (dirty) this.setState({ submitted: false })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { error, handleSubmit, dispatch, item, user } = this.props
+    const { error, handleSubmit, dispatch, item } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}

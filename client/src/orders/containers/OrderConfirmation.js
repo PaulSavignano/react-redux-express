@@ -17,7 +17,6 @@ const OrderConfirmation = ({ user, item }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.params)
   return {
     user: state.user,
     item: state.orders.items.find(order => order._id === ownProps.params.orderId)

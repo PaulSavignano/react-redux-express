@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 
 import ProfileForm from '../components/ProfileForm'
 import AddressAdd from '../components/AddressAdd'
@@ -20,7 +19,7 @@ const Profile = ({ user, initialValues, addresses, orders, brand }) => {
       <AddressAdd user={user} />
       <br/>
       <h1 style={{ fontFamily, color }}>Orders</h1>
-      <OrderList items={orders} fontFamily={brand.values.fontFamily} color={brand.values.palette.textColor}/>
+      <OrderList orders={orders} fontFamily={brand.values.fontFamily} color={brand.values.palette.textColor}/>
     </section>
   )
 }

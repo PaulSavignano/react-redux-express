@@ -132,7 +132,6 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
     case 'UPDATE_VALUES':
       Brand.findOneAndUpdate({ _id }, { $set: { values: newValues }}, { new: true })
         .then(doc => {
-          console.log(doc)
           res.send(doc)
         })
         .catch(err => {

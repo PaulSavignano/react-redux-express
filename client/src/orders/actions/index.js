@@ -16,8 +16,8 @@ const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
 
 
-const fetchAddOrderSuccess = (item) => ({ type: 'ADD_ORDER', item })
-const fetchAddOrderFailure = (error) => ({ type: 'ERROR_ORDER', error })
+const fetchAddOrderSuccess = (item) => ({ type: ADD, item })
+const fetchAddOrderFailure = (error) => ({ type: ERROR, error })
 export const fetchAddOrder = (order) => {
   return (dispatch, getState) => {
     Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
@@ -41,7 +41,6 @@ export const fetchAddOrder = (order) => {
             throw new Error('Network response was not ok.')
           })
           .then(json => {
-            console.log(json)
             if (json.error) return Promise.reject(json.error)
             dispatch(fetchAddOrderSuccess(json))
             return json
@@ -67,9 +66,9 @@ export const fetchAddOrder = (order) => {
 
 
 
-const fetchOrdersRequest = () => ({ type: 'REQUEST_ORDERS' })
-const fetchOrdersSuccess = (items) => ({ type: 'RECEIVE_ORDERS', items })
-const fetchOrdersFailure = (error) => ({ type: 'ERROR_ORDER', error })
+const fetchOrdersRequest = () => ({ type: REQUEST })
+const fetchOrdersSuccess = (items) => ({ type: RECEIVE, items })
+const fetchOrdersFailure = (error) => ({ type: ERROR, error })
 export const fetchOrders = () => {
   return (dispatch, getState) => {
     dispatch(fetchOrdersRequest())
@@ -86,7 +85,6 @@ export const fetchOrders = () => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        console.log(json)
         dispatch(fetchOrdersSuccess(json))
       })
       .catch(err => dispatch(fetchOrdersFailure(err)))

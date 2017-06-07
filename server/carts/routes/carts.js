@@ -112,14 +112,12 @@ carts.patch('/:_id', (req, res) => {
 
             break
           case 'REMOVE_FROM_CART':
-            console.log(productQty)
             cart.total = cart.total - ((cart.items[index].price * cart.items[index].productQty) + ((cart.items[index].price * cart.items[index].productQty) * .075))
             cart.subTotal = cart.subTotal - (cart.items[index].price * cart.items[index].productQty)
             cart.quantity = cart.quantity - cart.items[index].productQty
             cart.items = cart.items.filter(item =>
               item.productId.toHexString() !== productId
             )
-            console.log(cart)
             cart.save()
               .catch(err => console.log(err))
               .then(cart => res.send(cart))

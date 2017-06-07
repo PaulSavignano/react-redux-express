@@ -111,7 +111,6 @@ export const fetchUpdateCart = (update) => {
 const fetchDeleteCartSuccess = () => ({ type: 'DELETE_CART' })
 const fetchDeleteCartFailure = (error) => ({ type: 'ERROR_CART', error })
 export const fetchDeleteCart = () => {
-  console.log('fetching Delete Cart')
   const cartId = localStorage.getItem('cart')
   return (dispatch, getState) => {
     return fetch(`/api/carts/${cartId}`, {
@@ -125,7 +124,6 @@ export const fetchDeleteCart = () => {
         throw new Error('Network response was not ok.')
       })
       .then(json => {
-        console.log('cart deleted')
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchDeleteCartSuccess())
         localStorage.removeItem('cart')

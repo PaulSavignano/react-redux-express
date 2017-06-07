@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {Card, CardTitle } from 'material-ui/Card'
+import { Card, CardTitle } from 'material-ui/Card'
 
 import formatPrice from '../../modules/formatPrice'
 

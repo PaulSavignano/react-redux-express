@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import ProductItem from '../components/ProductItem'
 
 const Product = ({ isFetching, product }) => {
-  console.log(product)
   return (
     isFetching ? null :
     <section>

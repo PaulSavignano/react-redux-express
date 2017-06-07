@@ -76,29 +76,29 @@ const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
 /* global Image, FileReader */
 class ImageEditor extends Component {
   static propTypes = {
-    scale: React.PropTypes.number,
-    rotate: React.PropTypes.number,
-    image: React.PropTypes.string,
-    border: React.PropTypes.number,
-    borderRadius: React.PropTypes.number,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    position: React.PropTypes.shape({
-        x: React.PropTypes.number,
-        y: React.PropTypes.number
+    scale: PropTypes.number,
+    rotate: PropTypes.number,
+    image: PropTypes.string,
+    border: PropTypes.number,
+    borderRadius: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    position: PropTypes.shape({
+        x: PropTypes.number,
+        y: PropTypes.number
     }),
-    color: React.PropTypes.arrayOf(React.PropTypes.number),
-    style: React.PropTypes.object,
-    crossOrigin: React.PropTypes.oneOf(['', 'anonymous', 'use-credentials']),
+    color: PropTypes.arrayOf(PropTypes.number),
+    style: PropTypes.object,
+    crossOrigin: PropTypes.oneOf(['', 'anonymous', 'use-credentials']),
 
-    onDropFile: React.PropTypes.func,
-    onLoadFailure: React.PropTypes.func,
-    onLoadSuccess: React.PropTypes.func,
-    onImageReady: React.PropTypes.func,
-    onImageChange: React.PropTypes.func,
-    onMouseUp: React.PropTypes.func,
-    onMouseMove: React.PropTypes.func,
-    onPositionChange: React.PropTypes.func
+    onDropFile: PropTypes.func,
+    onLoadFailure: PropTypes.func,
+    onLoadSuccess: PropTypes.func,
+    onImageReady: PropTypes.func,
+    onImageChange: PropTypes.func,
+    onMouseUp: PropTypes.func,
+    onMouseMove: PropTypes.func,
+    onPositionChange: PropTypes.func
   }
 
   static defaultProps = {

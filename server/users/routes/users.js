@@ -152,7 +152,7 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
 
 
 // Delete
-users.delete('/delete', authenticate([ 'user', 'admin' ]), (req, res) => {
+users.delete('/', authenticate([ 'user', 'admin' ]), (req, res) => {
   User.findOneAndRemove({ _id: req.user._id })
     .then(doc => res.status(200).send())
     .catch(err => res.send({ error: err }))
@@ -332,7 +332,6 @@ users.post('/request-estimate', (req, res) => {
       `
     })
       .then(info => {
-        console.log('callback from email send', info)
         res.status(200).send()
       })
       .catch(err => {

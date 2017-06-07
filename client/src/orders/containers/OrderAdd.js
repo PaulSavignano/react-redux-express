@@ -74,7 +74,7 @@ class OrderAdd extends Component {
     tax: .0725
   }
   render() {
-    const { error, dispatch, handleSubmit, isFetching, cart, pristine, reset, submitting, addresses } = this.props
+    const { error, dispatch, handleSubmit, isFetching, cart, addresses } = this.props
     return (
       isFetching ? null : !cart.total ? dispatch(push('/')) :
       <section>

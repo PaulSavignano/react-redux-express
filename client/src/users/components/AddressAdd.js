@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardMedia, CardText, CardActions } from 'material-ui/Card'
+import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchUpdate } from '../actions/index'
@@ -31,7 +31,7 @@ class AddressAdd extends Component {
     expanded: false,
   }
   render() {
-    const { dispatch, error, handleSubmit, user, } = this.props
+    const { dispatch, error, handleSubmit } = this.props
     return (
       <form
         onSubmit={handleSubmit((values) => {

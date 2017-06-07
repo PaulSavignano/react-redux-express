@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardMedia, CardTitle, CardActions } from 'material-ui/Card'
+import { CardMedia, CardActions } from 'material-ui/Card'
 import ImageEditor from './ImageEditor'
 
 
@@ -121,7 +121,7 @@ class ImageForm extends Component {
     this.setState({ image, open })
   }
   render () {
-    const { dispatch, error, handleSubmit, handleUpdate, submitSucceeded, item, width, height, placeholdIt } = this.props
+    const { dispatch, handleSubmit, handleUpdate, item, width, height } = this.props
     return (
       <form
         style={{ display: 'flex', flexFlow: 'column' }}
@@ -242,7 +242,7 @@ class ImageForm extends Component {
             </div>
           </CardMedia>
           :
-          <img src={this.state.image} style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 'auto' }}/>
+          <img src={this.state.image} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 'auto' }}/>
         }
 
         {!this.state.open ? null :

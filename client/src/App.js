@@ -13,7 +13,6 @@ import Footer from './footer/components/Footer'
 injectTapEventPlugin()
 
 const App = ({ search, children, brand }) => {
-  console.log(process.env)
   return (
     brand.isFetching ? null : brand.values.palette ?
       <MuiThemeProvider muiTheme={getMuiTheme(brand.values)}>

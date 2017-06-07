@@ -1,6 +1,5 @@
 import React from 'react'
 
-import AdminProductAdd from './AdminProductAdd'
 import AdminProductItem from './AdminProductItem'
 
 const AdminProductList = ({ products, imageSize, placeholdIt }) => (

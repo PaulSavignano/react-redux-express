@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import Cart from '../../carts/containers/Cart'
 import Contact from '../../users/components/Contact'
-import Products from '../../products/containers/Products'
 import Sections from '../../sections/containers/Sections'
 import NotFound from '../../NotFound'
 

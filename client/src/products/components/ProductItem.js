@@ -109,6 +109,7 @@ class ProductItem extends Component {
                 onTouchTap={() => this.setState({ open: false })}
               />
             }
+            actionsContainerStyle={{ textAlign: 'center' }}
             modal={false}
             open={this.state.open}
             onRequestClose={() => this.setState({ open: false })}
