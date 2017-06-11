@@ -9,13 +9,13 @@ const imageSize = {
   width: 128,
   height: 128
 }
-const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
+
 
 const AdminBrandPage = ({ dispatch, isFetching, brand, initialValues }) => {
   return (
     isFetching ? null : !brand.values ? null :
     <section>
-      <AdminBrandImage brand={brand} imageSize={imageSize} placeholdIt={placeholdIt} /><br/><br/>
+      <AdminBrandImage brand={brand} imageSize={imageSize} /><br/><br/>
       <AdminBrandForm brand={brand} initialValues={initialValues}/>
     </section>
 

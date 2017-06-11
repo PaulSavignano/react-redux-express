@@ -6,36 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { CardMedia, CardActions } from 'material-ui/Card'
 import ImageEditor from './ImageEditor'
 
-
-const adaptFileEventToValue = delegate => e => delegate(e.target.files[0])
-
-const renderFileInput = ({
-  input: {
-    value: omitValue,
-    onChange,
-    onBlur,
-    ...input
-  },
-  meta: { omitMeta },
-  ...custom
-}) => (
-  <RaisedButton
-    label="Choose"
-    labelPosition="before"
-    containerElement="label"
-    style={{ flex: '1 1 auto', margin: 8 }}
-  >
-    <input
-      style={{ cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0 }}
-      onChange={onChange}
-      onBlur={adaptFileEventToValue(onBlur)}
-      type="file"
-      {...input}
-      {...custom}
-    />
-  </RaisedButton>
-)
-
+import renderFileInput from '../../modules/renderFileInput'
 
 const styles = {
   controlContainer: {
@@ -61,8 +32,14 @@ class ImageForm extends Component {
     borderRadius: 0,
     opacity: 1,
     image: null,
-    editing: false,
-    open: false
+    editing: false
+  }
+  componentWillMount() {
+    const { item } = this.props
+    if (item.image) return this.setState({ image: item.image })
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.item.image !== this.props.item.image) return this.setState({ image: nextProps.item.image })
   }
   handleSave = () => {
     const { dispatch, handleUpdate, item, type } = this.props
@@ -115,11 +92,6 @@ class ImageForm extends Component {
   setEditorRef = (editor) => {
     if (editor) this.editor = editor
   }
-  componentWillMount() {
-    const image = this.props.item.image || this.props.placeholdIt
-    const open = this.props.item.image ? true : false
-    this.setState({ image, open })
-  }
   render () {
     const { dispatch, handleSubmit, handleUpdate, item, width, height } = this.props
     return (
@@ -127,25 +99,8 @@ class ImageForm extends Component {
         style={{ display: 'flex', flexFlow: 'column' }}
         onSubmit={handleSubmit(this.handleSave)}
       >
-        <CardActions>
-          <RaisedButton
-            onTouchTap={() => {
-              if (this.state.open) {
-                if (item.image) {
-                  const update = { type: 'DELETE_IMAGE', image: item.image }
-                  dispatch(handleUpdate(item._id, update))
-                }
-              }
-              this.setState({ open: !this.state.open })
-            }}
-            type="button"
-            label={this.state.open ? "Remove Image" : "Add Image"}
-            labelColor="#ffffff"
-            backgroundColor={this.state.open ? "#D50000" : "#4CAF50" }
-            fullWidth={true}/>
-        </CardActions>
-        {!this.state.open ? null : this.state.editing ?
-          <CardMedia style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', padding: '8px 8px 0 8px' }}>
+        {!this.state.editing ? null :
+          <CardMedia style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around' }}>
             <div style={{ flex: '0 0 auto' }}>
               <ImageEditor
                 ref={this.setEditorRef}
@@ -170,7 +125,7 @@ class ImageForm extends Component {
                   type="range"
                   onChange={this.handleScale}
                   min="0"
-                  max="2"
+                  max="3"
                   step="0.01"
                   defaultValue="1"
                   style={styles.control}
@@ -241,30 +196,40 @@ class ImageForm extends Component {
 
             </div>
           </CardMedia>
-          :
-          <img src={this.state.image} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 'auto' }}/>
         }
-
-        {!this.state.open ? null :
-          <div style={{ display: 'flex', flexFlow: 'row nowrap'}}>
-            <Field
-              component={renderFileInput}
-              name="imageFile"
-              onChange={this.handleUpload}
+        {this.state.editing ? null : !this.state.image ? null : <img src={this.state.image} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 'auto' }}/>}
+        <div style={{ display: 'flex', flexFlow: 'row rap'}}>
+          <Field
+            label={this.state.image ? "Choose" : "Add Image"}
+            component={renderFileInput}
+            name="imageFile"
+            onChange={this.handleUpload}
+          />
+          {this.state.editing ?
+            <RaisedButton
+              type="submit"
+              label="Update"
+              primary={true}
+              style={{ flex: '1 1 auto', margin: '8px 8px 8px 0' }}
+            /> : null
+          }
+          {!this.state.image ? null :
+            <RaisedButton
+              onTouchTap={() => {
+                if (item.image) {
+                  const update = { type: 'DELETE_IMAGE', image: item.image }
+                  dispatch(handleUpdate(item._id, update))
+                }
+                this.setState({ image: null })
+              }}
+              type="button"
+              label={this.state.editing ? "X" : "Remove Image"}
+              className="delete-button"
+              labelColor="#ffffff"
+              style={{ flex: '1 1 auto', margin: '8px 8px 8px 0' }}
             />
-
-            {this.state.editing ?
-              <RaisedButton
-                type="submit"
-                label="Update"
-                primary={true}
-                style={{ flex: '1 1 auto', margin: 8 }}
-              /> : null
-              }
-
-
-          </div>
-        }
+          }
+        </div>
       </form>
     )
   }

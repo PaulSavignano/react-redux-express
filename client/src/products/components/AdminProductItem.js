@@ -49,7 +49,7 @@ class AdminProductItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { error, handleSubmit, dispatch, product, imageSize, placeholdIt } = this.props
+    const { error, handleSubmit, dispatch, product, imageSize } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -65,7 +65,6 @@ class AdminProductItem extends Component {
           width={imageSize.width}
           height={imageSize.height}
           ref={this.setEditorRef}
-          placeholdIt={placeholdIt}
           item={product}
         />
         <form
@@ -74,7 +73,7 @@ class AdminProductItem extends Component {
             const update = { type, values }
             dispatch(fetchUpdate(product._id, update))
           })}
-          style={{ flex: '1 1 auto', margin: 32 }}
+          style={{ flex: '1 1 auto' }}
         >
           <CardText>
             <Field
@@ -104,25 +103,26 @@ class AdminProductItem extends Component {
 
           </CardText>
           <div style={{ flex: '1 1 auto' }}></div>
-          <CardActions style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }}>
             <RaisedButton
               type="submit"
               label={this.state.submitted ? "Updated" : "Update"}
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}
               backgroundColor={this.state.submitted ? "#4CAF50" : null }
-              style={{ flex: '1 1 auto', margin: 8 }}
+              style={{ flex: '1 1 auto', margin: '8px 4px 8px 8px' }}
             />
             <RaisedButton
               type="button"
               label="X"
-              primary={true}
-              style={{ flex: '1 1 auto', margin: 8 }}
+              className="delete-button"
+              labelColor="#ffffff"
+              style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
               onTouchTap={() => {
                 dispatch(fetchDelete(product._id, product.image))
               }}
             />
-          </CardActions>
+          </div>
         </form>
       </Card>
     )

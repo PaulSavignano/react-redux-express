@@ -8,21 +8,28 @@ AWS.config.update({
   subregion: 'us-west-2',
 })
 
-export const uploadFile = ({ Key, Body }) => {
-  const buf = new Buffer(Body.replace(/^data:image\/\w+;base64,/, ""),'base64')
-  return s3.upload({
-    Bucket: process.env.AWS_S3_BUCKET,
-    Key,
-    Body: buf,
-    ACL: 'public-read'
-  }).promise()
+const Bucket = process.env.AWS_S3_BUCKET
+const ACL = 'public-read'
+
+export const uploadFile = ({ Key }, image) => {
+  const Body = new Buffer(image.replace(/^data:image\/\w+;base64,/, ""),'base64')
+  const params = { Bucket, Key, Body, ACL }
+  return s3.upload(params).promise()
 }
 
 export const deleteFile = ({ Key }) => {
-  return s3.deleteObject({
-    Bucket: process.env.AWS_S3_BUCKET,
-    Key,
-  }).promise()
+  const params = { Bucket, Key }
+  return s3.deleteObject(params).promise()
+}
+
+export const deleteFiles = (Keys) => {
+  const params = {
+    Bucket,
+    Delete: {
+      Objects: Keys
+    }
+  }
+  return s3.deleteObjects(params).promise()
 }
 
 export const handleS3 = ({ imageType, Key, Body }) => {

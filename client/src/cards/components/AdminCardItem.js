@@ -31,7 +31,7 @@ class AdminCardItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { error, handleSubmit, dispatch, card, imageSize, placeholdIt } = this.props
+    const { error, handleSubmit, dispatch, card, imageSize } = this.props
     const width = !card.values ? null : card.values.width || null
     return (
       <Card
@@ -48,7 +48,6 @@ class AdminCardItem extends Component {
           width={imageSize.width}
           height={imageSize.height}
           ref={this.setEditorRef}
-          placeholdIt={placeholdIt}
           item={card}
         />
         <form
@@ -57,19 +56,19 @@ class AdminCardItem extends Component {
             const update = { type, values }
             dispatch(fetchUpdate(card._id, update))
           })}
-          style={{ flex: '1 1 auto', margin: 32 }}
+          style={{ flex: '1 1 auto' }}
         >
           <CardText>
             <Field
               name="width"
-              label="Width px"
+              label="Width"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="maxWidth"
-              label="Max Width px"
+              label="Max Width"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -97,7 +96,7 @@ class AdminCardItem extends Component {
             />
             <Field
               name="iFrame"
-              label="Youtube iFrame src"
+              label="iFrame src"
               type="text"
               fullWidth={true}
               component={renderTextField}
@@ -144,25 +143,26 @@ class AdminCardItem extends Component {
 
           </CardText>
           <div style={{ flex: '1 1 auto' }}></div>
-          <CardActions style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }}>
             <RaisedButton
               type="submit"
               label={this.state.submitted ? "Updated" : "Update"}
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}
               backgroundColor={this.state.submitted ? "#4CAF50" : null }
-              style={{ flex: '1 1 auto', margin: 8 }}
+              style={{ flex: '1 1 auto', margin: '8px 4px 8px 8px' }}
             />
             <RaisedButton
               type="button"
               label="X"
-              primary={true}
-              style={{ flex: '1 1 auto', margin: 8 }}
+              className="delete-button"
+              labelColor="#ffffff"
+              style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
               onTouchTap={() => {
                 dispatch(fetchDelete(card._id, card.image))
               }}
             />
-          </CardActions>
+          </div>
         </form>
       </Card>
     )

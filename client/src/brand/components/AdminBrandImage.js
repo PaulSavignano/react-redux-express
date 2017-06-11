@@ -4,7 +4,7 @@ import { Card } from 'material-ui/Card'
 import { fetchUpdate } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
-const AdminBrandImage = ({ dispatch, brand, imageSize, placeholdIt }) => {
+const AdminBrandImage = ({ dispatch, brand, imageSize }) => {
   return (
     <Card>
       <ImageForm
@@ -13,7 +13,6 @@ const AdminBrandImage = ({ dispatch, brand, imageSize, placeholdIt }) => {
         width={imageSize.width}
         height={imageSize.height}
         ref={this.setEditorRef}
-        placeholdIt={placeholdIt}
         item={brand}
       />
     </Card>

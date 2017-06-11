@@ -47,6 +47,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
+  const Key = `${s3Path}${_id}`
   const newValues = !values ? null : {
     name: values.name,
     description: values.description,
@@ -88,7 +89,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
   }
   switch (type) {
     case 'UPDATE_IMAGE':
-      uploadFile({ Key: `${s3Path}${_id}`, Body: image })
+      uploadFile({ Key }, image)
         .then(data => {
           const update = { image: data.Location }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -111,7 +112,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'DELETE_IMAGE':
-      deleteFile({ Key: `${s3Path}/${_id}` })
+      deleteFile({ Key })
         .then(() => {
           const update = { image: null }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -152,7 +153,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
 brands.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Brand.findOneAndRemove({ _id,})
+  Brand.findOne({ _id })
     .then(_id => res.send(_id))
     .catch(err => res.status(400).send(err))
 })

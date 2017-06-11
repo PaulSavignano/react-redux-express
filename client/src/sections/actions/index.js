@@ -1,5 +1,9 @@
 import { SubmissionError } from 'redux-form'
 
+import * as cardActions from '../../cards/actions'
+import * as carouselActions from '../../carousels/actions'
+import * as productActions from '../../products/actions'
+
 export const type = 'SECTION'
 const route = 'sections'
 
@@ -70,9 +74,10 @@ export const fetchSections = () => {
 
 
 // Update
-const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
+  console.log('fetching update')
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'PATCH',
@@ -116,10 +121,27 @@ export const fetchDelete = (_id) => {
         throw new Error('Network response was not ok.')
       })
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteSuccess(json._id))
+        const { _id, componentType, components } = json
+        switch(componentType) {
+          case 'Card':
+            dispatch(cardActions.deletes(components.map(comp => comp.cardId)))
+            break
+          case 'Carousel':
+            dispatch(carouselActions.deletes(components.map(comp => comp.carouselId)))
+            break
+          case 'Product':
+            dispatch(productActions.deletes(components.map(comp => comp.productId)))
+            break
+          default:
+            return
+        }
+        console.log('dispatching fetchDeleteSuccess')
+        dispatch(fetchDeleteSuccess(_id))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchDeleteFailure(err))
         throw new SubmissionError({ ...err, _error: 'Delete failed!' })
       })

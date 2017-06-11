@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminProductItem from './AdminProductItem'
 
-const AdminProductList = ({ products, imageSize, placeholdIt }) => (
+const AdminProductList = ({ products, imageSize }) => (
   products.length < 1 ? null :
   <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
     {products.map(product => (
@@ -11,7 +11,6 @@ const AdminProductList = ({ products, imageSize, placeholdIt }) => (
         product={product}
         initialValues={product.values}
         imageSize={imageSize}
-        placeholdIt={placeholdIt}
       />
     ))}
   </div>

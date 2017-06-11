@@ -6,7 +6,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { fetchAdd } from '../actions/index'
 
 const AdminCardAdd = ({ dispatch, section, imageSize }) => (
-  <Card className="cards" style={{ flex: `1 1 auto`, width: '100%', margin: 32  }}>
     <CardActions>
       <RaisedButton
         type="submit"
@@ -19,7 +18,6 @@ const AdminCardAdd = ({ dispatch, section, imageSize }) => (
         }}
       />
     </CardActions>
-  </Card>
 )
 
 

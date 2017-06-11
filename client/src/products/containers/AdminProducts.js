@@ -4,25 +4,22 @@ import { connect } from 'react-redux'
 import AdminProductAdd from '../components/AdminProductAdd'
 import AdminProductList from '../components/AdminProductList'
 
+// Height is 56.25% of width
+// 900 x 600 = height of 66.67%
 const imageSize = {
-  width: 900,
-  height: 600
+  width: 1012,
+  height: 675
 }
-const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
 const AdminProducts = ({ isFetching, section, products }) => {
   return (
     isFetching ? null :
-    <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
-      <AdminProductList section={section} products={products} imageSize={imageSize} placeholdIt={placeholdIt} />
-      <AdminProductAdd section={section} imageSize={imageSize} placeholdIt={placeholdIt} />
-    </div>
+      <AdminProductList section={section} products={products} imageSize={imageSize} />
   )
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.products.isFetching,
-  products: state.products.items.filter(product => product.sectionId === ownProps.section._id)
+  isFetching: state.products.isFetching
 })
 
 export default connect(mapStateToProps)(AdminProducts)

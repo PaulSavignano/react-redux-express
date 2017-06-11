@@ -1,5 +1,9 @@
 import mongoose, { Schema } from 'mongoose'
 
+import { uploadFile, deleteFile } from '../../middleware/s3'
+
+const s3Path = `${process.env.APP_NAME}/cards/card_`
+
 const CardSchema = new Schema({
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: { type: String },
@@ -16,6 +20,16 @@ const CardSchema = new Schema({
     link: { type: String, trim: true },
   },
   createdAt: { type: Date, default: Date.now }
+})
+
+CardSchema.pre('remove', function(next) {
+  const card = this
+  console.log('inside Card pre remove: ', card)
+  if (card.image) {
+    const Key = `${s3Path}${card._id}`
+    deleteFile({ Key }).catch(err => console.log(err))
+  }
+  next()
 })
 
 const Card = mongoose.model('Card', CardSchema)

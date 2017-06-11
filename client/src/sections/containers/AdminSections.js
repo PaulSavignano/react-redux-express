@@ -8,14 +8,12 @@ const imageSize = {
   width: 1920,
   height: 1080
 }
-const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
 const AdminSections = ({ isFetching, page, sections }) => {
   return (
     isFetching ? null :
     <section style={{ maxWidth: 2000 }}>
-      <AdminSectionList page={page} sections={sections} imageSize={imageSize} placeholdIt={placeholdIt} />
-      <br/><br/><br/>
+      <AdminSectionList page={page} sections={sections} imageSize={imageSize} />
       <AdminSectionAdd page={page} />
     </section>
   )

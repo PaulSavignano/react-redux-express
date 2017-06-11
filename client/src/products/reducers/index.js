@@ -47,6 +47,11 @@ export const products = (state = {
         ...state,
         items: state.items.filter(item => item._id !== action._id)
       }
+    case `DELETE_${type}S`:
+      return {
+        ...state,
+        items: state.items.filter(item => action.items.indexOf(item._id) === -1)
+      }
     case `ERROR_${type}`:
       return {
         ...state,

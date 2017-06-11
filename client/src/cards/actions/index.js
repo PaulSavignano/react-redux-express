@@ -1,5 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
+import * as sectionActions from '../../sections/actions'
+
 export const type = 'CARD'
 const route = 'cards'
 
@@ -8,12 +10,14 @@ const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
 const UPDATE = `UPDATE_${type}`
 const DELETE = `DELETE_${type}`
+const DELETES = `DELETE_${type}S`
 const ERROR = `ERROR_${type}`
 
 // Create
 const fetchAddSuccess = (item) => ({ type: ADD, item })
 const fetchAddFailure = (error) => ({ type: ERROR, error })
 export const fetchAdd = (add) => {
+  console.log('inside fetchAdd')
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',
@@ -29,7 +33,9 @@ export const fetchAdd = (add) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
+        const { card, section } = json
+        dispatch(fetchAddSuccess(card))
+        dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
@@ -73,6 +79,7 @@ export const fetchCards = () => {
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
+  console.log('updating card', _id, update)
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'PATCH',
@@ -117,11 +124,21 @@ export const fetchDelete = (_id) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteSuccess(json._id))
+        const { card, section } = json
+        dispatch(fetchDeleteSuccess(card._id))
+        dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
         dispatch(fetchDeleteFailure(err))
         throw new SubmissionError({ ...err, _error: 'Delete failed!' })
       })
+  }
+}
+
+export const deletes = (items) => {
+  console.log('card action deletes: ', items)
+  return {
+    type: DELETES,
+    items
   }
 }

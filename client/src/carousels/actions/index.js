@@ -1,5 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
+import * as sectionActions from '../../sections/actions'
+
 export const type = 'CAROUSEL'
 const route = 'carousels'
 
@@ -8,6 +10,7 @@ const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
 const UPDATE = `UPDATE_${type}`
 const DELETE = `DELETE_${type}`
+const DELETES = `DELETE_${type}S`
 const ERROR = `ERROR_${type}`
 
 // Create
@@ -26,7 +29,9 @@ export const fetchAdd = (add) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
+        const { carousel, section } = json
+        dispatch(fetchAddSuccess(carousel))
+        dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
@@ -109,7 +114,9 @@ export const fetchDelete = (_id) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteSuccess(json._id))
+        const { carousel, section } = json
+        dispatch(fetchDeleteSuccess(carousel._id))
+        dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
         dispatch(fetchDeleteFailure(err))
@@ -117,3 +124,5 @@ export const fetchDelete = (_id) => {
       })
   }
 }
+
+export const deletes = (items) => ({ type: DELETES, items })

@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
+const s3Path = `${process.env.APP_NAME}/brand/image_`
+
 const BrandSchema = new Schema({
   image: { type: String, minlength: 1, trim: true },
   values: {
@@ -43,6 +45,15 @@ const BrandSchema = new Schema({
     }
   },
   createdAt: { type: Date, default: Date.now }
+})
+
+BrandSchema.pre('remove', function(next) {
+  const brand = this
+  if (brand.image) {
+    const Key = `${s3Path}${brand._id}`
+    deleteFile({ Key }).catch(err => console.log(err))
+  }
+  next()
 })
 
 const Brand = mongoose.model('Brand', BrandSchema)

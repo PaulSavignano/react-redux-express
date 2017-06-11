@@ -2,9 +2,11 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 
 import authenticate from '../../middleware/authenticate'
-import { uploadFile, deleteFile } from '../../middleware/s3'
+import { uploadFile, deleteFile, deleteFiles } from '../../middleware/s3'
 import Section from '../models/Section'
-
+import Card from '../../cards/models/Card'
+import Carousel from '../../carousels/models/Carousel'
+import Product from '../../products/models/Product'
 
 const sections = express.Router()
 
@@ -51,10 +53,11 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
+  const Key = `${s3Path}${_id}`
   switch (type) {
 
     case 'UPDATE_IMAGE':
-      uploadFile({ Key: `${s3Path}${_id}`, Body: image })
+      uploadFile({ Key }, image)
         .then(data => {
           const update = { image: data.Location }
           Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -70,7 +73,7 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'DELETE_IMAGE':
-      deleteFile({ Key: `${s3Path}${_id}` })
+      deleteFile({ Key })
         .then(() => {
           const update = { image: null }
           Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -86,7 +89,7 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Section.findOneAndUpdate({ _id }, { $set: { values: values }}, { new: true })
+      Section.findOneAndUpdate({ _id }, { $set: { values }}, { new: true })
         .then(doc => {
           res.send(doc)
         })
@@ -103,30 +106,25 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
 
 
 
+
 // Delete
 sections.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Section.findOne({ _id })
-    .then(doc => {
-      if (doc.image) {
-        deleteFile({ Key: `${s3Path}${_id}` })
-          .then(() => {
-            Section.findOneAndRemove({ _id })
-              .then(doc => res.send(doc))
-              .catch(err => {
-                console.log(err)
-                res.status(400).send(err)
-              })
-          })
-      } else {
-        Section.findOneAndRemove({ _id,})
-          .then(doc => res.send(doc))
-          .catch(err => {
-            console.log(err)
-            res.status(400).send(err)
-          })
-      }
+    .then(section => {
+      section.remove()
+        .then(section => {
+          res.send(section)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400).send(err)
+        })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(400).send(err)
     })
 })
 

@@ -4,25 +4,21 @@ import { connect } from 'react-redux'
 import AdminCardAdd from '../components/AdminCardAdd'
 import AdminCardList from '../components/AdminCardList'
 
+// 1080 x 1920 height is 56.25% of width
 const imageSize = {
-  width: 900,
-  height: 600
+  width: 1012,
+  height: 675
 }
-const placeholdIt = `https://placehold.it/${imageSize.width}x${imageSize.height}`
 
 const AdminCards = ({ isFetching, section, cards }) => {
   return (
     isFetching ? null :
-    <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
-      <AdminCardList section={section} cards={cards} imageSize={imageSize} placeholdIt={placeholdIt} />
-      <AdminCardAdd section={section} imageSize={imageSize} placeholdIt={placeholdIt} />
-    </div>
+    <AdminCardList section={section} cards={cards} imageSize={imageSize} />
   )
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.cards.isFetching,
-  cards: state.cards.items.filter(card => card.sectionId === ownProps.section._id)
+  isFetching: state.cards.isFetching
 })
 
 export default connect(mapStateToProps)(AdminCards)

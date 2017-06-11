@@ -53,10 +53,10 @@ footer > div > a {
 
 
 
-
 main {
-  margin-bottom: 96px;
+  margin: 0 0 192px 0;
 }
+
 
 /* maring: 32px */
 section {
@@ -80,6 +80,13 @@ h2 {
 h3 {
   margin: 32px;
   font-weight: normal
+}
+
+.delete-button > button {
+  background-color: rgb(213, 0, 0) !important;
+}
+.delete-button:hover > button {
+  background-color: rgba(213, 0, 0, 0.6) !important;
 }
 
 

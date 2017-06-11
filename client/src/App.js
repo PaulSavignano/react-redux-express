@@ -27,12 +27,13 @@ const App = ({ search, children, brand }) => {
             <meta charSet="utf-8" />
             <title>{brand.values.name}</title>
             <meta name="description" content={brand.values.description} />
+            <link rel="shortcut icon" href={brand.image} />
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Header />
           <main>
             {search.length ? <SearchList /> : children}
-          </main><br/><br/><br/><br/><br/>
+          </main><br/><br/><br/>
           <Footer />
         </CSSTransitionGroup>
       </MuiThemeProvider>

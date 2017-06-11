@@ -6,14 +6,13 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import Popover, {PopoverAnimationVertical} from 'material-ui/Popover'
+import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import { searchText } from '../actions/search'
 import SigninSignout from '../../users/components/SigninSignout'
 import CartIcon from '../../carts/components/CartIcon'
-
 
 class AppBarMenu extends Component {
   state = {

@@ -31,7 +31,7 @@ class AdminCarouselItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { error, handleSubmit, dispatch, carousel, imageSize, placeholdIt } = this.props
+    const { error, handleSubmit, dispatch, carousel, imageSize } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -46,7 +46,6 @@ class AdminCarouselItem extends Component {
           width={imageSize.width}
           height={imageSize.height}
           ref={this.setEditorRef}
-          placeholdIt={placeholdIt}
           item={carousel}
         />
         <form
@@ -76,13 +75,14 @@ class AdminCarouselItem extends Component {
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}
               backgroundColor={this.state.submitted ? "#4CAF50" : null }
-              style={{ flex: '1 1 auto', margin: 8 }}
+              style={{ flex: '1 1 auto', margin: '8px 4px 8px 8px' }}
             />
             <RaisedButton
               type="button"
               label="X"
-              primary={true}
-              style={{ flex: '1 1 auto', margin: 8 }}
+              className="delete-button"
+              labelColor="#ffffff"
+              style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
               onTouchTap={() => {
                 dispatch(fetchDelete(carousel._id, carousel.image))
               }}
