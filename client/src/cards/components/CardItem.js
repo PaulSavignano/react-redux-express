@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import renderHTML from 'react-render-html'
 import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 class CardItem extends Component {
@@ -25,82 +26,65 @@ class CardItem extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
+  renderContents = () => {
+    const { image, values } = this.props.card
+    const { color, header, iFrame, title, textAlign, text, link } = values
+    const textColor = { color }
+    return (
+      <CSSTransitionGroup
+        transitionName="image"
+        transitionAppear={true}
+        transitionAppearTimeout={900}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        {header ? <CardHeader title={header} style={{ ...textColor }} /> : null }
+        {image ? <CardMedia><img src={image} alt="card"/></CardMedia> : null }
+        {iFrame ?
+          <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
+            <iframe
+              title="iFrame"
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              src={iFrame} frameBorder="0" allowFullScreen>
+            </iframe>
+          </div>
+        : null}
+        {!title ? null : <CardTitle title={title} titleStyle={{ ...textAlign, ...textColor }}  />  }
+        {!text ? null : <CardText style={{ ...textColor }}>{renderHTML(text)}</CardText> }
+      </CSSTransitionGroup>
+    )
+  }
   render() {
     const { dispatch, card } = this.props
-    const { image, values } = card
-    let width, maxWidth, margin, backgroundColor, color, link, header, iFrame, title, text
-    if (values) {
-      width = values.width || null
-      maxWidth = values.maxWidth || null
-      margin = values.margin || null
-      backgroundColor = values.backgroundColor || null
-      color = values.color || null
-      link = values.link || null
-      header = values.header || null
-      iFrame = values.iFrame || null
-      title = values.title || null
-      text = values.text || null
-    }
+    const { width, maxWidth, zDepth, margin, backgroundColor, color } = card.values
+    console.log(width)
+    const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor, color }
 
     return (
       this.state.loading ? null :
-      link ?
+      card.values.link ?
       <Card
-        onTouchTap={() => dispatch(push(`${link}`))}
+        onTouchTap={() => dispatch(push(`${card.values.link}`))}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="cards"
-        style={{ width, backgroundColor, maxWidth, margin, cursor: 'pointer' }}
+        style={{
+          ...cardStyle,
+          cursor: 'pointer'
+        }}
       >
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={900}
-          transitionEnter={false}
-          transitionLeave={false}
-        >
-          {header ? <CardHeader title={header} style={{ color }} /> : null }
-          {image ? <CardMedia><img src={image} alt="card"/></CardMedia> : null }
-          {iFrame ?
-            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
-              <div>What people</div>
-              <iframe
-                title="google youtube"
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                src={iFrame} frameBorder="0" allowFullScreen>
-              </iframe>
-            </div>
-          : null}
-          {!title ? null : text ? <CardTitle title={title} style={{ color }}/> : <CardTitle title={title} titleStyle={{ textAlign: 'center', color }} /> }
-          {text ? <CardText style={{ color }}>{text}</CardText> : null }
-        </CSSTransitionGroup>
+        {this.renderContents()}
       </Card>
       :
       <Card
         className="cards"
-        style={{ width, color, backgroundColor, maxWidth, margin }}
+        zDepth={zDepth}
+        style={{
+          ...cardStyle
+        }}
       >
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={900}
-          transitionEnter={false}
-          transitionLeave={false}
-        >
-          {header ? <CardHeader title={header} style={{ color }}/> : null }
-          {image ? <CardMedia><img src={image} alt="card"/></CardMedia> : null }
-          {iFrame ?
-            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
-              <iframe
-                title="google youtube"
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                src={iFrame} frameBorder="0" allowFullScreen>
-              </iframe></div>
-          : null}
-          {!title ? null : text ? <CardTitle title={title} style={{ color }}/> : <CardTitle title={title} titleStyle={{ textAlign: 'center', color }} /> }
-          {text ? <CardText style={{ color }}>{text}</CardText> : null }
-        </CSSTransitionGroup>
+        {this.renderContents()}
       </Card>
     )
   }

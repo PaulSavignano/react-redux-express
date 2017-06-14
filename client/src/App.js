@@ -13,6 +13,7 @@ import Footer from './footer/components/Footer'
 injectTapEventPlugin()
 
 const App = ({ search, children, brand }) => {
+  const backgroundColor = brand.values.mainColor || null
   return (
     brand.isFetching ? null : brand.values.palette ?
       <MuiThemeProvider muiTheme={getMuiTheme(brand.values)}>
@@ -31,9 +32,9 @@ const App = ({ search, children, brand }) => {
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Header />
-          <main>
+          <main style={{ backgroundColor }}>
             {search.length ? <SearchList /> : children}
-          </main><br/><br/><br/>
+          </main>
           <Footer />
         </CSSTransitionGroup>
       </MuiThemeProvider>

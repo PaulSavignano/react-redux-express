@@ -10,7 +10,6 @@ const AdminCardList = ({ section, cards, imageSize }) => (
         key={card._id}
         card={card}
         section={section}
-        initialValues={card.values}
         imageSize={imageSize}
       />
     ))}

@@ -19,6 +19,7 @@ import ImageForm from '../../images/components/ImageForm'
 import renderTextField from '../../modules/renderTextField'
 import renderRichField from '../../modules/renderRichField'
 import renderSelectField from '../../modules/renderSelectField'
+import renderWysiwgyField from '../../modules/renderWysiwgyField'
 
 class AdminSectionItem extends Component {
   state = {
@@ -55,8 +56,7 @@ class AdminSectionItem extends Component {
       <Card
         expanded={this.state.expanded}
         zDepth={3}
-        style={{ margin: '64px 0'}}
-        containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
+        containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%', margin: '0 0 64px 0' }}
         className="cards"
       >
         <ImageForm
@@ -73,27 +73,29 @@ class AdminSectionItem extends Component {
             const update = { type, values }
             dispatch(fetchUpdate(section._id, { type: 'UPDATE_VALUES', values}))
           })}
+          style={{ margin: '0 0 64px 0'}}
         >
-          <CardText>
+
+          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
             <Field
               name="height"
-              label="Height px"
-              type="text"
-              fullWidth={true}
+              label="Section Height (px)"
+              type="number"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
               name="backgroundColor"
-              label="Background Color Hexadecimal"
+              label="Section backgroundColor"
               type="text"
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
               name="backgroundAttachment"
               component={renderSelectField}
-              label="Select backgroundAttachment"
-              fullWidth={true}
+              label="Section backgroundAttachment"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
             >
               <MenuItem value={null} primaryText="" />
               <MenuItem value="scroll" primaryText="scroll" />
@@ -101,71 +103,40 @@ class AdminSectionItem extends Component {
               <MenuItem value="local" primaryText="local" />
               <MenuItem value="inherit" primaryText="inherit" />
             </Field>
-            <Field
-              name="title"
-              label="Title"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="titleAlign"
-              component={renderSelectField}
-              label="Title Align"
-              fullWidth={true}
-            >
-              <MenuItem value={null} primaryText="" />
-              <MenuItem value="left" primaryText="left" />
-              <MenuItem value="center" primaryText="center" />
-              <MenuItem value="right" primaryText="right" />
-            </Field>
+          </div>
+
+          <div style={{ margin: '0 16px'}}>
             <Field
               name="text"
               label="Text"
               type="text"
               fullWidth={true}
-              component={renderRichField}
+              component={renderWysiwgyField}
             />
-            <Field
-              name="textAlign"
-              component={renderSelectField}
-              label="Text Align"
-              fullWidth={true}
-            >
-              <MenuItem value={null} primaryText="" />
-              <MenuItem value="left" primaryText="left" />
-              <MenuItem value="center" primaryText="center" />
-              <MenuItem value="right" primaryText="right" />
-            </Field>
+          </div>
+          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
             <Field
               name="margin"
-              label="Title and Text Margin px"
+              label="Text Container Margin (px)"
               type="text"
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0px 16px' }}
               component={renderTextField}
             />
             <Field
               name="padding"
-              label="Title and Text Padding px"
+              label="Text Container Padding (px)"
               type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="color"
-              label="Text Color"
-              type="text"
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0px 16px' }}
               component={renderTextField}
             />
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
-          </CardText>
+          </div>
 
         </form>
         {cards.length ? <AdminCards cards={cards} section={section} /> : null}
         {carousels.length ? <AdminCarousels carousels={carousels} section={section} /> : null}
         {products.length ? <AdminProducts products={products} section={section} /> : null}
-        <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-end', margin: '16px 0 0 0' }}>
           <RaisedButton
             type="submit"
             label={this.state.submitted ? "Section Updated" : "Update Section"}
@@ -174,6 +145,7 @@ class AdminSectionItem extends Component {
             backgroundColor={this.state.submitted ? "#4CAF50" : null }
             style={{ margin: '0 4px 8px' }}
             onTouchTap={handleSubmit((values) => {
+              console.log('inside update section')
               const type = 'UPDATE_VALUES'
               const update = { type, values }
               dispatch(fetchUpdate(section._id, { type: 'UPDATE_VALUES', values}))
@@ -185,6 +157,7 @@ class AdminSectionItem extends Component {
               label={`Add New ${this.state.component}`}
               type="button"
               style={{ margin: '0 4px 8px' }}
+              primary={true}
               onTouchTap={() => {
                 const add = { sectionId: section._id }
                 dispatch(this.state.action(add))
@@ -194,9 +167,10 @@ class AdminSectionItem extends Component {
             <div>
               <RaisedButton
                 onTouchTap={this.handleOpen}
-                label="Add Component"
+                label="Add Components"
                 type="button"
-                style={{ margin: '0 4px 8px' }}
+                primary={true}
+                style={{ margin: '0 4px 8px', color: '#ffffff' }}
               />
               <Popover
                 open={this.state.openMenu}
@@ -208,7 +182,7 @@ class AdminSectionItem extends Component {
               >
                 <Menu autoWidth={true}>
                   <MenuItem
-                    primaryText="Cards"
+                    primaryText="Add Cards"
                     onTouchTap={() => {
                       const add = { sectionId: section._id }
                       dispatch(cardActions.fetchAdd(add))
@@ -216,7 +190,7 @@ class AdminSectionItem extends Component {
                     }}
                   />
                   <MenuItem
-                    primaryText="Carousel"
+                    primaryText="Add Carousel"
                     onTouchTap={() => {
                       const add = { sectionId: section._id }
                       dispatch(carouselActions.fetchAdd(add))
@@ -224,7 +198,7 @@ class AdminSectionItem extends Component {
                     }}
                   />
                   <MenuItem
-                    primaryText="Products"
+                    primaryText="Add Products"
                     onTouchTap={() => {
                       const add = { sectionId: section._id }
                       dispatch(productActions.fetchAdd(add))
@@ -252,12 +226,19 @@ class AdminSectionItem extends Component {
 }
 
 AdminSectionItem = compose(
-  connect(({ cards, carousels, products, dispatch }, { section }) => ({
-    form: `section_${section._id}`,
-    cards: cards.items.filter(item => item.sectionId === section._id),
-    carousels: carousels.items.filter(item => item.sectionId === section._id),
-    products: products.items.filter(item => item.sectionId === section._id)
-  })),
+  connect(({ cards, carousels, products, dispatch }, { section }) => {
+    const values = section.values || {}
+    return {
+      form: `section_${section._id}`,
+      cards: cards.items.filter(item => item.sectionId === section._id),
+      carousels: carousels.items.filter(item => item.sectionId === section._id),
+      products: products.items.filter(item => item.sectionId === section._id),
+      initialValues: {
+        ...values,
+        height: values.height ? values.height.toString() : null,
+      }
+    }
+  }),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []

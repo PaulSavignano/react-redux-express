@@ -57,7 +57,6 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
     city: values.city,
     state: values.state,
     zip: values.zip,
-    fontFamily: values.fontFamily,
     facebook: values.facebook,
     github: values.github,
     google: values.google,
@@ -66,9 +65,16 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
     twitter: values.twitter,
     yelp: values.yelp,
     youtube: values.youtube,
+    mainColor: values.mainColor,
+    fontFamily: values.fontFamily,
+    fontFamily2: values.fontFamily2,
     appBar: {
       color: values.appBarColor,
       textColor: values.appBarTextColor,
+    },
+    footer: {
+      color: values.footerColor,
+      textColor: values.footerTextColor
     },
     palette: {
       primary1Color: values.primary1Color,
@@ -78,6 +84,7 @@ brands.patch('/:_id', authenticate(['admin']), (req, res) => {
       accent2Color: values.accent2Color,
       accent3Color: values.accent3Color,
       textColor: values.textColor,
+      secondaryTextColor: values.secondaryTextColor,
       alternateTextColor: values.alternateTextColor,
       canvasColor: values.canvasColor,
       borderColor: values.borderColor,

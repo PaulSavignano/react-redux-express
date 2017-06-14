@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
+import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { CardMedia, CardActions } from 'material-ui/Card'
 import ImageEditor from './ImageEditor'
@@ -32,14 +33,15 @@ class ImageForm extends Component {
     borderRadius: 0,
     opacity: 1,
     image: null,
-    editing: false
+    width: null,
+    height: null,
+    editing: false,
+    fileInputKey: 1
   }
   componentWillMount() {
-    const { item } = this.props
-    if (item.image) return this.setState({ image: item.image })
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.item.image !== this.props.item.image) return this.setState({ image: nextProps.item.image })
+    const { item, width, height } = this.props
+    const { image, _id } = item
+    this.setState({ image, width, height, fileInputKey: _id })
   }
   handleSave = () => {
     const { dispatch, handleUpdate, item, type } = this.props
@@ -81,11 +83,13 @@ class ImageForm extends Component {
     this.setState({ position })
   }
   handleUpload = (e) => {
+    console.log('inside handleUpload')
     e.preventDefault()
     const reader = new FileReader()
     const file = e.target.files[0]
+    console.log(file)
     if (file) {
-      reader.onload = (e) => this.setState({ image: e.target.result, editing: true })
+      reader.onload = (e) => this.setState({ image: e.target.result, editing: true, fileInputKey: this.props.item._id })
       reader.readAsDataURL(file)
     }
   }
@@ -93,7 +97,7 @@ class ImageForm extends Component {
     if (editor) this.editor = editor
   }
   render () {
-    const { dispatch, handleSubmit, handleUpdate, item, width, height } = this.props
+    const { dispatch, handleSubmit, handleUpdate, item } = this.props
     return (
       <form
         style={{ display: 'flex', flexFlow: 'column' }}
@@ -106,8 +110,8 @@ class ImageForm extends Component {
                 ref={this.setEditorRef}
                 scale={parseFloat(this.state.scale)}
                 opacity={parseFloat(this.state.opacity)}
-                width={width}
-                height={height}
+                width={this.state.width}
+                height={this.state.height}
                 position={this.state.position}
                 onPositionChange={this.handlePositionChange}
                 rotate={parseFloat(this.state.rotate)}
@@ -194,13 +198,33 @@ class ImageForm extends Component {
                 <RaisedButton onTouchTap={this.rotateRight} style={styles.button}>Right</RaisedButton>
               </div>
 
+              <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+                <TextField
+                  hintText="Width"
+                  floatingLabelText="Width"
+                  type="number"
+                  value={this.state.width}
+                  style={{ flex: '1 1 auto' }}
+                  onChange={(e) => this.setState({ width: parseInt(e.target.value) })}
+                />
+                <TextField
+                  hintText="Height"
+                  floatingLabelText="Height"
+                  type="number"
+                  value={this.state.height}
+                  style={{ flex: '1 1 auto' }}
+                  onChange={(e) => this.setState({ height: parseInt(e.target.value) })}
+                />
+              </div>
+
             </div>
           </CardMedia>
         }
-        {this.state.editing ? null : !this.state.image ? null : <img src={this.state.image} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 'auto' }}/>}
+        {this.state.editing ? null : !this.state.image ? null : <img src={this.state.image} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
         <div style={{ display: 'flex', flexFlow: 'row rap'}}>
           <Field
-            label={this.state.image ? "Choose" : "Add Image"}
+            key={this.state.fileInputKey}
+            label="Choose Image"
             component={renderFileInput}
             name="imageFile"
             onChange={this.handleUpload}
@@ -220,7 +244,7 @@ class ImageForm extends Component {
                   const update = { type: 'DELETE_IMAGE', image: item.image }
                   dispatch(handleUpdate(item._id, update))
                 }
-                this.setState({ image: null })
+                this.setState({ image: null, editing: false, fileInputKey: 1 })
               }}
               type="button"
               label={this.state.editing ? "X" : "Remove Image"}

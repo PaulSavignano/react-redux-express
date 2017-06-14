@@ -46,7 +46,7 @@ class SectionItem extends Component {
           backgroundColor,
           overflow: 'hidden',
         }}>
-          <div style={{ maxWidth: 1044, margin: '64px auto' }}>
+          <div style={{ maxWidth: 1044, margin: '0 auto' }}>
             <div style={{
               margin,
               padding

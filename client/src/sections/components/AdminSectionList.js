@@ -11,7 +11,6 @@ const AdminSectionList = ({ page, sections, imageSize }) => {
           key={section._id}
           section={section}
           page={page}
-          initialValues={section.values}
           imageSize={imageSize}
         />
       ))}

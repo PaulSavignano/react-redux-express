@@ -74,10 +74,13 @@ class AdminBrandForm extends Component {
               </CardText>
               <CardTitle title="Theme" />
               <CardText>
+                <Field name="mainColor" label="mainBackgroundColor" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="fontFamily" label="fontFamily" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="fontFamily2" label="fontFamily2" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="appBarColor" label="appBarColor" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="appBarTextColor" label="appBarTextColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="footerTextColor" label="footerTextColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="footerColor" label="footerColor" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="primary1Color" label="primary1Color" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="primary2Color" label="primary2Color" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="primary3Color" label="primary3Color" type="text" fullWidth={true} component={renderTextField} />
@@ -85,6 +88,7 @@ class AdminBrandForm extends Component {
                 <Field name="accent2Color" label="accent2Color" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="accent3Color" label="accent3Color" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="textColor" label="textColor" type="text" fullWidth={true} component={renderTextField} />
+                <Field name="secondaryTextColor" label="secondaryTextColor" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="alternateTextColor" label="alternateTextColor" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="canvasColor" label="canvasColor" type="text" fullWidth={true} component={renderTextField} />
                 <Field name="borderColor" label="borderColor" type="text" fullWidth={true} component={renderTextField} />

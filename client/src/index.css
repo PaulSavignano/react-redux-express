@@ -23,9 +23,7 @@ html {
 body {
   position: relative;
   margin: 0;
-  padding-bottom: 6rem;
   min-height: 100%;
-  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 
@@ -54,14 +52,16 @@ footer > div > a {
 
 
 main {
-  margin: 0 0 192px 0;
+  padding: 0 0 192px 0;
+  min-height: 100vh;
 }
 
 
 /* maring: 32px */
 section {
   max-width: 1044px;
-  margin: 64px auto;
+  padding: 16px 0 0 0;
+  margin: 0 auto;
 }
 
 section > h1 {
@@ -165,4 +165,17 @@ h3 {
 .exp-cvc {
   margin-bottom: 8px;
   span:first-child { margin-right: 16px; }
+}
+
+
+
+
+
+
+
+
+
+
+.RichTextEditor__root___2QXK- {
+  background: none !important;
 }

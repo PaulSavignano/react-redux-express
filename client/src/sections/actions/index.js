@@ -124,20 +124,21 @@ export const fetchDelete = (_id) => {
         console.log(json)
         if (json.error) return Promise.reject(json.error)
         const { _id, componentType, components } = json
-        switch(componentType) {
-          case 'Card':
-            dispatch(cardActions.deletes(components.map(comp => comp.cardId)))
-            break
-          case 'Carousel':
-            dispatch(carouselActions.deletes(components.map(comp => comp.carouselId)))
-            break
-          case 'Product':
-            dispatch(productActions.deletes(components.map(comp => comp.productId)))
-            break
-          default:
-            return
+        if (componentType) {
+          switch(componentType) {
+            case 'Card':
+              dispatch(cardActions.deletes(components.map(comp => comp.cardId)))
+              break
+            case 'Carousel':
+              dispatch(carouselActions.deletes(components.map(comp => comp.carouselId)))
+              break
+            case 'Product':
+              dispatch(productActions.deletes(components.map(comp => comp.productId)))
+              break
+            default:
+              return
+          }
         }
-        console.log('dispatching fetchDeleteSuccess')
         dispatch(fetchDeleteSuccess(_id))
       })
       .catch(err => {

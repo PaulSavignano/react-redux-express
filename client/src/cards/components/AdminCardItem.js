@@ -5,23 +5,23 @@ import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
+import MenuItem from 'material-ui/MenuItem'
 
-import { fetchUpdate, fetchDelete } from '../actions/index'
+import renderRichField from '../../modules/renderRichField'
+import renderTextField from '../../modules/renderTextField'
+import renderSelectField from '../../modules/renderSelectField'
+import renderWysiwgyField from '../../modules/renderWysiwgyField'
 import ImageForm from '../../images/components/ImageForm'
+import { fetchUpdate, fetchDelete } from '../actions/index'
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
 
 class AdminCardItem extends Component {
   state = {
     zDepth: 1,
     submitted: false
+  }
+  createMarkup = (html) => {
+    return {__html: html};
   }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, dirty } = nextProps
@@ -58,92 +58,100 @@ class AdminCardItem extends Component {
           })}
           style={{ flex: '1 1 auto' }}
         >
-          <CardText>
+
+          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
             <Field
               name="width"
               label="Width"
-              type="text"
-              fullWidth={true}
+              type="number"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
               name="maxWidth"
-              label="Max Width"
-              type="text"
-              fullWidth={true}
+              label="maxWidth"
+              type="number"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
+              component={renderTextField}
+            />
+            <Field
+              name="zDepth"
+              label="zDepth"
+              type="number"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
               name="margin"
               label="Margin"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="backgroundColor"
-              label="Background Color"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="header"
-              label="Header"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="iFrame"
-              label="iFrame src"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            {!card.values ? null : card.values.iFrame ?
-              <div style={{ position: 'relative', paddingBottom: '50%'}}>
-                <iframe
-                  title="google youtube"
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={card.values.iFrame} frameBorder="0" allowFullScreen>
-                </iframe></div>
-            : null}
-            <Field
-              name="title"
-              label="Title"
-              type="text"
-              fullWidth={true}
-              component={renderTextField}
-            />
-            <Field
-              name="text"
-              label="Text"
-              type="text"
-              multiLine={true}
-              rows={2}
-              fullWidth={true}
               component={renderTextField}
             />
             <Field
               name="color"
-              label="Text Color"
+              label="Color"
               type="text"
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
+              name="backgroundColor"
+              label="backgroundColor"
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
+              type="text"
+              component={renderTextField}
+            />
+          </div>
+
+          <div style={{ margin: '0 16px' }}>
+
+            <Field
+              name="header"
+              label="Card Header"
+              fullWidth={true}
+              type="text"
+              component={renderTextField}
+            />
+            <Field
+              name="iFrame"
+              label="Card iFrame src"
+              fullWidth={true}
+              type="text"
+              component={renderTextField}
+            />
+          </div>
+
+          {!card.values ? null : card.values.iFrame ?
+            <div style={{ position: 'relative', paddingBottom: '50%'}}>
+              <iframe
+                title="google youtube"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src={card.values.iFrame} frameBorder="0" allowFullScreen>
+              </iframe></div>
+          : null}
+
+          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+            <Field
+              name="text"
+              label="Text"
+              type="text"
+              fullWidth={true}
+              component={renderWysiwgyField}
+            />
+            <Field
               name="link"
-              label="Link to"
+              label="Card Link"
               type="text"
               fullWidth={true}
               component={renderTextField}
             />
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+          </div>
 
-          </CardText>
+
           <div style={{ flex: '1 1 auto' }}></div>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', margin: '16px 0 0 0' }}>
             <RaisedButton
               type="submit"
               label={this.state.submitted ? "Updated" : "Update"}
@@ -170,7 +178,18 @@ class AdminCardItem extends Component {
 }
 
 AdminCardItem = compose(
-  connect((state, props) => ({ form: `card_${props.card._id}` })),
+  connect((state, { card }) => {
+    const values = card.values || {}
+    return {
+      form: `card_${card._id}`,
+      initialValues: {
+        ...values,
+        width: values.width ? values.width.toString() : null,
+        maxWidth: values.maxWidth ? values.maxWidth.toString() : null,
+        zDepth: values.zDepth ? values.zDepth.toString() : null
+       }
+    }
+  }),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCardItem)
 
 export default AdminCardItem

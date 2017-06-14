@@ -5,7 +5,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import FontIcon from 'material-ui/FontIcon'
 
 const Footer = ({ isFetching, brand, muiTheme }) => {
-  const { primary1Color, primary2Color, textColor, fontFamily } = muiTheme.palette
+  const { primary1Color, primary2Color, fontFamily, textColor } = muiTheme.palette
   const {
     facebook,
     github,
@@ -25,7 +25,7 @@ const Footer = ({ isFetching, brand, muiTheme }) => {
   } = brand
   return (
     isFetching ? null :
-    <footer style={{ backgroundColor: primary2Color, borderBottom: `50px solid ${primary1Color}`, marginTop: 128, fontFamily }}>
+    <footer style={{  marginTop: 128, fontFamily }}>
       <div style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
         { facebook ? <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: primary1Color }} /></a> : null }
         { github ? <a href={github}><FontIcon className="fa fa-github-square" style={{ color: primary1Color }} /></a> : null }
@@ -36,7 +36,7 @@ const Footer = ({ isFetching, brand, muiTheme }) => {
         { yelp ? <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color: primary1Color }} /></a> : null }
         { youtube ? <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color: primary1Color }} /></a> : null }
       </div>
-      <div style={{ backgroundColor: primary2Color, padding: '0 0 32px 0', color: textColor }}>
+      <div style={{ padding: '0 0 32px 0', color: textColor }}>
         <div>{name} {new Date().getFullYear()}</div>
         { phone ? <a href={`tel:${phone}`}>{phone}</a> : null }
         { email ? <div>{email}</div> : null }

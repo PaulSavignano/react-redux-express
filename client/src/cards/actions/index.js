@@ -34,6 +34,7 @@ export const fetchAdd = (add) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { card, section } = json
+        console.log(card, section)
         dispatch(fetchAddSuccess(card))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })

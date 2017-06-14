@@ -2108,6 +2108,16 @@ draft-js@^0.9.1:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
+draftjs-to-html@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/draftjs-to-html/-/draftjs-to-html-0.7.2.tgz#e8735c4d836bd4e6be934ca6ccaedebacff9e772"
+
+draftjs-utils@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/draftjs-utils/-/draftjs-utils-0.7.5.tgz#982b671bf9b8296c89b05683e63257817d30de55"
+  dependencies:
+    immutable "^3.x.x"
+
 duplexer2@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -3168,6 +3178,10 @@ html-minifier@^3.2.3:
     relateurl "0.2.x"
     uglify-js "3.0.x"
 
+html-to-draftjs@^0.1.0-beta7:
+  version "0.1.0-beta7"
+  resolved "https://registry.yarnpkg.com/html-to-draftjs/-/html-to-draftjs-0.1.0-beta7.tgz#bc307356cca36298fe4b5a93dfb0869cdf477a9b"
+
 html-webpack-plugin@2.28.0:
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-2.28.0.tgz#2e7863b57e5fd48fe263303e2ffc934c3064d009"
@@ -3261,9 +3275,13 @@ ignore@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.0.tgz#3812d22cbe9125f2c2b4915755a1b8abd745a001"
 
-immutable@^3.8.1:
+immutable@^3.8.1, immutable@^3.x.x:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
+
+immutable@^4.0.0-rc.1:
+  version "4.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.2.tgz#fdd0948aae728fda2306a02f72bb73e1773432d1"
 
 immutable@~3.7.4:
   version "3.7.6"
@@ -5650,6 +5668,15 @@ react-dom@^15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "~15.5.7"
+
+react-draft-wysiwyg@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/react-draft-wysiwyg/-/react-draft-wysiwyg-1.10.0.tgz#110d887364bedcd4a6eabdb69d244e162e04e095"
+  dependencies:
+    classnames "^2.2.5"
+    draftjs-utils "^0.7.5"
+    immutable "^4.0.0-rc.1"
+    prop-types "^15.5.10"
 
 react-error-overlay@^1.0.1:
   version "1.0.1"
