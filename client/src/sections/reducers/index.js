@@ -26,6 +26,7 @@ const sections = (state = {
         ]
       }
     case `UPDATE_${type}`:
+    console.log('updating section to new section ', action.item)
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?

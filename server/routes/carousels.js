@@ -1,10 +1,10 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 
-import authenticate from '../../middleware/authenticate'
-import { uploadFile, deleteFile } from '../../middleware/s3'
+import authenticate from '../middleware/authenticate'
+import { uploadFile, deleteFile } from '../middleware/s3'
 import Carousel from '../models/Carousel'
-import Section from '../../sections/models/Section'
+import Section from '../models/Section'
 
 const carousels = express.Router()
 
@@ -20,18 +20,24 @@ carousels.post('/', authenticate(['admin']), (req, res) => {
   })
   newCarousel.save()
     .then(carousel => {
-      Section.findOneAndUpdate({ _id: sectionId }, { $push: { components: { carouselId: carousel._id }}, $set: { componentType: 'Carousel' }}, { new: true })
+      const update = {
+        components: {
+          componentId: carousel._id,
+          type: 'Carousel'
+        }
+      }
+      Section.findOneAndUpdate({ _id: sectionId }, { $push: update }, { new: true })
         .then(section => {
           res.send({ carousel, section })
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
     })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error(err)
+      res.status(400).send()
     })
 })
 
@@ -43,14 +49,20 @@ carousels.get('/', (req, res) => {
     .then(docs => {
       res.send(docs)
     })
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 carousels.get('/:_id', (req, res) => {
   const _id = req.params._id
   Carousel.find({ _id })
     .then(doc => res.send(doc))
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 
@@ -63,19 +75,29 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
   const Key = `${s3Path}${_id}`
   switch (type) {
 
-    case 'UPDATE_IMAGE':
-      uploadFile({ Key }, image)
+    case 'UPDATE_IMAGE_AND_VALUES':
+      uploadFile({ Key }, image.src)
         .then(data => {
-          const update = { image: data.Location }
+          const update = {
+            image: {
+              src: data.Location,
+              width: image.width,
+              height: image.height
+            },
+            values
+          }
           Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
             })
             .catch(err => {
-              console.log(err)
-              res.status(400).send(err)
+              console.error(err)
+              res.status(400).send()
             })
-          .catch(err => res.status(400).send(err))
+          .catch(err => {
+            console.error(err)
+            res.status(400).send()
+          })
         })
       break
 
@@ -88,10 +110,13 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
               res.send(doc)
             })
             .catch(err => {
-              console.log(err)
-              res.status(400).send(err)
+              console.error(err)
+              res.status(400).send()
             })
-          .catch(err => res.status(400).send(err))
+          .catch(err => {
+            console.error(err)
+            res.status(400).send()
+          })
         })
       break
 
@@ -101,8 +126,8 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
           res.send(doc)
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
       break
 
@@ -118,18 +143,25 @@ carousels.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const Key = `${s3Path}${_id}`
-  Carousel.findOneAndRemove({ _id })
+  Carousel.findOne({ _id })
     .then(carousel => {
-      Section.findOneAndUpdate({ _id: carousel.sectionId }, { $pull: { components: { carouselId: carousel._id }}}, { new: true })
-        .then(section => res.send({ carousel, section }))
+      carousel.remove()
+        .then(carousel => {
+          Section.findOneAndUpdate({ _id: carousel.sectionId }, { $pull: { components: { componentId: carousel._id }}}, { new: true })
+            .then(section => res.send({ carousel, section }))
+            .catch(err => {
+              console.error(err)
+              res.status(400).send()
+            })
+        })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
     })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error(err)
+      res.status(400).send()
     })
 })
 

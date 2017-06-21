@@ -13,10 +13,10 @@ import Footer from './footer/components/Footer'
 injectTapEventPlugin()
 
 const App = ({ search, children, brand }) => {
-  const backgroundColor = brand.values.mainColor || null
+  const backgroundColor = brand.theme.main.color || null
   return (
-    brand.isFetching ? null : brand.values.palette ?
-      <MuiThemeProvider muiTheme={getMuiTheme(brand.values)}>
+    brand.isFetching ? null : brand.theme.palette ?
+      <MuiThemeProvider muiTheme={getMuiTheme(brand.theme)}>
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
@@ -26,9 +26,9 @@ const App = ({ search, children, brand }) => {
         >
           <Helmet>
             <meta charSet="utf-8" />
-            <title>{brand.values.name}</title>
-            <meta name="description" content={brand.values.description} />
-            <link rel="shortcut icon" href={brand.image} />
+            <title>{brand.business.name}</title>
+            <meta name="description" content={brand.business.description} />
+            <link rel="shortcut icon" href={brand.business.image} />
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Header />
@@ -45,7 +45,7 @@ const App = ({ search, children, brand }) => {
         <div>
           <Header />
           <main>
-            {search.length ? <SearchList /> : children}
+            {children}
           </main>
           <Footer />
         </div>

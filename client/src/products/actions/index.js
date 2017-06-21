@@ -61,7 +61,7 @@ export const fetchProducts = () => {
         dispatch(fetchProductsSuccess(json))
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         dispatch(fetchProductsFailure(err))
       })
   }
@@ -82,15 +82,18 @@ export const fetchUpdate = (_id, update) => {
       },
       body: JSON.stringify(update)
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateSuccess(json))
-      })
-      .catch(err => {
-        dispatch(fetchUpdateFailure(err))
-        throw new SubmissionError({ ...err, _error: err.err })
-      })
+    .then(res => {
+      if (res.ok) return res.json()
+      throw new Error('Network response was not ok.')
+    })
+    .then(json => {
+      if (json.error) return Promise.reject(json.error)
+      dispatch(fetchUpdateSuccess(json))
+    })
+    .catch(err => {
+      dispatch(fetchUpdateFailure(err))
+      throw new SubmissionError({ ...err, _error: 'Update failed!' })
+    })
   }
 }
 
@@ -112,8 +115,8 @@ export const fetchDelete = (_id) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { product, section } = json
-        dispatch(fetchDeleteSuccess(product._id))
         dispatch(sectionActions.fetchUpdateSuccess(section))
+        dispatch(fetchDeleteSuccess(product._id))
       })
       .catch(err => {
         dispatch(fetchDeleteFailure(err))

@@ -3,8 +3,17 @@ import mongoose, { Schema } from 'mongoose'
 const s3Path = `${process.env.APP_NAME}/brand/image_`
 
 const BrandSchema = new Schema({
-  image: { type: String, minlength: 1, trim: true },
-  values: {
+  image: {
+    src: { type: String, minlength: 1, trim: true },
+    width: { type: Number },
+    height: { type: Number },
+  },
+  footerImage: {
+    src: { type: String, minlength: 1, trim: true },
+    width: { type: Number },
+    height: { type: Number },
+  },
+  business: {
     name: { type: String, minlength: 1, trim: true, default: 'Brand' },
     description: { type: String, minlength: 1, trim: true },
     phone: { type: String, minlength: 1, trim: true },
@@ -12,7 +21,9 @@ const BrandSchema = new Schema({
     street: { type: String, minlength: 1, trim: true },
     city: { type: String, minlength: 1, trim: true },
     state: { type: String, minlength: 1, trim: true },
-    zip: { type: String, minlength: 1, trim: true },
+    zip: { type: String, minlength: 1, trim: true }
+  },
+  socialMedia: {
     facebook: { type: String, minlength: 1, trim: true },
     github: { type: String, minlength: 1, trim: true },
     google: { type: String, minlength: 1, trim: true },
@@ -21,16 +32,22 @@ const BrandSchema = new Schema({
     twitter: { type: String, minlength: 1, trim: true },
     yelp: { type: String, minlength: 1, trim: true },
     youtube: { type: String, minlength: 1, trim: true },
-    mainColor: { type: String, minlength: 1, trim: true },
+  },
+  theme: {
     fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
     fontFamily2: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+    fontFamily3: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
     appBar: {
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' }
     },
+    main: {
+      color: { type: String, minlength: 1, trim: true, default: '#ffffff' }
+    },
     footer: {
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' }
+      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
+      borderBottom: { type: String, minlength: 1, trim: true }
     },
     palette: {
       primary1Color: { type: String, minlength: 1, trim: true, default: '#00BCD4' },
@@ -57,7 +74,7 @@ BrandSchema.pre('remove', function(next) {
   const brand = this
   if (brand.image) {
     const Key = `${s3Path}${brand._id}`
-    deleteFile({ Key }).catch(err => console.log(err))
+    deleteFile({ Key }).catch(err => console.error(err))
   }
   next()
 })

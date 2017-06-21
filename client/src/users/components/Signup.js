@@ -42,12 +42,12 @@ class Signup extends Component {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, signup } = this.props
+    const { dispatch, error, handleSubmit, submitting, signup, user } = this.props
     return (
       <section>
         <Card className="cards">
           <CardTitle title="Signup" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)))} >
+          <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)).then(() => this.props.reset()))} >
             <CardText>
               <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
               <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
@@ -69,7 +69,7 @@ class Signup extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleClose}
               >
-                Welcome {signup.values ? signup.values.firstName : null}!
+                Welcome {user.values.firstName && user.values.firstName}!
               </Dialog>
             }
             <CardActions>
@@ -95,7 +95,8 @@ Signup = reduxForm({
 })(Signup)
 
 const mapStateToProps = (state) => ({
-  signup: state.form.signup || {}
+  signup: state.form.signup || {},
+  user: state.user
 })
 
 Signup = connect(mapStateToProps)(Signup)

@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import { fetchAdd } from '../actions/index'
 
-const AdminCarouselAdd = ({ dispatch, section, imageSize }) => (
+const AdminCarouselAdd = ({ dispatch, section, imageSpec }) => (
   <Card className="cards" style={{ flex: `1 1 auto`, width: '100%', margin: 32  }}>
     <CardActions>
       <RaisedButton

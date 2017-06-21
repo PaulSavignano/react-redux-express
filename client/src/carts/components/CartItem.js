@@ -10,7 +10,6 @@ import formatPrice from '../../modules/formatPrice'
 class CartItem extends Component {
   state = {
     qty: this.props.productQty,
-    src: '',
     zDepth: 1
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
@@ -37,7 +36,7 @@ class CartItem extends Component {
         className="cards"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-          <img src={image} alt="" width="auto" height="100px"/>
+          <img src={image.src} alt="" width="auto" height="100px"/>
           <div style={{
             display: 'flex',
             flexFlow: 'row wrap',

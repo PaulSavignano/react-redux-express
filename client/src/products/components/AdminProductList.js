@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminProductItem from './AdminProductItem'
 
-const AdminProductList = ({ products, imageSize }) => (
+const AdminProductList = ({ products, imageSpec }) => (
   products.length < 1 ? null :
   <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
     {products.map(product => (
@@ -10,7 +10,7 @@ const AdminProductList = ({ products, imageSize }) => (
         key={product._id}
         product={product}
         initialValues={product.values}
-        imageSize={imageSize}
+        imageSpec={imageSpec}
       />
     ))}
   </div>

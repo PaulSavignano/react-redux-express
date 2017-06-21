@@ -77,7 +77,6 @@ export const fetchSections = () => {
 export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
-  console.log('fetching update')
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'PATCH',
@@ -121,7 +120,6 @@ export const fetchDelete = (_id) => {
         throw new Error('Network response was not ok.')
       })
       .then(json => {
-        console.log(json)
         if (json.error) return Promise.reject(json.error)
         const { _id, componentType, components } = json
         if (componentType) {
@@ -142,7 +140,7 @@ export const fetchDelete = (_id) => {
         dispatch(fetchDeleteSuccess(_id))
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         dispatch(fetchDeleteFailure(err))
         throw new SubmissionError({ ...err, _error: 'Delete failed!' })
       })

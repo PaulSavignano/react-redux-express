@@ -3,9 +3,10 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import { Card, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardMedia, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import renderTextField from '../../modules/renderTextField'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
@@ -23,71 +24,68 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
-
 class AdminProductItem extends Component {
   state = {
     zDepth: 1,
     submitted: false,
-    image: null
-  }
-  componentWillMount() {
-    this.setState({ image: this.props.product.image })
+    editing: false
   }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, dirty } = nextProps
-    if (submitSucceeded) this.setState({ submitted: true })
+    if (submitSucceeded) this.setState({ submitted: true, editing: false })
     if (dirty) this.setState({ submitted: false })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
+  editing = (bool) => this.setState({ editing: bool })
+  deleteImage = (_id, update) => {
+    this.props.dispatch(fetchUpdate(_id, update))
+  }
+  setEditorRef = (editor) => {
+    if (editor) this.editor = editor
+  }
   render() {
-    const { error, handleSubmit, dispatch, product, imageSize } = this.props
+    const { error, handleSubmit, dispatch, product, imageSpec } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
-        style={{ width: 300 }}
+        style={{ width: 300, height: '100%' }}
         className="cards"
       >
-        <ImageForm
-          type="image/jpg"
-          handleUpdate={fetchUpdate}
-          width={imageSize.width}
-          height={imageSize.height}
-          ref={this.setEditorRef}
-          item={product}
-        />
-        <form
-          onSubmit={handleSubmit((values) => {
-            const type = 'UPDATE_VALUES'
-            const update = { type, values }
-            dispatch(fetchUpdate(product._id, update))
-          })}
+        <CardHeader title={`Product ${product._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardMedia>
+          <ImageForm
+            imageSpec={imageSpec}
+            item={product}
+            editing={this.editing}
+            deleteImage={this.deleteImage}
+            ref={this.setEditorRef}
+          />
+        </CardMedia>
+        <form onSubmit={handleSubmit((values) => {
+          if (this.state.editing) {
+            const image = this.editor.handleSave()
+            return dispatch(fetchUpdate(product._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+          }
+          return dispatch(fetchUpdate(product._id, { type: 'UPDATE_VALUES', values }))
+        })}
           style={{ flex: '1 1 auto' }}
         >
-          <CardText>
+          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
             <Field
               name="name"
               label="Name"
               type="text"
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
               name="price"
               label="Price"
               type="number"
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             <Field
@@ -96,17 +94,16 @@ class AdminProductItem extends Component {
               type="text"
               multiLine={true}
               rows={2}
-              fullWidth={true}
+              style={{ flex: '1 1 auto', margin: '0 16px' }}
               component={renderTextField}
             />
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
+          </div>
 
-          </CardText>
-          <div style={{ flex: '1 1 auto' }}></div>
           <div style={{ display: 'flex' }}>
             <RaisedButton
               type="submit"
-              label={this.state.submitted ? "Updated" : "Update"}
+              label={this.state.submitted ? "Updated Product" : "Update Product"}
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}
               backgroundColor={this.state.submitted ? "#4CAF50" : null }
@@ -114,26 +111,32 @@ class AdminProductItem extends Component {
             />
             <RaisedButton
               type="button"
-              label="X"
+              label="Remove Product"
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
-              onTouchTap={() => {
-                dispatch(fetchDelete(product._id, product.image))
-              }}
-            />
-          </div>
-        </form>
+              onTouchTap={() => dispatch(fetchDelete(product._id, product.image))}
+              />
+            </div>
+          </form>
+
       </Card>
     )
   }
 }
 
 AdminProductItem = compose(
-  connect((state, props) => ({
-    form: `product_${props.product._id}`,
-    initialValues: { ...props.initialValues, price: props.initialValues.price.toString() }
-  })),
+  connect((state, { product }) => {
+    const { values } = product
+    return {
+      product,
+      form: `product_${product._id}`,
+      initialValues: {
+        ...values,
+        price: !values ? null : values.price.toString() || null
+      }
+    }
+  }),
   reduxForm({ destroyOnUnmount: false, asyncBlurFields: [], validate }))(AdminProductItem)
 
 export default AdminProductItem

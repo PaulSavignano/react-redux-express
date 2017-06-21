@@ -11,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import { fetchSignin } from '../actions/index'
+import renderTextField from '../../modules/renderTextField'
 
 const validate = values => {
   const errors = {}
@@ -26,29 +27,35 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
 
 class Signin extends Component {
-  state = { open: false }
+  state = {
+    open: false,
+    message: null
+  }
   handleClose = () => this.setState({open: false})
+  componentWillMount() {
+    const { error } = this.props.user
+    error && this.setState({ open: true, message: error.token })
+  }
+  componentWillReceiveProps(nextProps) {
+    const { submitSucceeded, user } = nextProps
+    submitSucceeded && this.setState({ message: `Welcome back ${user.values.firstName}!`})
+  }
   render() {
-    const { dispatch, error, handleSubmit, submitting, user, muiTheme, reset } = this.props
+    const { dispatch, error, handleSubmit, submitting, submitSucceeded, user, muiTheme, reset } = this.props
     const { primary1Color } = muiTheme.palette
+
     return (
       <section>
         <Card className="cards">
           <CardTitle title="Sign in" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => {
-            reset()
-            dispatch(fetchSignin(values))
-            .then(() => this.setState({ open: true }))
+            return dispatch(fetchSignin(values))
+            .then(() => {
+              reset()
+              this.setState({ open: true })
+            })
           })}>
             <CardText>
               <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
@@ -78,7 +85,7 @@ class Signin extends Component {
               open={this.state.open}
               onRequestClose={this.handleClose}
             >
-              Welcome back {user.values.firstName || null}!
+              {this.state.message}
             </Dialog>
           }
           <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>

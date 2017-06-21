@@ -62,6 +62,7 @@ UserSchema.methods.generateAuthToken = function() {
   user.tokens.push({ access, token })
   return user.save()
     .then(() => token)
+    .catch(err => Promise.reject(err))
 }
 
 UserSchema.methods.removeToken = function(token) {

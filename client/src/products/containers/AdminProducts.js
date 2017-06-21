@@ -6,7 +6,8 @@ import AdminProductList from '../components/AdminProductList'
 
 // Height is 56.25% of width
 // 900 x 600 = height of 66.67%
-const imageSize = {
+const imageSpec = {
+  type: 'image/jpg',
   width: 1012,
   height: 675
 }
@@ -14,7 +15,7 @@ const imageSize = {
 const AdminProducts = ({ isFetching, section, products }) => {
   return (
     isFetching ? null :
-      <AdminProductList section={section} products={products} imageSize={imageSize} />
+      <AdminProductList section={section} products={products} imageSpec={imageSpec} />
   )
 }
 

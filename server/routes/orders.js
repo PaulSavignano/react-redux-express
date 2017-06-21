@@ -1,10 +1,10 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 
-import User from '../../users/models/User'
+import User from '../models/User'
 import Order from '../models/Order'
-import authenticate from '../../middleware/authenticate'
-import { sendEmail1 } from '../../middleware/nodemailer'
+import authenticate from '../middleware/authenticate'
+import { sendEmail1 } from '../middleware/nodemailer'
 
 const orders = express.Router()
 
@@ -17,8 +17,8 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
   const { firstName, lastName, email } = req.user.values
   User.findOne({ _id: req.user._id })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error(err)
+      res.status(400).send()
     })
     .then(user => {
       let address
@@ -36,8 +36,8 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
         description: `${process.env.APP_NAME} Order`
       })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
         .then(charge => {
           const newOrder = new Order({
@@ -52,8 +52,8 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
           })
           newOrder.save()
             .catch(err => {
-              console.log(err)
-              res.status(400).send(err)
+              console.error(err)
+              res.status(400).send()
             })
             .then(order => {
               res.send(order)
@@ -128,8 +128,8 @@ orders.patch('/:_id', (req, res) => {
           })
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
       break
     default:
@@ -143,11 +143,17 @@ orders.get('/', authenticate(['user', 'admin']), (req, res) => {
   if (isAdmin) {
     Order.find({})
       .then(orders => res.send(orders))
-      .catch(err => res.status(400).send(err))
+      .catch(err => {
+        console.error(err)
+        res.status(400).send()
+      })
   } else {
     Order.find({ userId: req.user._id })
       .then(orders => res.send(orders))
-      .catch(err => res.status(400).send(err))
+      .catch(err => {
+        console.error(err)
+        res.status(400).send()
+      })
   }
 })
 
@@ -155,7 +161,10 @@ orders.get('/', authenticate(['user', 'admin']), (req, res) => {
 orders.get('/admin', authenticate(['admin']), (req, res) => {
   Order.find({})
     .then(orders => res.send(orders))
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 export default orders

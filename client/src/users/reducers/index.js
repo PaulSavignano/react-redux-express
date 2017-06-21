@@ -4,7 +4,7 @@ const user = (state = {
   values: {},
   addresses: [],
   roles: [],
-  error: {}
+  error: null
 }, action) => {
   switch(action.type) {
     case `ADD_${type}`:

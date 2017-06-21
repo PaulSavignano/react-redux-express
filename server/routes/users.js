@@ -4,11 +4,10 @@ import crypto from 'crypto'
 import fetch from 'node-fetch'
 
 import User from '../models/User'
-import authenticate from '../../middleware/authenticate'
-import { sendEmail1 } from '../../middleware/nodemailer'
+import authenticate from '../middleware/authenticate'
+import { sendEmail1 } from '../middleware/nodemailer'
 
 const users = express.Router()
-
 
 
 // Create User
@@ -17,7 +16,10 @@ users.post('/', (req, res) => {
   if ( !email || !firstName || !firstName || !password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const user = new User({ password, values: { email, firstName, lastName }})
+  const user = new User({
+    password,
+    values: { email, firstName, lastName }
+  })
   user.save()
     .then(doc => {
       const { values, roles } = doc
@@ -40,11 +42,14 @@ users.post('/', (req, res) => {
           })
           res.header('x-auth', token).send({ values, roles })
         })
-        .catch(err => res.status(400).send())
+        .catch(err => {
+          console.error('generateAuthToken(): ', err)
+          res.status(400).send({ error: { password: 'password not valid' }})
+        })
     })
     .catch(err => {
-      console.log(err)
-      res.status(400).send({ error: { email: 'Email is already in use' }})
+      console.error('user.save() : ', err)
+      res.status(400).send({ error: { email: 'User already exists'}})
     })
 })
 
@@ -54,18 +59,17 @@ users.post('/', (req, res) => {
 users.get('/', authenticate(['user','admin']), (req, res) => {
   const { token, user } = req
   const { values, addresses, roles } = user
-  const now = Date.now()
-  const ttl = 30000000
-  if ((now - token.createdAt) > ttl) {
-    return Promise.reject({ error: { token: 'Token has expired'}})
-  }
-  const tokens = user.tokens.find(token => (now - token.createdAt) > ttl)
-  if (tokens) {
-    user.removeTokens(tokens.token)
+  const ttl = (1000 * 60 * 60 * 24)
+  const expiredTokens = user.tokens.filter(token => (token.createdAt + ttl) < Date.now())
+  if (expiredTokens.length) {
+    user.removeTokens(expiredTokens)
       .then(() => {
-        res.send({ token: 'invalid'})
+        res.status(400).send({ error: { token: 'Your token has expired, please sign in again' }})
       })
-      .catch(err => res.state(400).send({ error: err }))
+      .catch(err => {
+        console.error('removeTokens() error :', err)
+        res.status(401).send(err)
+      })
   } else {
     res.send({ token: 'valid', values, addresses, roles })
   }
@@ -92,8 +96,8 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
           res.header('x-auth', token).send({ values })
         })
         .catch(err => {
-          console.log(err)
-          res.send({ error: { token: err }})
+          console.error('user.save(): ', err)
+          res.status(400).send({ error: { password: err }})
         })
       break
 
@@ -104,13 +108,9 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
           res.send({ addresses })
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error('User.findOneAndUpdate: ', err)
+          res.status(400).send({ error: { address: 'Update failed' }})
         })
-      .catch(err => {
-        console.log(err)
-        res.status(400).send(err)
-      })
       break
 
     case 'UPDATE_ADDRESS':
@@ -120,12 +120,8 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
           res.send({ addresses })
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error('User.findOneAndUpdate: ', err)
+          res.status(400).send({ error: 'Address update failed'})
         })
       break
 
@@ -136,12 +132,8 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
           res.send({ addresses })
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-        .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error('User.findOneAndUpdate: ', err)
+          res.status(400).send({ error: 'Address delete failed' })
         })
       break
 
@@ -155,7 +147,10 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
 users.delete('/', authenticate([ 'user', 'admin' ]), (req, res) => {
   User.findOneAndRemove({ _id: req.user._id })
     .then(doc => res.status(200).send())
-    .catch(err => res.send({ error: err }))
+    .catch(err => {
+      console.error('User.findOneAndRemove: ', err)
+      res.status(400).send({ error: 'user delete failed' })
+    })
 })
 
 
@@ -172,20 +167,20 @@ users.post('/signin', (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
     .then(user => {
-      if (!user) return Promise.reject({ error: { password: 'Password does not match.'}})
+      if (!user) return Promise.reject({ error: { email: 'User not found'}})
       return user.generateAuthToken()
         .then(token => {
           const { values, roles, addresses } = user
           res.header('x-auth', token).send({ values, roles, addresses })
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error('user.generateAuthToken(): ', err)
+          res.status(400).send()
         })
     })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error('User.findByCredentials: ', err)
+      res.status(400).send()
     })
 })
 
@@ -218,11 +213,14 @@ users.post('/recovery', (req, res, next) => {
               res.send({ message: `A password recovery email has been sent to ${email}`})
             })
             .catch(err => {
-              console.log(err)
-              res.send(err)
+              console.error(err)
+              res.status(400).send()
             })
         })
-        .catch(err => res.status(400).send(err))
+        .catch(err => {
+          console.error('User.findOne: ', err)
+          res.status(400).send()
+        })
     })
 })
 
@@ -241,9 +239,15 @@ users.post('/reset/:token', (req, res) => {
           const { values, roles, addresses } = user
           res.header('x-auth', token).send({ values, roles, addresses })
         })
-        .catch(err => res.send({ error: { token: err }}))
+        .catch(err => {
+          console.error(err)
+          res.status(400).send()
+        })
     })
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 
@@ -254,7 +258,10 @@ users.patch('/signout', authenticate(['admin','user']), (req, res) => {
     .then(() => {
       res.status(200).send()
     })
-    .catch(err => res.send({ error: { token: err }}))
+    .catch(err => {
+      console.error(err)
+      res.status(401).send()
+    })
 })
 
 
@@ -281,8 +288,8 @@ users.post('/contact', (req, res) => {
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error(err)
+      res.status(400).send()
     })
 })
 
@@ -335,13 +342,13 @@ users.post('/request-estimate', (req, res) => {
         res.status(200).send()
       })
       .catch(err => {
-        console.log(err)
-        res.send({ error: err })
+        console.error(err)
+        res.status(400).send()
       })
   })
   .catch(err => {
-    console.log(err)
-    res.status(400).send({ error: err })
+    console.error(err)
+    res.status(400).send()
   })
 })
 

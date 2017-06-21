@@ -2,8 +2,8 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 
 import Cart from '../models/Cart'
-import Product from '../../products/models/Product'
-import authenticate from '../../middleware/authenticate'
+import Product from '../models/Product'
+import authenticate from '../middleware/authenticate'
 
 const carts = express.Router()
 
@@ -21,7 +21,7 @@ carts.post('/', (req, res) => {
         items: [{
           productId,
           productQty,
-          image: product.image,
+          image: product.image.src,
           name,
           price,
           total: productQty * price
@@ -32,8 +32,8 @@ carts.post('/', (req, res) => {
           res.header('cart', doc._id).send(doc)
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
     })
 })
@@ -47,13 +47,14 @@ carts.get('/:_id', (req, res) => {
     return res.status(404).send()
   }
   Cart.findById(_id)
-    .then((cart) => {
-      if (!cart) {
-        return res.status(404).send()
-      }
+    .then(cart => {
+      if (!cart) return Promise.reject({ error: 'Cart not found'})
       res.send(cart)
     })
-    .catch((err) => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 
@@ -83,6 +84,10 @@ carts.patch('/:_id', (req, res) => {
             }
             cart.save()
               .then(cart => res.send(cart))
+              .catch(err => {
+                console.error(err)
+                res.status(400).send()
+              })
             break
           case 'REDUCE_FROM_CART':
             if (cart.items[index].productQty - productQty > 0) {
@@ -99,6 +104,10 @@ carts.patch('/:_id', (req, res) => {
               }
               cart.save()
                 .then(cart => res.send(cart))
+                .catch(err => {
+                  console.error(err)
+                  res.status(400).send()
+                })
             } else {
               cart.total = cart.total - ((cart.items[index].price * productQty) + (cart.items[index].price * productQty) * .075)
               cart.subTotal = cart.subTotal - (cart.items[index].price * productQty)
@@ -108,6 +117,10 @@ carts.patch('/:_id', (req, res) => {
               )
               cart.save()
                 .then(cart => res.send(cart))
+                .catch(err => {
+                  console.error(err)
+                  res.status(400).send()
+                })
             }
 
             break
@@ -119,8 +132,11 @@ carts.patch('/:_id', (req, res) => {
               item.productId.toHexString() !== productId
             )
             cart.save()
-              .catch(err => console.log(err))
               .then(cart => res.send(cart))
+              .catch(err => {
+                console.error(err)
+                res.status(400).send()
+              })
             break
           default:
             return cart
@@ -142,12 +158,16 @@ carts.patch('/:_id', (req, res) => {
             cart.items.push(item)
             cart.save()
               .then(cart => res.send(cart))
+              .catch(err => {
+                console.error(err)
+                res.status(400).send()
+              })
           })
       }
   })
-    .catch((err) => {
-      console.log(err)
-      res.status(400).send(err)
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
     })
 })
 
@@ -156,12 +176,13 @@ carts.patch('/:_id', (req, res) => {
 // Delete
 carts.delete('/:_id', (req, res) => {
   const _id = req.params._id
-  if (!ObjectID.isValid(_id)) {
-    return res.status(404).send()
-  }
+  if (!ObjectID.isValid(_id)) return res.status(404).send()
   Cart.findOneAndRemove({ _id,})
-    .then((cart) => res.send(cart))
-    .catch((err) => res.status(400).send(err))
+    .then(cart => res.send(cart))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 

@@ -17,7 +17,6 @@ const ERROR = `ERROR_${type}`
 const fetchAddSuccess = (item) => ({ type: ADD, item })
 const fetchAddFailure = (error) => ({ type: ERROR, error })
 export const fetchAdd = (add) => {
-  console.log('inside fetchAdd')
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',
@@ -34,7 +33,6 @@ export const fetchAdd = (add) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { card, section } = json
-        console.log(card, section)
         dispatch(fetchAddSuccess(card))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
@@ -80,7 +78,6 @@ export const fetchCards = () => {
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
-  console.log('updating card', _id, update)
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'PATCH',
@@ -126,8 +123,8 @@ export const fetchDelete = (_id) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { card, section } = json
-        dispatch(fetchDeleteSuccess(card._id))
         dispatch(sectionActions.fetchUpdateSuccess(section))
+        dispatch(fetchDeleteSuccess(card._id))
       })
       .catch(err => {
         dispatch(fetchDeleteFailure(err))
@@ -137,7 +134,6 @@ export const fetchDelete = (_id) => {
 }
 
 export const deletes = (items) => {
-  console.log('card action deletes: ', items)
   return {
     type: DELETES,
     items

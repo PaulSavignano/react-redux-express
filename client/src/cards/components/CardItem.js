@@ -8,14 +8,15 @@ import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Car
 class CardItem extends Component {
   state = {
     zDepth: 1,
-    loading: true,
-    image: ''
+    loading: false,
+    image: null
   }
   componentDidMount() {
-    if (this.props.card.image) {
+    const { image } = this.props.card
+    if (image) {
       this.setState({ loading: true })
       const img = new Image()
-      const src = this.props.card.image
+      const src = image.src
       img.src = src
       img.onload = (e) => {
         this.setState({ loading: false, image: src })
@@ -38,8 +39,8 @@ class CardItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        {header ? <CardHeader title={header} style={{ ...textColor }} /> : null }
-        {image ? <CardMedia><img src={image} alt="card"/></CardMedia> : null }
+        {header && <CardHeader title={header} style={{ ...textColor }} />}
+        {this.state.image && <CardMedia><img src={this.state.image} alt="card"/></CardMedia>}
         {iFrame ?
           <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
             <iframe
@@ -49,22 +50,23 @@ class CardItem extends Component {
             </iframe>
           </div>
         : null}
-        {!title ? null : <CardTitle title={title} titleStyle={{ ...textAlign, ...textColor }}  />  }
-        {!text ? null : <CardText style={{ ...textColor }}>{renderHTML(text)}</CardText> }
+        {text && <CardText>{renderHTML(text)}</CardText> }
       </CSSTransitionGroup>
     )
   }
   render() {
     const { dispatch, card } = this.props
-    const { width, maxWidth, zDepth, margin, backgroundColor, color } = card.values
-    console.log(width)
-    const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor, color }
-
+    const { values } = card
+    const width = values.width || null
+    const maxWidth = values.maxWidth || null
+    const zDepth = values.zDepth || null
+    const margin = values.margin || null
+    const backgroundColor = values.backgroundColor || null
+    const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor }
     return (
-      this.state.loading ? null :
-      card.values.link ?
+      !this.state.loading && values.link ?
       <Card
-        onTouchTap={() => dispatch(push(`${card.values.link}`))}
+        onTouchTap={() => dispatch(push(`${values.link}`))}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

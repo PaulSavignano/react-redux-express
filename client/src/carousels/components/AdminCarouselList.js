@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminCarouselItem from '../components/AdminCarouselItem'
 
-const AdminCarouselList = ({ section, carousels, imageSize }) => (
+const AdminCarouselList = ({ section, carousels, imageSpec }) => (
   carousels.length < 1 ? null  :
   <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
     {carousels.map(carousel => (
@@ -11,7 +11,7 @@ const AdminCarouselList = ({ section, carousels, imageSize }) => (
         carousel={carousel}
         section={section}
         initialValues={carousel.values}
-        imageSize={imageSize}
+        imageSpec={imageSpec}
       />
     ))}
   </div>

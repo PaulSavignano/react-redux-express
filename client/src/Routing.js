@@ -67,7 +67,7 @@ const Routing = ({ history }) => (
       <Route path="user/request-estimate" component={RequestEstimate} />
 
       {/* Product */}
-      <Route path="products/:productId" component={Product} />
+      <Route path="product/:productId" component={Product} />
 
       {/* Orders */}
       <Route path="admin/orders" component={RequireAuth(AdminOrders, ['admin'])} />

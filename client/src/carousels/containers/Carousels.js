@@ -5,7 +5,8 @@ import CarouselItem from '../components/CarouselItem'
 
 class Carousels extends Component {
   render() {
-    const { isFetching, section, carousels } = this.props
+    const { carousels } = this.props
+    console.log(carousels)
     var settings = {
       dots: true,
       className: 'center',
@@ -19,12 +20,11 @@ class Carousels extends Component {
       slidesToScroll: 1
     }
     return (
-      isFetching ? null : !carousels.length ? null :
+      carousels.length &&
         <Slider {...settings}>
           {carousels.map(carousel => (
             <div key={carousel._id} style={{ display: 'flex', justifyContent: 'center' }}>
               <CarouselItem
-                section={section}
                 carousel={carousel}
               />
             </div>

@@ -13,12 +13,12 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import { searchText } from '../actions/search'
 import SigninSignout from '../../users/components/SigninSignout'
 import CartIcon from '../../carts/components/CartIcon'
+import AppBarBrand from './AppBarBrand'
 
 class AppBarMenu extends Component {
   state = {
     searching: false,
-    openMenu: false,
-    color: this.props.muiTheme.palette.textColor
+    openMenu: false
   }
   handleOpen = (e) => {
     e.preventDefault()
@@ -29,20 +29,23 @@ class AppBarMenu extends Component {
   }
   handleClose = () => this.setState({ openMenu: false })
   render() {
-    const { dispatch, user, pages, brand, muiTheme, path, hasProducts } = this.props
-    const { textColor, primary1Color } = muiTheme.palette
+    const {
+      dispatch,
+      user,
+      pages,
+      brand: { business, image },
+      muiTheme: { appBar, palette },
+      path,
+      hasProducts
+    } = this.props
     const styles = {
       nav: {
         display: 'flex',
         flexFlow: 'row nowrap',
         justifyContent: 'space-between'
       },
-      brand: {
-        cursor: 'pointer',
-        maxHeight: 64
-      },
       search: {
-        color: textColor
+        color: appBar.textColor
       }
     }
     return (
@@ -75,22 +78,22 @@ class AppBarMenu extends Component {
           :
 
           <nav style={styles.nav} key={2}>
-            <div style={styles.brand} onTouchTap={() => dispatch(push('/'))}>
-              {brand.image ? <img src={brand.image} style={{ width: 'auto', height: 64 }} alt=""/> : brand.values.name || 'Brand'}
+            <div style={{ cursor: 'pointer', maxHeight: 64}} onTouchTap={() => dispatch(push('/'))}>
+              {image ? <AppBarBrand /> : business.name || 'Brand'}
             </div>
             <span>
               <span className="appbar-nav">
                 {pages.filter(page => page.slug !== 'home').map(page => (
                   <FlatButton
                     key={page._id}
-                    style={{ color: path === `/${page.slug}` ? primary1Color : textColor }}
+                    style={{ color: path === `/${page.slug}` ? palette.primary1Color : appBar.textColor }}
                     onTouchTap={() => dispatch(push(`/${page.slug}`))}
                     label={page.name}
                     hoverColor="none"
                   />
                 ))}
                 <FlatButton
-                  style={{ color: path === `/contact` ? primary1Color : textColor }}
+                  style={{ color: path === `/contact` ? palette.primary1Color : appBar.textColor }}
                   onTouchTap={() => dispatch(push(`/contact`))}
                   label="Contact"
                   hoverColor="none"
@@ -105,10 +108,10 @@ class AppBarMenu extends Component {
                 />
               }
               <FlatButton
-                style={styles.user}
                 onTouchTap={this.handleOpen}
                 label={user.values.firstName ? `Hello, ${user.values.firstName}`: `SIGN IN`}
                 hoverColor="none"
+                style={{ color: appBar.textColor }}
               />
               <Popover
                 open={this.state.openMenu}

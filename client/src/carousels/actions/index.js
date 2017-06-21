@@ -111,17 +111,22 @@ export const fetchDelete = (_id) => {
         'x-auth': localStorage.getItem('token'),
       },
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        const { carousel, section } = json
-        dispatch(fetchDeleteSuccess(carousel._id))
-        dispatch(sectionActions.fetchUpdateSuccess(section))
-      })
-      .catch(err => {
-        dispatch(fetchDeleteFailure(err))
-        throw new SubmissionError({ error: err.err, _error: err.err })
-      })
+    .then(res => {
+      if (res.ok) return res.json()
+      throw new Error('Network response was not ok.')
+    })
+    .then(json => {
+      if (json.error) return Promise.reject(json.error)
+      const { carousel, section } = json
+      console.log('carousel ', carousel)
+      console.log('section ', section)
+      dispatch(sectionActions.fetchUpdateSuccess(section))
+      dispatch(fetchDeleteSuccess(carousel._id))
+    })
+    .catch(err => {
+      dispatch(fetchDeleteFailure(err))
+      throw new SubmissionError({ ...err, _error: 'Delete failed!' })
+    })
   }
 }
 

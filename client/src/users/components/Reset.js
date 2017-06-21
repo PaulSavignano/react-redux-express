@@ -8,7 +8,9 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import renderTextField from '../../modules/renderTextField'
 import { fetchReset } from '../actions/index'
+
 
 const validate = values => {
   const errors = {}
@@ -23,15 +25,6 @@ const validate = values => {
   }
   return errors
 }
-
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
 
 
 class Reset extends Component {

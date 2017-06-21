@@ -5,7 +5,8 @@ import AdminCardAdd from '../components/AdminCardAdd'
 import AdminCardList from '../components/AdminCardList'
 
 // 1080 x 1920 height is 56.25% of width
-const imageSize = {
+const imageSpec = {
+  type: 'image/jpg',
   width: 1012,
   height: 675
 }
@@ -13,7 +14,7 @@ const imageSize = {
 const AdminCards = ({ isFetching, section, cards }) => {
   return (
     isFetching ? null :
-    <AdminCardList section={section} cards={cards} imageSize={imageSize} />
+    <AdminCardList section={section} cards={cards} imageSpec={imageSpec} />
   )
 }
 

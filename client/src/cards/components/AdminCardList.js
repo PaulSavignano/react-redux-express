@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminCardItem from '../components/AdminCardItem'
 
-const AdminCardList = ({ section, cards, imageSize }) => (
+const AdminCardList = ({ section, cards, imageSpec }) => (
   cards.length < 1 ? null  :
   <div style={{ display: 'flex', flexFlow: 'row wrap', width: '100%' }}>
     {cards.map(card => (
@@ -10,7 +10,7 @@ const AdminCardList = ({ section, cards, imageSize }) => (
         key={card._id}
         card={card}
         section={section}
-        imageSize={imageSize}
+        imageSpec={imageSpec}
       />
     ))}
   </div>

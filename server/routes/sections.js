@@ -1,12 +1,12 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 
-import authenticate from '../../middleware/authenticate'
-import { uploadFile, deleteFile, deleteFiles } from '../../middleware/s3'
+import authenticate from '../middleware/authenticate'
+import { uploadFile, deleteFile, deleteFiles } from '../middleware/s3'
 import Section from '../models/Section'
-import Card from '../../cards/models/Card'
-import Carousel from '../../carousels/models/Carousel'
-import Product from '../../products/models/Product'
+import Card from '../models/Card'
+import Carousel from '../models/Carousel'
+import Product from '../models/Product'
 
 const sections = express.Router()
 
@@ -25,8 +25,8 @@ sections.post('/', authenticate(['admin']), (req, res) => {
         res.send(doc)
       })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error(err)
+      res.status(400).send()
     })
 })
 
@@ -36,14 +36,20 @@ sections.post('/', authenticate(['admin']), (req, res) => {
 sections.get('/', (req, res) => {
   Section.find({})
     .then(docs => res.send(docs))
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 sections.get('/:_id', (req, res) => {
   const _id = req.params._id
   Section.find({ _id })
     .then(doc => res.send(doc))
-    .catch(err => res.status(400).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(400).send()
+    })
 })
 
 
@@ -53,23 +59,30 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, pageId, image, values } = req.body
-  console.log(values)
   const Key = `${s3Path}${_id}`
   switch (type) {
 
-    case 'UPDATE_IMAGE':
-      uploadFile({ Key }, image)
+    case 'UPDATE_IMAGE_AND_VALUES':
+      uploadFile({ Key }, image.src)
         .then(data => {
-          const update = { image: data.Location }
+          const update = {
+            image: {
+              src: data.Location,
+              width: image.width,
+              height: image.height
+            },
+            values
+          }
           Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
-            .then(doc => {
-              res.send(doc)
-            })
+            .then(doc => res.send(doc))
             .catch(err => {
-              console.log(err)
-              res.status(400).send(err)
+              console.error(err)
+              res.status(400).send()
             })
-          .catch(err => res.status(400).send(err))
+          .catch(err => {
+            console.error(err)
+            res.status(400).send()
+          })
         })
       break
 
@@ -82,10 +95,13 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
               res.send(doc)
             })
             .catch(err => {
-              console.log(err)
-              res.status(400).send(err)
+              console.error(err)
+              res.status(400).send()
             })
-          .catch(err => res.status(400).send(err))
+          .catch(err => {
+            console.error(err)
+            res.status(400).send()
+          })
         })
       break
 
@@ -95,8 +111,8 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
           res.send(doc)
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
       break
 
@@ -119,13 +135,13 @@ sections.delete('/:_id', authenticate(['admin']), (req, res) => {
           res.send(section)
         })
         .catch(err => {
-          console.log(err)
-          res.status(400).send(err)
+          console.error(err)
+          res.status(400).send()
         })
     })
     .catch(err => {
-      console.log(err)
-      res.status(400).send(err)
+      console.error(err)
+      res.status(400).send()
     })
 })
 

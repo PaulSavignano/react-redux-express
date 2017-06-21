@@ -16,14 +16,15 @@ class ProductItem extends Component {
     qty: 1,
     zDepth: 1,
     loading: true,
-    image: '',
+    image: null,
     open: false
   }
   componentDidMount() {
-    if (this.props.product.image) {
+    const { image } = this.props.product
+    if (image) {
       this.setState({ loading: true })
       const img = new Image()
-      const src = this.props.product.image
+      const src = image.src
       img.src = src
       img.onload = (e) => {
         this.setState({ loading: false, image: src })
@@ -63,9 +64,11 @@ class ProductItem extends Component {
           transitionLeave={false}
           style={{ flex: '1 1 auto' }}
         >
-          <CardMedia>
-            <img src={product.image} alt={product.name} onTouchTap={() => dispatch(push(`/product/${product._id}`))}/>
-          </CardMedia>
+          {this.state.image &&
+            <CardMedia onTouchTap={() => dispatch(push(`/product/${product._id}`))}>
+              <img src={this.state.image} alt={product.name} />
+            </CardMedia>
+          }
           <CardTitle title={
             <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
               <div>{name}</div>

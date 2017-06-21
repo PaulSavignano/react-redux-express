@@ -27,7 +27,9 @@ export const fetchAdd = (add) => {
       body: JSON.stringify(add)
     })
       .then(res => {
-        if (res.ok) localStorage.setItem('token', res.headers.get('x-auth'))
+        if (res.ok) {
+          localStorage.setItem('token', res.headers.get('x-auth'))
+        }
         return res.json()
       })
       .then(json => {
@@ -59,14 +61,14 @@ export const fetchUser = (token) => {
       }
     })
       .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
+        return res.json()
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUserSuccess(json))
       })
       .catch(err => {
+        console.error(err)
         const token = localStorage.getItem('token')
         if (token) localStorage.removeItem('token')
         dispatch(fetchUserFailure(err))
@@ -88,13 +90,16 @@ export const fetchUpdate = (update) => {
       },
       body: JSON.stringify(update)
     })
-      .then(res => res.json())
+      .then(res => {
+        if(res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         dispatch(fetchUpdateFailure(err))
         throw new SubmissionError({ ...err, _error: err })
       })
@@ -171,9 +176,9 @@ export const fetchSignin = (values) => {
         if (path) return dispatch(push(path))
       })
       .catch(err => {
-        console.log('error', err)
+        console.error(err)
         dispatch(fetchSigninFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Signin failed!' })
+        throw new SubmissionError({ ...err, _error: 'Sigin failed!'})
       })
   }
 }

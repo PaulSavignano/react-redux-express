@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminSectionItem from '../components/AdminSectionItem'
 
-const AdminSectionList = ({ page, sections, imageSize }) => {
+const AdminSectionList = ({ page, sections, imageSpec }) => {
   return (
     sections.length < 1 ? null :
     <div>
@@ -11,7 +11,7 @@ const AdminSectionList = ({ page, sections, imageSize }) => {
           key={section._id}
           section={section}
           page={page}
-          imageSize={imageSize}
+          imageSpec={imageSpec}
         />
       ))}
     </div>

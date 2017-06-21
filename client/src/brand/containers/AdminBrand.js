@@ -5,68 +5,73 @@ import AdminBrandImage from '../components/AdminBrandImage'
 
 // width: 256
 // height: 128
-const imageSize = {
+const imageSpec = {
+  type: 'image/png',
   width: 128,
   height: 128
 }
 
 
-const AdminBrandPage = ({ dispatch, isFetching, brand, initialValues }) => {
+const AdminBrand = ({ dispatch, isFetching, _id, image, initialValues }) => {
   return (
-    isFetching ? null : !brand.values ? null :
+    isFetching ? null :
     <section>
-      <AdminBrandImage brand={brand} imageSize={imageSize} /><br/><br/>
-      <AdminBrandForm brand={brand} initialValues={initialValues}/>
+      <AdminBrandImage item={{ _id, image }} imageSpec={imageSpec} /><br/><br/>
+      <AdminBrandForm item={{ _id }} initialValues={initialValues}/>
     </section>
 
   )
 }
 
 const mapStateToProps = ({ brand }) => {
+  const { isFetching, _id, business, socialMedia, theme, image } = brand
   return {
-    isFetching: brand.isFetching,
-    brand: brand,
+    isFetching,
+    _id,
+    image,
     initialValues: {
-      name: brand.values.name,
-      description: brand.values.description,
-      phone: brand.values.phone,
-      email: brand.values.email,
-      street: brand.values.street,
-      city: brand.values.city,
-      state: brand.values.state,
-      zip: brand.values.zip,
-      facebook: brand.values.facebook,
-      github: brand.values.github,
-      google: brand.values.google,
-      instagram: brand.values.instagram,
-      linkedin: brand.values.linkedin,
-      yelp: brand.values.yelp,
-      twitter: brand.values.twitter,
-      youtube: brand.values.youtube,
-      mainColor: brand.values.mainColor,
-      fontFamily: brand.values.fontFamily,
-      fontFamily2: brand.values.fontFamily2,
-      appBarColor: brand.values.appBar.color,
-      appBarTextColor: brand.values.appBar.textColor,
-      footerColor: brand.values.footer.color,
-      footerTextColor: brand.values.footer.textColor,
-      primary1Color: brand.values.palette.primary1Color,
-      primary2Color: brand.values.palette.primary2Color,
-      primary3Color: brand.values.palette.primary3Color,
-      accent1Color: brand.values.palette.accent1Color,
-      accent2Color: brand.values.palette.accent2Color,
-      accent3Color: brand.values.palette.accent3Color,
-      textColor: brand.values.palette.textColor,
-      secondaryTextColor: brand.values.palette.secondaryTextColor,
-      alternateTextColor: brand.values.palette.alternateTextColor,
-      canvasColor: brand.values.palette.canvasColor,
-      borderColor: brand.values.palette.borderColor,
-      disabledColor: brand.values.palette.disabledColor,
-      pickerHeaderColor: brand.values.palette.pickerHeaderColor,
-      clockCircleColor: brand.values.palette.clockCircleColor,
-      shadowColor: brand.values.palette.shadowColor
+      name: business.name,
+      description: business.description,
+      phone: business.phone,
+      email: business.email,
+      street: business.street,
+      city: business.city,
+      state: business.state,
+      zip: business.zip,
+      facebook: socialMedia.facebook,
+      github: socialMedia.github,
+      google: socialMedia.google,
+      instagram: socialMedia.instagram,
+      linkedin: socialMedia.linkedin,
+      yelp: socialMedia.yelp,
+      twitter: socialMedia.twitter,
+      youtube: socialMedia.youtube,
+      mainColor: theme.main.color,
+      fontFamily: theme.fontFamily,
+      fontFamily2: theme.fontFamily2,
+      fontFamily3: theme.fontFamily3,
+      appBarColor: theme.appBar.color,
+      appBarTextColor: theme.appBar.textColor,
+      footerColor: theme.footer.color,
+      footerTextColor: theme.footer.textColor,
+      footerBorderBottom: theme.footer.borderBottom,
+      primary1Color: theme.palette.primary1Color,
+      primary2Color: theme.palette.primary2Color,
+      primary3Color: theme.palette.primary3Color,
+      accent1Color: theme.palette.accent1Color,
+      accent2Color: theme.palette.accent2Color,
+      accent3Color: theme.palette.accent3Color,
+      textColor: theme.palette.textColor,
+      secondaryTextColor: theme.palette.secondaryTextColor,
+      alternateTextColor: theme.palette.alternateTextColor,
+      canvasColor: theme.palette.canvasColor,
+      borderColor: theme.palette.borderColor,
+      disabledColor: theme.palette.disabledColor,
+      pickerHeaderColor: theme.palette.pickerHeaderColor,
+      clockCircleColor: theme.palette.clockCircleColor,
+      shadowColor: theme.palette.shadowColor
     }
   }
 }
 
-export default connect(mapStateToProps)(AdminBrandPage)
+export default connect(mapStateToProps)(AdminBrand)

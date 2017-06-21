@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-import Section from '../../sections/models/Section'
+import Section from './Section'
 
 const PageSchema = new Schema({
   name: {
@@ -19,7 +19,7 @@ PageSchema.pre('remove', function(next) {
   const page = this
   if (page.sections.length) {
     Section.find({ pageId: page._id })
-      .then(items => items.map(item => item.remove().catch(err => console.log(err))))
+      .then(items => items.map(item => item.remove().catch(err => console.error(err))))
   }
   next()
 })

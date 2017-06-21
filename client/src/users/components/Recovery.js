@@ -7,6 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import renderTextField from '../../modules/renderTextField'
 import { fetchRecovery } from '../actions/index'
 
 const validate = values => {
@@ -22,15 +23,6 @@ const validate = values => {
   }
   return errors
 }
-
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
 
 
 class Recovery extends Component {
@@ -48,7 +40,7 @@ class Recovery extends Component {
           <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
           <form onSubmit={handleSubmit(values => {
             this.setState({ email: values.email })
-            dispatch(fetchRecovery(values))
+            return dispatch(fetchRecovery(values))
           })} className="">
             <CardText>
               <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
@@ -92,9 +84,9 @@ Recovery = reduxForm({
   validate
 })(Recovery)
 
-const mapStateToProps = (state) => ({
-  isFetching: state.user.isFetching,
-  user: state.user
+const mapStateToProps = ({ user }) => ({
+  isFetching: user.isFetching,
+  user
 })
 
 Recovery = connect(mapStateToProps)(Recovery)

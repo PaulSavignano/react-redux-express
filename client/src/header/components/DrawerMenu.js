@@ -5,13 +5,15 @@ import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
 import { spacing, typography } from 'material-ui/styles'
 
+import AppBarBrand from './AppBarBrand'
 import { fetchAdd } from '../../brand/actions/index'
 import SigninSignout from '../../users/components/SigninSignout'
 
-const DrawerMenu = ({ dispatch, brand, pages, user, handleClose, hasProducts }) => {
+const DrawerMenu = ({ dispatch, brand: { business, image, theme }, pages, user, handleClose, hasProducts }) => {
+  const { appBar, main, footer, palette } = theme
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false
-  const color = brand.values.appBar ? brand.values.appBar.textColor : null
-  const backgroundColor = brand.values.appBar ? brand.values.appBar.color : null
+  const color = appBar.textColor || null
+  const backgroundColor = appBar.color || null
   const styles = {
     logo: {
       cursor: 'pointer',
@@ -54,13 +56,10 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose, hasProducts }) 
           handleClose()
         }}
       >
-        {brand.image ?
-          <img src={brand.image} style={{ margin: '0 auto 8px auto', width: 'auto', height: 64 }} alt=""/>
-          :
-          <div style={styles.logo}>
-            {brand.values.name ? brand.values.name : 'Brand'}
-          </div>
-        }
+
+        <div style={styles.logo}>
+          <AppBarBrand />
+        </div>
       </div>
       {user.values.firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {user.values.firstName}</div>}
 
@@ -76,7 +75,7 @@ const DrawerMenu = ({ dispatch, brand, pages, user, handleClose, hasProducts }) 
         handleClose()
       }}>Contact</MenuItem>
 
-      {!isAdmin ? null : !brand.values.name ?
+      {!isAdmin ? null : !business.name ?
         <MenuItem onTouchTap={() => {
           dispatch(fetchAdd())
           .then(()=> dispatch(push(`/admin/brand`)))

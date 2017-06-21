@@ -34,7 +34,7 @@ class AppBarMenuAussie extends Component {
   }
   handleClose = () => this.setState({ openMenu: false })
   render() {
-    const { dispatch, user, image, handleDrawer, pages, brand, muiTheme, path, hasProducts } = this.props
+    const { dispatch, user, handleDrawer, pages, brand: { business }, muiTheme, path, hasProducts } = this.props
     const { textColor, primary1Color } = muiTheme.palette
     console
     const styles = {

@@ -50,7 +50,7 @@ export const fetchAddOrder = (order) => {
             dispatch(push(`/user/order/${json._id}`))
           })
           .catch(err => {
-            console.log(err)
+            console.error(err)
             dispatch(fetchAddOrderFailure(err))
             throw new SubmissionError({ ...err, _error: err })
           })
