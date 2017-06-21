@@ -36,7 +36,7 @@ class Signin extends Component {
   handleClose = () => this.setState({open: false})
   componentWillMount() {
     const { error } = this.props.user
-    error && this.setState({ open: true, message: error.token })
+    error ? this.setState({ open: true, message: error.token }) : null
   }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, user } = nextProps

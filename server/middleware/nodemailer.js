@@ -35,13 +35,13 @@ export const sendEmail1 = (mail) => {
         from: process.env.GMAIL_USER,
         to: to,
         subject: toSubject,
-        html: `${toBody}<br/>${brand}`
+        html: `${toBody}<br/>${signature}`
       }
       const adminMail = {
         from: process.env.GMAIL_USER,
         to: process.env.GMAIL_USER,
         subject: fromSubject,
-        html: `${fromBody}<br/>${brand}`
+        html: `${fromBody}<br/>${signature}`
       }
       transporter.sendMail(adminMail)
       return transporter.sendMail(userMail)
