@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Link } from 'react-router'
-import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
@@ -34,18 +33,13 @@ class Signin extends Component {
     message: null
   }
   handleClose = () => this.setState({open: false})
-  componentWillMount() {
-    const { error } = this.props.user
-    error ? this.setState({ open: true, message: error.token }) : null
-  }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, user } = nextProps
     submitSucceeded && this.setState({ message: `Welcome back ${user.values.firstName}!`})
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, submitSucceeded, user, muiTheme, reset } = this.props
+    const { dispatch, error, handleSubmit, submitting, muiTheme, reset } = this.props
     const { primary1Color } = muiTheme.palette
-
     return (
       <section>
         <Card className="cards">
@@ -103,8 +97,8 @@ Signin = reduxForm({
   validate
 })(Signin)
 
-const mapStateToProps = (state, nextProps) => ({
-  user: state.user
+const mapStateToProps = ({ user }) => ({
+  user
 })
 
 Signin = compose(connect(mapStateToProps), muiThemeable())(Signin)

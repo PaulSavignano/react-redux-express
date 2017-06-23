@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm, Field, submit } from 'redux-form'
-import { Card, CardActions, CardText } from 'material-ui/Card'
+import { reduxForm, Field } from 'redux-form'
+import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
-import SelectField from 'material-ui/SelectField'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
-import * as cardActions from '../../cards/actions'
-import * as carouselActions from '../../carousels/actions'
-import * as productActions from '../../products/actions'
+import ImageForm from '../../images/components/ImageForm'
+import renderTextField from '../../modules/renderTextField'
+import renderSelectField from '../../modules/renderSelectField'
+import renderWysiwgyField from '../../modules/renderWysiwgyField'
 import AdminCardItem from '../../cards/components/AdminCardItem'
 import AdminCarouselItem from '../../carousels/components/AdminCarouselItem'
 import AdminProductItem from '../../products/components/AdminProductItem'
+import * as cardActions from '../../cards/actions'
+import * as carouselActions from '../../carousels/actions'
+import * as productActions from '../../products/actions'
 import { fetchUpdate, fetchDelete } from '../actions/index'
-import ImageForm from '../../images/components/ImageForm'
-import renderTextField from '../../modules/renderTextField'
-import renderRichField from '../../modules/renderRichField'
-import renderSelectField from '../../modules/renderSelectField'
-import renderWysiwgyField from '../../modules/renderWysiwgyField'
+
 
 class AdminSectionItem extends Component {
   state = {
@@ -47,26 +46,42 @@ class AdminSectionItem extends Component {
     this.props.dispatch(fetchUpdate(_id, update))
   }
   setEditorRef = (editor) => this.editor = editor
-  renderComponents = () => {
-    const { section, components } = this.props
-    return components.map(component => {
+  renderComponents = (components) => {
+    const componentList = (component) => {
+      const { componentId } = component
       switch(component.type) {
         case 'Card':
-          return <AdminCardItem key={component._id} card={component} section={section} imageSpec={{ type: 'image/jpg', width: 1012, height: 675 }} />
-          break
+          return (
+            <AdminCardItem
+              key={component._id}
+              componentId={componentId}
+              imageSpec={{ type: 'image/jpg', width: 1012, height: 675 }}
+            />
+          )
         case 'Carousel':
-          return <AdminCarouselItem key={component._id} carousel={component} section={section} imageSpec={{ type: 'image/jpg', width: 300, height: 200 }}/>
-          break
+          return (
+            <AdminCarouselItem
+              key={component._id}
+              componentId={componentId}
+              imageSpec={{ type: 'image/jpg', width: 300, height: 200 }}
+            />
+          )
         case 'Product':
-          return <AdminProductItem key={component._id} product={component} section={section} imageSpec={{ type: 'image/jpg', width: 1012, height: 675 }}/>
-          break
+          return (
+            <AdminProductItem
+              key={component._id}
+              componentId={componentId}
+              imageSpec={{ type: 'image/jpg', width: 1012, height: 675 }}
+            />
+          )
         default:
           return
       }
-    })
+    }
+    return components.map(component => componentList(component))
   }
   render() {
-    const { error, handleSubmit, dispatch, submit, page, section, imageSpec, cards, carousels, products } = this.props
+    const { error, handleSubmit, dispatch, section, imageSpec } = this.props
     return (
       <Card
         expanded={this.state.expanded}
@@ -167,7 +182,7 @@ class AdminSectionItem extends Component {
           </div>
         </form>
         <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
-          {this.renderComponents()}
+          {this.renderComponents(section.components)}
         </div>
 
 
@@ -223,17 +238,11 @@ class AdminSectionItem extends Component {
 }
 
 AdminSectionItem = compose(
-  connect(({ cards, carousels, products, dispatch }, { section }) => {
+  connect((state, { section }) => {
     const values = section.values || {}
-    const allComponents = [ ...cards.items, ...carousels.items, ...products.items ]
-    const components = section.components.map(item => {
-      const component = allComponents.find(comp => comp._id === item.componentId)
-      return { ...item, ...component }
-    })
     return {
       form: `section_${section._id}`,
       section,
-      components,
       initialValues: {
         ...values,
         height: values.height ? values.height.toString() : null,

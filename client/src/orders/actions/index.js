@@ -12,7 +12,7 @@ const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
 const UPDATE = `UPDATE_${type}`
-const DELETE = `DELETE_${type}`
+//const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
 
 

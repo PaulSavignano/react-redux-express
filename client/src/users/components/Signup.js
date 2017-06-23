@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { Field, reduxForm } from 'redux-form'
 
+import renderTextField from '../../modules/renderTextField'
 import { fetchAdd } from '../actions/index'
 
 const validate = values => {
@@ -26,15 +26,6 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
-
 class Signup extends Component {
   state = { open: false }
   handleClose = () => this.setState({open: false})
@@ -42,7 +33,7 @@ class Signup extends Component {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, signup, user } = this.props
+    const { dispatch, error, handleSubmit, submitting, user } = this.props
     return (
       <section>
         <Card className="cards">
@@ -94,9 +85,8 @@ Signup = reduxForm({
   validate
 })(Signup)
 
-const mapStateToProps = (state) => ({
-  signup: state.form.signup || {},
-  user: state.user
+const mapStateToProps = ({ user }) => ({
+  user
 })
 
 Signup = connect(mapStateToProps)(Signup)

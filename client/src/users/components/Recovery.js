@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
@@ -26,7 +25,10 @@ const validate = values => {
 
 
 class Recovery extends Component {
-  state = { open: false, email: null }
+  state = {
+    open: false,
+    email: null
+  }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })

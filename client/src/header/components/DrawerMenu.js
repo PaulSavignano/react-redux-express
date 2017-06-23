@@ -10,7 +10,7 @@ import { fetchAdd } from '../../brand/actions/index'
 import SigninSignout from '../../users/components/SigninSignout'
 
 const DrawerMenu = ({ dispatch, brand: { business, image, theme }, pages, user, handleClose, hasProducts }) => {
-  const { appBar, main, footer, palette } = theme
+  const { appBar } = theme
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false
   const color = appBar.textColor || null
   const backgroundColor = appBar.color || null

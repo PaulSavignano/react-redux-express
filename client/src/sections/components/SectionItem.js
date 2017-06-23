@@ -25,23 +25,22 @@ class SectionItem extends Component {
     }
   }
   renderComponents = () => {
-    const { section, components } = this.props
-    return components.map(component => {
-      switch(component.type) {
+    const { components } = this.props.section
+    const componentList = (component) => {
+      const { type, componentId } = component
+      switch(type) {
         case 'Card':
-          return <CardItem key={component._id} card={component} section={section} />
-          break
+          return <CardItem key={component._id} componentId={componentId}  />
         case 'Product':
-          return <ProductItem key={component._id} product={component} section={section} />
-          break
+          return <ProductItem key={component._id} componentId={componentId} />
         default:
           return
       }
-    })
+    }
+    return components.map(component => componentList(component))
   }
   renderContents = (section) => {
     const values = section.values || {}
-    const { fontFamily } = this.props.brand
     const text = values.text || null
     const height = values.height || null
     const backgroundColor = values.backgroundColor || null
@@ -99,19 +98,12 @@ class SectionItem extends Component {
   }
 }
 
-const mapStateToProps = ({ brand, cards, carousels, products, dispatch }, { section }) => {
-  const allComponents = [ ...cards.items, ...products.items, ...carousels.items ]
-  const components = section.components.map(item => {
-    const component = allComponents.find(comp => comp._id === item.componentId)
-    return { ...item, ...component }
-  })
-  const slides = components.filter(comp => comp.type === 'Carousel')
+const mapStateToProps = (state, { section }) => {
+  const slides = section.components.filter(value => value.type === 'Carousel')
   return {
     isFetching: section.isFetching,
-    brand,
-    components,
-    slides,
-    section
+    section,
+    slides
   }
 }
 

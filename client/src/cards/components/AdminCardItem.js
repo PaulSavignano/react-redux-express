@@ -2,18 +2,13 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import TextField from 'material-ui/TextField'
-import { Card, CardHeader, CardActions, CardText, CardMedia } from 'material-ui/Card'
+import { Card, CardHeader, CardMedia } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import MenuItem from 'material-ui/MenuItem'
 
-import renderRichField from '../../modules/renderRichField'
 import renderTextField from '../../modules/renderTextField'
-import renderSelectField from '../../modules/renderSelectField'
 import renderWysiwgyField from '../../modules/renderWysiwgyField'
 import ImageForm from '../../images/components/ImageForm'
 import { fetchUpdate, fetchDelete } from '../actions/index'
-
 
 class AdminCardItem extends Component {
   state = {
@@ -36,8 +31,9 @@ class AdminCardItem extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { error, handleSubmit, dispatch, section, card, imageSpec } = this.props
-    const width = !card.values ? null : card.values.width || null
+    const { error, handleSubmit, dispatch, item, imageSpec } = this.props
+    const values = item.values || {}
+    const width = values.width || null
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -46,14 +42,14 @@ class AdminCardItem extends Component {
         style={{ width, height: '100%' }}
         className="cards"
       >
-        <CardHeader title={`Card ${card._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardHeader title={`Card ${item._id}`} titleStyle={{ fontSize: 16 }} />
         <CardMedia>
           <form onSubmit={handleSubmit((values) => {
             if (this.state.editing) {
               const image = this.editor.handleSave()
-              return dispatch(fetchUpdate(card._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+              return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
             }
-            return dispatch(fetchUpdate(card._id, { type: 'UPDATE_VALUES', values }))
+            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
           })}
             style={{ flex: '1 1 auto' }}
           >
@@ -111,16 +107,16 @@ class AdminCardItem extends Component {
                 component={renderTextField}
               />
             </div>
-            {!card.values.iFrame &&
+            {!values.iFrame &&
               <ImageForm
                 imageSpec={imageSpec}
-                item={card}
+                item={item}
                 editing={this.editing}
                 deleteImage={this.deleteImage}
                 ref={this.setEditorRef}
               />
             }
-            {!card.image &&
+            {!item.image &&
               <div style={{ margin: '0 16px' }}>
                 <Field
                   name="iFrame"
@@ -132,12 +128,12 @@ class AdminCardItem extends Component {
               </div>
             }
 
-            {card.values.iFrame &&
+            {values.iFrame &&
               <div style={{ position: 'relative', paddingBottom: '50%'}}>
                 <iframe
                   title="google youtube"
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={card.values.iFrame} frameBorder="0" allowFullScreen>
+                  src={values.iFrame} frameBorder="0" allowFullScreen>
                 </iframe></div>
             }
 
@@ -174,7 +170,7 @@ class AdminCardItem extends Component {
                 className="delete-button"
                 labelColor="#ffffff"
                 style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
-                onTouchTap={() => dispatch(fetchDelete(card._id, card.image))}
+                onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
               />
             </div>
           </form>
@@ -185,11 +181,12 @@ class AdminCardItem extends Component {
 }
 
 AdminCardItem = compose(
-  connect((state, { card }) => {
-    const { values } = card
+  connect(({ card }, { componentId }) => {
+    const item = card.items.map(value => value._id === componentId)
+    const values = item.values || {}
     return {
-      form: `card_${card._id}`,
-      card,
+      form: `card_${item._id}`,
+      item,
       initialValues: {
         ...values,
         width: values.width ? values.width.toString() : null,

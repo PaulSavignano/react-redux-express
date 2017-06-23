@@ -17,20 +17,21 @@ class ProductItem extends Component {
     zDepth: 1,
     loading: true,
     image: null,
+    hasImage: false,
     open: false
   }
   componentDidMount() {
-    const { image } = this.props.product
+    const { image } = this.props.item
     if (image) {
       this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = (e) => {
-        this.setState({ loading: false, image: src })
+        this.setState({ loading: false, image: src, hasImage: true })
       }
     } else {
-      this.setState({ loading: false })
+      this.setState({ loading: false, hasImage: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
@@ -44,14 +45,13 @@ class ProductItem extends Component {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
-    const { dispatch, product } = this.props
-    const { name, description, price } = product.values
-    const width = this.props.fullWidth ? null : 300
+    const { dispatch, item } = this.props
+    const { name, description, price } = item.values
     return (
       this.state.loading ? null :
       <Card
         className="cards"
-        style={{ flex: '1 1 auto', width }}
+        style={{ flex: '1 1 auto' }}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -64,9 +64,9 @@ class ProductItem extends Component {
           transitionLeave={false}
           style={{ flex: '1 1 auto' }}
         >
-          {this.state.image &&
-            <CardMedia onTouchTap={() => dispatch(push(`/product/${product._id}`))}>
-              <img src={this.state.image} alt={product.name} />
+          {this.state.hasImage &&
+            <CardMedia onTouchTap={() => dispatch(push(`/product/${item._id}`))}>
+              <img src={this.state.image} alt={item.name} />
             </CardMedia>
           }
           <CardTitle title={
@@ -84,7 +84,7 @@ class ProductItem extends Component {
               inputStyle={{ textAlign: 'center' }}
               ref={node => this.qty = node}
               value={this.state.qty}
-              id={product._id}
+              id={item._id}
             />
             <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
           </div>
@@ -95,7 +95,7 @@ class ProductItem extends Component {
             onTouchTap={() => {
               const update = {
                 type: 'ADD_TO_CART',
-                productId: product._id,
+                productId: item._id,
                 productQty: this.state.qty,
               }
               dispatch(fetchAddToCart(update))
@@ -126,5 +126,11 @@ class ProductItem extends Component {
   }
 }
 
+const mapStateToProps = ({ products }, { componentId }) => {
+  const item = products.items.find(value => value._id === componentId)
+  return {
+    item
+  }
+}
 
-export default connect()(ProductItem)
+export default connect(mapStateToProps)(ProductItem)

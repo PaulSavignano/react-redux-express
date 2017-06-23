@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper'
 import FontIcon from 'material-ui/FontIcon'
 
 const Footer = ({ isFetching, brand: { business, socialMedia }, muiTheme }) => {
-  const { palette, footer, fontFamily, fontFamily2, fontFamily3 } = muiTheme
+  const { palette, footer } = muiTheme
   const { primary1Color, textColor } = palette
   const { name, phone, email, street, city, state, zip } = business
   const { facebook, github, google, instagram, linkedin, twitter, yelp, youtube } = socialMedia

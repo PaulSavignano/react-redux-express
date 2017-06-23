@@ -3,7 +3,7 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import {Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import {Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
 
 class CardItem extends Component {
   state = {
@@ -12,7 +12,7 @@ class CardItem extends Component {
     image: null
   }
   componentDidMount() {
-    const { image } = this.props.card
+    const { image } = this.props.item
     if (image) {
       this.setState({ loading: true })
       const img = new Image()
@@ -28,8 +28,8 @@ class CardItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   renderContents = () => {
-    const { image, values } = this.props.card
-    const { color, header, iFrame, title, textAlign, text, link } = values
+    const { values } = this.props.item
+    const { color, header, iFrame, text } = values
     const textColor = { color }
     return (
       <CSSTransitionGroup
@@ -55,8 +55,7 @@ class CardItem extends Component {
     )
   }
   render() {
-    const { dispatch, card } = this.props
-    const { values } = card
+    const { dispatch, item: { values } } = this.props
     const width = values.width || null
     const maxWidth = values.maxWidth || null
     const zDepth = values.zDepth || null
@@ -92,4 +91,11 @@ class CardItem extends Component {
   }
 }
 
-export default connect()(CardItem)
+const mapStateToProps = ({ cards }, { componentId }) => {
+  const item = cards.items.find(value => value._id === componentId)
+  return {
+    item
+  }
+}
+
+export default connect(mapStateToProps)(CardItem)

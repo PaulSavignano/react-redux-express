@@ -5,35 +5,9 @@ import { push } from 'react-router-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
 
+import renderTextField from '../../modules/renderTextField'
 import { fetchUpdate, fetchDelete } from '../actions/index'
-
-
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField
-    hintText={label}
-    errorText={touched && error}
-    autoFocus={true}
-    {...input}
-    {...custom}
-  />
-)
-
-
-      const styles = {
-        CardText: {
-          display: 'flex',
-          flexFlow: 'row wrap',
-          alignItems: 'center'
-        },
-        name: {
-          flex: '1 1 auto'
-        },
-        RaisedButton: {
-          alignSelf: 'flex-end'
-        }
-      }
 
 class AdminPageName extends Component {
   state = {
@@ -49,7 +23,7 @@ class AdminPageName extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, error, handleSubmit, submitSucceeded, item } = this.props
+    const { dispatch, error, handleSubmit, item } = this.props
     const { _id, name, slug } = item
     return (
       <Card

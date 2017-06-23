@@ -255,7 +255,7 @@ class ImageEditor extends Component {
     if (str === null) {
       return false
     }
-    const regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+=[a-z\-]+)?)?(;base64)?,[a-z0-9!$&',()*+;=\-._~:@\/?%\s]*\s*$/i
+    const regex = /^\s*data:([a-z]+[a-z]+(;[a-z]+=[a-z]+)?)?(;base64)?,[a-z0-9!$&',()*+;=._~:@?%\s]*\s*$/i
     return !!str.match(regex)
   }
   loadImage = (imageURL) => {

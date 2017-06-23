@@ -41,7 +41,7 @@ class WysiwgyEditor extends Component {
     }
   }
   render() {
-    const { value, editorState } = this.state
+    const { editorState } = this.state
 		const { isFetching, input, palette, fontFamily, fontFamily2, fontFamily3 } = this.props
     const colors = Object.keys(palette).map(key => palette[key]).filter((item, i, self) => i === self.indexOf(item))
     const toolBar = {

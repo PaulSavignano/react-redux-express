@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import { CardMedia, CardActions } from 'material-ui/Card'
 import ImageEditor from './ImageEditor'
-
-import renderFileInput from '../../modules/renderFileInput'
 
 const styles = {
   controlContainer: {
@@ -36,7 +33,7 @@ class ImageForm extends Component {
   }
   componentWillMount() {
     const { item, imageSpec } = this.props
-    const { image, _id } = item
+    const { image } = item
     if (image) {
       const { src, width, height } = image
       this.setState({ src, width, height })
@@ -209,7 +206,7 @@ class ImageForm extends Component {
                   type="number"
                   value={this.state.width}
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
-                  onChange={(e) => this.setState({ width: parseInt(e.target.value) })}
+                  onChange={(e) => this.setState({ width: parseInt(e.target.value, 10) })}
                 />
                 <TextField
                   hintText="Height"
@@ -217,7 +214,7 @@ class ImageForm extends Component {
                   type="number"
                   value={this.state.height}
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
-                  onChange={(e) => this.setState({ height: parseInt(e.target.value) })}
+                  onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
                 />
               </div>
 

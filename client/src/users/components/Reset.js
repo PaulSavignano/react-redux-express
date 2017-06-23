@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
 import renderTextField from '../../modules/renderTextField'
 import { fetchReset } from '../actions/index'
-
 
 const validate = values => {
   const errors = {}
@@ -26,9 +23,10 @@ const validate = values => {
   return errors
 }
 
-
 class Reset extends Component {
-  state = { open: false }
+  state = {
+    open: false
+  }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })
@@ -82,12 +80,9 @@ Reset = reduxForm({
   validate
 })(Reset)
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user
-  }
-
-}
+const mapStateToProps = ({ user }) => ({
+  user
+})
 
 Reset = connect(mapStateToProps)(Reset)
 

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import TextField from 'material-ui/TextField'
-import { Card, CardHeader, CardMedia, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardMedia } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import renderTextField from '../../modules/renderTextField'
@@ -45,7 +44,7 @@ class AdminProductItem extends Component {
     if (editor) this.editor = editor
   }
   render() {
-    const { error, handleSubmit, dispatch, product, imageSpec } = this.props
+    const { error, handleSubmit, dispatch, item, imageSpec } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -54,11 +53,11 @@ class AdminProductItem extends Component {
         style={{ width: 300, height: '100%' }}
         className="cards"
       >
-        <CardHeader title={`Product ${product._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardHeader title={`Product ${item._id}`} titleStyle={{ fontSize: 16 }} />
         <CardMedia>
           <ImageForm
             imageSpec={imageSpec}
-            item={product}
+            item={item}
             editing={this.editing}
             deleteImage={this.deleteImage}
             ref={this.setEditorRef}
@@ -67,9 +66,9 @@ class AdminProductItem extends Component {
         <form onSubmit={handleSubmit((values) => {
           if (this.state.editing) {
             const image = this.editor.handleSave()
-            return dispatch(fetchUpdate(product._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
           }
-          return dispatch(fetchUpdate(product._id, { type: 'UPDATE_VALUES', values }))
+          return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
         })}
           style={{ flex: '1 1 auto' }}
         >
@@ -115,10 +114,10 @@ class AdminProductItem extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
-              onTouchTap={() => dispatch(fetchDelete(product._id, product.image))}
-              />
-            </div>
-          </form>
+              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+            />
+          </div>
+        </form>
 
       </Card>
     )
@@ -126,11 +125,12 @@ class AdminProductItem extends Component {
 }
 
 AdminProductItem = compose(
-  connect((state, { product }) => {
-    const { values } = product
+  connect(({ products }, { componentId }) => {
+    const item = products.items.find(value => value._id === componentId)
+    const values = item.values || {}
     return {
-      product,
-      form: `product_${product._id}`,
+      form: `product_${item._id}`,
+      item,
       initialValues: {
         ...values,
         price: !values ? null : values.price.toString() || null

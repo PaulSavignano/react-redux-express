@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import TextField from 'material-ui/TextField'
 import { Card, CardHeader, CardMedia } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -27,7 +26,7 @@ class AdminCarouselItem extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { error, handleSubmit, dispatch, carousel, imageSpec } = this.props
+    const { error, handleSubmit, dispatch, item, imageSpec } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -36,21 +35,21 @@ class AdminCarouselItem extends Component {
         containerStyle={{ display: 'flex', flexFlow: 'column', height: '100%' }}
         className="cards"
       >
-        <CardHeader title={`Slide ${carousel._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardHeader title={`Slide ${item._id}`} titleStyle={{ fontSize: 16 }} />
         <CardMedia>
           <form onSubmit={handleSubmit((values) => {
             console.log(values)
             if (this.state.editing) {
               const image = this.editor.handleSave()
-              return dispatch(fetchUpdate(carousel._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+              return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
             }
-            return dispatch(fetchUpdate(carousel._id, { type: 'UPDATE_VALUES', values }))
+            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
           })}
             style={{ flex: '1 1 auto' }}
           >
             <ImageForm
               imageSpec={imageSpec}
-              item={carousel}
+              item={item}
               editing={this.editing}
               deleteImage={this.deleteImage}
               ref={this.setEditorRef}
@@ -80,7 +79,7 @@ class AdminCarouselItem extends Component {
                 className="delete-button"
                 labelColor="#ffffff"
                 style={{ flex: '1 1 auto', margin: '8px 8px 8px 4px' }}
-                onTouchTap={() => dispatch(fetchDelete(carousel._id, carousel.image))}
+                onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
               />
             </div>
           </form>
@@ -91,10 +90,13 @@ class AdminCarouselItem extends Component {
 }
 
 AdminCarouselItem = compose(
-  connect((state, { carousel }) => {
+  connect(({ carousels }, { componentId }) => {
+    const item = carousels.items.find(value => value._id === componentId)
+    const values = item.values || {}
     return {
-      form: `carousel_${carousel._id}`,
-      initialValues: carousel.values
+      form: `carousel_${item._id}`,
+      item,
+      initialValues: values
     }
   }),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCarouselItem)
