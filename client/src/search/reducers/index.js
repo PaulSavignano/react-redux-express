@@ -1,4 +1,5 @@
-export const search = (state = '', action) => {
+
+const search = (state = '', action) => {
   switch (action.type) {
     case 'SEARCH':
       return action.searchText
@@ -6,3 +7,5 @@ export const search = (state = '', action) => {
       return state
   }
 }
+
+export default search

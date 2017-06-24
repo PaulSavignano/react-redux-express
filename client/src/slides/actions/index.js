@@ -2,8 +2,8 @@ import { SubmissionError } from 'redux-form'
 
 import * as sectionActions from '../../sections/actions'
 
-export const type = 'CAROUSEL'
-const route = 'carousels'
+export const type = 'SLIDES'
+const route = 'slides'
 
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -29,8 +29,8 @@ export const fetchAdd = (add) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { carousel, section } = json
-        dispatch(fetchAddSuccess(carousel))
+        const { slide, section } = json
+        dispatch(fetchAddSuccess(slide))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
@@ -43,12 +43,12 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchCarouselsRequest = () => ({ type: REQUEST })
-const fetchCarouselsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchCarouselsFailure = (error) => ({ type: ERROR, error })
-export const fetchCarousels = () => {
+const fetchSlidesRequest = () => ({ type: REQUEST })
+const fetchSlidesSuccess = (items) => ({ type: RECEIVE, items })
+const fetchSlidesFailure = (error) => ({ type: ERROR, error })
+export const fetchSlides = () => {
   return (dispatch, getState) => {
-    dispatch(fetchCarouselsRequest())
+    dispatch(fetchSlidesRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
@@ -61,10 +61,10 @@ export const fetchCarousels = () => {
     })
     .then(json => {
       if (json.error) return Promise.reject(json.error)
-      dispatch(fetchCarouselsSuccess(json))
+      dispatch(fetchSlidesSuccess(json))
     })
     .catch(err => {
-      dispatch(fetchCarouselsFailure(err))
+      dispatch(fetchSlidesFailure(err))
       throw new SubmissionError({ ...err, _error: 'Update failed!' })
     })
   }
@@ -117,11 +117,11 @@ export const fetchDelete = (_id) => {
     })
     .then(json => {
       if (json.error) return Promise.reject(json.error)
-      const { carousel, section } = json
-      console.log('carousel ', carousel)
+      const { slide, section } = json
+      console.log('slide ', slide)
       console.log('section ', section)
       dispatch(sectionActions.fetchUpdateSuccess(section))
-      dispatch(fetchDeleteSuccess(carousel._id))
+      dispatch(fetchDeleteSuccess(slide._id))
     })
     .catch(err => {
       dispatch(fetchDeleteFailure(err))

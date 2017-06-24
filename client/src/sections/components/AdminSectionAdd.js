@@ -9,7 +9,6 @@ const AdminSectionAdd = ({ dispatch, page }) => (
   <Card containerStyle={{ margin: '0 0 64px 0' }}>
     <CardActions>
       <RaisedButton
-        type="submit"
         label="Add New Section"
         primary={true}
         fullWidth={true}

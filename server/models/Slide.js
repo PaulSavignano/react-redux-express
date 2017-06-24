@@ -2,9 +2,9 @@ import mongoose, { Schema } from 'mongoose'
 
 import { uploadFile, deleteFile } from '../middleware/s3'
 
-const s3Path = `${process.env.APP_NAME}/carousels/carousel_`
+const s3Path = `${process.env.APP_NAME}/slides/slide_`
 
-const CarouselSchema = new Schema({
+const SlideSchema = new Schema({
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: {
     src: { type: String },
@@ -17,15 +17,15 @@ const CarouselSchema = new Schema({
   createdAt: { type: Date, default: Date.now }
 })
 
-CarouselSchema.pre('remove', function(next) {
-  const carousel = this
-  if (carousel.image) {
-    const Key = `${s3Path}${carousel._id}`
+SlideSchema.pre('remove', function(next) {
+  const slide = this
+  if (slide.image) {
+    const Key = `${s3Path}${slide._id}`
     deleteFile({ Key }).catch(err => console.error(err))
   }
   next()
 })
 
-const Carousel = mongoose.model('Carousel', CarouselSchema)
+const Slide = mongoose.model('Slide', SlideSchema)
 
-export default Carousel
+export default Slide

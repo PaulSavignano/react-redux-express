@@ -90,11 +90,11 @@ class AdminCarouselItem extends Component {
 }
 
 AdminCarouselItem = compose(
-  connect(({ carousels }, { componentId }) => {
-    const item = carousels.items.find(value => value._id === componentId)
+  connect(({ slides }, { componentId }) => {
+    const item = slides.items.find(value => value._id === componentId)
     const values = item.values || {}
     return {
-      form: `carousel_${item._id}`,
+      form: `slide_${item._id}`,
       item,
       initialValues: values
     }

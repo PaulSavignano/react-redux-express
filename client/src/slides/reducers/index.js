@@ -1,6 +1,6 @@
 import { type } from '../actions/index'
 
-const carousels = (state = {
+const slides = (state = {
   isFetching: true,
   items: []
 }, action) => {
@@ -53,4 +53,4 @@ const carousels = (state = {
   }
 }
 
-export default carousels
+export default slides

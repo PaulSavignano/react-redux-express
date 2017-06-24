@@ -2,8 +2,8 @@ import mongoose, { Schema } from 'mongoose'
 
 import { uploadFile, deleteFile } from '../middleware/s3'
 import Card from './Card'
-import Carousel from './Carousel'
 import Product from './Product'
+import Slide from './Slide'
 
 const s3Path = `${process.env.APP_NAME}/sections/section_`
 
@@ -43,12 +43,12 @@ SectionSchema.pre('remove', function(next) {
         Card.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
-      case 'Carousel':
-        Carousel.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
       case 'Product':
         Product.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
+      case 'Slide':
+        Slide.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
       default:

@@ -12,7 +12,7 @@ import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
-import { searchText } from '../actions/search'
+import SearchBar from '../../search/components/SearchBar'
 import SigninSignout from '../../users/components/SigninSignout'
 import CartIcon from '../../carts/components/CartIcon'
 
@@ -32,6 +32,7 @@ class AppBarMenuAussie extends Component {
       anchorEl: e.currentTarget,
     })
   }
+  handleSearch = () => this.setState({ searching: !this.state.searching })
   handleClose = () => this.setState({ openMenu: false })
   render() {
     const { dispatch, user, handleDrawer, pages, brand: { business }, muiTheme, path, hasProducts } = this.props
@@ -58,23 +59,7 @@ class AppBarMenuAussie extends Component {
       >
         {this.state.searching ?
           <nav style={styles.nav} key={1}>
-            <span style={{ marginTop: '-3px', width: '100%'}}>
-              <IconButton
-                iconClassName="fa fa-search"
-                style={styles.search}
-                onTouchTap={() => this.setState({ searching: !this.state.searching })}
-              />
-              <TextField
-                autoFocus
-                onBlur={() => this.setState({ searching: !this.state.searching })}
-                style={{ flex: '1 1 auto' }}
-                hintText="SEARCH"
-                fullWidth={true}
-                onChange={(e) => {
-                  this.props.dispatch(searchText(e.target.value))
-                }}
-              />
-            </span>
+            <SearchBar handleSearch={this.handleSearch()}/>
           </nav>
 
           :

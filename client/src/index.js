@@ -11,7 +11,7 @@ import './index.css'
 // Actions
 import { fetchCards } from './cards/actions/index'
 import { fetchCart } from './carts/actions/index'
-import { fetchCarousels } from './carousels/actions/index'
+import { fetchSlides } from './slides/actions/index'
 import { fetchSections } from './sections/actions/index'
 import { fetchOrders } from './orders/actions/index'
 import { fetchPages } from './pages/actions/index'
@@ -34,13 +34,12 @@ if (cart) {
   store.dispatch(fetchCart(cart))
 }
 
+store.dispatch(fetchBrand())
 store.dispatch(fetchCards())
-store.dispatch(fetchCarousels())
-store.dispatch(fetchSections())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
-store.dispatch(fetchBrand())
-
+store.dispatch(fetchSections())
+store.dispatch(fetchSlides())
 
 ReactDOM.render(
   <Provider store={store}>

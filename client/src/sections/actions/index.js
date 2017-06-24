@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import * as cardActions from '../../cards/actions'
-import * as carouselActions from '../../carousels/actions'
+import * as slideActions from '../../slides/actions'
 import * as productActions from '../../products/actions'
 
 export const type = 'SECTION'
@@ -125,14 +125,11 @@ export const fetchDelete = (_id) => {
         if (componentType) {
           switch(componentType) {
             case 'Card':
-              dispatch(cardActions.deletes(components.map(comp => comp.cardId)))
-              break
-            case 'Carousel':
-              dispatch(carouselActions.deletes(components.map(comp => comp.carouselId)))
-              break
+              return dispatch(cardActions.deletes(components.map(comp => comp.componentId)))
             case 'Product':
-              dispatch(productActions.deletes(components.map(comp => comp.productId)))
-              break
+              return dispatch(productActions.deletes(components.map(comp => comp.componentId)))
+            case 'Slide':
+              return dispatch(slideActions.deletes(components.map(comp => comp.componentId)))
             default:
               return
           }

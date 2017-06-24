@@ -38,15 +38,14 @@ class ProductItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   minus = () => {
     if (this.state.qty > 1) {
-      this.setState({ qty: this.state.qty - 1 })
+      return this.setState({ qty: this.state.qty - 1 })
     }
   }
   plus = () => {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
-    const { dispatch, item } = this.props
-    const { name, description, price } = item.values
+    const { dispatch, item: { _id, values: { name, description, price } }  } = this.props
     return (
       this.state.loading ? null :
       <Card
@@ -65,8 +64,8 @@ class ProductItem extends Component {
           style={{ flex: '1 1 auto' }}
         >
           {this.state.hasImage &&
-            <CardMedia onTouchTap={() => dispatch(push(`/product/${item._id}`))}>
-              <img src={this.state.image} alt={item.name} />
+            <CardMedia onTouchTap={() => dispatch(push(`/product/${_id}`))}>
+              <img src={this.state.image} alt={name} />
             </CardMedia>
           }
           <CardTitle title={
@@ -84,7 +83,7 @@ class ProductItem extends Component {
               inputStyle={{ textAlign: 'center' }}
               ref={node => this.qty = node}
               value={this.state.qty}
-              id={item._id}
+              id={_id}
             />
             <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
           </div>
@@ -95,7 +94,7 @@ class ProductItem extends Component {
             onTouchTap={() => {
               const update = {
                 type: 'ADD_TO_CART',
-                productId: item._id,
+                productId: _id,
                 productQty: this.state.qty,
               }
               dispatch(fetchAddToCart(update))

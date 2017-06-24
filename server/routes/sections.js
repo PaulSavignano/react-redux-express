@@ -5,8 +5,8 @@ import authenticate from '../middleware/authenticate'
 import { uploadFile, deleteFile, deleteFiles } from '../middleware/s3'
 import Section from '../models/Section'
 import Card from '../models/Card'
-import Carousel from '../models/Carousel'
 import Product from '../models/Product'
+import Slide from '../models/Slide'
 
 const sections = express.Router()
 

@@ -6,7 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Helmet } from "react-helmet"
 
-import SearchList from './products/containers/SearchList'
+import SearchList from './search/containers/SearchList'
 import Header from './header/containers/Header'
 import Footer from './footer/components/Footer'
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
 
-import CarouselItem from '../components/CarouselItem'
+import SlideItem from '../components/SlideItem'
 
-class Carousels extends Component {
+class Slides extends Component {
   render() {
-    const { carousels } = this.props
-    console.log(carousels)
+    const { slides } = this.props
+    console.log(slides)
     var settings = {
       dots: true,
       className: 'center',
@@ -20,12 +20,12 @@ class Carousels extends Component {
       slidesToScroll: 1
     }
     return (
-      carousels.length &&
+      slides.length &&
         <Slider {...settings}>
-          {carousels.map(carousel => (
-            <div key={carousel._id} style={{ display: 'flex', justifyContent: 'center' }}>
-              <CarouselItem
-                carousel={carousel}
+          {slides.map(slide => (
+            <div key={slide._id} style={{ display: 'flex', justifyContent: 'center' }}>
+              <SlideItem
+                slide={slide}
               />
             </div>
           ))}
@@ -34,4 +34,4 @@ class Carousels extends Component {
   }
 }
 
-export default Carousels
+export default Slides

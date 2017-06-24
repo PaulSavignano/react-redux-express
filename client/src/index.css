@@ -116,7 +116,6 @@ h3 {
   opacity: 1;
   transition: opacity 0.9s ease-in;
 }
-
 .example-enter {
   opacity: 0.01;
 }

@@ -10,7 +10,7 @@ import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
-import { searchText } from '../actions/search'
+import SearchBar from '../../search/components/SearchBar'
 import SigninSignout from '../../users/components/SigninSignout'
 import CartIcon from '../../carts/components/CartIcon'
 import AppBarBrand from './AppBarBrand'
@@ -28,6 +28,7 @@ class AppBarMenu extends Component {
     })
   }
   handleClose = () => this.setState({ openMenu: false })
+  handleSearch = () => this.setState({ searching: !this.state.searching })
   render() {
     const {
       dispatch,
@@ -38,46 +39,14 @@ class AppBarMenu extends Component {
       path,
       hasProducts
     } = this.props
-    const styles = {
-      nav: {
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        justifyContent: 'space-between'
-      },
-      search: {
-        color: appBar.textColor
-      }
-    }
     return (
-      <CSSTransitionGroup
-        transitionName="example"
-        transitionEnterTimeout={900}
-        transitionLeaveTimeout={600}
-      >
+      <nav>
         {this.state.searching ?
-          <nav style={styles.nav} key={1}>
-            <span style={{ marginTop: '-3px', width: '100%'}}>
-              <IconButton
-                iconClassName="fa fa-search"
-                style={styles.search}
-                onTouchTap={() => this.setState({ searching: !this.state.searching })}
-              />
-              <TextField
-                autoFocus
-                onBlur={() => this.setState({ searching: !this.state.searching })}
-                style={{ flex: '1 1 auto' }}
-                hintText="SEARCH"
-                fullWidth={true}
-                onChange={(e) => {
-                  this.props.dispatch(searchText(e.target.value))
-                }}
-              />
-            </span>
-          </nav>
+          <SearchBar handleSearch={this.handleSearch} />
 
           :
 
-          <nav style={styles.nav} key={2}>
+          <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
             <div style={{ cursor: 'pointer', maxHeight: 64}} onTouchTap={() => dispatch(push('/'))}>
               {image ? <AppBarBrand /> : business.name || 'Brand'}
             </div>
@@ -103,7 +72,7 @@ class AppBarMenu extends Component {
                 <IconButton
                   iconClassName="fa fa-search"
                   iconStyle={{ fontSize: 18}}
-                  style={styles.search}
+                  style={{ color: appBar.textColor }}
                   onTouchTap={() => this.setState({ searching: !this.state.searching })}
                 />
               }
@@ -133,9 +102,9 @@ class AppBarMenu extends Component {
                 />
               }
             </span>
-          </nav>
+          </div>
         }
-      </CSSTransitionGroup>
+      </nav>
     )
   }
 }

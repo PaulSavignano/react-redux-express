@@ -1,15 +1,6 @@
 import { type } from '../actions/index'
 
-export const searchProducts = (state = '', action) => {
-  switch (action.type) {
-    case 'SEARCH_PRODUCTS':
-      return action.searchProductsText
-    default:
-      return state
-  }
-}
-
-export const products = (state = {
+const products = (state = {
   isFetching: true,
   items: []
 }, action) => {
@@ -61,3 +52,5 @@ export const products = (state = {
       return state
   }
 }
+
+export default products

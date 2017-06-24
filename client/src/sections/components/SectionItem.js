@@ -5,7 +5,7 @@ import renderHTML from 'react-render-html'
 
 import CardItem from '../../cards/components/CardItem'
 import ProductItem from '../../products/components/ProductItem'
-import Carousels from '../../carousels/containers/Carousels'
+import Slides from '../../slides/containers/Slides'
 
 class SectionItem extends Component {
   state = {
@@ -73,7 +73,7 @@ class SectionItem extends Component {
             {this.renderComponents()}
           </div>
         </div>
-        { this.props.slides.length ? <Carousels carousels={this.props.slides} /> : null }
+        { this.props.slides.length ? <Slides slides={this.props.slides} /> : null }
       </div>
     )
   }

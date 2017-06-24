@@ -4,33 +4,31 @@ import { routerMiddleware, routerReducer } from 'react-router-redux'
 import { browserHistory } from 'react-router'
 import { reducer as formReducer } from 'redux-form'
 
+import brand from '../brand/reducers/index'
 import cards from '../cards/reducers/index'
 import cart from '../carts/reducers/index'
-import carousels from '../carousels/reducers/index'
-import sections from '../sections/reducers/index'
 import orders from '../orders/reducers/index'
 import pages from '../pages/reducers/index'
-import { searchProducts, products } from '../products/reducers/index'
-import { search } from '../header/reducers/search'
-import brand from '../brand/reducers/index'
+import products from '../products/reducers/index'
+import search from '../search/reducers/index'
+import sections from '../sections/reducers/index'
+import slides from '../slides/reducers/index'
 import user from '../users/reducers/index'
 
 const rootReducer = combineReducers({
   brand,
   cards,
-  carousels,
   cart,
   form: formReducer,
-  sections,
   orders,
   pages,
   products,
   routing: routerReducer,
   search,
-  searchProducts,
+  sections,
+  slides,
   user,
 })
-
 
 const middleware = routerMiddleware(browserHistory)
 
@@ -44,6 +42,5 @@ const configureStore = () => {
   )
   return store
 }
-
 
 export default configureStore

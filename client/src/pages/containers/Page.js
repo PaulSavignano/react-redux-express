@@ -8,7 +8,7 @@ import NotFound from '../../NotFound'
 
 
 
-const Page = ({ isFetching, pageSlug, page, sections, carousel, hasProducts }) => {
+const Page = ({ isFetching, pageSlug, page, sections, hasProducts }) => {
   return (
     hasProducts ?
     (() => {
@@ -54,13 +54,11 @@ const mapStateToProps = (state, ownProps) => {
   const allPages = defaultPages.concat(pages)
   const pageSlug = allPages.find(page => page === slug) || 'notFound'
   const sections = page ? state.sections.items.find(item => item.pageId === page._id) : null
-  const carousel = page ? state.carousels.items.find(item => item.pageId === page._id) : null
   return {
     isFetching: state.pages.isFetching,
     pageSlug,
     page,
     sections,
-    carousel,
     hasProducts
   }
 }

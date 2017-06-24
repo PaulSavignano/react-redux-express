@@ -3,32 +3,32 @@ import { ObjectID } from 'mongodb'
 
 import authenticate from '../middleware/authenticate'
 import { uploadFile, deleteFile } from '../middleware/s3'
-import Carousel from '../models/Carousel'
+import Slide from '../models/Slide'
 import Section from '../models/Section'
 
-const carousels = express.Router()
+const slides = express.Router()
 
-const s3Path = `${process.env.APP_NAME}/carousels/carousel_`
+const s3Path = `${process.env.APP_NAME}/slides/slide_`
 
 // Create
-carousels.post('/', authenticate(['admin']), (req, res) => {
+slides.post('/', authenticate(['admin']), (req, res) => {
   const { sectionId } = req.body
-  const newCarousel = new Carousel({
+  const newSlide = new Slide({
     sectionId: ObjectID(sectionId),
     image: null,
     values: []
   })
-  newCarousel.save()
-    .then(carousel => {
+  newSlide.save()
+    .then(slide => {
       const update = {
         components: {
-          componentId: carousel._id,
-          type: 'Carousel'
+          componentId: slide._id,
+          type: 'Slide'
         }
       }
       Section.findOneAndUpdate({ _id: sectionId }, { $push: update }, { new: true })
         .then(section => {
-          res.send({ carousel, section })
+          res.send({ slide, section })
         })
         .catch(err => {
           console.error(err)
@@ -44,8 +44,8 @@ carousels.post('/', authenticate(['admin']), (req, res) => {
 
 
 // Read
-carousels.get('/', (req, res) => {
-  Carousel.find({})
+slides.get('/', (req, res) => {
+  Slide.find({})
     .then(docs => {
       res.send(docs)
     })
@@ -55,9 +55,9 @@ carousels.get('/', (req, res) => {
     })
 })
 
-carousels.get('/:_id', (req, res) => {
+slides.get('/:_id', (req, res) => {
   const _id = req.params._id
-  Carousel.find({ _id })
+  Slide.find({ _id })
     .then(doc => res.send(doc))
     .catch(err => {
       console.error(err)
@@ -68,7 +68,7 @@ carousels.get('/:_id', (req, res) => {
 
 
 // Update
-carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
+slides.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, sectionId, image, values } = req.body
@@ -86,7 +86,7 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
             },
             values
           }
-          Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Slide.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
             })
@@ -105,7 +105,7 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
       deleteFile({ Key })
         .then(() => {
           const update = { image: null }
-          Carousel.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Slide.findOneAndUpdate({ _id }, { $set: update }, { new: true })
             .then(doc => {
               res.send(doc)
             })
@@ -121,7 +121,7 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Carousel.findOneAndUpdate({ _id }, { $set: { values }}, { new: true })
+      Slide.findOneAndUpdate({ _id }, { $set: { values }}, { new: true })
         .then(doc => {
           res.send(doc)
         })
@@ -139,16 +139,16 @@ carousels.patch('/:_id', authenticate(['admin']), (req, res) => {
 
 
 // Delete
-carousels.delete('/:_id', authenticate(['admin']), (req, res) => {
+slides.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const Key = `${s3Path}${_id}`
-  Carousel.findOne({ _id })
-    .then(carousel => {
-      carousel.remove()
-        .then(carousel => {
-          Section.findOneAndUpdate({ _id: carousel.sectionId }, { $pull: { components: { componentId: carousel._id }}}, { new: true })
-            .then(section => res.send({ carousel, section }))
+  Slide.findOne({ _id })
+    .then(slide => {
+      slide.remove()
+        .then(slide => {
+          Section.findOneAndUpdate({ _id: slide.sectionId }, { $pull: { components: { componentId: slide._id }}}, { new: true })
+            .then(section => res.send({ slide, section }))
             .catch(err => {
               console.error(err)
               res.status(400).send()
@@ -167,4 +167,4 @@ carousels.delete('/:_id', authenticate(['admin']), (req, res) => {
 
 
 
-export default carousels
+export default slides

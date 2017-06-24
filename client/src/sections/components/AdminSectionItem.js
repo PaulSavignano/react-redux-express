@@ -13,10 +13,10 @@ import renderTextField from '../../modules/renderTextField'
 import renderSelectField from '../../modules/renderSelectField'
 import renderWysiwgyField from '../../modules/renderWysiwgyField'
 import AdminCardItem from '../../cards/components/AdminCardItem'
-import AdminCarouselItem from '../../carousels/components/AdminCarouselItem'
 import AdminProductItem from '../../products/components/AdminProductItem'
+import AdminSlideItem from '../../slides/components/AdminSlideItem'
 import * as cardActions from '../../cards/actions'
-import * as carouselActions from '../../carousels/actions'
+import * as slideActions from '../../slides/actions'
 import * as productActions from '../../products/actions'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 
@@ -58,20 +58,20 @@ class AdminSectionItem extends Component {
               imageSpec={{ type: 'image/jpg', width: 1012, height: 675 }}
             />
           )
-        case 'Carousel':
-          return (
-            <AdminCarouselItem
-              key={component._id}
-              componentId={componentId}
-              imageSpec={{ type: 'image/jpg', width: 300, height: 200 }}
-            />
-          )
         case 'Product':
           return (
             <AdminProductItem
               key={component._id}
               componentId={componentId}
               imageSpec={{ type: 'image/jpg', width: 1012, height: 675 }}
+            />
+          )
+        case 'Slide':
+          return (
+            <AdminSlideItem
+              key={component._id}
+              componentId={componentId}
+              imageSpec={{ type: 'image/jpg', width: 300, height: 200 }}
             />
           )
         default:
@@ -217,7 +217,7 @@ class AdminSectionItem extends Component {
                 primaryText="Add Slide"
                 onTouchTap={() => {
                   const add = { sectionId: section._id }
-                  dispatch(carouselActions.fetchAdd(add))
+                  dispatch(slideActions.fetchAdd(add))
                   this.setState({ openMenu: false })
                 }}
               />

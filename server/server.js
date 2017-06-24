@@ -5,12 +5,12 @@ import path from 'path'
 import mongoose from './db/mongoose'
 import brands from './routes/brands'
 import cards from './routes/cards'
-import carousels from './routes/carousels'
 import carts from './routes/carts'
 import orders from './routes/orders'
 import pages from './routes/pages'
 import products from './routes/products'
 import sections from './routes/sections'
+import slides from './routes/slides'
 import users from './routes/users'
 
 const app = express()
@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api/brands', brands)
 app.use('/api/cards', cards)
-app.use('/api/carousels', carousels)
 app.use('/api/carts', carts)
 app.use('/api/orders', orders)
 app.use('/api/pages', pages)
 app.use('/api/products', products)
 app.use('/api/sections', sections)
+app.use('/api/slides', slides)
 app.use('/api/users', users)
 
 
