@@ -9,8 +9,7 @@ import AppBarBrand from './AppBarBrand'
 import { fetchAdd } from '../../brand/actions/index'
 import SigninSignout from '../../users/components/SigninSignout'
 
-const DrawerMenu = ({ dispatch, brand: { business, image, theme }, pages, user, handleClose, hasProducts }) => {
-  const { appBar } = theme
+const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user, handleClose, hasProducts }) => {
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false
   const color = appBar.textColor || null
   const backgroundColor = appBar.color || null
@@ -47,6 +46,7 @@ const DrawerMenu = ({ dispatch, brand: { business, image, theme }, pages, user, 
       }}
     />
   ]
+  console.log('rendering drawer')
   return (
     <div>
       <div

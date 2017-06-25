@@ -13,6 +13,7 @@ class Header extends Component {
   handleToggle = () => this.setState({open: !this.state.open})
   handleClose = () => this.setState({open: false})
   render() {
+    console.log('rendering header')
     const { isFetching, brand, pages, user, path, hasProducts } = this.props
     return (
       isFetching ? null :
@@ -45,16 +46,15 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ pages, routing, user, brand, products }) => {
   return {
-    isFetching: state.pages.isFetching,
-    pages: state.pages.items || null,
-    path: state.routing.locationBeforeTransitions.pathname || null,
-    user: state.user || null,
-    brand: state.brand || null,
-    hasProducts: state.products.items.length ? true : false
+    isFetching: pages.isFetching,
+    pages: pages.items || null,
+    path: routing.locationBeforeTransitions.pathname || null,
+    user: user || null,
+    brand: brand || null,
+    hasProducts: products.items.length ? true : false
   }
-
 }
 
 export default connect(mapStateToProps)(Header)

@@ -12,11 +12,10 @@ import Footer from './footer/components/Footer'
 
 injectTapEventPlugin()
 
-const App = ({ search, children, brand }) => {
-  const backgroundColor = brand.theme.main.color || null
+const App = ({ isFetching, brandTheme, business, search, children }) => {
   return (
-    brand.isFetching ? null : brand.theme.palette ?
-      <MuiThemeProvider muiTheme={getMuiTheme(brand.theme)}>
+    isFetching ? null : brandTheme ?
+      <MuiThemeProvider muiTheme={getMuiTheme(brandTheme)}>
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
@@ -26,14 +25,14 @@ const App = ({ search, children, brand }) => {
         >
           <Helmet>
             <meta charSet="utf-8" />
-            <title>{brand.business.name}</title>
-            <meta name="description" content={brand.business.description} />
-            <link rel="shortcut icon" href={brand.business.image} />
+            {business.name && <title>{business.name}</title>}
+            <meta name="description" content={business.description} />
+            <link rel="shortcut icon" href={business.image} />
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Header />
-          <main style={{ backgroundColor }}>
-            {search.length ? <SearchList /> : children}
+          <main style={{ backgroundColor: brandTheme.main.color }}>
+            {search ? <SearchList /> : children}
           </main>
           <Footer />
         </CSSTransitionGroup>
@@ -45,7 +44,7 @@ const App = ({ search, children, brand }) => {
         <div>
           <Header />
           <main>
-            {children}
+            { children }
           </main>
           <Footer />
         </div>
@@ -53,8 +52,25 @@ const App = ({ search, children, brand }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return state
+const mapStateToProps = ({ brand, search }) => {
+  const { isFetching, theme, appBar, main, footer, business } = brand
+  console.log(brand)
+  const brandTheme = theme ? {
+    theme,
+    appBar: {
+      ...appBar.values
+    },
+    main,
+    footer: {
+      ...footer.values
+    }
+  } : null
+  return {
+    isFetching,
+    brandTheme,
+    business,
+    search
+  }
 }
 
 export default connect(mapStateToProps)(App)

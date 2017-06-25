@@ -72,9 +72,9 @@ export const fetchBrand = () => {
 // Update
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
-export const fetchUpdate = (_id, update) => {
+export const fetchUpdate = (path, update) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${_id}`, {
+    return fetch(`/api/${route}/${path}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json' ,

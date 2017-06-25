@@ -1,5 +1,5 @@
 
-const search = (state = '', action) => {
+const search = (state = null, action) => {
   switch (action.type) {
     case 'SEARCH':
       return action.searchText

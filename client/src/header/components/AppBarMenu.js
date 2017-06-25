@@ -30,12 +30,13 @@ class AppBarMenu extends Component {
   handleClose = () => this.setState({ openMenu: false })
   handleSearch = () => this.setState({ searching: !this.state.searching })
   render() {
+    console.log('rendering appBar')
     const {
       dispatch,
       user,
       pages,
-      brand: { business, image },
-      muiTheme: { appBar, palette },
+      brand: { business, appBar },
+      muiTheme: { palette },
       path,
       hasProducts
     } = this.props
@@ -48,7 +49,7 @@ class AppBarMenu extends Component {
 
           <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
             <div style={{ cursor: 'pointer', maxHeight: 64}} onTouchTap={() => dispatch(push('/'))}>
-              {image ? <AppBarBrand /> : business.name || 'Brand'}
+              <AppBarBrand />
             </div>
             <span>
               <span className="appbar-nav">

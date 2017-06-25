@@ -9,6 +9,7 @@ import Routing from './Routing'
 import './index.css'
 
 // Actions
+import { fetchBrand } from './brand/actions/index'
 import { fetchCards } from './cards/actions/index'
 import { fetchCart } from './carts/actions/index'
 import { fetchSlides } from './slides/actions/index'
@@ -17,7 +18,6 @@ import { fetchOrders } from './orders/actions/index'
 import { fetchPages } from './pages/actions/index'
 import { fetchProducts } from './products/actions/index'
 import { fetchUser } from './users/actions/index'
-import { fetchBrand } from './brand/actions/index'
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)

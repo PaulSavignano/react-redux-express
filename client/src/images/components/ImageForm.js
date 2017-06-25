@@ -32,8 +32,7 @@ class ImageForm extends Component {
     height: null
   }
   componentWillMount() {
-    const { item, imageSpec } = this.props
-    const { image } = item
+    const { image, imageSpec } = this.props
     if (image) {
       const { src, width, height } = image
       this.setState({ src, width, height })
@@ -100,7 +99,7 @@ class ImageForm extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render () {
-    const { item } = this.props
+    const { _id, deleteImage } = this.props
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {this.state.editing &&
@@ -244,8 +243,7 @@ class ImageForm extends Component {
                   src: null,
                   editing: false
                 })
-                const update = { type: 'DELETE_IMAGE' }
-                return this.props.deleteImage(item._id, update)
+                return deleteImage(_id, { type: 'DELETE_IMAGE'})
               }}
               type="button"
               label="Remove Image"
