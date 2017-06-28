@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 import ProductItem from '../components/ProductItem'
 
 const Product = ({ isFetching, product }) => {
+  console.log(product)
   return (
     isFetching ? null :
     <section>
-      <ProductItem product={product} fullWidth={true} />
+      <ProductItem componentId={product._id} fullWidth={true} />
     </section>
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.products.isFetching,
-  product: state.products.items.find(pro => pro._id === ownProps.params.productId)
-})
+const mapStateToProps = ({ products }, { params }) => {
+  return {
+    isFetching: products.isFetching,
+    product: products.items.find(obj => obj._id === params.productId)
+  }
+}
 
 export default connect(mapStateToProps)(Product)

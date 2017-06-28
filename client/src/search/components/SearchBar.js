@@ -3,24 +3,24 @@ import { connect } from 'react-redux'
 
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
-import { searchText } from '../actions/index'
+import { searchToggle, searchAdd } from '../actions/index'
 
 const SearchBar = ({ dispatch, brand, search, handleSearch }) => (
   <span style={{ width: '100%'}}>
     <IconButton
       iconClassName="fa fa-search"
       iconStyle={{ fontSize: 18}}
-      style={{ color: brand.theme.appBar.textColor }}
+      style={{ color: brand.appBar.textColor }}
       onTouchTap={() => handleSearch()}
     />
     <TextField
       autoFocus
-      onBlur={() => handleSearch()}
+      onBlur={() => dispatch(searchToggle(!search.searching))}
       style={{ flex: '1 1 auto' }}
       hintText="SEARCH"
       fullWidth={true}
-      value={search}
-      onChange={(e) => dispatch(searchText(e.target.value))}
+      value={search.value}
+      onChange={(e) => dispatch(searchAdd(e.target.value))}
     />
   </span>
 )

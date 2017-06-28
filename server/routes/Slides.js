@@ -12,9 +12,11 @@ const s3Path = `${process.env.APP_NAME}/slides/slide_`
 
 // Create
 slides.post('/', authenticate(['admin']), (req, res) => {
-  const { sectionId } = req.body
+  const { pageId, sectionId, slug } = req.body
   const newSlide = new Slide({
+    pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
+    slug,
     image: null,
     values: []
   })

@@ -10,9 +10,12 @@ const AdminPageEdit = ({ isFetching, page }) => (
   </section>
 )
 
-const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.pages.isFetching,
-  page: state.pages.items.find(item => item.slug === ownProps.params.slug)
-})
+const mapStateToProps = ({ pages }, { params }) => {
+  const slug = params.slug || 'home'
+  return {
+    isFetching: pages.isFetching,
+    page: pages.items.find(obj => obj.slug === slug)
+  }
+}
 
 export default connect(mapStateToProps)(AdminPageEdit)

@@ -5,7 +5,7 @@ import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import renderTextField from '../../modules/renderTextField'
-import { fetchUpdate, fetchDelete } from '../actions/index'
+import { fetchUpdate } from '../actions/index'
 import ImageForm from '../../images/components/ImageForm'
 
 

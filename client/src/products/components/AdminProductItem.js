@@ -36,7 +36,7 @@ class AdminProductItem extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  editing = (bool) => this.setState({ editing: bool })
+  editing = (bool) => this.setState({ editing: bool, submitted: false })
   deleteImage = (_id, update) => {
     this.props.dispatch(fetchUpdate(_id, update))
   }

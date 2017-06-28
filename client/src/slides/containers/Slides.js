@@ -6,7 +6,6 @@ import SlideItem from '../components/SlideItem'
 class Slides extends Component {
   render() {
     const { slides } = this.props
-    console.log(slides)
     var settings = {
       dots: true,
       className: 'center',

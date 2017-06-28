@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import renderTextField from '../../modules/renderTextField'

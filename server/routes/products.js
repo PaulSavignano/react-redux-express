@@ -13,8 +13,9 @@ const s3Path = `${process.env.APP_NAME}/products`
 
 // Create
 products.post('/', (req, res) => {
-  const { sectionId } = req.body
+  const { pageId, sectionId } = req.body
   const product = new Product({
+    pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
     image: null,
     values: []
@@ -73,6 +74,7 @@ products.patch('/:_id', (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
   const Key = `${s3Path}/${_id}`
+  const slug = `products/${slugIt(values.name)}/${_id}`
   switch (type) {
 
     case 'UPDATE_IMAGE_AND_VALUES':
@@ -84,6 +86,7 @@ products.patch('/:_id', (req, res) => {
               width: image.width,
               height: image.height
             },
+            slug,
             values
           }
           Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -121,7 +124,7 @@ products.patch('/:_id', (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Product.findOneAndUpdate({ _id }, { $set: { values, slug: slugIt(values.name) }}, { new: true })
+      Product.findOneAndUpdate({ _id }, { $set: { values, slug }}, { new: true })
         .then(doc => {
           res.send(doc)
         })

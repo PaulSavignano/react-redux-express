@@ -38,7 +38,6 @@ class AdminCarouselItem extends Component {
         <CardHeader title={`Slide ${item._id}`} titleStyle={{ fontSize: 16 }} />
         <CardMedia>
           <form onSubmit={handleSubmit((values) => {
-            console.log(values)
             if (this.state.editing) {
               const image = this.editor.handleSave()
               return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))

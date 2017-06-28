@@ -45,7 +45,7 @@ class ProductItem extends Component {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
-    const { dispatch, item: { _id, values: { name, description, price } }  } = this.props
+    const { dispatch, item: { _id, slug, values: { name, description, price } }  } = this.props
     return (
       this.state.loading ? null :
       <Card
@@ -64,7 +64,7 @@ class ProductItem extends Component {
           style={{ flex: '1 1 auto' }}
         >
           {this.state.hasImage &&
-            <CardMedia onTouchTap={() => dispatch(push(`/product/${_id}`))}>
+            <CardMedia onTouchTap={() => dispatch(push(`/${slug}`))}>
               <img src={this.state.image} alt={name} />
             </CardMedia>
           }

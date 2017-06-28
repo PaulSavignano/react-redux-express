@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { push } from 'react-router-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import IconButton from 'material-ui/IconButton'
-import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
@@ -14,10 +12,10 @@ import SearchBar from '../../search/components/SearchBar'
 import SigninSignout from '../../users/components/SigninSignout'
 import CartIcon from '../../carts/components/CartIcon'
 import AppBarBrand from './AppBarBrand'
+import { searchToggle, searchAdd, searchDelete } from '../../search/actions/index'
 
 class AppBarMenu extends Component {
   state = {
-    searching: false,
     openMenu: false
   }
   handleOpen = (e) => {
@@ -28,22 +26,22 @@ class AppBarMenu extends Component {
     })
   }
   handleClose = () => this.setState({ openMenu: false })
-  handleSearch = () => this.setState({ searching: !this.state.searching })
   render() {
-    console.log('rendering appBar')
     const {
+      brand: { appBar },
       dispatch,
-      user,
-      pages,
-      brand: { business, appBar },
+      hasProducts,
       muiTheme: { palette },
+      pages,
       path,
-      hasProducts
+      search,
+      user
     } = this.props
+    console.log(search.searching)
     return (
       <nav>
-        {this.state.searching ?
-          <SearchBar handleSearch={this.handleSearch} />
+        {search.searching ?
+          <SearchBar />
 
           :
 
@@ -69,14 +67,12 @@ class AppBarMenu extends Component {
                   hoverColor="none"
                 />
               </span>
-              {!hasProducts ? null :
-                <IconButton
-                  iconClassName="fa fa-search"
-                  iconStyle={{ fontSize: 18}}
-                  style={{ color: appBar.textColor }}
-                  onTouchTap={() => this.setState({ searching: !this.state.searching })}
-                />
-              }
+              <IconButton
+                iconClassName="fa fa-search"
+                iconStyle={{ fontSize: 18}}
+                style={{ color: appBar.textColor }}
+                onTouchTap={() => dispatch(searchToggle(!search.searching))}
+              />
               <FlatButton
                 onTouchTap={this.handleOpen}
                 label={user.values.firstName ? `Hello, ${user.values.firstName}`: `SIGN IN`}

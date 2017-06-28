@@ -81,7 +81,7 @@ class AdminSectionItem extends Component {
     return components.map(component => componentList(component))
   }
   render() {
-    const { error, handleSubmit, dispatch, section, imageSpec } = this.props
+    const { error, handleSubmit, dispatch, page, section, imageSpec } = this.props
     return (
       <Card
         expanded={this.state.expanded}
@@ -208,7 +208,7 @@ class AdminSectionItem extends Component {
               <MenuItem
                 primaryText="Add Card"
                 onTouchTap={() => {
-                  const add = { sectionId: section._id }
+                  const add = { pageId: page._id, slug: page.slug, sectionId: section._id }
                   dispatch(cardActions.fetchAdd(add))
                   this.setState({ openMenu: false })
                 }}
@@ -216,7 +216,7 @@ class AdminSectionItem extends Component {
               <MenuItem
                 primaryText="Add Slide"
                 onTouchTap={() => {
-                  const add = { sectionId: section._id }
+                  const add = { pageId: page._id, slug: page.slug, sectionId: section._id }
                   dispatch(slideActions.fetchAdd(add))
                   this.setState({ openMenu: false })
                 }}
@@ -224,7 +224,7 @@ class AdminSectionItem extends Component {
               <MenuItem
                 primaryText="Add Product"
                 onTouchTap={() => {
-                  const add = { sectionId: section._id }
+                  const add = { pageId: page._id, sectionId: section._id }
                   dispatch(productActions.fetchAdd(add))
                   this.setState({ openMenu: false })
                 }}

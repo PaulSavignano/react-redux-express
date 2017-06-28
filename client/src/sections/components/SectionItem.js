@@ -24,8 +24,7 @@ class SectionItem extends Component {
       }
     }
   }
-  renderComponents = () => {
-    const { components } = this.props.section
+  renderComponents = (components) => {
     const componentList = (component) => {
       const { type, componentId } = component
       switch(type) {
@@ -40,6 +39,7 @@ class SectionItem extends Component {
     return components.map(component => componentList(component))
   }
   renderContents = (section) => {
+
     const values = section.values || {}
     const text = values.text || null
     const height = values.height || null
@@ -70,7 +70,7 @@ class SectionItem extends Component {
             {text && <div style={{ margin: 16 }}>{renderHTML(text)}</div>}
           </div>
           <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
-            {this.renderComponents()}
+            {this.renderComponents(section.components)}
           </div>
         </div>
         { this.props.slides.length ? <Slides slides={this.props.slides} /> : null }
@@ -80,7 +80,7 @@ class SectionItem extends Component {
   render() {
     const { isFetching, section } = this.props
     return (
-      !isFetching && this.state.hasImage ?
+      this.state.hasImage ?
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
@@ -99,9 +99,8 @@ class SectionItem extends Component {
 }
 
 const mapStateToProps = (state, { section }) => {
-  const slides = section.components.filter(value => value.type === 'Carousel')
+  const slides = section.components.filter(value => value.type === 'Slide')
   return {
-    isFetching: section.isFetching,
     section,
     slides
   }

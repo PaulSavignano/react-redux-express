@@ -21,7 +21,7 @@ class AppBarBrand extends Component {
     }
   }
   render() {
-    const { dispatch, appBar, business } = this.props
+    const { dispatch, business } = this.props
     return (
       <div style={{ cursor: 'pointer', maxHeight: 64}} onTouchTap={() => dispatch(push('/'))}>
         {this.state.hasImage ?

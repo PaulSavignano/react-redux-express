@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import renderTextField from '../../modules/renderTextField'
@@ -22,8 +22,7 @@ class AdminBusiness extends Component {
   setEditorRef = (editor) => this.editor = editor
   editing = (bool) => this.setState({ editing: bool })
   render() {
-    const { dispatch, error, handleSubmit, _id, item } = this.props
-    console.log(this.props.initialValues)
+    const { dispatch, error, handleSubmit, _id } = this.props
     const styles = {
       container: {
         display: 'flex',

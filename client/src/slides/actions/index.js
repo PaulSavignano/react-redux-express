@@ -118,8 +118,6 @@ export const fetchDelete = (_id) => {
     .then(json => {
       if (json.error) return Promise.reject(json.error)
       const { slide, section } = json
-      console.log('slide ', slide)
-      console.log('section ', section)
       dispatch(sectionActions.fetchUpdateSuccess(section))
       dispatch(fetchDeleteSuccess(slide._id))
     })

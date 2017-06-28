@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import moment from 'moment'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import renderHTML from 'react-render-html'
+
+import { searchDelete } from '../actions/index'
 
 class SearchItem extends Component {
   state = {
@@ -14,13 +15,16 @@ class SearchItem extends Component {
   render() {
     const { dispatch, item } = this.props
     const { values, image } = item
-    console.log(values)
+    const slug = item.slug === 'home' ? '' : item.slug
     return (
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onTouchTap={() => dispatch(push(``))}
+        onTouchTap={() => {
+          dispatch(searchDelete())
+          return dispatch(push(`/${slug}`))
+        }}
         containerStyle={{ display: 'flex', flexFlow: 'row', margin: 16 }}
       >
         {item.image && <img src={image.src} alt="search result" style={{ maxHeight: 100 }}/>}

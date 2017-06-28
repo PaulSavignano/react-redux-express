@@ -24,12 +24,8 @@ class AdminCardItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   editing = (bool) => this.setState({ editing: bool })
-  deleteImage = (_id, update) => {
-    this.props.dispatch(fetchUpdate(_id, update))
-  }
-  setEditorRef = (editor) => {
-    if (editor) this.editor = editor
-  }
+  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  setEditorRef = (editor) => this.editor = editor
   render() {
     const { error, handleSubmit, dispatch, item, imageSpec } = this.props
     const values = item.values || {}
@@ -181,8 +177,8 @@ class AdminCardItem extends Component {
 }
 
 AdminCardItem = compose(
-  connect(({ card }, { componentId }) => {
-    const item = card.items.map(value => value._id === componentId)
+  connect(({ cards }, { componentId }) => {
+    const item = cards.items.find(value => value._id === componentId)
     const values = item.values || {}
     return {
       form: `card_${item._id}`,

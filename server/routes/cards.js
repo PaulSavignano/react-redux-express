@@ -12,9 +12,11 @@ const s3Path = `${process.env.APP_NAME}/cards/card_`
 
 // Create
 cards.post('/', authenticate(['admin']), (req, res) => {
-  const { sectionId } = req.body
+  const { pageId, sectionId, slug } = req.body
   const newCard = new Card({
+    pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
+    slug,
     image: null,
     values: []
   })

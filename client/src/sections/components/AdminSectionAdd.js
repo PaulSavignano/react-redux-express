@@ -15,7 +15,7 @@ const AdminSectionAdd = ({ dispatch, page }) => (
         onTouchTap={() => {
           const add = {
             pageId: page._id,
-            pageName: page.slug,
+            pageSlug: page.slug,
           }
           dispatch(fetchAdd(add))
         }}

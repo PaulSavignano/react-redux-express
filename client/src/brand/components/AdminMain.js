@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import renderTextField from '../../modules/renderTextField'
 import { fetchUpdate } from '../actions/index'
-import normalizePhone from '../../modules/normalizePhone'
 
 class AdminMain extends Component {
   state = {
@@ -22,7 +21,7 @@ class AdminMain extends Component {
   setEditorRef = (editor) => this.editor = editor
   editing = (bool) => this.setState({ editing: bool })
   render() {
-    const { dispatch, handleSubmit, error, _id, item } = this.props
+    const { dispatch, handleSubmit, error, _id } = this.props
     const styles = {
       container: {
         display: 'flex',

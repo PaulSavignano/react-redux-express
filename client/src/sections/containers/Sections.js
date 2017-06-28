@@ -3,15 +3,15 @@ import { connect } from 'react-redux'
 
 import SectionList from '../components/SectionList'
 
-const Sections = ({ isFetching, page, sections, brand }) => (
+const Sections = ({ isFetching, brand, sections }) => (
   isFetching ? null :
-    <SectionList page={page} sections={sections} brand={brand} />
+    <SectionList sections={sections} brand={brand} />
 )
 
-const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.sections.isFetching,
-  sections: state.sections.items.filter(item => item.pageId === ownProps.page._id),
-  brand: state.brand.values
+const mapStateToProps = ({ brand, sections }, { page }) => ({
+  isFetching: sections.isFetching,
+  sections: sections.items.filter(value => value.pageId === page._id),
+  brand
 })
 
 export default connect(mapStateToProps)(Sections)

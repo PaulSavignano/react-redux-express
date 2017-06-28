@@ -32,7 +32,7 @@ const App = ({ isFetching, brandTheme, business, search, children }) => {
           </Helmet>
           <Header />
           <main style={{ backgroundColor: brandTheme.main.color }}>
-            {search ? <SearchList /> : children}
+            {search.value ? <SearchList /> : children}
           </main>
           <Footer />
         </CSSTransitionGroup>
@@ -54,7 +54,6 @@ const App = ({ isFetching, brandTheme, business, search, children }) => {
 
 const mapStateToProps = ({ brand, search }) => {
   const { isFetching, theme, appBar, main, footer, business } = brand
-  console.log(brand)
   const brandTheme = theme ? {
     theme,
     appBar: {

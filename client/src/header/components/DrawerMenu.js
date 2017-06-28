@@ -46,7 +46,6 @@ const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user,
       }}
     />
   ]
-  console.log('rendering drawer')
   return (
     <div>
       <div

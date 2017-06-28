@@ -14,14 +14,15 @@ const s3Path = `${process.env.APP_NAME}/sections/section_`
 
 // Create
 sections.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, pageName } = req.body
+  const { pageId, slug } = req.body
   const section = new Section({
     pageId: ObjectID(pageId),
-    pageName,
+    slug,
     values: []
   })
   section.save()
     .then(doc => {
+        console.log(doc)
         res.send(doc)
       })
     .catch(err => {

@@ -9,7 +9,7 @@ const s3Path = `${process.env.APP_NAME}/sections/section_`
 
 const SectionSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
-  pageName: { type: String },
+  slug: { type: String },
   order: { type: Number },
   image: {
     src: { type: String },

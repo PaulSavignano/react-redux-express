@@ -5,7 +5,7 @@ import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import MenuItem from 'material-ui/MenuItem'
 
-import { fetchUpdate, fetchDelete } from '../actions/index'
+import { fetchUpdate } from '../actions/index'
 import renderTextField from '../../modules/renderTextField'
 import renderSelectField from '../../modules/renderSelectField'
 import ImageForm from '../../images/components/ImageForm'
@@ -23,10 +23,7 @@ class AdminFooter extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  editing = (bool) => {
-    console.log(bool)
-    this.setState({ editing: bool, submitted: false })
-  }
+  editing = (bool) => this.setState({ editing: bool, submitted: false })
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {

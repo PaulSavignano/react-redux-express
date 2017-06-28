@@ -2,39 +2,31 @@ import React from 'react'
 import { connect } from 'react-redux'
 import SearchItem from '../components/SearchItem'
 
-const filter = (items, searchValue) => {
+const filter = (items, search) => {
   const filtered = items.filter(item => {
     const values = item.values || {}
     const name = values.name || ''
     const description = values.description || ''
     const price = values.price || ''
     const text = values.text ? values.text.replace(/<{1}[^<>]{1,}>{1}/g,"") : ''
-    const searchText = `${name} ${description} ${price} ${text}`.toLowerCase()
-    return searchValue.length === 0 || searchText.indexOf(searchValue.toLowerCase()) > -1
+    const searchValue = `${name} ${description} ${price} ${text}`.toLowerCase()
+    return search.length === 0 || searchValue.indexOf(search.toLowerCase()) > -1
   })
   return filtered
 }
 
 const SearchList = ({ items, search }) => {
+  const searchItems = filter(items, search.value)
   return (
-  items.length < 1 ? <section><p>No matches</p></section> :
+    !searchItems.length ? <section><h1>No matches</h1></section> :
     <section>
-      {filter(items, search).map(item => {
-        return (
-          <SearchItem
-            key={item._id}
-            item={item}
-          />
-        )
-      })
-      }
+      {searchItems.map(obj => <SearchItem key={obj._id} item={obj} />)}
     </section>
   )
 }
 
 const mapStateToProps = ({ cards, products, sections, search }) => {
   const items = [ ...cards.items, ...products.items, ...sections.items ]
-  console.log(items)
   return {
     items,
     search

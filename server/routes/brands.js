@@ -166,7 +166,6 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
-  console.log(values)
   const Key = `${s3Path}${_id}/footer`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':

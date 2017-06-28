@@ -18,8 +18,8 @@ const AdminCards = ({ isFetching, section, cards }) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  isFetching: state.cards.isFetching
+const mapStateToProps = ({ cards: { isFetching }}, ownProps) => ({
+  isFetching
 })
 
 export default connect(mapStateToProps)(AdminCards)
