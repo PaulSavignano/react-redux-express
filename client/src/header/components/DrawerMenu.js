@@ -40,7 +40,7 @@ const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user,
     ...adminPages,
     <ListItem
       key={1}
-      primaryText="Add Page"
+      primaryText="Edit Pages"
       onTouchTap={() => {
         dispatch(push(`/admin/pages`))
         handleClose()
@@ -99,7 +99,6 @@ const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user,
           <ListItem
             key={2}
             primaryText="Pages"
-            onTouchTap={() => console.log('tapped')}
             initiallyOpen={true}
             primaryTogglesNestedList={true}
             nestedItems={adminPagesAndAdd}

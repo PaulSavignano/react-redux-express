@@ -37,9 +37,7 @@ class ProductItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   minus = () => {
-    if (this.state.qty > 1) {
-      return this.setState({ qty: this.state.qty - 1 })
-    }
+    if (this.state.qty > 1) return this.setState({ qty: this.state.qty - 1 })
   }
   plus = () => {
     this.setState({ qty: this.state.qty + 1 })
@@ -48,21 +46,22 @@ class ProductItem extends Component {
     const { dispatch, item: { _id, slug, values: { name, description, price } }  } = this.props
     return (
       this.state.loading ? null :
-      <Card
-        className="cards"
+      <CSSTransitionGroup
+        transitionName="image"
+        transitionAppear={true}
+        transitionAppearTimeout={900}
+        transitionEnter={false}
+        transitionLeave={false}
         style={{ flex: '1 1 auto' }}
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
       >
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={900}
-          transitionEnter={false}
-          transitionLeave={false}
+        <Card
+          className="cards"
           style={{ flex: '1 1 auto' }}
+          zDepth={this.state.zDepth}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
         >
+
           {this.state.hasImage &&
             <CardMedia onTouchTap={() => dispatch(push(`/${slug}`))}>
               <img src={this.state.image} alt={name} />
@@ -101,8 +100,8 @@ class ProductItem extends Component {
               this.setState({ open: true })
             }}
           />
-        </CSSTransitionGroup>
-        {!this.state.open ? null :
+
+          {!this.state.open ? null :
           <Dialog
             actions={
               <FlatButton
@@ -119,8 +118,9 @@ class ProductItem extends Component {
           >
             Added To Cart!
           </Dialog>
-        }
-      </Card>
+          }
+        </Card>
+      </CSSTransitionGroup>
     )
   }
 }

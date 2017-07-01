@@ -51,10 +51,9 @@ class Footer extends Component {
       backgroundRepeat:  'no-repeat',
       zIndex: -1
     } : null
-    console.log('footer')
     return (
       isFetching ? null :
-      <footer style={{  marginTop: 128 }}>
+      <footer>
         <Paper style={{ backgroundColor, color, ...backgrounds }}>
           <div className="social-media" style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
             { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: primary1Color }} /></a> }
@@ -78,9 +77,7 @@ class Footer extends Component {
     )
   }
   renderBlankFooter() {
-    console.log('rendering blank footer')
-    const { muiTheme: { palette: { primary1Color, textColor }}} = this.props
-    console.log(primary1Color)
+    const { muiTheme: { palette: { primary1Color }}} = this.props
     return (
       <footer style={{  marginTop: 128 }}>
         <Paper style={{ backgroundColor: primary1Color, color: '#ffffff' }}>
@@ -102,7 +99,6 @@ class Footer extends Component {
   }
   render() {
     const { business } = this.props
-    console.log(business)
     return (
       business.name ? this.renderFooter() : this.renderBlankFooter()
     )

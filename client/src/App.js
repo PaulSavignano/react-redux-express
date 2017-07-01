@@ -13,41 +13,30 @@ import Footer from './footer/components/Footer'
 injectTapEventPlugin()
 
 const App = ({ isFetching, brandTheme, business, search, children }) => {
-  console.log(business.length)
   return (
-    isFetching ? null : business.name ?
-      <MuiThemeProvider muiTheme={getMuiTheme(brandTheme)}>
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={900}
-          transitionEnter={false}
-          transitionLeave={false}
-        >
+    !isFetching &&
+      <MuiThemeProvider muiTheme={getMuiTheme(brandTheme) || null}>
+        <div>
           <Helmet>
             <meta charSet="utf-8" />
             {business.name && <title>{business.name}</title>}
-            <meta name="description" content={business.description} />
-            <link rel="shortcut icon" href={business.image} />
+            {business.description && <meta name="description" content={business.description} />}
+            {business.image && <link rel="shortcut icon" href={business.image} />}
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
-          <Header />
-          <main style={{ backgroundColor: brandTheme.main.color }}>
-            {search.value ? <SearchList /> : children}
-          </main>
-          <Footer />
-        </CSSTransitionGroup>
-      </MuiThemeProvider>
-
-      :
-
-      <MuiThemeProvider>
-        <div>
-          <Header />
-          <main>
-            { children }
-          </main>
-          <Footer />
+          <CSSTransitionGroup
+            transitionName="image"
+            transitionAppear={true}
+            transitionAppearTimeout={900}
+            transitionEnter={false}
+            transitionLeave={false}
+          >
+            <Header />
+            <main style={{ backgroundColor: brandTheme.main.color }}>
+              {search.value ? <SearchList /> : children}
+            </main>
+            <Footer />
+          </CSSTransitionGroup>
         </div>
       </MuiThemeProvider>
   )
@@ -55,7 +44,7 @@ const App = ({ isFetching, brandTheme, business, search, children }) => {
 
 const mapStateToProps = ({ brand, search }) => {
   const { isFetching, theme, appBar, main, footer, business } = brand
-  const brandTheme = theme ? {
+  const brandTheme = theme && {
     theme,
     appBar: {
       ...appBar.values
@@ -64,7 +53,7 @@ const mapStateToProps = ({ brand, search }) => {
     footer: {
       ...footer.values
     }
-  } : null
+  }
   return {
     isFetching,
     brandTheme,

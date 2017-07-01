@@ -12,7 +12,7 @@ const imageSpec = {
 
 const AdminSections = ({ isFetching, sections, page }) => {
   return (
-    isFetching ? null :
+    !isFetching &&
     <section style={{ maxWidth: 2000 }}>
       <AdminSectionList page={page} sections={sections} imageSpec={imageSpec} />
       <AdminSectionAdd page={page} />

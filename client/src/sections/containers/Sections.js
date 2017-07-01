@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import SectionList from '../components/SectionList'
 
 const Sections = ({ isFetching, brand, sections }) => (
-  isFetching ? null :
-    <SectionList sections={sections} brand={brand} />
+  !isFetching && <SectionList sections={sections} brand={brand} />
 )
 
 const mapStateToProps = ({ brand, sections }, { page }) => ({

@@ -23,8 +23,8 @@ class AdminPageName extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, error, handleSubmit, item, dirty, submitSucceeded } = this.props
-    const { _id, name, slug } = item
+    const { dispatch, error, handleSubmit, item, dirty } = this.props
+    const { _id, slug } = item
     return (
       <Card
         zDepth={this.state.zDepth}

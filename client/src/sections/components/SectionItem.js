@@ -39,7 +39,6 @@ class SectionItem extends Component {
     return components.map(component => componentList(component))
   }
   renderContents = (section) => {
-
     const values = section.values || {}
     const text = values.text || null
     const height = values.height || null
@@ -56,29 +55,29 @@ class SectionItem extends Component {
       zIndex: -1
     } : null
     return (
-      <div style={{
+      <section style={{
         height,
         ...backgrounds,
         backgroundColor,
         overflow: 'hidden',
       }}>
-        <div style={{ maxWidth: 1044, margin: '0 auto' }}>
+        <article>
           <div style={{
-            margin,
-            padding
+              margin,
+              padding
           }}>
-            {text && <div style={{ margin: 16 }}>{renderHTML(text)}</div>}
+            {text && <div className="cards">{renderHTML(text)}</div>}
           </div>
-          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+          <div>
             {this.renderComponents(section.components)}
           </div>
-        </div>
+        </article>
         { this.props.slides.length ? <Slides slides={this.props.slides} /> : null }
-      </div>
+      </section>
     )
   }
   render() {
-    const { isFetching, section } = this.props
+    const { section } = this.props
     return (
       this.state.hasImage ?
       <CSSTransitionGroup
