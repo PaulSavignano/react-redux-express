@@ -33,7 +33,10 @@ class AdminPageNameAdd extends Component {
     return (
       <Card className="cards">
         <form
-          onSubmit={handleSubmit(values => dispatch(fetchAdd(values)))}
+          onSubmit={handleSubmit(values => {
+            this.props.reset()
+            dispatch(fetchAdd(values))
+          })}
         >
           <CardText style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center' }}>
             <div style={{ flex: '1 1 auto' }}>
@@ -46,7 +49,9 @@ class AdminPageNameAdd extends Component {
                 submissionError={error}
               />
             </div>
-            <RaisedButton type="submit" label="Add" primary={true}/>
+            <div style={{ margin: 8 }}>
+              <RaisedButton type="submit" label="Add" primary={true}/>
+            </div>
           </CardText>
         </form>
       </Card>

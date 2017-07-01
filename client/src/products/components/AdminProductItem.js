@@ -32,7 +32,7 @@ class AdminProductItem extends Component {
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, dirty } = nextProps
     if (submitSucceeded) this.setState({ submitted: true, editing: false })
-    if (dirty) this.setState({ submitted: false })
+    if (dirty) this.setState({ submitted: false, editing: true })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })

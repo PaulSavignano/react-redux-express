@@ -68,7 +68,8 @@ pages.patch('/:_id', (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { name } = req.body
-  Page.findOneAndUpdate({ _id }, { $set: { name }}, { new: true })
+  const slug = slugIt(name)
+  Page.findOneAndUpdate({ _id }, { $set: { name, slug }}, { new: true })
     .then(doc => {
       res.send(doc)
     })

@@ -6,7 +6,6 @@ const DELETE = `DELETE_${type}`
 
 // Search
 export const searchToggle = (bool) => {
-  console.log(bool)
   return {
     type: TOGGLE,
     searching: bool

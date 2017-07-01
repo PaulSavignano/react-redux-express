@@ -38,7 +38,7 @@ footer {
   left: 0;
   text-align: center;
 }
-footer > div > a {
+.social-media > a {
   padding: 0 16px;
   text-decoration: none;
   color: inherit;
@@ -116,6 +116,9 @@ h3 {
   opacity: 1;
   transition: opacity 0.9s ease-in;
 }
+
+
+
 .example-enter {
   opacity: 0.01;
 }
@@ -130,6 +133,31 @@ h3 {
   opacity: 0.01;
   transition: opacity 200ms ease-in;
 }
+
+
+
+.flash-appear {
+  opacity: 0.01;
+}
+.flash-appear.flash-appear-active {
+  opacity: 1;
+  transition: opacity 1800ms ease-in;
+}
+.flash-enter {
+  opacity: 0.01;
+  transition: opacity 600ms ease-in;
+}
+.flash-enter.flash-enter-active {
+  opacity: 1;
+}
+.flash-leave {
+  opacity: 1;
+  transition: opacity 900ms ease-in;
+}
+.flash-leave.flash-leave-active {
+  opacity: 0.01;
+}
+
 
 
 

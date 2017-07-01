@@ -37,13 +37,12 @@ class AppBarMenu extends Component {
       search,
       user
     } = this.props
-    console.log(search.searching)
     return (
       <nav>
         {search.searching ?
           <SearchBar />
-
-          :
+          
+        :
 
           <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
             <div style={{ cursor: 'pointer', maxHeight: 64}} onTouchTap={() => dispatch(push('/'))}>

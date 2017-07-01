@@ -13,8 +13,9 @@ import Footer from './footer/components/Footer'
 injectTapEventPlugin()
 
 const App = ({ isFetching, brandTheme, business, search, children }) => {
+  console.log(business.length)
   return (
-    isFetching ? null : brandTheme ?
+    isFetching ? null : business.name ?
       <MuiThemeProvider muiTheme={getMuiTheme(brandTheme)}>
         <CSSTransitionGroup
           transitionName="image"

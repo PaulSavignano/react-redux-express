@@ -6,7 +6,8 @@ import { ListItem } from 'material-ui/List'
 import { spacing, typography } from 'material-ui/styles'
 
 import AppBarBrand from './AppBarBrand'
-import { fetchAdd } from '../../brand/actions/index'
+import * as brandActions from '../../brand/actions'
+import * as pageActions from '../../pages/actions'
 import SigninSignout from '../../users/components/SigninSignout'
 
 const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user, handleClose, hasProducts }) => {
@@ -76,41 +77,43 @@ const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user,
 
       {!isAdmin ? null : !business.name ?
         <MenuItem onTouchTap={() => {
-          dispatch(fetchAdd())
+          dispatch(pageActions.fetchAdd({ name: 'Home'}))
+          dispatch(brandActions.fetchAdd())
           .then(()=> dispatch(push(`/admin/brand`)))
           handleClose()
         }}>Add Brand</MenuItem>
-         :
-        <ListItem
-          primaryText="Admin"
-          initiallyOpen={false}
-          primaryTogglesNestedList={true}
-          nestedItems={[
-            <ListItem
-              key={1}
-              primaryText="Brand"
-              onTouchTap={() => {
-                dispatch(push(`/admin/brand`))
-                handleClose()
-              }}
-            />,
-            <ListItem
-              key={2}
-              primaryText="Pages"
-              initiallyOpen={true}
-              primaryTogglesNestedList={true}
-              nestedItems={adminPagesAndAdd}
-            />,
-            <ListItem
-              key={3}
-              primaryText="Orders"
-              onTouchTap={() => {
-                dispatch(push(`/admin/orders`))
-                handleClose()
-              }}
-            />
-          ]}
-        />
+      :
+      <ListItem
+        primaryText="Admin"
+        initiallyOpen={false}
+        primaryTogglesNestedList={true}
+        nestedItems={[
+          <ListItem
+            key={1}
+            primaryText="Brand"
+            onTouchTap={() => {
+              dispatch(push(`/admin/brand`))
+              handleClose()
+            }}
+          />,
+          <ListItem
+            key={2}
+            primaryText="Pages"
+            onTouchTap={() => console.log('tapped')}
+            initiallyOpen={true}
+            primaryTogglesNestedList={true}
+            nestedItems={adminPagesAndAdd}
+          />,
+          <ListItem
+            key={3}
+            primaryText="Orders"
+            onTouchTap={() => {
+              dispatch(push(`/admin/orders`))
+              handleClose()
+            }}
+          />
+        ]}
+      />
       }
       <SigninSignout user={user} handleClose={handleClose} />
     </div>

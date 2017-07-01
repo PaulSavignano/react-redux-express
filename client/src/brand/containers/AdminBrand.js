@@ -16,7 +16,6 @@ const imageSpec = {
 
 
 const AdminBrand = ({ isFetching, _id, appBar, business, main, theme, footer }) => {
-  console.log(main)
   return (
     isFetching ? null :
     <section>

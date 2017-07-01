@@ -175,12 +175,12 @@ users.post('/signin', (req, res) => {
         })
         .catch(err => {
           console.error('user.generateAuthToken(): ', err)
-          res.status(400).send()
+          res.status(400).send(err)
         })
     })
     .catch(err => {
       console.error('User.findByCredentials: ', err)
-      res.status(400).send()
+      res.status(400).send(err)
     })
 })
 
@@ -219,7 +219,7 @@ users.post('/recovery', (req, res, next) => {
         })
         .catch(err => {
           console.error('User.findOne: ', err)
-          res.status(400).send()
+          res.status(400).send(err)
         })
     })
 })

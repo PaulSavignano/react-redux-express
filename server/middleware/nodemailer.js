@@ -19,6 +19,7 @@ export const sendEmail1 = (mail) => {
   const { to, toSubject, toBody, fromSubject, fromBody } = mail
   return Brand.findOne({})
     .then(brand => {
+      if (!brand) return Promise.reject({ error: 'No brand found'})
       const { image, business } = brand
       const { name, phone, email, street, city, state, zip } = business
       const signature = `

@@ -6,7 +6,6 @@ const search = (state = {
 }, action) => {
   switch (action.type) {
     case `TOGGLE_${type}`:
-    console.log(action.searching)
       return {
         ...state,
         searching: action.searching

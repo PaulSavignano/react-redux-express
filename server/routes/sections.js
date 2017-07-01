@@ -21,10 +21,7 @@ sections.post('/', authenticate(['admin']), (req, res) => {
     values: []
   })
   section.save()
-    .then(doc => {
-        console.log(doc)
-        res.send(doc)
-      })
+    .then(doc => res.send(doc))
     .catch(err => {
       console.error(err)
       res.status(400).send()

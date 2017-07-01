@@ -23,8 +23,8 @@ class Footer extends Component {
       this.setState({ image: null, hasImage: false })
     }
   }
-  render() {
-    const { isFetching, footer, business, muiTheme: { palette: primary1Color, textColor } } = this.props
+  renderFooter() {
+    const { isFetching, footer, business, muiTheme: { palette: { primary1Color, textColor }}} = this.props
     const {
       name,
       phone,
@@ -51,11 +51,12 @@ class Footer extends Component {
       backgroundRepeat:  'no-repeat',
       zIndex: -1
     } : null
+    console.log('footer')
     return (
       isFetching ? null :
       <footer style={{  marginTop: 128 }}>
         <Paper style={{ backgroundColor, color, ...backgrounds }}>
-          <div style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
+          <div className="social-media" style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
             { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: primary1Color }} /></a> }
             { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color: primary1Color }} /></a> }
             { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color: primary1Color }} /></a> }
@@ -74,6 +75,36 @@ class Footer extends Component {
           </div>
         </Paper>
       </footer>
+    )
+  }
+  renderBlankFooter() {
+    console.log('rendering blank footer')
+    const { muiTheme: { palette: { primary1Color, textColor }}} = this.props
+    console.log(primary1Color)
+    return (
+      <footer style={{  marginTop: 128 }}>
+        <Paper style={{ backgroundColor: primary1Color, color: '#ffffff' }}>
+          <div className="social-media" style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
+            <a href=""><FontIcon className="fa fa-github-square" style={{ color: '#ffffff' }} /></a>
+            <a href=""><FontIcon className="fa fa-google-plus-square" style={{ color: '#ffffff' }} /></a>
+            <a href=""><FontIcon className="fa fa-twitter-square" style={{ color: '#ffffff' }} /></a>
+          </div>
+          <div style={{ padding: '0 0 32px 0' }}>
+            <div>Brand {new Date().getFullYear()}</div>
+            <a href={`tel:888-888-8888`} style={{ textDecoration: 'none', color: 'inherit' }}>888-888-8888</a>
+            <div>name@brand.com</div>
+            <div>1234 Pattern St</div>
+            <div>Patternville, Ca. 91234</div>
+          </div>
+        </Paper>
+      </footer>
+    )
+  }
+  render() {
+    const { business } = this.props
+    console.log(business)
+    return (
+      business.name ? this.renderFooter() : this.renderBlankFooter()
     )
   }
 }
