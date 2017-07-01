@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import renderTextField from '../../modules/renderTextField'
 import { fetchUpdate } from '../actions/index'
 
 const validate = values => {
@@ -16,15 +17,6 @@ const validate = values => {
   })
   return errors
 }
-
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
 
 class AddressAdd extends Component {
   state = {
@@ -51,7 +43,7 @@ class AddressAdd extends Component {
               type="button"
               label={this.state.expanded ? "Remove Address" : "Add Address"}
               labelColor="#ffffff"
-              backgroundColor={this.state.expanded ? "#D50000" : "#4CAF50" }
+              primary={true}
               fullWidth={true}/>
           </CardActions>
 

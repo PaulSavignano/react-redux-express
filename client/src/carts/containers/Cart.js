@@ -5,7 +5,7 @@ import CartList from '../components/CartList'
 import CartTotal from '../components/CartTotal'
 
 const Cart = ({ isFetching, cart, user }) => (
-  isFetching ? null :
+  !isFetching &&
   <section>
     <h1>Cart</h1>
     <CartList cart={cart} />
@@ -15,7 +15,7 @@ const Cart = ({ isFetching, cart, user }) => (
 
 const mapStateToProps = ({ cart, user }) => ({
   isFetching: cart.isFetching,
-  cart: cart.cart,
+  cart,
   user
 })
 

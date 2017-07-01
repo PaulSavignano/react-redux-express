@@ -9,22 +9,27 @@ import formatPrice from '../../modules/formatPrice'
 
 class CartItem extends Component {
   state = {
-    qty: this.props.productQty,
+    qty: null,
     zDepth: 1
+  }
+  componentWillMount() {
+    this.setState({ qty: this.props.productQty })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   add = () => {
+    const { dispatch, productId } = this.props
     const newQty = this.state.qty + 1
     this.setState({ qty: newQty })
-    const update = { type: 'ADD_TO_CART', productId: this.props.productId, productQty: 1 }
-    this.props.dispatch(fetchUpdateCart(update))
+    const update = { type: 'ADD_TO_CART', productId, productQty: 1 }
+    dispatch(fetchUpdateCart(update))
   }
   minus = () => {
+    const { dispatch, productId } = this.props
     const newQty = this.state.qty - 1
     this.setState({ qty: newQty })
-    const update = { type: 'REDUCE_FROM_CART', productId: this.props.productId, productQty: 1 }
-    this.props.dispatch(fetchUpdateCart(update))
+    const update = { type: 'REDUCE_FROM_CART', productId, productQty: 1 }
+    dispatch(fetchUpdateCart(update))
   }
   render() {
     const { dispatch, productId, name, price, image, total } = this.props

@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import FontIcon from 'material-ui/FontIcon'
 import Badge from 'material-ui/Badge'
 
-const CartIcon = ({ qty }) => (
-  qty ?
+const CartIcon = ({ quantity }) => (
+  quantity ?
   <Badge
     style={{ padding: '0 16px 0 0' }}
-    badgeContent={qty}
+    badgeContent={quantity}
     primary={true}
     badgeStyle={{top: -10, left: 10 }}
   >
@@ -21,8 +21,8 @@ const CartIcon = ({ qty }) => (
   />
 )
 
-const mapStateToProps = ({ cart }) => ({
-  qty: cart.cart.quantity
+const mapStateToProps = ({ cart: { quantity } }) => ({
+  quantity
 })
 
 export default connect(mapStateToProps)(CartIcon)

@@ -7,8 +7,8 @@ import AddressList from '../components/AddressList'
 import OrderList from '../../orders/components/OrderList'
 
 const Profile = ({ user, initialValues, addresses, orders, brand }) => {
-  const fontFamily = brand.values.fontFamily || null
-  const color = brand.values.palette ? brand.values.palette.textColor : null
+  const fontFamily = brand.theme.fontFamily || null
+  const color = brand.theme.textColor || null
   return (
     <section>
       <h1 style={{ fontFamily, color }}>Profile</h1>
@@ -19,7 +19,7 @@ const Profile = ({ user, initialValues, addresses, orders, brand }) => {
       <AddressAdd user={user} />
       <br/>
       <h1 style={{ fontFamily, color }}>Orders</h1>
-      <OrderList orders={orders} fontFamily={brand.values.fontFamily} color={brand.values.palette.textColor}/>
+      <OrderList orders={orders} fontFamily={fontFamily} color={color}/>
     </section>
   )
 }

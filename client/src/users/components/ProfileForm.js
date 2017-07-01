@@ -6,7 +6,10 @@ import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import CircularProgress from 'material-ui/CircularProgress'
 
+import renderTextField from '../../modules/renderTextField'
+import normalizePhone from '../../modules/normalizePhone'
 import { fetchUpdate, fetchDelete } from '../actions/index'
 
 const validate = values => {
@@ -26,15 +29,6 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
-
 class ProfileForm extends Component {
   state = {
     submitted: false,
@@ -46,41 +40,41 @@ class ProfileForm extends Component {
     if (dirty) this.setState({ submitted: false })
   }
   render() {
-    const { dispatch, handleSubmit, user, error, reset } = this.props
+    const { dispatch, handleSubmit, submitting, user, error } = this.props
     return (
       <Card className="cards">
         <form onSubmit={handleSubmit(values => {
           const update = { type: 'UPDATE_VALUES', values}
           dispatch(fetchUpdate(update))
-          reset()
         })}
         >
           <CardText>
             <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
             <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-            <Field name="phone" component={renderTextField} label="Phone" fullWidth={true} />
+            <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} fullWidth={true} />
             <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
             <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
             {error && <strong style={{ color: 'rgb(244, 67, 54)' }}>{error}</strong>}
           </CardText>
           <CardText>
             {!this.state.open ? null :
-              <Dialog
-                actions={
-                  <FlatButton label="Close" primary={true} onTouchTap={() => this.setState({ open: false }) }/>
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
-              >
-                An email has been sent to {user.values.email}
-              </Dialog>
+            <Dialog
+              actions={
+                <FlatButton label="Close" primary={true} onTouchTap={() => this.setState({ open: false }) }/>
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              An email has been sent to {user.values.email}
+            </Dialog>
             }
           </CardText>
           <CardActions style={{ display: 'flex', flexFlow: 'row wrap' }}>
             <RaisedButton
               type="submit"
+              children={submitting && <CircularProgress size={80} thickness={5} />}
               label={this.state.submitted ? "Updated" : "Update"}
               labelColor="#ffffff"
               primary={this.state.submitted ? false : true}

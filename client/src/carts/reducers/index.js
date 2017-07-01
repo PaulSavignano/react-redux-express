@@ -1,7 +1,4 @@
-const cart = (state = {
-  cart: {},
-  isFetching: false
-}, action) => {
+const cart = (state = {}, action) => {
   switch (action.type) {
     case 'REQUEST_CART':
       return {
@@ -11,23 +8,22 @@ const cart = (state = {
     case 'ADD_CART':
       return {
         ...state,
-        cart: action.cart
+        ...action.cart
       }
     case 'RECEIVE_CART':
       return {
         ...state,
-        cart: action.cart,
+        ...action.cart,
         isFetching: false
       }
     case 'UPDATE_CART':
       return {
         ...state,
-        cart: action.cart
+        ...action.cart
       }
     case 'DELETE_CART':
       return {
-        ...state,
-        cart: {}
+        isFetching: false
       }
     case 'ERROR_CART':
       return {
