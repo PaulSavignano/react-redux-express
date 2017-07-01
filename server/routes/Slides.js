@@ -6,6 +6,8 @@ import { uploadFile, deleteFile } from '../middleware/s3'
 import Slide from '../models/Slide'
 import Section from '../models/Section'
 
+
+
 const slides = express.Router()
 
 const s3Path = `${process.env.APP_NAME}/slides/slide_`
