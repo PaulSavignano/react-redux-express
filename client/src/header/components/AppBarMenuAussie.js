@@ -62,7 +62,7 @@ class AppBarMenuAussie extends Component {
             <SearchBar handleSearch={this.handleSearch()}/>
           </nav>
 
-          :
+        :
 
           <nav style={styles.nav} key={2}>
             <div style={styles.brand} onTouchTap={() => dispatch(push('/'))}>
@@ -91,12 +91,12 @@ class AppBarMenuAussie extends Component {
                   />
                 </span>
                 {!hasProducts ? null :
-                  <IconButton
-                    iconClassName="fa fa-search"
-                    iconStyle={{ fontSize: 18}}
-                    style={styles.search}
-                    onTouchTap={() => this.setState({ searching: !this.state.searching })}
-                  />
+                <IconButton
+                  iconClassName="fa fa-search"
+                  iconStyle={{ fontSize: 18}}
+                  style={styles.search}
+                  onTouchTap={() => this.setState({ searching: !this.state.searching })}
+                />
                 }
                 <FlatButton
                   style={styles.user}
@@ -118,11 +118,11 @@ class AppBarMenuAussie extends Component {
                   </Menu>
                 </Popover>
                 { !hasProducts ? null :
-                  <IconButton
-                    children={<CartIcon  />}
-                    onTouchTap={() => dispatch(push('/cart'))}
-                    style={{ padding: '12px 0' }}
-                  />
+                <IconButton
+                  children={<CartIcon  />}
+                  onTouchTap={() => dispatch(push('/user/cart'))}
+                  style={{ padding: '12px 0' }}
+                />
                 }
 
               </span>

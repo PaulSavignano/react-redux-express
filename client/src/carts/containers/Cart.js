@@ -5,7 +5,7 @@ import CartList from '../components/CartList'
 import CartTotal from '../components/CartTotal'
 
 const Cart = ({ isFetching, cart, user }) => (
-  !isFetching &&
+  !isFetching && !cart.items.length ? <section><h1>Nothing in your cart yet</h1></section> :
   <section>
     <h1>Cart</h1>
     <CartList cart={cart} />

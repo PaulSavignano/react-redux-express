@@ -1,31 +1,37 @@
-const cart = (state = {}, action) => {
+import { type } from '../actions/index'
+
+const cart = (state = {
+  isFetching: false,
+  items: []
+}, action) => {
   switch (action.type) {
-    case 'REQUEST_CART':
+    case `REQUEST_${type}`:
       return {
         ...state,
         isFetching: true
       }
-    case 'ADD_CART':
+    case `ADD_${type}`:
       return {
         ...state,
         ...action.cart
       }
-    case 'RECEIVE_CART':
+    case `RECEIVE_${type}`:
       return {
         ...state,
         ...action.cart,
         isFetching: false
       }
-    case 'UPDATE_CART':
+    case `UPDATE_${type}`:
+    console.log('testing')
       return {
         ...state,
         ...action.cart
       }
-    case 'DELETE_CART':
+    case `DELETE_${type}`:
       return {
         isFetching: false
       }
-    case 'ERROR_CART':
+    case `ERROR_${type}`:
       return {
         ...state,
         error: action.error

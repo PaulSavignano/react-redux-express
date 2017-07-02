@@ -13,6 +13,7 @@ import AdminPage from './pages/containers/AdminPage'
 import AdminPageEdit from './pages/containers/AdminPageEdit'
 
 // User
+import Cart from './carts/containers/Cart'
 import RequireAuth from './users/components/RequireAuth'
 import Signup from './users/components/Signup'
 import Signin from './users/components/Signin'
@@ -56,6 +57,7 @@ const Routing = ({ history }) => (
       <Route path="admin/brand" component={RequireAuth(AdminBrand, ['admin'])} />
 
       {/* User */}
+      <Route path="user/cart" component={Cart} />
       <Route path="user/signup" component={Signup} />
       <Route path="user/signin" component={Signin} />
       <Route path="user/recovery" component={Recovery} />

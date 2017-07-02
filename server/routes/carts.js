@@ -53,7 +53,7 @@ carts.get('/:_id', (req, res) => {
     })
     .catch(err => {
       console.error(err)
-      res.status(400).send()
+      res.status(400).send(err)
     })
 })
 

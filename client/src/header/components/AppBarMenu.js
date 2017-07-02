@@ -91,7 +91,7 @@ class AppBarMenu extends Component {
             { !hasProducts ? null :
             <IconButton
               children={<CartIcon  />}
-                  onTouchTap={() => dispatch(push('/cart'))}
+              onTouchTap={() => dispatch(push('/user/cart'))}
                   style={{ padding: '12px 0' }}
                 />
               }
