@@ -10,6 +10,7 @@ class SuccessableButton extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, submitting, label } = nextProps
+    console.log(submitSucceeded)
     if (submitting) this.setState({ submitting: true })
     if (submitSucceeded && this.state.submitting) {
       this.setState({ submitSucceeded: true })

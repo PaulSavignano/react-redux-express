@@ -27,8 +27,8 @@ class AddressAdd extends Component {
       <form
         onSubmit={handleSubmit((values) => {
           const update = { type: 'ADD_ADDRESS', values }
-          dispatch(fetchUpdate(update))
           this.setState({ open: false })
+          return dispatch(fetchUpdate(update))
         })}
       >
         <Card

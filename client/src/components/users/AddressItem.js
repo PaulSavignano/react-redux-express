@@ -28,7 +28,7 @@ class AddressItem extends Component {
         <form
           onSubmit={handleSubmit((values) => {
             const update = { type: 'UPDATE_ADDRESS', itemId: item._id, values }
-            dispatch(fetchUpdate(update))
+            return dispatch(fetchUpdate(update))
           })}
           style={{ flex: '1 1 auto' }}
         >
@@ -46,7 +46,7 @@ class AddressItem extends Component {
               className="button delete-button"
               onTouchTap={() => {
                 const update = { type: 'DELETE_ADDRESS', itemId: item._id }
-                dispatch(fetchUpdate(update))
+                return dispatch(fetchUpdate(update))
               }}
             />
           </div>

@@ -39,7 +39,7 @@ class ProfileForm extends Component {
       <Card className="cards">
         <form onSubmit={handleSubmit(values => {
           const update = { type: 'UPDATE_VALUES', values}
-          dispatch(fetchUpdate(update))
+          return dispatch(fetchUpdate(update))
         })}
         >
           <div className="field-container">

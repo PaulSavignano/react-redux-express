@@ -29,7 +29,7 @@ class AdminMain extends Component {
         <form
           onSubmit={handleSubmit((values) => {
             const path = `main/${_id}`
-            dispatch(fetchUpdate(path, values))
+            return dispatch(fetchUpdate(path, values))
           })}
         >
           <CardTitle title="Main" />

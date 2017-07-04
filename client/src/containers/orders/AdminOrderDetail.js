@@ -25,7 +25,7 @@ let AdminOrderDetail = ({ error, handleSubmit, dispatch, isFetching, order, font
               const update = {
                 type: 'SHIPPED',
               }
-              dispatch(fetchUpdate(_id, update))
+              return dispatch(fetchUpdate(_id, update))
             })}
         />
       </div>

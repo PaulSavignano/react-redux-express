@@ -30,7 +30,7 @@ class AdminBusiness extends Component {
         <form
           onSubmit={handleSubmit((values) => {
             const path = `business/${_id}`
-            dispatch(fetchUpdate(path, values))
+            return dispatch(fetchUpdate(path, values))
           })}
         >
           <CardTitle title="Business" />
