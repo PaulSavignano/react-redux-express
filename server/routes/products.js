@@ -74,7 +74,7 @@ products.patch('/:_id', (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
   const Key = `${s3Path}/${_id}`
-  const slug = `products/${slugIt(values.name)}/${_id}`
+  const slug = values ? `products/${slugIt(values.name)}/${_id}` : null
   switch (type) {
 
     case 'UPDATE_IMAGE_AND_VALUES':

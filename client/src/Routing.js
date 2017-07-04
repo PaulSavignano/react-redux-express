@@ -1,39 +1,39 @@
 import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
-import ReactGA from 'react-ga'
+//import ReactGA from 'react-ga'
 
 import App from './App'
 
 // Brand
-import AdminBrand from './brand/containers/AdminBrand'
+import AdminBrand from './containers/brand/AdminBrand'
 
 // Page
-import Page from './pages/containers/Page'
-import AdminPage from './pages/containers/AdminPage'
-import AdminPageEdit from './pages/containers/AdminPageEdit'
+import Page from './containers/pages/Page'
+import AdminPage from './containers/pages/AdminPage'
+import AdminPageEdit from './containers/pages/AdminPageEdit'
 
 // User
-import Cart from './carts/containers/Cart'
-import RequireAuth from './users/components/RequireAuth'
-import Signup from './users/components/Signup'
-import Signin from './users/components/Signin'
-import Recovery from './users/components/Recovery'
-import Reset from './users/components/Reset'
-import Profile from './users/containers/Profile'
-import RequestEstimate from './users/components/RequestEstimate'
+import Cart from './containers/cart/Cart'
+import RequireAuth from './components/users/RequireAuth'
+import Signup from './components/users/Signup'
+import Signin from './components/users/Signin'
+import Recovery from './components/users/Recovery'
+import Reset from './components/users/Reset'
+import Profile from './containers/users/Profile'
+import RequestEstimate from './components/users/RequestEstimate'
 
 // Product
-import Product from './products/containers/Product'
+import Product from './containers/products/Product'
 
 //Order
-import OrderAdd from './orders/containers/OrderAdd'
-import Orders from './orders/containers/Orders'
-import OrderConfirmation from './orders/containers/OrderConfirmation'
-import OrderDetail from './orders/containers/OrderDetail'
-import AdminOrders from './orders/containers/AdminOrders'
-import AdminOrderDetail from './orders/containers/AdminOrderDetail'
+import OrderAdd from './containers/orders/OrderAdd'
+import Orders from './containers/orders/Orders'
+import OrderConfirmation from './containers/orders/OrderConfirmation'
+import OrderDetail from './containers/orders/OrderDetail'
+import AdminOrders from './containers/orders/AdminOrders'
+import AdminOrderDetail from './containers/orders/AdminOrderDetail'
 
-import NotFound from './NotFound'
+import NotFound from './components/NotFound'
 
 // Google Analytics
 // ReactGA.initialize('UA-100349397-1')

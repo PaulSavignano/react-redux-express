@@ -207,9 +207,12 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
             }
           }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
-            .then(doc => res.send(doc))
+            .then(doc => {
+              console.log(doc)
+              res.send(doc)
+            })
             .catch(err => {
-              console.error(err)
+              console.log(err)
               res.status(400).send()
             })
           .catch(err => {
@@ -224,8 +227,11 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate({ _id }, { $set: { footer: values }},  { new: true })
-        .then(doc => res.send(doc))
+      Brand.findOneAndUpdate({ _id }, { $set: { 'footer.values': values }},  { new: true })
+        .then(doc => {
+          console.log('inside footer update', doc)
+          res.send(doc)
+        })
         .catch(err => {
           console.error(err)
           res.status(400).send()

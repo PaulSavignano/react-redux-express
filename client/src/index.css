@@ -27,13 +27,20 @@ body {
   min-height: 100%;
 }
 
+main {
+  height: 100%;
+}
+
 section {
   padding: 16px 0;
+  margin: 0 auto;
+  max-width: 1044px
 }
 
 .cards {
   flex: 1 1 auto;
   margin: 16px;
+  height: 100%;
 }
 
 
@@ -58,10 +65,57 @@ footer {
 
 
 
-article {
-  max-width: 1044px;
-  margin: 0 auto;
+.field-container {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 8px
 }
+
+.field {
+  flex: 1 1 auto;
+  margin: 8px
+}
+
+
+
+
+
+
+
+/* Buttons */
+.button-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 4px;
+}
+.button {
+  flex: 1 1 auto;
+  margin: 4px;
+}
+.delete-button > button {
+  background-color: rgba(213, 0, 0, 1) !important;
+  color: #ffffff !important;
+}
+.delete-button * {
+  color: #ffffff !important;
+  font-size: inherit !important;
+}
+.delete-button > button:hover  {
+  background-color: rgba(213, 0, 0, 0.5) !important;
+}
+
+
+
+
+
+
+.error {
+  font-weight: bold;
+  color: rgb(244, 67, 54);
+  margin: 8px;
+}
+
+
 
 section > h1 {
   margin: 16px 16px 0 16px;
@@ -81,12 +135,7 @@ h3 {
   font-weight: normal
 }
 
-.delete-button > button {
-  background-color: rgb(213, 0, 0) !important;
-}
-.delete-button:hover > button {
-  background-color: rgba(213, 0, 0, 0.6) !important;
-}
+
 
 
 
@@ -112,6 +161,7 @@ h3 {
   opacity: 1;
   transition: opacity 0.9s ease-in;
 }
+
 
 
 

@@ -9,15 +9,15 @@ import Routing from './Routing'
 import './index.css'
 
 // Actions
-import { fetchBrand } from './brand/actions/index'
-import { fetchCards } from './cards/actions/index'
-import { fetchCart } from './carts/actions/index'
-import { fetchSlides } from './slides/actions/index'
-import { fetchSections } from './sections/actions/index'
-import { fetchOrders } from './orders/actions/index'
-import { fetchPages } from './pages/actions/index'
-import { fetchProducts } from './products/actions/index'
-import { fetchUser } from './users/actions/index'
+import { fetchBrand } from './actions/brand'
+import { fetchCards } from './actions/cards'
+import { fetchCart } from './actions/cart'
+import { fetchSlides } from './actions/slides'
+import { fetchSections } from './actions/sections'
+import { fetchOrders } from './actions/orders'
+import { fetchPages } from './actions/pages'
+import { fetchProducts } from './actions/products'
+import { fetchUser } from './actions/users'
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)

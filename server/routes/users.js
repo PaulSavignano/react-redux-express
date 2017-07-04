@@ -80,15 +80,20 @@ users.get('/', authenticate(['user','admin']), (req, res) => {
 // Update
 users.patch('/', authenticate(['user', 'admin']), (req, res) => {
   const { user } = req
-  const { type, _id, values } = req.body
-  const { firstName, lastName, email, phone, password } = values
+  console.log(req.body)
+  const { type, itemId, values } = req.body
   switch (type) {
 
     case 'UPDATE_VALUES':
-      if (password) {
-        user.password = password
+      if (values.password) {
+        user.password = values.password
       }
-      user.values = { firstName, lastName, email, phone }
+      user.values = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phone: values.phone
+      }
       user.save()
         .then(() => user.generateAuthToken())
         .then(token => {
@@ -114,8 +119,10 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
       break
 
     case 'UPDATE_ADDRESS':
-      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': _id }, { $set: { 'addresss.$.values': values }}, { new: true })
+      console.log('updating address')
+      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': itemId }, { $set: { 'addresses.$.values': values }}, { new: true })
         .then(doc => {
+          console.log('doc ', doc.addresses)
           const { addresses } = doc
           res.send({ addresses })
         })
@@ -126,8 +133,9 @@ users.patch('/', authenticate(['user', 'admin']), (req, res) => {
       break
 
     case 'DELETE_ADDRESS':
-      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': _id }, { $pull: { 'addresses': { _id } }}, { new: true })
+      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': itemId }, { $pull: { 'addresses': { _id: itemId } }}, { new: true })
         .then(doc => {
+          console.log(doc)
           const { values, addresses, roles } = doc
           res.send({ addresses })
         })

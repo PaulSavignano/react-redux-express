@@ -6,9 +6,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Helmet } from "react-helmet"
 
-import SearchList from './search/containers/SearchList'
-import Header from './header/containers/Header'
-import Footer from './footer/components/Footer'
+import SearchList from './containers/search/SearchList'
+import Header from './containers/header/Header'
+import Footer from './components/footer/Footer'
 
 injectTapEventPlugin()
 
@@ -35,6 +35,7 @@ const App = ({ isFetching, brandTheme, business, search, children }) => {
             <main style={{ backgroundColor: brandTheme.main.color }}>
               {search.value ? <SearchList /> : children}
             </main>
+            <br/><br/><br/>
             <Footer />
           </CSSTransitionGroup>
         </div>
