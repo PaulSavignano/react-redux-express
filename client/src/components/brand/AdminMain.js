@@ -29,7 +29,7 @@ class AdminMain extends Component {
         <form
           onSubmit={handleSubmit((values) => {
             const path = `main/${_id}`
-            return dispatch(fetchUpdate(path, values))
+            return dispatch(fetchUpdate(path, { values }))
           })}
         >
           <CardTitle title="Main" />
@@ -55,7 +55,7 @@ AdminMain = reduxForm({
 })(AdminMain)
 
 const mapStateToProps = (state, { item }) => ({
-  initialValues: item
+  initialValues: item.values
 })
 
 AdminMain = connect(mapStateToProps)(AdminMain)

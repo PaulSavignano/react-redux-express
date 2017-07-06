@@ -12,17 +12,15 @@ import { fetchUpdate } from '../../actions/brand'
 class AdminAppBar extends Component {
   state = {
     zDepth: 1,
-    submitted: false,
     editing: false
   }
-  componentWillReceiveProps({ submitSucceeded, dirty }) {
-    if (submitSucceeded) this.setState({ submitted: true, editing: false })
-    if (dirty) this.setState({ submitted: false })
+  componentWillReceiveProps({ submitSucceeded }) {
+    if (submitSucceeded) this.setState({ editing: false })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   editing = (bool) => this.setState({ editing: bool })
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { _id, dispatch, error, handleSubmit, item, imageSpec, submitSucceeded, submitting } = this.props

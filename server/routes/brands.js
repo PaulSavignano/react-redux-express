@@ -65,7 +65,9 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
                 width: image.width,
                 height: image.height
               },
-              values
+              theme: {
+                appBar: values
+              }
             }
           }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -111,7 +113,7 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate({ _id }, { $set: { appBar: values } }, { new: true })
+      Brand.findOneAndUpdate({ _id }, { $set: { theme: { appBar: values } } }, { new: true })
         .then(doc => res.send(doc))
         .catch(err => {
           console.error(err)
@@ -144,6 +146,9 @@ brands.patch('/business/:_id', authenticate(['admin']), (req, res) => {
 
 
 
+
+
+
 // Update Main
 brands.patch('/main/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
@@ -156,6 +161,7 @@ brands.patch('/main/:_id', authenticate(['admin']), (req, res) => {
       res.status(400).send()
     })
 })
+
 
 
 
@@ -227,7 +233,7 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate({ _id }, { $set: { 'footer.values': values }},  { new: true })
+      Brand.findOneAndUpdate({ _id }, { $set: { footer: { values }}},  { new: true })
         .then(doc => {
           console.log('inside footer update', doc)
           res.send(doc)
@@ -246,11 +252,11 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
 
 // Update Theme
 brands.patch('/theme/:_id', authenticate(['admin']), (req, res) => {
+  console.log(req.body)
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { values } = req.body
   const update = {
-    theme: {
       fontFamily: values.fontFamily,
       fontFamily2: values.fontFamily2,
       fontFamily3: values.fontFamily2,
@@ -270,10 +276,9 @@ brands.patch('/theme/:_id', authenticate(['admin']), (req, res) => {
         pickerHeaderColor: values.pickerHeaderColor,
         clockCircleColor: values.clockCircleColor,
         shadowColor: values.shadowColor
-      }
     }
   }
-  Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+  Brand.findOneAndUpdate({ _id }, { $set: { theme: {...update} }}, { new: true })
     .then(doc => res.send(doc))
     .catch(err => {
       console.error(err)

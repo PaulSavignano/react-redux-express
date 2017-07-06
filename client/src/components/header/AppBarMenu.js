@@ -28,10 +28,10 @@ class AppBarMenu extends Component {
   handleClose = () => this.setState({ openMenu: false })
   render() {
     const {
-      brand: { appBar },
+      brand,
       dispatch,
       hasProducts,
-      muiTheme: { palette },
+      muiTheme: { palette, appBar },
       pages,
       path,
       search,
@@ -66,8 +66,7 @@ class AppBarMenu extends Component {
             </span>
             <IconButton
               iconClassName="fa fa-search"
-              iconStyle={{ fontSize: 18}}
-              style={{ color: appBar.textColor }}
+              iconStyle={{ fontSize: 18, color: appBar.textColor }}
               onTouchTap={() => dispatch(searchToggle(!search.searching))}
             />
             <FlatButton
@@ -90,13 +89,13 @@ class AppBarMenu extends Component {
             </Popover>
             { !hasProducts ? null :
             <IconButton
-              children={<CartIcon  />}
+              children={<CartIcon  color={appBar.textColor}/>}
               onTouchTap={() => dispatch(push('/user/cart'))}
-                  style={{ padding: '12px 0' }}
-                />
-              }
-            </span>
-          </div>
+              style={{ padding: '12px 0' }}
+            />
+            }
+          </span>
+        </div>
         }
       </nav>
     )

@@ -4,14 +4,20 @@ const s3Path = `${process.env.APP_NAME}/brand/image_`
 
 const BrandSchema = new Schema({
   appBar: {
-    values: {
-      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
-    },
     image: {
       src: { type: String, minlength: 1, trim: true },
       width: { type: Number },
       height: { type: Number }
+    },
+    values: {
+      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
+    }
+  },
+  main: {
+    values: {
+      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
     }
   },
   business: {
@@ -32,20 +38,17 @@ const BrandSchema = new Schema({
     yelp: { type: String, minlength: 1, trim: true },
     youtube: { type: String, minlength: 1, trim: true },
   },
-  main: {
-    color: { type: String, minlength: 1, trim: true, default: '#ffffff' }
-  },
   footer: {
+    image: {
+      src: { type: String, minlength: 1, trim: true },
+      width: { type: Number },
+      height: { type: Number }
+    },
     values: {
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
       borderBottom: { type: String, minlength: 1, trim: true },
       imageAlign: { type: String },
-    },
-    image: {
-      src: { type: String, minlength: 1, trim: true },
-      width: { type: Number },
-      height: { type: Number }
     }
   },
   theme: {

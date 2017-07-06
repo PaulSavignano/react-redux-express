@@ -10,16 +10,14 @@ import * as brandActions from '../../actions/brand'
 import * as pageActions from '../../actions/pages'
 import SigninSignout from '../users/SigninSignout'
 
-const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user, handleClose, hasProducts }) => {
+const DrawerMenu = ({ dispatch, brand: { business }, muiTheme: { palette, appBar }, pages, user, handleClose, hasProducts }) => {
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false
-  const color = appBar.textColor || null
-  const backgroundColor = appBar.color || null
   const styles = {
     logo: {
       cursor: 'pointer',
       fontSize: 24,
-      color,
-      backgroundColor,
+      color: appBar.textColor,
+      backgroundColor: appBar.color,
       lineHeight: `${spacing.desktopKeylineIncrement}px`,
       fontWeight: typography.fontWeightLight,
       paddingLeft: spacing.desktopGutter,
@@ -50,7 +48,7 @@ const DrawerMenu = ({ dispatch, brand: { appBar, business, theme }, pages, user,
   return (
     <div>
       <div
-        style={{ cursor: 'pointer', width: '100%', margin: '0 auto', maxHeight: 64 }}
+        style={{ cursor: 'pointer', width: '100%', margin: '0 auto', maxHeight: 64, backgroundColor: appBar.color }}
         onTouchTap={() => {
           dispatch(push('/'))
           handleClose()

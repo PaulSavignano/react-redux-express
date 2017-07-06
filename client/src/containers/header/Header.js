@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 
@@ -13,9 +15,9 @@ class Header extends Component {
   handleToggle = () => this.setState({open: !this.state.open})
   handleClose = () => this.setState({open: false})
   render() {
-    const { brand, hasProducts, isFetching, pages, path, search, user  } = this.props
+    const { brand, hasProducts, isFetching, muiTheme, pages, path, search, user  } = this.props
     return (
-      isFetching ? null :
+      !isFetching &&
       <header>
         <AppBar
           onLeftIconButtonTouchTap={this.handleToggle}
@@ -23,6 +25,7 @@ class Header extends Component {
           title={
             <AppBarMenu
               brand={brand}
+              muiTheme={muiTheme}
               pages={pages}
               user={user}
               path={path}
@@ -34,6 +37,7 @@ class Header extends Component {
         <Drawer docked={false} open={this.state.open} onRequestChange={(open) => this.setState({open}) }>
           <DrawerMenu
             brand={brand}
+            muiTheme={muiTheme}
             pages={pages}
             user={user}
             path={path}
@@ -58,4 +62,6 @@ const mapStateToProps = ({ brand, pages, products, routing, search, user }) => {
   }
 }
 
-export default connect(mapStateToProps)(Header)
+Header = compose(connect(mapStateToProps), muiThemeable())(Header)
+
+export default Header

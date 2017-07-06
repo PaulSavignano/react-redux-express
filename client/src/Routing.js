@@ -14,6 +14,7 @@ import AdminPageEdit from './containers/pages/AdminPageEdit'
 
 // User
 import Cart from './containers/cart/Cart'
+import Contact from './components/users/Contact'
 import RequireAuth from './components/users/RequireAuth'
 import Signup from './components/users/Signup'
 import Signin from './components/users/Signin'
@@ -49,6 +50,7 @@ const Routing = ({ history }) => (
       {/* Page */}
       <IndexRoute component={Page} />
       <Route path=":slug" component={Page} />
+      <Route path="contact" component={Contact} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
       <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
 

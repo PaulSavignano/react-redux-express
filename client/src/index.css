@@ -1,5 +1,6 @@
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
 
 
 /**** Mobile layout ****/
@@ -20,11 +21,13 @@ html {
   box-sizing: inherit;
 }
 
+
+/* Body */
+
 body {
+  height: 100%;
   position: relative;
   margin: 0;
-  padding-bottom: 6rem;
-  min-height: 100%;
 }
 
 main {
@@ -45,13 +48,22 @@ section {
 
 
 
+
+
+
+
 /* Footer */
 footer {
-  position: absolute;
+  position: relative;
   right: 0;
   bottom: 0;
   left: 0;
   text-align: center;
+}
+.social-media {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
 }
 .social-media > a {
   padding: 0 16px;

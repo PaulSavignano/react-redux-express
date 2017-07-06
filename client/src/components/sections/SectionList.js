@@ -6,7 +6,7 @@ class SectionList extends Component {
   render() {
   const { sections, brand } = this.props
   return (
-    sections.length &&
+    !sections.length ? null :
       <div>
         {sections.map(section => (
           <SectionItem

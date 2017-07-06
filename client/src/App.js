@@ -1,4 +1,5 @@
 import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -8,15 +9,16 @@ import { Helmet } from "react-helmet"
 
 import SearchList from './containers/search/SearchList'
 import Header from './containers/header/Header'
-import Footer from './components/footer/Footer'
+import Footer from './containers/footer/Footer'
 
 injectTapEventPlugin()
 
-const App = ({ isFetching, brandTheme, business, search, children }) => {
+const App = ({ brand: { business, isFetching, main, theme }, children, search, }) => {
+  const backgroundColor = main && main.values.color
   return (
     !isFetching &&
-      <MuiThemeProvider muiTheme={getMuiTheme(brandTheme) || null}>
-        <div>
+      <MuiThemeProvider muiTheme={getMuiTheme(theme) || null}>
+        <div style={{ backgroundColor }}>
           <Helmet>
             <meta charSet="utf-8" />
             {business.name && <title>{business.name}</title>}
@@ -32,10 +34,10 @@ const App = ({ isFetching, brandTheme, business, search, children }) => {
             transitionLeave={false}
           >
             <Header />
-            <main style={{ backgroundColor: brandTheme.main.color }}>
+            <main>
               {search.value ? <SearchList /> : children}
             </main>
-            <br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/>
             <Footer />
           </CSSTransitionGroup>
         </div>
@@ -44,21 +46,9 @@ const App = ({ isFetching, brandTheme, business, search, children }) => {
 }
 
 const mapStateToProps = ({ brand, search }) => {
-  const { isFetching, theme, appBar, main, footer, business } = brand
-  const brandTheme = theme && {
-    theme,
-    appBar: {
-      ...appBar.values
-    },
-    main,
-    footer: {
-      ...footer.values
-    }
-  }
+  brand.theme.appBar = brand.appBar.values
   return {
-    isFetching,
-    brandTheme,
-    business,
+    brand,
     search
   }
 }

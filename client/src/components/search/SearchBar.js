@@ -9,8 +9,7 @@ const SearchBar = ({ dispatch, brand, search, handleSearch }) => (
   <span style={{ width: '100%'}}>
     <IconButton
       iconClassName="fa fa-search"
-      iconStyle={{ fontSize: 18}}
-      style={{ color: brand.appBar.textColor }}
+      iconStyle={{ fontSize: 18, color: brand.appBar.values.textColor}}
       onTouchTap={() => handleSearch()}
     />
     <TextField

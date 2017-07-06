@@ -24,7 +24,7 @@ class Footer extends Component {
     }
   }
   renderFooter() {
-    const { isFetching, footer, business, muiTheme: { palette: { primary1Color, textColor }}} = this.props
+    const { isFetching, footer: { image, values }, business, muiTheme: { palette }} = this.props
     const {
       name,
       phone,
@@ -42,13 +42,13 @@ class Footer extends Component {
       yelp,
       youtube
     } = business
-    const backgroundColor = footer.values.color || primary1Color
-    const color = footer.values.textColor || textColor
-    const borderBottom = footer.values.borderBottom || null
-    const backgrounds = footer.image ? {
-      backgroundImage: `url(${footer.image.src})`,
+    const backgroundColor = values.color || palette.primary1Color
+    const color = values.textColor || palette.textColor
+    const borderBottom = values.borderBottom || null
+    const backgrounds = image ? {
+      backgroundImage: `url(${image.src})`,
       transition: 'opacity .9s ease-in-out',
-      backgroundPosition: `center ${footer.values.imageAlign}`,
+      backgroundPosition: `center ${values.imageAlign}`,
       backgroundRepeat:  'no-repeat',
       zIndex: -1
     } : null
@@ -56,17 +56,17 @@ class Footer extends Component {
       isFetching ? null :
       <footer style={{ borderBottom }}>
         <Paper style={{ backgroundColor, color, ...backgrounds }}>
-          <div className="social-media" style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
-            { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: primary1Color }} /></a> }
-            { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color: primary1Color }} /></a> }
-            { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color: primary1Color }} /></a> }
-            { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color: primary1Color }} /></a> }
-            { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color: primary1Color }} /></a> }
-            { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color: primary1Color }} /></a> }
-            { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color: primary1Color }} /></a> }
-            { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color: primary1Color }} /></a> }
+          <div className="social-media">
+            { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color }} /></a> }
+            { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color }} /></a> }
+            { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color }} /></a> }
+            { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color }} /></a> }
+            { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color }} /></a> }
+            { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color }} /></a> }
+            { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color }} /></a> }
+            { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color }} /></a> }
           </div>
-          <div style={{ padding: '0 0 32px 0' }}>
+          <div style={{ paddingBottom: 16 }}>
             <div>{name ? name : 'Brand'} {new Date().getFullYear()}</div>
             { phone && <a href={`tel:${phone}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a> }
             { email && <div>{email}</div> }
@@ -80,14 +80,14 @@ class Footer extends Component {
   renderBlankFooter() {
     const { muiTheme: { palette: { primary1Color }}} = this.props
     return (
-      <footer style={{  marginTop: 128 }}>
+      <footer>
         <Paper style={{ backgroundColor: primary1Color, color: '#ffffff' }}>
-          <div className="social-media" style={{ display: 'flex', justifyContent: 'center', padding: 24 }}>
+          <div className="social-media">
             <a href=""><FontIcon className="fa fa-github-square" style={{ color: '#ffffff' }} /></a>
             <a href=""><FontIcon className="fa fa-google-plus-square" style={{ color: '#ffffff' }} /></a>
             <a href=""><FontIcon className="fa fa-twitter-square" style={{ color: '#ffffff' }} /></a>
           </div>
-          <div style={{ padding: '0 0 32px 0' }}>
+          <div style={{ paddingBottom: 16 }}>
             <div>Brand {new Date().getFullYear()}</div>
             <a href={`tel:888-888-8888`} style={{ textDecoration: 'none', color: 'inherit' }}>888-888-8888</a>
             <div>name@brand.com</div>
