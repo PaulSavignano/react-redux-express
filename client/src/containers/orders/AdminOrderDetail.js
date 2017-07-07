@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import formatPrice from '../../utils/formatPrice'
-import OrderCartList from '../../components/orders/OrderCartList'
+import OrderCartList from './OrderCartList'
 import { fetchUpdate } from '../../actions/orders'
 
 let AdminOrderDetail = ({ error, handleSubmit, dispatch, isFetching, order, fontFamily }) => {

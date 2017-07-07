@@ -65,9 +65,7 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
                 width: image.width,
                 height: image.height
               },
-              theme: {
-                appBar: values
-              }
+              styles: values
             }
           }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -113,7 +111,7 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate({ _id }, { $set: { theme: { appBar: values } } }, { new: true })
+      Brand.findOneAndUpdate({ _id }, { $set: { appBar: { styles: values }}}, { new: true })
         .then(doc => res.send(doc))
         .catch(err => {
           console.error(err)
@@ -184,7 +182,7 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
                 width: image.width,
                 height: image.height
               },
-              values
+              styles: values
             }
           }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -233,7 +231,7 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate({ _id }, { $set: { footer: { values }}},  { new: true })
+      Brand.findOneAndUpdate({ _id }, { $set: { footer: { styles: values }}},  { new: true })
         .then(doc => {
           console.log('inside footer update', doc)
           res.send(doc)

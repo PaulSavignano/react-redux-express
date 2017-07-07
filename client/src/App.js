@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -14,7 +13,7 @@ import Footer from './containers/footer/Footer'
 injectTapEventPlugin()
 
 const App = ({ brand: { business, isFetching, main, theme }, children, search, }) => {
-  const backgroundColor = main && main.values.color
+  const backgroundColor = main.styles && main.styles.backgroundColor
   return (
     !isFetching &&
       <MuiThemeProvider muiTheme={getMuiTheme(theme) || null}>
@@ -46,7 +45,6 @@ const App = ({ brand: { business, isFetching, main, theme }, children, search, }
 }
 
 const mapStateToProps = ({ brand, search }) => {
-  brand.theme.appBar = brand.appBar.values
   return {
     brand,
     search

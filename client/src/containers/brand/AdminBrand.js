@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminAppBar from '../../components/brand/AdminAppBar'
-import AdminBusiness from '../../components/brand/AdminBusiness'
-import AdminMain from '../../components/brand/AdminMain'
-import AdminTheme from '../../components/brand/AdminTheme'
-import AdminFooter from '../../components/brand/AdminFooter'
+import AdminAppBar from './AdminAppBar'
+import AdminBusiness from './AdminBusiness'
+import AdminMain from './AdminMain'
+import AdminTheme from './AdminTheme'
+import AdminFooter from './AdminFooter'
 
 // width: 256
 // height: 128

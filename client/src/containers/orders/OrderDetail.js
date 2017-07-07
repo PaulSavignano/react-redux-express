@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import OrderCartList from '../../components/orders/OrderCartList'
+import OrderCartList from './OrderCartList'
 import formatPrice from '../../utils/formatPrice'
 
 const OrderDetail = ({ isFetching, order, fontFamily }) => {

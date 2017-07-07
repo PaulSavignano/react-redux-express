@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Cart from '../cart/Cart'
-import Contact from '../../components/users/Contact'
+import Contact from '../users/Contact'
 import Sections from '../sections/Sections'
 import NotFound from '../../components/NotFound'
 

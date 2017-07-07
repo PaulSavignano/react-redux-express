@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 
-import AppBarMenu from '../../components/header/AppBarMenu'
-import DrawerMenu from '../../components/header/DrawerMenu'
+import AppBarMenu from './AppBarMenu'
+import DrawerMenu from './DrawerMenu'
+import { toggleDrawer } from '../../actions/drawer'
 
 class Header extends Component {
   state = {
@@ -15,53 +14,33 @@ class Header extends Component {
   handleToggle = () => this.setState({open: !this.state.open})
   handleClose = () => this.setState({open: false})
   render() {
-    const { brand, hasProducts, isFetching, muiTheme, pages, path, search, user  } = this.props
+    const { appBar, dispatch, drawer, isFetching } = this.props
+    const color = appBar.styles && appBar.styles.color
     return (
       !isFetching &&
       <header>
         <AppBar
-          onLeftIconButtonTouchTap={this.handleToggle}
-          titleStyle={{ height: 'auto'}}
-          title={
-            <AppBarMenu
-              brand={brand}
-              muiTheme={muiTheme}
-              pages={pages}
-              user={user}
-              path={path}
-              hasProducts={hasProducts}
-              search={search}
-            />
-          }
+          onLeftIconButtonTouchTap={() => dispatch(toggleDrawer())}
+          titleStyle={{ height: 64 }}
+          style={{ color }}
+          title={<AppBarMenu/>}
         />
-        <Drawer docked={false} open={this.state.open} onRequestChange={(open) => this.setState({open}) }>
-          <DrawerMenu
-            brand={brand}
-            muiTheme={muiTheme}
-            pages={pages}
-            user={user}
-            path={path}
-            handleClose={this.handleClose}
-            hasProducts={hasProducts}
-          />
+        <Drawer docked={false} open={drawer.open} onRequestChange={() => dispatch(toggleDrawer()) }>
+          <DrawerMenu />
         </Drawer>
       </header>
     )
   }
 }
 
-const mapStateToProps = ({ brand, pages, products, routing, search, user }) => {
+const mapStateToProps = ({ brand: { appBar, isFetching }, drawer }) => {
   return {
-    brand: brand || null,
-    hasProducts: products.items.length ? true : false,
-    isFetching: pages.isFetching,
-    pages: pages.items || null,
-    path: routing.locationBeforeTransitions.pathname || null,
-    user: user || null,
-    search
+    appBar,
+    drawer,
+    isFetching
   }
 }
 
-Header = compose(connect(mapStateToProps), muiThemeable())(Header)
+Header = connect(mapStateToProps)(Header)
 
 export default Header

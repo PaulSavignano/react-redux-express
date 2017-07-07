@@ -14,14 +14,14 @@ import AdminPageEdit from './containers/pages/AdminPageEdit'
 
 // User
 import Cart from './containers/cart/Cart'
-import Contact from './components/users/Contact'
-import RequireAuth from './components/users/RequireAuth'
-import Signup from './components/users/Signup'
-import Signin from './components/users/Signin'
-import Recovery from './components/users/Recovery'
-import Reset from './components/users/Reset'
+import Contact from './containers/users/Contact'
+import RequireAuth from './containers/users/RequireAuth'
+import Signup from './containers/users/Signup'
+import Signin from './containers/users/Signin'
+import Recovery from './containers/users/Recovery'
+import Reset from './containers/users/Reset'
 import Profile from './containers/users/Profile'
-import RequestEstimate from './components/users/RequestEstimate'
+import RequestEstimate from './containers/users/RequestEstimate'
 
 // Product
 import Product from './containers/products/Product'

@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import ProfileForm from '../../components/users/ProfileForm'
-import AddressAdd from '../../components/users/AddressAdd'
-import AddressList from '../../components/users/AddressList'
-import OrderList from '../../components/orders/OrderList'
+import ProfileForm from './ProfileForm'
+import AddressAdd from './AddressAdd'
+import AddressList from './AddressList'
+import OrderList from '../orders/OrderList'
 
 const Profile = ({ user, initialValues, addresses, orders, brand }) => {
   const fontFamily = brand.theme.fontFamily || null
@@ -15,7 +15,7 @@ const Profile = ({ user, initialValues, addresses, orders, brand }) => {
       <ProfileForm user={user} initialValues={initialValues} />
       <br/>
       <h1 style={{ fontFamily, color }}>Addresses</h1>
-      <AddressList _id={user._id} items={addresses} />
+      <AddressList />
       <AddressAdd user={user} />
       <br/>
       <h1 style={{ fontFamily, color }}>Orders</h1>

@@ -4,6 +4,7 @@ const brand = (state = {
   isFetching: false,
   appBar: {},
   business: {},
+  main: {},
   footer: {},
   theme: {}
 }, action) => {

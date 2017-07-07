@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import SearchItem from '../../components/search/SearchItem'
+import SearchItem from './/SearchItem'
 
 const filter = (items, search) => {
   const filtered = items.filter(item => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminOrderList from '../../components/orders/AdminOrderList'
+import AdminOrderList from './AdminOrderList'
 
 const AdminOrders = ({ isFetching, orders, fontFamily, color }) => {
   return (

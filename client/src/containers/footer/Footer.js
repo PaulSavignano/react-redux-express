@@ -24,7 +24,7 @@ class Footer extends Component {
     }
   }
   renderFooter() {
-    const { isFetching, footer: { image, values }, business, muiTheme: { palette }} = this.props
+    const { isFetching, footer, business} = this.props
     const {
       name,
       phone,
@@ -42,13 +42,13 @@ class Footer extends Component {
       yelp,
       youtube
     } = business
-    const backgroundColor = values.color || palette.primary1Color
-    const color = values.textColor || palette.textColor
-    const borderBottom = values.borderBottom || null
-    const backgrounds = image ? {
-      backgroundImage: `url(${image.src})`,
+    const backgroundColor = footer.styles ? footer.styles.backgroundColor : 'rgb(0, 188, 212)'
+    const color = footer.styles ? footer.styles.color : '#ffffff'
+    const borderBottom = footer.styles ? footer.styles.borderBottom : null
+    const backgrounds = footer.image ? {
+      backgroundImage: `url(${footer.image.src})`,
       transition: 'opacity .9s ease-in-out',
-      backgroundPosition: `center ${values.imageAlign}`,
+      backgroundPosition: `center ${footer.styles.imageAlign}`,
       backgroundRepeat:  'no-repeat',
       zIndex: -1
     } : null

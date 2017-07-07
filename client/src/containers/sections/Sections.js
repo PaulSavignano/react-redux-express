@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import SectionList from '../../components/sections/SectionList'
+import SectionList from './SectionList'
 
 const Sections = ({ isFetching, brand, sections }) => (
   !isFetching && <SectionList sections={sections} brand={brand} />

@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import CartList from '../../components/cart/CartList'
-import CartTotal from '../../components/cart/CartTotal'
+import CartList from './CartList'
+import CartTotal from './CartTotal'
 
 const Cart = ({ isFetching, cart, user }) => (
   !isFetching && !cart.items.length ? <section><h1>Nothing in your cart yet</h1></section> :

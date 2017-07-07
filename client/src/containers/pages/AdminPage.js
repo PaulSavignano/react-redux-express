@@ -1,20 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import AdminPageNameAdd from '../../components/pages/AdminPageNameAdd'
-import AdminPageNameList from '../../components/pages/AdminPageNameList'
+import AdminPageNameAdd from './AdminPageNameAdd'
+import AdminPageNameList from './AdminPageNameList'
 
-const AdminPage = ({ items, isFetching }) => (
-  !isFetching &&
+const AdminPage = () => (
   <section>
     <AdminPageNameAdd />
-    <AdminPageNameList items={items} />
+    <AdminPageNameList />
   </section>
 )
 
-const mapStateToProps = ({ pages: { items, isFetching } }) => ({
-  isFetching,
-  items
-})
 
-export default connect(mapStateToProps)(AdminPage)
+export default AdminPage

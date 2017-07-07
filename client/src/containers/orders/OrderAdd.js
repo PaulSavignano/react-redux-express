@@ -8,10 +8,10 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 
-import renderTextField from '../../components/forms/renderTextField'
-import renderSelectField from '../../components/forms/renderSelectField'
+import renderTextField from '../../components/fields/renderTextField'
+import renderSelectField from '../../components/fields/renderSelectField'
+import AddressFields from '../../components/users/AddressFields'
 import validateCreditCard from '../../utils/validateCreditCard'
-import AddressForm from '../../components/users/AddressForm'
 import formatPrice from '../../utils/formatPrice'
 import { fetchAddOrder } from '../../actions/orders'
 
@@ -90,7 +90,7 @@ class OrderAdd extends Component {
                 <MenuItem value="newAddress" primaryText="Enter new address" onTouchTap={() => this.setState({ newAddress: true })} />
               </Field>
             </CardText>
-            {this.state.newAddress && <AddressForm />}
+            {this.state.newAddress && <AddressFields />}
             {error && <div className="error">{error}</div>}
             <CardText style={{ float: 'right' }}>
               <h2 style={{ textAlign: 'right '}}>Subtotal {formatPrice(cart.subTotal)}</h2>

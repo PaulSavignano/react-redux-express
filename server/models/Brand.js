@@ -9,15 +9,18 @@ const BrandSchema = new Schema({
       width: { type: Number },
       height: { type: Number }
     },
-    values: {
-      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
+    styles: {
+      backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
+      brandColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      brandFont: { type: String, minlength: 1, trim: true, default: '1em Roboto, sans-serif' },
+      navColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      navFont: { type: String, minlength: 1, trim: true, default: '1em Roboto, sans-serif' },
     }
   },
   main: {
-    values: {
-      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
+    styles: {
+      backgroundColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      color: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
     }
   },
   business: {
@@ -44,9 +47,9 @@ const BrandSchema = new Schema({
       width: { type: Number },
       height: { type: Number }
     },
-    values: {
+    styles: {
+      backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      textColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
       borderBottom: { type: String, minlength: 1, trim: true },
       imageAlign: { type: String },
     }

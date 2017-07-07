@@ -25,10 +25,12 @@ export const fetchAdd = (add) => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchAddSuccess(json))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchAddFailure(err))
         throw new SubmissionError({ ...err, _error: 'Update failed!' })
     })

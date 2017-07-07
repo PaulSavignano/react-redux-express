@@ -7,6 +7,7 @@ import { reducer as formReducer } from 'redux-form'
 import brand from '../reducers/brand'
 import cards from '../reducers/cards'
 import cart from '../reducers/cart'
+import drawer from '../reducers/drawer'
 import orders from '../reducers/orders'
 import pages from '../reducers/pages'
 import products from '../reducers/products'
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   brand,
   cards,
   cart,
+  drawer,
   form: formReducer,
   orders,
   pages,

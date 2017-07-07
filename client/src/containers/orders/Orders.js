@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import OrderList from '../../components/orders/OrderList'
+import OrderList from './OrderList'
 
 const Orders = ({ isFetching, orders, fontFamily, color }) => {
   return (
