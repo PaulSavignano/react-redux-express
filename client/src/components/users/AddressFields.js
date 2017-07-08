@@ -2,6 +2,7 @@ import React from 'react'
 import { Field } from 'redux-form'
 
 import normalizePhone from '../../utils/normalizePhone'
+import normalizeZip from '../../utils/normalizeZip'
 
 import renderTextField from '../fields/renderTextField'
 
@@ -50,6 +51,7 @@ const AddressFields = ({ initialValues }) => {
         type="text"
         className="field"
         component={renderTextField}
+        normalize={normalizeZip}
       />
     </div>
   )

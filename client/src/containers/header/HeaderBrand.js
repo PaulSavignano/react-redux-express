@@ -12,31 +12,25 @@ class HeaderBrand extends Component {
   }
   componentWillReceiveProps({ image }) {
     if (image) {
-      const newSrc = image.src + '?' + new Date().getTime()
-      this.setState({ image: newSrc })
-    } else {
-      this.setState({ image: null, hasImage: false })
+      const newSrc = `${image.src}?${new Date().getTime()}`
+      return this.setState({ image: newSrc })
     }
+    this.setState({ image: null, hasImage: false })
   }
   render() {
     const { dispatch, name, fontFamily, color } = this.props
     const { image } = this.state
     return (
       <div
-        style={{
-          display: 'flex',
-          flexFlow: 'column',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          height: '100%',
-          maxHeight: 64
-        }}
+        style={{ cursor: 'pointer', height: '100%', maxHeight: 64 }}
         onTouchTap={() => dispatch(push('/'))}
       >
         {image ?
           <img src={image} style={{ width: 'auto', height: 64 }} alt="" />
         :
-        <div style={{ fontFamily, color }}>{name}</div>
+        <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%' }}>
+          <div style={{ fontFamily, color }}>{name}</div>
+        </div>
         }
       </div>
     )

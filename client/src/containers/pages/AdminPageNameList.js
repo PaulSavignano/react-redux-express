@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import AdminPageName from './AdminPageName'
 
 const AdminPageNameList = ({ isFetching, items }) => (
-  !isFetching && items.length &&
+  !isFetching &&
   <div>
     {items.map(item => (
       <AdminPageName key={item._id} item={item} />

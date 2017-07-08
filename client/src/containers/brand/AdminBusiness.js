@@ -6,6 +6,7 @@ import { Card, CardTitle } from 'material-ui/Card'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import normalizePhone from '../../utils/normalizePhone'
+import normalizeZip from '../../utils/normalizeZip'
 import { fetchUpdate } from '../../actions/brand'
 
 class AdminBusiness extends Component {
@@ -41,7 +42,7 @@ class AdminBusiness extends Component {
             <Field name="street" label="Street" type="text" component={renderTextField} className="field" />
             <Field name="city" label="City" type="text" component={renderTextField} className="field" />
             <Field name="state" label="State" type="text" component={renderTextField} className="field" />
-            <Field name="zip" label="Zip" type="text" component={renderTextField} className="field" />
+            <Field name="zip" label="Zip" type="text" component={renderTextField} normalize={normalizeZip} className="field" />
             <Field name="facebook" label="facebook" type="text" component={renderTextField} className="field" />
             <Field name="github" label="github" type="text" component={renderTextField} className="field" />
             <Field name="google" label="google" type="text" component={renderTextField} className="field" />

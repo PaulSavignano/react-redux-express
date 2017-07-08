@@ -11,8 +11,8 @@ class SuccessableButton extends Component {
     const { submitSucceeded, submitting } = nextProps
     if (submitting) this.setState({ submitting: true })
     if (submitSucceeded && this.state.submitting) {
-      this.setState({ submitSucceeded: true })
-      setTimeout(() => this.setState({ submitSucceeded: false, submitting: false }), 3000)
+      this.setState({ submitting: false, submitSucceeded: true })
+      setTimeout(() => this.setState({ submitSucceeded: false }), 3000)
     }
   }
   renderLabel = (submitting, submitSucceeded, label) => {

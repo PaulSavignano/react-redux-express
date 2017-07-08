@@ -64,7 +64,6 @@ class AdminProductItem extends Component {
             <Field
               name="name"
               label="Name"
-              type="text"
               className="field"
               component={renderTextField}
             />
@@ -75,22 +74,11 @@ class AdminProductItem extends Component {
               className="field"
               component={renderTextField}
             />
-            <Field
-              name="description"
-              label="Description"
-              type="text"
-              multiLine={true}
-              rows={2}
-              className="field"
-              component={renderTextField}
-            />
           </div>
-          {error && <div className="error">{error}</div>}
           <div className="field-container">
             <Field
               name="description"
               label="Description"
-              type="text"
               multiLine={true}
               rows={2}
               className="field"

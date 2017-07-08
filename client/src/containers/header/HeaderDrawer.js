@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import Paper from 'material-ui/Paper'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
@@ -43,12 +44,11 @@ const HeaderDrawer = ({
   ]
   return (
     <Drawer docked={false} open={drawer.open} onRequestChange={() => dispatch(toggleDrawer()) }>
-      <div
+      <Paper
         style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16 }}
-        onTouchTap={() => handleTouchTap('/')}
       >
         <HeaderBrand />
-      </div>
+      </Paper>
       {firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {firstName}</div>}
       {pages.filter(page => page.slug !== 'home').map(page => (
         <MenuItem key={page._id} onTouchTap={() => handleTouchTap(`/${page.slug}`)}>

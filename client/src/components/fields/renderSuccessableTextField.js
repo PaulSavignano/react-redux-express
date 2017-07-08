@@ -9,8 +9,10 @@ class renderSuccessableTextField extends Component {
   }
   componentWillReceiveProps({ meta: { submitting, submitFailed } }) {
     if (submitting) this.setState({ submitting: true })
-    if (!submitFailed && this.state.submitting) this.setState({ submitSucceeded: true })
-    setTimeout(() => this.setState({ submitSucceeded: false, submitting: false }), 3000)
+    if (this.state.submitting && !submitFailed) {
+      this.setState({ submitting: false, submitSucceeded: true })
+      setTimeout(() => this.setState({ submitSucceeded: false }), 3000)
+    }
   }
   renderMessage = (touched, error, submitting, submitSucceeded) => {
     console.log(submitting)

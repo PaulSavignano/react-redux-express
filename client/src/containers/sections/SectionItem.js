@@ -9,13 +9,11 @@ import SlideList from '../../components/slides/SlideList'
 
 class SectionItem extends Component {
   state = {
-    hasImage: false,
     image: null
   }
   componentWillMount() {
     const { image } = this.props.section
     if (image) {
-      this.setState({ hasImage: true })
       const img = new Image()
       const src = image.src
       img.src = src
@@ -39,6 +37,7 @@ class SectionItem extends Component {
     return components.map(component => componentList(component))
   }
   renderContents = (section) => {
+    const slides = section.components.filter(value => value.type === 'Slide')
     const values = section.values || {}
     const text = values.text || null
     const height = values.height || null
@@ -55,32 +54,26 @@ class SectionItem extends Component {
       zIndex: -1
     } : null
     return (
-      <section style={{
+      <div style={{
         height,
         ...backgrounds,
         backgroundColor,
         overflow: 'hidden',
       }}>
-        <article>
-          <div style={{
-              margin,
-              padding
-          }}>
-            {text && <div className="cards">{renderHTML(text)}</div>}
-          </div>
-          <div>
-            {this.renderComponents(section.components)}
-          </div>
-        </article>
-        { this.props.slides.length ? <SlideList slides={this.props.slides} /> : null }
-      </section>
+        <section style={{ margin, padding }}>
+          {text && <div className="cards">{renderHTML(text)}</div>}
+        </section>
+        <div>
+          {this.renderComponents(section.components)}
+        </div>
+        { slides.length ? <SlideList slides={slides} /> : null }
+      </div>
     )
   }
   render() {
     const { section } = this.props
-    const slides = section.components.filter(value => value.type === 'Slide')
     return (
-      this.state.hasImage ?
+      this.state.image ?
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
