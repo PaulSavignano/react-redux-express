@@ -175,8 +175,6 @@ class AdminSectionItem extends Component {
           {this.renderComponents(section.components)}
         </div>
 
-
-
         <div style={{ display: 'flex' }}>
           <RaisedButton
             onTouchTap={this.handleOpen}

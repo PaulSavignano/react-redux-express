@@ -78,6 +78,7 @@ class SectionItem extends Component {
   }
   render() {
     const { section } = this.props
+    const slides = section.components.filter(value => value.type === 'Slide')
     return (
       this.state.hasImage ?
       <CSSTransitionGroup
@@ -97,12 +98,4 @@ class SectionItem extends Component {
   }
 }
 
-const mapStateToProps = (state, { section }) => {
-  const slides = section.components.filter(value => value.type === 'Slide')
-  return {
-    section,
-    slides
-  }
-}
-
-export default connect(mapStateToProps)(SectionItem)
+export default SectionItem

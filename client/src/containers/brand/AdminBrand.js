@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import AdminAppBar from './AdminAppBar'
 import AdminBusiness from './AdminBusiness'
@@ -15,28 +14,16 @@ const imageSpec = {
   height: 128
 }
 
-
-const AdminBrand = ({ isFetching, _id, appBar, business, main, theme, footer }) => {
+const AdminBrand = () => {
   return (
-    isFetching ? null :
     <section>
-      <AdminBusiness _id={_id} item={business} imageSpec={imageSpec} /><br/><br/>
-      <AdminAppBar _id={_id} item={appBar}  imageSpec={imageSpec} /><br/><br/>
-      <AdminMain _id={_id} item={main} /><br/><br/>
-      <AdminTheme _id={_id} item={theme} /><br/><br/>
-      <AdminFooter _id={_id} item={footer} imageSpec={imageSpec} />
+      <AdminBusiness /><br/><br/>
+      <AdminAppBar imageSpec={imageSpec} /><br/><br/>
+      <AdminMain /><br/><br/>
+      <AdminTheme /><br/><br/>
+      <AdminFooter imageSpec={imageSpec} />
     </section>
   )
 }
 
-const mapStateToProps = ({ brand: { isFetching, _id, appBar, business, main, theme, footer } }) => ({
-  isFetching,
-  _id,
-  appBar,
-  business,
-  main,
-  theme,
-  footer
-})
-
-export default connect(mapStateToProps)(AdminBrand)
+export default AdminBrand

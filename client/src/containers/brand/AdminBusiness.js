@@ -69,8 +69,9 @@ AdminBusiness = reduxForm({
   form: 'business'
 })(AdminBusiness)
 
-const mapStateToProps = (state, { item }) => ({
-  initialValues: item
+const mapStateToProps = ({ brand: { _id, business } }) => ({
+  _id,
+  initialValues: business
 })
 
 AdminBusiness = connect(mapStateToProps)(AdminBusiness)

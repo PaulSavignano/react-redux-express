@@ -14,7 +14,7 @@ class renderSuccessableTextField extends Component {
   }
   renderMessage = (touched, error, submitting, submitSucceeded) => {
     console.log(submitting)
-    if (submitting) return <CircularProgress size={20} />
+    if (submitting) return <CircularProgress size={16} />
     if (submitSucceeded) return <strong style={{ color: "#4CAF50" }}>Updated!</strong>
     if (touched && error) return <strong>{error}</strong>
   }

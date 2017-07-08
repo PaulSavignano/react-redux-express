@@ -33,7 +33,7 @@ class AdminMain extends Component {
         >
           <CardTitle title="Main" />
           <div className="field-container">
-            <Field name="color" label="color" type="text" component={renderTextField} className="field" />
+            <Field name="backgroundColor" label="backgroundColor" type="text" component={renderTextField} className="field" />
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">
@@ -53,8 +53,9 @@ AdminMain = reduxForm({
   form: 'main'
 })(AdminMain)
 
-const mapStateToProps = (state, { item }) => ({
-  initialValues: item.values
+const mapStateToProps = ({ brand: { _id, main: { styles } }}) => ({
+  _id,
+  initialValues: styles
 })
 
 AdminMain = connect(mapStateToProps)(AdminMain)

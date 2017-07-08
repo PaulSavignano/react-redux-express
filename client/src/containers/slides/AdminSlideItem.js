@@ -62,7 +62,7 @@ class AdminSlideItem extends Component {
               />
             </div>
             {error && <div className="error">{error}</div>}
-            <div className="buttons-container">
+            <div className="button-container">
               <SuccessableButton
                 submitSucceeded={submitSucceeded}
                 submitting={submitting}

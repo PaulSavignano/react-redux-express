@@ -1,23 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
 
-import AppBarBrand from './AppBarBrand'
+import HeaderBrand from './HeaderBrand'
 import { toggleDrawer } from '../../actions/drawer'
 import * as brandActions from '../../actions/brand'
 import * as pageActions from '../../actions/pages'
 import SigninSignout from '../users/SigninSignout'
 
-
-const DrawerMenu = ({ dispatch, brand: { business, appBar }, pages, user, hasProducts }) => {
-  const isAdmin = user.roles.find(role => role === 'admin') ? true : false
+const HeaderDrawer = ({
+  backgroundColor,
+  dispatch,
+  drawer,
+  firstName,
+  hasProducts,
+  isAdmin,
+  isFetching,
+  name,
+  pages
+}) => {
   const handleTouchTap = (path) => {
     dispatch(push(path))
     dispatch(toggleDrawer())
   }
-  const backgroundColor = appBar.styles ? appBar.styles.backgroundColor : 'rgb(0, 188, 212)'
   const adminPages = pages.map(page => (
     <ListItem
       key={page._id}
@@ -25,7 +33,7 @@ const DrawerMenu = ({ dispatch, brand: { business, appBar }, pages, user, hasPro
       onTouchTap={() => handleTouchTap(`/admin/pages/${page.slug}`)}
     />
   ))
-  const adminPagesAndAdd = [
+  const adminPagesAndEdit = [
     ...adminPages,
     <ListItem
       key={1}
@@ -34,31 +42,23 @@ const DrawerMenu = ({ dispatch, brand: { business, appBar }, pages, user, hasPro
     />
   ]
   return (
-    <div>
+    <Drawer docked={false} open={drawer.open} onRequestChange={() => dispatch(toggleDrawer()) }>
       <div
-        style={{ cursor: 'pointer', width: '100%', margin: '0 auto 8px', maxHeight: 64, backgroundColor, padding: 16, fontSize: 24, height: 64 }}
+        style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16 }}
         onTouchTap={() => handleTouchTap('/')}
       >
-        <AppBarBrand />
+        <HeaderBrand />
       </div>
-      {user.values.firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {user.values.firstName}</div>}
-
+      {firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {firstName}</div>}
       {pages.filter(page => page.slug !== 'home').map(page => (
-        <MenuItem
-          key={page._id}
-          onTouchTap={() => handleTouchTap(`/${page.slug}`)}
-        >
+        <MenuItem key={page._id} onTouchTap={() => handleTouchTap(`/${page.slug}`)}>
           {page.name}
         </MenuItem>
       ))}
-
-      <MenuItem
-        onTouchTap={() => handleTouchTap('/contact')}
-      >
+      <MenuItem onTouchTap={() => handleTouchTap('/contact')}>
         Contact
       </MenuItem>
-
-      {!isAdmin ? null : !business.name ?
+      {!isAdmin ? null : !name ?
         <MenuItem onTouchTap={() => {
           dispatch(brandActions.fetchAdd())
           .then(() => handleTouchTap(`/admin/brand`))
@@ -82,7 +82,7 @@ const DrawerMenu = ({ dispatch, brand: { business, appBar }, pages, user, hasPro
             primaryText="Pages"
             initiallyOpen={true}
             primaryTogglesNestedList={true}
-            nestedItems={adminPagesAndAdd}
+            nestedItems={adminPagesAndEdit}
           />,
           <ListItem
             key={3}
@@ -92,21 +92,26 @@ const DrawerMenu = ({ dispatch, brand: { business, appBar }, pages, user, hasPro
         ]}
       />
       }
-      <SigninSignout user={user} handleTouchTap={handleTouchTap} />
-    </div>
+      <SigninSignout firstName={firstName} handleTouchTap={handleTouchTap} />
+    </Drawer>
   )
 }
 
-const mapStateToProps = ({ brand, pages, products, routing, search, user }) => {
-    console.log('inside DrawerMenu')
+const mapStateToProps = ({ brand, drawer, pages, products: { items }, user }) => {
+  const { appBar: { styles }, business: { name }} = brand
+  const isFetching = !brand.isFetching && ! pages.isFetching && !user.isFetching ? false : true
+  const isAdmin = user.roles.find(role => role === 'admin') ? true : false
+  const backgroundColor = styles ? styles.backgroundColor : 'rgb(0, 188, 212)'
   return {
-    brand: brand || null,
-    hasProducts: products.items.length ? true : false,
-    pages: pages.items || null,
-    path: routing.locationBeforeTransitions.pathname || null,
-    user: user || null,
-    search
+    backgroundColor,
+    drawer,
+    firstName: user.values.firstName,
+    hasProducts: items.length ? true : false,
+    isAdmin,
+    isFetching,
+    name,
+    pages: pages.items,
   }
 }
 
-export default connect(mapStateToProps)(DrawerMenu)
+export default connect(mapStateToProps)(HeaderDrawer)

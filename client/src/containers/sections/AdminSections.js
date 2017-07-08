@@ -10,19 +10,13 @@ const imageSpec = {
   height: 1080
 }
 
-const AdminSections = ({ isFetching, sections, page }) => {
-  return (
-    !isFetching &&
-    <section style={{ maxWidth: 2000 }}>
-      <AdminSectionList page={page} sections={sections} imageSpec={imageSpec} />
-      <AdminSectionAdd page={page} />
-    </section>
-  )
-}
+const AdminSections = ({ page }) => (
+  <section style={{ maxWidth: 2000 }}>
+    <AdminSectionList page={page} imageSpec={imageSpec} />
+    <AdminSectionAdd page={page} />
+  </section>
+)
 
-const mapStateToProps = ({ sections: { isFetching, items } }, { page }) => ({
-  isFetching,
-  sections: items.filter(item => item.pageId === page._id),
-})
 
-export default connect(mapStateToProps)(AdminSections)
+
+export default AdminSections

@@ -44,7 +44,7 @@ class AdminPageName extends Component {
             label="Name"
             type="text"
             component={renderSuccessableTextField}
-            style={{ flex: '1 1 auto', margin: 8 }}
+            style={{ flex: '1 1 auto', margin: '8px 8px 16px 8px' }}
           />
 
 
@@ -67,7 +67,6 @@ class AdminPageName extends Component {
           </div>
 
         </form>
-        {error && <div style={{ color: 'rgb(244, 67, 54)' }}>{error}</div>}
       </Card>
     )
   }

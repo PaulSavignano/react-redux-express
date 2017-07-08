@@ -70,10 +70,11 @@ AdminTheme = reduxForm({
   form: 'theme'
 })(AdminTheme)
 
-const mapStateToProps = (state, { item }) => ({
+const mapStateToProps = ({ brand: { _id, theme }}) => ({
+  _id,
   initialValues: {
-    ...item,
-    ...item.palette
+    ...theme,
+    ...theme.palette
   }
 })
 

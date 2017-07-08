@@ -1,24 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 
 import SectionItem from './SectionItem'
 
-class SectionList extends Component {
-  render() {
-  const { sections, brand } = this.props
-  return (
-    !sections.length ? null :
-      <div>
-        {sections.map(section => (
-          <SectionItem
-            key={section._id}
-            section={section}
-            brand={brand}
-          />
-        ))}
-      </div>
-    )
+const SectionList = ({ isFetching, sections }) => (
+  !isFetching &&
+  <div>
+    {sections.map(section => (
+      <SectionItem
+        key={section._id}
+        section={section}
+      />
+    ))}
+  </div>
+)
+
+const mapStateToProps = ({ sections: { isFetching, items } }, { pageId }) => {
+  const sections = items.filter(item => item.pageId === pageId)
+  return {
+    isFetching,
+    sections
   }
 }
 
 
-export default SectionList
+export default connect(mapStateToProps)(SectionList)

@@ -4,9 +4,9 @@ import MenuItem from 'material-ui/MenuItem'
 
 import { fetchSignout } from '../../actions/users'
 
-const SigninSignout = ({ dispatch, user, handleTouchTap }) => {
+const SigninSignout = ({ dispatch, firstName, handleTouchTap }) => {
   return (
-    user.values.email ?
+    firstName ?
       <div>
         <MenuItem primaryText="Sign out" onTouchTap={() => {
           dispatch(fetchSignout())

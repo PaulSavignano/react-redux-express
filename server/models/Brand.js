@@ -12,9 +12,8 @@ const BrandSchema = new Schema({
     styles: {
       backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
       brandColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      brandFont: { type: String, minlength: 1, trim: true, default: '1em Roboto, sans-serif' },
-      navColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      navFont: { type: String, minlength: 1, trim: true, default: '1em Roboto, sans-serif' },
+      brandFontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+      navColor: { type: String, minlength: 1, trim: true, default: '#ffffff' }
     }
   },
   main: {

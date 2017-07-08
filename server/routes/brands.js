@@ -151,7 +151,8 @@ brands.patch('/business/:_id', authenticate(['admin']), (req, res) => {
 brands.patch('/main/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const update = { main: req.body }
+  const { values } = req.body
+  const update = { main: { styles: values } }
   Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
     .then(doc => res.send(doc))
     .catch(err => {

@@ -24,7 +24,7 @@ class AdminFooter extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { _id, dispatch, error, handleSubmit, item, imageSpec, submitSucceeded, submitting } = this.props
+    const { _id, dispatch, error, handleSubmit, image, imageSpec, submitSucceeded, submitting } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -36,7 +36,7 @@ class AdminFooter extends Component {
         <CardMedia>
           <ImageForm
             imageSpec={imageSpec}
-            image={item.image}
+            image={image}
             _id={_id}
             editing={this.editing}
             deleteImage={this.deleteImage}
@@ -46,8 +46,8 @@ class AdminFooter extends Component {
         <form onSubmit={handleSubmit((values) => {
           const path = `footer/${_id}`
           if (this.state.editing) {
-            const image = this.editor.handleSave()
-            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+            const img = this.editor.handleSave()
+            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, values }))
           }
           return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
         })}
@@ -62,8 +62,8 @@ class AdminFooter extends Component {
               className="field"
             />
             <Field
-              name="textColor"
-              label="textColor"
+              name="color"
+              label="color"
               type="text"
               component={renderTextField}
               className="field"
@@ -104,9 +104,11 @@ AdminFooter = reduxForm({
   form: 'footer'
 })(AdminFooter)
 
-const mapStateToProps = (state, { item: { values } }) => ({
+const mapStateToProps = ({ brand: { _id, footer: { image, styles } }}) => ({
+  _id,
+  image,
   initialValues: {
-    ...values
+    ...styles
   }
 })
 

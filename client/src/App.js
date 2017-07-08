@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Helmet } from "react-helmet"
 
 import SearchList from './containers/search/SearchList'
-import Header from './containers/header/Header'
+import Header from './components/header/Header'
 import Footer from './containers/footer/Footer'
 
 injectTapEventPlugin()

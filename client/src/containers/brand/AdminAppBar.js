@@ -22,7 +22,7 @@ class AdminAppBar extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { _id, dispatch, error, handleSubmit, item, imageSpec, submitSucceeded, submitting } = this.props
+    const { _id, dispatch, error, handleSubmit, image, imageSpec, submitSucceeded, submitting } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -34,7 +34,7 @@ class AdminAppBar extends Component {
         <CardMedia>
           <ImageForm
             imageSpec={imageSpec}
-            image={item.image}
+            image={image}
             _id={_id}
             editing={this.editing}
             deleteImage={this.deleteImage}
@@ -44,8 +44,8 @@ class AdminAppBar extends Component {
         <form onSubmit={handleSubmit((values) => {
           const path = `appbar/${_id}`
           if (this.state.editing) {
-            const image = this.editor.handleSave()
-            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+            const img = this.editor.handleSave()
+            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, values }))
           }
           return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
         })}
@@ -66,8 +66,8 @@ class AdminAppBar extends Component {
               className="field"
             />
             <Field
-              name="brandFont"
-              label="brandFont"
+              name="brandFontFamily"
+              label="brandFontFamily"
               type="text"
               component={renderTextField}
               className="field"
@@ -75,13 +75,6 @@ class AdminAppBar extends Component {
             <Field
               name="navColor"
               label="navColor"
-              type="text"
-              component={renderTextField}
-              className="field"
-            />
-            <Field
-              name="navFont"
-              label="navFont"
               type="text"
               component={renderTextField}
               className="field"
@@ -106,9 +99,11 @@ AdminAppBar = reduxForm({
   form: 'appBar'
 })(AdminAppBar)
 
-const mapStateToProps = ({ brand: { appBar: { values } }}) => ({
+const mapStateToProps = ({ brand: { _id, appBar: { image, styles } }}) => ({
+  _id,
+  image,
   initialValues: {
-    ...values
+    ...styles
   }
 })
 
