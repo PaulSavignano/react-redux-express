@@ -13,4 +13,4 @@ const mapStateToProps = ({
   params: { slug }
 }) => ({ isFetching, items, slug })
 
-export default connect(mapStateToProps)(Page)
+export default connect(mapStateToProps)(PageContainer)

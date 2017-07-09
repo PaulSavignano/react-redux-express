@@ -1,9 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import OrderItem from './OrderItem'
+import OrderItem from '../../components/orders/OrderItem'
 
-const OrderList = ({ orders, fontFamily, color }) => (
-  !orders.length ? <h3 style={{ fontFamily, color }}>You do not have any orders yet</h3> :
+const OrderList = ({ isFetching, orders }) => (
+  isFetching ? null : !orders.length ? <h3>You do not have any orders yet</h3> :
   <div>
     {orders.map(order => (
       <OrderItem
@@ -14,4 +15,9 @@ const OrderList = ({ orders, fontFamily, color }) => (
   </div>
 )
 
-export default OrderList
+const mapStateToProps = ({ orders: { isFetching, items }}) => ({
+  isFetching,
+  orders: items,
+})
+
+export default connect(mapStateToProps)(OrderList)

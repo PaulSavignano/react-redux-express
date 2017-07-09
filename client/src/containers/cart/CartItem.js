@@ -10,10 +10,20 @@ import formatPrice from '../../utils/formatPrice'
 class CartItem extends Component {
   state = {
     qty: null,
+    image: null,
+    loading: false,
     zDepth: 1
   }
   componentWillMount() {
-    this.setState({ qty: this.props.productQty })
+    const { item: { image }, productQty } = this.props
+    this.setState({ qty: productQty })
+    if (image) {
+      this.setState({ loading: true })
+      const img = new Image()
+      const src = image.src
+      img.src = src
+      img.onload = () => this.setState({ image: src, loading: false })
+    }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
@@ -32,8 +42,10 @@ class CartItem extends Component {
     dispatch(fetchUpdateCart(update))
   }
   render() {
-    const { dispatch, productId, name, price, image, total } = this.props
+    const { image, loading } = this.state
+    const { dispatch, productId, name, price, total } = this.props
     return (
+      !loading &&
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
@@ -41,7 +53,7 @@ class CartItem extends Component {
         className="cards"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-          <img src={image.src} alt="" width="auto" height="100px"/>
+          {image && <img src={image.src} alt="" width="auto" height="100px"/>}
           <div style={{
             display: 'flex',
             flexFlow: 'row wrap',

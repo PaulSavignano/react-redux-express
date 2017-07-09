@@ -35,22 +35,22 @@ class AdminBusiness extends Component {
         >
           <CardTitle title="Business" />
           <div className="field-container">
-            <Field name="name" label="Brand Name" type="text" component={renderTextField} className="field" />
-            <Field name="description" label="Brand Description" type="text" component={renderTextField} className="field" />
-            <Field name="phone" label="Phone" type="text" component={renderTextField} normalize={normalizePhone} className="field" />
-            <Field name="email" label="Email" type="text" component={renderTextField} className="field" />
-            <Field name="street" label="Street" type="text" component={renderTextField} className="field" />
-            <Field name="city" label="City" type="text" component={renderTextField} className="field" />
-            <Field name="state" label="State" type="text" component={renderTextField} className="field" />
-            <Field name="zip" label="Zip" type="text" component={renderTextField} normalize={normalizeZip} className="field" />
-            <Field name="facebook" label="facebook" type="text" component={renderTextField} className="field" />
-            <Field name="github" label="github" type="text" component={renderTextField} className="field" />
-            <Field name="google" label="google" type="text" component={renderTextField} className="field" />
-            <Field name="instagram" label="instagram" type="text" component={renderTextField} className="field" />
-            <Field name="linkedin" label="linkedin" type="text" component={renderTextField} className="field" />
-            <Field name="twitter" label="twitter" type="text" component={renderTextField} className="field" />
-            <Field name="yelp" label="yelp" type="text" component={renderTextField} className="field" />
-            <Field name="youtube" label="youtube" type="text" component={renderTextField} className="field" />
+            <Field name="name" label="Brand Name" component={renderTextField} className="field" />
+            <Field name="description" label="Brand Description" component={renderTextField} className="field" />
+            <Field name="phone" label="Phone" component={renderTextField} normalize={normalizePhone} className="field" />
+            <Field name="email" label="Email" component={renderTextField} className="field" />
+            <Field name="street" label="Street" component={renderTextField} className="field" />
+            <Field name="city" label="City" component={renderTextField} className="field" />
+            <Field name="state" label="State" component={renderTextField} className="field" />
+            <Field name="zip" label="Zip" component={renderTextField} normalize={normalizeZip} className="field" />
+            <Field name="facebook" label="facebook" component={renderTextField} className="field" />
+            <Field name="github" label="github" component={renderTextField} className="field" />
+            <Field name="google" label="google" component={renderTextField} className="field" />
+            <Field name="instagram" label="instagram" component={renderTextField} className="field" />
+            <Field name="linkedin" label="linkedin" component={renderTextField} className="field" />
+            <Field name="twitter" label="twitter" component={renderTextField} className="field" />
+            <Field name="yelp" label="yelp" component={renderTextField} className="field" />
+            <Field name="youtube" label="youtube" component={renderTextField} className="field" />
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">

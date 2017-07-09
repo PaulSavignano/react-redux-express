@@ -20,19 +20,18 @@ import Signup from './containers/users/Signup'
 import Signin from './containers/users/Signin'
 import Recovery from './containers/users/Recovery'
 import Reset from './containers/users/Reset'
-import Profile from './containers/users/Profile'
+import ProfilePage from './components/users/ProfilePage'
 import RequestEstimate from './containers/users/RequestEstimate'
 
 // Product
-import Product from './containers/products/Product'
+import ProductPage from './containers/products/ProductPage'
 
 //Order
 import OrderAdd from './containers/orders/OrderAdd'
-import Orders from './containers/orders/Orders'
 import OrderConfirmation from './containers/orders/OrderConfirmation'
 import OrderDetailPage from './containers/orders/OrderDetailPage'
 import AdminOrders from './containers/orders/AdminOrders'
-import AdminOrderDetail from './containers/orders/AdminOrderDetail'
+import AdminOrderDetailPage from './containers/orders/AdminOrderDetailPage'
 
 import NotFound from './components/NotFound'
 
@@ -64,19 +63,18 @@ const Routing = ({ history }) => (
       <Route path="user/signin" component={Signin} />
       <Route path="user/recovery" component={Recovery} />
       <Route path="user/reset/:token" component={Reset} />
-      <Route path="user/profile" component={RequireAuth(Profile, ['admin', 'user'])} />
+      <Route path="user/profile" component={RequireAuth(ProfilePage, ['admin', 'user'])} />
       <Route path="user/order" component={RequireAuth(OrderAdd, ['user'])} />
       <Route path="user/order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
-      <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
       <Route path="user/orders/:orderId" component={RequireAuth(OrderDetailPage, ['user'])} />
       <Route path="user/request-estimate" component={RequestEstimate} />
 
       {/* Product */}
-      <Route path="products/:product/:productId" component={Product} />
+      <Route path="products/:product/:productId" component={ProductPage} />
 
       {/* Orders */}
       <Route path="admin/orders" component={RequireAuth(AdminOrders, ['admin'])} />
-      <Route path="admin/orders/:orderId" component={RequireAuth(AdminOrderDetail, ['admin'])} />
+      <Route path="admin/orders/:orderId" component={RequireAuth(AdminOrderDetailPage, ['admin'])} />
 
       <Route path='*' component={NotFound} />
     </Route>

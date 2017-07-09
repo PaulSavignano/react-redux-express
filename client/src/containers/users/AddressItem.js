@@ -56,8 +56,8 @@ class AddressItem extends Component {
 }
 
 AddressItem = compose(
-  connect((state, props) => ({
-    form: `address_${props.item._id}`
+  connect((state, { item }) => ({
+    form: `address_${item._id}`
   })),
   reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AddressItem)
 

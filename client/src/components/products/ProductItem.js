@@ -16,32 +16,28 @@ class ProductItem extends Component {
     qty: 1,
     zDepth: 1,
     image: null,
+    loading: false,
     open: false
   }
   componentDidMount() {
     const { image } = this.props.item
     if (image) {
+      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = (e) => {
-        return this.setState({ image: src })
-      }
+      img.onload = () => this.setState({ image: src, loading: false })
     }
-    return this.setState({ image: null })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  minus = () => {
-    if (this.state.qty > 1) return this.setState({ qty: this.state.qty - 1 })
-  }
-  plus = () => {
-    this.setState({ qty: this.state.qty + 1 })
-  }
+  minus = () => this.state.qty > 1 && this.setState({ qty: this.state.qty - 1 })
+  plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
-    const { image } = this.state
+    const { image, loading } = this.state
     const { dispatch, item: { _id, slug, values: { name, description, price } }  } = this.props
     return (
+      !loading &&
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}

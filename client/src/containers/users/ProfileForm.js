@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card } from 'material-ui/Card'
@@ -28,12 +29,20 @@ const validate = values => {
 
 class ProfileForm extends Component {
   state = {
-    open: false
+    zDepth: 1,
   }
+  handleMouseEnter = () => this.setState({ zDepth: 4 })
+  handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
+    const { dispatch, error, handleSubmit, isFetching, submitSucceeded, submitting } = this.props
     return (
-      <Card className="cards">
+      !isFetching &&
+      <Card
+        zDepth={this.state.zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        className="cards"
+      >
         <form onSubmit={handleSubmit(values => {
           const update = { type: 'UPDATE_VALUES', values}
           return dispatch(fetchUpdate(update))
@@ -68,12 +77,13 @@ class ProfileForm extends Component {
   }
 }
 
-
-ProfileForm = reduxForm({
-  form: 'profile',
-  validate
-})(ProfileForm)
-
-ProfileForm = connect()(ProfileForm)
-
-export default ProfileForm
+export default compose(
+  connect(({ user: { isFetching, values }}) => ({
+    isFetching,
+    initialValues: values
+  })),
+  reduxForm({
+    form: 'profile',
+    validate
+  })
+)(ProfileForm)

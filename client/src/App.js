@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet"
 
 import SearchList from './containers/search/SearchList'
 import Header from './components/header/Header'
-import Footer from './containers/footer/Footer'
+import FooterContainer from './containers/footer/FooterContainer'
 
 injectTapEventPlugin()
 
@@ -37,7 +37,7 @@ const App = ({ brand: { business, isFetching, main, theme }, children, search, }
               {search.value ? <SearchList /> : children}
             </main>
             <br/><br/><br/><br/><br/><br/>
-            <Footer />
+            <FooterContainer />
           </CSSTransitionGroup>
         </div>
       </MuiThemeProvider>

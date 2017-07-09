@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 
 import AddressItem from './AddressItem'
 
-const AddressList = ({ addresses }) => (
-  addresses.length &&
+const AddressList = ({ addresses, isFetching }) => (
+  !isFetching &&
   <div>
     {addresses.map(address => (
       <AddressItem
@@ -16,10 +16,9 @@ const AddressList = ({ addresses }) => (
   </div>
 )
 
-const mapStateToProps = ({ user: { addresses }}) => {
-  return {
-    addresses
-  }
-}
+const mapStateToProps = ({ user: { isFetching, addresses }}) => ({
+  isFetching,
+  addresses
+})
 
 export default connect(mapStateToProps)(AddressList)

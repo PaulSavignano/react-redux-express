@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import ProductItem from '../../components/products/ProductItem'
 
-const Product = ({ isFetching, product }) => {
+const ProductPage = ({ isFetching, product }) => {
   return (
     isFetching ? null :
     <section>
@@ -19,4 +19,4 @@ const mapStateToProps = ({ products: { isFetching, items } }, { params }) => {
   }
 }
 
-export default connect(mapStateToProps)(Product)
+export default connect(mapStateToProps)(ProductPage)

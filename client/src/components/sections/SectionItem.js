@@ -9,17 +9,17 @@ import SlideList from '../slides/SlideList'
 
 class SectionItem extends Component {
   state = {
-    image: null
+    image: null,
+    loading: false
   }
-  componentWillMount() {
-    const { image } = this.props.section
+  componentDidMount() {
+    const { image } = this.props.item
     if (image) {
+      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = (e) => {
-        this.setState({ image: src })
-      }
+      img.onload = () => this.setState({ image: src, loading: false })
     }
   }
   renderComponents = (components) => {
@@ -71,10 +71,10 @@ class SectionItem extends Component {
     )
   }
   render() {
-    console.log('inside SectionItem')
+    const { image, loading } = this.state
     const { section } = this.props
     return (
-      this.state.image ?
+      !loading && image ?
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}

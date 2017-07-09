@@ -7,25 +7,26 @@ import { Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
 class CardItem extends Component {
   state = {
     zDepth: 1,
-    image: null
+    image: null,
+    loading: false
   }
   componentDidMount() {
     const { image } = this.props.item
     if (image) {
+      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = (e) => {
-        return this.setState({ image: src })
-      }
+      img.onload = () => this.setState({ image: src, loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   renderContents = () => {
-    const { image } = this.state
+    const { image, loading } = this.state
     const { values: { color, header, iFrame, text }} = this.props.item
     return (
+      !loading &&
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
