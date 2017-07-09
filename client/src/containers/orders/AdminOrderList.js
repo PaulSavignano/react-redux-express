@@ -1,10 +1,11 @@
 import React from 'react'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 
 import AdminOrderItem from './AdminOrderItem'
 
 const AdminOrderList = ({ orders, fontFamily, color }) => {
   return (
-    !orders.length ? <h3 style={{ fontFamily, color }}>No orders yet</h3> :
+    !orders.length ? <CardText>You have no orders yet</CardText> :
     <div>
       {orders.map(order => (
         <AdminOrderItem

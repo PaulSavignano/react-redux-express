@@ -13,7 +13,7 @@ const Cart = ({ isFetching, cart, user }) => (
   </section>
 )
 
-const mapStateToProps = ({ cart, user }) => ({
+const mapStateToProps = ({ cart: { cart }, user }) => ({
   isFetching: cart.isFetching,
   cart,
   user

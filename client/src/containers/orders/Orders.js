@@ -13,11 +13,11 @@ const Orders = ({ isFetching, orders, fontFamily, color }) => {
   )
 }
 
-const mapStateToProps = ({ orders: { isFetching, items }, brand: { theme }}) => ({
+const mapStateToProps = ({ orders: { isFetching, items }, brand: { theme: { fontFamily, palette } }}) => ({
   isFetching,
   orders: items,
-  fontFamily: theme.fontFamily || null,
-  color: theme.palette.textColor || null
+  fontFamily: fontFamily || null,
+  color: palette && palette.textColor || null
 })
 
 export default connect(mapStateToProps)(Orders)

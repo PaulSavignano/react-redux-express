@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import ProductItem from './ProductItem'
+
+import ProductItem from '../../components/products/ProductItem'
 
 const Product = ({ isFetching, product }) => {
   return (

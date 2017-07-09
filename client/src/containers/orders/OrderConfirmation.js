@@ -16,11 +16,15 @@ const OrderConfirmation = ({ firstName, order }) => {
   )
 }
 
-const mapStateToProps = ({ user: { values: { firstName }}, orders: { items } }, { params }) => {
-  return {
-    firstName,
-    order: items.find(item => item._id === params.orderId)
-  }
-}
+const mapStateToProps = ({
+  user: { values: { firstName }},
+  orders: { items }
+}, {
+  params: { orderId }
+}) => ({
+  firstName,
+  order: items.find(item => item._id === orderId)
+})
+
 
 export default connect(mapStateToProps)(OrderConfirmation)

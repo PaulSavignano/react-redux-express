@@ -5,10 +5,10 @@ import { Router, Route, IndexRoute } from 'react-router'
 import App from './App'
 
 // Brand
-import AdminBrand from './containers/brand/AdminBrand'
+import AdminBrand from './components/brand/AdminBrand'
 
 // Page
-import Page from './containers/pages/Page'
+import PageContainer from './containers/pages/PageContainer'
 import AdminPage from './containers/pages/AdminPage'
 import AdminPageEdit from './containers/pages/AdminPageEdit'
 
@@ -30,7 +30,7 @@ import Product from './containers/products/Product'
 import OrderAdd from './containers/orders/OrderAdd'
 import Orders from './containers/orders/Orders'
 import OrderConfirmation from './containers/orders/OrderConfirmation'
-import OrderDetail from './containers/orders/OrderDetail'
+import OrderDetailPage from './containers/orders/OrderDetailPage'
 import AdminOrders from './containers/orders/AdminOrders'
 import AdminOrderDetail from './containers/orders/AdminOrderDetail'
 
@@ -48,8 +48,8 @@ const Routing = ({ history }) => (
     <Route path="/" component={App}>
 
       {/* Page */}
-      <IndexRoute component={Page} />
-      <Route path=":slug" component={Page} />
+      <IndexRoute component={PageContainer} />
+      <Route path=":slug" component={PageContainer} />
       <Route path="contact" component={Contact} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
       <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
@@ -68,7 +68,7 @@ const Routing = ({ history }) => (
       <Route path="user/order" component={RequireAuth(OrderAdd, ['user'])} />
       <Route path="user/order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
       <Route path="user/orders" component={RequireAuth(Orders, ['user'])} />
-      <Route path="user/orders/:orderId" component={RequireAuth(OrderDetail, ['user'])} />
+      <Route path="user/orders/:orderId" component={RequireAuth(OrderDetailPage, ['user'])} />
       <Route path="user/request-estimate" component={RequestEstimate} />
 
       {/* Product */}

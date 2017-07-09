@@ -1,36 +1,30 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import {Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
 
 class CardItem extends Component {
   state = {
     zDepth: 1,
-    loading: false,
     image: null
   }
   componentDidMount() {
     const { image } = this.props.item
     if (image) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = (e) => {
-        this.setState({ loading: false, image: src })
+        return this.setState({ image: src })
       }
-    } else {
-      this.setState({ loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   renderContents = () => {
-    const { values } = this.props.item
-    const { color, header, iFrame, text } = values
-    const textColor = { color }
+    const { image } = this.state
+    const { values: { color, header, iFrame, text }} = this.props.item
     return (
       <CSSTransitionGroup
         transitionName="image"
@@ -39,8 +33,8 @@ class CardItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        {header && <CardHeader title={header} style={{ ...textColor }} />}
-        {this.state.image && <CardMedia><img src={this.state.image} alt="card"/></CardMedia>}
+        {header && <CardHeader title={header} style={{ color }} />}
+        {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
         {iFrame ?
           <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
             <iframe
@@ -63,7 +57,7 @@ class CardItem extends Component {
     const backgroundColor = values.backgroundColor || null
     const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor }
     return (
-      !this.state.loading && values.link ?
+      values.link ?
       <Card
         onTouchTap={() => dispatch(push(`${values.link}`))}
         zDepth={this.state.zDepth}
@@ -91,11 +85,4 @@ class CardItem extends Component {
   }
 }
 
-const mapStateToProps = ({ cards }, { componentId }) => {
-  const item = cards.items.find(value => value._id === componentId)
-  return {
-    item
-  }
-}
-
-export default connect(mapStateToProps)(CardItem)
+export default CardItem

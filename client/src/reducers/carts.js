@@ -1,8 +1,10 @@
 import { type } from '../actions/cart'
 
-const cart = (state = {
+const carts = (state = {
   isFetching: false,
-  items: []
+  cart: {
+    items: []
+  }
 }, action) => {
   switch (action.type) {
     case `REQUEST_${type}`:
@@ -13,18 +15,18 @@ const cart = (state = {
     case `ADD_${type}`:
       return {
         ...state,
-        ...action.cart
+        cart: action.cart
       }
     case `RECEIVE_${type}`:
       return {
         ...state,
-        ...action.cart,
+        cart: action.cart,
         isFetching: false
       }
     case `UPDATE_${type}`:
       return {
         ...state,
-        ...action.cart
+        cart: action.cart
       }
     case `DELETE_${type}`:
       return {
@@ -40,4 +42,4 @@ const cart = (state = {
   }
 }
 
-export default cart
+export default carts

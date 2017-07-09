@@ -7,7 +7,6 @@ import formatPrice from '../../utils/formatPrice'
 
 class OrderCartItem extends Component {
   state = {
-    src: '',
     zDepth: 1
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })

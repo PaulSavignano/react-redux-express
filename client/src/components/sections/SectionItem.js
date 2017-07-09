@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 
-import CardItem from '../cards/CardItem'
-import ProductItem from '../products/ProductItem'
-import SlideList from '../../components/slides/SlideList'
+import CardItemContainer from '../../containers/cards/CardItemContainer'
+import ProductItemContainer from '../../containers/products/ProductItemContainer'
+import SlideList from '../slides/SlideList'
 
 class SectionItem extends Component {
   state = {
@@ -27,9 +27,9 @@ class SectionItem extends Component {
       const { type, componentId } = component
       switch(type) {
         case 'Card':
-          return <CardItem key={component._id} componentId={componentId}  />
+          return <CardItemContainer key={component._id} componentId={componentId}  />
         case 'Product':
-          return <ProductItem key={component._id} componentId={componentId} />
+          return <ProductItemContainer key={component._id} componentId={componentId} />
         default:
           return
       }
@@ -71,6 +71,7 @@ class SectionItem extends Component {
     )
   }
   render() {
+    console.log('inside SectionItem')
     const { section } = this.props
     return (
       this.state.image ?

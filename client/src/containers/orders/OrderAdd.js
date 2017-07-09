@@ -17,8 +17,7 @@ import { fetchAddOrder } from '../../actions/orders'
 
 class OrderAdd extends Component {
   state = {
-    newAddress: false,
-    tax: .0725
+    newAddress: false
   }
   render() {
     const { error, dispatch, handleSubmit, isFetching, cart, addresses } = this.props
@@ -120,7 +119,7 @@ OrderAdd = reduxForm({
   validate: validateCreditCard,
 })(OrderAdd)
 
-const mapStateToProps = ({ user: { addresses }, cart }) => ({
+const mapStateToProps = ({ user: { addresses }, carts: { cart } }) => ({
   isFetching: cart.isFetching,
   cart,
   addresses

@@ -1,10 +1,10 @@
 import React from 'react'
 
-import AdminAppBar from './AdminAppBar'
-import AdminBusiness from './AdminBusiness'
-import AdminMain from './AdminMain'
-import AdminTheme from './AdminTheme'
-import AdminFooter from './AdminFooter'
+import AdminAppBar from '../../containers/brand/AdminAppBar'
+import AdminBusiness from '../../containers/brand/AdminBusiness'
+import AdminMain from '../../containers/brand/AdminMain'
+import AdminTheme from '../../containers/brand/AdminTheme'
+import AdminFooter from '../../containers/brand/AdminFooter'
 
 // width: 256
 // height: 128

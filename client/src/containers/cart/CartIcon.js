@@ -23,7 +23,7 @@ const CartIcon = ({ quantity, color }) => (
   />
 )
 
-const mapStateToProps = ({ cart: { quantity } }) => ({
+const mapStateToProps = ({ carts: { cart: { quantity } }}) => ({
   quantity
 })
 

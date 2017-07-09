@@ -43,6 +43,11 @@ section {
   margin: 0 auto;
   max-width: 1044px
 }
+.section {
+  max-width: 1044px;
+  margin: 0 auto;
+  box-shadow: none !important;
+}
 
 .cards {
   flex: 1 1 auto;

@@ -15,24 +15,20 @@ class ProductItem extends Component {
   state = {
     qty: 1,
     zDepth: 1,
-    loading: true,
     image: null,
-    hasImage: false,
     open: false
   }
   componentDidMount() {
     const { image } = this.props.item
     if (image) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = (e) => {
-        this.setState({ loading: false, image: src, hasImage: true })
+        return this.setState({ image: src })
       }
-    } else {
-      this.setState({ loading: false, hasImage: false })
     }
+    return this.setState({ image: null })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
@@ -43,9 +39,9 @@ class ProductItem extends Component {
     this.setState({ qty: this.state.qty + 1 })
   }
   render() {
+    const { image } = this.state
     const { dispatch, item: { _id, slug, values: { name, description, price } }  } = this.props
     return (
-      this.state.loading ? null :
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
@@ -62,9 +58,9 @@ class ProductItem extends Component {
           onMouseLeave={this.handleMouseLeave}
         >
 
-          {this.state.hasImage &&
+          {image &&
             <CardMedia onTouchTap={() => dispatch(push(`/${slug}`))}>
-              <img src={this.state.image} alt={name} />
+              <img src={image} alt={name} />
             </CardMedia>
           }
           <CardTitle title={
@@ -125,11 +121,4 @@ class ProductItem extends Component {
   }
 }
 
-const mapStateToProps = ({ products }, { componentId }) => {
-  const item = products.items.find(value => value._id === componentId)
-  return {
-    item
-  }
-}
-
-export default connect(mapStateToProps)(ProductItem)
+export default connect()(ProductItem)
