@@ -37,135 +37,130 @@ class AdminCardItem extends Component {
         style={{ width, height: '100%' }}
       >
         <CardHeader title={`Card ${item._id}`} titleStyle={{ fontSize: 16 }} />
-        <CardMedia>
-          <form onSubmit={handleSubmit((values) => {
-            if (this.state.editing) {
-              const image = this.editor.handleSave()
-              return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-            }
-            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-          })}
-            style={{ flex: '1 1 auto' }}
-          >
-            <div className="field">
-              <Field
-                name="width"
-                label="Width"
-                type="number"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="maxWidth"
-                label="maxWidth"
-                type="number"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="zDepth"
-                label="zDepth"
-                type="number"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="margin"
-                label="Margin"
-                className="field"
-                type="text"
-                component={renderTextField}
-              />
-              <Field
-                name="color"
-                label="Color"
-                type="text"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="backgroundColor"
-                label="backgroundColor"
-                className="field"
-                type="text"
-                component={renderTextField}
-              />
-            </div>
+        <form onSubmit={handleSubmit((values) => {
+          if (this.state.editing) {
+            const image = this.editor.handleSave()
+            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+          }
+          return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
+        })}
+        >
+          <div className="field-container">
+            <Field
+              name="width"
+              label="Width"
+              type="number"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="maxWidth"
+              label="maxWidth"
+              type="number"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="zDepth"
+              label="zDepth"
+              type="number"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="margin"
+              label="Margin"
+              className="field"
+              type="text"
+              component={renderTextField}
+            />
+            <Field
+              name="color"
+              label="Color"
+              type="text"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="backgroundColor"
+              label="backgroundColor"
+              className="field"
+              type="text"
+              component={renderTextField}
+            />
+          </div>
 
-            <div style={{ margin: '0 16px' }}>
-              <Field
-                name="header"
-                label="Card Header"
-                fullWidth={true}
-                type="text"
-                component={renderTextField}
-              />
-            </div>
-            {!values.iFrame &&
-              <ImageForm
-                imageSpec={imageSpec}
-                image={item.image}
-                _id={item._id}
-                editing={this.editing}
-                deleteImage={this.deleteImage}
-                ref={this.setEditorRef}
-              />
-            }
-            {values.iFrame &&
-              <div style={{ margin: '0 16px' }}>
-                <Field
-                  name="iFrame"
-                  label="Card iFrame src"
-                  fullWidth={true}
-                  type="text"
-                  component={renderTextField}
-                />
-              </div>
-            }
+          <div className="field-container">
+            <Field
+              name="header"
+              label="Card Header"
+              className="field"
+              type="text"
+              component={renderTextField}
+            />
+          </div>
+          {!values.iFrame &&
+            <ImageForm
+              imageSpec={imageSpec}
+              image={item.image}
+              _id={item._id}
+              editing={this.editing}
+              deleteImage={this.deleteImage}
+              ref={this.setEditorRef}
+            />
+          }
+          <div className="field-container">
+            <Field
+              name="iFrame"
+              label="Card iFrame src"
+              className="field"
+              type="text"
+              component={renderTextField}
+            />
+          </div>
 
-            {values.iFrame &&
-              <div style={{ position: 'relative', paddingBottom: '50%'}}>
-                <iframe
-                  title="google youtube"
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  src={values.iFrame} frameBorder="0" allowFullScreen>
-                </iframe></div>
-            }
+          {values.iFrame &&
+            <div style={{ position: 'relative', paddingBottom: '50%'}}>
+              <iframe
+                title="google youtube"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src={values.iFrame} frameBorder="0" allowFullScreen>
+              </iframe>
+            </div>
+          }
 
-            <div className="field-container">
-              <Field
-                name="text"
-                label="Text"
-                type="text"
-                className="field"
-                component={renderWysiwgyField}
-              />
-              <Field
-                name="link"
-                label="Card Link"
-                type="text"
-                className="field"
-                component={renderTextField}
-              />
-            </div>
-            {error && <div className="error">{error}</div>}
-            <div className="button-container">
-              <SuccessableButton
-                submitSucceeded={submitSucceeded}
-                submitting={submitting}
-                label="CARD"
-              />
-              <RaisedButton
-                type="button"
-                label="Remove Card"
-                className="delete-button"
-                labelColor="#ffffff"
-                style={{ flex: '1 1 auto', margin: 4 }}
-                onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
-              />
-            </div>
-          </form>
-        </CardMedia>
+          <div>
+            <Field
+              name="text"
+              component={renderWysiwgyField}
+            />
+          </div>
+          <div className="field-container">
+            <Field
+              name="link"
+              label="Card Link"
+              type="text"
+              className="field"
+              component={renderTextField}
+            />
+          </div>
+          {error && <div className="error">{error}</div>}
+          <div className="button-container">
+            <SuccessableButton
+              submitSucceeded={submitSucceeded}
+              submitting={submitting}
+              label="CARD"
+            />
+            <RaisedButton
+              type="button"
+              label="Remove Card"
+              className="delete-button"
+              labelColor="#ffffff"
+              style={{ flex: '1 1 auto', margin: 4 }}
+              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+            />
+          </div>
+        </form>
       </Card>
     )
   }

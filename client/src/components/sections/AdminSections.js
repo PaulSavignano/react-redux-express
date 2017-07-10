@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminSectionAdd from './AdminSectionAdd'
-import AdminSectionList from './AdminSectionList'
+import AdminSectionAdd from '../../containers/sections/AdminSectionAdd'
+import AdminSectionList from '../../containers/sections/AdminSectionList'
 
 const imageSpec = {
   type: 'image/jpg',

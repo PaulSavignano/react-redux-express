@@ -8,7 +8,7 @@ class Footer extends Component {
     loading: false
   }
   componentDidMount() {
-    const { image } = this.props.item
+    const { image } = this.props.footer
     if (image) {
       this.setState({ loading: true })
       const img = new Image()

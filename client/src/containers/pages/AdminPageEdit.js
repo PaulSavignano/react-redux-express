@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminSections from '../sections/AdminSections'
+import AdminSections from '../../components/sections/AdminSections'
 
 const AdminPageEdit = ({ isFetching, page }) => (
   !isFetching &&

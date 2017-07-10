@@ -49,7 +49,7 @@ const HeaderDrawer = ({
       >
         <HeaderBrand />
       </Paper>
-      {firstName && <div style={{ padding: 16, minHeight: 48 }}>Hello, {firstName}</div>}
+      {firstName && <div style={{ padding: 16, minHeight: 48, marginTop: 8 }}>Hello, {firstName}</div>}
       {pages.filter(page => page.slug !== 'home').map(page => (
         <MenuItem key={page._id} onTouchTap={() => handleTouchTap(`/${page.slug}`)}>
           {page.name}

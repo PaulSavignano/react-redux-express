@@ -91,26 +91,26 @@ class AdminSectionItem extends Component {
           style={{ margin: '0 0 64px 0'}}
         >
 
-          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+          <div className="field-container">
             <Field
               name="height"
               label="Section Height (px)"
               type="number"
-              style={{ flex: '1 1 auto', margin: '0 16px' }}
+              className="field"
               component={renderTextField}
             />
             <Field
               name="backgroundColor"
               label="Section backgroundColor"
               type="text"
-              style={{ flex: '1 1 auto', margin: '0 16px' }}
+              className="field"
               component={renderTextField}
             />
             <Field
               name="backgroundAttachment"
               component={renderSelectField}
               label="Section backgroundAttachment"
-              style={{ flex: '1 1 auto', margin: '0 16px' }}
+              className="field"
             >
               <MenuItem value={null} primaryText="" />
               <MenuItem value="scroll" primaryText="scroll" />
@@ -127,28 +127,25 @@ class AdminSectionItem extends Component {
             deleteImage={this.deleteImage}
             ref={this.setEditorRef}
           />
-          <div style={{ margin: '0 16px'}}>
+          <div>
             <Field
               name="text"
-              label="Text"
-              type="text"
-              fullWidth={true}
               component={renderWysiwgyField}
             />
           </div>
-          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+          <div className="field-container">
             <Field
               name="margin"
               label="Text Container Margin (px)"
               type="text"
-              style={{ flex: '1 1 auto', margin: '0px 16px' }}
+              className="field"
               component={renderTextField}
             />
             <Field
               name="padding"
               label="Text Container Padding (px)"
               type="text"
-              style={{ flex: '1 1 auto', margin: '0px 16px' }}
+              className="field"
               component={renderTextField}
             />
           </div>
