@@ -24,13 +24,27 @@ class AdminFooter extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { _id, dispatch, error, handleSubmit, image, imageSpec, submitSucceeded, submitting } = this.props
+    const {
+      _id,
+      backgroundColor,
+      dispatch,
+      error,
+      fontFamily,
+      handleSubmit,
+      image,
+      imageSpec,
+      isFetching,
+      submitSucceeded,
+      submitting
+    } = this.props
     return (
+      !isFetching &&
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="cards"
+        style={{ backgroundColor, fontFamily }}
       >
         <CardTitle title="Footer" />
         <CardMedia>
@@ -57,29 +71,30 @@ class AdminFooter extends Component {
             <Field
               name="backgroundColor"
               label="backgroundColor"
-              type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
             <Field
               name="color"
               label="color"
-              type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
             <Field
               name="borderBottom"
               label="borderBottom"
-              type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
             <Field
               name="imageAlign"
               component={renderSelectField}
               label="imageAlign"
               className="field"
+              style={{ fontFamily }}
             >
               <MenuItem value={null} primaryText="" />
               <MenuItem value="left" primaryText="left" />
@@ -92,6 +107,7 @@ class AdminFooter extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="FOOTER"
+              style={{ fontFamily }}
             />
           </div>
         </form>
@@ -104,12 +120,20 @@ AdminFooter = reduxForm({
   form: 'footer'
 })(AdminFooter)
 
-const mapStateToProps = ({ brand: { _id, footer: { image, styles } }}) => ({
+const mapStateToProps = ({
+  brand: {
+    _id,
+    footer: { image, styles },
+    isFetching,
+    theme: { palette: { canvasColor }, fontFamily }
+  }
+}) => ({
   _id,
   image,
-  initialValues: {
-    ...styles
-  }
+  isFetching,
+  backgroundColor: canvasColor,
+  fontFamily,
+  initialValues: styles,
 })
 
 AdminFooter = connect(mapStateToProps)(AdminFooter)

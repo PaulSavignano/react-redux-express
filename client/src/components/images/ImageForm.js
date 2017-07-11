@@ -12,7 +12,8 @@ const styles = {
     padding: '3px 0'
   },
   control: {
-    flex: '1 1 auto'
+    flex: '1 1 auto',
+    margin: 4
   },
   button: {
     margin: '0 0 0 8px',
@@ -109,8 +110,8 @@ class ImageForm extends Component {
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {this.state.editing &&
-          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around' }}>
-            <div>
+          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', margin: 4 }}>
+            <div style={{ margin: 4 }}>
               <ImageEditor
                 ref={this.setEditorRef}
                 scale={parseFloat(this.state.scale)}
@@ -127,7 +128,7 @@ class ImageForm extends Component {
               />
             </div>
 
-            <div style={{ flex: '1 1 auto', padding: '0 16px 0 16px' }}>
+            <div style={{ flex: '1 1 auto' }}>
               <div style={styles.controlContainer}>
                 <label>Zoom:</label>
                 <input

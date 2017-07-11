@@ -16,14 +16,26 @@ class AdminMain extends Component {
   setEditorRef = (editor) => this.editor = editor
   editing = (bool) => this.setState({ editing: bool })
   render() {
-    const { _id, dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
+    const {
+      _id,
+      backgroundColor,
+      dispatch,
+      error,
+      fontFamily,
+      handleSubmit,
+      isFetching,
+      submitSucceeded,
+      submitting
+    } = this.props
     return (
+      !isFetching &&
       <Card
         expanded={this.state.expanded}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="cards"
+        style={{ backgroundColor, fontFamily }}
       >
         <form
           onSubmit={handleSubmit((values) => {
@@ -33,7 +45,14 @@ class AdminMain extends Component {
         >
           <CardTitle title="Main" />
           <div className="field-container">
-            <Field name="backgroundColor" label="backgroundColor" type="text" component={renderTextField} className="field" />
+            <Field
+              name="backgroundColor"
+              label="backgroundColor"
+              type="text"
+              component={renderTextField}
+              className="field"
+              style={{ fontFamily }}
+            />
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">
@@ -41,6 +60,7 @@ class AdminMain extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="MAIN"
+              style={{ fontFamily }}
             />
           </div>
         </form>
@@ -53,9 +73,19 @@ AdminMain = reduxForm({
   form: 'main'
 })(AdminMain)
 
-const mapStateToProps = ({ brand: { _id, main: { styles } }}) => ({
+const mapStateToProps = ({
+  brand: {
+    _id,
+    isFetching,
+    main: { styles },
+    theme: { palette: { canvasColor }, fontFamily }
+  }
+}) => ({
   _id,
-  initialValues: styles
+  backgroundColor: canvasColor,
+  fontFamily,
+  initialValues: styles,
+  isFetching
 })
 
 AdminMain = connect(mapStateToProps)(AdminMain)

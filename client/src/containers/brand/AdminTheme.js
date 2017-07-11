@@ -7,6 +7,26 @@ import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate } from '../../actions/brand'
 
+const fields = [
+  'fontFamily',
+  'borderRadius',
+  'primary1Color',
+  'primary2Color',
+  'primary3Color',
+  'accent1Color',
+  'accent2Color',
+  'accent3Color',
+  'textColor',
+  'secondaryTextColor',
+  'alternateTextColor',
+  'canvasColor',
+  'borderColor',
+  'disabledColor',
+  'pickerHeaderColor',
+  'clockCircleColor',
+  'shadowColor',
+]
+
 class AdminTheme extends Component {
   state = {
     zDepth: 1
@@ -16,14 +36,26 @@ class AdminTheme extends Component {
   setEditorRef = (editor) => this.editor = editor
   editing = (bool) => this.setState({ editing: bool })
   render() {
-    const { _id, dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
+    const {
+      _id,
+      backgroundColor,
+      dispatch,
+      error,
+      fontFamily,
+      handleSubmit,
+      isFetching,
+      submitSucceeded,
+      submitting
+    } = this.props
     return (
+      !isFetching &&
       <Card
         expanded={this.state.expanded}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="cards"
+        style={{ backgroundColor, fontFamily }}
       >
         <form
           onSubmit={handleSubmit((values) => {
@@ -33,24 +65,16 @@ class AdminTheme extends Component {
         >
           <CardTitle title="Theme" />
           <div className="field-container">
-            <Field name="fontFamily" label="fontFamily" type="text" component={renderTextField} className="field" />
-            <Field name="fontFamily2" label="fontFamily2" type="text" component={renderTextField} className="field" />
-            <Field name="fontFamily3" label="fontFamily3" type="text" component={renderTextField} className="field" />
-            <Field name="primary1Color" label="primary1Color" type="text" component={renderTextField} className="field" />
-            <Field name="primary2Color" label="primary2Color" type="text" component={renderTextField} className="field" />
-            <Field name="primary3Color" label="primary3Color" type="text" component={renderTextField} className="field" />
-            <Field name="accent1Color" label="accent1Color" type="text" component={renderTextField} className="field" />
-            <Field name="accent2Color" label="accent2Color" type="text" component={renderTextField} className="field" />
-            <Field name="accent3Color" label="accent3Color" type="text" component={renderTextField} className="field" />
-            <Field name="textColor" label="textColor" type="text" component={renderTextField} className="field" />
-            <Field name="secondaryTextColor" label="secondaryTextColor" type="text" component={renderTextField} className="field" />
-            <Field name="alternateTextColor" label="alternateTextColor" type="text" component={renderTextField} className="field" />
-            <Field name="canvasColor" label="canvasColor" type="text" component={renderTextField} className="field" />
-            <Field name="borderColor" label="borderColor" type="text" component={renderTextField} className="field" />
-            <Field name="disabledColor" label="disabledColor" type="text" component={renderTextField} className="field" />
-            <Field name="pickerHeaderColor" label="pickerHeaderColor" type="text" component={renderTextField} className="field" />
-            <Field name="clockCircleColor" label="clockCircleColor" type="text" component={renderTextField} className="field" />
-            <Field name="shadowColor" label="shadowColor" type="text" component={renderTextField} className="field" />
+            {fields.map(field => (
+              <Field
+                key={field}
+                name={field}
+                label={field}
+                component={renderTextField}
+                className="field"
+                style={{ fontFamily }}
+              />
+            ))}
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">
@@ -58,6 +82,7 @@ class AdminTheme extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="THEME"
+              style={{ fontFamily }}
             />
           </div>
         </form>
@@ -70,8 +95,17 @@ AdminTheme = reduxForm({
   form: 'theme'
 })(AdminTheme)
 
-const mapStateToProps = ({ brand: { _id, theme }}) => ({
+const mapStateToProps = ({
+  brand: {
+    _id,
+    isFetching,
+    theme,
+  }
+}) => ({
   _id,
+  isFetching,
+  backgroundColor: theme.palette.canvasColor,
+  fontFamily: theme.fontFamily,
   initialValues: {
     ...theme,
     ...theme.palette

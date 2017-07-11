@@ -55,8 +55,7 @@ const BrandSchema = new Schema({
   },
   theme: {
     fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
-    fontFamily2: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
-    fontFamily3: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+    borderRadius: { type: Number, minlength: 1, trim: true, default: 2 },
     palette: {
       primary1Color: { type: String, minlength: 1, trim: true, default: '#00BCD4' },
       primary2Color: { type: String, minlength: 1, trim: true, default: '#0097A7' },

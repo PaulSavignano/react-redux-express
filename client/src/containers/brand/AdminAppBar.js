@@ -22,15 +22,31 @@ class AdminAppBar extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { _id, dispatch, error, handleSubmit, image, imageSpec, submitSucceeded, submitting } = this.props
+    const {
+      _id,
+      backgroundColor,
+      dispatch,
+      error,
+      fontFamily,
+      handleSubmit,
+      image,
+      imageSpec,
+      isFetching,
+      submitSucceeded,
+      submitting
+    } = this.props
     return (
+      !isFetching &&
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="cards"
+        style={{ backgroundColor, fontFamily }}
       >
-        <CardTitle title="AppBar" />
+        <CardTitle
+          title="AppBar"
+        />
         <CardMedia>
           <ImageForm
             imageSpec={imageSpec}
@@ -57,6 +73,7 @@ class AdminAppBar extends Component {
               type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
             <Field
               name="brandColor"
@@ -64,6 +81,7 @@ class AdminAppBar extends Component {
               type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
             <Field
               name="brandFontFamily"
@@ -71,6 +89,7 @@ class AdminAppBar extends Component {
               type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
             <Field
               name="navColor"
@@ -78,6 +97,7 @@ class AdminAppBar extends Component {
               type="text"
               component={renderTextField}
               className="field"
+              style={{ fontFamily }}
             />
           </div>
 
@@ -87,6 +107,7 @@ class AdminAppBar extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="APPBAR"
+              style={{ fontFamily }}
             />
           </div>
         </form>
@@ -99,12 +120,20 @@ AdminAppBar = reduxForm({
   form: 'appBar'
 })(AdminAppBar)
 
-const mapStateToProps = ({ brand: { _id, appBar: { image, styles } }}) => ({
-  _id,
-  image,
-  initialValues: {
-    ...styles
+const mapStateToProps = ({
+  brand: {
+    _id,
+    appBar: { image, styles },
+    isFetching,
+    theme: { palette: { canvasColor }, fontFamily }
   }
+}) => ({
+  _id,
+  backgroundColor: canvasColor,
+  fontFamily,
+  image,
+  initialValues: styles,
+  isFetching
 })
 
 AdminAppBar = connect(mapStateToProps)(AdminAppBar)

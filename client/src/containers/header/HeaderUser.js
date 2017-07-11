@@ -29,14 +29,14 @@ class HeaderUser extends Component {
     return this.props.dispatch(push(path))
   }
   render() {
-    const { color, firstName } = this.props
+    const { color, firstName, fontFamily } = this.props
     return (
-      <span>
+      <span style={{ fontFamily }}>
         <FlatButton
           onTouchTap={this.handleOpen}
           label={firstName ? `Hello, ${firstName}`: `SIGN IN`}
           hoverColor="none"
-          style={{ color }}
+          style={{ color, fontFamily }}
         />
         <Popover
           open={this.state.openMenu}

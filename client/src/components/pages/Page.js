@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Cart from '../../containers/cart/Cart'
 import Contact from '../../containers/users/Contact'
-import SectionsContainer from '../../containers/sections/SectionsContainer'
+import SectionList from '../../containers/sections/SectionList'
 import NotFound from '../../components/NotFound'
 
 const Page = ({ items, slug }) => {
@@ -19,7 +19,7 @@ const Page = ({ items, slug }) => {
         case 'cart':
             return <Cart />
         default:
-            return <SectionsContainer page={page} />
+            return <SectionList page={page} />
         }
     })()
   )

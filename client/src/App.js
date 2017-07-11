@@ -12,43 +12,66 @@ import FooterContainer from './containers/footer/FooterContainer'
 
 injectTapEventPlugin()
 
-const App = ({ brand: { business, isFetching, main, theme }, children, search, }) => {
-  const backgroundColor = main.styles && main.styles.backgroundColor
+const App = ({
+  backgroundColor,
+  name,
+  description,
+  image,
+  isFetching,
+  main,
+  theme,
+  children,
+  search
+}) => {
+  console.log(theme && theme.palette && theme.palette.canvasColor)
   return (
     !isFetching &&
-      <MuiThemeProvider muiTheme={getMuiTheme(theme) || null}>
-        <div style={{ backgroundColor }}>
-          <Helmet>
-            <meta charSet="utf-8" />
-            {business.name && <title>{business.name}</title>}
-            {business.description && <meta name="description" content={business.description} />}
-            {business.image && <link rel="shortcut icon" href={business.image} />}
-            <link rel="canonical" href={window.location.hostname} />
-          </Helmet>
-          <CSSTransitionGroup
-            transitionName="image"
-            transitionAppear={true}
-            transitionAppearTimeout={900}
-            transitionEnter={false}
-            transitionLeave={false}
-          >
-            <Header />
-            <main>
-              {search.value ? <SearchList /> : children}
-            </main>
-            <br/><br/><br/><br/><br/><br/>
-            <FooterContainer />
-          </CSSTransitionGroup>
-        </div>
-      </MuiThemeProvider>
+    <MuiThemeProvider muiTheme={getMuiTheme(theme) || null}>
+      <div style={{ backgroundColor }}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          {name && <title>{name}</title>}
+          {description && <meta name="description" content={description} />}
+          {image && <link rel="shortcut icon" href={image} />}
+          <link rel="canonical" href={window.location.hostname} />
+        </Helmet>
+        <CSSTransitionGroup
+          transitionName="image"
+          transitionAppear={true}
+          transitionAppearTimeout={900}
+          transitionEnter={false}
+          transitionLeave={false}
+        >
+          <Header />
+          <main>
+            {search.value ? <SearchList /> : children}
+          </main>
+          <FooterContainer />
+        </CSSTransitionGroup>
+      </div>
+    </MuiThemeProvider>
   )
 }
 
-const mapStateToProps = ({ brand, search }) => {
-  return {
-    brand,
-    search
-  }
-}
+
+
+const mapStateToProps = ({
+  brand: {
+    business: { name, description, image },
+    isFetching,
+    main,
+    theme,
+  },
+  search
+}) => ({
+  backgroundColor: main.styles && main.styles.backgroundColor,
+  name,
+  description,
+  image,
+  isFetching,
+  main,
+  theme,
+  search
+})
 
 export default connect(mapStateToProps)(App)

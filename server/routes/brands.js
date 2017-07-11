@@ -88,12 +88,7 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
     case 'DELETE_IMAGE':
       deleteFile({ Key })
         .then(() => {
-          const update = {
-            appBar: {
-              image: null
-            }
-          }
-          Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Brand.findOneAndUpdate({ _id }, { $set: { 'appBar.image': null }}, { new: true })
             .then(doc => res.send(doc))
             .catch(err => {
               console.error(err)
@@ -248,14 +243,12 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
 
 // Update Theme
 brands.patch('/theme/:_id', authenticate(['admin']), (req, res) => {
-  console.log(req.body)
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { values } = req.body
   const update = {
       fontFamily: values.fontFamily,
-      fontFamily2: values.fontFamily2,
-      fontFamily3: values.fontFamily2,
+      borderRadius: values.borderRadius,
       palette: {
         primary1Color: values.primary1Color,
         primary2Color: values.primary2Color,

@@ -13,7 +13,7 @@ class SectionItem extends Component {
     loading: false
   }
   componentDidMount() {
-    const { image } = this.props.item
+    const { image } = this.props.section
     if (image) {
       this.setState({ loading: true })
       const img = new Image()

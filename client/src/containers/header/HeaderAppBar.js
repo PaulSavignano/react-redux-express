@@ -13,13 +13,13 @@ import { toggleDrawer } from '../../actions/drawer'
 import { searchToggle } from '../../actions/search'
 
 const HeaderAppBar = ({
+  activeColor,
   backgroundColor,
+  color,
   dispatch,
   fontFamily,
-  isFetching,
-  color,
-  activeColor,
   hasProducts,
+  isFetching,
   pages,
   path,
   search
@@ -36,7 +36,7 @@ const HeaderAppBar = ({
         :
         <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between', alignItems: 'center' }}>
           <HeaderBrand />
-          <span>
+          <span style={{ fontFamily }}>
             <span className="appbar-nav">
               {pages.filter(page => page.slug !== 'home').map(page => (
                 <FlatButton
@@ -59,7 +59,7 @@ const HeaderAppBar = ({
               iconStyle={{ fontSize: 18, color }}
               onTouchTap={() => dispatch(searchToggle(!search.searching))}
             />
-            <HeaderUser />
+            <HeaderUser fontFamily={fontFamily} />
             { !hasProducts ? null :
             <IconButton
               children={<CartIcon color={color}/>}
@@ -75,24 +75,26 @@ const HeaderAppBar = ({
   />
 )
 
-const mapStateToProps = ({ brand, pages, products, routing, search, user }) => {
-  const { appBar: { styles }, theme: { palette } } = brand
-  const isFetching = !brand.isFetching && !pages.isFetching && !user.isFetching ? false : true
-  const backgroundColor = styles ? styles.backgroundColor : 'rgb(0, 188, 212)'
-  const color = styles ? styles.navColor : '#ffffff'
-  const activeColor = palette ? palette.primary1Color : 'rgb(0, 188, 212)'
-  const hasProducts = products.items.length ? true : false
-  const path = routing.locationBeforeTransitions.pathname || null
-  return {
-    activeColor,
-    backgroundColor,
-    color,
-    hasProducts,
+const mapStateToProps = ({
+  brand: {
+    appBar: { styles: { backgroundColor, navColor }},
     isFetching,
-    pages: pages.items,
-    path,
-    search
-  }
-}
+    theme: { fontFamily, palette: { primary1Color } },
+  },
+  pages,
+  products: { items },
+  routing,
+  search,
+}) => ({
+  activeColor: primary1Color,
+  backgroundColor,
+  color: navColor,
+  fontFamily,
+  hasProducts: items.length,
+  isFetching,
+  pages: pages.items,
+  path: routing.locationBeforeTransitions.pathname || null,
+  search
+})
 
 export default connect(mapStateToProps)(HeaderAppBar)

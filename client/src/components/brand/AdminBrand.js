@@ -21,7 +21,7 @@ const AdminBrand = () => {
       <AdminAppBar imageSpec={imageSpec} /><br/><br/>
       <AdminMain /><br/><br/>
       <AdminTheme /><br/><br/>
-      <AdminFooter imageSpec={imageSpec} />
+      <AdminFooter imageSpec={imageSpec} /><br/><br/><br/><br/>
     </section>
   )
 }

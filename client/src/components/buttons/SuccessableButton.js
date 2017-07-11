@@ -21,7 +21,7 @@ class SuccessableButton extends Component {
     return <div key={3} style={{ color: '#ffffff' }}>UPDATE {label}</div>
   }
   render() {
-    const { submitting, label } = this.props
+    const { submitting, label, style } = this.props
     const { submitSucceeded } = this.state
     return (
       <RaisedButton
@@ -30,6 +30,7 @@ class SuccessableButton extends Component {
         primary={submitSucceeded ? false : true}
         backgroundColor={submitSucceeded ? "#4CAF50" : null }
         style={{ flex: '1 1 auto', margin: 4 }}
+        buttonStyle={{ ...style }}
       />
     )
   }
