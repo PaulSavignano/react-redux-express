@@ -2,6 +2,13 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
 
+import Brand from './models/Brand'
+
+Brand.findOne({})
+  .then(doc => !doc && new Brand({}).save()
+    .catch(err => console.error(err))
+  )
+
 import mongoose from './db/mongoose'
 import brands from './routes/brands'
 import cards from './routes/cards'
@@ -36,6 +43,8 @@ app.use(staticFiles)
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'))
 })
+
+
 
 app.listen(port, () => console.log(`Started up at port: ${port}`))
 

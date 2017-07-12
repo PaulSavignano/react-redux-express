@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import AdminSectionAdd from '../../containers/sections/AdminSectionAdd'
 import AdminSectionList from '../../containers/sections/AdminSectionList'
@@ -11,7 +10,7 @@ const imageSpec = {
 }
 
 const AdminSections = ({ page }) => (
-  <section style={{ maxWidth: 2000 }}>
+  <section style={{ maxWidth: 2000, margin: '32px 0' }}>
     <AdminSectionList page={page} imageSpec={imageSpec} />
     <AdminSectionAdd page={page} />
   </section>

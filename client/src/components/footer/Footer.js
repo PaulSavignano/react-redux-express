@@ -23,7 +23,7 @@ class Footer extends Component {
   }
   render() {
     const { image } = this.state
-    const { isFetching, footer: { styles }, business} = this.props
+    const { footer: { styles }, business} = this.props
     const {
       name,
       phone,
@@ -43,7 +43,8 @@ class Footer extends Component {
     } = business
     const backgroundColor = styles ? styles.backgroundColor : 'rgb(0, 188, 212)'
     const color = styles ? styles.color : '#ffffff'
-    const borderBottom = styles ? styles.borderBottom : null
+    const borderTop = styles.borderTop || null
+    const borderBottom = styles.borderBottom || null
     const backgrounds = image && {
       backgroundImage: `url(${image})`,
       transition: 'opacity .9s ease-in-out',
@@ -52,7 +53,7 @@ class Footer extends Component {
       zIndex: -1
     }
     return (
-      <footer style={{ borderBottom }}>
+      <footer style={{ borderBottom, borderTop }}>
         <Paper style={{ backgroundColor, color, ...backgrounds }}>
           <div className="social-media">
             { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color }} /></a> }

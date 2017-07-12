@@ -88,7 +88,6 @@ class AdminSectionItem extends Component {
             }
             return dispatch(fetchUpdate(section._id, { type: 'UPDATE_VALUES', values }))
           })}
-          style={{ margin: '0 0 64px 0'}}
         >
 
           <div className="field-container">
@@ -168,6 +167,7 @@ class AdminSectionItem extends Component {
             />
           </div>
         </form>
+        <br/>
         <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
           {this.renderComponents(section.components)}
         </div>

@@ -245,26 +245,42 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
 brands.patch('/theme/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { values } = req.body
+  const {
+    fontFamily,
+    primary1Color,
+    primary2Color,
+    primary3Color,
+    accent1Color,
+    accent2Color,
+    accent3Color,
+    textColor,
+    secondaryTextColor,
+    alternateTextColor,
+    canvasColor,
+    borderColor,
+    disabledColor,
+    pickerHeaderColor,
+    clockCircleColor,
+    shadowColor
+  } = req.body.values
   const update = {
-      fontFamily: values.fontFamily,
-      borderRadius: values.borderRadius,
+      fontFamily,
       palette: {
-        primary1Color: values.primary1Color,
-        primary2Color: values.primary2Color,
-        primary3Color: values.primary3Color,
-        accent1Color: values.accent1Color,
-        accent2Color: values.accent2Color,
-        accent3Color: values.accent3Color,
-        textColor: values.textColor,
-        secondaryTextColor: values.secondaryTextColor,
-        alternateTextColor: values.alternateTextColor,
-        canvasColor: values.canvasColor,
-        borderColor: values.borderColor,
-        disabledColor: values.disabledColor,
-        pickerHeaderColor: values.pickerHeaderColor,
-        clockCircleColor: values.clockCircleColor,
-        shadowColor: values.shadowColor
+        primary1Color,
+        primary2Color,
+        primary3Color,
+        accent1Color,
+        accent2Color,
+        accent3Color,
+        textColor,
+        secondaryTextColor,
+        alternateTextColor,
+        canvasColor,
+        borderColor,
+        disabledColor,
+        pickerHeaderColor,
+        clockCircleColor,
+        shadowColor
     }
   }
   Brand.findOneAndUpdate({ _id }, { $set: { theme: {...update} }}, { new: true })

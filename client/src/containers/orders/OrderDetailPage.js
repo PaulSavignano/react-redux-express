@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Paper from 'material-ui/Paper'
 
 import OrderDetail from '../../components/orders/OrderDetail'
 

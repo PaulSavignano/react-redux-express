@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import moment from 'moment'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 
 import formatPrice from '../../utils/formatPrice'
 

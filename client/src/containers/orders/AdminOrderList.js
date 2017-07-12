@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { CardText } from 'material-ui/Card'
 
 import AdminOrderItem from './AdminOrderItem'
 

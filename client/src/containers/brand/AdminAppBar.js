@@ -32,6 +32,7 @@ class AdminAppBar extends Component {
       image,
       imageSpec,
       isFetching,
+      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -54,6 +55,7 @@ class AdminAppBar extends Component {
             _id={_id}
             editing={this.editing}
             deleteImage={this.deleteImage}
+            style={{ fontFamily }}
             ref={this.setEditorRef}
           />
         </CardMedia>
@@ -107,7 +109,7 @@ class AdminAppBar extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="APPBAR"
-              style={{ fontFamily }}
+              style={{ fontFamily, backgroundColor: primary1Color }}
             />
           </div>
         </form>
@@ -125,7 +127,7 @@ const mapStateToProps = ({
     _id,
     appBar: { image, styles },
     isFetching,
-    theme: { palette: { canvasColor }, fontFamily }
+    theme: { fontFamily, palette: { canvasColor, primary1Color },  }
   }
 }) => ({
   _id,
@@ -133,7 +135,8 @@ const mapStateToProps = ({
   fontFamily,
   image,
   initialValues: styles,
-  isFetching
+  isFetching,
+  primary1Color
 })
 
 AdminAppBar = connect(mapStateToProps)(AdminAppBar)

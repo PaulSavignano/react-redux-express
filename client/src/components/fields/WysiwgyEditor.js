@@ -42,29 +42,20 @@ class WysiwgyEditor extends Component {
   }
   render() {
     const { editorState } = this.state
-		const { isFetching, input, palette, fontFamily, fontFamily2, fontFamily3 } = this.props
-    const colors = Object.keys(palette).map(key => palette[key]).filter((item, i, self) => i === self.indexOf(item))
-    const toolBar = {
-      fontFamily: {
-        options: [fontFamily, fontFamily2, fontFamily3],
-      },
-      colorPicker: { colors },
-      inline: { inDropdown: true },
-      list: { inDropdown: true },
-      textAlign: { inDropdown: true },
-      link: { inDropdown: true },
-      history: { inDropdown: true }
-    }
-    const toolbarStyle = {
-      backgroundColor: palette.canvasColor,
-      color: '#000000'
-    }
+		const {
+      backgroundColor,
+      borderColor,
+      brandFontFamily,
+      isFetching,
+      input,
+      colors,
+      fontFamily
+    } = this.props
     const editorStyle = {
-      borderBottom: '2px solid #F1F1F1',
-      backgroundColor: '#F1F1F1'
+      border: '3px solid #F1F1F1',
     }
     return (
-      isFetching ? null :
+      !isFetching &&
         <Editor
           editorState={editorState}
           toolbarClassName="home-toolbar"
@@ -72,20 +63,40 @@ class WysiwgyEditor extends Component {
           editorClassName="home-editor"
           onEditorStateChange={this.onEditorStateChange}
           {...input}
-          toolbarStyle={toolbarStyle}
-          editorStyle={editorStyle}
-          toolbar={toolBar}
+          toolbarStyle={{ backgroundColor, color: '#000000', borderBottom: `1px solid ${borderColor}` }}
+          wrapperStyle={{ border: `2px solid ${borderColor}` }}
+          toolbar={{
+            fontFamily: {
+              options: [ fontFamily, brandFontFamily ],
+            },
+            colorPicker: { colors },
+            inline: { inDropdown: true },
+            list: { inDropdown: true },
+            textAlign: { inDropdown: true },
+            link: { inDropdown: true },
+            history: { inDropdown: true }
+          }}
         />
     )
   }
 }
 
-const mapStateToProps = ({ brand }) => ({
-  isFetching: brand.isFetching,
-  palette: brand.theme.palette,
-  fontFamily: brand.theme.fontFamily,
-  fontFamily2: brand.theme.fontFamily2,
-  fontFamily3: brand.theme.fontFamily3
+const mapStateToProps = ({
+  brand: {
+    appBar: { styles: { brandFontFamily }},
+    isFetching,
+    theme: {
+      fontFamily,
+      palette
+    }
+  }
+}) => ({
+  backgroundColor: palette.canvasColor,
+  borderColor: palette.borderColor,
+  brandFontFamily,
+  colors: Object.keys(palette).map(key => palette[key]).filter((item, i, self) => i === self.indexOf(item)),
+  fontFamily,
+  isFetching,
 })
 
 export default connect(mapStateToProps)(WysiwgyEditor)

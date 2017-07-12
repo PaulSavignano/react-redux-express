@@ -49,13 +49,13 @@ const BrandSchema = new Schema({
     styles: {
       backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
       color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
+      borderTop: { type: String, minlength: 1, trim: true },
       borderBottom: { type: String, minlength: 1, trim: true },
       imageAlign: { type: String },
     }
   },
   theme: {
     fontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
-    borderRadius: { type: Number, minlength: 1, trim: true, default: 2 },
     palette: {
       primary1Color: { type: String, minlength: 1, trim: true, default: '#00BCD4' },
       primary2Color: { type: String, minlength: 1, trim: true, default: '#0097A7' },

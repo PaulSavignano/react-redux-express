@@ -1,9 +1,5 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
 
 import AdminOrderDetail from './AdminOrderDetail'
 

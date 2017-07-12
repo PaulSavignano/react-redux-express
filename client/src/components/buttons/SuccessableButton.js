@@ -22,15 +22,17 @@ class SuccessableButton extends Component {
   }
   render() {
     const { submitting, label, style } = this.props
+    const backgroundColor = style && style.backgroundColor
+    const fontFamily = style && style.fontFamily
     const { submitSucceeded } = this.state
     return (
       <RaisedButton
         type="submit"
         children={this.renderLabel(submitting, submitSucceeded, label)}
         primary={submitSucceeded ? false : true}
-        backgroundColor={submitSucceeded ? "#4CAF50" : null }
+        backgroundColor={submitSucceeded ? "#4CAF50" : backgroundColor }
         style={{ flex: '1 1 auto', margin: 4 }}
-        buttonStyle={{ ...style }}
+        buttonStyle={{ fontFamily }}
       />
     )
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardHeader, CardMedia } from 'material-ui/Card'
+import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import SuccessableButton from '../../components/buttons/SuccessableButton'
@@ -90,15 +90,6 @@ class AdminCardItem extends Component {
             />
           </div>
 
-          <div className="field-container">
-            <Field
-              name="header"
-              label="Card Header"
-              className="field"
-              type="text"
-              component={renderTextField}
-            />
-          </div>
           {!values.iFrame &&
             <ImageForm
               imageSpec={imageSpec}

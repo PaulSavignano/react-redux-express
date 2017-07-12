@@ -9,7 +9,6 @@ import { fetchUpdate } from '../../actions/brand'
 
 const fields = [
   'fontFamily',
-  'borderRadius',
   'primary1Color',
   'primary2Color',
   'primary3Color',
@@ -23,7 +22,6 @@ const fields = [
   'borderColor',
   'disabledColor',
   'pickerHeaderColor',
-  'clockCircleColor',
   'shadowColor',
 ]
 
@@ -44,6 +42,7 @@ class AdminTheme extends Component {
       fontFamily,
       handleSubmit,
       isFetching,
+      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -82,7 +81,7 @@ class AdminTheme extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="THEME"
-              style={{ fontFamily }}
+              style={{ fontFamily, backgroundColor: primary1Color }}
             />
           </div>
         </form>
@@ -99,7 +98,7 @@ const mapStateToProps = ({
   brand: {
     _id,
     isFetching,
-    theme,
+    theme
   }
 }) => ({
   _id,
@@ -109,7 +108,8 @@ const mapStateToProps = ({
   initialValues: {
     ...theme,
     ...theme.palette
-  }
+  },
+  primary1Color: theme.palette.primary1Color
 })
 
 AdminTheme = connect(mapStateToProps)(AdminTheme)

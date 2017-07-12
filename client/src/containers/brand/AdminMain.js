@@ -24,6 +24,7 @@ class AdminMain extends Component {
       fontFamily,
       handleSubmit,
       isFetching,
+      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -60,7 +61,7 @@ class AdminMain extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="MAIN"
-              style={{ fontFamily }}
+              style={{ fontFamily, backgroundColor: primary1Color }}
             />
           </div>
         </form>
@@ -78,14 +79,15 @@ const mapStateToProps = ({
     _id,
     isFetching,
     main: { styles },
-    theme: { palette: { canvasColor }, fontFamily }
+    theme: { fontFamily, palette: { canvasColor, primary1Color } }
   }
 }) => ({
   _id,
   backgroundColor: canvasColor,
   fontFamily,
   initialValues: styles,
-  isFetching
+  isFetching,
+  primary1Color
 })
 
 AdminMain = connect(mapStateToProps)(AdminMain)

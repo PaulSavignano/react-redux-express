@@ -13,26 +13,27 @@ import FooterContainer from './containers/footer/FooterContainer'
 injectTapEventPlugin()
 
 const App = ({
-  backgroundColor,
-  name,
-  description,
-  image,
+  appBar,
+  business,
+  children,
   isFetching,
   main,
   theme,
-  children,
   search
 }) => {
-  console.log(theme && theme.palette && theme.palette.canvasColor)
+  if(!isFetching) {
+    const body = document.getElementsByTagName('body')[0]
+    body.style['background-color'] = main.styles.backgroundColor
+  }
   return (
     !isFetching &&
-    <MuiThemeProvider muiTheme={getMuiTheme(theme) || null}>
-      <div style={{ backgroundColor }}>
+    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+      <div>
         <Helmet>
           <meta charSet="utf-8" />
-          {name && <title>{name}</title>}
-          {description && <meta name="description" content={description} />}
-          {image && <link rel="shortcut icon" href={image} />}
+          {business.name && <title>{business.name}</title>}
+          {business.description && <meta name="description" content={business.description} />}
+          {appBar.image && <link rel="shortcut icon" href={appBar.image.src} />}
           <link rel="canonical" href={window.location.hostname} />
         </Helmet>
         <CSSTransitionGroup
@@ -41,6 +42,7 @@ const App = ({
           transitionAppearTimeout={900}
           transitionEnter={false}
           transitionLeave={false}
+          style={{ display: 'flex', flexFlow: 'column', height: '100%' }}
         >
           <Header />
           <main>
@@ -57,17 +59,16 @@ const App = ({
 
 const mapStateToProps = ({
   brand: {
-    business: { name, description, image },
+    appBar,
+    business,
     isFetching,
     main,
     theme,
   },
   search
 }) => ({
-  backgroundColor: main.styles && main.styles.backgroundColor,
-  name,
-  description,
-  image,
+  appBar,
+  business,
   isFetching,
   main,
   theme,

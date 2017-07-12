@@ -106,7 +106,8 @@ class ImageForm extends Component {
   setEditorRef = (editor) => this.editor = editor
   render () {
     const { loading } = this.state
-    const { _id, deleteImage } = this.props
+    const { _id, deleteImage, style } = this.props
+    const fontFamily = style && style.fontFamily
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {this.state.editing &&
@@ -234,6 +235,7 @@ class ImageForm extends Component {
             labelPosition="before"
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4 }}
+            buttonStyle={{ fontFamily }}
             primary={true}
           >
             <input

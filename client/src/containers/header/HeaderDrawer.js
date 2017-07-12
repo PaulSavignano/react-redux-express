@@ -9,7 +9,6 @@ import { ListItem } from 'material-ui/List'
 import HeaderBrand from './HeaderBrand'
 import { toggleDrawer } from '../../actions/drawer'
 import * as brandActions from '../../actions/brand'
-import * as pageActions from '../../actions/pages'
 import SigninSignout from '../users/SigninSignout'
 
 const HeaderDrawer = ({

@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { Card, CardTitle } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
+import moment from 'moment'
 
 import formatPrice from '../../utils/formatPrice'
+import OrderCartList from './OrderCartList'
 
 class OrderItem extends Component {
   state = {
@@ -12,7 +14,16 @@ class OrderItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, order: { _id, cart: { total }}} = this.props
+    const {
+      dispatch,
+      order: {
+        _id,
+        cart: { items },
+        createdAt,
+        address: { name },
+        total
+      }
+    } = this.props
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -21,13 +32,27 @@ class OrderItem extends Component {
         onTouchTap={() => dispatch(push(`/user/orders/${_id}`))}
         className="cards"
       >
-        <CardTitle title={
-          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-            <div>Order {_id}</div>
+        <CardText style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+          <div>
+            <div>Order Placed</div>
+            <div>{moment(createdAt).format("YYYY-MM-DD, h:mm a")}</div>
+          </div>
+          <div>
+            <div>Total</div>
             <div>{formatPrice(total)}</div>
           </div>
-        }
-        />
+          <div>
+            <div>Ship To</div>
+            <div>{name}</div>
+          </div>
+          <div>
+            <div>Order #</div>
+            <div>{_id}</div>
+          </div>
+        </CardText>
+        <Card>
+          <OrderCartList items={items} />
+        </Card>
       </Card>
     )
   }

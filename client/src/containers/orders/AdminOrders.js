@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle } from 'material-ui/Card'
 
 import AdminOrderList from './AdminOrderList'
 

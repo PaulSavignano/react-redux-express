@@ -1,17 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import AppBar from 'material-ui/AppBar'
-import IconButton from 'material-ui/IconButton'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 
-import HeaderBrand from './HeaderBrand'
-import SearchBar from '../search/SearchBar'
 import SigninSignout from '../users/SigninSignout'
-import CartIcon from '../cart/CartIcon'
-import { searchToggle } from '../../actions/search'
 
 class HeaderUser extends Component {
   state = {
@@ -55,13 +49,15 @@ class HeaderUser extends Component {
   }
 }
 
-const mapStateToProps = ({ brand: { appBar: { styles }}, user: { values: { firstName }} }) => {
-  const color = styles ? styles.navColor : '#ffffff'
-  return {
-    color,
-    firstName
-  }
-}
+const mapStateToProps = ({
+  brand: {
+    appBar: { styles: { navColor } }
+  },
+  user: { values: { firstName }}
+}) => ({
+  color: navColor,
+  firstName
+})
 
 HeaderUser = connect(mapStateToProps)(HeaderUser)
 

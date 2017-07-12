@@ -9,6 +9,25 @@ import normalizePhone from '../../utils/normalizePhone'
 import normalizeZip from '../../utils/normalizeZip'
 import { fetchUpdate } from '../../actions/brand'
 
+const fields = [
+  'name',
+  'description',
+  'phone',
+  'email',
+  'street',
+  'city',
+  'state',
+  'zip',
+  'facebook',
+  'github',
+  'google',
+  'instagram',
+  'linkedin',
+  'twitter',
+  'yelp',
+  'youtube'
+]
+
 class AdminBusiness extends Component {
   state = {
     zDepth: 1
@@ -26,6 +45,7 @@ class AdminBusiness extends Component {
       fontFamily,
       handleSubmit,
       isFetching,
+      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -47,120 +67,17 @@ class AdminBusiness extends Component {
         >
           <CardTitle title="Business" />
           <div className="field-container">
-            <Field
-              name="name"
-              label="Brand Name"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="description"
-              label="Brand Description"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="phone"
-              label="Phone"
-              component={renderTextField}
-              normalize={normalizePhone}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="email"
-              label="Email"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="street"
-              label="Street"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="city"
-              label="City"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="state"
-              label="State"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="zip"
-              label="Zip"
-              component={renderTextField}
-              normalize={normalizeZip}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="facebook"
-              label="facebook"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="github"
-              label="github"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="google"
-              label="google"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="instagram"
-              label="instagram"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="linkedin"
-              label="linkedin"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="twitter"
-              label="twitter"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="yelp"
-              label="yelp"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="youtube"
-              label="youtube"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
+            {fields.map(field => (
+              <Field
+                key={field}
+                name={field}
+                label={field}
+                component={renderTextField}
+                normalize={field === 'phone' ? normalizePhone : field === 'zip' ? normalizeZip : null}
+                className="field"
+                style={{ fontFamily }}
+              />
+            ))}
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">
@@ -168,7 +85,7 @@ class AdminBusiness extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="BUSINESS"
-              style={{ fontFamily }}
+              style={{ fontFamily, backgroundColor: primary1Color }}
             />
           </div>
         </form>
@@ -186,7 +103,7 @@ const mapStateToProps = ({
     _id,
     business,
     isFetching,
-    theme: { fontFamily, palette: { canvasColor }}
+    theme: { fontFamily, palette: { canvasColor, primary1Color }}
   }
 }) => ({
   _id,
@@ -194,6 +111,7 @@ const mapStateToProps = ({
   initialValues: business,
   isFetching,
   fontFamily,
+  primary1Color
 })
 
 AdminBusiness = connect(mapStateToProps)(AdminBusiness)

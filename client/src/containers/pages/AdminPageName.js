@@ -12,18 +12,16 @@ import { fetchUpdate, fetchDelete } from '../../actions/pages'
 class AdminPageName extends Component {
   state = {
     zDepth: 1,
-    submitted: false,
     editing: false,
   }
-  componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, dirty } = nextProps
-    if (submitSucceeded) this.setState({ submitted: true, editing: false })
-    if (dirty) this.setState({ submitted: false, editing: true })
+  componentWillReceiveProps({ submitSucceeded, dirty }) {
+    if (submitSucceeded) this.setState({ editing: false })
+    if (dirty) this.setState({ editing: true })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { dispatch, error, handleSubmit, item, dirty } = this.props
+    const { dispatch, handleSubmit, item, dirty } = this.props
     const { _id, slug } = item
     return (
       <Card
@@ -34,7 +32,6 @@ class AdminPageName extends Component {
       >
         <form
           onBlur={handleSubmit((values) => {
-            console.log('bluring')
             if (dirty) return dispatch(fetchUpdate(_id, values))
           })}
           style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', padding: '8px 8px 16px 8px' }}
@@ -46,8 +43,6 @@ class AdminPageName extends Component {
             component={renderSuccessableTextField}
             style={{ flex: '1 1 auto', margin: '8px 8px 16px 8px' }}
           />
-
-
           <div>
             <RaisedButton
               onTouchTap={() => dispatch(push(`/admin/pages/${slug}`))}
@@ -65,7 +60,6 @@ class AdminPageName extends Component {
               primary={true}
             />
           </div>
-
         </form>
       </Card>
     )

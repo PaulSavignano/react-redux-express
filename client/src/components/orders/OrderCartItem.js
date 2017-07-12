@@ -25,7 +25,6 @@ class OrderCartItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    console.log(this.props)
     const { image, loading } = this.state
     const { dispatch, item: { productId, productQty, name, price, total }, isFetching } = this.props
     return (
@@ -42,7 +41,7 @@ class OrderCartItem extends Component {
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          onTouchTap={() => dispatch(push(`/products/${productId}`))}
+          onTouchTap={() => dispatch(push(`/products/product/${productId}`))}
           className="cards"
         >
           <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>

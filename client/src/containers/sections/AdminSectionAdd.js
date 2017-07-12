@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { fetchAdd } from '../../actions/sections'
 
 const AdminSectionAdd = ({ dispatch, page }) => (
-  <Card containerStyle={{ margin: '0 0 64px 0' }}>
+  <Card>
     <CardActions>
       <RaisedButton
         label="Add New Section"

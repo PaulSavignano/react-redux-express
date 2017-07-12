@@ -1,34 +1,73 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 
-import OrderCartList from './OrderCartList'
+import moment from 'moment'
 import formatPrice from '../../utils/formatPrice'
+import OrderCartList from './OrderCartList'
+
+const styles = {
+  orderDetail: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'space-between'
+  },
+  orderSummary: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'space-between'
+  },
+  details: {
+    margin: '8px 0'
+  }
+}
 
 const OrderDetail = ({
   order: {
     _id,
     cart: { items, subTotal, tax, total },
+    createdAt,
     address: { name, phone, street, city, state, zip }
   }
 }) => (
   <Paper className="section">
-    <h1>Order {_id}</h1>
-    <OrderCartList items={items} />
-    <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-      <div style={{ margin: 16 }}>
-        <div>Address</div>
-        <div>{name}</div>
-        <div>{phone}</div>
-        <div>{street}</div>
-        <div>{city}, {state} {zip}</div>
-      </div>
-      <div style={{ display: 'flex', flexFlow: 'column', alignItems: 'flex-end' }}>
-        <h2 style={{ margin: '16px 16px 4px 16px' }}>Subtotal {formatPrice(subTotal)}</h2>
-        <h2 style={{ margin: '4px 16px' }}>Tax {(tax * 100).toFixed(2)}%</h2>
-        <h2 style={{ margin: '4px 16px' }}>Total {formatPrice(total)}</h2>
+    <div style={{ margin: 16 }}>
+      <h1>Order Detail</h1>
+      <div style={styles.orderDetail}>
+        <div>{`Ordered On ${moment(createdAt).format("dddd, MMMM Do YYYY, h:mm a")}`}</div>
+        <div>{`Order #${_id}`}</div>
       </div>
     </div>
+
+    <div style={{...styles.orderDetail, margin: 16 }}>
+      <div>
+        <strong>Address</strong>
+        <div style={styles.details}>
+          <div>{name}</div>
+          <div>{phone}</div>
+          <div>{street}</div>
+          <div>{city}, {state} {zip}</div>
+        </div>
+      </div>
+      <div>
+        <strong>Order Summary</strong>
+        <div style={styles.details}>
+          <div style={styles.orderSummary}>
+            <div>Subtotal:</div>
+            <div>{subTotal}</div>
+          </div>
+          <div style={styles.orderSummary}>
+            <div>Tax:</div>
+            <div>{(tax * 100).toFixed(2)}</div>
+          </div>
+          <div style={{...styles.orderSummary, ...styles.details}}>
+            <strong>Total:</strong>
+            <strong>{formatPrice(total)}</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <OrderCartList items={items} />
   </Paper>
 )
 

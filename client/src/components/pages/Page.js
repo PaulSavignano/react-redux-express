@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import Cart from '../../containers/cart/Cart'
 import Contact from '../../containers/users/Contact'

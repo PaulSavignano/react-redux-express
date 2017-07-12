@@ -34,6 +34,7 @@ class AdminFooter extends Component {
       image,
       imageSpec,
       isFetching,
+      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -55,6 +56,7 @@ class AdminFooter extends Component {
             editing={this.editing}
             deleteImage={this.deleteImage}
             ref={this.setEditorRef}
+            style={{ fontFamily }}
           />
         </CardMedia>
         <form onSubmit={handleSubmit((values) => {
@@ -78,6 +80,13 @@ class AdminFooter extends Component {
             <Field
               name="color"
               label="color"
+              component={renderTextField}
+              className="field"
+              style={{ fontFamily }}
+            />
+            <Field
+              name="borderTop"
+              label="borderTop"
               component={renderTextField}
               className="field"
               style={{ fontFamily }}
@@ -107,7 +116,7 @@ class AdminFooter extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               label="FOOTER"
-              style={{ fontFamily }}
+              style={{ fontFamily, backgroundColor: primary1Color }}
             />
           </div>
         </form>
@@ -125,7 +134,7 @@ const mapStateToProps = ({
     _id,
     footer: { image, styles },
     isFetching,
-    theme: { palette: { canvasColor }, fontFamily }
+    theme: { fontFamily, palette: { canvasColor, primary1Color } }
   }
 }) => ({
   _id,
@@ -134,6 +143,7 @@ const mapStateToProps = ({
   backgroundColor: canvasColor,
   fontFamily,
   initialValues: styles,
+  primary1Color
 })
 
 AdminFooter = connect(mapStateToProps)(AdminFooter)

@@ -19,7 +19,6 @@ const CardSchema = new Schema({
     zDepth: { type: Number, default: 1 },
     margin: { type: String, trim: true },
     backgroundColor: { type: String, trim: true },
-    header: { type: String, trim: true },
     iFrame: { type: String, trim: true },
     text: { type: String, trim: true },
     link: { type: String, trim: true },

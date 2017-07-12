@@ -17,11 +17,12 @@ const imageSpec = {
 const AdminBrand = () => {
   return (
     <section>
-      <AdminBusiness /><br/><br/>
-      <AdminAppBar imageSpec={imageSpec} /><br/><br/>
-      <AdminMain /><br/><br/>
-      <AdminTheme /><br/><br/>
-      <AdminFooter imageSpec={imageSpec} /><br/><br/><br/><br/>
+      <br/>
+      <AdminBusiness /><br/>
+      <AdminAppBar imageSpec={imageSpec} /><br/>
+      <AdminMain /><br/>
+      <AdminTheme /><br/>
+      <AdminFooter imageSpec={imageSpec} /><br/>
     </section>
   )
 }

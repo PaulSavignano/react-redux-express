@@ -34,16 +34,19 @@ class HeaderBrand extends Component {
   }
 }
 
-const mapStateToProps = ({ brand: { appBar: { image, styles }, business }}) => {
-  const fontFamily = styles && styles.brandFontFamily
-  const color = styles ? styles.brandColor : '#ffffff'
-  const name = business.name || 'Brand'
-  return {
-    image,
-    name,
-    fontFamily,
-    color
+const mapStateToProps = ({
+  brand: {
+    appBar: {
+      image,
+      styles: { brandFontFamily, brandColor }
+    },
+    business: { name }
   }
-}
+}) => ({
+  image,
+  name: name || 'Brand',
+  fontFamily: brandFontFamily,
+  color: brandColor
+})
 
 export default connect(mapStateToProps)(HeaderBrand)
