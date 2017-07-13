@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card } from 'material-ui/Card'
+import { Card, CardTitle } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import SuccessableButton from '../../components/buttons/SuccessableButton'
@@ -27,55 +27,41 @@ const validate = values => {
   return errors
 }
 
-class ProfileForm extends Component {
-  state = {
-    zDepth: 1,
-  }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
-  render() {
-    const { dispatch, error, handleSubmit, isFetching, submitSucceeded, submitting } = this.props
-    return (
-      !isFetching &&
-      <Card
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        className="cards"
-      >
-        <form onSubmit={handleSubmit(values => {
-          const update = { type: 'UPDATE_VALUES', values}
-          return dispatch(fetchUpdate(update))
-        })}
-        >
-          <div className="field-container">
-            <Field name="firstName" component={renderTextField} label="First Name" className="field" />
-            <Field name="lastName" component={renderTextField} label="Last Name" className="field" />
-            <Field name="email" component={renderTextField} label="Email" className="field" />
-            <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
-            <Field name="password" component={renderTextField} label="Password" type="password" className="field" />
-            <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" className="field"/>
+const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceeded, submitting }) => (
+  !isFetching &&
+  <Card>
+    <CardTitle title="Profile" />
+    <form onSubmit={handleSubmit(values => {
+      const update = { type: 'UPDATE_VALUES', values}
+      return dispatch(fetchUpdate(update))
+    })}
+    >
+      <div className="field-container">
+        <Field name="firstName" component={renderTextField} label="First Name" className="field" />
+        <Field name="lastName" component={renderTextField} label="Last Name" className="field" />
+        <Field name="email" component={renderTextField} label="Email" className="field" />
+        <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
+        <Field name="password" component={renderTextField} label="Password" type="password" className="field" />
+        <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" className="field"/>
 
-          </div>
-          {error && <div className="error">{error}</div>}
-          <div className="button-container">
-            <SuccessableButton
-              submitSucceeded={submitSucceeded}
-              submitting={submitting}
-              label="USER"
-            />
-            <RaisedButton
-              type="button"
-              label="Delete Account"
-              className="button delete-button"
-              onTouchTap={() => dispatch(fetchDelete())}
-            />
-          </div>
-        </form>
-      </Card>
-    )
-  }
-}
+      </div>
+      {error && <div className="error">{error}</div>}
+      <div className="button-container">
+        <SuccessableButton
+          submitSucceeded={submitSucceeded}
+          submitting={submitting}
+          label="USER"
+        />
+        <RaisedButton
+          type="button"
+          label="Delete Account"
+          className="button delete-button"
+          onTouchTap={() => dispatch(fetchDelete())}
+        />
+      </div>
+    </form>
+  </Card>
+)
 
 export default compose(
   connect(({ user: { isFetching, values }}) => ({

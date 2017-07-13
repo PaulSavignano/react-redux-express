@@ -50,9 +50,7 @@ class OrderItem extends Component {
             <div>{_id}</div>
           </div>
         </CardText>
-        <Card>
-          <OrderCartList items={items} />
-        </Card>
+        <OrderCartList items={items} />
       </Card>
     )
   }

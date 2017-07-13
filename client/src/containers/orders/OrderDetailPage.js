@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import OrderDetail from '../../components/orders/OrderDetail'
 
 const OrderDetailPage = ({ isFetching, order }) => (
-  !isFetching && <OrderDetail order={order} />
+  !isFetching && <div><br/><OrderDetail order={order} /></div>
 )
 
 const mapStateToProps = ({

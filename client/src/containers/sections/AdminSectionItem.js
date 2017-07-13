@@ -14,6 +14,7 @@ import renderTextField from '../../components/fields/renderTextField'
 import renderSelectField from '../../components/fields/renderSelectField'
 import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import AdminCardItem from '../cards/AdminCardItem'
+import AdminContact from '../users/AdminContact'
 import AdminProductItem from '../products/AdminProductItem'
 import AdminSlideItem from '../slides/AdminSlideItem'
 import * as cardActions from '../../actions/cards'
@@ -42,6 +43,14 @@ class AdminSectionItem extends Component {
     const componentList = (component) => {
       const { componentId } = component
       switch(component.type) {
+        case 'Contact':
+          return (
+            <AdminContact
+              key={component._id}
+              sectionId={this.props.section._id}
+              componentId={componentId}
+            />
+          )
         case 'Card':
           return (
             <AdminCardItem
@@ -143,7 +152,12 @@ class AdminSectionItem extends Component {
             <Field
               name="padding"
               label="Text Container Padding (px)"
-              type="text"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="flexFlow"
+              label="Component flexFlow"
               className="field"
               component={renderTextField}
             />
@@ -211,6 +225,14 @@ class AdminSectionItem extends Component {
                 onTouchTap={() => {
                   const add = { pageId: page._id, sectionId: section._id }
                   dispatch(productActions.fetchAdd(add))
+                  this.setState({ openMenu: false })
+                }}
+              />
+              <MenuItem
+                primaryText="Add Contact Form"
+                onTouchTap={() => {
+                  const add = { type: 'ADD_CONTACT_FORM' }
+                  dispatch(fetchUpdate(section._id, add))
                   this.setState({ openMenu: false })
                 }}
               />

@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Cart from '../../containers/cart/Cart'
-import Contact from '../../containers/users/Contact'
 import SectionList from '../../containers/sections/SectionList'
 import NotFound from '../../components/NotFound'
 
@@ -12,13 +11,11 @@ const Page = ({ items, slug }) => {
     (() => {
       switch (pageSlug) {
         case 'notFound':
-            return <NotFound />
-        case 'contact':
-            return <Contact />
+          return <NotFound />
         case 'cart':
-            return <Cart />
+          return <Cart />
         default:
-            return <SectionList page={page} />
+          return <SectionList page={page} />
         }
     })()
   )

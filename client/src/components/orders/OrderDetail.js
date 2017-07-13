@@ -1,5 +1,5 @@
 import React from 'react'
-import Paper from 'material-ui/Paper'
+import { Card, CardText } from 'material-ui/Card'
 
 import moment from 'moment'
 import formatPrice from '../../utils/formatPrice'
@@ -29,16 +29,16 @@ const OrderDetail = ({
     address: { name, phone, street, city, state, zip }
   }
 }) => (
-  <Paper className="section">
-    <div style={{ margin: 16 }}>
+  <Card className="section">
+    <CardText>
       <h1>Order Detail</h1>
       <div style={styles.orderDetail}>
         <div>{`Ordered On ${moment(createdAt).format("dddd, MMMM Do YYYY, h:mm a")}`}</div>
         <div>{`Order #${_id}`}</div>
       </div>
-    </div>
+    </CardText>
 
-    <div style={{...styles.orderDetail, margin: 16 }}>
+    <CardText style={styles.orderDetail}>
       <div>
         <strong>Address</strong>
         <div style={styles.details}>
@@ -52,8 +52,8 @@ const OrderDetail = ({
         <strong>Order Summary</strong>
         <div style={styles.details}>
           <div style={styles.orderSummary}>
-            <div>Subtotal:</div>
-            <div>{subTotal}</div>
+            <div style={{ marginRight: 16 }}>Subtotal:</div>
+            <div>{formatPrice(subTotal)}</div>
           </div>
           <div style={styles.orderSummary}>
             <div>Tax:</div>
@@ -64,11 +64,12 @@ const OrderDetail = ({
             <strong>{formatPrice(total)}</strong>
           </div>
         </div>
-
       </div>
-    </div>
-    <OrderCartList items={items} />
-  </Paper>
+    </CardText>
+    <CardText>
+      <OrderCartList items={items} />
+    </CardText>
+  </Card>
 )
 
 

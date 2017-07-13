@@ -3,6 +3,7 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 
 import CardItemContainer from '../../containers/cards/CardItemContainer'
+import ContactForm  from '../../containers/users/ContactForm'
 import ProductItemContainer from '../../containers/products/ProductItemContainer'
 import SlideList from '../slides/SlideList'
 
@@ -25,6 +26,8 @@ class SectionItem extends Component {
     const componentList = (component) => {
       const { type, componentId } = component
       switch(type) {
+        case 'Contact':
+          return <ContactForm key={component._id} componentId={componentId}  />
         case 'Card':
           return <CardItemContainer key={component._id} componentId={componentId}  />
         case 'Product':
@@ -43,7 +46,8 @@ class SectionItem extends Component {
     const backgroundColor = values.backgroundColor || null
     const margin = values.margin || null
     const padding = values.padding || null
-    const backgrounds = section.image ? {
+    const flexFlow = values.flexFlow || 'row wrap'
+    const backgrounds = section.image && {
       backgroundImage: `url(${section.image.src})`,
       backgroundAttachment: values.backgroundAttachment,
       transition: 'opacity .9s ease-in-out',
@@ -51,20 +55,21 @@ class SectionItem extends Component {
       backgroundRepeat:  'no-repeat',
       backgroundSize:  'cover',
       zIndex: -1
-    } : null
+    }
     return (
       <div style={{
         height,
         ...backgrounds,
-        backgroundColor,
         overflow: 'hidden',
       }}>
-        <section style={{ margin, padding }}>
-          {text && <div className="cards">{renderHTML(text)}</div>}
-        </section>
-        <div>
+        {text && text.length > 8 &&
+          <section style={{ margin, padding }}>
+            <div>{renderHTML(text)}</div>
+          </section>
+        }
+        <section style={{ display: 'flex', flexFlow, backgroundColor }}>
           {this.renderComponents(section.components)}
-        </div>
+        </section>
         { slides.length ? <SlideList slides={slides} /> : null }
       </div>
     )

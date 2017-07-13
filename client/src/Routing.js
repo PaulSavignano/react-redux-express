@@ -14,7 +14,6 @@ import AdminPageEdit from './containers/pages/AdminPageEdit'
 
 // User
 import Cart from './containers/cart/Cart'
-import Contact from './containers/users/Contact'
 import RequireAuth from './containers/users/RequireAuth'
 import Signup from './containers/users/Signup'
 import Signin from './containers/users/Signin'
@@ -30,8 +29,8 @@ import ProductPage from './containers/products/ProductPage'
 import OrderAdd from './containers/orders/OrderAdd'
 import OrderConfirmation from './containers/orders/OrderConfirmation'
 import OrderDetailPage from './containers/orders/OrderDetailPage'
-import AdminOrders from './containers/orders/AdminOrders'
-import AdminOrderDetailPage from './containers/orders/AdminOrderDetailPage'
+import AdminOrderList from './containers/orders/AdminOrderList'
+import AdminOrderDetail from './containers/orders/AdminOrderDetail'
 
 import NotFound from './components/NotFound'
 
@@ -49,7 +48,6 @@ const Routing = ({ history }) => (
       {/* Page */}
       <IndexRoute component={PageContainer} />
       <Route path=":slug" component={PageContainer} />
-      <Route path="contact" component={Contact} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
       <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
 
@@ -73,8 +71,8 @@ const Routing = ({ history }) => (
       <Route path="products/:product/:productId" component={ProductPage} />
 
       {/* Orders */}
-      <Route path="admin/orders" component={RequireAuth(AdminOrders, ['admin'])} />
-      <Route path="admin/orders/:orderId" component={RequireAuth(AdminOrderDetailPage, ['admin'])} />
+      <Route path="admin/orders" component={RequireAuth(AdminOrderList, ['admin'])} />
+      <Route path="admin/orders/:orderId" component={RequireAuth(AdminOrderDetail, ['admin'])} />
 
       <Route path='*' component={NotFound} />
     </Route>

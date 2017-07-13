@@ -22,7 +22,8 @@ const SectionSchema = new Schema({
     backgroundAttachment: { type: String, trim: true },
     text: { type: String },
     margin: { type: String, trim: true },
-    padding: { type: String, trim: true }
+    padding: { type: String, trim: true },
+    flexFlow: { type: String, trim: true }
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },

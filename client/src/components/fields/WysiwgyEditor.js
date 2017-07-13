@@ -54,6 +54,12 @@ class WysiwgyEditor extends Component {
     const editorStyle = {
       border: '3px solid #F1F1F1',
     }
+    const fonts = [
+      fontFamily,
+      brandFontFamily,
+      'Dancing Script, cursive',
+      'Futura, sans-serif'
+    ]
     return (
       !isFetching &&
         <Editor
@@ -67,7 +73,7 @@ class WysiwgyEditor extends Component {
           wrapperStyle={{ border: `2px solid ${borderColor}` }}
           toolbar={{
             fontFamily: {
-              options: [ fontFamily, brandFontFamily ],
+              options: fonts.filter((value, index, self) =>  self.indexOf(value) === index).sort(),
             },
             colorPicker: { colors },
             inline: { inDropdown: true },

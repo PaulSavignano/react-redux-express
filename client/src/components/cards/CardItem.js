@@ -36,7 +36,7 @@ class CardItem extends Component {
       >
         {header && <CardHeader title={header} style={{ color }} />}
         {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
-        {iFrame ?
+        {iFrame &&
           <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
             <iframe
               title="iFrame"
@@ -44,7 +44,7 @@ class CardItem extends Component {
               src={iFrame} frameBorder="0" allowFullScreen>
             </iframe>
           </div>
-        : null}
+        }
         {text && <CardText>{renderHTML(text)}</CardText> }
       </CSSTransitionGroup>
     )

@@ -11,6 +11,7 @@ import { fetchUpdate } from '../../actions/orders'
 
 const AdminOrderDetail = ({
   dispatch,
+  isFetching,
   order: {
     _id,
     cart: { items, subTotal, tax, total },
@@ -19,7 +20,8 @@ const AdminOrderDetail = ({
   },
   handleSubmit
  }) => (
-  <Card className="section">
+   !isFetching &&
+  <Card>
     <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between', margin: 16, alignItems: 'center'}}>
       <CardTitle title={`Order ${_id}`} />
       <RaisedButton
@@ -53,7 +55,16 @@ const AdminOrderDetail = ({
   </Card>
 )
 
-export default compose(connect((state, { order }) => ({
-  form: `order_${order._id}`
-})),
+const mapStateToProps = ({
+  orders: { items, isFetching }
+}, {
+  params: { orderId }
+}) => ({
+  isFetching,
+  form: `order_${orderId}`,
+  order: items.find(item => item._id === orderId),
+  orderId
+})
+
+export default compose(connect(mapStateToProps),
 reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminOrderDetail)

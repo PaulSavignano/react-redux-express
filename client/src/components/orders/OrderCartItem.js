@@ -35,14 +35,12 @@ class OrderCartItem extends Component {
         transitionAppearTimeout={900}
         transitionEnter={false}
         transitionLeave={false}
-        style={{ flex: '1 1 auto' }}
       >
         <Card
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           onTouchTap={() => dispatch(push(`/products/product/${productId}`))}
-          className="cards"
         >
           <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
             {image && <img src={image} alt="" width="auto" height="100px"/>}
@@ -53,12 +51,12 @@ class OrderCartItem extends Component {
               justifyContent: 'space-between',
               flex: '1 1 auto',
             }}>
-              <span style={{ flex: '3 3 auto', minWidth: 200, fontSize: '1.5rem', margin: 16 }}>{name}</span>
-              <span style={{ flex: '1 1 auto', fontSize: '1.5rem', textAlign: 'right', margin: 16, width: 75 }}>{formatPrice(price)}</span>
-              <span style={{ flex: '1 1 auto', fontSize: '1.5rem', textAlign: 'right', margin: 16, width: 75 }}>
+              <span style={{ flex: '1 1 auto', fontSize: '1rem', margin: 16 }}>{name}</span>
+              <span style={{ flex: '1 1 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>{formatPrice(price)}</span>
+              <span style={{ flex: '1 1 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>
                 {productQty}
               </span>
-              <span style={{ flex: '1 1 auto', textAlign: 'right', fontSize: '1.5rem', width: 75, margin: 16 }}>{formatPrice(total)}</span>
+              <span style={{ flex: '1 1 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>{formatPrice(total)}</span>
             </div>
           </div>
         </Card>

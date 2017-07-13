@@ -10,31 +10,12 @@
   }
 }
 
-html {
-  height: 100%;
-  box-sizing: border-box
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
 
 
 /* Body */
 body {
   margin: 0;
-  position: relative;
-  min-height: 100%;
-  padding-bottom: 7rem;
 }
-
-
-main {
-  height: 100%;
-}
-
 
 section {
   margin: 0 auto;
@@ -59,10 +40,6 @@ section {
 
 /* Footer */
 footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   text-align: center;
 }
 .social-media {

@@ -56,7 +56,7 @@ sections.get('/:_id', (req, res) => {
 sections.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, pageId, image, values } = req.body
+  const { componentId, type, pageId, image, values } = req.body
   const Key = `${s3Path}${_id}`
   switch (type) {
 
@@ -114,10 +114,42 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
         })
       break
 
+    case 'ADD_CONTACT_FORM':
+      Section.findOneAndUpdate({ _id }, {
+        $push: {
+          components: {
+            componentId: new ObjectID(),
+            type: 'Contact'
+          }
+        }
+      }, { new: true })
+        .then(doc => res.send(doc))
+        .catch(err => {
+          console.error(err)
+          res.status(400).send()
+        })
+      break
+
+    case 'DELETE_CONTACT_FORM':
+      Section.findOneAndUpdate({ _id }, {
+        $pull: {
+          components: {
+            componentId,
+          }
+        }
+      }, { new: true })
+        .then(doc => res.send(doc))
+        .catch(err => {
+          console.error(err)
+          res.status(400).send()
+        })
+      break
+
     default:
       return
   }
 })
+
 
 
 

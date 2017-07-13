@@ -22,8 +22,8 @@ class SuccessableButton extends Component {
   }
   render() {
     const { submitting, label, style } = this.props
-    const backgroundColor = style && style.backgroundColor
-    const fontFamily = style && style.fontFamily
+    const backgroundColor = style ? style.backgroundColor : null
+    const fontFamily = style ? style.fontFamily : 'inherit'
     const { submitSucceeded } = this.state
     return (
       <RaisedButton

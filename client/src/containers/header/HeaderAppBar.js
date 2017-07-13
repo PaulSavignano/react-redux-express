@@ -47,12 +47,6 @@ const HeaderAppBar = ({
                   hoverColor="none"
                 />
               ))}
-              <FlatButton
-                style={{ color: path === `/contact` ? activeColor : color }}
-                onTouchTap={() => dispatch(push(`/contact`))}
-                label="Contact"
-                hoverColor="none"
-              />
             </span>
             <IconButton
               iconClassName="fa fa-search"
