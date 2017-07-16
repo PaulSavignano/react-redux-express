@@ -5,6 +5,15 @@ const cards = (state = {
   items: []
 }, action) => {
   switch (action.type) {
+    case `STOP_EDIT_${type}`:
+    console.log('hitting stop')
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action._id ?
+          { ...item, editing: false } :
+          item
+        )
+      }
     case `REQUEST_${type}S`:
       return {
         ...state,

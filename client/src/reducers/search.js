@@ -8,11 +8,13 @@ const search = (state = {
     case `TOGGLE_${type}`:
       return {
         ...state,
-        searching: action.searching
+        searching: action.searching,
+        value: null
       }
     case `ADD_${type}`:
       return {
         ...state,
+        searching: true,
         value: action.value
       }
     case `DELETE_${type}`:

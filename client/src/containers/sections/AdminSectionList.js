@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import AdminSectionItem from './AdminSectionItem'
+import AdminSectionAdd from './AdminSectionAdd'
 
 const AdminSectionList = ({ isFetching, sections, page, imageSpec }) => (
   !isFetching &&
@@ -9,11 +10,12 @@ const AdminSectionList = ({ isFetching, sections, page, imageSpec }) => (
     {sections.map(section => (
       <AdminSectionItem
         key={section._id}
-        section={section}
+        item={section}
         page={page}
         imageSpec={imageSpec}
       />
     ))}
+    <AdminSectionAdd page={page} />
   </div>
 )
 

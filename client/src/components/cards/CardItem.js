@@ -76,9 +76,8 @@ class CardItem extends Component {
       <Card
         className="cards"
         zDepth={zDepth}
-        style={{
-          ...cardStyle
-        }}
+        style={{ ...cardStyle }}
+        onTouchTap={() => console.log('card')}
       >
         {this.renderContents()}
       </Card>

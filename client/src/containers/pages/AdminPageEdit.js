@@ -1,13 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminSections from '../../components/sections/AdminSections'
+import AdminSectionList from '../sections/AdminSectionList'
 
 const AdminPageEdit = ({ isFetching, page }) => (
-  !isFetching &&
-  <section>
-    <AdminSections page={page} />
-  </section>
+  !isFetching && <AdminSectionList page={page} />
 )
 
 const mapStateToProps = ({ pages }, { params }) => {

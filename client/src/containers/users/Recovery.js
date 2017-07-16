@@ -48,20 +48,20 @@ class Recovery extends Component {
             </CardText>
             {error && <div className="error">{error}</div>}
             {!this.state.open ? null :
-              <Dialog
-                actions={
-                  <FlatButton
-                    label="Close"
-                    primary={true}
-                    onTouchTap={this.handleClose}
-                  />
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
-              >
-                An email has been sent to {this.state.email}
-              </Dialog>
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={this.handleClose}
+                />
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              An email has been sent to {this.state.email}
+            </Dialog>
             }
             <CardActions>
               <RaisedButton

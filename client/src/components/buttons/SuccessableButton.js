@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { submit } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
@@ -21,13 +23,13 @@ class SuccessableButton extends Component {
     return <div key={3} style={{ color: '#ffffff' }}>UPDATE {label}</div>
   }
   render() {
-    const { submitting, label, style } = this.props
+    const { submitting, label, style, dispatch, form } = this.props
     const backgroundColor = style ? style.backgroundColor : null
     const fontFamily = style ? style.fontFamily : 'inherit'
     const { submitSucceeded } = this.state
     return (
       <RaisedButton
-        type="submit"
+        onTouchTap={() => dispatch(submit(form))}
         children={this.renderLabel(submitting, submitSucceeded, label)}
         primary={submitSucceeded ? false : true}
         backgroundColor={submitSucceeded ? "#4CAF50" : backgroundColor }
@@ -38,4 +40,4 @@ class SuccessableButton extends Component {
   }
 }
 
-export default SuccessableButton
+export default connect()(SuccessableButton)

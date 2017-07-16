@@ -36,16 +36,16 @@ class ImageForm extends Component {
     loading: false
   }
   componentWillMount() {
-    const { image, imageSpec } = this.props
-    if (image) {
-      const { src, width, height } = image
-      this.setState({ src, width, height })
+    console.log(this.props)
+    const { image } = this.props
+    if (image.src) {
+      this.setState({ src: image.src, width: image.width, height: image.height })
     } else {
-      this.setState({ width: imageSpec.width, height: imageSpec.height })
+      this.setState({ width: image.width, height: image.height })
     }
   }
   handleSave = () => {
-    const { type } = this.props.imageSpec
+    const { type } = this.props
     const image = {
       src: this.editor.getImageScaledToCanvas().toDataURL(type, 1),
       width: this.state.width,
@@ -101,7 +101,7 @@ class ImageForm extends Component {
       }
       reader.readAsDataURL(file)
     }
-    this.props.editing(true)
+    this.props.onEdit(true)
   }
   setEditorRef = (editor) => this.editor = editor
   render () {
@@ -220,6 +220,14 @@ class ImageForm extends Component {
                   floatingLabelText="Height"
                   type="number"
                   value={this.state.height}
+                  style={{ flex: '1 1 auto', margin: '0 8px' }}
+                  onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
+                />
+                <TextField
+                  hintText="Zoom"
+                  floatingLabelText="Zoom"
+                  type="number"
+                  defaultValue="1"
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
                   onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
                 />

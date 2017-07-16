@@ -10,13 +10,13 @@ const CardSchema = new Schema({
   slug: { type: String },
   image: {
     src: { type: String },
-    width: { type: Number },
-    height: { type: Number }
+    width: { type: Number, trim: true, default: 1012 },
+    height: { type: Number, trim: true, default: 675 }
   },
   values: {
     width: { type: Number },
     maxWidth: { type: Number },
-    zDepth: { type: Number, default: 1 },
+    zDepth: { type: Number, default: null },
     margin: { type: String, trim: true },
     backgroundColor: { type: String, trim: true },
     iFrame: { type: String, trim: true },

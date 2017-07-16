@@ -13,8 +13,8 @@ class SectionItem extends Component {
     loading: false
   }
   componentDidMount() {
-    const { image } = this.props.section
-    if (image) {
+    const { image } = this.props.item
+    if (image.src) {
       this.setState({ loading: true })
       const img = new Image()
       const src = image.src
@@ -38,18 +38,17 @@ class SectionItem extends Component {
     }
     return components.map(component => componentList(component))
   }
-  renderContents = (section) => {
-    const slides = section.components.filter(value => value.type === 'Slide')
-    const values = section.values || {}
+  renderContents = (item) => {
+    const slides = item.components.filter(value => value.type === 'Slide')
+    const values = item.values || {}
     const text = values.text || null
     const height = values.height || null
     const backgroundColor = values.backgroundColor || null
     const margin = values.margin || null
     const padding = values.padding || null
     const flexFlow = values.flexFlow || 'row wrap'
-    const backgrounds = section.image && {
-      backgroundImage: `url(${section.image.src})`,
-      backgroundAttachment: values.backgroundAttachment,
+    const backgrounds = this.state.image && {
+      backgroundImage: `url(${item.image.src})`,
       transition: 'opacity .9s ease-in-out',
       backgroundPosition: 'center center',
       backgroundRepeat:  'no-repeat',
@@ -57,18 +56,16 @@ class SectionItem extends Component {
       zIndex: -1
     }
     return (
-      <div style={{
-        height,
-        ...backgrounds,
-        overflow: 'hidden',
-      }}>
+      <div
+        style={{ height, ...backgrounds, overflow: 'hidden' }}
+      >
         {text && text.length > 8 &&
           <section style={{ margin, padding }}>
             <div>{renderHTML(text)}</div>
           </section>
         }
         <section style={{ display: 'flex', flexFlow, backgroundColor }}>
-          {this.renderComponents(section.components)}
+          {this.renderComponents(item.components)}
         </section>
         { slides.length ? <SlideList slides={slides} /> : null }
       </div>
@@ -76,7 +73,7 @@ class SectionItem extends Component {
   }
   render() {
     const { image, loading } = this.state
-    const { section } = this.props
+    const { item } = this.props
     return (
       !loading && image ?
       <CSSTransitionGroup
@@ -86,11 +83,11 @@ class SectionItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        {this.renderContents(section)}
+        {this.renderContents(item)}
       </CSSTransitionGroup>
       :
       <div>
-        {this.renderContents(section)}
+        {this.renderContents(item)}
       </div>
     )
   }

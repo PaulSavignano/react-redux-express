@@ -11,7 +11,7 @@ const SectionList = ({ isFetching, sections }) => {
       {sections.map(section => (
         <SectionItem
           key={section._id}
-          section={section}
+          item={section}
         />
       ))}
     </div>

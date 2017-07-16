@@ -5,17 +5,20 @@ import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import { searchToggle, searchAdd } from '../../actions/search'
 
-const SearchBar = ({ dispatch, brand, search, handleSearch }) => (
+const SearchBar = ({ color, dispatch, search, handleSearch, isFetching }) => (
+  !isFetching &&
   <span style={{ width: '100%'}}>
     <IconButton
       iconClassName="fa fa-search"
-      iconStyle={{ fontSize: 18, color: brand.appBar.styles.navColor }}
+      iconStyle={{ fontSize: 16, color }}
       onTouchTap={() => handleSearch()}
     />
     <TextField
       autoFocus
       onBlur={() => dispatch(searchToggle(!search.searching))}
       style={{ flex: '1 1 auto' }}
+      inputStyle={{ WebkitTextFillColor: color }}
+      underlineFocusStyle={{ borderColor: color }}
       hintText="SEARCH"
       fullWidth={true}
       value={search.value}
@@ -24,8 +27,15 @@ const SearchBar = ({ dispatch, brand, search, handleSearch }) => (
   </span>
 )
 
-const mapStateToProps = ({ brand, search }) => ({
-  brand,
+const mapStateToProps = ({
+  brand: {
+    isFetching,
+    appBar: { styles: { navColor }}
+  },
+  search
+}) => ({
+  isFetching,
+  color: navColor,
   search
 })
 
