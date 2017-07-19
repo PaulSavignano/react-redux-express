@@ -9,8 +9,8 @@ import { startEdit } from '../../actions/slides'
 class AdminSlideListNew extends Component {
   state = {
     index: 0,
-    editIndex: null,
     intervalId: null,
+    editItem: null,
     play: true,
     rtBtnColor: 'rgba(0, 0, 0, .1)',
     ltBtnColor: 'rgba(0, 0, 0, .1)'
@@ -19,11 +19,15 @@ class AdminSlideListNew extends Component {
     this.start()
   }
   componentWillReceiveProps(nextProps) {
-    if (this.state.editIndex) {
-      if (nextProps.items[this.state.editIndex].editing !== this.props.items[this.state.editIndex].editing ) {
-        this.setState({ editIndex: null })
-        this.start()
-      }
+    const editItem = nextProps.items.find(item => item.editing === true)
+    console.log(editItem)
+    if (editItem) {
+      this.stop()
+      this.setState({ editItem })
+    }
+    if (!this.state.intervalId && !editItem) {
+      this.start()
+      this.setState({ editItem: null })
     }
   }
   componentWillUnmount() {
@@ -31,7 +35,7 @@ class AdminSlideListNew extends Component {
   }
   handleNext = () => {
     this.stop()
-    const nextIndex = this.state.index + 1 < this.props.items.length -1  ? this.state.index + 1 : 0
+    const nextIndex = this.state.index + 1 < this.props.items.length  ? this.state.index + 1 : 0
     this.setState({ index: nextIndex })
     this.start()
   }
@@ -59,7 +63,6 @@ class AdminSlideListNew extends Component {
   }
   handleEdit = (_id) => {
     this.stop()
-    this.setState({ editIndex: this.state.index })
     this.props.dispatch(startEdit(_id))
   }
   renderIndicators = (items) => items.map((item, index) => (
@@ -73,7 +76,7 @@ class AdminSlideListNew extends Component {
     const { src, width, height } = item.image
     const values = item.values || {}
     return (
-      <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer' }}>
+      <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer', height: '100%' }}>
         {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide"/></div>}
         <Card
           zDepth={0}
@@ -85,7 +88,6 @@ class AdminSlideListNew extends Component {
               {values.text}
             </CardText>
           }
-          {item.editing && <AdminSlideEdit item={item} />}
         </Card>
       </div>
     )
@@ -142,6 +144,7 @@ class AdminSlideListNew extends Component {
         <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between', width: items[0].image.width, margin: '0 auto', padding: '24px 0' }}>
           {this.renderIndicators(items)}
         </div>
+        {this.state.editItem && <AdminSlideEdit item={this.state.editItem} />}
       </div>
     )
   }
