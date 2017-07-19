@@ -5,6 +5,23 @@ const sections = (state = {
   items: []
 }, action) => {
   switch (action.type) {
+    case `START_EDIT_${type}`:
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action._id ?
+          { ...item, editing: true } :
+          item
+        )
+      }
+    case `STOP_EDIT_${type}`:
+    console.log('stopping')
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action._id ?
+          { ...item, editing: false } :
+          item
+        )
+      }
     case `REQUEST_${type}S`:
       return {
         ...state,
@@ -29,7 +46,7 @@ const sections = (state = {
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?
-          { ...item, ...action.item } :
+          { ...item, ...action.item, editing: false } :
           item
         )
       }

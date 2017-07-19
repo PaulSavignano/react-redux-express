@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
@@ -12,29 +13,28 @@ class CardItem extends Component {
   }
   componentDidMount() {
     const { image } = this.props.item
-    if (image) {
+    if (image.src) {
       this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = () => this.setState({ image: src, loading: false })
+      img.onload = this.setState({ image: src, loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   renderContents = () => {
     const { image, loading } = this.state
-    const { values: { color, header, iFrame, text }} = this.props.item
+    const { values: { color, iFrame, text }} = this.props.item
     return (
       !loading &&
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
-        transitionAppearTimeout={900}
+        transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
       >
-        {header && <CardHeader title={header} style={{ color }} />}
         {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
         {iFrame &&
           <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
@@ -45,7 +45,7 @@ class CardItem extends Component {
             </iframe>
           </div>
         }
-        {text && <CardText>{renderHTML(text)}</CardText> }
+        {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText> }
       </CSSTransitionGroup>
     )
   }
@@ -64,19 +64,18 @@ class CardItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className="cards"
         style={{
           ...cardStyle,
-          cursor: 'pointer'
+          cursor: 'pointer',
+          flex: '1 1 auto'
         }}
       >
         {this.renderContents()}
       </Card>
       :
       <Card
-        className="cards"
         zDepth={zDepth}
-        style={{ ...cardStyle }}
+        style={{ ...cardStyle, flex: '1 1 auto' }}
         onTouchTap={() => console.log('card')}
       >
         {this.renderContents()}
@@ -85,4 +84,12 @@ class CardItem extends Component {
   }
 }
 
-export default CardItem
+const mapStateToProps = ({ cards: { items, isFetching } }, { componentId }) => {
+  const item = items.find(item => item._id === componentId)
+  return {
+    item,
+    isFetching
+  }
+}
+
+export default connect(mapStateToProps)(CardItem)

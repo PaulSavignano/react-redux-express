@@ -35,7 +35,7 @@ class AdminMain extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className="cards"
+        className="card"
         style={{ backgroundColor, fontFamily }}
       >
         <form

@@ -5,6 +5,8 @@ import * as sectionActions from './sections'
 export const type = 'PRODUCT'
 const route = 'products'
 
+const START_EDIT = `START_EDIT_${type}`
+const STOP_EDIT = `STOP_EDIT_${type}`
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
@@ -126,3 +128,6 @@ export const fetchDelete = (_id) => {
 }
 
 export const deletes = (items) => ({ type: DELETES, items })
+
+export const startEdit = (_id) => ({ type: START_EDIT, _id })
+export const stopEdit = (_id) => ({ type: STOP_EDIT, _id })

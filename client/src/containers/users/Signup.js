@@ -36,7 +36,7 @@ class Signup extends Component {
     const { dispatch, error, handleSubmit, submitting, user } = this.props
     return (
       <section>
-        <Card className="cards">
+        <Card className="card">
           <CardTitle title="Signup" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)).then(() => this.props.reset()))} >
             <CardText>

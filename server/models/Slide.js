@@ -10,13 +10,14 @@ const SlideSchema = new Schema({
   slug: { type: String },
   image: {
     src: { type: String },
-    width: { type: Number },
-    height: { type: Number }
+    width: { type: Number, trim: true, default: 300 },
+    height: { type: Number, trim: true, default: 200 }
   },
   values: {
     text: { type: String, trim: true }
-  },
-  createdAt: { type: Date, default: Date.now }
+  }
+}, {
+  timestamps: true
 })
 
 SlideSchema.pre('remove', function(next) {

@@ -1,125 +1,101 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import { Card, CardHeader, CardMedia } from 'material-ui/Card'
+import { push } from 'react-router-redux'
+import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
-import ImageForm from '../../components/images/ImageForm'
-import SuccessableButton from '../../components/buttons/SuccessableButton'
-import renderTextField from '../../components/fields/renderTextField'
-import { fetchUpdate, fetchDelete } from '../../actions/products'
-
-const validate = values => {
-  const errors = {}
-  if (!values.name) errors.name = 'Please enter a product name'
-  if (!values.description) errors.password = 'Please enter a description'
-  if (!values.price) errors.password = 'Please enter a price'
-  return errors
-}
+import AdminProductEdit from './AdminProductEdit'
+import formatPrice from '../../utils/formatPrice'
+import { startEdit } from '../../actions/products'
 
 class AdminProductItem extends Component {
   state = {
     zDepth: 1,
-    editing: false
+    image: null,
+    loading: false,
   }
-  componentWillReceiveProps({ submitSucceeded }) {
-    if (submitSucceeded) this.setState({ editing: false })
+  componentDidMount() {
+    const { image } = this.props.item
+    if (image.src) {
+      this.setState({ loading: true })
+      const img = new Image()
+      const src = image.src
+      img.src = src
+      img.onload = this.setState({ image: src, loading: false })
+    }
+  }
+  componentWillReceiveProps({ item: { image, updatedAt } }) {
+    if (this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
+    if (!image.src) return this.setState({ image: null })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  editing = (bool) => this.setState({ editing: bool, submitted: false })
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
-  setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, imageSpec, submitSucceeded, submitting } = this.props
+    const { image, loading } = this.state
+    const { dispatch, item } = this.props
+    const { _id, editing, slug, values: { width, name, description, price }} = item
     return (
-      <Card
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        style={{ width: 300, height: '100%' }}
-        className="cards"
+      !loading &&
+      <CSSTransitionGroup
+        transitionName="image"
+        transitionAppear={true}
+        transitionAppearTimeout={600}
+        transitionEnter={false}
+        transitionLeave={false}
+        style={{ margin: 16, flex: '1 1 auto', width }}
       >
-        <CardHeader title={`Product ${item._id}`} titleStyle={{ fontSize: 16 }} />
-        <CardMedia>
-          <ImageForm
-            imageSpec={imageSpec}
-            image={item.image}
-            _id={item._id}
-            editing={this.editing}
-            deleteImage={this.deleteImage}
-            ref={this.setEditorRef}
-          />
-        </CardMedia>
-        <form onSubmit={handleSubmit((values) => {
-          if (this.state.editing) {
-            const image = this.editor.handleSave()
-            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-          }
-          return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-        })}
+        <Card
+          zDepth={this.state.zDepth}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          onTouchTap={() => dispatch(startEdit(item._id))}
         >
-          <div className="field-container">
-            <Field
-              name="name"
-              label="Name"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="price"
-              label="Price"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-          </div>
-          <div className="field-container">
-            <Field
-              name="description"
-              label="Description"
-              multiLine={true}
-              rows={2}
-              className="field"
-              component={renderTextField}
-            />
-          </div>
-          {error && <div className="error">{error}</div>}
-          <div className="button-container">
-            <SuccessableButton
-              submitSucceeded={submitSucceeded}
-              submitting={submitting}
-              label="PRODUCT"
-            />
-            <RaisedButton
-              type="button"
-              label="Remove Product"
-              className="button delete-button"
-              labelColor="#ffffff"
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
-            />
-          </div>
-        </form>
 
-      </Card>
+          {image &&
+            <CardMedia>
+              <img src={image} alt={name} />
+            </CardMedia>
+          }
+          <CardTitle title={
+            <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+              <div>{name}</div>
+              <div>{formatPrice(price)}</div>
+            </div>
+          }
+          />
+          <CardText>{description}</CardText>
+          <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
+            <RaisedButton label="-" primary={true} labelStyle={{ fontSize: '24px' }} />
+            <TextField
+              style={{ flex: '1 1 auto' }}
+              inputStyle={{ textAlign: 'center' }}
+              ref={node => this.qty = node}
+              value={this.state.qty}
+              id={_id}
+            />
+            <RaisedButton label="+" primary={true} labelStyle={{ fontSize: '24px' }} />
+          </div>
+          <RaisedButton
+            label="Add To Cart"
+            primary={true}
+            fullWidth={true}
+          />
+          {editing &&
+            <AdminProductEdit item={item} />
+          }
+        </Card>
+      </CSSTransitionGroup>
     )
   }
 }
 
-AdminProductItem = compose(
-  connect(({ products }, { componentId }) => {
-    const item = products.items.find(value => value._id === componentId)
-    const values = item.values || {}
-    return {
-      form: `product_${item._id}`,
-      item,
-      initialValues: {
-        ...values,
-        price: !values ? null : values.price.toString() || null
-      }
-    }
-  }),
-  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [], validate }))(AdminProductItem)
+const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => ({
+  item: items.find(item => item._id === componentId),
+  isFetching
+})
 
-export default AdminProductItem
+export default connect(mapStateToProps)(AdminProductItem)

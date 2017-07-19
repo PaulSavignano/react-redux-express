@@ -5,6 +5,7 @@ import * as sectionActions from './sections'
 export const type = 'CARD'
 const route = 'cards'
 
+const START_EDIT = `START_EDIT_${type}`
 const STOP_EDIT = `STOP_EDIT_${type}`
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -34,7 +35,6 @@ export const fetchAdd = (add) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { card, section } = json
-        card.editing = true
         dispatch(fetchAddSuccess(card))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
@@ -95,7 +95,6 @@ export const fetchUpdate = (_id, update) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        json.editing = false
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
@@ -144,10 +143,5 @@ export const deletes = (items) => {
 }
 
 
-
-export const stopEdit = (_id) => {
-  return {
-    type: STOP_EDIT,
-    _id
-  }
-}
+export const startEdit = (_id) => ({ type: START_EDIT, _id })
+export const stopEdit = (_id) => ({ type: STOP_EDIT, _id })

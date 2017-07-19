@@ -5,8 +5,15 @@ const cards = (state = {
   items: []
 }, action) => {
   switch (action.type) {
+    case `START_EDIT_${type}`:
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action._id ?
+          { ...item, editing: true } :
+          item
+        )
+      }
     case `STOP_EDIT_${type}`:
-    console.log('hitting stop')
       return {
         ...state,
         items: state.items.map(item => item._id === action._id ?
@@ -31,14 +38,14 @@ const cards = (state = {
         isFetching: false,
         items: [
           ...state.items,
-          action.item
+          { ...action.item, editing: true }
         ]
       }
     case `UPDATE_${type}`:
       return {
         ...state,
         items: state.items.map(item => item._id === action.item._id ?
-          { ...item, ...action.item } :
+          { ...item, ...action.item, editing: false } :
           item
         )
       }

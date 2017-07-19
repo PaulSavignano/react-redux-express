@@ -30,7 +30,7 @@ class OrderItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={() => dispatch(push(`/user/orders/${_id}`))}
-        className="cards"
+        className="card"
       >
         <CardText style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
           <div>

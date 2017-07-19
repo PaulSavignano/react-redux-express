@@ -39,7 +39,7 @@ const App = ({
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
-          transitionAppearTimeout={900}
+          transitionAppearTimeout={600}
           transitionEnter={false}
           transitionLeave={false}
           style={{ display: 'flex', flexFlow: 'column', height: '100%' }}

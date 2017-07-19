@@ -22,7 +22,7 @@ class CartItem extends Component {
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = () => this.setState({ image: src, loading: false })
+      img.onload = this.setState({ image: src, loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
@@ -50,7 +50,7 @@ class CartItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className="cards"
+        className="card"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
           {image && <img src={image.src} alt="" width="auto" height="100px"/>}

@@ -15,28 +15,30 @@ import ImageForm from '../../components/images/ImageForm'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import AdminCardItem from '../cards/AdminCardItem'
-import AdminContact from '../users/AdminContact'
+import AdminContactForm from '../users/AdminContactForm'
 import AdminProductItem from '../products/AdminProductItem'
-import AdminSlideItem from '../slides/AdminSlideItem'
 import * as cardActions from '../../actions/cards'
 import * as slideActions from '../../actions/slides'
 import * as productActions from '../../actions/products'
-import { fetchUpdate, fetchDelete } from '../../actions/sections'
+import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/sections'
 
 class AdminSectionEdit extends Component {
   state = {
     openMenu: false,
-    imageEdit: false
+    imageEdit: false,
+    anchorEl: null
   }
-  handleOpen = (e) => {
+  handleOpenMenu = (e) => {
     e.preventDefault()
     this.setState({
       openMenu: true,
       anchorEl: e.currentTarget,
     })
   }
-  handleClose = () => this.setState({ openMenu: false })
-  handleImageEdit = (bool) => this.setState({ imageEdit: bool })
+  handleImageEdit = (bool) => {
+    this.setState({ imageEdit: bool })
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
+  }
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
@@ -48,9 +50,6 @@ class AdminSectionEdit extends Component {
       item,
       submitSucceeded,
       submitting,
-      open,
-      handleOpen,
-      handleClose
     } = this.props
     return (
       <Dialog
@@ -58,59 +57,69 @@ class AdminSectionEdit extends Component {
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => {
-                if (this.state.editing) {
+                if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE</div>}
-              primary={submitSucceeded ? false : true}
+              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SECTION</div>}
+              primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Card"
+              label="Remove Section"
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
+            <RaisedButton
+              type="button"
+              label="Cancel"
+              className="delete-button"
+              labelColor="#ffffff"
+              style={{ flex: '1 1 auto', margin: 4 }}
+              onTouchTap={() => dispatch(stopEdit(item._id))}
+            />
           </div>
         }
         modal={false}
-        open={open}
-        onRequestClose={handleClose}
-        autoScrollBodyContent={true}
-        bodyStyle={{ padding: 8 }}
+        open={item.editing}
+        onRequestClose={() => dispatch(stopEdit(item._id))}
+        autoScrollBodyContent={this.state.autoScrollBodyContent}
+        autoDetectWindowHeight={this.state.autoDetectWindowHeight}
+
+        bodyStyle={{ padding: 8, height: 500, color: 'rgb(0, 188, 212)' }}
       >
         <ImageForm
           image={item.image}
           type="image/jpg"
           _id={item._id}
-          onEdit={this.handleImageEdit}
+          handleImageEdit={this.handleImageEdit}
           deleteImage={this.deleteImage}
           ref={this.setEditorRef}
         />
         <form>
           <div className="field-container">
             <Field
-              name="height"
-              label="Section Height (px)"
+              name="minHeight"
+              label="minHeight"
               type="number"
               className="field"
               component={renderTextField}
             />
             <Field
               name="backgroundColor"
-              label="Section backgroundColor"
+              label="backgroundColor"
               type="text"
               className="field"
               component={renderTextField}
             />
             <Field
               name="flexFlow"
-              label="Component flexFlow"
+              label="flexFlow"
               className="field"
               component={renderTextField}
             />
@@ -119,7 +128,7 @@ class AdminSectionEdit extends Component {
         {error && <div className="error">{error}</div>}
         <div className="button-container">
           <RaisedButton
-            onTouchTap={this.handleOpen}
+            onTouchTap={this.handleOpenMenu}
             label="Add Components"
             type="button"
             primary={true}
@@ -130,7 +139,7 @@ class AdminSectionEdit extends Component {
             anchorEl={this.state.anchorEl}
             anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={this.handleClose}
+            onRequestClose={() => this.setState({ openMenu: false })}
             animation={PopoverAnimationVertical}
             style={{ flex: '1 1 auto', width: 'auto' }}
           >
@@ -141,7 +150,7 @@ class AdminSectionEdit extends Component {
                   const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
                   dispatch(cardActions.fetchAdd(add))
                   this.setState({ openMenu: false })
-                  handleClose()
+                  dispatch(stopEdit(item._id))
                 }}
               />
               <MenuItem
@@ -150,7 +159,7 @@ class AdminSectionEdit extends Component {
                   const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
                   dispatch(slideActions.fetchAdd(add))
                   this.setState({ openMenu: false })
-                  handleClose()
+                  dispatch(stopEdit(item._id))
                 }}
               />
               <MenuItem
@@ -159,7 +168,7 @@ class AdminSectionEdit extends Component {
                   const add = { pageId: page._id, sectionId: item._id }
                   dispatch(productActions.fetchAdd(add))
                   this.setState({ openMenu: false })
-                  handleClose()
+                  dispatch(stopEdit(item._id))
                 }}
               />
               <MenuItem
@@ -168,7 +177,7 @@ class AdminSectionEdit extends Component {
                   const add = { type: 'ADD_CONTACT_FORM' }
                   dispatch(fetchUpdate(item._id, add))
                   this.setState({ openMenu: false })
-                  handleClose()
+                  dispatch(stopEdit(item._id))
                 }}
               />
             </Menu>
@@ -186,7 +195,7 @@ AdminSectionEdit = compose(
       form: `section_${item._id}`,
       initialValues: {
         ...values,
-        height: values.height ? values.height.toString() : null,
+        minHeight: values.minHeight ? values.minHeight.toString() : null,
       }
     }
   }),

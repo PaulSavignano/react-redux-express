@@ -19,7 +19,7 @@ class OrderCartItem extends Component {
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = () => this.setState({ image: src, loading: false })
+      img.onload = this.setState({ image: src, loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
@@ -32,7 +32,7 @@ class OrderCartItem extends Component {
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
-        transitionAppearTimeout={900}
+        transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
       >

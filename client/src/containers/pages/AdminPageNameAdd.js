@@ -21,7 +21,7 @@ class AdminPageNameAdd extends Component {
   render() {
     const { error, handleSubmit, dispatch } = this.props
     return (
-      <Card className="cards">
+      <Card className="card">
         <form
           onSubmit={handleSubmit(values => {
             this.props.reset()

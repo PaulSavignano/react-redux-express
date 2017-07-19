@@ -35,7 +35,7 @@ class ContactForm extends Component {
     console.log('contact form')
     const { dispatch, error, handleSubmit, submitting } = this.props
     return (
-      <Card className="cards">
+      <Card className="card">
         <CardTitle title="Contact" subtitle="Enter your information" />
         <form onSubmit={handleSubmit(values => dispatch(fetchContact(values)))} >
           <CardText>

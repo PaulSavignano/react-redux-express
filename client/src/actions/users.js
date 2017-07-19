@@ -6,6 +6,8 @@ import { fetchOrders } from './orders'
 export const type = 'USER'
 const route = 'users'
 
+const START_EDIT = `START_EDIT_${type}`
+const STOP_EDIT = `STOP_EDIT_${type}`
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}`
 const RECEIVE = `RECEIVE_${type}`
@@ -299,3 +301,8 @@ export const fetchRequestEstimate = (values) => {
       .catch(err => dispatch(fetchRequestEstimateFailure(err)))
   }
 }
+
+
+
+export const startEdit = () => ({ type: START_EDIT })
+export const stopEdit = () => ({ type: STOP_EDIT })

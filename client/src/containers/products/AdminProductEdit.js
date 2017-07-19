@@ -2,59 +2,60 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardHeader } from 'material-ui/Card'
+import { Card, CardHeader, CardMedia } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import renderTextField from '../../components/fields/renderTextField'
-import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import ImageForm from '../../components/images/ImageForm'
-import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/cards'
+import SuccessableButton from '../../components/buttons/SuccessableButton'
+import renderTextField from '../../components/fields/renderTextField'
+import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/products'
 
-class AdminCardEdit extends Component {
+const validate = values => {
+  const errors = {}
+  if (!values.name) errors.name = 'Please enter a product name'
+  if (!values.description) errors.password = 'Please enter a description'
+  if (!values.price) errors.password = 'Please enter a price'
+  return errors
+}
+
+class AdminProductEdit extends Component {
   state = {
+    zDepth: 1,
     imageEdit: false
   }
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded || !item.editing) {
-      dispatch(stopEdit(item._id))
-    }
+    if (submitSucceeded || !item.editing) dispatch(stopEdit(item._id))
   }
+  handleMouseEnter = () => this.setState({ zDepth: 4 })
+  handleMouseLeave = () => this.setState({ zDepth: 1 })
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const {
-      dispatch,
-      error,
-      handleSubmit,
-      item,
-      submitSucceeded,
-      submitting
-    } = this.props
-    const values = item.values || {}
-    const width = values.width || null
+    const { dispatch, error, handleSubmit, item, submitSucceeded, submitting } = this.props
     return (
       <Dialog
         actions={
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => {
+                console.log('submitting')
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE CARD</div>}
+              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE PRODUCT</div>}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Card"
+              label="Remove Product"
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -76,6 +77,17 @@ class AdminCardEdit extends Component {
         autoScrollBodyContent={true}
         bodyStyle={{ padding: 8 }}
       >
+
+        <CardHeader title={`Product ${item._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardMedia>
+          <ImageForm
+            image={item.image}
+            _id={item._id}
+            handleImageEdit={this.handleImageEdit}
+            deleteImage={this.deleteImage}
+            ref={this.setEditorRef}
+          />
+        </CardMedia>
         <form onSubmit={handleSubmit((values) => {
           if (this.state.editing) {
             const image = this.editor.handleSave()
@@ -84,65 +96,51 @@ class AdminCardEdit extends Component {
           return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
         })}
         >
-          <ImageForm
-            image={item.image}
-            type="image/jpg"
-            _id={item._id}
-            handleImageEdit={this.handleImageEdit}
-            deleteImage={this.deleteImage}
-            ref={this.setEditorRef}
-          />
-          <div>
+          <div className="field-container">
             <Field
-              name="text"
-              component={renderWysiwgyField}
+              name="width"
+              label="width"
+              type="number"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="name"
+              label="name"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="price"
+              label="price"
+              type="number"
+              className="field"
+              component={renderTextField}
             />
           </div>
           <div className="field-container">
             <Field
-              name="width"
-              label="Width"
-              type="number"
+              name="description"
+              label="description"
+              multiLine={true}
+              rows={2}
               className="field"
               component={renderTextField}
             />
-            <Field
-              name="maxWidth"
-              label="maxWidth"
-              type="number"
-              className="field"
-              component={renderTextField}
+          </div>
+          {error && <div className="error">{error}</div>}
+          <div className="button-container">
+            <SuccessableButton
+              submitSucceeded={submitSucceeded}
+              submitting={submitting}
+              label="PRODUCT"
             />
-            <Field
-              name="zDepth"
-              label="zDepth"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="margin"
-              label="Margin"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="iFrame"
-              label="Card iFrame src"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="link"
-              label="Card Link"
-              className="field"
-              component={renderTextField}
+            <RaisedButton
+              type="button"
+              label="Remove Product"
+              className="button delete-button"
+              labelColor="#ffffff"
+              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
           </div>
         </form>
@@ -152,23 +150,19 @@ class AdminCardEdit extends Component {
   }
 }
 
-AdminCardEdit = compose(
+AdminProductEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
-      form: `card_${item._id}`,
+      form: `product_${item._id}`,
       item,
       initialValues: {
         ...values,
-        width: values.width ? values.width.toString() : null,
-        maxWidth: values.maxWidth ? values.maxWidth.toString() : null,
-        zDepth: values.zDepth ? values.zDepth.toString() : null
-       }
+        price: values.price && values.price.toString(),
+        width: values.width && values.width.toString()
+      }
     }
   }),
-  reduxForm({
-    destroyOnUnmount: false,
-    asyncBlurFields: []
-  }))(AdminCardEdit)
+  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [], validate }))(AdminProductEdit)
 
-export default AdminCardEdit
+export default AdminProductEdit

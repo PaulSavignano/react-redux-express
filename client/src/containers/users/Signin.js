@@ -42,7 +42,7 @@ class Signin extends Component {
     const { primary1Color } = muiTheme.palette
     return (
       <section>
-        <Card className="cards">
+        <Card className="card">
           <CardTitle title="Sign in" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => {
             return dispatch(fetchSignin(values))

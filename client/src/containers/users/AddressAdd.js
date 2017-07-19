@@ -7,7 +7,7 @@ import { fetchUpdate } from '../../actions/users'
 
 const AddressAdd = ({ dispatch, error, handleSubmit }) => (
   <form onSubmit={handleSubmit(() => dispatch(fetchUpdate({ type: 'ADD_ADDRESS' })))}>
-    <Card zDepth={1} className="cards">
+    <Card zDepth={1} className="card">
       <CardActions>
         <RaisedButton
           type="submit"

@@ -37,7 +37,7 @@ class Recovery extends Component {
     return (
       isFetching ? null :
       <section>
-        <Card className="cards">
+        <Card className="card">
           <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
           <form onSubmit={handleSubmit(values => {
             this.setState({ email: values.email })

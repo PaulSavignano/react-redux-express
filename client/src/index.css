@@ -27,7 +27,7 @@ section {
   box-shadow: none !important;
 }
 
-.cards {
+.card {
   flex: 1 1 auto;
   margin: 16px;
   height: 100%;
@@ -153,55 +153,8 @@ h3 {
 }
 .image-appear.image-appear-active {
   opacity: 1;
-  transition: opacity 0.9s ease-in;
+  transition: opacity 600s ease-in;
 }
-
-
-
-
-.example-enter {
-  opacity: 0.01;
-}
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 200ms ease-in;
-}
-.example-leave {
-  opacity: 1;
-}
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 200ms ease-in;
-}
-
-
-
-.flash-appear {
-  opacity: 0.01;
-}
-.flash-appear.flash-appear-active {
-  opacity: 1;
-  transition: opacity 1800ms ease-in;
-}
-.flash-enter {
-  opacity: 0.01;
-  transition: opacity 600ms ease-in;
-}
-.flash-enter.flash-enter-active {
-  opacity: 1;
-}
-.flash-leave {
-  opacity: 1;
-  transition: opacity 900ms ease-in;
-}
-.flash-leave.flash-leave-active {
-  opacity: 0.01;
-}
-
-
-
-
-
 
 
 
@@ -245,4 +198,14 @@ h3 {
 
 .RichTextEditor__root___2QXK- {
   background: none !important;
+}
+
+
+
+.slide-enter {
+  opacity: 0;
+}
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transition: opacity 600ms ease-in;
 }

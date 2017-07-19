@@ -26,7 +26,7 @@ class ProductItem extends Component {
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = () => this.setState({ image: src, loading: false })
+      img.onload = this.setState({ image: src, loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
@@ -35,20 +35,18 @@ class ProductItem extends Component {
   plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
     const { image, loading } = this.state
-    const { dispatch, item: { _id, slug, values: { name, description, price } }  } = this.props
+    const { dispatch, item: { _id, slug, values: { width, name, description, price } }  } = this.props
     return (
       !loading &&
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
-        transitionAppearTimeout={900}
+        transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
-        style={{ flex: '1 1 auto' }}
+        style={{ margin: 16, flex: '1 1 auto', width }}
       >
         <Card
-          className="cards"
-          style={{ flex: '1 1 auto' }}
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
@@ -117,4 +115,9 @@ class ProductItem extends Component {
   }
 }
 
-export default connect()(ProductItem)
+const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => ({
+  item: items.find(item => item._id === componentId),
+  isFetching
+})
+
+export default connect(mapStateToProps)(ProductItem)

@@ -6,7 +6,7 @@ const OrderConfirmation = ({ firstName, order }) => {
   return (
     order &&
     <section>
-      <Card className="cards">
+      <Card className="card">
         <CardTitle title="Order" subtitle={order._id} />
         <CardText>
           Hi {firstName}, thank you for your order {order._id}!

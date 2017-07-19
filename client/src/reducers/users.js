@@ -7,6 +7,16 @@ const user = (state = {
   error: null
 }, action) => {
   switch(action.type) {
+    case `START_EDIT_${type}`:
+      return {
+        ...state,
+        editing: true
+      }
+    case `STOP_EDIT_${type}`:
+      return {
+        ...state,
+        editing: false
+      }
     case `ADD_${type}`:
       return {
         ...state,

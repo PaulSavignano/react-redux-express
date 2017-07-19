@@ -12,7 +12,7 @@ class HeaderBrand extends Component {
   }
   componentWillReceiveProps({ image }) {
     if (image) return this.setState({ image: `${image.src}?${new Date().getTime()}` })
-    this.setState({ image: null, hasImage: false })
+    this.setState({ image: null })
   }
   render() {
     const { dispatch, name, fontFamily, color } = this.props

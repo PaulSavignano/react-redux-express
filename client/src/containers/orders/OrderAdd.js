@@ -24,7 +24,7 @@ class OrderAdd extends Component {
     return (
       isFetching ? null : !cart.total ? dispatch(push('/')) :
       <section>
-        <Card className="cards">
+        <Card className="card">
           <form onSubmit={handleSubmit((values) => {
             const order = { ...values, cart }
             dispatch(fetchAddOrder(order))

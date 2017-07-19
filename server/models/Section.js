@@ -17,7 +17,7 @@ const SectionSchema = new Schema({
     height: { type: Number, trim: true, default: 500 },
   },
   values: {
-    height: { type: Number },
+    minHeight: { type: Number },
     backgroundColor: { type: String, trim: true },
     flexFlow: { type: String, trim: true, default: 'row wrap' },
   },
@@ -25,7 +25,8 @@ const SectionSchema = new Schema({
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },
     type: { type: String }
   }],
-  createdAt: { type: Date, default: Date.now }
+}, {
+  timestamps: true
 })
 
 SectionSchema.pre('remove', function(next) {

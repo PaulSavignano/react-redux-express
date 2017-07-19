@@ -36,7 +36,6 @@ class ImageForm extends Component {
     loading: false
   }
   componentWillMount() {
-    console.log(this.props)
     const { image } = this.props
     if (image.src) {
       this.setState({ src: image.src, width: image.width, height: image.height })
@@ -98,10 +97,10 @@ class ImageForm extends Component {
           editing: true,
           loading: false
         })
+        this.props.handleImageEdit(true)
       }
       reader.readAsDataURL(file)
     }
-    this.props.onEdit(true)
   }
   setEditorRef = (editor) => this.editor = editor
   render () {

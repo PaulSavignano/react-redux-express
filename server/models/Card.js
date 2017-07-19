@@ -22,8 +22,9 @@ const CardSchema = new Schema({
     iFrame: { type: String, trim: true },
     text: { type: String, trim: true },
     link: { type: String, trim: true },
-  },
-  createdAt: { type: Date, default: Date.now }
+  }
+}, {
+  timestamps: true
 })
 
 CardSchema.pre('remove', function(next) {

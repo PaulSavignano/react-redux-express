@@ -14,7 +14,7 @@ class Footer extends Component {
       const img = new Image()
       const src = image.src
       img.src = src
-      img.onload = () => this.setState({ image: src, loading: false })
+      img.onload = this.setState({ image: src, loading: false })
     }
   }
   componentWillReceiveProps({ footer: { image }}) {

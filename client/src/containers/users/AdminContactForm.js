@@ -4,19 +4,23 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Field } from 'redux-form'
 
+import AdminContactFormEdit from './AdminContactFormEdit'
 import renderTextField from '../../components/fields/renderTextField'
-import { fetchUpdate } from '../../actions/sections'
+import { fetchUpdate, startEdit } from '../../actions/sections'
 
-class AdminContact extends Component {
+class AdminContactForm extends Component {
   state = {
-    zDepth: 1
+    zDepth: 1,
+    editing: false
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleClose = () => this.setState({ editing: false })
   render() {
+    const { editing } = this.state
     const { dispatch, componentId, sectionId } = this.props
     return (
-      <Card className="cards">
+      <Card className="card" onTouchTap={() => this.setState({ editing: true })}>
         <CardTitle title="Contact" subtitle="Enter your information" />
         <CardText>
           <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
@@ -25,24 +29,17 @@ class AdminContact extends Component {
         </CardText>
         <div className="button-container">
           <RaisedButton
+            label="Contact"
             type="button"
-            label="Remove Contact Form"
-            className="delete-button"
-            labelColor="#ffffff"
-            style={{ flex: '1 1 auto', margin: 4 }}
-            onTouchTap={() => {
-              const update = {
-                type: 'DELETE_CONTACT_FORM',
-                componentId
-              }
-              dispatch(fetchUpdate(sectionId, update))
-            }}
+            primary={true}
+            className="button"
           />
         </div>
+        {editing && <AdminContactFormEdit onClose={this.handleClose} editing={editing} />}
       </Card>
     )
   }
 }
 
 
-export default connect()(AdminContact)
+export default connect()(AdminContactForm)
