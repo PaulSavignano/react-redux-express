@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import { Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 import AdminCardEdit from './AdminCardEdit'
 import { startEdit } from '../../actions/cards'
@@ -24,19 +23,22 @@ class AdminCardItem extends Component {
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
-    if (this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
+    if (image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
     if (!image.src) return this.setState({ image: null })
   }
   render() {
     const { image, loading } = this.state
     const { dispatch, item, isFetching } = this.props
-    const { values, editing } = item
-    const { color, iFrame, text } = values
-    const width = values.width || null
-    const maxWidth = values.maxWidth || null
-    const zDepth = values.zDepth || null
-    const margin = values.margin || null
-    const backgroundColor = values.backgroundColor || null
+    const {
+      backgroundColor,
+      iFrame,
+      link,
+      margin,
+      maxWidth,
+      text,
+      width,
+      zDepth
+    } = item.values
     const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor }
     return (
       !isFetching && !loading &&
@@ -46,13 +48,14 @@ class AdminCardItem extends Component {
         transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
+        style={{ height: '100%' }}
       >
         <Card
           zDepth={zDepth}
           style={{ ...cardStyle, flex: '1 1 auto' }}
           onTouchTap={() => dispatch(startEdit(item._id))}
         >
-          {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
+          {image && <CardMedia><img src={image} alt="card" style={{ border: "3px solid blue"}}/></CardMedia>}
           {iFrame &&
             <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
               <iframe
@@ -63,7 +66,7 @@ class AdminCardItem extends Component {
             </div>
           }
           {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
-          {editing && <AdminCardEdit item={item} />}
+          {item.editing && <AdminCardEdit item={item} />}
         </Card>
       </CSSTransitionGroup>
     )

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import { Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 class CardItem extends Component {
   state = {
@@ -23,9 +23,8 @@ class CardItem extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  renderContents = () => {
+  renderContents = (iFrame, text) => {
     const { image, loading } = this.state
-    const { values: { color, iFrame, text }} = this.props.item
     return (
       !loading &&
       <CSSTransitionGroup
@@ -50,17 +49,23 @@ class CardItem extends Component {
     )
   }
   render() {
-    const { dispatch, item: { values } } = this.props
-    const width = values.width || null
-    const maxWidth = values.maxWidth || null
-    const zDepth = values.zDepth || null
-    const margin = values.margin || null
-    const backgroundColor = values.backgroundColor || null
+    const { dispatch, item } = this.props
+    const values = item.values || {}
+    const {
+      backgroundColor,
+      iFrame,
+      link,
+      margin,
+      maxWidth,
+      text,
+      width,
+      zDepth
+    } = values
     const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor }
     return (
-      values.link ?
+      link ?
       <Card
-        onTouchTap={() => dispatch(push(`${values.link}`))}
+        onTouchTap={() => dispatch(push(`${link}`))}
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -70,7 +75,7 @@ class CardItem extends Component {
           flex: '1 1 auto'
         }}
       >
-        {this.renderContents()}
+        {this.renderContents(iFrame, text)}
       </Card>
       :
       <Card
@@ -78,7 +83,7 @@ class CardItem extends Component {
         style={{ ...cardStyle, flex: '1 1 auto' }}
         onTouchTap={() => console.log('card')}
       >
-        {this.renderContents()}
+        {this.renderContents(iFrame, text)}
       </Card>
     )
   }

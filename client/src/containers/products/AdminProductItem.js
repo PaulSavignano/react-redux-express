@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 
 import AdminProductEdit from './AdminProductEdit'
 import formatPrice from '../../utils/formatPrice'
@@ -37,7 +34,7 @@ class AdminProductItem extends Component {
   render() {
     const { image, loading } = this.state
     const { dispatch, item } = this.props
-    const { _id, editing, slug, values: { width, name, description, price }} = item
+    const { _id, editing, values: { width, name, description, price }} = item
     return (
       !loading &&
       <CSSTransitionGroup

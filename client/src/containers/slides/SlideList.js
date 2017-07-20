@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 
 class SlideList extends Component {
   state = {
@@ -61,10 +61,10 @@ class SlideList extends Component {
     />
   ))
   renderItem = (item) => {
-    const { src, width, height } = item.image
+    const { src, width } = item.image
     const values = item.values || {}
     return (
-      <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer' }}>
+      <div key={item._id}>
         {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide"/></div>}
         <Card
           zDepth={0}

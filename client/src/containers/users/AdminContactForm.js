@@ -6,7 +6,6 @@ import { Field } from 'redux-form'
 
 import AdminContactFormEdit from './AdminContactFormEdit'
 import renderTextField from '../../components/fields/renderTextField'
-import { fetchUpdate, startEdit } from '../../actions/sections'
 
 class AdminContactForm extends Component {
   state = {
@@ -18,7 +17,6 @@ class AdminContactForm extends Component {
   handleClose = () => this.setState({ editing: false })
   render() {
     const { editing } = this.state
-    const { dispatch, componentId, sectionId } = this.props
     return (
       <Card className="card" onTouchTap={() => this.setState({ editing: true })}>
         <CardTitle title="Contact" subtitle="Enter your information" />

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import renderHTML from 'react-render-html'
 
 import CardItem from '../../containers/cards/CardItem'
 import ContactForm  from '../../containers/users/ContactForm'
@@ -39,13 +38,16 @@ class SectionItem extends Component {
     return components.map(component => componentList(component))
   }
   render() {
-    const { image, loading } = this.state
+    const { loading } = this.state
     const { item } = this.props
+    const {
+      backgroundColor,
+      flexFlow,
+      justifyContent,
+      margin,
+      minHeight
+    } = item.values
     const slides = item.components.filter(value => value.type === 'Slide')
-    const values = item.values || {}
-    const minHeight = values.minHeight || null
-    const backgroundColor = values.backgroundColor || null
-    const flexFlow = values.flexFlow || 'row wrap'
     const backgrounds = this.state.image && {
       backgroundImage: `url(${this.state.image})`,
       transition: 'opacity .9s ease-in-out',
@@ -63,12 +65,23 @@ class SectionItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <div style={{ minHeight, ...backgrounds, overflow: 'hidden' }}>
-          <section style={{ display: 'flex', flexFlow, backgroundColor }}>
+        <div style={{ ...backgrounds }}>
+          <section style={{
+            backgroundColor,
+            flexFlow,
+            justifyContent,
+            margin,
+            minHeight
+          }}>
             {this.renderComponents(item.components)}
           </section>
-          { slides.length ? <SlideList slides={slides} /> : null }
+          { slides.length &&
+            <section style={{ backgroundColor, minHeight }}>
+              <SlideList slides={slides} />
+            </section>
+          }
         </div>
+
       </CSSTransitionGroup>
     )
   }

@@ -50,9 +50,6 @@ class WysiwgyEditor extends Component {
       colors,
       fontFamily
     } = this.props
-    const editorStyle = {
-      border: '3px solid #F1F1F1',
-    }
     const fonts = [
       fontFamily,
       brandFontFamily,

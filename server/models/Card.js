@@ -14,14 +14,14 @@ const CardSchema = new Schema({
     height: { type: Number, trim: true, default: 675 }
   },
   values: {
-    width: { type: Number },
-    maxWidth: { type: Number },
-    zDepth: { type: Number, default: null },
-    margin: { type: String, trim: true },
     backgroundColor: { type: String, trim: true },
     iFrame: { type: String, trim: true },
-    text: { type: String, trim: true },
     link: { type: String, trim: true },
+    margin: { type: String, trim: true },
+    maxWidth: { type: Number },
+    text: { type: String, trim: true },
+    width: { type: Number },
+    zDepth: { type: Number, default: null }
   }
 }, {
   timestamps: true

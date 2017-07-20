@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 
 import AdminSlideEdit from './AdminSlideEdit'
 import { startEdit } from '../../actions/slides'
@@ -16,11 +16,18 @@ class AdminSlideListNew extends Component {
     ltBtnColor: 'rgba(0, 0, 0, .1)'
   }
   componentWillMount() {
-    this.start()
+    const editItem = this.props.items.find(item => item.editing === true)
+    if (editItem) {
+      this.stop()
+      this.setState({ editItem })
+    }
+    if (!this.state.intervalId && !editItem) {
+      this.start()
+      this.setState({ editItem: null })
+    }
   }
   componentWillReceiveProps(nextProps) {
     const editItem = nextProps.items.find(item => item.editing === true)
-    console.log(editItem)
     if (editItem) {
       this.stop()
       this.setState({ editItem })
@@ -73,7 +80,7 @@ class AdminSlideListNew extends Component {
     />
   ))
   renderItem = (item) => {
-    const { src, width, height } = item.image
+    const { src, width } = item.image
     const values = item.values || {}
     return (
       <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer', height: '100%' }}>

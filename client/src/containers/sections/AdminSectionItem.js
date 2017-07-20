@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import renderHTML from 'react-render-html'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import AdminSectionEdit from './AdminSectionEdit'
@@ -29,7 +25,8 @@ class AdminSectionItem extends Component {
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
-    if (this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
+    console.log('section is receving props')
+    if (image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
     if (!image.src) return this.setState({ image: null })
   }
   renderComponents = (components) => {
@@ -49,13 +46,16 @@ class AdminSectionItem extends Component {
     return components.map(component => componentList(component))
   }
   render() {
-    const { image, loading, open } = this.state
+    const { loading } = this.state
     const { dispatch, item, page } = this.props
+    const {
+      backgroundColor,
+      flexFlow,
+      justifyContent,
+      margin,
+      minHeight
+    } = item.values
     const slides = item.components.filter(value => value.type === 'Slide')
-    const values = item.values || {}
-    const minHeight = values.minHeight || null
-    const backgroundColor = values.backgroundColor || null
-    const flexFlow = values.flexFlow || 'row wrap'
     const backgrounds = this.state.image && {
       backgroundImage: `url(${this.state.image})`,
       transition: 'opacity .9s ease-in-out',
@@ -79,12 +79,18 @@ class AdminSectionItem extends Component {
             page={page}
           />
         }
-        <div style={{ minHeight, ...backgrounds, overflow: 'hidden' }}>
-          <section style={{ backgroundColor }}>
-            <div style={{ display: 'flex', flexFlow }}>
-              {this.renderComponents(item.components)}
-              {slides.length ? <AdminSlideList slides={slides} /> : null }
-            </div>
+        <div style={{ ...backgrounds, overflow: 'hidden' }}>
+          <section style={{
+            backgroundColor,
+            flexFlow,
+            justifyContent,
+            margin,
+            minHeight
+          }}>
+            {this.renderComponents(item.components)}
+            {slides.length ? <AdminSlideList slides={slides} /> : null }
+          </section>
+          <section>
             <RaisedButton
               type="button"
               label="Edit Section"
@@ -92,7 +98,6 @@ class AdminSectionItem extends Component {
               onTouchTap={() => dispatch(startEdit(item._id))}
             />
           </section>
-
         </div>
       </CSSTransitionGroup>
     )

@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Field } from 'redux-form'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
-import CircularProgress from 'material-ui/CircularProgress'
 
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate } from '../../actions/sections'
-
 
 class AdminContactFormEdit extends Component {
   render() {
@@ -72,6 +69,5 @@ class AdminContactFormEdit extends Component {
     )
   }
 }
-
 
 export default connect()(AdminContactFormEdit)

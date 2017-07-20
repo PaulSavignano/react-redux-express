@@ -17,8 +17,7 @@ sections.post('/', authenticate(['admin']), (req, res) => {
   const { pageId, slug } = req.body
   const section = new Section({
     pageId: ObjectID(pageId),
-    slug,
-    values: []
+    slug
   })
   section.save()
     .then(doc => res.send(doc))

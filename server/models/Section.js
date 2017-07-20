@@ -17,9 +17,11 @@ const SectionSchema = new Schema({
     height: { type: Number, trim: true, default: 500 },
   },
   values: {
-    minHeight: { type: Number },
-    backgroundColor: { type: String, trim: true },
-    flexFlow: { type: String, trim: true, default: 'row wrap' },
+    backgroundColor: { type: String },
+    flexFlow: { type: String, default: 'row wrap' },
+    justifyContent: { type: String, default: 'space-between' },
+    margin: { type: String },
+    minHeight: { type: Number }
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },

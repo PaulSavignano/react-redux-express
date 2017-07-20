@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardHeader, CardMedia } from 'material-ui/Card'
+import { CardHeader, CardMedia } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/slides'
 import ImageForm from '../../components/images/ImageForm'
@@ -24,7 +22,7 @@ class AdminSlideItem extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, imageSpec, submitSucceeded, submitting } = this.props
+    const { dispatch, error, handleSubmit, item, submitting } = this.props
     return (
       <Dialog
         actions={

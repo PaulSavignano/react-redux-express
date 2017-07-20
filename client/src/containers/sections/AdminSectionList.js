@@ -19,9 +19,13 @@ const AdminSectionList = ({ dispatch, isFetching, sections, page, imageSpec }) =
   </div>
 )
 
-const mapStateToProps = ({ sections: { isFetching, items } }, { page }) => ({
-  isFetching,
-  sections: items.filter(item => item.pageId === page._id)
-})
+const mapStateToProps = ({ sections: { isFetching, items } }, { page }) => {
+  console.log(page)
+  return {
+    isFetching,
+    sections: items.filter(item => item.pageId === page._id)
+  }
+
+}
 
 export default connect(mapStateToProps)(AdminSectionList)

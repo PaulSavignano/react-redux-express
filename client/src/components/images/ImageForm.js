@@ -222,14 +222,6 @@ class ImageForm extends Component {
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
                   onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
                 />
-                <TextField
-                  hintText="Zoom"
-                  floatingLabelText="Zoom"
-                  type="number"
-                  defaultValue="1"
-                  style={{ flex: '1 1 auto', margin: '0 8px' }}
-                  onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
-                />
               </div>
 
             </div>

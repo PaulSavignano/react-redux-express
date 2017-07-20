@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import renderTextField from '../../components/fields/renderTextField'
@@ -18,7 +16,7 @@ class AdminCardEdit extends Component {
     imageEdit: false
   }
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded || !item.editing) {
+    if (submitSucceeded && !item.editing) {
       dispatch(stopEdit(item._id))
     }
   }
@@ -26,16 +24,8 @@ class AdminCardEdit extends Component {
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const {
-      dispatch,
-      error,
-      handleSubmit,
-      item,
-      submitSucceeded,
-      submitting
-    } = this.props
-    const values = item.values || {}
-    const width = values.width || null
+    const { dispatch, error, handleSubmit, item, submitting } = this.props
+    console.log(item.editing)
     return (
       <Dialog
         actions={
@@ -74,16 +64,10 @@ class AdminCardEdit extends Component {
         open={item.editing}
         onRequestClose={() => dispatch(stopEdit(item._id))}
         autoScrollBodyContent={true}
+        contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <form onSubmit={handleSubmit((values) => {
-          if (this.state.editing) {
-            const image = this.editor.handleSave()
-            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-          }
-          return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-        })}
-        >
+        <form>
           <ImageForm
             image={item.image}
             type="image/jpg"
@@ -100,9 +84,26 @@ class AdminCardEdit extends Component {
           </div>
           <div className="field-container">
             <Field
-              name="width"
-              label="Width"
-              type="number"
+              name="backgroundColor"
+              label="backgroundColor"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="iFrame"
+              label="iFrame"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="link"
+              label="link"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="margin"
+              label="margin"
               className="field"
               component={renderTextField}
             />
@@ -114,33 +115,14 @@ class AdminCardEdit extends Component {
               component={renderTextField}
             />
             <Field
+              name="width"
+              label="width"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
               name="zDepth"
               label="zDepth"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="margin"
-              label="Margin"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="iFrame"
-              label="Card iFrame src"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="link"
-              label="Card Link"
               className="field"
               component={renderTextField}
             />

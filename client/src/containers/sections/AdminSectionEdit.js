@@ -2,21 +2,15 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageForm from '../../components/images/ImageForm'
-import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
-import AdminCardItem from '../cards/AdminCardItem'
-import AdminContactForm from '../users/AdminContactForm'
-import AdminProductItem from '../products/AdminProductItem'
 import * as cardActions from '../../actions/cards'
 import * as slideActions from '../../actions/slides'
 import * as productActions from '../../actions/products'
@@ -48,7 +42,6 @@ class AdminSectionEdit extends Component {
       handleSubmit,
       page,
       item,
-      submitSucceeded,
       submitting,
     } = this.props
     return (
@@ -88,10 +81,9 @@ class AdminSectionEdit extends Component {
         modal={false}
         open={item.editing}
         onRequestClose={() => dispatch(stopEdit(item._id))}
-        autoScrollBodyContent={this.state.autoScrollBodyContent}
-        autoDetectWindowHeight={this.state.autoDetectWindowHeight}
-
-        bodyStyle={{ padding: 8, height: 500, color: 'rgb(0, 188, 212)' }}
+        autoScrollBodyContent={true}
+        contentStyle={{ width: '100%', maxWidth: 1000 }}
+        bodyStyle={{ padding: 8 }}
       >
         <ImageForm
           image={item.image}
@@ -104,22 +96,33 @@ class AdminSectionEdit extends Component {
         <form>
           <div className="field-container">
             <Field
-              name="minHeight"
-              label="minHeight"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
               name="backgroundColor"
               label="backgroundColor"
-              type="text"
               className="field"
               component={renderTextField}
             />
             <Field
               name="flexFlow"
               label="flexFlow"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="justifyContent"
+              label="justifyContent"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="margin"
+              label="margin"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="minHeight"
+              label="minHeight"
+              type="number"
               className="field"
               component={renderTextField}
             />
@@ -195,7 +198,7 @@ AdminSectionEdit = compose(
       form: `section_${item._id}`,
       initialValues: {
         ...values,
-        minHeight: values.minHeight ? values.minHeight.toString() : null,
+        minHeight: values.minWidth ? values.minWidth.toString() : null,
       }
     }
   }),
