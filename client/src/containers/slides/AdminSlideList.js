@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
-import { Card, CardText } from 'material-ui/Card'
+import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 import AdminSlideEdit from './AdminSlideEdit'
 import { startEdit } from '../../actions/slides'
@@ -85,12 +85,12 @@ class AdminSlideList extends Component {
     const { text } = values
     return (
       <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer', height: '100%' }}>
-        {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide" style={{ width: '100%', height: 'auto' }}/></div>}
         <Card
           zDepth={0}
-          style={{ margin: '0 auto', width: '100%', minWidth: width, backgroundColor: 'none' }}
+          style={{ margin: '0 auto', backgroundColor: 'none' }}
           containerStyle={{ paddingBottom: 0 }}
         >
+          {src && <CardMedia><img src={src} alt="slide"/></CardMedia>}
           {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
         </Card>
       </div>
