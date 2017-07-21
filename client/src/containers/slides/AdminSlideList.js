@@ -85,7 +85,7 @@ class AdminSlideList extends Component {
     const { text } = values
     return (
       <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer', height: '100%' }}>
-        {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide"/></div>}
+        {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide" style={{ width: '100%', height: 'auto' }}/></div>}
         <Card
           zDepth={0}
           style={{ margin: '0 auto', width: '100%', minWidth: width, backgroundColor: 'none' }}
