@@ -19,7 +19,7 @@ class ProductItem extends Component {
     loading: false,
     open: false
   }
-  componentDidMount() {
+  componentWillMount() {
     const { image } = this.props.item
     if (image) {
       this.setState({ loading: true })
@@ -35,7 +35,7 @@ class ProductItem extends Component {
   plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
     const { image, loading } = this.state
-    const { dispatch, item: { _id, slug, values: { width, name, description, price } }  } = this.props
+    const { dispatch, item: { _id, slug, values: { margin, width, name, description, price } }  } = this.props
     return (
       !loading &&
       <CSSTransitionGroup
@@ -44,7 +44,7 @@ class ProductItem extends Component {
         transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
-        style={{ margin: 16, flex: '1 1 auto', width }}
+        style={{ margin, width, flex: '1 1 auto' }}
       >
         <Card
           zDepth={this.state.zDepth}

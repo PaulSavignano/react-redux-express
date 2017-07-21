@@ -15,7 +15,7 @@ class AdminProductItem extends Component {
     image: null,
     loading: false,
   }
-  componentDidMount() {
+  componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
       this.setState({ loading: true })
@@ -34,7 +34,7 @@ class AdminProductItem extends Component {
   render() {
     const { image, loading } = this.state
     const { dispatch, item } = this.props
-    const { _id, editing, values: { width, name, description, price }} = item
+    const { _id, editing, values: { margin, width, name, description, price }} = item
     return (
       !loading &&
       <CSSTransitionGroup
@@ -43,7 +43,7 @@ class AdminProductItem extends Component {
         transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
-        style={{ margin: 16, flex: '1 1 auto', width }}
+        style={{ margin, width, flex: '1 1 auto' }}
       >
         <Card
           zDepth={this.state.zDepth}

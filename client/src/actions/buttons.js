@@ -2,8 +2,8 @@ import { SubmissionError } from 'redux-form'
 
 import * as sectionActions from './sections'
 
-export const type = 'SLIDES'
-const route = 'slides'
+export const type = 'BUTTON'
+const route = 'buttons'
 
 const START_EDIT = `START_EDIT_${type}`
 const STOP_EDIT = `STOP_EDIT_${type}`
@@ -28,16 +28,19 @@ export const fetchAdd = (add) => {
       },
       body: JSON.stringify(add)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { slide, section } = json
-        dispatch(fetchAddSuccess(slide))
+        const { button, section } = json
+        dispatch(fetchAddSuccess(button))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
-        throw new SubmissionError({ error: err.error, _error: err.error })
+        throw new SubmissionError({ ...err, _error: 'Update failed!' })
     })
   }
 }
@@ -45,30 +48,29 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchSlidesRequest = () => ({ type: REQUEST })
-const fetchSlidesSuccess = (items) => ({ type: RECEIVE, items })
-const fetchSlidesFailure = (error) => ({ type: ERROR, error })
-export const fetchSlides = () => {
+const fetchButtonsRequest = () => ({ type: REQUEST })
+const fetchButtonsSuccess = (items) => ({ type: RECEIVE, items })
+const fetchButtonsFailure = (error) => ({ type: ERROR, error })
+export const fetchButtons = () => {
   return (dispatch, getState) => {
-    dispatch(fetchSlidesRequest())
+    dispatch(fetchButtonsRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       }
     })
-    .then(res => {
-      if (res.ok) return res.json()
-      throw new Error('Network response was not ok.')
-    })
-    .then(json => {
-      if (json.error) return Promise.reject(json.error)
-      dispatch(fetchSlidesSuccess(json))
-    })
-    .catch(err => {
-      dispatch(fetchSlidesFailure(err))
-      throw new SubmissionError({ ...err, _error: 'Update failed!' })
-    })
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchButtonsSuccess(json))
+      })
+      .catch(err => {
+        dispatch(fetchButtonsFailure(err))
+      })
   }
 }
 
@@ -87,14 +89,17 @@ export const fetchUpdate = (_id, update) => {
       },
       body: JSON.stringify(update)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(err => {
         dispatch(fetchUpdateFailure(err))
-        throw new SubmissionError({ error: err.err, _error: err.err })
+        throw new SubmissionError({ ...err, _error: 'Update failed!' })
       })
   }
 }
@@ -113,24 +118,30 @@ export const fetchDelete = (_id) => {
         'x-auth': localStorage.getItem('token'),
       },
     })
-    .then(res => {
-      if (res.ok) return res.json()
-      throw new Error('Network response was not ok.')
-    })
-    .then(json => {
-      if (json.error) return Promise.reject(json.error)
-      const { slide, section } = json
-      dispatch(sectionActions.fetchUpdateSuccess(section))
-      dispatch(fetchDeleteSuccess(slide._id))
-    })
-    .catch(err => {
-      dispatch(fetchDeleteFailure(err))
-      throw new SubmissionError({ ...err, _error: 'Delete failed!' })
-    })
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error('Network response was not ok.')
+      })
+      .then(json => {
+        if (json.error) return Promise.reject(json.error)
+        const { button, section } = json
+        dispatch(sectionActions.fetchUpdateSuccess(section))
+        dispatch(fetchDeleteSuccess(button._id))
+      })
+      .catch(err => {
+        dispatch(fetchDeleteFailure(err))
+        throw new SubmissionError({ ...err, _error: 'Delete failed!' })
+      })
   }
 }
 
-export const deletes = (items) => ({ type: DELETES, items })
+export const deletes = (items) => {
+  return {
+    type: DELETES,
+    items
+  }
+}
+
 
 export const startEdit = (_id) => ({ type: START_EDIT, _id })
 export const stopEdit = (_id) => ({ type: STOP_EDIT, _id })

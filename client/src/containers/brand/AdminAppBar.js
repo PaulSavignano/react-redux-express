@@ -108,8 +108,9 @@ class AdminAppBar extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="APPBAR"
               style={{ fontFamily, backgroundColor: primary1Color }}
+              label="update appbar"
+              successLabel="appbar updated!"
             />
           </div>
         </form>

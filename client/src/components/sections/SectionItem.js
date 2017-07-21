@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
+import ButtonItem from '../../containers/buttons/ButtonItem'
 import CardItem from '../../containers/cards/CardItem'
 import ContactForm  from '../../containers/users/ContactForm'
 import ProductItem from '../../containers/products/ProductItem'
@@ -11,7 +12,7 @@ class SectionItem extends Component {
     image: null,
     loading: false
   }
-  componentDidMount() {
+  componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
       this.setState({ loading: true })
@@ -25,6 +26,8 @@ class SectionItem extends Component {
     const componentList = (component) => {
       const { type, componentId } = component
       switch(type) {
+        case 'Button':
+          return <ButtonItem key={component._id} componentId={componentId}  />
         case 'Contact':
           return <ContactForm key={component._id} componentId={componentId}  />
         case 'Card':
@@ -75,13 +78,12 @@ class SectionItem extends Component {
           }}>
             {this.renderComponents(item.components)}
           </section>
-          { slides.length &&
+          { !slides.length ? null :
             <section style={{ backgroundColor, minHeight }}>
               <SlideList slides={slides} />
             </section>
           }
         </div>
-
       </CSSTransitionGroup>
     )
   }

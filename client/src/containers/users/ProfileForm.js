@@ -50,7 +50,8 @@ const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceede
         <SuccessableButton
           submitSucceeded={submitSucceeded}
           submitting={submitting}
-          label="USER"
+          label="update user"
+          successLabel="user updated!"
         />
         <RaisedButton
           type="button"

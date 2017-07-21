@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import renderHTML from 'react-render-html'
 import { Card, CardText } from 'material-ui/Card'
 
 class SlideList extends Component {
@@ -63,6 +64,7 @@ class SlideList extends Component {
   renderItem = (item) => {
     const { src, width } = item.image
     const values = item.values || {}
+    const { text } = values
     return (
       <div key={item._id}>
         {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide"/></div>}
@@ -71,11 +73,7 @@ class SlideList extends Component {
           style={{ margin: '0 auto', width: '100%', minWidth: width, backgroundColor: 'none' }}
           containerStyle={{ paddingBottom: 0 }}
         >
-          {values.text &&
-            <CardText style={{ textAlign: 'center', fontStyle: 'italic' }}>
-              {values.text}
-            </CardText>
-          }
+          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
         </Card>
       </div>
     )

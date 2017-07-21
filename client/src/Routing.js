@@ -44,7 +44,7 @@ import NotFound from './components/NotFound'
 const Routing = ({ history }) => (
   <Router history={history} /*onUpdate={logPageView}*/>
     <Route path="/" component={App}>
-
+      
       {/* Page */}
       <IndexRoute component={PageContainer} />
       <Route path=":slug" component={PageContainer} />

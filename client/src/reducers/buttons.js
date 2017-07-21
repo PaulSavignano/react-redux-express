@@ -1,6 +1,6 @@
-import { type } from '../actions/sections'
+import { type } from '../actions/buttons'
 
-const sections = (state = {
+const buttons = (state = {
   isFetching: true,
   items: []
 }, action) => {
@@ -38,7 +38,7 @@ const sections = (state = {
         isFetching: false,
         items: [
           ...state.items,
-          action.item
+          { ...action.item, editing: true }
         ]
       }
     case `UPDATE_${type}`:
@@ -54,6 +54,11 @@ const sections = (state = {
         ...state,
         items: state.items.filter(item => item._id !== action._id)
       }
+    case `DELETE_${type}S`:
+      return {
+        ...state,
+        items: state.items.filter(item => action.items.indexOf(item._id) === -1)
+      }
     case `ERROR_${type}`:
       return {
         ...state,
@@ -64,4 +69,4 @@ const sections = (state = {
   }
 }
 
-export default sections
+export default buttons

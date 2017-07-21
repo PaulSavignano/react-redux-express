@@ -230,7 +230,7 @@ class ImageForm extends Component {
         {!this.state.editing && this.state.src && <img src={this.state.src} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
         <div style={{ display: 'flex', flexFlow: 'row wrap', margin: 4 }}>
           <RaisedButton
-            label={loading ? <CircularProgress color="#ffffff" size={30} style={{ marginTop: 2}} /> : `Choose ${this.state.width} x ${this.state.height} image`}
+            label={loading ? <CircularProgress color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.width} x ${this.state.height} image`}
             labelPosition="before"
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4 }}

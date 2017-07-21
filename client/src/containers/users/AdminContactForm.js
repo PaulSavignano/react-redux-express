@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Field } from 'redux-form'
+import TextField from 'material-ui/TextField'
 
 import AdminContactFormEdit from './AdminContactFormEdit'
 import renderTextField from '../../components/fields/renderTextField'
@@ -14,16 +14,23 @@ class AdminContactForm extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  handleClose = () => this.setState({ editing: false })
+  handleEdit = () => this.setState({ editing: !this.state.editing })
   render() {
-    const { editing } = this.state
+    const { editing, zDepth } = this.state
+    const { componentId, sectionId } = this.props
     return (
-      <Card className="card" onTouchTap={() => this.setState({ editing: true })}>
+      <Card
+        zDepth={zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        onTouchTap={() => this.setState({ editing: true })}
+        style={{ flex: '1 1 auto', margin: 16 }}
+      >
         <CardTitle title="Contact" subtitle="Enter your information" />
         <CardText>
-          <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-          <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-          <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
+          <TextField hintText="First Name" floatingLabelText="First Name" fullWidth={true} />
+          <TextField hintText="Email" floatingLabelText="Email" fullWidth={true} />
+          <TextField hintText="Message" floatingLabelText="Message" fullWidth={true} multiLine={true} rows={2} />
         </CardText>
         <div className="button-container">
           <RaisedButton
@@ -33,7 +40,7 @@ class AdminContactForm extends Component {
             className="button"
           />
         </div>
-        {editing && <AdminContactFormEdit onClose={this.handleClose} editing={editing} />}
+        {editing && <AdminContactFormEdit handleEdit={this.handleEdit} editing={editing} sectionId={sectionId} componentId={componentId} />}
       </Card>
     )
   }

@@ -9,7 +9,7 @@ const search = (state = {
       return {
         ...state,
         searching: action.searching,
-        value: null
+        value: ''
       }
     case `ADD_${type}`:
       return {

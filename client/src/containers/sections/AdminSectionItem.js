@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import AdminSectionEdit from './AdminSectionEdit'
+import AdminButtonItem from '../buttons/AdminButtonItem'
 import AdminCardItem from '../cards/AdminCardItem'
 import AdminContactForm  from '../users/AdminContactForm'
 import AdminProductItem from '../products/AdminProductItem'
+import AdminSectionEdit from './AdminSectionEdit'
 import AdminSlideList from '../slides/AdminSlideList'
 import { startEdit } from '../../actions/sections'
 
@@ -14,7 +15,7 @@ class AdminSectionItem extends Component {
     image: null,
     loading: false
   }
-  componentDidMount() {
+  componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
       this.setState({ loading: true })
@@ -25,7 +26,6 @@ class AdminSectionItem extends Component {
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
-    console.log('section is receving props')
     if (image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
     if (!image.src) return this.setState({ image: null })
   }
@@ -33,8 +33,10 @@ class AdminSectionItem extends Component {
     const componentList = (component) => {
       const { type, componentId } = component
       switch(type) {
+        case 'Button':
+          return <AdminButtonItem key={component._id} componentId={componentId}  />
         case 'Contact':
-          return <AdminContactForm key={component._id} componentId={componentId}  />
+          return <AdminContactForm key={component._id} componentId={componentId} sectionId={this.props.item._id}  />
         case 'Card':
           return <AdminCardItem key={component._id} componentId={componentId}  />
         case 'Product':

@@ -84,8 +84,9 @@ class AdminBusiness extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="BUSINESS"
               style={{ fontFamily, backgroundColor: primary1Color }}
+              label="update business"
+              successLabel="business updated!"
             />
           </div>
         </form>

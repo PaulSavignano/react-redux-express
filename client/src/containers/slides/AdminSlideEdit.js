@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import renderTextField from '../../components/fields/renderTextField'
+import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/slides'
 import ImageForm from '../../components/images/ImageForm'
 
@@ -16,7 +16,7 @@ class AdminSlideItem extends Component {
     imageEdit: false
   }
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded || !item.editing) dispatch(stopEdit(item._id))
+    if (submitSucceeded && !item.editing) dispatch(stopEdit(item._id))
   }
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
   deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
@@ -35,7 +35,7 @@ class AdminSlideItem extends Component {
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SLIDE</div>}
+              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SLIDE</div>}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
@@ -65,15 +65,7 @@ class AdminSlideItem extends Component {
       >
         <CardHeader title={`Slide ${item._id}`} titleStyle={{ fontSize: 16 }} />
         <CardMedia>
-          <form onSubmit={handleSubmit((values) => {
-            if (this.state.imageEdit) {
-              const image = this.editor.handleSave()
-              return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-            }
-            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-          })}
-            style={{ flex: '1 1 auto' }}
-          >
+          <form>
             <ImageForm
               image={item.image}
               _id={item._id}
@@ -81,16 +73,12 @@ class AdminSlideItem extends Component {
               deleteImage={this.deleteImage}
               ref={this.setEditorRef}
             />
-            <div style={{ margin: '0 16px' }}>
+            <div>
               <Field
                 name="text"
-                label="text"
-                type="text"
-                fullWidth={true}
-                component={renderTextField}
+                component={renderWysiwgyField}
               />
             </div>
-
           </form>
         </CardMedia>
         {error && <div className="error">{error}</div>}

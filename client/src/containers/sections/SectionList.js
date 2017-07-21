@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import SectionItem from '../../components/sections/SectionItem'
 
 const SectionList = ({ isFetching, sections }) => {
-  console.log('sections', sections)
   return (
     !isFetching &&
     <div>

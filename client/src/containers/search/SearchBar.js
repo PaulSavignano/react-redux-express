@@ -7,7 +7,7 @@ import { searchToggle, searchAdd } from '../../actions/search'
 
 const SearchBar = ({ color, dispatch, search, handleSearch, isFetching }) => (
   !isFetching &&
-  <span style={{ width: '100%'}}>
+  <span>
     <IconButton
       iconClassName="fa fa-search"
       iconStyle={{ fontSize: 16, color }}

@@ -226,7 +226,6 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
     case 'UPDATE_VALUES':
       Brand.findOneAndUpdate({ _id }, { $set: { 'footer.styles': values }},  { new: true })
         .then(doc => {
-          console.log('inside footer update', doc)
           res.send(doc)
         })
         .catch(err => {

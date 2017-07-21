@@ -11,6 +11,7 @@ Brand.findOne({})
 
 import mongoose from './db/mongoose'
 import brands from './routes/brands'
+import buttons from './routes/buttons'
 import cards from './routes/cards'
 import carts from './routes/carts'
 import orders from './routes/orders'
@@ -28,6 +29,7 @@ app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api/brands', brands)
+app.use('/api/buttons', buttons)
 app.use('/api/cards', cards)
 app.use('/api/carts', carts)
 app.use('/api/orders', orders)

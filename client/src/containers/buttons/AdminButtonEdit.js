@@ -7,22 +7,14 @@ import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import renderTextField from '../../components/fields/renderTextField'
-import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
-import ImageForm from '../../components/images/ImageForm'
-import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/cards'
+import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/buttons'
 
-class AdminCardEdit extends Component {
-  state = {
-    imageEdit: false
-  }
+class AdminButtonEdit extends Component {
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
     if (submitSucceeded && !item.editing) {
       dispatch(stopEdit(item._id))
     }
   }
-  handleImageEdit = (bool) => this.setState({ imageEdit: bool })
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
-  setEditorRef = (editor) => this.editor = editor
   render() {
     const { dispatch, error, handleSubmit, item, submitting } = this.props
     return (
@@ -30,20 +22,14 @@ class AdminCardEdit extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              onTouchTap={handleSubmit((values) => {
-                if (this.state.imageEdit) {
-                  const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-                }
-                return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-              })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE CARD</div>}
+              onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
+              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE BUTTON</div>}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Card"
+              label="Remove Button"
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -67,20 +53,6 @@ class AdminCardEdit extends Component {
         bodyStyle={{ padding: 8 }}
       >
         <form>
-          <ImageForm
-            image={item.image}
-            type="image/jpg"
-            _id={item._id}
-            handleImageEdit={this.handleImageEdit}
-            deleteImage={this.deleteImage}
-            ref={this.setEditorRef}
-          />
-          <div>
-            <Field
-              name="text"
-              component={renderWysiwgyField}
-            />
-          </div>
           <div className="field-container">
             <Field
               name="backgroundColor"
@@ -89,8 +61,14 @@ class AdminCardEdit extends Component {
               component={renderTextField}
             />
             <Field
-              name="iFrame"
-              label="iFrame"
+              name="color"
+              label="color"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="label"
+              label="label"
               className="field"
               component={renderTextField}
             />
@@ -116,12 +94,7 @@ class AdminCardEdit extends Component {
             <Field
               name="width"
               label="width"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="zDepth"
-              label="zDepth"
+              type="number"
               className="field"
               component={renderTextField}
             />
@@ -133,7 +106,7 @@ class AdminCardEdit extends Component {
   }
 }
 
-AdminCardEdit = compose(
+AdminButtonEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
@@ -143,13 +116,12 @@ AdminCardEdit = compose(
         ...values,
         width: values.width ? values.width.toString() : null,
         maxWidth: values.maxWidth ? values.maxWidth.toString() : null,
-        zDepth: values.zDepth ? values.zDepth.toString() : null
        }
     }
   }),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminCardEdit)
+  }))(AdminButtonEdit)
 
-export default AdminCardEdit
+export default AdminButtonEdit

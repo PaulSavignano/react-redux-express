@@ -68,7 +68,6 @@ export const fetchSections = () => {
         dispatch(fetchSectionsSuccess(json))
       })
       .catch(err => {
-        console.log(err)
         dispatch(fetchSectionsFailure(err))
       })
   }

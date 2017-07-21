@@ -11,6 +11,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageForm from '../../components/images/ImageForm'
 import renderTextField from '../../components/fields/renderTextField'
+import * as buttonActions from '../../actions/buttons'
 import * as cardActions from '../../actions/cards'
 import * as slideActions from '../../actions/slides'
 import * as productActions from '../../actions/products'
@@ -56,7 +57,7 @@ class AdminSectionEdit extends Component {
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SECTION</div>}
+              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SECTION</div>}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
@@ -148,6 +149,15 @@ class AdminSectionEdit extends Component {
           >
             <Menu autoWidth={true}>
               <MenuItem
+                primaryText="Add Button"
+                onTouchTap={() => {
+                  const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                  dispatch(buttonActions.fetchAdd(add))
+                  this.setState({ openMenu: false })
+                  dispatch(stopEdit(item._id))
+                }}
+              />
+              <MenuItem
                 primaryText="Add Card"
                 onTouchTap={() => {
                   const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
@@ -157,10 +167,10 @@ class AdminSectionEdit extends Component {
                 }}
               />
               <MenuItem
-                primaryText="Add Slide"
+                primaryText="Add Contact Form"
                 onTouchTap={() => {
-                  const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
-                  dispatch(slideActions.fetchAdd(add))
+                  const add = { type: 'ADD_CONTACT_FORM' }
+                  dispatch(fetchUpdate(item._id, add))
                   this.setState({ openMenu: false })
                   dispatch(stopEdit(item._id))
                 }}
@@ -175,10 +185,10 @@ class AdminSectionEdit extends Component {
                 }}
               />
               <MenuItem
-                primaryText="Add Contact Form"
+                primaryText="Add Slide"
                 onTouchTap={() => {
-                  const add = { type: 'ADD_CONTACT_FORM' }
-                  dispatch(fetchUpdate(item._id, add))
+                  const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                  dispatch(slideActions.fetchAdd(add))
                   this.setState({ openMenu: false })
                   dispatch(stopEdit(item._id))
                 }}

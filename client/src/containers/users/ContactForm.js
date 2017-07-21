@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 
+import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchContact } from '../../actions/users'
 
@@ -26,16 +27,24 @@ const validate = values => {
 class ContactForm extends Component {
   state = {
     open: false,
+    zDepth: 1,
   }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
+  handleMouseEnter = () => this.setState({ zDepth: 4 })
+  handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    console.log('contact form')
-    const { dispatch, error, handleSubmit, submitting } = this.props
+    const { open, zDepth } = this.state
+    const { dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
     return (
-      <Card className="card">
+      <Card
+        zDepth={zDepth}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        style={{ flex: '1 1 auto', margin: 16 }}
+      >
         <CardTitle title="Contact" subtitle="Enter your information" />
         <form onSubmit={handleSubmit(values => dispatch(fetchContact(values)))} >
           <CardText>
@@ -43,7 +52,7 @@ class ContactForm extends Component {
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
             <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
           </CardText>
-          {!this.state.open ? null :
+          {open &&
           <Dialog
             actions={
               <FlatButton
@@ -61,12 +70,11 @@ class ContactForm extends Component {
           }
           {error && <div className="error">{error}</div>}
           <div className="button-container">
-            <RaisedButton
-              label="Contact"
-              disabled={submitting}
-              type="submit"
-              primary={true}
-              className="button"
+            <SuccessableButton
+              submitSucceeded={submitSucceeded}
+              submitting={submitting}
+              label="submit"
+              successLabel="submitted!"
             />
           </div>
         </form>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import renderHTML from 'react-render-html'
 import { Card, CardText } from 'material-ui/Card'
 
 import AdminSlideEdit from './AdminSlideEdit'
 import { startEdit } from '../../actions/slides'
 
-class AdminSlideListNew extends Component {
+class AdminSlideList extends Component {
   state = {
     index: 0,
     intervalId: null,
@@ -16,7 +17,7 @@ class AdminSlideListNew extends Component {
     ltBtnColor: 'rgba(0, 0, 0, .1)'
   }
   componentWillMount() {
-    const editItem = this.props.items.find(item => item.editing === true)
+    const { editItem } = this.props
     if (editItem) {
       this.stop()
       this.setState({ editItem })
@@ -26,8 +27,7 @@ class AdminSlideListNew extends Component {
       this.setState({ editItem: null })
     }
   }
-  componentWillReceiveProps(nextProps) {
-    const editItem = nextProps.items.find(item => item.editing === true)
+  componentWillReceiveProps({ editItem }) {
     if (editItem) {
       this.stop()
       this.setState({ editItem })
@@ -82,6 +82,7 @@ class AdminSlideListNew extends Component {
   renderItem = (item) => {
     const { src, width } = item.image
     const values = item.values || {}
+    const { text } = values
     return (
       <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer', height: '100%' }}>
         {src && <div style={{ display: 'flex', justifyContent: 'center' }} ><img src={src} alt="slide"/></div>}
@@ -90,11 +91,7 @@ class AdminSlideListNew extends Component {
           style={{ margin: '0 auto', width: '100%', minWidth: width, backgroundColor: 'none' }}
           containerStyle={{ paddingBottom: 0 }}
         >
-          {values.text &&
-            <CardText style={{ textAlign: 'center', fontStyle: 'italic' }}>
-              {values.text}
-            </CardText>
-          }
+          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
         </Card>
       </div>
     )
@@ -159,11 +156,13 @@ class AdminSlideListNew extends Component {
 
 
 const mapStateToProps = ({ brand: { theme: { palette: { canvasColor }}}, slides: { isFetching, items }}, { slides }) => {
+  const slideItems = slides.map(slide => items.find(item => item._id === slide.componentId))
   return {
     canvasColor,
     isFetching,
-    items: slides.map(slide => items.find(item => item._id === slide.componentId))
+    items: slideItems,
+    editItem: items.find(item => item.editing === true) || false
   }
 }
 
-export default connect(mapStateToProps)(AdminSlideListNew)
+export default connect(mapStateToProps)(AdminSlideList)

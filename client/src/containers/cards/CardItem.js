@@ -7,12 +7,13 @@ import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 class CardItem extends Component {
   state = {
-    zDepth: 1,
+    zDepth: null,
     image: null,
     loading: false
   }
-  componentDidMount() {
-    const { image } = this.props.item
+  componentWillMount() {
+    const { image, values } = this.props.item
+    if (values.zDepth) this.setState({ zDepth: values.zDepth })
     if (image.src) {
       this.setState({ loading: true })
       const img = new Image()
@@ -23,33 +24,10 @@ class CardItem extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  renderContents = (iFrame, text) => {
-    const { image, loading } = this.state
-    return (
-      !loading &&
-      <CSSTransitionGroup
-        transitionName="image"
-        transitionAppear={true}
-        transitionAppearTimeout={600}
-        transitionEnter={false}
-        transitionLeave={false}
-      >
-        {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
-        {iFrame &&
-          <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
-            <iframe
-              title="iFrame"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-              src={iFrame} frameBorder="0" allowFullScreen>
-            </iframe>
-          </div>
-        }
-        {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText> }
-      </CSSTransitionGroup>
-    )
-  }
+  handleNavigation = () => this.props.dispatch(push(`${this.props.values.link}`))
   render() {
-    const { dispatch, item } = this.props
+    const { image, loading, zDepth } = this.state
+    const { isFetching, item } = this.props
     const values = item.values || {}
     const {
       backgroundColor,
@@ -59,37 +37,44 @@ class CardItem extends Component {
       maxWidth,
       text,
       width,
-      zDepth
     } = values
-    const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor }
+    const cursor = link && 'pointer'
+    const cardStyle = { backgroundColor, cursor  }
     return (
-      link ?
-      <Card
-        onTouchTap={() => dispatch(push(`${link}`))}
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        style={{
-          ...cardStyle,
-          cursor: 'pointer',
-          flex: '1 1 auto'
-        }}
+      !isFetching && !loading &&
+      <CSSTransitionGroup
+        transitionName="image"
+        transitionAppear={true}
+        transitionAppearTimeout={600}
+        transitionEnter={false}
+        transitionLeave={false}
+        style={{ width, maxWidth, margin, flex: '1 1 auto' }}
       >
-        {this.renderContents(iFrame, text)}
-      </Card>
-      :
-      <Card
-        zDepth={zDepth}
-        style={{ ...cardStyle, flex: '1 1 auto' }}
-        onTouchTap={() => console.log('card')}
-      >
-        {this.renderContents(iFrame, text)}
-      </Card>
+        <Card
+          onTouchTap={link && this.handleNavigation}
+          zDepth={zDepth}
+          onMouseEnter={link && this.handleMouseEnter}
+          onMouseLeave={link && this.handleMouseLeave}
+          style={cardStyle}
+        >
+          {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
+          {iFrame &&
+            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
+              <iframe
+                title="iFrame"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src={iFrame} frameBorder="0" allowFullScreen>
+              </iframe>
+            </div>
+          }
+          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText> }
+        </Card>
+      </CSSTransitionGroup>
     )
   }
 }
 
-const mapStateToProps = ({ cards: { items, isFetching } }, { componentId }) => {
+const mapStateToProps = ({ cards: { items, isFetching }}, { componentId }) => {
   const item = items.find(item => item._id === componentId)
   return {
     item,

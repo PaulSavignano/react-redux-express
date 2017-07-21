@@ -12,7 +12,7 @@ class AdminCardItem extends Component {
     image: null,
     loading: false
   }
-  componentDidMount() {
+  componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
       this.setState({ loading: true })
@@ -39,23 +39,22 @@ class AdminCardItem extends Component {
       width,
       zDepth
     } = item.values
-    const cardStyle = { width, maxWidth, zDepth, margin, backgroundColor }
     return (
       !isFetching && !loading &&
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
-        transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
-        style={{ height: '100%' }}
+        transitionAppearTimeout={600}
+        style={{ width, maxWidth, margin, flex: '1 1 auto' }}
       >
         <Card
           zDepth={zDepth}
-          style={{ ...cardStyle, flex: '1 1 auto' }}
           onTouchTap={() => dispatch(startEdit(item._id))}
+          style={{ backgroundColor, cursor: 'pointer', height: '100%' }}
         >
-          {image && <CardMedia><img src={image} alt="card" style={{ border: "3px solid blue"}}/></CardMedia>}
+          {image && <CardMedia><img src={image} alt="card" /></CardMedia>}
           {iFrame &&
             <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
               <iframe

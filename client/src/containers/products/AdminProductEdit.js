@@ -41,14 +41,13 @@ class AdminProductEdit extends Component {
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => {
-                console.log('submitting')
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={30} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE PRODUCT</div>}
+              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE PRODUCT</div>}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
@@ -87,19 +86,18 @@ class AdminProductEdit extends Component {
             ref={this.setEditorRef}
           />
         </CardMedia>
-        <form onSubmit={handleSubmit((values) => {
-          if (this.state.editing) {
-            const image = this.editor.handleSave()
-            return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-          }
-          return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-        })}
-        >
+        <form>
           <div className="field-container">
             <Field
               name="width"
               label="width"
               type="number"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="margin"
+              label="margin"
               className="field"
               component={renderTextField}
             />
@@ -125,21 +123,6 @@ class AdminProductEdit extends Component {
               rows={2}
               className="field"
               component={renderTextField}
-            />
-          </div>
-          {error && <div className="error">{error}</div>}
-          <div className="button-container">
-            <SuccessableButton
-              submitSucceeded={submitSucceeded}
-              submitting={submitting}
-              label="PRODUCT"
-            />
-            <RaisedButton
-              type="button"
-              label="Remove Product"
-              className="button delete-button"
-              labelColor="#ffffff"
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
           </div>
         </form>

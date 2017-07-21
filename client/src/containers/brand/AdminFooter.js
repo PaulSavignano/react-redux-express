@@ -115,8 +115,9 @@ class AdminFooter extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="FOOTER"
               style={{ fontFamily, backgroundColor: primary1Color }}
+              label="update footer"
+              successLabel="footer updated!"
             />
           </div>
         </form>

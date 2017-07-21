@@ -8,9 +8,6 @@ const PageSchema = new Schema({
     minlength: 1,
     trim: true
   },
-  sections: [{
-    sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
-  }],
   slug: { type: String },
   createdAt: { type: Date, default: Date.now }
 })

@@ -60,8 +60,9 @@ class AdminMain extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="MAIN"
               style={{ fontFamily, backgroundColor: primary1Color }}
+              label="update main"
+              successLabel="main updated!"
             />
           </div>
         </form>

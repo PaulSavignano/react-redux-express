@@ -13,6 +13,7 @@ body {
 }
 
 section {
+  display: flex;
   margin: 0 auto;
   max-width: 1044px
 }
@@ -24,7 +25,6 @@ section {
 
 .card {
   flex: 1 1 auto;
-  margin: 16px;
   height: 100%;
 }
 

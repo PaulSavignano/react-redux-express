@@ -80,8 +80,9 @@ class AdminTheme extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="THEME"
               style={{ fontFamily, backgroundColor: primary1Color }}
+              label="update theme"
+              successLabel="theme updated!"
             />
           </div>
         </form>

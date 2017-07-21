@@ -14,7 +14,8 @@ const SlideSchema = new Schema({
     height: { type: Number, trim: true, default: 200 }
   },
   values: {
-    text: { type: String, trim: true }
+    color: { type: String, trim: true, default: 'inherit' },
+    text: { type: String, trim: true },
   }
 }, {
   timestamps: true

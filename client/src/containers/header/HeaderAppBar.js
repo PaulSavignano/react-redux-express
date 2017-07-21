@@ -50,7 +50,7 @@ const HeaderAppBar = ({
             </span>
             <IconButton
               iconClassName="fa fa-search"
-              iconStyle={{ fontSize: 16, color, position: 'absolute', margin: '-3px auto' }}
+              iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
               onTouchTap={() => dispatch(searchToggle(!search.searching))}
             />
 

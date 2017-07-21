@@ -12,7 +12,7 @@ class OrderCartItem extends Component {
     image: null,
     loading: false
   }
-  componentDidMount() {
+  componentWillMount() {
     const { image } = this.props.product
     if (image) {
       this.setState({ loading: true })

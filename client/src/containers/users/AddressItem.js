@@ -37,7 +37,8 @@ class AddressItem extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="ADDRESS"
+              label="update address"
+              successLabel="address updated!"
             />
             <RaisedButton
               type="button"
