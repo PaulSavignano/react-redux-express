@@ -70,8 +70,7 @@ class AdminProductItem extends Component {
             <TextField
               style={{ flex: '1 1 auto' }}
               inputStyle={{ textAlign: 'center' }}
-              ref={node => this.qty = node}
-              value={this.state.qty}
+              value="1"
               id={_id}
             />
             <RaisedButton label="+" primary={true} labelStyle={{ fontSize: '24px' }} />

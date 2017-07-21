@@ -9,6 +9,7 @@ const ButtonItem = ({ dispatch, item, isFetching }) => {
   const values = item.values || {}
   const {
     backgroundColor,
+    border,
     color,
     label,
     link,
@@ -22,7 +23,7 @@ const ButtonItem = ({ dispatch, item, isFetching }) => {
     type: "button",
     label,
     labelColor: color,
-    style: { backgroundColor, margin, maxWidth, width },
+    style: { backgroundColor, border, margin, maxWidth, width },
     ...nav
   }
   return (

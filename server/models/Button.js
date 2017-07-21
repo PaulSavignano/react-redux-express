@@ -6,6 +6,7 @@ const ButtonSchema = new Schema({
   slug: { type: String },
   values: {
     backgroundColor: { type: String, trim: true, default: 'inherit' },
+    border: { type: String, trim: true },
     color: { type: String, trim: true, default: '#ffffff' },
     label: { type: String, trim: true, default: 'Button' },
     link: { type: String, trim: true },

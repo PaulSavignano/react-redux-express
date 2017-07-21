@@ -61,6 +61,12 @@ class AdminButtonEdit extends Component {
               component={renderTextField}
             />
             <Field
+              name="border"
+              label="border"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
               name="color"
               label="color"
               className="field"

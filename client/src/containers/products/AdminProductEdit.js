@@ -73,6 +73,7 @@ class AdminProductEdit extends Component {
         open={item.editing}
         onRequestClose={() => dispatch(stopEdit(item._id))}
         autoScrollBodyContent={true}
+        contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
 

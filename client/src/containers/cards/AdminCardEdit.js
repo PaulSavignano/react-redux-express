@@ -116,6 +116,7 @@ class AdminCardEdit extends Component {
             <Field
               name="width"
               label="width"
+              type="number"
               className="field"
               component={renderTextField}
             />
@@ -141,9 +142,9 @@ AdminCardEdit = compose(
       item,
       initialValues: {
         ...values,
-        width: values.width ? values.width.toString() : null,
-        maxWidth: values.maxWidth ? values.maxWidth.toString() : null,
-        zDepth: values.zDepth ? values.zDepth.toString() : null
+        width: values.width && values.width.toString(),
+        maxWidth: values.maxWidth && values.maxWidth.toString(),
+        zDepth: values.zDepth && values.zDepth.toString()
        }
     }
   }),
