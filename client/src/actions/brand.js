@@ -56,6 +56,7 @@ export const fetchBrand = () => {
         dispatch(fetchBrandSuccess(json[0]))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchBrandFailure(err))
       })
   }
@@ -67,6 +68,7 @@ export const fetchBrand = () => {
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (path, update) => {
+  console.log(update)
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${path}`, {
       method: 'PATCH',

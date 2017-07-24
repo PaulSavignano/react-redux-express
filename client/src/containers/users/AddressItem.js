@@ -23,6 +23,7 @@ class AddressItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
+        style={{ margin: 16 }}
       >
         <form
           onSubmit={handleSubmit((values) => {
@@ -39,6 +40,7 @@ class AddressItem extends Component {
               submitting={submitting}
               label="update address"
               successLabel="address updated!"
+              style={{ margin: 4 }}
             />
             <RaisedButton
               type="button"

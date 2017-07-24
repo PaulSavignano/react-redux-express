@@ -43,7 +43,6 @@ const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceede
         <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
         <Field name="password" component={renderTextField} label="Password" type="password" className="field" />
         <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" className="field"/>
-
       </div>
       {error && <div className="error">{error}</div>}
       <div className="button-container">
@@ -52,6 +51,7 @@ const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceede
           submitting={submitting}
           label="update user"
           successLabel="user updated!"
+          style={{ margin: 4 }}
         />
         <RaisedButton
           type="button"

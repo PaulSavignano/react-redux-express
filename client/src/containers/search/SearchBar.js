@@ -15,14 +15,23 @@ const SearchBar = ({ color, dispatch, search, handleSearch, isFetching }) => (
     />
     <TextField
       autoFocus
-      onBlur={() => dispatch(searchToggle(!search.searching))}
       style={{ flex: '1 1 auto' }}
       inputStyle={{ WebkitTextFillColor: color }}
       underlineFocusStyle={{ borderColor: color }}
       hintText="SEARCH"
       fullWidth={true}
       value={search.value}
-      onChange={(e) => dispatch(searchAdd(e.target.value))}
+      onBlur={(e) => {
+        if (e.target.value.length < 1) {
+          return dispatch(searchToggle(!search.searching))
+        }
+      }}
+      onChange={(e) => {
+        if (e.target.value.length > 0) {
+          return dispatch(searchAdd(e.target.value))
+        }
+        return dispatch(searchToggle(!search.searching))
+      }}
     />
   </span>
 )

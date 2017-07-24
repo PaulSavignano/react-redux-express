@@ -7,18 +7,16 @@ import { fetchUpdate } from '../../actions/users'
 
 const AddressAdd = ({ dispatch, error, handleSubmit }) => (
   <form onSubmit={handleSubmit(() => dispatch(fetchUpdate({ type: 'ADD_ADDRESS' })))}>
-    <Card zDepth={1} className="card">
-      <CardActions>
-        <RaisedButton
-          type="submit"
-          label="Add New Address"
-          labelColor="#ffffff"
-          primary={true}
-          fullWidth={true}
-        />
-        {error && <div className="error">{error}</div>}
-      </CardActions>
-    </Card>
+    <CardActions>
+      <RaisedButton
+        type="submit"
+        label="Add New Address"
+        labelColor="#ffffff"
+        primary={true}
+        fullWidth={true}
+      />
+      {error && <div className="error">{error}</div>}
+    </CardActions>
   </form>
 )
 

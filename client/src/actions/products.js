@@ -63,7 +63,7 @@ export const fetchProducts = () => {
         dispatch(fetchProductsSuccess(json))
       })
       .catch(err => {
-        console.error(err)
+        console.log(err)
         dispatch(fetchProductsFailure(err))
       })
   }

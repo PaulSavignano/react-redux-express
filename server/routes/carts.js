@@ -63,11 +63,13 @@ carts.get('/:_id', (req, res) => {
 // Update
 carts.patch('/:_id', (req, res) => {
   const _id = req.params._id
-  const { type, productId, productQty } = req.body
   if (!ObjectID.isValid(_id)) return res.status(404).send()
+  const { type, productId, productQty } = req.body
+  console.log(req.body)
   Cart.findOne({ _id })
     .then(cart => {
       const index = cart.items.map(i => i.productId.toHexString()).indexOf(productId)
+      console.log(index)
       if (index !== -1) {
         switch (type) {
           case 'ADD_TO_CART':
@@ -150,7 +152,7 @@ carts.patch('/:_id', (req, res) => {
             const item = {
               productId,
               productQty,
-              image: pro.image,
+              image: pro.image.src,
               name: pro.values.name,
               price: pro.values.price,
               total: pro.values.price * productQty

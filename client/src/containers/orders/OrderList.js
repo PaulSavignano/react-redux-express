@@ -4,15 +4,15 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 
 import OrderItem from '../../components/orders/OrderItem'
 
-const OrderList = ({ isFetching, orders }) => (
+const OrderList = ({ isFetching, items }) => (
   !isFetching &&
-  <Card>
+  <Card className="section">
     <CardTitle title="Orders"/>
-    {!orders.length ? <CardText>You do not have any orders yet</CardText> :
-    orders.map(order => (
+    {!items.length ? <CardText>You do not have any orders yet</CardText> :
+    items.map(item => (
       <OrderItem
-        key={order._id}
-        order={order}
+        key={item._id}
+        item={item}
       />
     ))}
   </Card>
@@ -20,7 +20,7 @@ const OrderList = ({ isFetching, orders }) => (
 
 const mapStateToProps = ({ orders: { isFetching, items }}) => ({
   isFetching,
-  orders: items,
+  items
 })
 
 export default connect(mapStateToProps)(OrderList)

@@ -201,6 +201,7 @@ users.post('/recovery', (req, res, next) => {
     .then(token => {
       User.findOne({ 'values.email': email })
         .then(user => {
+          const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${token}` : `localhost:${process.env.PORT}/user/reset/${token}`
           if (!user) return Promise.reject({ error: { email: 'User not found' }})
           const { firstName, email } = user.values
           user.passwordResetToken = token
@@ -212,7 +213,12 @@ users.post('/recovery', (req, res, next) => {
                 toSubject: 'Reset Password',
                 toBody: `
                   <p>Hi ${firstName},</p>
-                  <p>Click the link below to recover your password.<br />${process.env.ROOT_URL}reset/${token}</p>`
+                  <p>Click the link below to recover your password.</p>
+                  <br />
+                  <a href="${path}" style="color: black; text-decoration: none;">
+                    ${path}
+                  </a>
+                  `
               })
               res.send({ message: `A password recovery email has been sent to ${email}`})
             })

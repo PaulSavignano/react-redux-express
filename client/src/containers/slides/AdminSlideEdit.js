@@ -19,7 +19,7 @@ class AdminSlideItem extends Component {
     if (submitSucceeded && !item.editing) dispatch(stopEdit(item._id))
   }
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { dispatch, error, handleSubmit, item, submitting } = this.props
@@ -35,7 +35,7 @@ class AdminSlideItem extends Component {
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SLIDE</div>}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SLIDE'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
@@ -68,9 +68,10 @@ class AdminSlideItem extends Component {
           <form>
             <ImageForm
               image={item.image}
+              type="image/jpg"
               _id={item._id}
-              handleImageEdit={this.handleImageEdit}
-              deleteImage={this.deleteImage}
+              onImageEdit={this.handleImageEdit}
+              onImageDelete={this.handleImageDelete}
               ref={this.setEditorRef}
             />
             <div>

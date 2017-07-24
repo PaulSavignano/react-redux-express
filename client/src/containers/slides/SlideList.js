@@ -114,7 +114,7 @@ class SlideList extends Component {
             transitionEnter={true}
             transitionLeave={false}
             transitionEnterTimeout={600}
-            style={{ height: 300}}
+            style={{ height: '100%' }}
           >
             {this.renderItem(this.props.items[this.state.index])}
           </CSSTransitionGroup>

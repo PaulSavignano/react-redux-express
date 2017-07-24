@@ -34,7 +34,7 @@ class AdminSectionEdit extends Component {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -57,7 +57,7 @@ class AdminSectionEdit extends Component {
                 }
                 return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE SECTION</div>}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SECTION'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
@@ -90,8 +90,8 @@ class AdminSectionEdit extends Component {
           image={item.image}
           type="image/jpg"
           _id={item._id}
-          handleImageEdit={this.handleImageEdit}
-          deleteImage={this.deleteImage}
+          onImageEdit={this.handleImageEdit}
+          onImageDelete={this.handleImageDelete}
           ref={this.setEditorRef}
         />
         <form>
@@ -208,7 +208,7 @@ AdminSectionEdit = compose(
       form: `section_${item._id}`,
       initialValues: {
         ...values,
-        minHeight: values.minWidth ? values.minWidth.toString() : null,
+        minHeight: values.minHeight ? values.minHeight.toString() : null,
       }
     }
   }),

@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
-import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import SuccessableButton from '../../components/buttons/SuccessableButton'
 import formatPrice from '../../utils/formatPrice'
 import { fetchAddToCart } from '../../actions/cart'
 
@@ -21,7 +24,7 @@ class ProductItem extends Component {
   }
   componentWillMount() {
     const { image } = this.props.item
-    if (image) {
+    if (image.src) {
       this.setState({ loading: true })
       const img = new Image()
       const src = image.src
@@ -35,9 +38,16 @@ class ProductItem extends Component {
   plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
     const { image, loading } = this.state
-    const { dispatch, item: { _id, slug, values: { margin, width, name, description, price } }  } = this.props
+    const { dispatch, handleSubmit, item, isFetching, submitSucceeded, submitting  } = this.props
+    const { _id, slug } = item
+    const values = item.values || {}
+    const margin = values.margin || null
+    const width = values.width || null
+    const name = values.name || null
+    const description = values.description || null
+    const price = values.price || null
     return (
-      !loading &&
+      !isFetching && !loading &&
       <CSSTransitionGroup
         transitionName="image"
         transitionAppear={true}
@@ -65,40 +75,52 @@ class ProductItem extends Component {
           }
           />
           <CardText>{description}</CardText>
-          <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
-            <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: '24px' }} />
-            <TextField
-              style={{ flex: '1 1 auto' }}
-              inputStyle={{ textAlign: 'center' }}
-              ref={node => this.qty = node}
-              value={this.state.qty}
-              id={_id}
-            />
-            <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
-          </div>
-          <RaisedButton
-            label="Add To Cart"
-            primary={true}
-            fullWidth={true}
-            onTouchTap={() => {
+          <form
+            onSubmit={handleSubmit(values => {
               const update = {
                 type: 'ADD_TO_CART',
                 productId: _id,
                 productQty: this.state.qty,
               }
-              dispatch(fetchAddToCart(update))
-              this.setState({ open: true })
-            }}
-          />
+              return dispatch(fetchAddToCart(update))
+            })}
+          >
+            <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
+              <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: '24px' }} />
+              <div style={{ flex: '1 1 auto', textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)' }}>
+                {this.state.qty}
+              </div>
+              <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
+            </div>
+            <div style={{ display: 'flex' }}>
+              <SuccessableButton
+                submitSucceeded={submitSucceeded}
+                submitting={submitting}
+                label="Add To Cart"
+                successLabel="Product Added!"
+              />
+            </div>
+          </form>
+
 
           {!this.state.open ? null :
           <Dialog
             actions={
-              <FlatButton
-                label="Close"
-                primary={true}
-                onTouchTap={() => this.setState({ open: false })}
-              />
+              <div>
+                <FlatButton
+                  label="Cart"
+                  primary={true}
+                  onTouchTap={() => {
+                    dispatch(push('/cart'))
+                    this.setState({ open: false })
+                  }}
+                />
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={() => this.setState({ open: false })}
+                />
+              </div>
             }
             actionsContainerStyle={{ textAlign: 'center' }}
             modal={false}
@@ -115,9 +137,12 @@ class ProductItem extends Component {
   }
 }
 
-const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => ({
-  item: items.find(item => item._id === componentId),
-  isFetching
-})
 
-export default connect(mapStateToProps)(ProductItem)
+ProductItem = compose(
+  connect((state, { item }) => ({
+      form: `addToCart_${item._id}`,
+    })
+  ),
+  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [] }))(ProductItem)
+
+export default ProductItem

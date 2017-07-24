@@ -8,12 +8,12 @@ import App from './App'
 import AdminBrand from './components/brand/AdminBrand'
 
 // Page
-import PageContainer from './containers/pages/PageContainer'
+import Page from './containers/pages/Page'
 import AdminPage from './containers/pages/AdminPage'
 import AdminPageEdit from './containers/pages/AdminPageEdit'
 
 // User
-import Cart from './containers/cart/Cart'
+import CartPage from './containers/cart/CartPage'
 import RequireAuth from './containers/users/RequireAuth'
 import Signup from './containers/users/Signup'
 import Signin from './containers/users/Signin'
@@ -44,10 +44,10 @@ import NotFound from './components/NotFound'
 const Routing = ({ history }) => (
   <Router history={history} /*onUpdate={logPageView}*/>
     <Route path="/" component={App}>
-      
+
       {/* Page */}
-      <IndexRoute component={PageContainer} />
-      <Route path=":slug" component={PageContainer} />
+      <IndexRoute component={Page} />
+      <Route path=":slug" component={Page} />
       <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
       <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
 
@@ -56,7 +56,7 @@ const Routing = ({ history }) => (
       <Route path="admin/brand" component={RequireAuth(AdminBrand, ['admin'])} />
 
       {/* User */}
-      <Route path="user/cart" component={Cart} />
+      <Route path="user/cart" component={CartPage} />
       <Route path="user/signup" component={Signup} />
       <Route path="user/signin" component={Signin} />
       <Route path="user/recovery" component={Recovery} />

@@ -13,11 +13,11 @@ class OrderCartItem extends Component {
     loading: false
   }
   componentWillMount() {
-    const { image } = this.props.product
+    const { image } = this.props.item
     if (image) {
       this.setState({ loading: true })
       const img = new Image()
-      const src = image.src
+      const src = image
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
     }
@@ -25,6 +25,7 @@ class OrderCartItem extends Component {
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
+    console.log(this.props.product)
     const { image, loading } = this.state
     const { dispatch, item: { productId, productQty, name, price, total }, isFetching } = this.props
     return (
@@ -40,10 +41,14 @@ class OrderCartItem extends Component {
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          onTouchTap={() => dispatch(push(`/products/product/${productId}`))}
+          onTouchTap={(e) => {
+            e.stopPropagation()
+            return dispatch(push(`/products/product/${productId}`))
+          }}
+          style={{ margin: 16 }}
         >
           <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-            {image && <img src={image} alt="" width="auto" height="100px"/>}
+            {image && <img src={image} alt="" width="auto" height="50px"/>}
             <div style={{
               display: 'flex',
               flexFlow: 'row wrap',
@@ -51,12 +56,12 @@ class OrderCartItem extends Component {
               justifyContent: 'space-between',
               flex: '1 1 auto',
             }}>
-              <span style={{ flex: '1 1 auto', fontSize: '1rem', margin: 16 }}>{name}</span>
-              <span style={{ flex: '1 1 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>{formatPrice(price)}</span>
-              <span style={{ flex: '1 1 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>
+              <span style={{ width: 200, fontSize: '1rem', margin: 16 }}>{name}</span>
+              <span style={{ flex: '0 0 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>{formatPrice(price)}</span>
+              <span style={{ flex: '0 0 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>
                 {productQty}
               </span>
-              <span style={{ flex: '1 1 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>{formatPrice(total)}</span>
+              <span style={{ flex: '0 0 auto', fontSize: '1rem', textAlign: 'right', margin: 16 }}>{formatPrice(total)}</span>
             </div>
           </div>
         </Card>

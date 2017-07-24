@@ -81,6 +81,31 @@ export const fetchCart = (cartId) => {
 }
 
 
+// Update
+const fetchUpdateCartSuccess = (cart) => ({ type: UPDATE, cart })
+const fetchUpdateCartFailure = (error) => ({ type: ERROR, error })
+export const fetchUpdateCart = (update) => {
+  return (dispatch, getState) => {
+    const cartId = localStorage.getItem('cart')
+    return fetch(`/api/${route}/${cartId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json' ,
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) return Promise.reject(json.error)
+        dispatch(fetchUpdateCartSuccess(json))
+        if (json.quantity === 0) dispatch(fetchDeleteCart(json._id))
+      })
+      .catch(err => dispatch(fetchUpdateCartFailure(err)))
+  }
+}
+
+
 
 // Delete
 const fetchDeleteCartSuccess = () => ({ type: DELETE })
@@ -101,31 +126,5 @@ export const fetchDeleteCart = () => {
         dispatch(fetchDeleteCartSuccess())
       })
       .catch(err => fetchDeleteCartFailure(err))
-  }
-}
-
-
-
-
-// Update
-const fetchUpdateCartSuccess = (cart) => ({ type: UPDATE, cart })
-const fetchUpdateCartFailure = (error) => ({ type: ERROR, error })
-export const fetchUpdateCart = (update) => {
-  return (dispatch, getState) => {
-    const cartId = localStorage.getItem('cart')
-    return fetch(`/api/${route}/${cartId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json' ,
-      },
-      body: JSON.stringify(update)
-    })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateCartSuccess(json))
-        if (json.quantity === 0) dispatch(fetchDeleteCart(json._id))
-      })
-      .catch(err => dispatch(fetchUpdateCartFailure(err)))
   }
 }

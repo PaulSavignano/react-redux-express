@@ -53,20 +53,20 @@ class ContactForm extends Component {
             <Field name="message" component={renderTextField} label="Message" fullWidth={true} multiLine={true} rows={2} />
           </CardText>
           {open &&
-          <Dialog
-            actions={
-              <FlatButton
-                label="Close"
-                primary={true}
-                onTouchTap={this.handleClose}
-              />
-            }
-            modal={false}
-            open={this.state.open}
-            onRequestClose={this.handleClose}
-          >
-            Email was successfully sent!
-          </Dialog>
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={this.handleClose}
+                />
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              Email was successfully sent!
+            </Dialog>
           }
           {error && <div className="error">{error}</div>}
           <div className="button-container">
@@ -75,6 +75,7 @@ class ContactForm extends Component {
               submitting={submitting}
               label="submit"
               successLabel="submitted!"
+              style={{ margin: 4}}
             />
           </div>
         </form>

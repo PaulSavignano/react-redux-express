@@ -1,13 +1,16 @@
 import React from 'react'
+
+
 import CartItem from './CartItem'
 
+
 const CartList = ({ cart }) => (
-  !cart.items.length ? <section><h1>Nothing in your cart yet</h1></section> :
+  cart.items.length &&
   <div>
-    {cart.items.map((item) => (
+    {cart.items.map(item => (
       <CartItem
         key={item.productId}
-        {...item}
+        item={item}
       />
     ))}
   </div>

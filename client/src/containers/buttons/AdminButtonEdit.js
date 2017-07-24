@@ -23,7 +23,7 @@ class AdminButtonEdit extends Component {
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
-              children={submitting ? <CircularProgress key={1} color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : <div key={2} style={{ color: '#ffffff' }}>UPDATE BUTTON</div>}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE BUTTON'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />

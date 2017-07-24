@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import AdminButtonItem from '../buttons/AdminButtonItem'
-import AdminCardItem from '../cards/AdminCardItem'
-import AdminContactForm  from '../users/AdminContactForm'
-import AdminProductItem from '../products/AdminProductItem'
-import AdminSectionEdit from './AdminSectionEdit'
-import AdminSlideList from '../slides/AdminSlideList'
+import AdminButtonItem from '../../containers/buttons/AdminButtonItem'
+import AdminCardItem from '../../containers/cards/AdminCardItem'
+import AdminContactForm  from '../../containers/users/AdminContactForm'
+import AdminProductItem from '../../containers/products/AdminProductItem'
+import AdminSectionEdit from '../../containers/sections/AdminSectionEdit'
+import AdminSlideList from '../../containers/slides/AdminSlideList'
 import { startEdit } from '../../actions/sections'
 
 class AdminSectionItem extends Component {
@@ -83,6 +83,7 @@ class AdminSectionItem extends Component {
         }
         <div style={{ ...backgrounds, overflow: 'hidden' }}>
           <section style={{
+            display: 'flex',
             backgroundColor,
             flexFlow,
             justifyContent,

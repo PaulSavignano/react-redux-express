@@ -4,7 +4,7 @@ import AdminPageNameAdd from './AdminPageNameAdd'
 import AdminPageNameList from './AdminPageNameList'
 
 const AdminPage = () => (
-  <section>
+  <section className="page">
     <AdminPageNameAdd />
     <AdminPageNameList />
   </section>

@@ -16,7 +16,7 @@ class OrderItem extends Component {
   render() {
     const {
       dispatch,
-      order: {
+      item: {
         _id,
         cart: { items },
         createdAt,
@@ -24,6 +24,7 @@ class OrderItem extends Component {
         total
       }
     } = this.props
+    console.log(items)
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -31,6 +32,7 @@ class OrderItem extends Component {
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={() => dispatch(push(`/user/orders/${_id}`))}
         className="card"
+        style={{ margin: 16 }}
       >
         <CardText style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
           <div>

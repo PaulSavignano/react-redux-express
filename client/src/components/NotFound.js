@@ -1,8 +1,11 @@
 import React from 'react'
+import { Card, CardTitle } from 'material-ui/Card'
 
 const NotFound = () => (
-  <section>
-    <h1>Sorry, that page does not exist.</h1>
+  <section className="page">
+    <Card zDepth={0}>
+      <CardTitle title="Sorry, that page does not exist." />
+    </Card>
   </section>
 )
 

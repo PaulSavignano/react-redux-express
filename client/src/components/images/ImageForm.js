@@ -37,10 +37,12 @@ class ImageForm extends Component {
   }
   componentWillMount() {
     const { image } = this.props
-    if (image.src) {
+    if (image && image.src) {
       this.setState({ src: image.src, width: image.width, height: image.height })
-    } else {
+    } else if (image && image.width && image.height){
       this.setState({ width: image.width, height: image.height })
+    } else {
+      return
     }
   }
   handleSave = () => {
@@ -86,10 +88,10 @@ class ImageForm extends Component {
   }
   handleUpload = (e) => {
     e.preventDefault()
-    this.setState({ loading: true })
     const reader = new FileReader()
     const file = e.target.files[0]
     if (file) {
+      this.setState({ loading: true })
       reader.onload = (e) => {
         this.setState({
           ...this.state,
@@ -97,7 +99,7 @@ class ImageForm extends Component {
           editing: true,
           loading: false
         })
-        this.props.handleImageEdit(true)
+        this.props.onImageEdit(true)
       }
       reader.readAsDataURL(file)
     }
@@ -105,7 +107,7 @@ class ImageForm extends Component {
   setEditorRef = (editor) => this.editor = editor
   render () {
     const { loading } = this.state
-    const { _id, deleteImage, style } = this.props
+    const { _id, onImageDelete, style } = this.props
     const fontFamily = style && style.fontFamily
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
@@ -251,7 +253,7 @@ class ImageForm extends Component {
                   src: null,
                   editing: false
                 })
-                return deleteImage(_id, { type: 'DELETE_IMAGE'})
+                return onImageDelete(_id, { type: 'DELETE_IMAGE'})
               }}
               type="button"
               label="Remove Image"

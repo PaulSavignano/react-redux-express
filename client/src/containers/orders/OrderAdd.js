@@ -5,7 +5,8 @@ import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardActions, CardText } from 'material-ui/Card'
+import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
+import CircularProgress from 'material-ui/CircularProgress'
 import MenuItem from 'material-ui/MenuItem'
 
 import renderTextField from '../../components/fields/renderTextField'
@@ -20,7 +21,7 @@ class OrderAdd extends Component {
     newAddress: false
   }
   render() {
-    const { error, dispatch, handleSubmit, isFetching, cart, addresses } = this.props
+    const { error, dispatch, handleSubmit, isFetching, cart, addresses, submitting } = this.props
     return (
       isFetching ? null : !cart.total ? dispatch(push('/')) :
       <section>
@@ -29,6 +30,7 @@ class OrderAdd extends Component {
             const order = { ...values, cart }
             dispatch(fetchAddOrder(order))
           })}>
+            <CardTitle title="Checkout" />
             <CardText>
               <ul className="credit-card-list">
                 <li><i data-brand="visa" className="fa fa-cc-visa"></i></li>
@@ -101,7 +103,7 @@ class OrderAdd extends Component {
             </CardText>
             <CardActions>
               <RaisedButton
-                label="Place Order"
+                label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'PLACE ORDER'}
                 primary={true}
                 type="submit"
                 fullWidth={true}

@@ -18,8 +18,8 @@ class AdminAppBar extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  editing = (bool) => this.setState({ editing: bool })
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
+  handleImageEdit = (bool) => this.setState({ editing: bool })
+  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -30,12 +30,12 @@ class AdminAppBar extends Component {
       fontFamily,
       handleSubmit,
       image,
-      imageSpec,
       isFetching,
       primary1Color,
       submitSucceeded,
       submitting
     } = this.props
+    console.log(image)
     return (
       !isFetching &&
       <Card
@@ -50,11 +50,11 @@ class AdminAppBar extends Component {
         />
         <CardMedia>
           <ImageForm
-            imageSpec={imageSpec}
             image={image}
+            type="image/png"
             _id={_id}
-            editing={this.editing}
-            deleteImage={this.deleteImage}
+            onImageEdit={this.handleImageEdit}
+            onImageDelete={this.handleImageDelete}
             style={{ fontFamily }}
             ref={this.setEditorRef}
           />
@@ -108,7 +108,7 @@ class AdminAppBar extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color }}
+              style={{ fontFamily, backgroundColor: primary1Color, margin: 4 }}
               label="update appbar"
               successLabel="appbar updated!"
             />

@@ -2,29 +2,33 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 
-const OrderConfirmation = ({ firstName, order }) => {
+import OrderDetail from '../../components/orders/OrderDetail'
+
+const OrderConfirmation = ({ item, isFetching }) => {
   return (
-    order &&
-    <section>
-      <Card className="card">
-        <CardTitle title="Order" subtitle={order._id} />
+    !isFetching &&
+    <section className="page">
+      <Card className="card" zDepth={0}>
+        <CardTitle title="Order" subtitle={item._id} />
         <CardText>
-          Hi {firstName}, thank you for your order {order._id}!
+          Hi {item.firstName}, thank you for your order {item._id}!
         </CardText>
+        <OrderDetail order={item} />
       </Card>
     </section>
   )
 }
 
 const mapStateToProps = ({
-  user: { values: { firstName }},
-  orders: { items }
+  orders: { items, isFetching }
 }, {
   params: { orderId }
-}) => ({
-  firstName,
-  order: items.find(item => item._id === orderId)
-})
+}) => {
+  return {
+    item: items.find(i => i._id === orderId),
+    isFetching
+  }
+}
 
 
 export default connect(mapStateToProps)(OrderConfirmation)

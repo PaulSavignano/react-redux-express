@@ -1,4 +1,5 @@
 import React from 'react'
+import { Card } from 'material-ui/Card'
 
 import AdminAppBar from '../../containers/brand/AdminAppBar'
 import AdminBusiness from '../../containers/brand/AdminBusiness'
@@ -18,11 +19,16 @@ const AdminBrand = () => {
   return (
     <section>
       <br/>
-      <AdminBusiness /><br/>
-      <AdminAppBar imageSpec={imageSpec} /><br/>
-      <AdminMain /><br/>
-      <AdminTheme /><br/>
-      <AdminFooter imageSpec={imageSpec} /><br/>
+      <AdminBusiness />
+      <br/>
+      <AdminAppBar imageSpec={imageSpec} />
+      <br/>
+      <AdminMain />
+      <br/>
+      <AdminTheme />
+      <br/>
+      <AdminFooter imageSpec={imageSpec} />
+      <br/><br/>
     </section>
   )
 }

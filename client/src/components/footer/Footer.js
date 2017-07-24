@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Paper from 'material-ui/Paper'
+import { CardMedia } from 'material-ui/Card'
 import FontIcon from 'material-ui/FontIcon'
 
 class Footer extends Component {
@@ -9,7 +10,7 @@ class Footer extends Component {
   }
   componentWillMount() {
     const { image } = this.props.footer
-    if (image) {
+    if (image && image.src) {
       this.setState({ loading: true })
       const img = new Image()
       const src = image.src
@@ -18,7 +19,7 @@ class Footer extends Component {
     }
   }
   componentWillReceiveProps({ footer: { image }}) {
-    if (image) return this.setState({ image: `${image.src}?${new Date().getTime()}`})
+    if (image.src) return this.setState({ image: `${image.src}?${new Date().getTime()}`})
     this.setState({ image: null })
   }
   render() {
@@ -45,33 +46,35 @@ class Footer extends Component {
     const color = styles ? styles.color : '#ffffff'
     const borderTop = styles.borderTop || null
     const borderBottom = styles.borderBottom || null
-    const backgrounds = image && {
-      backgroundImage: `url(${image})`,
-      transition: 'opacity .9s ease-in-out',
-      backgroundPosition: `center ${styles.imageAlign}`,
-      backgroundRepeat:  'no-repeat',
-      zIndex: -1
-    }
+    const margin = styles.margin || null
     return (
       <footer style={{ borderBottom, borderTop }}>
-        <Paper style={{ backgroundColor, color, ...backgrounds }}>
-          <div className="social-media">
-            { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color }} /></a> }
-            { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color }} /></a> }
-            { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color }} /></a> }
-            { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color }} /></a> }
-            { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color }} /></a> }
-            { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color }} /></a> }
-            { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color }} /></a> }
-            { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color }} /></a> }
+        <Paper style={{ backgroundColor, color, boxShadow: `0px 500px 0px 500px ${backgroundColor}` }}>
+          <div style={{ textAlign: 'center', padding: 32 }}>
+            <div className="social-media">
+              { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color }} /></a> }
+              { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color }} /></a> }
+              { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color }} /></a> }
+              { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color }} /></a> }
+              { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color }} /></a> }
+              { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color }} /></a> }
+              { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color }} /></a> }
+              { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color }} /></a> }
+            </div>
+            <div style={{ paddingBottom: 16 }}>
+              <div>{name ? name : 'Brand'} {new Date().getFullYear()}</div>
+              { phone && <a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a> }
+              { email && <div>{email}</div> }
+              { street && <div>{street}</div> }
+              { city && <div>{city}, {state}. {zip}</div> }
+            </div>
           </div>
-          <div style={{ paddingBottom: 16 }}>
-            <div>{name ? name : 'Brand'} {new Date().getFullYear()}</div>
-            { phone && <a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a> }
-            { email && <div>{email}</div> }
-            { street && <div>{street}</div> }
-            { city && <div>{city}, {state}. {zip}</div> }
-          </div>
+
+          {image &&
+            <div>
+              <img src={image} alt="" style={{ display: 'block', margin }}/>
+            </div>
+          }
         </Paper>
       </footer>
     )

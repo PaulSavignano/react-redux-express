@@ -20,8 +20,8 @@ class AdminFooter extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  editing = (bool) => this.setState({ editing: bool, submitted: false })
-  deleteImage = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  handleImageEdit = (bool) => this.setState({ editing: bool, submitted: false })
+  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(`footer/${_id}`, update))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -38,6 +38,7 @@ class AdminFooter extends Component {
       submitSucceeded,
       submitting
     } = this.props
+    console.log(image)
     return (
       !isFetching &&
       <Card
@@ -50,13 +51,13 @@ class AdminFooter extends Component {
         <CardTitle title="Footer" />
         <CardMedia>
           <ImageForm
-            imageSpec={imageSpec}
             image={image}
+            type="image/png"
             _id={_id}
-            editing={this.editing}
-            deleteImage={this.deleteImage}
-            ref={this.setEditorRef}
+            onImageEdit={this.handleImageEdit}
+            onImageDelete={this.handleImageDelete}
             style={{ fontFamily }}
+            ref={this.setEditorRef}
           />
         </CardMedia>
         <form onSubmit={handleSubmit((values) => {
@@ -99,23 +100,19 @@ class AdminFooter extends Component {
               style={{ fontFamily }}
             />
             <Field
-              name="imageAlign"
-              component={renderSelectField}
-              label="imageAlign"
+              name="margin"
+              label="margin"
               className="field"
+              component={renderTextField}
               style={{ fontFamily }}
-            >
-              <MenuItem value={null} primaryText="" />
-              <MenuItem value="left" primaryText="left" />
-              <MenuItem value="right" primaryText="right" />
-            </Field>
+            />
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color }}
+              style={{ fontFamily, backgroundColor: primary1Color, margin: 4 }}
               label="update footer"
               successLabel="footer updated!"
             />

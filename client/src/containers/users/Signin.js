@@ -41,8 +41,8 @@ class Signin extends Component {
     const { dispatch, error, handleSubmit, submitting, muiTheme, reset } = this.props
     const { primary1Color } = muiTheme.palette
     return (
-      <section>
-        <Card className="card">
+      <section className="page">
+        <Card className="card" style={{ margin: 16 }}>
           <CardTitle title="Sign in" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => {
             return dispatch(fetchSignin(values))
@@ -67,20 +67,20 @@ class Signin extends Component {
             </CardActions>
           </form>
           {!this.state.open ? null :
-            <Dialog
-              actions={
-                <FlatButton
-                  label="Close"
-                  primary={true}
-                  onTouchTap={this.handleClose}
-                />
-              }
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-            >
-              {this.state.message}
-            </Dialog>
+          <Dialog
+            actions={
+              <FlatButton
+                label="Close"
+                primary={true}
+                onTouchTap={this.handleClose}
+              />
+            }
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            {this.state.message}
+          </Dialog>
           }
           <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
             <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>

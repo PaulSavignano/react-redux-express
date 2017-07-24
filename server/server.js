@@ -46,6 +46,7 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'))
 })
 
+console.log(process.env)
 
 
 app.listen(port, () => console.log(`Started up at port: ${port}`))

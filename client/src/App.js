@@ -42,7 +42,6 @@ const App = ({
           transitionAppearTimeout={600}
           transitionEnter={false}
           transitionLeave={false}
-          style={{ display: 'flex', flexFlow: 'column', height: '100%' }}
         >
           <Header />
           <main>

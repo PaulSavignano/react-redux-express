@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import AdminSectionItem from './AdminSectionItem'
+import AdminSectionItem from '../../components/sections/AdminSectionItem'
 import AdminSectionAdd from './AdminSectionAdd'
 
 const AdminSectionList = ({ dispatch, isFetching, sections, page, imageSpec }) => (
   !isFetching &&
-  <div>
+  <div className="page">
     {sections.map(section => (
       <AdminSectionItem
         key={section._id}

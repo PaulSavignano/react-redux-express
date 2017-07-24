@@ -80,6 +80,7 @@ export const fetchUser = (token) => {
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (update) => {
+  console.log('updating')
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'PATCH',
@@ -91,6 +92,7 @@ export const fetchUpdate = (update) => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateSuccess(json))
       })
@@ -189,6 +191,7 @@ export const fetchSignout = () => {
         if (res.ok) {
           localStorage.removeItem('token')
           dispatch(fetchSignoutSuccess())
+          dispatch({ type: 'DELETE_ORDERS'})
         }
         throw new Error('Network response was not ok.')
       })
@@ -242,6 +245,7 @@ export const fetchReset = ({ password }, token) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchResetSuccess(json))
+        dispatch(fetchOrders())
       })
       .catch(err => {
         dispatch(fetchResetFailure({ error: 'invalid token' }))

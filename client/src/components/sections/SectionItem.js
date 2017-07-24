@@ -4,7 +4,7 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import ButtonItem from '../../containers/buttons/ButtonItem'
 import CardItem from '../../containers/cards/CardItem'
 import ContactForm  from '../../containers/users/ContactForm'
-import ProductItem from '../../containers/products/ProductItem'
+import ProductItemContainer from '../../containers/products/ProductItemContainer'
 import SlideList from '../../containers/slides/SlideList'
 
 class SectionItem extends Component {
@@ -33,7 +33,7 @@ class SectionItem extends Component {
         case 'Card':
           return <CardItem key={component._id} componentId={componentId}  />
         case 'Product':
-          return <ProductItem key={component._id} componentId={componentId} />
+          return <ProductItemContainer key={component._id} componentId={componentId} />
         default:
           return
       }
@@ -70,6 +70,7 @@ class SectionItem extends Component {
       >
         <div style={{ ...backgrounds }}>
           <section style={{
+            display: 'flex',
             backgroundColor,
             flexFlow,
             justifyContent,
@@ -79,7 +80,7 @@ class SectionItem extends Component {
             {this.renderComponents(item.components)}
           </section>
           { !slides.length ? null :
-            <section style={{ backgroundColor, minHeight }}>
+          <section style={{ backgroundColor, minHeight }}>
               <SlideList slides={slides} />
             </section>
           }

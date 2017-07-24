@@ -17,7 +17,11 @@ const ButtonItem = ({ dispatch, item, isFetching }) => {
     maxWidth,
     width,
   } = values
-  const nav = link.indexOf("http") === 0 ? { href: link } : { onTouchTap: () => dispatch(push(link)) }
+  console.log(link)
+  let nav
+  if (values.link) {
+    nav = values.link.indexOf("http") === 0 ? { href: link } : { onTouchTap: () => dispatch(push(link)) }
+  }
   const attributes = {
     backgroundColor,
     type: "button",
@@ -28,9 +32,10 @@ const ButtonItem = ({ dispatch, item, isFetching }) => {
   }
   return (
     !isFetching &&
-    <RaisedButton
-      {...attributes}
-    />
+      <RaisedButton
+        {...attributes}
+      />
+
   )
 }
 
