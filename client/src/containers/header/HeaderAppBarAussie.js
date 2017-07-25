@@ -34,7 +34,7 @@ const HeaderAppBar = ({
           <SearchBar />
         :
         <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
-          <div style={styles.brand} onTouchTap={() => dispatch(push('/'))}>
+          <div onTouchTap={() => dispatch(push('/'))}>
             {brand.image ? <img src={brand.image} style={{ maxHeight: 200, maxWidth: 200, position: 'absolute' }} className="brandImage" alt=""/> : brand.values.name || 'Brand'}
           </div>
           <span style={{ display: 'flex', flexFlow: 'column' }}>
@@ -82,10 +82,10 @@ const HeaderAppBar = ({
 )
 
 const mapStateToProps = ({ brand, pages, products, routing, search, user }) => {
-  const { appBar: { styles }, theme: { palette } } = brand
+  const { appBar: { values }, theme: { palette } } = brand
   const isFetching = !brand.isFetching && !pages.isFetching && !user.isFetching ? false : true
-  const backgroundColor = styles && styles.backgroundColor
-  const color = styles ? styles.navColor : '#ffffff'
+  const backgroundColor = values && values.backgroundColor
+  const color = values ? values.navColor : '#ffffff'
   const activeColor = palette ? palette.primary1Color : 'rgb(0, 188, 212)'
   const hasProducts = products.items.length ? true : false
   const path = routing.locationBeforeTransitions.pathname || null

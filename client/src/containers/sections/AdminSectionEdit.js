@@ -34,7 +34,10 @@ class AdminSectionEdit extends Component {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
-  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  handleImageDelete = (_id, update) => {
+    this.setState({ imageEdit: false })
+    return this.props.dispatch(fetchUpdate(_id, update))
+  }
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -115,15 +118,20 @@ class AdminSectionEdit extends Component {
               component={renderTextField}
             />
             <Field
+              name="alignItems"
+              label="alignItems"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
               name="margin"
               label="margin"
               className="field"
               component={renderTextField}
             />
             <Field
-              name="minHeight"
-              label="minHeight"
-              type="number"
+              name="height"
+              label="height"
               className="field"
               component={renderTextField}
             />
@@ -207,8 +215,7 @@ AdminSectionEdit = compose(
     return {
       form: `section_${item._id}`,
       initialValues: {
-        ...values,
-        minHeight: values.minHeight ? values.minHeight.toString() : null,
+        ...values
       }
     }
   }),

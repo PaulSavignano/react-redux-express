@@ -37,7 +37,7 @@ section {
 
 .page {
   min-height: 500px;
-  padding: 8px;
+  padding: 16px 8px 16px;
 }
 
 svg {

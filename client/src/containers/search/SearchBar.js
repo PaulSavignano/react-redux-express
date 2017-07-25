@@ -39,7 +39,7 @@ const SearchBar = ({ color, dispatch, search, handleSearch, isFetching }) => (
 const mapStateToProps = ({
   brand: {
     isFetching,
-    appBar: { styles: { navColor }}
+    appBar: { values: { navColor }}
   },
   search
 }) => ({

@@ -5,7 +5,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageEditor from './ImageEditor'
 
-const styles = {
+const formStyles = {
   controlContainer: {
     display: 'flex',
     flexFlow: 'row nowrap',
@@ -134,7 +134,7 @@ class ImageForm extends Component {
             </div>
 
             <div style={{ flex: '1 1 auto' }}>
-              <div style={styles.controlContainer}>
+              <div style={formStyles.controlContainer}>
                 <label>Zoom:</label>
                 <input
                   name="scale"
@@ -144,11 +144,11 @@ class ImageForm extends Component {
                   max="3"
                   step="0.01"
                   defaultValue="1"
-                  style={styles.control}
+                  style={formStyles.control}
                 />
               </div>
 
-              <div style={styles.controlContainer}>
+              <div style={formStyles.controlContainer}>
                 <label>Opacity:</label>
                 <input
                   name="opacity"
@@ -158,11 +158,11 @@ class ImageForm extends Component {
                   max="1"
                   step="0.01"
                   defaultValue="1"
-                  style={styles.control}
+                  style={formStyles.control}
                 />
               </div>
 
-              <div style={styles.controlContainer}>
+              <div style={formStyles.controlContainer}>
                 <label>Border radius:</label>
                 <input
                   name="scale"
@@ -172,11 +172,11 @@ class ImageForm extends Component {
                   max="100"
                   step="1"
                   defaultValue="0"
-                  style={styles.control}
+                  style={formStyles.control}
                 />
               </div>
 
-              <div style={styles.controlContainer}>
+              <div style={formStyles.controlContainer}>
                 <label>X Position:</label>
                 <input
                   name="scale"
@@ -186,11 +186,11 @@ class ImageForm extends Component {
                   max="1"
                   step="0.01"
                   value={this.state.position.x}
-                  style={styles.control}
+                  style={formStyles.control}
                 />
               </div>
 
-              <div style={styles.controlContainer}>
+              <div style={formStyles.controlContainer}>
                 <label>Y Position:</label>
                 <input
                   name="scale"
@@ -200,14 +200,14 @@ class ImageForm extends Component {
                   max="1"
                   step="0.01"
                   value={this.state.position.y}
-                  style={styles.control}
+                  style={formStyles.control}
                 />
               </div>
 
-              <div style={styles.controlContainer}>
+              <div style={formStyles.controlContainer}>
                 <label>Rotate:</label>
-                <RaisedButton onTouchTap={this.rotateLeft} style={styles.button}>Left</RaisedButton>
-                <RaisedButton onTouchTap={this.rotateRight} style={styles.button}>Right</RaisedButton>
+                <RaisedButton onTouchTap={this.rotateLeft} style={formStyles.button}>Left</RaisedButton>
+                <RaisedButton onTouchTap={this.rotateRight} style={formStyles.button}>Right</RaisedButton>
               </div>
 
               <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
@@ -240,7 +240,7 @@ class ImageForm extends Component {
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4 }}
             buttonStyle={{ fontFamily, backgroundColor }}
-            primary={style ? true : false}
+            primary={styles.backgroundColor ? true : false}
           >
             <input
               style={{ cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0 }}

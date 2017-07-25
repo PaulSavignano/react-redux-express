@@ -6,7 +6,7 @@ import AdminSectionAdd from './AdminSectionAdd'
 
 const AdminSectionList = ({ dispatch, isFetching, sections, page }) => (
   !isFetching &&
-  <div className="page">
+  <div>
     {sections.map(section => (
       <AdminSectionItem
         key={section._id}

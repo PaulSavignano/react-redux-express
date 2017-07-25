@@ -18,7 +18,7 @@ const filter = (items, search) => {
 const SearchList = ({ items, search }) => {
   const searchItems = filter(items, search.value)
   return (
-    !searchItems.length ? <section><h1>No matches</h1></section> :
+    !searchItems.length ? <section className="page"><h1>No matches</h1></section> :
     <section>
       {searchItems.map(obj => <SearchItem key={obj._id} item={obj} />)}
     </section>

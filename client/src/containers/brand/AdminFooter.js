@@ -11,15 +11,19 @@ import { fetchUpdate } from '../../actions/brand'
 class AdminFooter extends Component {
   state = {
     zDepth: 1,
-    editing: false
+    imageEdit: false
   }
   componentWillReceiveProps({ submitSucceeded }) {
-    if (submitSucceeded) this.setState({ editing: false })
+    if (submitSucceeded) this.setState({ imageEdit: false })
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  handleImageEdit = (bool) => this.setState({ editing: bool, submitted: false })
-  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(`footer/${_id}`, update))
+  handleImageEdit = (bool) => this.setState({ imageEdit: bool, submitted: false })
+  handleImageDelete = (_id, update) => {
+    const { dispatch } = this.props
+    this.setState({ imageEdit: false })
+    return dispatch(fetchUpdate(`footer/${_id}`, update))
+  }
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -54,13 +58,13 @@ class AdminFooter extends Component {
             _id={_id}
             onImageEdit={this.handleImageEdit}
             onImageDelete={this.handleImageDelete}
-            style={{ fontFamily }}
+            style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor }}
             ref={this.setEditorRef}
           />
         </CardMedia>
         <form onSubmit={handleSubmit((values) => {
           const path = `footer/${_id}`
-          if (this.state.editing) {
+          if (this.state.imageEdit) {
             const img = this.editor.handleSave()
             return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, values }))
           }

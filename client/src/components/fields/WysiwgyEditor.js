@@ -85,7 +85,7 @@ class WysiwgyEditor extends Component {
 
 const mapStateToProps = ({
   brand: {
-    appBar: { styles: { brandFontFamily }},
+    appBar: { values: { brandFontFamily }},
     isFetching,
     theme: {
       fontFamily,

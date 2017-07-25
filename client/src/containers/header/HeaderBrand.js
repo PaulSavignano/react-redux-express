@@ -19,16 +19,11 @@ class HeaderBrand extends Component {
     const { image } = this.state
     return (
       <div
-        style={{ cursor: 'pointer', height: '100%', maxHeight: 64 }}
+        style={{ cursor: 'pointer', height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
         onTouchTap={() => dispatch(push('/'))}
       >
-        {image ?
-          <img src={image} style={{ width: 'auto', height: 64 }} alt="" />
-        :
-        <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%' }}>
-          <div style={{ fontFamily, color }}>{name}</div>
-        </div>
-        }
+        { image && <img src={image} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
+        { name && <div style={{ fontFamily, color }}>{name}</div> }
       </div>
     )
   }
@@ -38,13 +33,12 @@ const mapStateToProps = ({
   brand: {
     appBar: {
       image,
-      styles: { brandFontFamily, brandColor }
-    },
-    business: { name }
+      values: { name, brandFontFamily, brandColor }
+    }
   }
 }) => ({
   image,
-  name: name || 'Brand',
+  name: name,
   fontFamily: brandFontFamily,
   color: brandColor
 })

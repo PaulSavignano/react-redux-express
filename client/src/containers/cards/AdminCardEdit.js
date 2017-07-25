@@ -21,7 +21,11 @@ class AdminCardEdit extends Component {
     }
   }
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
-  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  handleImageDelete = (_id, update) => {
+    const { dispatch } = this.props
+    this.setState({ imageEdit: false })
+    return dispatch(fetchUpdate(_id, update))
+  }
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { dispatch, error, handleSubmit, item, submitting } = this.props

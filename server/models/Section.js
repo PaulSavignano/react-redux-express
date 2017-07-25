@@ -13,15 +13,16 @@ const SectionSchema = new Schema({
   order: { type: Number },
   image: {
     src: { type: String },
-    width: { type: Number, trim: true, default: 1920 },
-    height: { type: Number, trim: true, default: 500 },
+    width: { type: Number, trim: true, default: 1024 },
+    height: { type: Number, trim: true, default: 683 },
   },
   values: {
-    backgroundColor: { type: String },
-    flexFlow: { type: String, default: 'row wrap' },
-    justifyContent: { type: String, default: 'space-between' },
-    margin: { type: String },
-    minHeight: { type: Number }
+    backgroundColor: { type: String, trim: true },
+    flexFlow: { type: String, trim: true, default: 'row wrap' },
+    justifyContent: { type: String, trim: true, default: 'space-between' },
+    alignItems: { type: String, trim: true },
+    margin: { type: String, trim: true },
+    height: { type: String, trim: true, default: '100vh' }
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },

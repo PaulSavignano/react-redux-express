@@ -47,8 +47,9 @@ class SectionItem extends Component {
       backgroundColor,
       flexFlow,
       justifyContent,
+      alignItems,
       margin,
-      minHeight
+      height
     } = item.values
     const slides = item.components.filter(value => value.type === 'Slide')
     const backgrounds = this.state.image && {
@@ -74,13 +75,14 @@ class SectionItem extends Component {
             backgroundColor,
             flexFlow,
             justifyContent,
+            alignItems,
             margin,
-            minHeight
+            height
           }}>
             {this.renderComponents(item.components)}
           </section>
           { !slides.length ? null :
-          <section style={{ backgroundColor, minHeight }}>
+          <section style={{ backgroundColor }}>
               <SlideList slides={slides} />
             </section>
           }

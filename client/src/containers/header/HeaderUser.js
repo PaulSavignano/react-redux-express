@@ -51,7 +51,7 @@ class HeaderUser extends Component {
 
 const mapStateToProps = ({
   brand: {
-    appBar: { styles: { navColor } }
+    appBar: { values: { navColor } }
   },
   user: { values: { firstName }}
 }) => ({

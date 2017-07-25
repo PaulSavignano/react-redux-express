@@ -74,7 +74,7 @@ const HeaderAppBar = ({
 
 const mapStateToProps = ({
   brand: {
-    appBar: { styles: { backgroundColor, navColor }},
+    appBar: { values: { backgroundColor, navColor }},
     isFetching,
     theme: { fontFamily, palette: { primary1Color } },
   },

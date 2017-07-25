@@ -19,7 +19,10 @@ class AdminSlideItem extends Component {
     if (submitSucceeded && !item.editing) dispatch(stopEdit(item._id))
   }
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
-  handleImageDelete = (_id, update) => this.props.dispatch(fetchUpdate(_id, update))
+  handleImageDelete = (_id, update) => {
+    this.setState({ imageEdit: false })
+    return this.props.dispatch(fetchUpdate(_id, update))
+  }
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { dispatch, error, handleSubmit, item, submitting } = this.props

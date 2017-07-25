@@ -54,8 +54,9 @@ class AdminSectionItem extends Component {
       backgroundColor,
       flexFlow,
       justifyContent,
+      alignItems,
       margin,
-      minHeight
+      height
     } = item.values
     const slides = item.components.filter(value => value.type === 'Slide')
     const backgrounds = this.state.image && {
@@ -87,8 +88,9 @@ class AdminSectionItem extends Component {
             backgroundColor,
             flexFlow,
             justifyContent,
+            alignItems,
             margin,
-            minHeight
+            height
           }}>
             {this.renderComponents(item.components)}
             {slides.length ? <AdminSlideList slides={slides} /> : null }

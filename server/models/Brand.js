@@ -9,7 +9,8 @@ const BrandSchema = new Schema({
       width: { type: Number, trim: true, default: 128 },
       height: { type: Number, trim: true, default: 128 }
     },
-    styles: {
+    values: {
+      name: { type: String, minlength: 1, trim: true, default: 'Brand' },
       backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
       brandColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       brandFontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },

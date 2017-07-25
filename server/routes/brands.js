@@ -65,7 +65,7 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
                 width: image.width,
                 height: image.height
               },
-              styles: values
+              values
             }
           }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
@@ -106,7 +106,7 @@ brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate({ _id }, { $set: { 'appBar.styles': values }}, { new: true })
+      Brand.findOneAndUpdate({ _id }, { $set: { 'appBar.values': values }}, { new: true })
         .then(doc => res.send(doc))
         .catch(err => {
           console.error(err)

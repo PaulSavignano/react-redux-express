@@ -94,10 +94,10 @@ const HeaderDrawer = ({
 }
 
 const mapStateToProps = ({ brand, drawer, pages, products: { items }, user }) => {
-  const { appBar: { styles }, business: { name }} = brand
+  const { appBar: { values }, business: { name }} = brand
   const isFetching = !brand.isFetching && ! pages.isFetching && !user.isFetching ? false : true
   const isAdmin = user.roles.find(role => role === 'admin') ? true : false
-  const backgroundColor = styles ? styles.backgroundColor : 'rgb(0, 188, 212)'
+  const backgroundColor = values ? values.backgroundColor : 'rgb(0, 188, 212)'
   return {
     backgroundColor,
     drawer,
