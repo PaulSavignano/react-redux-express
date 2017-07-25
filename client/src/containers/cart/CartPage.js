@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle } from 'material-ui/Card'
 
 import CartList from './CartList'
 import CartTotal from './CartTotal'

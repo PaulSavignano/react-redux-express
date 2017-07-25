@@ -108,7 +108,10 @@ class ImageForm extends Component {
   render () {
     const { loading } = this.state
     const { _id, onImageDelete, style } = this.props
-    const fontFamily = style && style.fontFamily
+    const styles = style || {}
+    const fontFamily = styles.fontFamily || null
+    const backgroundColor = styles.backgroundColor || null
+    const color = styles.color || null
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {this.state.editing &&
@@ -232,12 +235,12 @@ class ImageForm extends Component {
         {!this.state.editing && this.state.src && <img src={this.state.src} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
         <div style={{ display: 'flex', flexFlow: 'row wrap', margin: 4 }}>
           <RaisedButton
-            label={loading ? <CircularProgress color="#ffffff" size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.width} x ${this.state.height} image`}
+            label={loading ? <CircularProgress color={color} size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.width} x ${this.state.height} image`}
             labelPosition="before"
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4 }}
-            buttonStyle={{ fontFamily }}
-            primary={true}
+            buttonStyle={{ fontFamily, backgroundColor }}
+            primary={style ? true : false}
           >
             <input
               style={{ cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0 }}

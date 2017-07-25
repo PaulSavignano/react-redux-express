@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Paper from 'material-ui/Paper'
-import { CardMedia } from 'material-ui/Card'
 import FontIcon from 'material-ui/FontIcon'
 
 class Footer extends Component {

@@ -26,9 +26,10 @@ const HeaderAppBar = ({
 }) => (
   !isFetching &&
   <AppBar
+    iconStyleLeft={{ fill: color }}
     onLeftIconButtonTouchTap={() => dispatch(toggleDrawer())}
-    titleStyle={{ height: 64 }}
-    style={{ backgroundColor }}
+    titleStyle={{ height: 64, color }}
+    style={{ backgroundColor, color }}
     title={
       <nav>
         {search.searching ?

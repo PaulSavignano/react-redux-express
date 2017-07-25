@@ -32,16 +32,18 @@ class SuccessableButton extends Component {
     const backgroundColor = styles.backgroundColor || 'inherit'
     const fontFamily = styles.fontFamily || 'inherit'
     const margin = styles.margin || null
+    const color = styles.color || 'inherit'
     const { submitSucceeded } = this.state
+    const isPrimary = style ? { primary: false } : { primary: true }
     return (
       <RaisedButton
         type="submit"
         label={this.renderLabel(submitting, submitSucceeded, label, successLabel)}
-        labelColor={submitSucceeded ? '#ffffff' : null}
-        primary={submitSucceeded ? false : true}
+        labelColor={color}
         backgroundColor={submitSucceeded ? "#4CAF50" : backgroundColor }
         style={{ flex: '1 1 auto', margin }}
         buttonStyle={{ fontFamily }}
+        {...isPrimary}
       />
     )
   }

@@ -36,7 +36,7 @@ class AdminTheme extends Component {
   render() {
     const {
       _id,
-      backgroundColor,
+      canvasColor,
       dispatch,
       error,
       fontFamily,
@@ -44,7 +44,8 @@ class AdminTheme extends Component {
       isFetching,
       primary1Color,
       submitSucceeded,
-      submitting
+      submitting,
+      textColor
     } = this.props
     return (
       !isFetching &&
@@ -54,7 +55,7 @@ class AdminTheme extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ backgroundColor, fontFamily }}
+        style={{ backgroundColor: canvasColor, fontFamily }}
       >
         <form
           onSubmit={handleSubmit((values) => {
@@ -80,7 +81,7 @@ class AdminTheme extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, margin: 4 }}
+              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update theme"
               successLabel="theme updated!"
             />
@@ -110,7 +111,8 @@ const mapStateToProps = ({
     ...theme,
     ...theme.palette
   },
-  primary1Color: theme.palette.primary1Color
+  primary1Color: theme.palette.primary1Color,
+  canvasColor: theme.palette.canvasColor
 })
 
 AdminTheme = connect(mapStateToProps)(AdminTheme)

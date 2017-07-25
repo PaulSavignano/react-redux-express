@@ -24,7 +24,7 @@ class AdminAppBar extends Component {
   render() {
     const {
       _id,
-      backgroundColor,
+      canvasColor,
       dispatch,
       error,
       fontFamily,
@@ -43,7 +43,7 @@ class AdminAppBar extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ backgroundColor, fontFamily }}
+        style={{ backgroundColor: canvasColor, fontFamily }}
       >
         <CardTitle
           title="AppBar"
@@ -55,7 +55,7 @@ class AdminAppBar extends Component {
             _id={_id}
             onImageEdit={this.handleImageEdit}
             onImageDelete={this.handleImageDelete}
-            style={{ fontFamily }}
+            style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor }}
             ref={this.setEditorRef}
           />
         </CardMedia>
@@ -108,7 +108,7 @@ class AdminAppBar extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, margin: 4 }}
+              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update appbar"
               successLabel="appbar updated!"
             />
@@ -132,12 +132,12 @@ const mapStateToProps = ({
   }
 }) => ({
   _id,
-  backgroundColor: canvasColor,
+  canvasColor,
   fontFamily,
   image,
   initialValues: styles,
   isFetching,
-  primary1Color
+  primary1Color,
 })
 
 AdminAppBar = connect(mapStateToProps)(AdminAppBar)

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import AdminSectionItem from '../../components/sections/AdminSectionItem'
 import AdminSectionAdd from './AdminSectionAdd'
 
-const AdminSectionList = ({ dispatch, isFetching, sections, page, imageSpec }) => (
+const AdminSectionList = ({ dispatch, isFetching, sections, page }) => (
   !isFetching &&
   <div className="page">
     {sections.map(section => (

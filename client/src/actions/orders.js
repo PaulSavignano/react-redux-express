@@ -12,7 +12,7 @@ const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
 const UPDATE = `UPDATE_${type}`
-//const DELETE = `DELETE_${type}`
+const DELETE = `DELETE_${type}S`
 const ERROR = `ERROR_${type}`
 
 
@@ -118,5 +118,12 @@ export const fetchUpdate = (_id, update) => {
         dispatch(fetchUpdateFailure(err))
         throw new SubmissionError({ ...err, _error: 'Update failed!' })
       })
+  }
+}
+
+
+export const deleteOrders = (items) => {
+  return {
+    type: DELETE,
   }
 }

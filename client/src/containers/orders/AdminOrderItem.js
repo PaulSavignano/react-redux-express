@@ -70,12 +70,14 @@ class AdminOrderItem extends Component {
             <div>{_id}</div>
           </CardText>
           <CardText style={{ flex: '1 1 auto', display: 'flex' }}>
-            <RaisedButton
-              label={shipped ? 'Shipped' : 'Mark Ship'}
-              primary={shipped ? false : true}
-              onTouchTap={this.handleShipOrder}
-              style={{ flex: '1 1 auto'}}
-            />
+            <form>
+              <RaisedButton
+                label={shipped ? 'Shipped' : 'Mark Ship'}
+                primary={shipped ? false : true}
+                onTouchTap={this.handleShipOrder}
+                style={{ flex: '1 1 auto'}}
+              />
+            </form>
           </CardText>
 
         </div>

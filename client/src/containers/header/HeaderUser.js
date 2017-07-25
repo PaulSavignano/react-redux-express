@@ -25,7 +25,7 @@ class HeaderUser extends Component {
   render() {
     const { color, firstName, fontFamily } = this.props
     return (
-      <span style={{ fontFamily }}>
+      <span style={{ fontFamily }} className="appbar-user">
         <FlatButton
           onTouchTap={this.handleOpen}
           label={firstName ? `Hello, ${firstName}`: `SIGN IN`}

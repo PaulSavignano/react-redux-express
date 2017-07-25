@@ -1,7 +1,7 @@
 import React from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { CardActions, CardTitle } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import formatPrice from '../../utils/formatPrice'
@@ -26,7 +26,6 @@ const CartTotal = ({ dispatch, cart, user }) => (
         }}
       />
     </CardActions>
-
   </div>
 )
 

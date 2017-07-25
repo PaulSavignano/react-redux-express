@@ -5,6 +5,12 @@
   }
 }
 
+@media (max-width: 420px) {
+  .appbar-user {
+    display: none !important;
+  }
+}
+
 
 
 /* Body */
@@ -15,7 +21,6 @@ body {
 section {
   max-width: 1044px;
   margin: 0 auto;
-  padding: 16px;
   height: 100%;
 }
 
@@ -32,9 +37,12 @@ section {
 
 .page {
   min-height: 500px;
+  padding: 8px;
 }
 
-
+svg {
+  fill: inherit !important;
+}
 
 
 

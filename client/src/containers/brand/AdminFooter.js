@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
-import MenuItem from 'material-ui/MenuItem'
 
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
-import renderSelectField from '../../components/fields/renderSelectField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate } from '../../actions/brand'
 
@@ -26,17 +24,17 @@ class AdminFooter extends Component {
   render() {
     const {
       _id,
-      backgroundColor,
+      canvasColor,
       dispatch,
       error,
       fontFamily,
       handleSubmit,
       image,
-      imageSpec,
       isFetching,
       primary1Color,
       submitSucceeded,
-      submitting
+      submitting,
+      textColor
     } = this.props
     console.log(image)
     return (
@@ -46,7 +44,7 @@ class AdminFooter extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ backgroundColor, fontFamily }}
+        style={{ backgroundColor: canvasColor, fontFamily }}
       >
         <CardTitle title="Footer" />
         <CardMedia>
@@ -112,7 +110,7 @@ class AdminFooter extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, margin: 4 }}
+              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update footer"
               successLabel="footer updated!"
             />
@@ -138,10 +136,10 @@ const mapStateToProps = ({
   _id,
   image,
   isFetching,
-  backgroundColor: canvasColor,
+  canvasColor,
   fontFamily,
   initialValues: styles,
-  primary1Color
+  primary1Color,
 })
 
 AdminFooter = connect(mapStateToProps)(AdminFooter)

@@ -39,7 +39,7 @@ class AdminBusiness extends Component {
   render() {
     const {
       _id,
-      backgroundColor,
+      canvasColor,
       dispatch,
       error,
       fontFamily,
@@ -57,7 +57,7 @@ class AdminBusiness extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ fontFamily, backgroundColor }}
+        style={{ fontFamily, backgroundColor: canvasColor }}
       >
         <form
           onSubmit={handleSubmit((values) => {
@@ -84,7 +84,7 @@ class AdminBusiness extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, margin: 4 }}
+              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update business"
               successLabel="business updated!"
             />
@@ -108,7 +108,7 @@ const mapStateToProps = ({
   }
 }) => ({
   _id,
-  backgroundColor: canvasColor,
+  canvasColor,
   initialValues: business,
   isFetching,
   fontFamily,
