@@ -31,10 +31,10 @@ class AdminCardItem extends Component {
     const { dispatch, item, isFetching } = this.props
     const {
       backgroundColor,
+      flex,
       iFrame,
       link,
       margin,
-      maxWidth,
       text,
       width,
       zDepth
@@ -47,12 +47,12 @@ class AdminCardItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
         transitionAppearTimeout={600}
-        style={{ width, maxWidth, margin, flex: '1 1 auto' }}
+        style={{ flex, margin, width }}
       >
         <Card
           zDepth={zDepth}
           onTouchTap={() => dispatch(startEdit(item._id))}
-          style={{ backgroundColor, cursor: 'pointer', height: '100%' }}
+          style={{ backgroundColor, cursor: 'pointer' }}
         >
           {image && <CardMedia><img src={image} alt="card" /></CardMedia>}
           {iFrame &&

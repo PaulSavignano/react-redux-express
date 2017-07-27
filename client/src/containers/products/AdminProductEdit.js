@@ -94,13 +94,6 @@ class AdminProductEdit extends Component {
         <form>
           <div className="field-container">
             <Field
-              name="width"
-              label="width"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
               name="margin"
               label="margin"
               className="field"
@@ -116,6 +109,12 @@ class AdminProductEdit extends Component {
               name="price"
               label="price"
               type="number"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="width"
+              label="width"
               className="field"
               component={renderTextField}
             />
@@ -145,8 +144,7 @@ AdminProductEdit = compose(
       item,
       initialValues: {
         ...values,
-        price: values.price && values.price.toString(),
-        width: values.width && values.width.toString()
+        price: values.price && values.price.toString()
       }
     }
   }),

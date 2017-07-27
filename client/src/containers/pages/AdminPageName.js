@@ -28,7 +28,7 @@ class AdminPageName extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className="card"
+        className="vertical-card"
       >
         <form
           onBlur={handleSubmit((values) => {

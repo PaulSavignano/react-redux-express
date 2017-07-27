@@ -86,8 +86,7 @@ sections.patch('/:_id', authenticate(['admin']), (req, res) => {
     case 'DELETE_IMAGE':
       deleteFile({ Key })
         .then(() => {
-          const update = { image: null }
-          Section.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Section.findOneAndUpdate({ _id }, { $set: { 'appBar.image.src': null }}, { new: true })
             .then(doc => {
               res.send(doc)
             })

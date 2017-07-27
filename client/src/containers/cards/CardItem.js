@@ -31,10 +31,10 @@ class CardItem extends Component {
     const values = item.values || {}
     const {
       backgroundColor,
+      flex,
       iFrame,
       link,
       margin,
-      maxWidth,
       text,
       width,
     } = values
@@ -48,7 +48,7 @@ class CardItem extends Component {
         transitionAppearTimeout={600}
         transitionEnter={false}
         transitionLeave={false}
-        style={{ width, maxWidth, margin, flex: '1 1 auto' }}
+        style={{ flex, margin, width }}
       >
         <Card
           onTouchTap={link && this.handleNavigation}

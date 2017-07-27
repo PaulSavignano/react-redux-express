@@ -107,8 +107,7 @@ products.patch('/:_id', (req, res) => {
     case 'DELETE_IMAGE':
       deleteFile({ Key })
         .then(() => {
-          const update = { image: { src: null, width: null, height: null }}
-          Product.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Product.findOneAndUpdate({ _id }, { $set: { 'image.src': null }}, { new: true })
             .then(doc => {
               res.send(doc)
             })

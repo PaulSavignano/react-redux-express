@@ -93,6 +93,12 @@ class AdminCardEdit extends Component {
               component={renderTextField}
             />
             <Field
+              name="flex"
+              label="flex"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
               name="iFrame"
               label="iFrame"
               className="field"
@@ -111,16 +117,8 @@ class AdminCardEdit extends Component {
               component={renderTextField}
             />
             <Field
-              name="maxWidth"
-              label="maxWidth"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
               name="width"
               label="width"
-              type="number"
               className="field"
               component={renderTextField}
             />
@@ -146,8 +144,6 @@ AdminCardEdit = compose(
       item,
       initialValues: {
         ...values,
-        width: values.width && values.width.toString(),
-        maxWidth: values.maxWidth && values.maxWidth.toString(),
         zDepth: values.zDepth && values.zDepth.toString()
        }
     }

@@ -35,8 +35,13 @@ section {
   height: 100%;
 }
 
+.vertical-card {
+  flex: 1 1 auto;
+  margin: 16px 0;
+}
+
 .page {
-  min-height: 500px;
+  min-height: 80vh;
   padding: 16px 8px 16px;
 }
 
@@ -44,7 +49,11 @@ svg {
   fill: inherit !important;
 }
 
-
+.background-image {
+  background-position: center center !important;
+  background-repeat:  no-repeat !important;
+  background-size:  cover !important;
+}
 
 
 /* Footer */

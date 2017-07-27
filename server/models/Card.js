@@ -15,10 +15,10 @@ const CardSchema = new Schema({
   },
   values: {
     backgroundColor: { type: String, trim: true },
+    flex: { type: String, trim: true, default: '1 1 auto' },
     iFrame: { type: String, trim: true },
     link: { type: String, trim: true },
     margin: { type: String, trim: true },
-    maxWidth: { type: Number },
     text: { type: String, trim: true },
     width: { type: Number },
     zDepth: { type: Number, default: null }

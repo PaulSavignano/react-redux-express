@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import AdminSectionList from '../sections/AdminSectionList'
 
 const AdminPageEdit = ({ isFetching, page }) => (
-  !isFetching && <AdminSectionList page={page} />
+  !isFetching &&
+  <div style={{ minHeight: '80vh'}}>
+    <AdminSectionList page={page} />
+  </div>
 )
 
 const mapStateToProps = ({ pages }, { params }) => {

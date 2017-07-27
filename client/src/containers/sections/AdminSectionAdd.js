@@ -5,11 +5,11 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { fetchAdd } from '../../actions/sections'
 
 const AdminSectionAdd = ({ dispatch, page }) => (
-  <section>
+  <section style={{ display: 'flex' }}>
     <RaisedButton
       label="Add New Section"
       primary={true}
-      fullWidth={true}
+      style={{ margin: '4px 8px 8px', flex: '1 1 auto' }}
       onTouchTap={() => {
         const add = {
           pageId: page._id,

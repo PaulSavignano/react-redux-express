@@ -106,8 +106,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
     case 'DELETE_IMAGE':
       deleteFile({ Key })
         .then(() => {
-          const update = { image: null, values }
-          Card.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Card.findOneAndUpdate({ _id }, { $set: { 'image.src': null }}, { new: true })
             .then(doc => res.send(doc))
             .catch(err => {
               console.error(err)

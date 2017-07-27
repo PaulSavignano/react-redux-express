@@ -109,7 +109,7 @@ slides.patch('/:_id', authenticate(['admin']), (req, res) => {
       deleteFile({ Key })
         .then(() => {
           const update = { image: null }
-          Slide.findOneAndUpdate({ _id }, { $set: update }, { new: true })
+          Slide.findOneAndUpdate({ _id }, { $set: { 'image.src': null }}, { new: true })
             .then(doc => {
               res.send(doc)
             })

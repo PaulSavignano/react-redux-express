@@ -48,7 +48,7 @@ class Footer extends Component {
     const margin = styles.margin || null
     return (
       <footer style={{ borderBottom, borderTop }}>
-        <Paper style={{ backgroundColor, color, boxShadow: `0px 500px 0px 500px ${backgroundColor}` }}>
+        <Paper style={{ backgroundColor, color }}>
           <div style={{ textAlign: 'center', padding: 32 }}>
             <div className="social-media">
               { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color }} /></a> }

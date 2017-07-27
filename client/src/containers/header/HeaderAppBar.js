@@ -26,6 +26,7 @@ const HeaderAppBar = ({
 }) => (
   !isFetching &&
   <AppBar
+    zDepth={backgroundColor === 'transparent' ? 0 : 1}
     iconStyleLeft={{ fill: color }}
     onLeftIconButtonTouchTap={() => dispatch(toggleDrawer())}
     titleStyle={{ height: 64, color }}
@@ -35,8 +36,7 @@ const HeaderAppBar = ({
         {search.searching ?
           <SearchBar />
         :
-        <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between', alignItems: 'center' }}>
-          <HeaderBrand />
+        <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'flex-end', alignItems: 'center' }}>
           <span style={{ fontFamily }}>
             <span className="appbar-nav">
               {pages.filter(page => page.slug !== 'home').map(page => (

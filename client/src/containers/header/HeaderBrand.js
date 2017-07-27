@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import { toggleDrawer } from '../../actions/drawer'
+
 class HeaderBrand extends Component {
   state = {
     image: null
@@ -20,7 +22,10 @@ class HeaderBrand extends Component {
     return (
       <div
         style={{ cursor: 'pointer', height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
-        onTouchTap={() => dispatch(push('/'))}
+        onTouchTap={() => {
+          dispatch(toggleDrawer())
+          return dispatch(push('/'))
+        }}
       >
         { image && <img src={image} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
         { name && <div style={{ fontFamily, color }}>{name}</div> }

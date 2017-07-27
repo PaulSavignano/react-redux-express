@@ -304,6 +304,8 @@ class ImageEditor extends Component {
         prevProps.position !== this.props.position ||
         prevProps.scale !== this.props.scale ||
         prevProps.rotate !== this.props.rotate ||
+        prevProps.gradientY0 !== this.props.gradientY0 ||
+        prevProps.gradientY1 !== this.props.gradientY1 ||
         prevState.my !== this.state.my ||
         prevState.mx !== this.state.mx ||
         prevState.image.x !== this.state.image.x ||
@@ -349,6 +351,7 @@ class ImageEditor extends Component {
       const position = this.calculatePosition(image, border)
       context.save()
       context.globalAlpha = this.props.opacity
+
       context.translate((context.canvas.width / 2), (context.canvas.height / 2));
       context.rotate((this.props.rotate * Math.PI / 180))
       context.translate(-(context.canvas.width / 2), -(context.canvas.height / 2));
@@ -377,7 +380,7 @@ class ImageEditor extends Component {
   paint = (context) => {
     context.save()
     context.translate(0, 0)
-    context.fillStyle = 'rgba(' + this.props.color.slice(0, 4).join(',') + ')'
+
     let borderRadius = this.props.borderRadius
     const dimensions = this.getDimensions()
     const borderSize = dimensions.border
@@ -392,6 +395,14 @@ class ImageEditor extends Component {
     drawRoundedRect(context, borderSize, borderSize, width - borderSize * 2, height - borderSize * 2, borderRadius)
     context.rect(width, 0, -width, height) // outer rect, drawn "counterclockwise"
     context.fill('evenodd')
+
+    console.log('creating gradient')
+    const gradient = context.createLinearGradient(0, this.props.gradientY0, 0, this.props.gradientY1);
+    gradient.addColorStop(0.0, 'rgba(0, 0, 0, .7)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
+    context.fillStyle = gradient
+    context.fillRect(0, 0, width, height)
+
     context.restore()
   }
   handleMouseDown = (e) => {

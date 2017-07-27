@@ -33,6 +33,8 @@ class ImageForm extends Component {
     src: null,
     width: null,
     height: null,
+    gradientY0: 0,
+    gradientY1: 0,
     loading: false
   }
   componentWillMount() {
@@ -54,6 +56,14 @@ class ImageForm extends Component {
     }
     this.setState({ editing: false, src: image.src, submitted: false })
     return image
+  }
+  handleGradientY0 = (e) => {
+    const gradientY0 = parseFloat(e.target.value)
+    this.setState({ gradientY0 })
+  }
+  handleGradientY1 = (e) => {
+    const gradientY1 = parseFloat(e.target.value)
+    this.setState({ gradientY1 })
   }
   handleScale = (e) => {
     const scale = parseFloat(e.target.value)
@@ -129,6 +139,8 @@ class ImageForm extends Component {
                 borderRadius={this.state.borderRadius}
                 onSave={this.handleSave}
                 image={this.state.src}
+                gradientY0={this.state.gradientY0}
+                gradientY1={this.state.gradientY1}
                 crossOrigin="anonymous"
               />
             </div>
@@ -163,43 +175,43 @@ class ImageForm extends Component {
               </div>
 
               <div style={formStyles.controlContainer}>
+                <label>Gradient Y0:</label>
+                <input
+                  name="gradient"
+                  type="range"
+                  onChange={this.handleGradientY0}
+                  min="0"
+                  max="1000"
+                  step="1"
+                  value={this.state.gradientY0}
+                  style={formStyles.control}
+                />
+              </div>
+
+              <div style={formStyles.controlContainer}>
+                <label>Gradient Y1:</label>
+                <input
+                  name="gradient"
+                  type="range"
+                  onChange={this.handleGradientY1}
+                  min="0"
+                  max="1000"
+                  step="1"
+                  value={this.state.gradientY1}
+                  style={formStyles.control}
+                />
+              </div>
+
+              <div style={formStyles.controlContainer}>
                 <label>Border radius:</label>
                 <input
                   name="scale"
                   type="range"
                   onChange={this.handleBorderRadius}
                   min="0"
-                  max="100"
+                  max="500"
                   step="1"
                   defaultValue="0"
-                  style={formStyles.control}
-                />
-              </div>
-
-              <div style={formStyles.controlContainer}>
-                <label>X Position:</label>
-                <input
-                  name="scale"
-                  type="range"
-                  onChange={this.handleXPosition}
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={this.state.position.x}
-                  style={formStyles.control}
-                />
-              </div>
-
-              <div style={formStyles.controlContainer}>
-                <label>Y Position:</label>
-                <input
-                  name="scale"
-                  type="range"
-                  onChange={this.handleYPosition}
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={this.state.position.y}
                   style={formStyles.control}
                 />
               </div>

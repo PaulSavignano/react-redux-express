@@ -13,16 +13,17 @@ import { startEdit } from '../../actions/sections'
 class AdminSectionItem extends Component {
   state = {
     image: null,
-    loading: false
+    loading: true
   }
   componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
+    } else {
+      this.setState({ loading: false })
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
@@ -48,7 +49,7 @@ class AdminSectionItem extends Component {
     return components.map(component => componentList(component))
   }
   render() {
-    const { loading } = this.state
+    const { image, loading } = this.state
     const { dispatch, item, page } = this.props
     const {
       backgroundColor,
@@ -59,12 +60,12 @@ class AdminSectionItem extends Component {
       height
     } = item.values
     const slides = item.components.filter(value => value.type === 'Slide')
-    const backgrounds = this.state.image && {
-      backgroundImage: `url(${this.state.image})`,
-      transition: 'opacity .9s ease-in-out',
-      backgroundPosition: 'center center',
-      backgroundRepeat:  'no-repeat',
-      backgroundSize:  'cover',
+    const backgroundClass = image && { className: 'background-image' }
+    const marginTop = image && 64
+    const backgrounds = image && {
+      marginTop: -64,
+      background: `linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(0,0,0,0) 2%,rgba(0,0,0,.08) 28%,rgba(0,0,0,.5) 75%,rgba(0,0,0,.7) 100%), url(${image})`,
+      transition: 'all 100ms ease-in-out',
       zIndex: -1
     }
     return (
@@ -82,27 +83,30 @@ class AdminSectionItem extends Component {
             page={page}
           />
         }
-        <div style={{ ...backgrounds, overflow: 'hidden' }}>
-          <section style={{
-            display: 'flex',
-            backgroundColor,
-            flexFlow,
-            justifyContent,
-            alignItems,
-            margin,
-            height
-          }}>
-            {this.renderComponents(item.components)}
-            {slides.length ? <AdminSlideList slides={slides} /> : null }
-          </section>
-          <section>
-            <RaisedButton
-              type="button"
-              label="Edit Section"
-              fullWidth={true}
-              onTouchTap={() => dispatch(startEdit(item._id))}
-            />
-          </section>
+        <div style={{ ...backgrounds, overflow: 'hidden' }} {...backgroundClass}>
+          <div style={{ marginTop }}>
+            <section style={{
+              display: 'flex',
+              backgroundColor,
+              flexFlow,
+              height,
+              justifyContent,
+              alignItems,
+              margin
+            }}>
+              {this.renderComponents(item.components)}
+              {slides.length ? <AdminSlideList slides={slides} /> : null }
+            </section>
+            <section style={{ display: 'flex' }}>
+              <RaisedButton
+                type="button"
+                label="Edit Section"
+                style={{ margin: 8, flex: '1 1 auto' }}
+                onTouchTap={() => dispatch(startEdit(item._id))}
+              />
+            </section>
+          </div>
+
         </div>
       </CSSTransitionGroup>
     )
