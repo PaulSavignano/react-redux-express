@@ -19,17 +19,18 @@ class ProductItem extends Component {
     qty: 1,
     zDepth: 1,
     image: null,
-    loading: false,
+    loading: true,
     open: false
   }
   componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
+    } else {
+      this.setState({ loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })

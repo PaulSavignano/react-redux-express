@@ -130,8 +130,8 @@ class AdminSectionEdit extends Component {
               component={renderTextField}
             />
             <Field
-              name="height"
-              label="height"
+              name="minHeight"
+              label="minHeight"
               className="field"
               component={renderTextField}
             />

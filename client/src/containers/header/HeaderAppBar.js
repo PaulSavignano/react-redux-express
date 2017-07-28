@@ -36,7 +36,14 @@ const HeaderAppBar = ({
         {search.searching ?
           <SearchBar />
         :
-        <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            style={{ cursor: 'pointer' }}
+            onTouchTap={() => dispatch(push('/'))}
+          >
+            <HeaderBrand />
+          </div>
+
           <span style={{ fontFamily }}>
             <span className="appbar-nav">
               {pages.filter(page => page.slug !== 'home').map(page => (

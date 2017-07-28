@@ -8,8 +8,7 @@ import AdminFooter from '../../containers/brand/AdminFooter'
 
 const AdminBrand = () => {
   return (
-    <section>
-      <br/>
+    <section className="page">
       <AdminBusiness />
       <br/>
       <AdminAppBar />

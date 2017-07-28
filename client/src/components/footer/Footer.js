@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import Paper from 'material-ui/Paper'
 import FontIcon from 'material-ui/FontIcon'
 
@@ -61,8 +62,8 @@ class Footer extends Component {
               { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color }} /></a> }
             </div>
             <div style={{ paddingBottom: 16 }}>
-              <div>{name ? name : 'Brand'} {new Date().getFullYear()}</div>
-              { phone && <a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a> }
+              <Link to="/" style={{}}>{name ? name : 'Brand'} {new Date().getFullYear()}</Link>
+              { phone && <div><a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a></div> }
               { email && <div>{email}</div> }
               { street && <div>{street}</div> }
               { city && <div>{city}, {state}. {zip}</div> }

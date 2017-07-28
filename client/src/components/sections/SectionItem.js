@@ -50,7 +50,7 @@ class SectionItem extends Component {
       justifyContent,
       alignItems,
       margin,
-      height
+      minHeight
     } = item.values
     const slides = item.components.filter(value => value.type === 'Slide')
     const backgroundClass = image && { className: 'background-image' }
@@ -70,13 +70,12 @@ class SectionItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <div style={{ ...backgrounds, overflow: 'hidden'}} {...backgroundClass}>
+        <div style={{ ...backgrounds, backgroundColor, overflow: 'hidden'}} {...backgroundClass}>
           <div style={{ marginTop }}>
             <section style={{
               display: 'flex',
-              backgroundColor,
               flexFlow,
-              height,
+              minHeight,
               justifyContent,
               alignItems,
               margin

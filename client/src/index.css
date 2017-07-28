@@ -41,7 +41,7 @@ section {
 }
 
 .page {
-  min-height: 80vh;
+  min-height: 85vh;
   padding: 16px 8px 16px;
 }
 
@@ -61,7 +61,7 @@ svg {
   display: flex;
   justify-content: center;
 }
-.social-media > a {
+a {
   text-decoration: none;
   color: inherit;
 }

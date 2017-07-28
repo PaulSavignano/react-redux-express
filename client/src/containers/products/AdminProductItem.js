@@ -13,16 +13,17 @@ class AdminProductItem extends Component {
   state = {
     zDepth: 1,
     image: null,
-    loading: false,
+    loading: true,
   }
   componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
+    } else {
+      this.setState({ loading: false })
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {

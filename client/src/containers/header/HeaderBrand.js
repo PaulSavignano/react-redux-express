@@ -21,11 +21,7 @@ class HeaderBrand extends Component {
     const { image } = this.state
     return (
       <div
-        style={{ cursor: 'pointer', height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
-        onTouchTap={() => {
-          dispatch(toggleDrawer())
-          return dispatch(push('/'))
-        }}
+        style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
       >
         { image && <img src={image} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
         { name && <div style={{ fontFamily, color }}>{name}</div> }

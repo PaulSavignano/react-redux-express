@@ -10,16 +10,17 @@ import { startEdit } from '../../actions/cards'
 class AdminCardItem extends Component {
   state = {
     image: null,
-    loading: false
+    loading: true
   }
   componentWillMount() {
     const { image } = this.props.item
     if (image.src) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
+    } else {
+      setState({ loading: false })
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
@@ -64,7 +65,7 @@ class AdminCardItem extends Component {
               </iframe>
             </div>
           }
-          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
+          {text && text.length > 8 && <CardText style={{ padding: 4 }}>{renderHTML(text)}</CardText>}
           {item.editing && <AdminCardEdit item={item} />}
         </Card>
       </CSSTransitionGroup>

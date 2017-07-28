@@ -9,9 +9,9 @@ const CardSchema = new Schema({
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   slug: { type: String },
   image: {
-    src: { type: String },
-    width: { type: Number, trim: true, default: 1012 },
-    height: { type: Number, trim: true, default: 675 }
+    src: { type: String, trim: true },
+    width: { type: Number, trim: true, default: 650 },
+    height: { type: Number, trim: true, default: 433 }
   },
   values: {
     backgroundColor: { type: String, trim: true },
@@ -20,8 +20,8 @@ const CardSchema = new Schema({
     link: { type: String, trim: true },
     margin: { type: String, trim: true },
     text: { type: String, trim: true },
-    width: { type: Number },
-    zDepth: { type: Number, default: null }
+    width: { type: String, trim: true },
+    zDepth: { type: Number, trime: true, default: 1 }
   }
 }, {
   timestamps: true

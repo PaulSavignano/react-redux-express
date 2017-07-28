@@ -22,7 +22,7 @@ const SectionSchema = new Schema({
     justifyContent: { type: String, trim: true, default: 'space-between' },
     alignItems: { type: String, trim: true },
     margin: { type: String, trim: true },
-    height: { type: String, trim: true, default: '100vh' }
+    minHeight: { type: String, trim: true, default: '100vh' }
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },

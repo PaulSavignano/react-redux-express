@@ -10,7 +10,7 @@ const ProductItemContainer = ({ item, isFetching }) => {
     <ProductItem item={item} />
     :
     <Card className="section page">
-      <CardTitle title="That product is no longer "/>
+      <CardTitle title="That product is no longer available"/>
     </Card>
   )
 }
@@ -18,8 +18,6 @@ const ProductItemContainer = ({ item, isFetching }) => {
 
 
 const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => {
-  console.log(componentId)
-  console.log(items.find(item => item._id === componentId))
   return {
     item: items.find(item => item._id === componentId),
     isFetching

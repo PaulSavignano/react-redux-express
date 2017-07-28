@@ -9,25 +9,25 @@ class CardItem extends Component {
   state = {
     zDepth: null,
     image: null,
-    loading: false
+    loading: true
   }
   componentWillMount() {
     const { image, values } = this.props.item
     if (values.zDepth) this.setState({ zDepth: values.zDepth })
     if (image.src) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
+    } else {
+      this.setState({ loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  handleNavigation = () => this.props.dispatch(push(`${this.props.values.link}`))
   render() {
     const { image, loading, zDepth } = this.state
-    const { isFetching, item } = this.props
+    const { dispatch, isFetching, item } = this.props
     const values = item.values || {}
     const {
       backgroundColor,
@@ -40,6 +40,7 @@ class CardItem extends Component {
     } = values
     const cursor = link && 'pointer'
     const cardStyle = { backgroundColor, cursor  }
+    const navigation = link && { onTouchTap: () => dispatch(push(link)) }
     return (
       !isFetching && !loading &&
       <CSSTransitionGroup
@@ -51,7 +52,7 @@ class CardItem extends Component {
         style={{ flex, margin, width }}
       >
         <Card
-          onTouchTap={link && this.handleNavigation}
+          {...navigation}
           zDepth={zDepth}
           onMouseEnter={link && this.handleMouseEnter}
           onMouseLeave={link && this.handleMouseLeave}
@@ -67,7 +68,7 @@ class CardItem extends Component {
               </iframe>
             </div>
           }
-          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText> }
+          {text && text.length > 8 && <CardText style={{ padding: 4 }}>{renderHTML(text)}</CardText> }
         </Card>
       </CSSTransitionGroup>
     )

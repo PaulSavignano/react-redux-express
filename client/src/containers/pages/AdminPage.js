@@ -4,7 +4,7 @@ import AdminPageNameAdd from './AdminPageNameAdd'
 import AdminPageNameList from './AdminPageNameList'
 
 const AdminPage = () => (
-  <section className="page">
+  <section style={{ minHeight: '50vh'}}>
     <AdminPageNameAdd />
     <AdminPageNameList />
   </section>

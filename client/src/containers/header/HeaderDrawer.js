@@ -44,7 +44,11 @@ const HeaderDrawer = ({
   return (
     <Drawer docked={false} open={drawer.open} onRequestChange={() => dispatch(toggleDrawer()) }>
       <Paper
-        style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16 }}
+        style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16, cursor: 'pointer' }}
+        onTouchTap={() => {
+          dispatch(toggleDrawer())
+          return dispatch(push('/'))
+        }}
       >
         <HeaderBrand />
       </Paper>

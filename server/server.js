@@ -5,9 +5,8 @@ import path from 'path'
 import Brand from './models/Brand'
 
 Brand.findOne({})
-  .then(doc => !doc && new Brand({}).save()
-    .catch(err => console.error(err))
-  )
+  .then(doc => !doc && new Brand({}).save())
+  .catch(err => console.error(err))
 
 import mongoose from './db/mongoose'
 import brands from './routes/brands'
@@ -45,8 +44,6 @@ app.use(staticFiles)
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'))
 })
-
-console.log(process.env)
 
 
 app.listen(port, () => console.log(`Started up at port: ${port}`))
