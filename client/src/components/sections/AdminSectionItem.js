@@ -5,9 +5,12 @@ import RaisedButton from 'material-ui/RaisedButton'
 import AdminButtonItem from '../../containers/buttons/AdminButtonItem'
 import AdminCardItem from '../../containers/cards/AdminCardItem'
 import AdminContactForm  from '../../containers/users/AdminContactForm'
+import AdminIframeItem from '../../containers/iframes/AdminIframeItem'
+import AdminImageItem from '../../containers/images/AdminImageItem'
 import AdminProductItem from '../../containers/products/AdminProductItem'
 import AdminSectionEdit from '../../containers/sections/AdminSectionEdit'
 import AdminSlideList from '../../containers/slides/AdminSlideList'
+import AdminTextItem from '../../containers/texts/AdminTextItem'
 import { startEdit } from '../../actions/sections'
 
 class AdminSectionItem extends Component {
@@ -40,8 +43,14 @@ class AdminSectionItem extends Component {
           return <AdminContactForm key={component._id} componentId={componentId} sectionId={this.props.item._id}  />
         case 'Card':
           return <AdminCardItem key={component._id} componentId={componentId}  />
+        case 'Iframe':
+          return <AdminIframeItem key={component._id} componentId={componentId} />
+        case 'Image':
+          return <AdminImageItem key={component._id} componentId={componentId} />
         case 'Product':
           return <AdminProductItem key={component._id} componentId={componentId} />
+        case 'Text':
+          return <AdminTextItem key={component._id} componentId={componentId} />
         default:
           return
       }

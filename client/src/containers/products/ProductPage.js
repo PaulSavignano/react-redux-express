@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import ProductItemContainer from './ProductItemContainer'
+import ProductItem from './ProductItem'
 
 const ProductPage = ({ isFetching, productId }) => (
   !isFetching &&
   <section>
-    <ProductItemContainer componentId={productId} fullWidth={true} />
+    <ProductItem componentId={productId} fullWidth={true} />
   </section>
 )
 

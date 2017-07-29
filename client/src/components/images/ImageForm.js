@@ -120,7 +120,6 @@ class ImageForm extends Component {
     const { _id, onImageDelete, style } = this.props
     const styles = style || {}
     const fontFamily = styles.fontFamily || null
-    const backgroundColor = styles.backgroundColor || null
     const color = styles.color || null
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
@@ -251,8 +250,7 @@ class ImageForm extends Component {
             labelPosition="before"
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4 }}
-            buttonStyle={{ fontFamily, backgroundColor }}
-            primary={styles.backgroundColor ? true : false}
+            buttonStyle={{ fontFamily }}
           >
             <input
               style={{ cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0 }}

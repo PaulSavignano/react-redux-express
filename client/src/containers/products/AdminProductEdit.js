@@ -29,7 +29,10 @@ class AdminProductEdit extends Component {
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
-  handleImageEdit = (bool) => this.setState({ imageEdit: bool })
+  handleImageEdit = (bool) => {
+    this.setState({ imageEdit: bool })
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
+  }
   handleImageDelete = (_id, update) => {
     const { dispatch } = this.props
     this.setState({ imageEdit: false })
@@ -79,8 +82,7 @@ class AdminProductEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-
-        <CardHeader title={`Product ${item._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardHeader title={`Product ${item._id}`} />
         <CardMedia>
           <ImageForm
             image={item.image}

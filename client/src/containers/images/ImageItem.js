@@ -5,15 +5,13 @@ import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
-class CardItem extends Component {
+class ImageItem extends Component {
   state = {
-    zDepth: null,
     image: null,
     loading: true
   }
   componentWillMount() {
     const { image, values } = this.props.item
-    if (values.zDepth) this.setState({ zDepth: values.zDepth })
     if (image.src) {
       const img = new Image()
       const src = image.src
@@ -23,23 +21,16 @@ class CardItem extends Component {
       this.setState({ loading: false })
     }
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    const { image, loading, zDepth } = this.state
+    const { image, loading } = this.state
     const { dispatch, isFetching, item, values } = this.props
     const {
-      backgroundColor,
       flex,
-      iFrame,
-      link,
       margin,
       text,
       width,
+      zDepth
     } = values
-    const cursor = link && 'pointer'
-    const cardStyle = { backgroundColor, cursor  }
-    const navigation = link && { onTouchTap: () => dispatch(push(link)) }
     return (
       !isFetching && !loading &&
       <CSSTransitionGroup
@@ -51,21 +42,16 @@ class CardItem extends Component {
         style={{ flex, margin, width }}
       >
         <Card
-          {...navigation}
           zDepth={zDepth}
-          onMouseEnter={link && this.handleMouseEnter}
-          onMouseLeave={link && this.handleMouseLeave}
-          style={cardStyle}
         >
-          {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
-          {text && text.length > 8 && <div>{renderHTML(text)}</div> }
+          <CardMedia><img src={image} alt="card"/></CardMedia>
         </Card>
       </CSSTransitionGroup>
     )
   }
 }
 
-const mapStateToProps = ({ cards: { items, isFetching } }, { componentId }) => {
+const mapStateToProps = ({ images: { items, isFetching } }, { componentId }) => {
   const item = items.find(item => item._id === componentId) || {}
   const values = item.values || {}
   return {
@@ -75,4 +61,4 @@ const mapStateToProps = ({ cards: { items, isFetching } }, { componentId }) => {
   }
 }
 
-export default connect(mapStateToProps)(CardItem)
+export default connect(mapStateToProps)(ImageItem)

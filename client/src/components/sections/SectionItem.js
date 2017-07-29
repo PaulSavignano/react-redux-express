@@ -4,8 +4,11 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import ButtonItem from '../../containers/buttons/ButtonItem'
 import CardItem from '../../containers/cards/CardItem'
 import ContactForm  from '../../containers/users/ContactForm'
-import ProductItemContainer from '../../containers/products/ProductItemContainer'
+import IframeItem from '../../containers/iframes/IframeItem'
+import ImageItem from '../../containers/images/ImageItem'
+import ProductItem from '../../containers/products/ProductItem'
 import SlideList from '../../containers/slides/SlideList'
+import TextItem from '../../containers/texts/TextItem'
 
 class SectionItem extends Component {
   state = {
@@ -33,8 +36,14 @@ class SectionItem extends Component {
           return <ContactForm key={component._id} componentId={componentId}  />
         case 'Card':
           return <CardItem key={component._id} componentId={componentId}  />
+        case 'Iframe':
+          return <IframeItem key={component._id} componentId={componentId}  />
+        case 'Image':
+          return <ImageItem key={component._id} componentId={componentId}  />
         case 'Product':
-          return <ProductItemContainer key={component._id} componentId={componentId} />
+          return <ProductItem key={component._id} componentId={componentId} />
+        case 'Text':
+          return <TextItem key={component._id} componentId={componentId}  />
         default:
           return
       }
@@ -70,7 +79,7 @@ class SectionItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <div style={{ ...backgrounds, backgroundColor, overflow: 'hidden'}} {...backgroundClass}>
+        <div id={item._id} style={{ ...backgrounds, backgroundColor, overflow: 'hidden'}} {...backgroundClass}>
           <div style={{ marginTop }}>
             <section style={{
               display: 'flex',

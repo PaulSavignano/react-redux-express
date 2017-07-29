@@ -20,7 +20,7 @@ class AdminCardItem extends Component {
       img.src = src
       img.onload = this.setState({ image: src, loading: false })
     } else {
-      setState({ loading: false })
+      this.setState({ loading: false })
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
@@ -29,7 +29,7 @@ class AdminCardItem extends Component {
   }
   render() {
     const { image, loading } = this.state
-    const { dispatch, item, isFetching } = this.props
+    const { dispatch, item, isFetching, values } = this.props
     const {
       backgroundColor,
       flex,
@@ -39,7 +39,7 @@ class AdminCardItem extends Component {
       text,
       width,
       zDepth
-    } = item.values
+    } = values
     return (
       !isFetching && !loading &&
       <CSSTransitionGroup
@@ -56,16 +56,7 @@ class AdminCardItem extends Component {
           style={{ backgroundColor, cursor: 'pointer' }}
         >
           {image && <CardMedia><img src={image} alt="card" /></CardMedia>}
-          {iFrame &&
-            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
-              <iframe
-                title="iFrame"
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                src={iFrame} frameBorder="0" allowFullScreen>
-              </iframe>
-            </div>
-          }
-          {text && text.length > 8 && <CardText style={{ padding: 4 }}>{renderHTML(text)}</CardText>}
+          {text && text.length > 8 && <div>{renderHTML(text)}</div>}
           {item.editing && <AdminCardEdit item={item} />}
         </Card>
       </CSSTransitionGroup>
@@ -73,9 +64,14 @@ class AdminCardItem extends Component {
   }
 }
 
-const mapStateToProps = ({ cards: { items, isFetching } }, { componentId }) => ({
-  item: items.find(item => item._id === componentId),
-  isFetching
-})
+const mapStateToProps = ({ cards: { items, isFetching } }, { componentId }) => {
+  const item = items.find(item => item._id === componentId) || {}
+  const values = item.values || {}
+  return {
+    item,
+    isFetching,
+    values
+  }
+}
 
 export default connect(mapStateToProps)(AdminCardItem)

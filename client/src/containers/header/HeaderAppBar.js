@@ -46,15 +46,19 @@ const HeaderAppBar = ({
 
           <span style={{ fontFamily }}>
             <span className="appbar-nav">
-              {pages.filter(page => page.slug !== 'home').map(page => (
-                <FlatButton
-                  key={page._id}
-                  style={{ color: path === `/${page.slug}` ? activeColor : color }}
-                  onTouchTap={() => dispatch(push(`/${page.slug}`))}
-                  label={page.name}
-                  hoverColor="none"
-                />
-              ))}
+              {pages.filter(page => page.slug !== 'home').map(page => {
+                const activeStyle = path === `/${page.slug}` && { borderBottom: '2px solid' }
+                return (
+                  <FlatButton
+                    key={page._id}
+                    style={{ color }}
+                    labelStyle={{ padding: '0 0 2px 0', ...activeStyle }}
+                    onTouchTap={() => dispatch(push(`/${page.slug}`))}
+                    label={page.name}
+                    hoverColor="none"
+                  />
+                )
+              })}
             </span>
             <IconButton
               iconClassName="fa fa-search"

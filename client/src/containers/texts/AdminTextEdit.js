@@ -8,9 +8,10 @@ import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import renderTextField from '../../components/fields/renderTextField'
-import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/buttons'
+import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
+import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/texts'
 
-class AdminButtonEdit extends Component {
+class AdminTextEdit extends Component {
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
     if (submitSucceeded && !item.editing) {
       dispatch(stopEdit(item._id))
@@ -24,13 +25,13 @@ class AdminButtonEdit extends Component {
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
-              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE BUTTON'}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Button"
+              label="X Text"
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -53,27 +54,15 @@ class AdminButtonEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Button ${item._id}`}/>
+        <CardHeader title={`Text ${item._id}`}/>
         <form>
+          <div>
+            <Field
+              name="text"
+              component={renderWysiwgyField}
+            />
+          </div>
           <div className="field-container">
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="border"
-              label="border"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="color"
-              label="color"
-              className="field"
-              component={renderTextField}
-            />
             <Field
               name="flex"
               label="flex"
@@ -81,20 +70,14 @@ class AdminButtonEdit extends Component {
               component={renderTextField}
             />
             <Field
-              name="label"
-              label="label"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="link"
-              label="link"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
               name="margin"
               label="margin"
+              className="field"
+              component={renderTextField}
+            />
+            <Field
+              name="padding"
+              label="padding"
               className="field"
               component={renderTextField}
             />
@@ -112,18 +95,18 @@ class AdminButtonEdit extends Component {
   }
 }
 
-AdminButtonEdit = compose(
+AdminTextEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
-      form: `card_${item._id}`,
+      form: `text_${item._id}`,
       item,
-      initialValues: values
+      initialValues: values,
     }
   }),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminButtonEdit)
+  }))(AdminTextEdit)
 
-export default AdminButtonEdit
+export default AdminTextEdit

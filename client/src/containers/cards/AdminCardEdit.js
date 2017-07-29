@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
+import { CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -20,7 +21,10 @@ class AdminCardEdit extends Component {
       dispatch(stopEdit(item._id))
     }
   }
-  handleImageEdit = (bool) => this.setState({ imageEdit: bool })
+  handleImageEdit = (bool) => {
+    this.setState({ imageEdit: bool })
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
+  }
   handleImageDelete = (_id, update) => {
     const { dispatch } = this.props
     this.setState({ imageEdit: false })
@@ -70,6 +74,7 @@ class AdminCardEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
+        <CardHeader title={`Card ${item._id}`}/>
         <form>
           <ImageForm
             image={item.image}
@@ -95,12 +100,6 @@ class AdminCardEdit extends Component {
             <Field
               name="flex"
               label="flex"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="iFrame"
-              label="iFrame"
               className="field"
               component={renderTextField}
             />

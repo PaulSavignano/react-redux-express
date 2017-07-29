@@ -34,8 +34,9 @@ class AdminProductItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
     const { image, loading } = this.state
-    const { dispatch, item } = this.props
-    const { _id, editing, values: { margin, width, name, description, price }} = item
+    const { dispatch, item, values } = this.props
+    const { _id, editing } = item
+    const { margin, width, name, description, price } = values
     return (
       !loading &&
       <CSSTransitionGroup
@@ -90,9 +91,14 @@ class AdminProductItem extends Component {
   }
 }
 
-const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => ({
-  item: items.find(item => item._id === componentId),
-  isFetching
-})
+const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => {
+  const item = items.find(item => item._id === componentId) || {}
+  const values = item.values || {}
+  return {
+    item,
+    isFetching,
+    values
+  }
+}
 
 export default connect(mapStateToProps)(AdminProductItem)

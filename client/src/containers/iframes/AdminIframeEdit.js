@@ -8,9 +8,9 @@ import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import renderTextField from '../../components/fields/renderTextField'
-import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/buttons'
+import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/iframes'
 
-class AdminButtonEdit extends Component {
+class AdminIframeEdit extends Component {
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
     if (submitSucceeded && !item.editing) {
       dispatch(stopEdit(item._id))
@@ -24,17 +24,17 @@ class AdminButtonEdit extends Component {
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
-              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE BUTTON'}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE IFRAME'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Button"
+              label="X iFrame"
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              onTouchTap={() => dispatch(fetchDelete(item._id))}
             />
             <RaisedButton
               type="button"
@@ -53,24 +53,12 @@ class AdminButtonEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Button ${item._id}`}/>
+        <CardHeader title={`Iframe ${item._id}`}/>
         <form>
           <div className="field-container">
             <Field
               name="backgroundColor"
               label="backgroundColor"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="border"
-              label="border"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="color"
-              label="color"
               className="field"
               component={renderTextField}
             />
@@ -81,14 +69,8 @@ class AdminButtonEdit extends Component {
               component={renderTextField}
             />
             <Field
-              name="label"
-              label="label"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="link"
-              label="link"
+              name="iFrame"
+              label="iFrame"
               className="field"
               component={renderTextField}
             />
@@ -104,6 +86,12 @@ class AdminButtonEdit extends Component {
               className="field"
               component={renderTextField}
             />
+            <Field
+              name="zDepth"
+              label="zDepth"
+              className="field"
+              component={renderTextField}
+            />
           </div>
         </form>
         {error && <div className="error">{error}</div>}
@@ -112,18 +100,21 @@ class AdminButtonEdit extends Component {
   }
 }
 
-AdminButtonEdit = compose(
+AdminIframeEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
-      form: `card_${item._id}`,
+      form: `iframe_${item._id}`,
       item,
-      initialValues: values
+      initialValues: {
+        ...values,
+        zDepth: values.zDepth && values.zDepth.toString()
+       }
     }
   }),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminButtonEdit)
+  }))(AdminIframeEdit)
 
-export default AdminButtonEdit
+export default AdminIframeEdit

@@ -13,11 +13,14 @@ import { fetchButtons } from './actions/buttons'
 import { fetchBrand } from './actions/brand'
 import { fetchCards } from './actions/cards'
 import { fetchCart } from './actions/cart'
+import { fetchIframes } from './actions/iframes'
+import { fetchImages } from './actions/images'
 import { fetchSlides } from './actions/slides'
 import { fetchSections } from './actions/sections'
 import { fetchOrders } from './actions/orders'
 import { fetchPages } from './actions/pages'
 import { fetchProducts } from './actions/products'
+import { fetchTexts } from './actions/texts'
 import { fetchUser } from './actions/users'
 
 const store = configureStore()
@@ -38,10 +41,13 @@ if (cart) {
 store.dispatch(fetchButtons())
 store.dispatch(fetchBrand())
 store.dispatch(fetchCards())
+store.dispatch(fetchIframes())
+store.dispatch(fetchImages())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
 store.dispatch(fetchSections())
 store.dispatch(fetchSlides())
+store.dispatch(fetchTexts())
 
 ReactDOM.render(
   <Provider store={store}>

@@ -40,13 +40,8 @@ class ProductItem extends Component {
   render() {
     const { image, loading } = this.state
     const { dispatch, handleSubmit, item, isFetching, submitSucceeded, submitting  } = this.props
-    const { _id, slug } = item
-    const values = item.values || {}
-    const margin = values.margin || null
-    const width = values.width || null
-    const name = values.name || null
-    const description = values.description || null
-    const price = values.price || null
+    const { _id, slug, values } = item
+    const { margin, width, name, description, price } = values
     return (
       !isFetching && !loading &&
       <CSSTransitionGroup
@@ -138,12 +133,18 @@ class ProductItem extends Component {
   }
 }
 
+const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => {
+  const item = items.find(item => item._id === componentId) || {}
+  const values = item.values || {}
+  return {
+    item,
+    isFetching,
+    values
+  }
+}
 
 ProductItem = compose(
-  connect((state, { item }) => ({
-      form: `addToCart_${item._id}`,
-    })
-  ),
+  connect(mapStateToProps),
   reduxForm({ destroyOnUnmount: false, asyncBlurFields: [] }))(ProductItem)
 
 export default ProductItem

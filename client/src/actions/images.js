@@ -1,11 +1,9 @@
 import { SubmissionError } from 'redux-form'
 
-import * as cardActions from './cards'
-import * as slideActions from './slides'
-import * as productActions from './products'
+import * as sectionActions from './sections'
 
-export const type = 'SECTION'
-const route = 'sections'
+export const type = 'IMAGE'
+const route = 'images'
 
 const START_EDIT = `START_EDIT_${type}`
 const STOP_EDIT = `STOP_EDIT_${type}`
@@ -14,6 +12,7 @@ const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
 const UPDATE = `UPDATE_${type}`
 const DELETE = `DELETE_${type}`
+const DELETES = `DELETE_${type}S`
 const ERROR = `ERROR_${type}`
 
 // Create
@@ -35,7 +34,9 @@ export const fetchAdd = (add) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
+        const { card, section } = json
+        dispatch(fetchAddSuccess(card))
+        dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
@@ -47,12 +48,12 @@ export const fetchAdd = (add) => {
 
 
 // Read
-const fetchSectionsRequest = () => ({ type: REQUEST })
-const fetchSectionsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchSectionsFailure = (error) => ({ type: ERROR, error })
-export const fetchSections = () => {
+const fetchImagesRequest = () => ({ type: REQUEST })
+const fetchImagesSuccess = (items) => ({ type: RECEIVE, items })
+const fetchImagesFailure = (error) => ({ type: ERROR, error })
+export const fetchImages = () => {
   return (dispatch, getState) => {
-    dispatch(fetchSectionsRequest())
+    dispatch(fetchImagesRequest())
     return fetch(`/api/${route}`, {
       method: 'GET',
       headers: {
@@ -65,11 +66,10 @@ export const fetchSections = () => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchSectionsSuccess(json))
+        dispatch(fetchImagesSuccess(json))
       })
       .catch(err => {
-        console.log(err)
-        dispatch(fetchSectionsFailure(err))
+        dispatch(fetchImagesFailure(err))
       })
   }
 }
@@ -77,7 +77,7 @@ export const fetchSections = () => {
 
 
 // Update
-export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
@@ -124,26 +124,21 @@ export const fetchDelete = (_id) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { _id, componentType, components } = json
-        if (componentType) {
-          switch(componentType) {
-            case 'Card':
-              return dispatch(cardActions.deletes(components.map(comp => comp.componentId)))
-            case 'Product':
-              return dispatch(productActions.deletes(components.map(comp => comp.componentId)))
-            case 'Slide':
-              return dispatch(slideActions.deletes(components.map(comp => comp.componentId)))
-            default:
-              return
-          }
-        }
-        dispatch(fetchDeleteSuccess(_id))
+        const { card, section } = json
+        dispatch(sectionActions.fetchUpdateSuccess(section))
+        dispatch(fetchDeleteSuccess(card._id))
       })
       .catch(err => {
-        console.error(err)
         dispatch(fetchDeleteFailure(err))
         throw new SubmissionError({ ...err, _error: 'Delete failed!' })
       })
+  }
+}
+
+export const deletes = (items) => {
+  return {
+    type: DELETES,
+    items
   }
 }
 

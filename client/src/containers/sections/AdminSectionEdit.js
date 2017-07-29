@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
+import { CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
@@ -13,8 +14,11 @@ import ImageForm from '../../components/images/ImageForm'
 import renderTextField from '../../components/fields/renderTextField'
 import * as buttonActions from '../../actions/buttons'
 import * as cardActions from '../../actions/cards'
-import * as slideActions from '../../actions/slides'
+import * as iframeActions from '../../actions/iframes'
+import * as imageActions from '../../actions/images'
 import * as productActions from '../../actions/products'
+import * as slideActions from '../../actions/slides'
+import * as textActions from '../../actions/texts'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/sections'
 
 class AdminSectionEdit extends Component {
@@ -89,6 +93,7 @@ class AdminSectionEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
+        <CardHeader title={`Section ${item._id}`}/>
         <ImageForm
           image={item.image}
           type="image/jpg"
@@ -184,6 +189,24 @@ class AdminSectionEdit extends Component {
                 }}
               />
               <MenuItem
+                primaryText="Add Iframe"
+                onTouchTap={() => {
+                  const add = { pageId: page._id, sectionId: item._id }
+                  dispatch(iframeActions.fetchAdd(add))
+                  this.setState({ openMenu: false })
+                  dispatch(stopEdit(item._id))
+                }}
+              />
+              <MenuItem
+                primaryText="Add Image"
+                onTouchTap={() => {
+                  const add = { pageId: page._id, sectionId: item._id }
+                  dispatch(imageActions.fetchAdd(add))
+                  this.setState({ openMenu: false })
+                  dispatch(stopEdit(item._id))
+                }}
+              />
+              <MenuItem
                 primaryText="Add Product"
                 onTouchTap={() => {
                   const add = { pageId: page._id, sectionId: item._id }
@@ -197,6 +220,15 @@ class AdminSectionEdit extends Component {
                 onTouchTap={() => {
                   const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
                   dispatch(slideActions.fetchAdd(add))
+                  this.setState({ openMenu: false })
+                  dispatch(stopEdit(item._id))
+                }}
+              />
+              <MenuItem
+                primaryText="Add Text"
+                onTouchTap={() => {
+                  const add = { pageId: page._id, sectionId: item._id }
+                  dispatch(textActions.fetchAdd(add))
                   this.setState({ openMenu: false })
                   dispatch(stopEdit(item._id))
                 }}

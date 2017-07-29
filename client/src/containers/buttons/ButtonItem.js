@@ -5,29 +5,27 @@ import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import RaisedButton from 'material-ui/RaisedButton'
 
-const ButtonItem = ({ dispatch, item, isFetching }) => {
-  const values = item.values || {}
+const ButtonItem = ({ dispatch, item, isFetching, values }) => {
   const {
     backgroundColor,
     border,
     color,
+    flex,
     label,
     link,
     margin,
-    maxWidth,
     width,
   } = values
-  console.log(link)
   let nav
   if (values.link) {
-    nav = values.link.indexOf("http") === 0 ? { href: link } : { onTouchTap: () => dispatch(push(link)) }
+    nav = values.link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { href: link }
   }
   const attributes = {
     backgroundColor,
     type: "button",
     label,
     labelColor: color,
-    style: { backgroundColor, border, margin, maxWidth, width },
+    style: { flex, backgroundColor, border, margin, width },
     ...nav
   }
   return (
@@ -39,9 +37,14 @@ const ButtonItem = ({ dispatch, item, isFetching }) => {
   )
 }
 
-const mapStateToProps = ({ buttons: { items, isFetching } }, { componentId }) => ({
-  item: items.find(item => item._id === componentId),
-  isFetching
-})
+const mapStateToProps = ({ buttons: { items, isFetching } }, { componentId }) => {
+  const item = items.find(item => item._id === componentId) || {}
+  const values = item.values || {}
+  return {
+    item,
+    isFetching,
+    values
+  }
+}
 
 export default connect(mapStateToProps)(ButtonItem)

@@ -29,6 +29,7 @@ class HeaderUser extends Component {
         <FlatButton
           onTouchTap={this.handleOpen}
           label={firstName ? `Hello, ${firstName}`: `SIGN IN`}
+          labelStyle={{ padding: '0 0 0 4px' }}
           hoverColor="none"
           style={{ color, fontFamily }}
         />
