@@ -93,6 +93,7 @@ a {
 .button-container {
   display: flex;
   flex-flow: row wrap;
+  justify-content: flex-end;
   padding: 4px;
 }
 .button {

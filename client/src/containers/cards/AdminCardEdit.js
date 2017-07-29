@@ -47,14 +47,14 @@ class AdminCardEdit extends Component {
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
               primary={true}
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Card"
+              label="X"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
             <RaisedButton
@@ -62,7 +62,7 @@ class AdminCardEdit extends Component {
               label="Cancel"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(stopEdit(item._id))}
             />
           </div>

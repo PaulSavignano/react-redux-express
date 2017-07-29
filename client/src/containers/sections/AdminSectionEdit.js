@@ -57,6 +57,97 @@ class AdminSectionEdit extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
+              onTouchTap={this.handleOpenMenu}
+              label="Add Components"
+              type="button"
+              primary={true}
+              style={{ flex: '1 1 auto', margin: 4 }}
+            />
+            <Popover
+              open={this.state.openMenu}
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              onRequestClose={() => this.setState({ openMenu: false })}
+              animation={PopoverAnimationVertical}
+              style={{ flex: '1 1 auto', width: 'auto' }}
+            >
+              <Menu autoWidth={true}>
+                <MenuItem
+                  primaryText="Add Button"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                    dispatch(buttonActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Card"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                    dispatch(cardActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Contact Form"
+                  onTouchTap={() => {
+                    const add = { type: 'ADD_CONTACT_FORM' }
+                    dispatch(fetchUpdate(item._id, add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Iframe"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, sectionId: item._id }
+                    dispatch(iframeActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Image"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, sectionId: item._id }
+                    dispatch(imageActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Product"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, sectionId: item._id }
+                    dispatch(productActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Slide"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                    dispatch(slideActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Add Text"
+                  onTouchTap={() => {
+                    const add = { pageId: page._id, sectionId: item._id }
+                    dispatch(textActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+              </Menu>
+            </Popover>
+            <RaisedButton
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
@@ -66,14 +157,14 @@ class AdminSectionEdit extends Component {
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SECTION'}
               primary={true}
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Section"
+              label="X"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
             <RaisedButton
@@ -81,7 +172,7 @@ class AdminSectionEdit extends Component {
               label="Cancel"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(stopEdit(item._id))}
             />
           </div>
@@ -143,99 +234,6 @@ class AdminSectionEdit extends Component {
           </div>
         </form>
         {error && <div className="error">{error}</div>}
-        <div className="button-container">
-          <RaisedButton
-            onTouchTap={this.handleOpenMenu}
-            label="Add Components"
-            type="button"
-            primary={true}
-            style={{ flex: '1 1 auto', margin: 8 }}
-          />
-          <Popover
-            open={this.state.openMenu}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={() => this.setState({ openMenu: false })}
-            animation={PopoverAnimationVertical}
-            style={{ flex: '1 1 auto', width: 'auto' }}
-          >
-            <Menu autoWidth={true}>
-              <MenuItem
-                primaryText="Add Button"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
-                  dispatch(buttonActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Card"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
-                  dispatch(cardActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Contact Form"
-                onTouchTap={() => {
-                  const add = { type: 'ADD_CONTACT_FORM' }
-                  dispatch(fetchUpdate(item._id, add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Iframe"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, sectionId: item._id }
-                  dispatch(iframeActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Image"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, sectionId: item._id }
-                  dispatch(imageActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Product"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, sectionId: item._id }
-                  dispatch(productActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Slide"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
-                  dispatch(slideActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-              <MenuItem
-                primaryText="Add Text"
-                onTouchTap={() => {
-                  const add = { pageId: page._id, sectionId: item._id }
-                  dispatch(textActions.fetchAdd(add))
-                  this.setState({ openMenu: false })
-                  dispatch(stopEdit(item._id))
-                }}
-              />
-            </Menu>
-          </Popover>
-        </div>
       </Dialog>
     )
   }

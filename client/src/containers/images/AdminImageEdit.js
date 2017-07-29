@@ -32,6 +32,7 @@ class AdminImageEdit extends Component {
   setEditorRef = (editor) => this.editor = editor
   render() {
     const { dispatch, error, handleSubmit, item, submitting } = this.props
+    console.log(item)
     return (
       <Dialog
         actions={
@@ -46,22 +47,22 @@ class AdminImageEdit extends Component {
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
               primary={true}
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Card"
+              label="X"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              style={{ flex: '0 1 auto', margin: 4 }}
+              onTouchTap={() => dispatch(fetchDelete(item._id))}
             />
             <RaisedButton
               type="button"
               label="Cancel"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(stopEdit(item._id))}
             />
           </div>

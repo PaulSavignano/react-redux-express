@@ -27,14 +27,14 @@ class AdminTextEdit extends Component {
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
               primary={true}
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="X Text"
+              label="X"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
             <RaisedButton

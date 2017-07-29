@@ -26,14 +26,14 @@ class AdminButtonEdit extends Component {
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE BUTTON'}
               primary={true}
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
-              label="Remove Button"
+              label="X"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
             />
             <RaisedButton
@@ -41,7 +41,7 @@ class AdminButtonEdit extends Component {
               label="Cancel"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(stopEdit(item._id))}
             />
           </div>

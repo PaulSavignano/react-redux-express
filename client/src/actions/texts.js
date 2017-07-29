@@ -34,8 +34,8 @@ export const fetchAdd = (add) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { card, section } = json
-        dispatch(fetchAddSuccess(card))
+        const { text, section } = json
+        dispatch(fetchAddSuccess(text))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
@@ -124,9 +124,9 @@ export const fetchDelete = (_id) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { card, section } = json
+        const { text, section } = json
         dispatch(sectionActions.fetchUpdateSuccess(section))
-        dispatch(fetchDeleteSuccess(card._id))
+        dispatch(fetchDeleteSuccess(text._id))
       })
       .catch(err => {
         dispatch(fetchDeleteFailure(err))

@@ -34,8 +34,8 @@ export const fetchAdd = (add) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { card, section } = json
-        dispatch(fetchAddSuccess(card))
+        const { image, section } = json
+        dispatch(fetchAddSuccess(image))
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
@@ -110,6 +110,7 @@ export const fetchUpdate = (_id, update) => {
 const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
 const fetchDeleteFailure = (error) => ({ type: ERROR, error })
 export const fetchDelete = (_id) => {
+  console.log(_id)
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',
@@ -124,11 +125,12 @@ export const fetchDelete = (_id) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { card, section } = json
+        const { image, section } = json
         dispatch(sectionActions.fetchUpdateSuccess(section))
-        dispatch(fetchDeleteSuccess(card._id))
+        dispatch(fetchDeleteSuccess(image._id))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchDeleteFailure(err))
         throw new SubmissionError({ ...err, _error: 'Delete failed!' })
       })
