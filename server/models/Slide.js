@@ -6,16 +6,18 @@ const s3Path = `${process.env.APP_NAME}/slides/slide_`
 
 const SlideSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
-  sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
-  slug: { type: String },
+  pageSlug: { type: String },
   image: {
     src: { type: String },
-    width: { type: Number, trim: true, default: 300 },
-    height: { type: Number, trim: true, default: 200 }
+    width: { type: Number, trim: true, default: 1920 },
+    height: { type: Number, trim: true, default: 540 }
   },
   values: {
-    color: { type: String, trim: true, default: 'inherit' },
-    text: { type: String, trim: true },
+    mediaBackgroundColor: { type: String, trim: true, default: 'rgb(100, 100, 100)' },
+    contentBackgroundColor: { type: String, trim: true, default: 'rgb(0, 0, 0)' },
+    color: { type: String, trim: true },
+    title: { type: String, trim: true, default: 'Title' },
+    subtitle: { type: String, trim: true, default: 'Subtitle' }
   }
 }, {
   timestamps: true

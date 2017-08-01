@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { CardHeader } from 'material-ui/Card'
+import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
@@ -17,8 +17,8 @@ import * as cardActions from '../../actions/cards'
 import * as iframeActions from '../../actions/iframes'
 import * as imageActions from '../../actions/images'
 import * as productActions from '../../actions/products'
-import * as slideActions from '../../actions/slides'
 import * as textActions from '../../actions/texts'
+import * as titleActions from '../../actions/titles'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/sections'
 
 class AdminSectionEdit extends Component {
@@ -74,7 +74,7 @@ class AdminSectionEdit extends Component {
             >
               <Menu autoWidth={true}>
                 <MenuItem
-                  primaryText="Add Button"
+                  primaryText="Button"
                   onTouchTap={() => {
                     const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
                     dispatch(buttonActions.fetchAdd(add))
@@ -83,7 +83,7 @@ class AdminSectionEdit extends Component {
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Card"
+                  primaryText="Card"
                   onTouchTap={() => {
                     const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
                     dispatch(cardActions.fetchAdd(add))
@@ -92,7 +92,7 @@ class AdminSectionEdit extends Component {
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Contact Form"
+                  primaryText="Contact Form"
                   onTouchTap={() => {
                     const add = { type: 'ADD_CONTACT_FORM' }
                     dispatch(fetchUpdate(item._id, add))
@@ -101,7 +101,7 @@ class AdminSectionEdit extends Component {
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Iframe"
+                  primaryText="Iframe"
                   onTouchTap={() => {
                     const add = { pageId: page._id, sectionId: item._id }
                     dispatch(iframeActions.fetchAdd(add))
@@ -110,7 +110,7 @@ class AdminSectionEdit extends Component {
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Image"
+                  primaryText="Image"
                   onTouchTap={() => {
                     const add = { pageId: page._id, sectionId: item._id }
                     dispatch(imageActions.fetchAdd(add))
@@ -119,7 +119,7 @@ class AdminSectionEdit extends Component {
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Product"
+                  primaryText="Product"
                   onTouchTap={() => {
                     const add = { pageId: page._id, sectionId: item._id }
                     dispatch(productActions.fetchAdd(add))
@@ -128,19 +128,19 @@ class AdminSectionEdit extends Component {
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Slide"
+                  primaryText="Text"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
-                    dispatch(slideActions.fetchAdd(add))
+                    const add = { pageId: page._id, sectionId: item._id }
+                    dispatch(textActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
                   }}
                 />
                 <MenuItem
-                  primaryText="Add Text"
+                  primaryText="Title"
                   onTouchTap={() => {
                     const add = { pageId: page._id, sectionId: item._id }
-                    dispatch(textActions.fetchAdd(add))
+                    dispatch(titleActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
                   }}
@@ -184,17 +184,17 @@ class AdminSectionEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Section ${item._id}`}/>
-        <ImageForm
-          image={item.image}
-          type="image/jpg"
-          _id={item._id}
-          onImageEdit={this.handleImageEdit}
-          onImageDelete={this.handleImageDelete}
-          ref={this.setEditorRef}
-        />
-        <form>
-          <div className="field-container">
+        <Card>
+          <CardHeader title={`Section ${item._id}`}/>
+          <ImageForm
+            image={item.image}
+            type="image/jpg"
+            _id={item._id}
+            onImageEdit={this.handleImageEdit}
+            onImageDelete={this.handleImageDelete}
+            ref={this.setEditorRef}
+          />
+          <form className="field-container">
             <Field
               name="backgroundColor"
               label="backgroundColor"
@@ -231,9 +231,15 @@ class AdminSectionEdit extends Component {
               className="field"
               component={renderTextField}
             />
-          </div>
-        </form>
-        {error && <div className="error">{error}</div>}
+            <Field
+              name="padding"
+              label="padding"
+              className="field"
+              component={renderTextField}
+            />
+          </form>
+          {error && <div className="error">{error}</div>}
+        </Card>
       </Dialog>
     )
   }
@@ -244,9 +250,7 @@ AdminSectionEdit = compose(
     const values = item.values || {}
     return {
       form: `section_${item._id}`,
-      initialValues: {
-        ...values
-      }
+      initialValues: values
     }
   }),
   reduxForm({

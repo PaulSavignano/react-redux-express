@@ -21,6 +21,7 @@ import products from './routes/products'
 import sections from './routes/sections'
 import slides from './routes/slides'
 import texts from './routes/texts'
+import titles from './routes/titles'
 import users from './routes/users'
 
 
@@ -42,6 +43,7 @@ app.use('/api/products', products)
 app.use('/api/sections', sections)
 app.use('/api/slides', slides)
 app.use('/api/texts', texts)
+app.use('/api/titles', titles)
 app.use('/api/users', users)
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))

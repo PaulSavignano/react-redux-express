@@ -14,13 +14,13 @@ const s3Path = `${process.env.APP_NAME}/products`
 // Create
 products.post('/', (req, res) => {
   const { pageId, sectionId } = req.body
-  const product = new Product({
+  const newProduct = new Product({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
     image: null,
     values: []
   })
-  product.save()
+  newProduct.save()
     .then(product => {
       const update = {
         components: {

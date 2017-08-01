@@ -31,7 +31,6 @@ class AdminCardItem extends Component {
     const { image, loading } = this.state
     const { dispatch, item, isFetching, values } = this.props
     const {
-      backgroundColor,
       flex,
       iFrame,
       link,
@@ -53,10 +52,10 @@ class AdminCardItem extends Component {
         <Card
           zDepth={zDepth}
           onTouchTap={() => dispatch(startEdit(item._id))}
-          style={{ backgroundColor, cursor: 'pointer' }}
+          style={{ cursor: 'pointer' }}
         >
           {image && <CardMedia><img src={image} alt="card" /></CardMedia>}
-          {text && text.length > 8 && <div>{renderHTML(text)}</div>}
+          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
           {item.editing && <AdminCardEdit item={item} />}
         </Card>
       </CSSTransitionGroup>

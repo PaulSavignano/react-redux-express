@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { CardHeader } from 'material-ui/Card'
+import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -27,7 +27,7 @@ class AdminTextEdit extends Component {
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
               primary={true}
-              style={{ flex: '0 1 auto', margin: 4 }}
+              style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
@@ -35,14 +35,14 @@ class AdminTextEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              onTouchTap={() => dispatch(fetchDelete(item._id))}
             />
             <RaisedButton
               type="button"
               label="Cancel"
               className="delete-button"
               labelColor="#ffffff"
-              style={{ flex: '1 1 auto', margin: 4 }}
+              style={{ flex: '0 1 auto', margin: 4 }}
               onTouchTap={() => dispatch(stopEdit(item._id))}
             />
           </div>
@@ -54,42 +54,50 @@ class AdminTextEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Text ${item._id}`}/>
-        <form>
-          <div>
-            <Field
-              name="text"
-              component={renderWysiwgyField}
-            />
-          </div>
-          <div className="field-container">
-            <Field
-              name="flex"
-              label="flex"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="margin"
-              label="margin"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="padding"
-              label="padding"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="width"
-              label="width"
-              className="field"
-              component={renderTextField}
-            />
-          </div>
-        </form>
-        {error && <div className="error">{error}</div>}
+        <Card>
+          <CardHeader title={`Text ${item._id}`}/>
+          <form>
+            <div>
+              <Field
+                name="text"
+                component={renderWysiwgyField}
+              />
+            </div>
+            <div className="field-container">
+              <Field
+                name="backgroundColor"
+                label="backgroundColor"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="flex"
+                label="flex"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="margin"
+                label="margin"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="padding"
+                label="padding"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="width"
+                label="width"
+                className="field"
+                component={renderTextField}
+              />
+            </div>
+          </form>
+          {error && <div className="error">{error}</div>}
+        </Card>
       </Dialog>
     )
   }

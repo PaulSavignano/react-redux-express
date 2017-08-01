@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { CardHeader } from 'material-ui/Card'
+import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -26,7 +26,7 @@ class AdminIframeEdit extends Component {
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE IFRAME'}
               primary={true}
-              style={{ flex: '0 1 auto', margin: 4 }}
+              style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"
@@ -53,9 +53,9 @@ class AdminIframeEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Iframe ${item._id}`}/>
-        <form>
-          <div className="field-container">
+        <Card>
+          <CardHeader title={`Iframe ${item._id}`}/>
+          <form className="field-container">
             <Field
               name="backgroundColor"
               label="backgroundColor"
@@ -92,9 +92,9 @@ class AdminIframeEdit extends Component {
               className="field"
               component={renderTextField}
             />
-          </div>
-        </form>
-        {error && <div className="error">{error}</div>}
+          </form>
+          {error && <div className="error">{error}</div>}
+        </Card>
       </Dialog>
     )
   }

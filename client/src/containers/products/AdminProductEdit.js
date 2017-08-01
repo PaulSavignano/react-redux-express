@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { CardHeader, CardMedia } from 'material-ui/Card'
+import { Card, CardHeader, CardMedia } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -82,57 +82,59 @@ class AdminProductEdit extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Product ${item._id}`} />
-        <CardMedia>
-          <ImageForm
-            image={item.image}
-            type="image/jpg"
-            _id={item._id}
-            onImageEdit={this.handleImageEdit}
-            onImageDelete={this.handleImageDelete}
-            ref={this.setEditorRef}
-          />
-        </CardMedia>
-        <form>
-          <div className="field-container">
-            <Field
-              name="margin"
-              label="margin"
-              className="field"
-              component={renderTextField}
+        <Card>
+          <CardHeader title={`Product ${item._id}`} />
+          <CardMedia>
+            <ImageForm
+              image={item.image}
+              type="image/jpg"
+              _id={item._id}
+              onImageEdit={this.handleImageEdit}
+              onImageDelete={this.handleImageDelete}
+              ref={this.setEditorRef}
             />
-            <Field
-              name="name"
-              label="name"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="price"
-              label="price"
-              type="number"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="width"
-              label="width"
-              className="field"
-              component={renderTextField}
-            />
-          </div>
-          <div className="field-container">
-            <Field
-              name="description"
-              label="description"
-              multiLine={true}
-              rows={2}
-              className="field"
-              component={renderTextField}
-            />
-          </div>
-        </form>
-        {error && <div className="error">{error}</div>}
+          </CardMedia>
+          <form>
+            <div className="field-container">
+              <Field
+                name="margin"
+                label="margin"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="name"
+                label="name"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="price"
+                label="price"
+                type="number"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="width"
+                label="width"
+                className="field"
+                component={renderTextField}
+              />
+            </div>
+            <div className="field-container">
+              <Field
+                name="description"
+                label="description"
+                multiLine={true}
+                rows={2}
+                className="field"
+                component={renderTextField}
+              />
+            </div>
+          </form>
+          {error && <div className="error">{error}</div>}
+        </Card>
       </Dialog>
     )
   }

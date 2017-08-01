@@ -3,6 +3,7 @@ import { SubmissionError } from 'redux-form'
 import * as cardActions from './cards'
 import * as iframeActions from './iframes'
 import * as imageActions from './images'
+import * as pageActions from './pages'
 import * as productActions from './products'
 import * as slideActions from './slides'
 import * as textActions from './texts'
@@ -38,7 +39,9 @@ export const fetchAdd = (add) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
+        const { section, page } = json
+        dispatch(fetchAddSuccess(section))
+        dispatch(pageActions.fetchUpdateSuccess(page))
       })
       .catch(err => {
         dispatch(fetchAddFailure(err))
@@ -127,7 +130,9 @@ export const fetchDelete = (_id) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { _id, componentType, components } = json
+        const { section, page } = json
+        const { _id, componentType, components } = section
+        dispatch(pageActions.fetchUpdateSuccess(page))
         if (componentType) {
           switch(componentType) {
             case 'Card':
@@ -138,8 +143,6 @@ export const fetchDelete = (_id) => {
               return dispatch(imageActions.deletes(components.map(comp => comp.componentId)))
             case 'Product':
               return dispatch(productActions.deletes(components.map(comp => comp.componentId)))
-            case 'Slide':
-              return dispatch(slideActions.deletes(components.map(comp => comp.componentId)))
             case 'Text':
               return dispatch(textActions.deletes(components.map(comp => comp.componentId)))
             default:

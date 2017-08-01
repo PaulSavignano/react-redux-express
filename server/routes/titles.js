@@ -2,30 +2,30 @@ import express from 'express'
 import { ObjectID } from 'mongodb'
 
 import authenticate from '../middleware/authenticate'
-import Text from '../models/Text'
+import Title from '../models/Title'
 import Section from '../models/Section'
 
-const texts = express.Router()
+const titles = express.Router()
 
 // Create
-texts.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, sectionId, slug } = req.body
-  const newText = new Text({
+titles.post('/', authenticate(['admin']), (req, res) => {
+  const { pageId, sectionId } = req.body
+  const newTitle = new Title({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
     values: []
   })
-  newText.save()
-    .then(text => {
+  newTitle.save()
+    .then(title => {
       const update = {
         components: {
-          componentId: text._id,
-          type: 'Text'
+          componentId: title._id,
+          type: 'Title'
         }
       }
       Section.findOneAndUpdate({ _id: sectionId }, { $push: update }, { new: true })
         .then(section => {
-          res.send({ text, section })
+          res.send({ title, section })
         })
         .catch(err => {
           console.error(err)
@@ -41,8 +41,8 @@ texts.post('/', authenticate(['admin']), (req, res) => {
 
 
 // Read
-texts.get('/', (req, res) => {
-  Text.find({})
+titles.get('/', (req, res) => {
+  Title.find({})
     .then(docs => res.send(docs))
     .catch(err => {
       console.error(err)
@@ -50,9 +50,9 @@ texts.get('/', (req, res) => {
     })
 })
 
-texts.get('/:_id', (req, res) => {
+titles.get('/:_id', (req, res) => {
   const _id = req.params._id
-  Text.find({ _id })
+  Title.find({ _id })
     .then(doc => res.send(doc))
     .catch(err => {
       console.error(err)
@@ -63,14 +63,14 @@ texts.get('/:_id', (req, res) => {
 
 
 // Update
-texts.patch('/:_id', authenticate(['admin']), (req, res) => {
+titles.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, sectionId, image, values } = req.body
   switch (type) {
 
     case 'UPDATE_VALUES':
-      Text.findOneAndUpdate({ _id }, { $set: { values }}, { new: true })
+      Title.findOneAndUpdate({ _id }, { $set: { values }}, { new: true })
         .then(doc => res.send(doc))
         .catch(err => {
           console.error(err)
@@ -86,15 +86,15 @@ texts.patch('/:_id', authenticate(['admin']), (req, res) => {
 
 
 // Delete
-texts.delete('/:_id', authenticate(['admin']), (req, res) => {
+titles.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Text.findOne({ _id })
-    .then(text => {
-      text.remove()
-        .then(text => {
-          Section.findOneAndUpdate({ _id: text.sectionId }, { $pull: { components: { componentId: text._id }}}, { new: true })
-            .then(section => res.send({ text, section }))
+  Title.findOne({ _id })
+    .then(title => {
+      title.remove()
+        .then(title => {
+          Section.findOneAndUpdate({ _id: title.sectionId }, { $pull: { components: { componentId: title._id }}}, { new: true })
+            .then(section => res.send({ title, section }))
             .catch(err => {
               console.error(err)
               res.status(400).send()
@@ -114,4 +114,4 @@ texts.delete('/:_id', authenticate(['admin']), (req, res) => {
 
 
 
-export default texts
+export default titles

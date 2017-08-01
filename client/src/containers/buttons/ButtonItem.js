@@ -11,6 +11,7 @@ const ButtonItem = ({ dispatch, item, isFetching, values }) => {
     border,
     color,
     flex,
+    font,
     label,
     link,
     margin,
@@ -22,10 +23,11 @@ const ButtonItem = ({ dispatch, item, isFetching, values }) => {
   }
   const attributes = {
     backgroundColor,
-    type: "button",
     label,
     labelColor: color,
-    style: { flex, backgroundColor, border, margin, width },
+    labelStyle: { font },
+    style: { backgroundColor, border, flex, margin, width },
+    type: "button",
     ...nav
   }
   return (

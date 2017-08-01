@@ -2,19 +2,22 @@ import mongoose, { Schema } from 'mongoose'
 
 import { uploadFile, deleteFile } from '../middleware/s3'
 import Card from './Card'
+import Iframe from './Iframe'
+import Image from './Image'
 import Product from './Product'
-import Slide from './Slide'
+import Text from './Text'
+import Title from './Title'
 
 const s3Path = `${process.env.APP_NAME}/sections/section_`
 
 const SectionSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
-  slug: { type: String },
-  order: { type: Number },
+  pageSlug: { type: String },
+  index: { type: Number },
   image: {
     src: { type: String },
-    width: { type: Number, trim: true, default: 1024 },
-    height: { type: Number, trim: true, default: 683 },
+    width: { type: Number, trim: true, default: 1920 },
+    height: { type: Number, trim: true, default: 1080 },
   },
   values: {
     backgroundColor: { type: String, trim: true },
@@ -22,10 +25,12 @@ const SectionSchema = new Schema({
     justifyContent: { type: String, trim: true, default: 'space-between' },
     alignItems: { type: String, trim: true },
     margin: { type: String, trim: true },
-    minHeight: { type: String, trim: true }
+    minHeight: { type: String, trim: true },
+    padding: { type: String, trim: true }
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },
+    index: { type: Number },
     type: { type: String }
   }],
 }, {
@@ -44,12 +49,24 @@ SectionSchema.pre('remove', function(next) {
         Card.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
+      case 'Iframe':
+        Iframe.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
+      case 'Image':
+        Image.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
       case 'Product':
         Product.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
-      case 'Slide':
-        Slide.find({ sectionId: section._id })
+      case 'Text':
+        Text.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
+      case 'Title':
+        Title.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
       default:

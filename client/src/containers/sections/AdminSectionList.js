@@ -24,7 +24,6 @@ const mapStateToProps = ({ sections: { isFetching, items } }, { page }) => {
     isFetching,
     sections: items.filter(item => item.pageId === page._id)
   }
-
 }
 
 export default connect(mapStateToProps)(AdminSectionList)

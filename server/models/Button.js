@@ -9,6 +9,7 @@ const ButtonSchema = new Schema({
     border: { type: String, trim: true },
     color: { type: String, trim: true, default: '#ffffff' },
     flex: { type: String, trim: true },
+    font: { type: String, trim: true },
     label: { type: String, trim: true, default: 'Button' },
     link: { type: String, trim: true },
     margin: { type: String, trim: true },

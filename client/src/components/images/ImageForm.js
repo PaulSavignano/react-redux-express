@@ -146,7 +146,7 @@ class ImageForm extends Component {
 
             <div style={{ flex: '1 1 auto' }}>
               <div style={formStyles.controlContainer}>
-                <label>Zoom:</label>
+                <label>Zoom: {this.state.scale}</label>
                 <input
                   name="scale"
                   type="range"
@@ -160,7 +160,7 @@ class ImageForm extends Component {
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Opacity:</label>
+                <label>Opacity: {this.state.opacity}</label>
                 <input
                   name="opacity"
                   type="range"
@@ -174,35 +174,35 @@ class ImageForm extends Component {
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Gradient Y0:</label>
+                <label>Gradient Y0: {this.state.gradientY0}</label>
                 <input
                   name="gradient"
                   type="range"
                   onChange={this.handleGradientY0}
                   min="0"
-                  max="1000"
-                  step="1"
+                  max="3000"
+                  step="10"
                   value={this.state.gradientY0}
                   style={formStyles.control}
                 />
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Gradient Y1:</label>
+                <label>Gradient Y1: {this.state.gradientY1}</label>
                 <input
                   name="gradient"
                   type="range"
                   onChange={this.handleGradientY1}
                   min="0"
-                  max="1000"
-                  step="1"
+                  max="3000"
+                  step="10"
                   value={this.state.gradientY1}
                   style={formStyles.control}
                 />
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Border radius:</label>
+                <label>Border radius: {this.state.borderRadius}</label>
                 <input
                   name="scale"
                   type="range"

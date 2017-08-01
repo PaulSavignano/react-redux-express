@@ -18,6 +18,7 @@ import search from '../reducers/search'
 import sections from '../reducers/sections'
 import slides from '../reducers/slides'
 import texts from '../reducers/texts'
+import titles from '../reducers/titles'
 import user from '../reducers/users'
 
 const rootReducer = combineReducers({
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   sections,
   slides,
   texts,
+  titles,
   user,
 })
 

@@ -1,28 +1,23 @@
 import mongoose, { Schema } from 'mongoose'
 
-const TextSchema = new Schema({
+const TitleSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
-    backgroundColor: { type: String, trim: true, default: 'transparent'},
     flex: { type: String, trim: true, default: '1 1 auto' },
+    font: { type: String, trim: true },
+    letterSpacing: { type: String, trim: true },
     margin: { type: String, trim: true },
     padding: { type: String, trim: true },
-    text: { type: String, trim: true, default: '<p>Text</p>' },
+    text: { type: String, trim: true, default: 'Title' },
+    textAlign: { type: String, trim: true, default: 'center' },
+    textShadow: { type: String, trim: true },
     width: { type: String, trim: true },
   }
 }, {
   timestamps: true
 })
 
-TextSchema.pre('remove', function(next) {
-  const text = this
-  if (text.image) {
-    deleteFile({ Key }).catch(err => console.error(err))
-  }
-  next()
-})
+const Title = mongoose.model('Title', TitleSchema)
 
-const Text = mongoose.model('Text', TextSchema)
-
-export default Text
+export default Title

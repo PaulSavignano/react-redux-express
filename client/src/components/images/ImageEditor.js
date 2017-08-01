@@ -352,14 +352,28 @@ class ImageEditor extends Component {
       context.save()
       context.globalAlpha = this.props.opacity
 
+
       context.translate((context.canvas.width / 2), (context.canvas.height / 2));
       context.rotate((this.props.rotate * Math.PI / 180))
       context.translate(-(context.canvas.width / 2), -(context.canvas.height / 2));
       if (this.isVertical()) {
           context.translate((context.canvas.width - context.canvas.height) / 2, (context.canvas.height - context.canvas.width) / 2)
       }
-      context.globalCompositeOperation = 'destination-over'
+
       context.drawImage(image.resource, position.x, position.y, position.width, position.height)
+
+
+      const gradient = context.createLinearGradient(0, this.props.gradientY0, 0, this.props.gradientY1);
+      gradient.addColorStop(0.0, 'rgba(255, 255, 255, 0)')
+      gradient.addColorStop(0.2, 'rgba(0, 0, 0, 0)')
+      gradient.addColorStop(0.28, 'rgba(0, 0, 0, .08)')
+      gradient.addColorStop(0.75, 'rgba(0, 0, 0, .5)')
+      gradient.addColorStop(1, 'rgba(0, 0, 0, .7)');
+
+
+      context.fillStyle = gradient
+      context.fillRect(0, 0, this.props.width, this.props.height)
+
       context.restore()
     }
   }
@@ -396,12 +410,7 @@ class ImageEditor extends Component {
     context.rect(width, 0, -width, height) // outer rect, drawn "counterclockwise"
     context.fill('evenodd')
 
-    console.log('creating gradient')
-    const gradient = context.createLinearGradient(0, this.props.gradientY0, 0, this.props.gradientY1);
-    gradient.addColorStop(0.0, 'rgba(0, 0, 0, .7)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
-    context.fillStyle = gradient
-    context.fillRect(0, 0, width, height)
+
 
     context.restore()
   }

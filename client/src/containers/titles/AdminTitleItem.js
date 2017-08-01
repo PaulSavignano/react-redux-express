@@ -4,35 +4,47 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
-import AdminTextEdit from './AdminTextEdit'
-import { startEdit } from '../../actions/texts'
+import AdminTitleEdit from './AdminTitleEdit'
+import { startEdit } from '../../actions/titles'
 
-class AdminTextItem extends Component {
+class AdminTitleItem extends Component {
   render() {
     const { dispatch, item, isFetching, values } = this.props
     const {
-      backgroundColor,
       flex,
+      font,
+      letterSpacing,
       margin,
       padding,
+      textAlign,
+      textShadow,
       text,
       width,
     } = values
     return (
       !isFetching &&
-      <Card
+      <div
         onTouchTap={() => dispatch(startEdit(item._id))}
-        style={{ backgroundColor, flex, margin, width, cursor: 'pointer' }}
-        zDepth={0}
+        style={{
+          flex,
+          font,
+          letterSpacing,
+          margin,
+          padding,
+          textAlign,
+          textShadow,
+          width,
+          cursor: 'pointer'
+        }}
       >
-        <div style={{ padding }}>{renderHTML(text)}</div>
-        {item.editing && <AdminTextEdit item={item} />}
-      </Card>
+        {text}
+        {item.editing && <AdminTitleEdit item={item} />}
+      </div>
     )
   }
 }
 
-const mapStateToProps = ({ texts: { items, isFetching } }, { componentId }) => {
+const mapStateToProps = ({ titles: { items, isFetching } }, { componentId }) => {
   const item = items.find(item => item._id === componentId) || {}
   const values = item.values || {}
   return {
@@ -42,4 +54,4 @@ const mapStateToProps = ({ texts: { items, isFetching } }, { componentId }) => {
   }
 }
 
-export default connect(mapStateToProps)(AdminTextItem)
+export default connect(mapStateToProps)(AdminTitleItem)

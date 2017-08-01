@@ -5,27 +5,42 @@ import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
-class TextItem extends Component {
+class TitleItem extends Component {
   render() {
     const { dispatch, isFetching, item, values } = this.props
     const {
-      backgroundColor,
       flex,
+      font,
+      letterSpacing,
       margin,
       padding,
+      textAlign,
+      textShadow,
       text,
       width,
     } = values
     return (
       !isFetching &&
-      <Card zDepth={0} style={{ backgroundColor, flex, margin, width }}>
-        <div style={{ padding }}>{renderHTML(text)}</div>
-      </Card>
+      <div
+        style={{
+          flex,
+          font,
+          letterSpacing,
+          margin,
+          padding,
+          textAlign,
+          textShadow,
+          width,
+          cursor: 'pointer'
+        }}
+      >
+        {text}
+      </div>
     )
   }
 }
 
-const mapStateToProps = ({ texts: { items, isFetching } }, { componentId }) => {
+const mapStateToProps = ({ titles: { items, isFetching } }, { componentId }) => {
   const item = items.find(item => item._id === componentId) || {}
   const values = item.values || {}
   return {
@@ -35,4 +50,4 @@ const mapStateToProps = ({ texts: { items, isFetching } }, { componentId }) => {
   }
 }
 
-export default connect(mapStateToProps)(TextItem)
+export default connect(mapStateToProps)(TitleItem)

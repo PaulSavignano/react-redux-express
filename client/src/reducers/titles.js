@@ -1,6 +1,6 @@
-import { type } from '../actions/sections'
+import { type } from '../actions/titles'
 
-const sections = (state = {
+const titles = (state = {
   isFetching: true,
   items: []
 }, action) => {
@@ -38,7 +38,7 @@ const sections = (state = {
         isFetching: false,
         items: [
           ...state.items,
-          action.item
+          { ...action.item, editing: true }
         ]
       }
     case `UPDATE_${type}`:
@@ -49,18 +49,15 @@ const sections = (state = {
           item
         )
       }
-    case `UPDATE_ORDER_${type}`:
-      return {
-        ...state,
-        items: state.items.map(item => item._id === action.item.sectionId ?
-          { ...item, components: item.components.map(comp => comp._id === action.item.componentId ? { ...comp, index: action.item.index } : comp) } :
-          item
-        )
-      }
     case `DELETE_${type}`:
       return {
         ...state,
         items: state.items.filter(item => item._id !== action._id)
+      }
+    case `DELETE_${type}S`:
+      return {
+        ...state,
+        items: state.items.filter(item => action.items.indexOf(item._id) === -1)
       }
     case `ERROR_${type}`:
       return {
@@ -72,4 +69,4 @@ const sections = (state = {
   }
 }
 
-export default sections
+export default titles

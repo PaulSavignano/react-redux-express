@@ -49,7 +49,11 @@ svg {
   fill: inherit !important;
 }
 
+
+
+
 .background-image {
+  margin-top: -64px;
   background-position: center center !important;
   background-repeat:  no-repeat !important;
   background-size:  cover !important;

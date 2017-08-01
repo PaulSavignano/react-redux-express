@@ -1,16 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import SectionItem from '../../components/sections/SectionItem'
 
-const SectionList = ({ isFetching, sections }) => {
+const SectionList = ({ isFetching, items }) => {
   return (
-    !isFetching &&
     <div>
-      {sections.map(section => (
+      {items.map(item => (
         <SectionItem
-          key={section._id}
-          item={section}
+          key={item._id}
+          item={item}
         />
       ))}
     </div>
@@ -18,11 +16,4 @@ const SectionList = ({ isFetching, sections }) => {
 }
 
 
-
-const mapStateToProps = ({ sections: { isFetching, items }}, { page }) => ({
-  isFetching,
-  sections: items.filter(item => item.pageId === page._id)
-})
-
-
-export default connect(mapStateToProps)(SectionList)
+export default SectionList

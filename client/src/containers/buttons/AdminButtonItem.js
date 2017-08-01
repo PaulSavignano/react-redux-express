@@ -13,6 +13,7 @@ const AdminButtonItem = ({ dispatch, item, isFetching, values }) => {
     border,
     color,
     flex,
+    font,
     label,
     link,
     margin,
@@ -21,10 +22,11 @@ const AdminButtonItem = ({ dispatch, item, isFetching, values }) => {
   const editComp = item.editing && { children: <AdminButtonEdit key={1} item={item} /> }
   const attributes = {
     backgroundColor,
-    type: 'button',
     label,
     labelColor: color,
-    style: { flex, backgroundColor, border, margin, width },
+    labelStyle: { font },
+    style: { backgroundColor, border, flex, margin, width },
+    type: 'button',
     onTouchTap: () => dispatch(startEdit(item._id)),
     ...editComp
   }

@@ -29,7 +29,6 @@ class CardItem extends Component {
     const { image, loading, zDepth } = this.state
     const { dispatch, isFetching, item, values } = this.props
     const {
-      backgroundColor,
       flex,
       iFrame,
       link,
@@ -38,7 +37,7 @@ class CardItem extends Component {
       width,
     } = values
     const cursor = link && 'pointer'
-    const cardStyle = { backgroundColor, cursor  }
+    const cardStyle = { cursor }
     const navigation = link && { onTouchTap: () => dispatch(push(link)) }
     return (
       !isFetching && !loading &&
@@ -58,7 +57,7 @@ class CardItem extends Component {
           style={cardStyle}
         >
           {image && <CardMedia><img src={image} alt="card"/></CardMedia>}
-          {text && text.length > 8 && <div>{renderHTML(text)}</div> }
+          {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText> }
         </Card>
       </CSSTransitionGroup>
     )

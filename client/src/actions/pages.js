@@ -70,7 +70,7 @@ export const fetchPages = () => {
 
 
 // Update
-const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {

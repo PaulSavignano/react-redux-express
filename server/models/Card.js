@@ -14,9 +14,7 @@ const CardSchema = new Schema({
     height: { type: Number, trim: true, default: 433 }
   },
   values: {
-    backgroundColor: { type: String, trim: true },
     flex: { type: String, trim: true, default: '1 1 auto' },
-    iFrame: { type: String, trim: true },
     link: { type: String, trim: true },
     margin: { type: String, trim: true },
     text: { type: String, trim: true },

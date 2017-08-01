@@ -21,6 +21,7 @@ import { fetchOrders } from './actions/orders'
 import { fetchPages } from './actions/pages'
 import { fetchProducts } from './actions/products'
 import { fetchTexts } from './actions/texts'
+import { fetchTitles } from './actions/titles'
 import { fetchUser } from './actions/users'
 
 const store = configureStore()
@@ -48,6 +49,7 @@ store.dispatch(fetchProducts())
 store.dispatch(fetchSections())
 store.dispatch(fetchSlides())
 store.dispatch(fetchTexts())
+store.dispatch(fetchTitles())
 
 ReactDOM.render(
   <Provider store={store}>

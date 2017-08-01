@@ -8,28 +8,14 @@ import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import renderTextField from '../../components/fields/renderTextField'
-import ImageForm from '../../components/images/ImageForm'
-import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/images'
+import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/titles'
 
-class AdminImageEdit extends Component {
-  state = {
-    imageEdit: false
-  }
+class AdminTitleEdit extends Component {
   componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
     if (submitSucceeded && !item.editing) {
       dispatch(stopEdit(item._id))
     }
   }
-  handleImageEdit = (bool) => {
-    this.setState({ imageEdit: bool })
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
-  }
-  handleImageDelete = (_id, update) => {
-    const { dispatch } = this.props
-    this.setState({ imageEdit: false })
-    return dispatch(fetchUpdate(_id, update))
-  }
-  setEditorRef = (editor) => this.editor = editor
   render() {
     const { dispatch, error, handleSubmit, item, submitting } = this.props
     return (
@@ -37,13 +23,7 @@ class AdminImageEdit extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              onTouchTap={handleSubmit((values) => {
-                if (this.state.imageEdit) {
-                  const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-                }
-                return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-              })}
+              onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -74,20 +54,24 @@ class AdminImageEdit extends Component {
         bodyStyle={{ padding: 8 }}
       >
         <Card>
-          <CardHeader title={`Image ${item._id}`}/>
+          <CardHeader title={`Title ${item._id}`}/>
           <form>
-            <ImageForm
-              image={item.image}
-              type="image/jpg"
-              _id={item._id}
-              onImageEdit={this.handleImageEdit}
-              onImageDelete={this.handleImageDelete}
-              ref={this.setEditorRef}
-            />
             <div className="field-container">
+              <Field
+                name="text"
+                label="text"
+                className="field"
+                component={renderTextField}
+              />
               <Field
                 name="flex"
                 label="flex"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="font"
+                label="font (style weight size family)"
                 className="field"
                 component={renderTextField}
               />
@@ -98,14 +82,32 @@ class AdminImageEdit extends Component {
                 component={renderTextField}
               />
               <Field
-                name="width"
-                label="width"
+                name="letterSpacing"
+                label="letterSpacing"
                 className="field"
                 component={renderTextField}
               />
               <Field
-                name="zDepth"
-                label="zDepth"
+                name="padding"
+                label="padding"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="textAlign"
+                label="textAlign"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="textShadow"
+                label="textShadow (color x y blur-radius)"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="width"
+                label="width"
                 className="field"
                 component={renderTextField}
               />
@@ -118,21 +120,18 @@ class AdminImageEdit extends Component {
   }
 }
 
-AdminImageEdit = compose(
+AdminTitleEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
-      form: `image_${item._id}`,
+      form: `title_${item._id}`,
       item,
-      initialValues: {
-        ...values,
-        zDepth: values.zDepth && values.zDepth.toString()
-       }
+      initialValues: values,
     }
   }),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminImageEdit)
+  }))(AdminTitleEdit)
 
-export default AdminImageEdit
+export default AdminTitleEdit

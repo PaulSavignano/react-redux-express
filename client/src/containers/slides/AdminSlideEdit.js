@@ -7,11 +7,11 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
+import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/slides'
 import ImageForm from '../../components/images/ImageForm'
 
-class AdminSlideItem extends Component {
+class AdminCarouselEdit extends Component {
   state = {
     imageEdit: false
   }
@@ -67,6 +67,7 @@ class AdminSlideItem extends Component {
         open={item.editing}
         onRequestClose={() => dispatch(stopEdit(item._id))}
         autoScrollBodyContent={true}
+        contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
         <CardHeader title={`Slide ${item._id}`} titleStyle={{ fontSize: 16 }} />
@@ -80,10 +81,36 @@ class AdminSlideItem extends Component {
               onImageDelete={this.handleImageDelete}
               ref={this.setEditorRef}
             />
-            <div>
+            <div className="field-container">
               <Field
-                name="text"
-                component={renderWysiwgyField}
+                name="color"
+                label="color"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="mediaBackgroundColor"
+                label="mediaBackgroundColor"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="contentBackgroundColor"
+                label="contentBackgroundColor"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="title"
+                label="title"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="subtitle"
+                label="subtitle"
+                className="field"
+                component={renderTextField}
               />
             </div>
           </form>
@@ -94,7 +121,7 @@ class AdminSlideItem extends Component {
   }
 }
 
-AdminSlideItem = compose(
+AdminCarouselEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
@@ -103,6 +130,6 @@ AdminSlideItem = compose(
       initialValues: values
     }
   }),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminSlideItem)
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminCarouselEdit)
 
-export default AdminSlideItem
+export default AdminCarouselEdit

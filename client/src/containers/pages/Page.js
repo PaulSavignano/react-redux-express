@@ -1,35 +1,26 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import pageContainer from './pageContainer'
 import SectionList from '../../containers/sections/SectionList'
-import NotFound from '../../components/NotFound'
+import Carousel from '../slides/Carousel'
 
-const Page = ({ page, pageSlug }) => {
-  return (
-    (() => {
-      switch (pageSlug) {
-        case 'notFound':
-          return <NotFound />
-        default:
-          return <SectionList page={page} />
-        }
-    })()
-  )
-}
+import { toggleCarousel } from '../../actions/slides'
 
-const mapStateToProps = ({
-  pages: { isFetching, items }
-}, {
-  params: { slug }
-}) => {
-  const indexSlug = slug || 'home'
-  const page = items.find(item => item.slug === indexSlug)
-  const pageSlug = page || 'notFound'
-  return {
-    isFetching,
-    page,
-    pageSlug
+class Page extends Component {
+  componentWillMount() {
+    if (this.props.slides.length) return this.props.dispatch(toggleCarousel())
+  }
+  render() {
+    const { isFetching, page, sections, slides, open, autoplay } = this.props
+    return (
+      <div>
+        <SectionList items={sections} />
+        {slides.length ? <Carousel items={slides} open={open} /> : null }
+      </div>
+    )
   }
 }
 
-export default connect(mapStateToProps)(Page)
+
+export default pageContainer(Page)
