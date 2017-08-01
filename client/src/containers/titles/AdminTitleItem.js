@@ -11,8 +11,11 @@ class AdminTitleItem extends Component {
   render() {
     const { dispatch, item, isFetching, values } = this.props
     const {
+      color,
       flex,
-      font,
+      fontFamily,
+      fontSize,
+      fontWeight,
       letterSpacing,
       margin,
       padding,
@@ -26,8 +29,11 @@ class AdminTitleItem extends Component {
       <div
         onTouchTap={() => dispatch(startEdit(item._id))}
         style={{
+          color,
           flex,
-          font,
+          fontFamily,
+          fontSize,
+          fontWeight,
           letterSpacing,
           margin,
           padding,

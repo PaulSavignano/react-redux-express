@@ -57,7 +57,7 @@ class AdminProductEdit extends Component {
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE PRODUCT'}
               primary={true}
-              style={{ flex: '0 1 auto', margin: 4 }}
+              style={{ flex: '1 1 auto', margin: 4 }}
             />
             <RaisedButton
               type="button"

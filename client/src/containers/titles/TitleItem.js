@@ -9,8 +9,11 @@ class TitleItem extends Component {
   render() {
     const { dispatch, isFetching, item, values } = this.props
     const {
+      color,
       flex,
-      font,
+      fontFamily,
+      fontSize,
+      fontWeight,
       letterSpacing,
       margin,
       padding,
@@ -23,15 +26,17 @@ class TitleItem extends Component {
       !isFetching &&
       <div
         style={{
+          color,
           flex,
-          font,
+          fontFamily,
+          fontSize,
+          fontWeight,
           letterSpacing,
           margin,
           padding,
           textAlign,
           textShadow,
-          width,
-          cursor: 'pointer'
+          width
         }}
       >
         {text}

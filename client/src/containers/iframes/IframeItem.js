@@ -7,30 +7,30 @@ import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 class IframeItem extends Component {
   render() {
-    const { image, loading, zDepth } = this.state
-    const { dispatch, isFetching, item, values } = this.props
+    const { dispatch, item, isFetching, values } = this.props
     const {
       backgroundColor,
       flex,
       iFrame,
       margin,
-      text,
       width,
+      zDepth
     } = values
     return (
       !isFetching &&
-        <Card
-          zDepth={zDepth}
-          style={{ backgroundColor }}
-        >
-          <div style={{ position: 'relative', paddingBottom: '50%' }}>
-            <iframe
-              title="iFrame"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-              src={iFrame} frameBorder="0" allowFullScreen>
-            </iframe>
-          </div>
-        </Card>
+      <Card
+        zDepth={zDepth}
+        style={{ backgroundColor, flex, margin, width, cursor: 'pointer' }}
+      >
+        <div style={{ position: 'relative', paddingBottom: '50%' }}>
+          <iframe
+            title="iFrame"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            src={iFrame} frameBorder="0" allowFullScreen
+          >
+          </iframe>
+        </div>
+      </Card>
     )
   }
 }

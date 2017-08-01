@@ -17,13 +17,13 @@ const AdminSlideAdd = ({ dispatch, page, items }) => {
         className="button"
         onTouchTap={() => dispatch(fetchAdd({ pageId: page._id, pageSlug: page.slug }))}
       />
-      {items.length &&
-        <RaisedButton
-          label="Edit Slides"
-          primary={true}
-          className="button"
-          onTouchTap={() => dispatch(toggleCarousel())}
-        />}
+      {!items.length ? null :
+      <RaisedButton
+        label="Edit Slides"
+        primary={true}
+        className="button"
+        onTouchTap={() => dispatch(toggleCarousel())}
+      />}
       {editItem && <AdminSlideEdit item={editItem} />}
     </section>
   )

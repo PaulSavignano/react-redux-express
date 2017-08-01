@@ -24,7 +24,7 @@ class AdminTitleEdit extends Component {
           <div className="button-container">
             <RaisedButton
               onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
-              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE TITLE'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />
@@ -58,8 +58,8 @@ class AdminTitleEdit extends Component {
           <form>
             <div className="field-container">
               <Field
-                name="text"
-                label="text"
+                name="color"
+                label="color"
                 className="field"
                 component={renderTextField}
               />
@@ -70,8 +70,20 @@ class AdminTitleEdit extends Component {
                 component={renderTextField}
               />
               <Field
-                name="font"
-                label="font (style weight size family)"
+                name="fontFamily"
+                label="fontFamily"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="fontSize"
+                label="fontSize"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="fontWeight"
+                label="fontWeight"
                 className="field"
                 component={renderTextField}
               />
@@ -90,6 +102,12 @@ class AdminTitleEdit extends Component {
               <Field
                 name="padding"
                 label="padding"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
+                name="text"
+                label="text"
                 className="field"
                 component={renderTextField}
               />

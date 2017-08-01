@@ -4,8 +4,11 @@ const TitleSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
-    flex: { type: String, trim: true, default: '1 1 auto' },
-    font: { type: String, trim: true },
+    color: { type: String, trim: true },
+    flex: { type: String, trim: true, default: '0 1 auto' },
+    fontWeight: { type: String, trim: true },
+    fontSize: { type: String, trim: true },
+    fontFamily: { type: String, trim: true },
     letterSpacing: { type: String, trim: true },
     margin: { type: String, trim: true },
     padding: { type: String, trim: true },

@@ -46,7 +46,7 @@ class AdminImageEdit extends Component {
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
                 }
               })}
-              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
+              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE IMAGE'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
             />

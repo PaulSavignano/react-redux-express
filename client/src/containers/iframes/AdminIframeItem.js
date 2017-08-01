@@ -20,20 +20,21 @@ class AdminIframeItem extends Component {
     } = values
     return (
       !isFetching &&
-        <Card
-          zDepth={zDepth}
-          onTouchTap={() => dispatch(startEdit(item._id))}
-          style={{ backgroundColor, flex, margin, width, cursor: 'pointer' }}
-        >
-          <div style={{ position: 'relative', paddingBottom: '50%', border: '16px solid white' }}>
-            <iframe
-              title="iFrame"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-              src={iFrame} frameBorder="0" allowFullScreen>
-            </iframe>
-          </div>
-          {item.editing && <AdminIframeEdit item={item} />}
-        </Card>
+      <Card
+        zDepth={zDepth}
+        onTouchTap={() => dispatch(startEdit(item._id))}
+        style={{ backgroundColor, flex, margin, width, cursor: 'pointer' }}
+      >
+        <div style={{ position: 'relative', paddingBottom: '50%', border: '16px solid white' }}>
+          <iframe
+            title="iFrame"
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            src={iFrame} frameBorder="0" allowFullScreen
+          >
+          </iframe>
+        </div>
+        {item.editing && <AdminIframeEdit item={item} />}
+      </Card>
     )
   }
 }
