@@ -25,6 +25,7 @@ class AdminSectionEdit extends Component {
   state = {
     openMenu: false,
     imageEdit: false,
+    imageDelete: false,
     anchorEl: null
   }
   handleOpenMenu = (e) => {
@@ -39,8 +40,7 @@ class AdminSectionEdit extends Component {
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageDelete = (_id, update) => {
-    this.setState({ imageEdit: false })
-    return this.props.dispatch(fetchUpdate(_id, update))
+    this.setState({ imageEdit: false, imageDelete: true })
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
@@ -152,8 +152,11 @@ class AdminSectionEdit extends Component {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                } else if (this.state.imageDelete) {
+                  return dispatch(fetchUpdate(item._id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
+                } else {
+                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
                 }
-                return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SECTION'}
               primary={true}

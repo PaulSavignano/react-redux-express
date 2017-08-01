@@ -10,7 +10,7 @@ const SlideSchema = new Schema({
   image: {
     src: { type: String },
     width: { type: Number, trim: true, default: 1920 },
-    height: { type: Number, trim: true, default: 540 }
+    height: { type: Number, trim: true, default: 1080 }
   },
   values: {
     mediaBackgroundColor: { type: String, trim: true, default: 'rgb(100, 100, 100)' },

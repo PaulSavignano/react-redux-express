@@ -104,6 +104,26 @@ products.patch('/:_id', (req, res) => {
         })
       break
 
+    case 'DELETE_IMAGE_UPDATE_VALUES':
+      deleteFile({ Key })
+        .then(() => {
+          Product.findOneAndUpdate({ _id }, { $set: { 'image.src': null, values } }, { new: true })
+            .then(doc => res.send(doc))
+            .catch(err => {
+              console.error(err)
+              res.status(400).send()
+            })
+          .catch(err => {
+            console.error(err)
+            res.status(400).send()
+          })
+        })
+        .catch(err => {
+          console.error(err)
+          res.status(400).send()
+        })
+      break
+
     case 'DELETE_IMAGE':
       deleteFile({ Key })
         .then(() => {

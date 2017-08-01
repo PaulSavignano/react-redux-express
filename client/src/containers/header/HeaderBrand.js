@@ -17,14 +17,14 @@ class HeaderBrand extends Component {
     this.setState({ image: null })
   }
   render() {
-    const { dispatch, name, fontFamily, color } = this.props
     const { image } = this.state
+    const { color, font, name, textShadow } = this.props
     return (
       <div
         style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
       >
         { image && <img src={image} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
-        { name && <div style={{ fontFamily, color }}>{name}</div> }
+        { name && <div style={{ color, font, textShadow }}>{name}</div> }
       </div>
     )
   }
@@ -34,14 +34,15 @@ const mapStateToProps = ({
   brand: {
     appBar: {
       image,
-      values: { name, brandFontFamily, brandColor }
+      values: { color, font, name, textShadow }
     }
   }
 }) => ({
+  color,
+  font,
   image,
-  name: name,
-  fontFamily: brandFontFamily,
-  color: brandColor
+  name,
+  textShadow
 })
 
 export default connect(mapStateToProps)(HeaderBrand)

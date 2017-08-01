@@ -16,16 +16,16 @@ iframes.post('/', authenticate(['admin']), (req, res) => {
     values: []
   })
   newIframe.save()
-    .then(text => {
+    .then(iframe => {
       const update = {
         components: {
-          componentId: text._id,
+          componentId: iframe._id,
           type: 'Iframe'
         }
       }
       Section.findOneAndUpdate({ _id: sectionId }, { $push: update }, { new: true })
         .then(section => {
-          res.send({ text, section })
+          res.send({ iframe, section })
         })
         .catch(err => {
           console.error(err)
@@ -90,11 +90,11 @@ iframes.delete('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   Iframe.findOne({ _id })
-    .then(text => {
-      text.remove()
-        .then(text => {
-          Section.findOneAndUpdate({ _id: text.sectionId }, { $pull: { components: { componentId: text._id }}}, { new: true })
-            .then(section => res.send({ text, section }))
+    .then(iframe => {
+      iframe.remove()
+        .then(iframe => {
+          Section.findOneAndUpdate({ _id: iframe.sectionId }, { $pull: { components: { componentId: iframe._id }}}, { new: true })
+            .then(section => res.send({ iframe, section }))
             .catch(err => {
               console.error(err)
               res.status(400).send()

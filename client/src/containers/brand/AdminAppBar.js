@@ -74,33 +74,31 @@ class AdminAppBar extends Component {
         >
           <div className="field-container">
             <Field
-              name="name"
-              label="name"
-              type="text"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
               name="backgroundColor"
               label="backgroundColor"
+              component={renderTextField}
+              className="field"
+              style={{ fontFamily }}
+            />
+            <Field
+              name="color"
+              label="color"
               type="text"
               component={renderTextField}
               className="field"
               style={{ fontFamily }}
             />
             <Field
-              name="brandColor"
-              label="brandColor"
+              name="font"
+              label="font (style weight size family)"
               type="text"
               component={renderTextField}
               className="field"
               style={{ fontFamily }}
             />
             <Field
-              name="brandFontFamily"
-              label="brandFontFamily"
-              type="text"
+              name="name"
+              label="name"
               component={renderTextField}
               className="field"
               style={{ fontFamily }}
@@ -108,13 +106,18 @@ class AdminAppBar extends Component {
             <Field
               name="navColor"
               label="navColor"
-              type="text"
+              component={renderTextField}
+              className="field"
+              style={{ fontFamily }}
+            />
+            <Field
+              name="textShadow"
+              label="textShadow (color x y blur-radius)"
               component={renderTextField}
               className="field"
               style={{ fontFamily }}
             />
           </div>
-
           {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton

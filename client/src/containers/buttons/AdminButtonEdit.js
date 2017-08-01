@@ -82,7 +82,7 @@ class AdminButtonEdit extends Component {
             />
             <Field
               name="font"
-              label="font"
+              label="font (style weight size family)"
               className="field"
               component={renderTextField}
             />
