@@ -8,7 +8,6 @@ import { fetchAdd, toggleCarousel } from '../../actions/slides'
 
 const AdminSlideAdd = ({ dispatch, page, items }) => {
   const editItem = items.find(item => item.editing === true)
-  console.log(editItem)
   return (
     <section className="button-container">
       <RaisedButton

@@ -6,21 +6,22 @@ import FontIcon from 'material-ui/FontIcon'
 class Footer extends Component {
   state = {
     image: null,
-    loading: false
+    loading: true
   }
   componentWillMount() {
     const { image } = this.props.footer
     if (image && image.src) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image.src
+      img.onload = () => this.setState({ image: src, loading: false })
       img.src = src
-      img.onload = this.setState({ image: src, loading: false })
+    } else {
+      this.setState({ loading: false })
     }
   }
-  componentWillReceiveProps({ footer: { image }}) {
-    if (image.src) return this.setState({ image: `${image.src}?${new Date().getTime()}`})
-    this.setState({ image: null })
+  componentWillReceiveProps({ footer: { image }, updatedAt }) {
+    if (image && image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
+    if (!image || !image.src) return this.setState({ image: null })
   }
   render() {
     const { image } = this.state

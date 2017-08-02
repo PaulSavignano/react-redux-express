@@ -24,11 +24,11 @@ class ProductItem extends Component {
   }
   componentWillMount() {
     const { image } = this.props.item
-    if (image.src) {
+    if (image && image.src) {
       const img = new Image()
       const src = image.src
+      img.onload = () => this.setState({ image: src, loading: false })
       img.src = src
-      img.onload = this.setState({ image: src, loading: false })
     } else {
       this.setState({ loading: false })
     }

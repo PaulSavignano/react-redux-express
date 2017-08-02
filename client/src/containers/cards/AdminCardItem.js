@@ -14,18 +14,18 @@ class AdminCardItem extends Component {
   }
   componentWillMount() {
     const { image } = this.props.item
-    if (image.src) {
+    if (image && image.src) {
       const img = new Image()
       const src = image.src
+      img.onload = () => this.setState({ image: src, loading: false })
       img.src = src
-      img.onload = this.setState({ image: src, loading: false })
     } else {
       this.setState({ loading: false })
     }
   }
   componentWillReceiveProps({ item: { image, updatedAt } }) {
-    if (image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
-    if (!image.src) return this.setState({ image: null })
+    if (image && image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
+    if (!image || !image.src) return this.setState({ image: null })
   }
   render() {
     const { image, loading } = this.state

@@ -75,8 +75,9 @@ const BrandSchema = new Schema({
       clockCircleColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, .7)' },
       shadowColor: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 1)' }
     }
-  },
-  createdAt: { type: Date, default: Date.now }
+  }
+}, {
+  timestamps: true
 })
 
 BrandSchema.pre('remove', function(next) {

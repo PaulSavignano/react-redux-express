@@ -9,6 +9,7 @@ const IframeSchema = new Schema({
     iFrame: { type: String, trim: true },
     text: { type: String, trim: true },
     width: { type: String, trim: true },
+    zDepth: { type: Number, trime: true, default: 1 }
   }
 }, {
   timestamps: true

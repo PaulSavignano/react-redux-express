@@ -14,7 +14,6 @@ class AdminPageEdit extends Component {
   }
   render() {
     const { isFetching, page, slides, open, autoplay } = this.props
-    console.log(slides)
     return (
       <div style={{ minHeight: '80vh'}}>
         <AdminSectionList page={page} />

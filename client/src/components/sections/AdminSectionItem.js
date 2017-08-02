@@ -20,11 +20,11 @@ class AdminSectionItem extends Component {
   }
   componentWillMount() {
     const { image } = this.props.item
-    if (image.src) {
+    if (image && image.src) {
       const img = new Image()
       const src = image.src
+      img.onload = () => this.setState({ image: src, loading: false })
       img.src = src
-      img.onload = this.setState({ image: src, loading: false })
     } else {
       this.setState({ loading: false })
     }
@@ -65,6 +65,7 @@ class AdminSectionItem extends Component {
     const {
       _id,
       backgroundColor,
+      containerMarginTop,
       flexFlow,
       justifyContent,
       alignItems,
@@ -84,7 +85,15 @@ class AdminSectionItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <div style={{ ...backgroundImage, backgroundColor }} {...backgroundImageClass}>
+        <div
+          id={item._id}
+          style={{
+            ...backgroundImage,
+            backgroundColor,
+            marginTop: containerMarginTop
+          }}
+          {...backgroundImageClass}
+        >
           <section style={{
             display: 'flex',
             flexFlow,

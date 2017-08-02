@@ -12,9 +12,9 @@ class HeaderBrand extends Component {
     const { image } = this.props
     if (image.src) this.setState({ image: image.src })
   }
-  componentWillReceiveProps({ image }) {
-    if (image.src) return this.setState({ image: `${image.src}?${new Date().getTime()}` })
-    this.setState({ image: null })
+  componentWillReceiveProps({ image, updatedAt }) {
+    if (image && image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
+    if (!image || !image.src) return this.setState({ image: null })
   }
   render() {
     const { image } = this.state
@@ -35,14 +35,16 @@ const mapStateToProps = ({
     appBar: {
       image,
       values: { color, font, name, textShadow }
-    }
+    },
+    updatedAt
   }
 }) => ({
   color,
   font,
   image,
   name,
-  textShadow
+  textShadow,
+  updatedAt
 })
 
 export default connect(mapStateToProps)(HeaderBrand)

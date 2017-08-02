@@ -36,19 +36,11 @@ const App = ({
           {appBar.image && <link rel="shortcut icon" href={appBar.image.src} />}
           <link rel="canonical" href={window.location.hostname} />
         </Helmet>
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={600}
-          transitionEnter={false}
-          transitionLeave={false}
-        >
-          <Header />
-          <main>
-            {search.value ? <SearchList /> : children}
-          </main>
-          <FooterContainer />
-        </CSSTransitionGroup>
+        <Header />
+        <main>
+          {search.value ? <SearchList /> : children}
+        </main>
+        <FooterContainer />
       </div>
     </MuiThemeProvider>
   )

@@ -18,11 +18,11 @@ class SectionItem extends Component {
   }
   componentWillMount() {
     const { image } = this.props.item
-    if (image.src) {
+    if (image && image.src) {
       const img = new Image()
       const src = image.src
+      img.onload = () => this.setState({ image: src, loading: false })
       img.src = src
-      img.onload = this.setState({ image: src, loading: false })
     } else {
       this.setState({ loading: false })
     }
@@ -57,7 +57,9 @@ class SectionItem extends Component {
     const { loading, image } = this.state
     const { item } = this.props
     const {
+      _id,
       backgroundColor,
+      containerMarginTop,
       flexFlow,
       justifyContent,
       alignItems,
@@ -67,7 +69,6 @@ class SectionItem extends Component {
     } = item.values
     const backgroundImage = image && { backgroundImage: `url(${image})`,   transition: 'all 600ms ease-in-out' }
     const backgroundImageClass = image && { className: 'background-image' }
-    const backgroundGradientClass = image && { className: 'background-gradient'}
     return (
       !loading &&
       <CSSTransitionGroup
@@ -77,7 +78,15 @@ class SectionItem extends Component {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <div id={item._id} style={{ ...backgroundImage, backgroundColor }} {...backgroundImageClass}>
+        <div
+          id={_id}
+          style={{
+            ...backgroundImage,
+            backgroundColor,
+            marginTop: containerMarginTop
+          }}
+          {...backgroundImageClass}
+        >
           <section style={{
               display: 'flex',
               flexFlow,

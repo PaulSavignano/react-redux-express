@@ -10,16 +10,17 @@ class OrderCartItem extends Component {
   state = {
     zDepth: 1,
     image: null,
-    loading: false
+    loading: true
   }
   componentWillMount() {
     const { image } = this.props.item
     if (image) {
-      this.setState({ loading: true })
       const img = new Image()
       const src = image
+      img.onload = () => this.setState({ image: img, loading: false })
       img.src = src
-      img.onload = this.setState({ image: src, loading: false })
+    } else {
+      this.setState({ loading: false })
     }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
