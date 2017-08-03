@@ -7,6 +7,7 @@ import * as pageActions from './pages'
 import * as productActions from './products'
 import * as slideActions from './slides'
 import * as textActions from './texts'
+import * as titleActions from './titles'
 
 export const type = 'SECTION'
 const route = 'sections'
@@ -145,6 +146,8 @@ export const fetchDelete = (_id) => {
               return dispatch(productActions.deletes(components.map(comp => comp.componentId)))
             case 'Text':
               return dispatch(textActions.deletes(components.map(comp => comp.componentId)))
+            case 'Title':
+              return dispatch(titleActions.deletes(components.map(comp => comp.componentId)))
             default:
               return
           }

@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import renderSuccessableTextField from '../../components/fields/renderSuccessableTextField'
 import { fetchUpdate, fetchDelete } from '../../actions/pages'
 
-class AdminPageName extends Component {
+class AdminPagesItem extends Component {
   state = {
     zDepth: 1,
     editing: false,
@@ -66,13 +66,13 @@ class AdminPageName extends Component {
   }
 }
 
-AdminPageName = compose(
+AdminPagesItem = compose(
   connect((state, { item }) => ({
     form: `page_${item._id}`,
     initialValues: {
       name: item.name
     }
   })),
-  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [] }))(AdminPageName)
+  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [] }))(AdminPagesItem)
 
-export default AdminPageName
+export default AdminPagesItem

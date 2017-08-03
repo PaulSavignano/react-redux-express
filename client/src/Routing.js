@@ -9,8 +9,8 @@ import AdminBrand from './components/brand/AdminBrand'
 
 // Page
 import Page from './containers/pages/Page'
+import AdminPages from './containers/pages/AdminPages'
 import AdminPage from './containers/pages/AdminPage'
-import AdminPageEdit from './containers/pages/AdminPageEdit'
 
 // User
 import CartPage from './containers/cart/CartPage'
@@ -48,8 +48,8 @@ const Routing = ({ history }) => (
       {/* Page */}
       <IndexRoute component={Page} />
       <Route path=":slug" component={Page} />
-      <Route path="admin/pages" component={RequireAuth(AdminPage, ['admin'])} />
-      <Route path="admin/pages/:slug" component={RequireAuth(AdminPageEdit, ['admin'])} />
+      <Route path="admin/pages" component={RequireAuth(AdminPages, ['admin'])} />
+      <Route path="admin/pages/:slug" component={RequireAuth(AdminPage, ['admin'])} />
 
 
       {/* Brand */}

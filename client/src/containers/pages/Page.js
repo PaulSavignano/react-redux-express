@@ -13,11 +13,11 @@ class Page extends Component {
     if (this.props.slides.length) return this.props.dispatch(toggleCarousel())
   }
   render() {
-    const { isFetching, page, sections, slides, open, autoplay } = this.props
+    const { page, pageSlug, sections, slides, open, autoplay } = this.props
     return (
       <div>
         <SectionList items={sections} />
-        {slides.length ? <Carousel items={slides} open={open} /> : null }
+        <Carousel items={slides} open={open} autoplay={autoplay} />
       </div>
     )
   }

@@ -67,6 +67,7 @@ export const fetchSlides = () => {
       dispatch(fetchSlidesSuccess(json))
     })
     .catch(err => {
+      console.log(err)
       dispatch(fetchSlidesFailure(err))
       throw new SubmissionError({ ...err, _error: 'Update failed!' })
     })

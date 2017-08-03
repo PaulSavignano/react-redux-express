@@ -11,8 +11,9 @@ const PageSchema = new Schema({
   }],
   slides: [{
     slideId: { type: Schema.Types.ObjectId }
-  }],
-  createdAt: { type: Date, default: Date.now }
+  }]
+}, {
+  timestamps: true
 })
 
 PageSchema.pre('remove', function(next) {

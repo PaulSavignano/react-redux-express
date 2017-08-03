@@ -10,13 +10,7 @@ const AdminSectionAdd = ({ dispatch, page }) => (
       label="Add New Section"
       primary={true}
       style={{ margin: '4px 8px 8px', flex: '1 1 auto' }}
-      onTouchTap={() => {
-        const add = {
-          pageId: page._id,
-          pageSlug: page.slug,
-        }
-        dispatch(fetchAdd(add))
-      }}
+      onTouchTap={() => dispatch(fetchAdd({ pageId: page._id, pageSlug: page.slug }))}
     />
   </section>
 )

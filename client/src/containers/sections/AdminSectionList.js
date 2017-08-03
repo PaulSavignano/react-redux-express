@@ -2,28 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import AdminSectionItem from '../../components/sections/AdminSectionItem'
-import AdminSectionAdd from './AdminSectionAdd'
 
-const AdminSectionList = ({ dispatch, isFetching, sections, page }) => (
-  !isFetching &&
+const AdminSectionList = ({ items, page }) => (
   <div>
-    {sections.map(section => (
+    {items.map(item => (
       <AdminSectionItem
-        key={section._id}
-        item={section}
+        key={item._id}
+        item={item}
         page={page}
-        dispatch={dispatch}
       />
     ))}
-    <AdminSectionAdd page={page} />
+
   </div>
 )
 
-const mapStateToProps = ({ sections: { isFetching, items } }, { page }) => {
-  return {
-    isFetching,
-    sections: items.filter(item => item.pageId === page._id)
-  }
-}
 
-export default connect(mapStateToProps)(AdminSectionList)
+export default AdminSectionList

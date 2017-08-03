@@ -17,7 +17,7 @@ const validate = values => {
   return errors
 }
 
-class AdminPageNameAdd extends Component {
+class AdminPagesAdd extends Component {
   render() {
     const { error, handleSubmit, dispatch } = this.props
     return (
@@ -46,9 +46,9 @@ class AdminPageNameAdd extends Component {
   }
 }
 
-AdminPageNameAdd = reduxForm({
+AdminPagesAdd = reduxForm({
   form: 'AdminPageAdd',
   validate
-})(AdminPageNameAdd)
+})(AdminPagesAdd)
 
-export default AdminPageNameAdd
+export default AdminPagesAdd

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -125,4 +126,4 @@ class AdminSectionItem extends Component {
   }
 }
 
-export default AdminSectionItem
+export default connect()(AdminSectionItem)
