@@ -12,10 +12,11 @@ const s3Path = `${process.env.APP_NAME}/images/card_`
 
 // Create
 images.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, sectionId } = req.body
+  const { pageId, sectionId, pageSlug } = req.body
   const newImage = new Image({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
+    pageSlug,
     image: null,
     values: []
   })

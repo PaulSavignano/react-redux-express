@@ -10,6 +10,7 @@ import { toggleCarousel } from '../../actions/slides'
 
 class AdminPageEdit extends Component {
   componentWillMount() {
+    window.scrollTo(0,0)
     if (this.props.slides.length) return this.props.dispatch(toggleCarousel())
   }
   render() {

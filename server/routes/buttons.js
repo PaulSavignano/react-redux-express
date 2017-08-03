@@ -9,11 +9,11 @@ const buttons = express.Router()
 
 // Create
 buttons.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, sectionId, slug } = req.body
+  const { pageId, sectionId, pageSlug } = req.body
   const newButton = new Button({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
-    slug
+    pageSlug
   })
   newButton.save()
     .then(button => {

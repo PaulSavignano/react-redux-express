@@ -6,8 +6,8 @@ const s3Path = `${process.env.APP_NAME}/cards/card_`
 
 const CardSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
-  slug: { type: String },
   image: {
     src: { type: String, trim: true },
     width: { type: Number, trim: true, default: 650 },
@@ -15,6 +15,7 @@ const CardSchema = new Schema({
   },
   values: {
     flex: { type: String, trim: true, default: '1 1 auto' },
+    iframe: { type: String, trim: true },
     link: { type: String, trim: true },
     margin: { type: String, trim: true },
     text: { type: String, trim: true },

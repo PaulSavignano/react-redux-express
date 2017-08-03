@@ -9,10 +9,11 @@ const titles = express.Router()
 
 // Create
 titles.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, sectionId } = req.body
+  const { pageId, sectionId, pageSlug } = req.body
   const newTitle = new Title({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
+    pageSlug,
     values: []
   })
   newTitle.save()

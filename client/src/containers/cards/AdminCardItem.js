@@ -32,7 +32,7 @@ class AdminCardItem extends Component {
     const { dispatch, item, isFetching, values } = this.props
     const {
       flex,
-      iFrame,
+      iframe,
       link,
       margin,
       text,
@@ -55,6 +55,15 @@ class AdminCardItem extends Component {
           style={{ cursor: 'pointer' }}
         >
           {image && <CardMedia><img src={image} alt="card" /></CardMedia>}
+          {iframe &&
+            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
+              <iframe
+                title="iframe"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                src={iframe} frameBorder="0" allowFullScreen>
+              </iframe>
+            </div>
+          }
           {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
           {item.editing && <AdminCardEdit item={item} />}
         </Card>

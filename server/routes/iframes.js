@@ -9,10 +9,11 @@ const iframes = express.Router()
 
 // Create
 iframes.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, sectionId, slug } = req.body
+  const { pageId, sectionId, pageSlug } = req.body
   const newIframe = new Iframe({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
+    pageSlug,
     values: []
   })
   newIframe.save()

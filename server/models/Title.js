@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 
 const TitleSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
     color: { type: String, trim: true },

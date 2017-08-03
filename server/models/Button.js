@@ -2,8 +2,8 @@ import mongoose, { Schema } from 'mongoose'
 
 const ButtonSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
-  slug: { type: String },
   values: {
     backgroundColor: { type: String, trim: true, default: 'inherit' },
     border: { type: String, trim: true },

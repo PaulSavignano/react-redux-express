@@ -6,6 +6,7 @@ const s3Path = `${process.env.APP_NAME}/images/image_`
 
 const ImageSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: {
     src: { type: String, trim: true },

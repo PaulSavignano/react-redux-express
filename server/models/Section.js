@@ -27,7 +27,7 @@ const SectionSchema = new Schema({
     alignItems: { type: String, trim: true },
     margin: { type: String, trim: true },
     minHeight: { type: String, trim: true, default: '300px' },
-    padding: { type: String, trim: true }
+    padding: { type: String, trim: true, default: '8px' }
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },

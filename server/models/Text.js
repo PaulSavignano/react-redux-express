@@ -2,9 +2,9 @@ import mongoose, { Schema } from 'mongoose'
 
 const TextSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
-    backgroundColor: { type: String, trim: true, default: 'transparent'},
     flex: { type: String, trim: true, default: '1 1 auto' },
     margin: { type: String, trim: true },
     padding: { type: String, trim: true },

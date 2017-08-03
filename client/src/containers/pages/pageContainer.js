@@ -9,10 +9,10 @@ const pageContainer = (ComposedComponent) => {
     render() {
       const { isFetching, pageSlug } = this.props
       return (
-        !isFetching && pageSlug !== 'notFound' ?
-        <ComposedComponent {...this.props} />
-          :
+        isFetching ? null : pageSlug === 'notFound' ?
         <NotFound />
+        :
+        <ComposedComponent {...this.props} />
       )
     }
   }

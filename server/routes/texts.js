@@ -9,10 +9,11 @@ const texts = express.Router()
 
 // Create
 texts.post('/', authenticate(['admin']), (req, res) => {
-  const { pageId, sectionId, slug } = req.body
+  const { pageId, sectionId, pageSlug } = req.body
   const newText = new Text({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
+    pageSlug,
     values: []
   })
   newText.save()

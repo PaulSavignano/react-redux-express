@@ -11,7 +11,7 @@ class IframeItem extends Component {
     const {
       backgroundColor,
       flex,
-      iFrame,
+      iframe,
       margin,
       width,
       zDepth
@@ -24,9 +24,9 @@ class IframeItem extends Component {
       >
         <div style={{ position: 'relative', paddingBottom: '50%' }}>
           <iframe
-            title="iFrame"
+            title="iframe"
             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            src={iFrame} frameBorder="0" allowFullScreen
+            src={iframe} frameBorder="0" allowFullScreen
           >
           </iframe>
         </div>

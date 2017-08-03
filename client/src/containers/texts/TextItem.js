@@ -3,13 +3,12 @@ import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
+import Paper from 'material-ui/Paper'
 
 class TextItem extends Component {
   render() {
     const { dispatch, isFetching, item, values } = this.props
     const {
-      backgroundColor,
       flex,
       margin,
       padding,
@@ -18,9 +17,9 @@ class TextItem extends Component {
     } = values
     return (
       !isFetching &&
-      <Card zDepth={0} style={{ backgroundColor, flex, margin, width }}>
+      <Paper zDepth={0} style={{ flex, margin, width }}>
         <div style={{ padding }}>{renderHTML(text)}</div>
-      </Card>
+      </Paper>
     )
   }
 }

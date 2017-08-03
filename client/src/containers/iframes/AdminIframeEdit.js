@@ -69,8 +69,8 @@ class AdminIframeEdit extends Component {
               component={renderTextField}
             />
             <Field
-              name="iFrame"
-              label="iFrame"
+              name="iframe"
+              label="iframe"
               className="field"
               component={renderTextField}
             />

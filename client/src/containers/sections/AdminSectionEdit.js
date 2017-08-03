@@ -76,7 +76,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Button"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(buttonActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
@@ -85,7 +85,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Card"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, slug: page.slug, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(cardActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
@@ -103,7 +103,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Iframe"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(iframeActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
@@ -112,7 +112,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Image"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(imageActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
@@ -121,7 +121,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Product"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(productActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
@@ -130,7 +130,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Text"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(textActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
@@ -139,7 +139,7 @@ class AdminSectionEdit extends Component {
                 <MenuItem
                   primaryText="Title"
                   onTouchTap={() => {
-                    const add = { pageId: page._id, sectionId: item._id }
+                    const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(titleActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
