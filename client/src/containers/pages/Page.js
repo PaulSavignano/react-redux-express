@@ -17,7 +17,7 @@ class Page extends Component {
     return (
       <div>
         <SectionList items={sections} />
-        <Carousel items={slides} open={open} autoplay={autoplay} />
+        {slides.length ? <Carousel items={slides} open={open} autoplay={autoplay} /> : null}
       </div>
     )
   }

@@ -56,7 +56,7 @@ class AdminCardItem extends Component {
         >
           {image && <CardMedia><img src={image} alt="card" /></CardMedia>}
           {iframe &&
-            <div style={{ position: 'relative', paddingBottom: '50%', border: '20px solid white' }}>
+            <div style={{ position: 'relative', paddingBottom: '50%' }}>
               <iframe
                 title="iframe"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}

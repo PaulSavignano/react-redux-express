@@ -101,6 +101,12 @@ class AdminCardEdit extends Component {
                 component={renderTextField}
               />
               <Field
+                name="iframe"
+                label="iframe"
+                className="field"
+                component={renderTextField}
+              />
+              <Field
                 name="link"
                 label="link"
                 className="field"
