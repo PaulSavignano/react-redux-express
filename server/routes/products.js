@@ -13,7 +13,8 @@ const s3Path = `${process.env.APP_NAME}/products`
 
 // Create
 products.post('/', (req, res) => {
-  const { pageId, sectionId, pageSlug, productSlug } = req.body
+  const { pageId, sectionId, pageSlug } = req.body
+  const productSlug = values ? `${slugIt(values.name)}/${_id}` : null
   const newProduct = new Product({
     pageId: ObjectID(pageId),
     sectionId: ObjectID(sectionId),
@@ -76,7 +77,7 @@ products.patch('/:_id', (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, image, values } = req.body
   const Key = `${s3Path}/${_id}`
-  const productSlug = values ? `products/${slugIt(values.name)}/${_id}` : null
+  const productSlug = values ? `${slugIt(values.name)}/${_id}` : null
   switch (type) {
 
     case 'UPDATE_IMAGE_AND_VALUES':

@@ -10,11 +10,13 @@ const ProductSchema = new Schema({
   productSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
-    margin: { type: String, trim: true, default: '16px' },
-    width: { type: String, trim: true, default: '300px' },
-    name: { type: String, minlength: 1, trim: true },
     description: { type: String, minlength: 1, trim: true },
-    price: { type: Number, default: 0 }
+    detail: { type: String },
+    flex: { type: String, trim: true, default: '1 1 auto' },
+    margin: { type: String, trim: true, default: '16px' },
+    name: { type: String, minlength: 1, trim: true },
+    price: { type: Number, default: 0 },
+    width: { type: String, trim: true, default: '300px' }
   },
   image: {
     src: { type: String, minlength: 1, trim: true },

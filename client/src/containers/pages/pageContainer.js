@@ -7,16 +7,23 @@ import NotFound from '../../components/NotFound'
 const pageContainer = (ComposedComponent) => {
   class Container extends Component {
     render() {
-      const { isFetching, page, pageSlug, sections, slides, open, autoplay } = this.props
+      const { dispatch, isFetching, page, pageSlug, sections, slides, open, autoplay } = this.props
+      const props = { dispatch, page, sections, slides, open, autoplay }
       return (
         isFetching ? null : pageSlug === 'notFound' ?
         <NotFound />
         :
-        <ComposedComponent {...this.props} />
+        <ComposedComponent {...props} />
       )
     }
   }
-  const mapStateToProps = ({ pages, sections, slides }, { params }) => {
+  const mapStateToProps = ({
+    pages,
+    sections,
+    slides
+  }, {
+    params
+  }) => {
     const slug = params.slug || 'home'
     const page = pages.items.find(page => page.slug === slug)
     const pageSlug = page ? page.slug : 'notFound'

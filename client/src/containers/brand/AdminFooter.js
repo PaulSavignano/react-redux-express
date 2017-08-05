@@ -8,6 +8,14 @@ import renderTextField from '../../components/fields/renderTextField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate } from '../../actions/brand'
 
+const fields = [
+  'backgroundColor',
+  'color',
+  'borderTop',
+  'borderBottom',
+  'margin'
+]
+
 class AdminFooter extends Component {
   state = {
     zDepth: 1,
@@ -40,7 +48,6 @@ class AdminFooter extends Component {
       submitting,
       textColor
     } = this.props
-    console.log(image)
     return (
       !isFetching &&
       <Card
@@ -73,41 +80,15 @@ class AdminFooter extends Component {
           style={{ flex: '1 1 auto' }}
         >
           <div className="field-container">
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="color"
-              label="color"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="borderTop"
-              label="borderTop"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="borderBottom"
-              label="borderBottom"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="margin"
-              label="margin"
-              className="field"
-              component={renderTextField}
-              style={{ fontFamily }}
-            />
+            {fields.map(field => (
+              <Field
+                name={field}
+                label={field}
+                component={renderTextField}
+                className="field"
+                style={{ fontFamily }}
+              />
+            ))}
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">

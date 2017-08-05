@@ -143,7 +143,7 @@ const mapStateToProps = ({
     _id,
     appBar: { image, values },
     isFetching,
-    theme: { fontFamily, palette: { canvasColor, primary1Color },  }
+    theme: { fontFamily, palette: { canvasColor, primary1Color }}
   }
 }) => ({
   _id,

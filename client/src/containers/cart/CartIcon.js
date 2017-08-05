@@ -4,7 +4,7 @@ import FontIcon from 'material-ui/FontIcon'
 import Badge from 'material-ui/Badge'
 
 const CartIcon = ({ cart, color, isFetching }) => (
-  !isFetching &&  cart.quantity ?
+  !isFetching && cart.quantity ?
   <Badge
     style={{ padding: '0 16px 0 0' }}
     badgeContent={cart.quantity}

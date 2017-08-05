@@ -12,6 +12,16 @@ import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/cards'
 
+const fields = [
+  'flex',
+  'iframe',
+  'iframeBorder',
+  'link',
+  'margin',
+  'width',
+  'zDepth'
+]
+
 class AdminCardEdit extends Component {
   state = {
     imageEdit: false,
@@ -31,7 +41,13 @@ class AdminCardEdit extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, submitting } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      item: { _id, editing, image },
+      submitting
+    } = this.props
     return (
       <Dialog
         actions={
@@ -40,11 +56,11 @@ class AdminCardEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
                 } else if (this.state.imageDelete) {
-                  return dispatch(fetchUpdate(item._id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
+                  return dispatch(fetchUpdate(_id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
                 } else {
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
+                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
                 }
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE CARD'}
@@ -57,7 +73,7 @@ class AdminCardEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              onTouchTap={() => dispatch(fetchDelete(_id))}
             />
             <RaisedButton
               type="button"
@@ -65,24 +81,24 @@ class AdminCardEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(item._id))}
+              onTouchTap={() => dispatch(stopEdit(_id))}
             />
           </div>
         }
         modal={false}
-        open={item.editing}
-        onRequestClose={() => dispatch(stopEdit(item._id))}
+        open={editing}
+        onRequestClose={() => dispatch(stopEdit(_id))}
         autoScrollBodyContent={true}
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
         <Card>
-          <CardHeader title={`Card ${item._id}`}/>
+          <CardHeader title={`Card ${_id}`}/>
           <form>
             <ImageForm
-              image={item.image}
+              image={image}
               type="image/jpg"
-              _id={item._id}
+              _id={_id}
               onImageEdit={this.handleImageEdit}
               onImageDelete={this.handleImageDelete}
               ref={this.setEditorRef}
@@ -94,67 +110,33 @@ class AdminCardEdit extends Component {
               />
             </div>
             <div className="field-container">
-              <Field
-                name="flex"
-                label="flex"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="iframe"
-                label="iframe"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="link"
-                label="link"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="margin"
-                label="margin"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="width"
-                label="width"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="zDepth"
-                label="zDepth"
-                className="field"
-                component={renderTextField}
-              />
+              {fields.map(field => (
+                <Field
+                  key={field}
+                  name={field}
+                  label={field}
+                  className="field"
+                  component={renderTextField}
+                />
+              ))}
             </div>
           </form>
           {error && <div className="error">{error}</div>}
         </Card>
-
       </Dialog>
     )
   }
 }
 
 AdminCardEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `card_${item._id}`,
-      item,
-      initialValues: {
-        ...values,
-        zDepth: values.zDepth && values.zDepth.toString()
-       }
-    }
-  }),
+  connect((state, { item }) => ({
+    form: `card_${item._id}`,
+    initialValues: item.values
+  })),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminCardEdit)
+  })
+)(AdminCardEdit)
 
 export default AdminCardEdit

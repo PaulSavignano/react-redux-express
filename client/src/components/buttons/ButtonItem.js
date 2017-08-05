@@ -1,17 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import buttonContainer from './buttonContainer'
-import AdminButtonEdit from './AdminButtonEdit'
-import { startEdit } from '../../actions/buttons'
+import buttonContainer from '../../containers/buttons/buttonContainer'
 
-const AdminButtonItem = ({ dispatch, item }) => {
-  const {
-    _id,
-    editing,
+const ButtonItem = ({
+  dispatch,
+  item: {
     values: {
       backgroundColor,
       border,
@@ -23,21 +21,24 @@ const AdminButtonItem = ({ dispatch, item }) => {
       margin,
       width
     }
-  } = item
-  const editComp = editing && { children: <AdminButtonEdit key={1} item={item} /> }
+  }
+}) => {
+  const nav = link && link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { href: link }
   const attributes = {
     backgroundColor,
     label,
     labelColor: color,
     labelStyle: { font },
     style: { backgroundColor, border, flex, margin, width },
-    type: 'button',
-    onTouchTap: () => dispatch(startEdit(_id)),
-    ...editComp
+    type: "button",
+    ...nav
   }
   return (
-    <RaisedButton {...attributes} />
+    <RaisedButton
+      {...attributes}
+    />
   )
 }
 
-export default buttonContainer(AdminButtonItem)
+
+export default buttonContainer(ButtonItem)

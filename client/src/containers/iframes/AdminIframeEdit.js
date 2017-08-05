@@ -10,20 +10,30 @@ import CircularProgress from 'material-ui/CircularProgress'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/iframes'
 
-class AdminIframeEdit extends Component {
-  componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded && !item.editing) {
-      dispatch(stopEdit(item._id))
-    }
-  }
-  render() {
-    const { dispatch, error, handleSubmit, item, submitting } = this.props
+const fields = [
+  'backgroundColor',
+  'flex',
+  'iframe',
+  'margin',
+  'width',
+  'zDepth'
+]
+
+const AdminIframeEdit = ({
+  dispatch,
+  error,
+  handleSubmit,
+  item: { _id, editing },
+  submitSucceeded,
+  submitting
+}) => {
+    submitSucceeded && dispatch(stopEdit(_id))
     return (
       <Dialog
         actions={
           <div className="button-container">
             <RaisedButton
-              onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
+              onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values })))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE IFRAME'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -34,7 +44,7 @@ class AdminIframeEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id))}
+              onTouchTap={() => dispatch(fetchDelete(_id))}
             />
             <RaisedButton
               type="button"
@@ -42,79 +52,43 @@ class AdminIframeEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(item._id))}
+              onTouchTap={() => dispatch(stopEdit(_id))}
             />
           </div>
         }
         modal={false}
-        open={item.editing}
-        onRequestClose={() => dispatch(stopEdit(item._id))}
+        open={editing}
+        onRequestClose={() => dispatch(stopEdit(_id))}
         autoScrollBodyContent={true}
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
         <Card>
-          <CardHeader title={`Iframe ${item._id}`}/>
+          <CardHeader title={`Iframe ${_id}`}/>
           <form className="field-container">
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="flex"
-              label="flex"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="iframe"
-              label="iframe"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="margin"
-              label="margin"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="width"
-              label="width"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="zDepth"
-              label="zDepth"
-              className="field"
-              component={renderTextField}
-            />
+            {fields.map(field => (
+              <Field
+                key={field}
+                name={field}
+                label={field}
+                className="field"
+                component={renderTextField}
+              />
+            ))}
           </form>
           {error && <div className="error">{error}</div>}
         </Card>
       </Dialog>
     )
   }
-}
 
-AdminIframeEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `iframe_${item._id}`,
-      item,
-      initialValues: {
-        ...values,
-        zDepth: values.zDepth && values.zDepth.toString()
-       }
-    }
-  }),
+export default compose(
+  connect((state, { item: { _id, values }}) => ({
+    form: `iframe_${_id}`,
+    initialValues: values
+  })),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminIframeEdit)
-
-export default AdminIframeEdit
+  })
+)(AdminIframeEdit)

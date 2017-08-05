@@ -4,13 +4,15 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
+import titleContainer from './titleContainer'
 import AdminTitleEdit from './AdminTitleEdit'
 import { startEdit } from '../../actions/titles'
 
-class AdminTitleItem extends Component {
-  render() {
-    const { dispatch, item, isFetching, values } = this.props
-    const {
+const AdminTitleItem = ({ dispatch, item }) => {
+  const {
+    _id,
+    editing,
+    values: {
       color,
       flex,
       fontFamily,
@@ -22,42 +24,31 @@ class AdminTitleItem extends Component {
       textAlign,
       textShadow,
       text,
-      width,
-    } = values
-    return (
-      !isFetching &&
-      <div
-        onTouchTap={() => dispatch(startEdit(item._id))}
-        style={{
-          color,
-          flex,
-          fontFamily,
-          fontSize,
-          fontWeight,
-          letterSpacing,
-          margin,
-          padding,
-          textAlign,
-          textShadow,
-          width,
-          cursor: 'pointer'
-        }}
-      >
-        {text}
-        {item.editing && <AdminTitleEdit item={item} />}
-      </div>
-    )
-  }
+      width
+    }
+  } = item
+  return (
+    <div
+      onTouchTap={() => dispatch(startEdit(_id))}
+      style={{
+        color,
+        flex,
+        fontFamily,
+        fontSize,
+        fontWeight,
+        letterSpacing,
+        margin,
+        padding,
+        textAlign,
+        textShadow,
+        width,
+        cursor: 'pointer'
+      }}
+    >
+      {text}
+      {editing && <AdminTitleEdit item={item} />}
+    </div>
+  )
 }
 
-const mapStateToProps = ({ titles: { items, isFetching } }, { componentId }) => {
-  const item = items.find(item => item._id === componentId) || {}
-  const values = item.values || {}
-  return {
-    item,
-    isFetching,
-    values
-  }
-}
-
-export default connect(mapStateToProps)(AdminTitleItem)
+export default titleContainer(connect()(AdminTitleItem))

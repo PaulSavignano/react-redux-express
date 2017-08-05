@@ -11,15 +11,17 @@ import renderTextField from '../../components/fields/renderTextField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/images'
 
+const fields = [
+  'flex',
+  'margin',
+  'width',
+  'zDepth'
+]
+
 class AdminImageEdit extends Component {
   state = {
     imageEdit: false,
     imageDelete: false
-  }
-  componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded && !item.editing) {
-      dispatch(stopEdit(item._id))
-    }
   }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
@@ -30,7 +32,8 @@ class AdminImageEdit extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, submitting } = this.props
+    const { dispatch, error, handleSubmit, item, submitSucceeded, submitting } = this.props
+    submitSucceeded && dispatch(stopEdit(item._id))
     return (
       <Dialog
         actions={
@@ -87,30 +90,15 @@ class AdminImageEdit extends Component {
               ref={this.setEditorRef}
             />
             <div className="field-container">
-              <Field
-                name="flex"
-                label="flex"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="margin"
-                label="margin"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="width"
-                label="width"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="zDepth"
-                label="zDepth"
-                className="field"
-                component={renderTextField}
-              />
+              {fields.map(field => (
+                <Field
+                  key={field}
+                  name={field}
+                  label={field}
+                  className="field"
+                  component={renderTextField}
+                />
+              ))}
             </div>
           </form>
           {error && <div className="error">{error}</div>}
@@ -120,21 +108,13 @@ class AdminImageEdit extends Component {
   }
 }
 
-AdminImageEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `image_${item._id}`,
-      item,
-      initialValues: {
-        ...values,
-        zDepth: values.zDepth && values.zDepth.toString()
-       }
-    }
-  }),
+export default compose(
+  connect((state, { item: { _id, values } }) => ({
+    form: `image_${_id}`,
+    initialValues: values
+  })),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminImageEdit)
-
-export default AdminImageEdit
+  })
+)(AdminImageEdit)

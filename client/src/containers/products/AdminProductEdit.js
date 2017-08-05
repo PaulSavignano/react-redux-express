@@ -9,6 +9,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageForm from '../../components/images/ImageForm'
 import renderTextField from '../../components/fields/renderTextField'
+import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/products'
 
 const validate = values => {
@@ -19,17 +20,20 @@ const validate = values => {
   return errors
 }
 
+const fields = [
+  'description',
+  'flex',
+  'margin',
+  'name',
+  'price',
+  'width'
+]
+
 class AdminProductEdit extends Component {
   state = {
-    zDepth: 1,
     imageEdit: false,
     imageDelete: false
   }
-  componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded || !item.editing) dispatch(stopEdit(item._id))
-  }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
@@ -39,7 +43,19 @@ class AdminProductEdit extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, submitSucceeded, submitting } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      item: {
+        _id,
+        editing,
+        image
+      },
+      submitSucceeded,
+      submitting
+    } = this.props
+    submitSucceeded && dispatch(stopEdit(_id))
     return (
       <Dialog
         actions={
@@ -47,12 +63,12 @@ class AdminProductEdit extends Component {
             <RaisedButton
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
-                  const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                  const newImage = this.editor.handleSave()
+                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, values }))
                 } else if (this.state.imageDelete) {
-                  return dispatch(fetchUpdate(item._id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
+                  return dispatch(fetchUpdate(_id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
                 } else {
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
+                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
                 }
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE PRODUCT'}
@@ -65,7 +81,7 @@ class AdminProductEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              onTouchTap={() => dispatch(fetchDelete(_id))}
             />
             <RaisedButton
               type="button"
@@ -73,24 +89,24 @@ class AdminProductEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(item._id))}
+              onTouchTap={() => dispatch(stopEdit(_id))}
             />
           </div>
         }
         modal={false}
-        open={item.editing}
-        onRequestClose={() => dispatch(stopEdit(item._id))}
+        open={editing}
+        onRequestClose={() => dispatch(stopEdit(_id))}
         autoScrollBodyContent={true}
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
         <Card>
-          <CardHeader title={`Product ${item._id}`} />
+          <CardHeader title={`Product ${_id}`} />
           <CardMedia>
             <ImageForm
-              image={item.image}
+              image={image}
               type="image/jpg"
-              _id={item._id}
+              _id={_id}
               onImageEdit={this.handleImageEdit}
               onImageDelete={this.handleImageDelete}
               ref={this.setEditorRef}
@@ -98,40 +114,20 @@ class AdminProductEdit extends Component {
           </CardMedia>
           <form>
             <div className="field-container">
-              <Field
-                name="margin"
-                label="margin"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="name"
-                label="name"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="price"
-                label="price"
-                type="number"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="width"
-                label="width"
-                className="field"
-                component={renderTextField}
-              />
+              {fields.map(field => (
+                <Field
+                  key={field}
+                  name={field}
+                  label={field}
+                  className="field"
+                  component={renderTextField}
+                />
+              ))}
             </div>
-            <div className="field-container">
+            <div>
               <Field
-                name="description"
-                label="description"
-                multiLine={true}
-                rows={2}
-                className="field"
-                component={renderTextField}
+                name="detail"
+                component={renderWysiwgyField}
               />
             </div>
           </form>
@@ -142,18 +138,17 @@ class AdminProductEdit extends Component {
   }
 }
 
-AdminProductEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `product_${item._id}`,
-      item,
-      initialValues: {
-        ...values,
-        price: values.price && values.price.toString()
-      }
+export default compose(
+  connect((state, { item: { _id, values } }) => ({
+    form: `product_${_id}`,
+    initialValues: {
+      ...values,
+      price: values.price && values.price.toString()
     }
-  }),
-  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [], validate }))(AdminProductEdit)
-
-export default AdminProductEdit
+  })),
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: [],
+    validate
+  })
+)(AdminProductEdit)

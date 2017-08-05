@@ -11,13 +11,11 @@ const CartPage = ({ isFetching, cart, user }) => (
     <CardTitle title="Nothing in your cart yet" />
   </Card>
   :
-  <section>
-    <Card>
-      <CardTitle title="Cart" />
-      <CartList cart={cart} />
-      <CartTotal cart={cart} user={user} />
-    </Card>
-  </section>
+  <Card zDepth={0} className="section page">
+    <CardTitle title="Cart" />
+    <CartList cart={cart} />
+    <CartTotal cart={cart} user={user} />
+  </Card>
 )
 
 const mapStateToProps = ({ carts: { cart, isFetching }, user }) => ({

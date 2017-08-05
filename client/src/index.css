@@ -40,14 +40,22 @@ section {
   margin: 16px 0;
 }
 
+.card-text {
+  padding: 0 8px;
+}
+
 .page {
   min-height: 85vh;
-  padding: 16px 8px 16px;
+  padding: 32px 8px;
 }
 
 svg {
   fill: inherit !important;
 }
+
+
+
+
 
 
 

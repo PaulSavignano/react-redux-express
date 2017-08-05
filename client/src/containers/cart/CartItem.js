@@ -5,49 +5,41 @@ import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import loadImage from '../images/loadImage'
 import { fetchUpdateCart } from '../../actions/cart'
 import formatPrice from '../../utils/formatPrice'
 
 class CartItem extends Component {
   state = {
-    qty: null,
-    image: null,
-    loading: false,
     zDepth: 1
-  }
-  componentWillMount() {
-    const { image, productQty } = this.props.item
-    this.setState({ qty: productQty })
-    if (image) {
-      this.setState({ loading: true })
-      const img = new Image()
-      const src = image
-      img.src = src
-      img.onload = this.setState({ image: src, loading: false })
-    }
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   add = (e, dispatch, productId) => {
     e.stopPropagation()
-    const newQty = this.state.qty + 1
-    this.setState({ qty: newQty })
     const update = { type: 'ADD_TO_CART', productId, productQty: 1 }
     dispatch(fetchUpdateCart(update))
   }
   minus = (e, dispatch, productId) => {
     e.stopPropagation()
-    const newQty = this.state.qty - 1
-    this.setState({ qty: newQty })
     const update = { type: 'REDUCE_FROM_CART', productId, productQty: 1 }
     dispatch(fetchUpdateCart(update))
   }
   render() {
-    const { image, loading } = this.state
-    const { dispatch, item: { productId, name, price, total }, product} = this.props
-    const navToSlug = product && { onTouchTap: () => dispatch(push(`/${product.slug}`)) }
+    const {
+      dispatch,
+      item: {
+        image,
+        name,
+        price,
+        productQty,
+        productId,
+        total
+      },
+      product
+    } = this.props
+    const navToPage = product && { onTouchTap: () => dispatch(push(`/products/${product.productSlug}`)) }
     return (
-      !loading &&
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
@@ -55,9 +47,9 @@ class CartItem extends Component {
         className="card"
         style={{ margin: 16 }}
         containerStyle={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start'}}
-        {...navToSlug}
+        {...navToPage}
       >
-        {image && <CardMedia style={{ flex: '1 1 100px'}}><img src={image} alt="" /></CardMedia>}
+        {image && image.src && <CardMedia style={{ flex: '1 1 100px'}}><img src={image.src} alt="" /></CardMedia>}
         <div style={{ flex: '6 6 auto', display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
           <CardText>{name}</CardText>
           <div style={{ flex: '6 6 auto' }}></div>
@@ -69,8 +61,8 @@ class CartItem extends Component {
             alignItems: 'center'
           }}>
             <RaisedButton label="-" primary={true} onTouchTap={(e) => this.minus(e, dispatch, productId)} labelStyle={{ fontSize: 24 }} style={{ marginRight: 0 }} />
-            <div style={{ flex: '1 1 40px', width: 40, textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)', minWidth: 50, marginRight: 0 }}>
-              {this.state.qty}
+            <div style={{ flex: '1 1 40px', width: 40, textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)', minWidth: 50, marginRight: 0, fontSize: 14 }}>
+              {productQty}
             </div>
             <RaisedButton label="+" primary={true} onTouchTap={(e) => this.add(e, dispatch, productId)} labelStyle={{ fontSize: 24 }} style={{ marginLeft: 0 }} />
             <RaisedButton
@@ -93,7 +85,8 @@ class CartItem extends Component {
 }
 
 const mapStateToProps = ({ products: { items }}, { item }) => ({
+  item: { ...item, image: { src: item.image }},
   product: items.find(i => i._id === item.productId)
 })
 
-export default connect(mapStateToProps)(CartItem)
+export default connect(mapStateToProps)(loadImage(CartItem))

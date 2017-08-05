@@ -16,6 +16,7 @@ const CardSchema = new Schema({
   values: {
     flex: { type: String, trim: true, default: '1 1 auto' },
     iframe: { type: String, trim: true },
+    iframeBorder: { type: String, trim: true },
     link: { type: String, trim: true },
     margin: { type: String, trim: true },
     text: { type: String, trim: true },
