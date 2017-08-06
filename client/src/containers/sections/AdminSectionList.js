@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import AdminSectionItem from '../../components/sections/AdminSectionItem'
 

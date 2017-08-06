@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card'
@@ -7,7 +6,6 @@ import { Card, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/C
 import formatPrice from '../../utils/formatPrice'
 import productPageContainer from './productPageContainer'
 import loadImage from '../images/loadImage'
-import ProductItem from './ProductItem'
 import ProductButtons from './ProductButtons'
 
 const ProductPage = ({

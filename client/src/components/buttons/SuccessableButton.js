@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { submit } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
@@ -27,7 +26,7 @@ class SuccessableButton extends Component {
     return label
   }
   render() {
-    const { submitting, label, style, successLabel, dispatch } = this.props
+    const { submitting, label, style, successLabel } = this.props
     const styles = style || {}
     const backgroundColor = styles.backgroundColor || 'inherit'
     const fontFamily = styles.fontFamily || 'inherit'

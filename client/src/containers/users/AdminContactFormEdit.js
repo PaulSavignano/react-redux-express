@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Dialog from 'material-ui/Dialog'
 
-import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate } from '../../actions/sections'
 
 class AdminContactFormEdit extends Component {

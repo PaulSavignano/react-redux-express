@@ -21,11 +21,21 @@ import * as textActions from '../../actions/texts'
 import * as titleActions from '../../actions/titles'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/sections'
 
+const fields = [
+  'backgroundColor',
+  'containerMarginTop',
+  'flexFlow',
+  'justifyContent',
+  'alignItems',
+  'margin',
+  'minHeight',
+  'padding'
+]
+
 class AdminSectionEdit extends Component {
   state = {
     openMenu: false,
     imageEdit: false,
-    imageDelete: false,
     anchorEl: null
   }
   handleOpenMenu = (e) => {
@@ -40,7 +50,8 @@ class AdminSectionEdit extends Component {
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageDelete = (_id, update) => {
-    this.setState({ imageEdit: false, imageDelete: true })
+    this.setState({ imageEdit: false })
+    return this.props.dispatch(fetchUpdate(_id, update))
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
@@ -152,8 +163,6 @@ class AdminSectionEdit extends Component {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-                } else if (this.state.imageDelete) {
-                  return dispatch(fetchUpdate(item._id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
                 } else {
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
                 }
@@ -198,54 +207,15 @@ class AdminSectionEdit extends Component {
             ref={this.setEditorRef}
           />
           <form className="field-container">
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="containerMarginTop"
-              label="containerMarginTop"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="flexFlow"
-              label="flexFlow"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="justifyContent"
-              label="justifyContent"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="alignItems"
-              label="alignItems"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="margin"
-              label="margin"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="minHeight"
-              label="minHeight"
-              className="field"
-              component={renderTextField}
-            />
-            <Field
-              name="padding"
-              label="padding"
-              className="field"
-              component={renderTextField}
-            />
+            {fields.map(field => (
+              <Field
+                key={field}
+                name={field}
+                label={field}
+                className="field"
+                component={renderTextField}
+              />
+            ))}
           </form>
           {error && <div className="error">{error}</div>}
         </Card>
@@ -255,16 +225,14 @@ class AdminSectionEdit extends Component {
 }
 
 AdminSectionEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `section_${item._id}`,
-      initialValues: values
-    }
-  }),
+  connect((state, { item: { _id, values }}) => ({
+    form: `section_${_id}`,
+    initialValues: values
+  })),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminSectionEdit)
+  })
+)(AdminSectionEdit)
 
 export default AdminSectionEdit

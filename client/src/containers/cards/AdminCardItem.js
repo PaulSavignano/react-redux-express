@@ -1,5 +1,4 @@
 import React from 'react'
-import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 

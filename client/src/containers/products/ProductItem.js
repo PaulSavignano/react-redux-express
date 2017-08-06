@@ -1,17 +1,11 @@
 import React, { Component } from 'react'
 import { push } from 'react-router-redux'
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 
 import productContainer from './productContainer'
 import loadImage from '../images/loadImage'
 import ProductButtons from './ProductButtons'
-import SuccessableButton from '../../components/buttons/SuccessableButton'
 import formatPrice from '../../utils/formatPrice'
-import { fetchAddToCart } from '../../actions/cart'
 
 class ProductItem extends Component {
   state = {
@@ -28,8 +22,6 @@ class ProductItem extends Component {
         image,
         productSlug,
         values: {
-          margin,
-          width,
           name,
           description,
           price

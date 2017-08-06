@@ -1,9 +1,4 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { push } from 'react-router-redux'
-import renderHTML from 'react-render-html'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
+import React from 'react'
 
 import titleContainer from '../../containers/titles/titleContainer'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 
 import iframeContainer from '../../containers/iframes/iframeContainer'
 import AdminIframeEdit from './AdminIframeEdit'

@@ -67,12 +67,14 @@ class AdminPagesItem extends Component {
 }
 
 AdminPagesItem = compose(
-  connect((state, { item }) => ({
-    form: `page_${item._id}`,
-    initialValues: {
-      name: item.name
-    }
+  connect((state, { item: { _id, name }}) => ({
+    form: `page_${_id}`,
+    initialValues: { name }
   })),
-  reduxForm({ destroyOnUnmount: false, asyncBlurFields: [] }))(AdminPagesItem)
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: []
+  })
+)(AdminPagesItem)
 
 export default AdminPagesItem

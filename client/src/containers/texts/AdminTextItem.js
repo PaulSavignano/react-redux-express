@@ -1,44 +1,33 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import React from 'react'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 
+import textContainer from './textContainer'
 import AdminTextEdit from './AdminTextEdit'
 import { startEdit } from '../../actions/texts'
 
-class AdminTextItem extends Component {
-  render() {
-    const { dispatch, item, isFetching, values } = this.props
-    const {
+const AdminTextItem = ({ dispatch, item }) => {
+  const {
+    _id,
+    editing,
+    values: {
       flex,
       margin,
       padding,
       text,
-      width,
-    } = values
-    return (
-      !isFetching &&
-      <Paper
-        onTouchTap={() => dispatch(startEdit(item._id))}
-        style={{ flex, margin, width, cursor: 'pointer' }}
-        zDepth={0}
-      >
-        <div style={{ padding }}>{renderHTML(text)}</div>
-        {item.editing && <AdminTextEdit item={item} />}
-      </Paper>
-    )
-  }
+      width
+    }
+  } = item
+  return (
+    <Paper
+      onTouchTap={() => dispatch(startEdit(_id))}
+      style={{ flex, margin, width, cursor: 'pointer' }}
+      zDepth={0}
+    >
+      <div style={{ padding }}>{renderHTML(text)}</div>
+      {editing && <AdminTextEdit item={item} />}
+    </Paper>
+  )
 }
 
-const mapStateToProps = ({ texts: { items, isFetching } }, { componentId }) => {
-  const item = items.find(item => item._id === componentId) || {}
-  const values = item.values || {}
-  return {
-    item,
-    isFetching,
-    values
-  }
-}
-
-export default connect(mapStateToProps)(AdminTextItem)
+export default textContainer(AdminTextItem)

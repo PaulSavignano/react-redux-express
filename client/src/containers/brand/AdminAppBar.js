@@ -20,9 +20,8 @@ class AdminAppBar extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
   handleImageDelete = (_id, update) => {
-    const { dispatch } = this.props
     this.setState({ imageEdit: false })
-    return dispatch(fetchUpdate(`appbar/${_id}`, update))
+    return this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
@@ -39,7 +38,6 @@ class AdminAppBar extends Component {
       submitSucceeded,
       submitting
     } = this.props
-    console.log(image)
     return (
       !isFetching &&
       <Card

@@ -37,7 +37,7 @@ section {
 
 .vertical-card {
   flex: 1 1 auto;
-  margin: 16px 0;
+  margin: 16px 8px;
 }
 
 .card-text {
@@ -105,11 +105,10 @@ a {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
-  padding: 4px;
 }
 .button {
   flex: 1 1 auto;
-  margin: 4px;
+  margin: 8px;
 }
 .delete-button > button {
   background-color: rgba(213, 0, 0, 1) !important;

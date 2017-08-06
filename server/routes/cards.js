@@ -72,7 +72,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, sectionId, image, values } = req.body
-  const Key = `${s3Path}${_id}`
+  const Key = `${s3Path}${_id}${moment(Date.now()).format("YYYY-MM-DD-h:mm-a")}`
   switch (type) {
 
     case 'UPDATE_IMAGE_AND_VALUES':
@@ -106,7 +106,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
 
 
     case 'DELETE_IMAGE_UPDATE_VALUES':
-      deleteFile({ Key })
+      deleteFile({ Key: image.src })
         .then(() => {
           Card.findOneAndUpdate({ _id }, { $set: { 'image.src': null, values } }, { new: true })
             .then(doc => res.send(doc))

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
@@ -11,110 +11,92 @@ import renderTextField from '../../components/fields/renderTextField'
 import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/texts'
 
-class AdminTextEdit extends Component {
-  componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded && !item.editing) {
-      dispatch(stopEdit(item._id))
-    }
-  }
-  render() {
-    const { dispatch, error, handleSubmit, item, submitting } = this.props
-    return (
-      <Dialog
-        actions={
-          <div className="button-container">
-            <RaisedButton
-              onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values })))}
-              label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE TEXT'}
-              primary={true}
-              style={{ flex: '1 1 auto', margin: 4 }}
-            />
-            <RaisedButton
-              type="button"
-              label="X"
-              className="delete-button"
-              labelColor="#ffffff"
-              style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id))}
-            />
-            <RaisedButton
-              type="button"
-              label="Cancel"
-              className="delete-button"
-              labelColor="#ffffff"
-              style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(item._id))}
+const fields = [
+  'backgroundColor',
+  'flex',
+  'margin',
+  'padding',
+  'width'
+]
+
+const AdminTextEdit = ({
+  dispatch,
+  error,
+  handleSubmit,
+  item: { _id, editing },
+  submitSucceeded,
+  submitting
+}) => {
+  submitSucceeded && dispatch(stopEdit(_id))
+  return (
+    <Dialog
+      actions={
+        <div className="button-container">
+          <RaisedButton
+            onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values })))}
+            label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE TEXT'}
+            primary={true}
+            style={{ flex: '1 1 auto', margin: 4 }}
+          />
+          <RaisedButton
+            type="button"
+            label="X"
+            className="delete-button"
+            labelColor="#ffffff"
+            style={{ flex: '0 1 auto', margin: 4 }}
+            onTouchTap={() => dispatch(fetchDelete(_id))}
+          />
+          <RaisedButton
+            type="button"
+            label="Cancel"
+            className="delete-button"
+            labelColor="#ffffff"
+            style={{ flex: '0 1 auto', margin: 4 }}
+            onTouchTap={() => dispatch(stopEdit(_id))}
+          />
+        </div>
+      }
+      modal={false}
+      open={editing}
+      onRequestClose={() => dispatch(stopEdit(_id))}
+      autoScrollBodyContent={true}
+      contentStyle={{ width: '100%', maxWidth: 1000 }}
+      bodyStyle={{ padding: 8 }}
+    >
+      <Card>
+        <CardHeader title={`Text ${_id}`}/>
+        <form>
+          <div>
+            <Field
+              name="text"
+              component={renderWysiwgyField}
             />
           </div>
-        }
-        modal={false}
-        open={item.editing}
-        onRequestClose={() => dispatch(stopEdit(item._id))}
-        autoScrollBodyContent={true}
-        contentStyle={{ width: '100%', maxWidth: 1000 }}
-        bodyStyle={{ padding: 8 }}
-      >
-        <Card>
-          <CardHeader title={`Text ${item._id}`}/>
-          <form>
-            <div>
+          <div className="field-container">
+            {fields.map(field => (
               <Field
-                name="text"
-                component={renderWysiwgyField}
-              />
-            </div>
-            <div className="field-container">
-              <Field
-                name="backgroundColor"
-                label="backgroundColor"
+                key={field}
+                name={field}
+                label={field}
                 className="field"
                 component={renderTextField}
               />
-              <Field
-                name="flex"
-                label="flex"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="margin"
-                label="margin"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="padding"
-                label="padding"
-                className="field"
-                component={renderTextField}
-              />
-              <Field
-                name="width"
-                label="width"
-                className="field"
-                component={renderTextField}
-              />
-            </div>
-          </form>
-          {error && <div className="error">{error}</div>}
-        </Card>
-      </Dialog>
-    )
-  }
+            ))}
+          </div>
+        </form>
+        {error && <div className="error">{error}</div>}
+      </Card>
+    </Dialog>
+  )
 }
 
-AdminTextEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `text_${item._id}`,
-      item,
-      initialValues: values,
-    }
-  }),
+export default compose(
+  connect((state, { item: { _id, values }}) => ({
+    form: `text_${_id}`,
+    initialValues: values,
+  })),
   reduxForm({
     destroyOnUnmount: false,
     asyncBlurFields: []
-  }))(AdminTextEdit)
-
-export default AdminTextEdit
+  })
+)(AdminTextEdit)

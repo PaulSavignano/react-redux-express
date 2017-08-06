@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import loadImage from '../../containers/images/loadImage'
 import ButtonItem from '../buttons/ButtonItem'
 import ContactForm  from '../../containers/users/ContactForm'
 import CardItem from '../../containers/cards/CardItem'
-import Carousel from '../../containers/slides/Carousel'
 import IframeItem from '../iframes/IframeItem'
 import ImageItem from '../images/ImageItem'
 import ProductItem from '../../containers/products/ProductItem'
-import TextItem from '../../containers/texts/TextItem'
+import TextItem from '../texts/TextItem'
 import TitleItem from '../titles/TitleItem'
 
 const renderComponents = (components) => {

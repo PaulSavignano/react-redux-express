@@ -1,7 +1,4 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import renderHTML from 'react-render-html'
+import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import buttonContainer from './buttonContainer'
@@ -19,7 +16,6 @@ const AdminButtonItem = ({ dispatch, item }) => {
       flex,
       font,
       label,
-      link,
       margin,
       width
     }

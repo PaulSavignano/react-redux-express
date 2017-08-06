@@ -28,9 +28,8 @@ class AdminFooter extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   handleImageEdit = (bool) => this.setState({ imageEdit: bool, submitted: false })
   handleImageDelete = (_id, update) => {
-    const { dispatch } = this.props
     this.setState({ imageEdit: false })
-    return dispatch(fetchUpdate(`footer/${_id}`, update))
+    return this.props.dispatch(fetchUpdate(`footer/${_id}`, update))
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
@@ -45,8 +44,7 @@ class AdminFooter extends Component {
       isFetching,
       primary1Color,
       submitSucceeded,
-      submitting,
-      textColor
+      submitting
     } = this.props
     return (
       !isFetching &&

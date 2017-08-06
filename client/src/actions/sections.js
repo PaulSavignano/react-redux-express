@@ -5,7 +5,6 @@ import * as iframeActions from './iframes'
 import * as imageActions from './images'
 import * as pageActions from './pages'
 import * as productActions from './products'
-import * as slideActions from './slides'
 import * as textActions from './texts'
 import * as titleActions from './titles'
 

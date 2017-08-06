@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardMedia } from 'material-ui/Card'
 
 import imageContainer from '../../containers/images/imageContainer'
 import loadImage from '../../containers/images/loadImage'

@@ -30,9 +30,11 @@ class ImageForm extends Component {
     borderRadius: 0,
     opacity: 1,
     editing: false,
-    src: null,
-    width: null,
-    height: null,
+    image: {
+      src: null,
+      width: null,
+      height: null,
+    },
     gradientY0: 0,
     gradientY1: 0,
     loading: false
@@ -40,9 +42,9 @@ class ImageForm extends Component {
   componentWillMount() {
     const { image } = this.props
     if (image && image.src) {
-      this.setState({ src: image.src, width: image.width, height: image.height })
+      this.setState({ image })
     } else if (image && image.width && image.height){
-      this.setState({ width: image.width, height: image.height })
+      this.setState({ image: { width: image.width, height: image.height }})
     } else {
       return
     }
@@ -51,10 +53,10 @@ class ImageForm extends Component {
     const { type } = this.props
     const image = {
       src: this.editor.getImageScaledToCanvas().toDataURL(type, 1),
-      width: this.state.width,
-      height: this.state.height
+      width: this.state.image.width,
+      height: this.state.image.height
     }
-    this.setState({ editing: false, src: image.src, submitted: false })
+    this.setState({ editing: false, image, submitted: false })
     return image
   }
   handleGradientY0 = (e) => {
@@ -130,14 +132,14 @@ class ImageForm extends Component {
                 ref={this.setEditorRef}
                 scale={parseFloat(this.state.scale)}
                 opacity={parseFloat(this.state.opacity)}
-                width={this.state.width}
-                height={this.state.height}
+                width={this.state.image.width}
+                height={this.state.image.height}
                 position={this.state.position}
                 onPositionChange={this.handlePositionChange}
                 rotate={parseFloat(this.state.rotate)}
                 borderRadius={this.state.borderRadius}
                 onSave={this.handleSave}
-                image={this.state.src}
+                image={this.state.image.src}
                 gradientY0={this.state.gradientY0}
                 gradientY1={this.state.gradientY1}
                 crossOrigin="anonymous"
@@ -226,7 +228,7 @@ class ImageForm extends Component {
                   hintText="Width"
                   floatingLabelText="Width"
                   type="number"
-                  value={this.state.width}
+                  value={this.state.image.width}
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
                   onChange={(e) => this.setState({ width: parseInt(e.target.value, 10) })}
                 />
@@ -234,7 +236,7 @@ class ImageForm extends Component {
                   hintText="Height"
                   floatingLabelText="Height"
                   type="number"
-                  value={this.state.height}
+                  value={this.state.image.height}
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
                   onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
                 />
@@ -246,7 +248,7 @@ class ImageForm extends Component {
         {!this.state.editing && this.state.src && <img src={this.state.src} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
         <div style={{ display: 'flex', flexFlow: 'row wrap', margin: 4 }}>
           <RaisedButton
-            label={loading ? <CircularProgress color={color} size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.width} x ${this.state.height} image`}
+            label={loading ? <CircularProgress color={color} size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.image.width} x ${this.state.image.height} image`}
             labelPosition="before"
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4 }}
@@ -266,7 +268,7 @@ class ImageForm extends Component {
                   src: null,
                   editing: false
                 })
-                return onImageDelete(_id, { type: 'DELETE_IMAGE'})
+                return onImageDelete(_id, { type: 'DELETE_IMAGE', image: { src: this.state.image.src }})
               }}
               type="button"
               label="Remove Image"

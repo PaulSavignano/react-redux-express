@@ -1,17 +1,11 @@
 import React, { Component } from 'react'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
 import SuccessableButton from '../../components/buttons/SuccessableButton'
-import formatPrice from '../../utils/formatPrice'
 import { fetchAddToCart } from '../../actions/cart'
 
 class ProductButtons extends Component {

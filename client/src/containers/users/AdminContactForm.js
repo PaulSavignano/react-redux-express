@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
 import AdminContactFormEdit from './AdminContactFormEdit'
-import renderTextField from '../../components/fields/renderTextField'
 
 class AdminContactForm extends Component {
   state = {

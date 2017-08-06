@@ -7,6 +7,7 @@ const loadImage = (ComposedComponent) => {
       loading: true
     }
     componentWillMount() {
+      console.log(this.props)
       const { image } = this.props.item
       if (image && image.src) {
         const img = new Image()

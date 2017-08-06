@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -59,7 +59,6 @@ const AdminSectionItem = ({ dispatch, item, image, page }) => {
   } = item
   const backgroundImage = image && { backgroundImage: `url(${image})`,   transition: 'all 600ms ease-in-out' }
   const backgroundImageClass = image && { className: 'background-image' }
-  const backgroundGradientClass = image && { className: 'background-gradient'}
   return (
     <div
       id={_id}

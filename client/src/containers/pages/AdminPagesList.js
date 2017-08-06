@@ -1,10 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import AdminPagesItem from './AdminPagesItem'
 
-const AdminPagesList = ({ isFetching, items }) => (
-  !isFetching &&
+const AdminPagesList = ({ items }) => (
   <div>
     {items.map(item => (
       <AdminPagesItem key={item._id} item={item} />
@@ -12,11 +10,4 @@ const AdminPagesList = ({ isFetching, items }) => (
   </div>
 )
 
-const mapStateToProps = ({ pages: { isFetching, items }}) => {
-  return {
-    isFetching,
-    items
-  }
-}
-
-export default connect(mapStateToProps)(AdminPagesList)
+export default AdminPagesList

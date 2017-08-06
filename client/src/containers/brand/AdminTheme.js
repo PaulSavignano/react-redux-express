@@ -45,7 +45,6 @@ class AdminTheme extends Component {
       primary1Color,
       submitSucceeded,
       submitting,
-      textColor
     } = this.props
     return (
       !isFetching &&

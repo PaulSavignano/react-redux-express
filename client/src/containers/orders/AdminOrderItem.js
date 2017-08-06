@@ -16,7 +16,7 @@ class AdminOrderItem extends Component {
     zDepth: 1,
   }
   handleShipOrder = (e) =>  {
-    const { shipped, dispatch, handleSubmit, order: { _id } } = this.props
+    const { shipped, dispatch, order: { _id }} = this.props
     e.stopPropagation()
     if (!shipped) return dispatch(fetchUpdate(_id, { type: 'SHIPPED' }))
     return
@@ -26,7 +26,6 @@ class AdminOrderItem extends Component {
   render() {
     const {
       dispatch,
-      handleSubmit,
       order: {
         _id,
         cart: { items },
@@ -89,7 +88,7 @@ class AdminOrderItem extends Component {
 }
 
 
-export default compose(connect((state, { order }) => ({
-  form: `order_${order._id}`
+export default compose(connect((state, { order: { _id }}) => ({
+  form: `order_${_id}`
 })),
 reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminOrderItem)

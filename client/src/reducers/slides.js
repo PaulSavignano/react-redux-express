@@ -4,6 +4,7 @@ const slides = (state = {
   isFetching: true,
   items: [],
   open: false,
+  adminOpen: false,
   autoplay: true
 }, action) => {
   switch (action.type) {
@@ -34,7 +35,7 @@ const slides = (state = {
       return {
         ...state,
         isFetching: false,
-        items: action.items
+        items: action.items,
       }
     case `ADD_${type}`:
       return {
@@ -75,7 +76,12 @@ const slides = (state = {
     case `TOGGLE_${type}`:
       return {
         ...state,
-        open: !state.open
+        open: action.open
+      }
+    case `TOGGLE_ADMIN_${type}`:
+      return {
+        ...state,
+        adminOpen: action.open
       }
     default:
       return state

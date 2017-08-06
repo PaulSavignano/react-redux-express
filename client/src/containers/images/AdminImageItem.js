@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardMedia } from 'material-ui/Card'
 
 import imageContainer from './imageContainer'
 import adminLoadImage from './adminLoadImage'
@@ -17,13 +17,16 @@ const AdminImageItem  = ({
     values: {
       flex,
       margin,
-      text,
       width,
       zDepth
     }
   } = item
   return (
-    <Card onTouchTap={() => dispatch(startEdit(_id))} zDepth={zDepth}>
+    <Card
+      onTouchTap={() => dispatch(startEdit(_id))}
+      zDepth={zDepth}
+      style={{ flex, margin, width, zDepth }}
+    >
       <CardMedia><img src={image.src} alt="card"/></CardMedia>
       {editing && <AdminImageEdit item={item} />}
     </Card>

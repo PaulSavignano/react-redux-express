@@ -2,12 +2,13 @@ import { SubmissionError } from 'redux-form'
 
 import * as pageActions from './pages'
 
-export const type = 'SLIDES'
+export const type = 'SLIDE'
 const route = 'slides'
 
 const START_EDIT = `START_EDIT_${type}`
 const STOP_EDIT = `STOP_EDIT_${type}`
 const TOGGLE = `TOGGLE_${type}`
+const TOGGLE_ADMIN = `TOGGLE_ADMIN_${type}`
 const ADD = `ADD_${type}`
 const REQUEST = `REQUEST_${type}S`
 const RECEIVE = `RECEIVE_${type}S`
@@ -64,7 +65,12 @@ export const fetchSlides = () => {
     })
     .then(json => {
       if (json.error) return Promise.reject(json.error)
-      dispatch(fetchSlidesSuccess(json))
+      if (window.location.pathname === '/') {
+        dispatch(toggleCarousel(true))
+        dispatch(fetchSlidesSuccess(json))
+      } else {
+        dispatch(fetchSlidesSuccess(json))
+      }
     })
     .catch(err => {
       console.log(err)
@@ -134,7 +140,8 @@ export const fetchDelete = (_id) => {
 
 export const deletes = (items) => ({ type: DELETES, items })
 
-export const toggleCarousel = () => ({ type: TOGGLE })
+export const toggleCarousel = (open) => ({ type: TOGGLE, open })
+export const toggleAdminCarousel = (open) => ({ type: TOGGLE_ADMIN, open })
 
 export const startEdit = (_id) => ({ type: START_EDIT, _id })
 export const stopEdit = (_id) => ({ type: STOP_EDIT, _id })

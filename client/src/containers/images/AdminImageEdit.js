@@ -20,15 +20,15 @@ const fields = [
 
 class AdminImageEdit extends Component {
   state = {
-    imageEdit: false,
-    imageDelete: false
+    imageEdit: false
   }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageDelete = (_id, update) => {
-    this.setState({ imageEdit: false, imageDelete: true })
+    this.setState({ imageEdit: false })
+    return this.props.dispatch(fetchUpdate(_id, update))
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
@@ -43,8 +43,6 @@ class AdminImageEdit extends Component {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
-                } else if (this.state.imageDelete) {
-                  return dispatch(fetchUpdate(item._id, { type: 'DELETE_IMAGE_UPDATE_VALUES', values }))
                 } else {
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
                 }

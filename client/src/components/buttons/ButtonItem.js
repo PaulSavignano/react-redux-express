@@ -1,8 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { push } from 'react-router-redux'
-import renderHTML from 'react-render-html'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import buttonContainer from '../../containers/buttons/buttonContainer'

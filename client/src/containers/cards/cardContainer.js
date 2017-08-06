@@ -25,12 +25,12 @@ const cardContainer = (ComposedComponent) => {
         onMouseEnter: this.handleMouseEnter,
         onMouseLeave: this.handleMouseLeave,
       }
-      console.log(events)
       const props = {
         dispatch,
         item,
         zDepth,
-        events
+        events,
+        cursor
       }
       return (
         !isFetching && item && <ComposedComponent {...props} />

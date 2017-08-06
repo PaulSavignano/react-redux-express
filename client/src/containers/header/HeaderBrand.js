@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-
-import { toggleDrawer } from '../../actions/drawer'
 
 class HeaderBrand extends Component {
   state = {
