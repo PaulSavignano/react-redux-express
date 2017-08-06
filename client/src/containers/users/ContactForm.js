@@ -74,7 +74,6 @@ class ContactForm extends Component {
               submitting={submitting}
               label="submit"
               successLabel="submitted!"
-              style={{ margin: 4}}
             />
           </div>
         </form>

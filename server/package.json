@@ -16,6 +16,7 @@
     "express": "^4.15.3",
     "install": "^0.10.1",
     "jsonwebtoken": "^7.3.0",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.1",
     "node-fetch": "^1.6.3",

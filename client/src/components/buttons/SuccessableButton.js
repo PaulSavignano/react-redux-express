@@ -6,46 +6,62 @@ import CircularProgress from 'material-ui/CircularProgress'
 class SuccessableButton extends Component {
   state = {
     submitting: false,
-    submitSucceeded: false,
+    submitted: false,
     timeoutId: null
   }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, submitting } = nextProps
     if (submitting) this.setState({ submitting: true })
     if (submitSucceeded && this.state.submitting) {
-      const timeoutId = setTimeout(() => this.setState({ submitSucceeded: false }), 3000)
-      this.setState({ submitting: false, submitSucceeded: true, timeoutId })
+      const timeoutId = setTimeout(() => this.setState({ submitted: false }), 3000)
+      this.setState({ submitting: false, submitted: true, timeoutId })
     }
   }
   componentWillUnmount() {
     clearTimeout(this.state.timeoutId)
   }
-  renderLabel = (submitting, submitSucceeded, label, successLabel) => {
-    if (submitting) return <CircularProgress color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} />
-    if (submitSucceeded) return successLabel
+  renderLabel = (color, label, submitting, submitted, successLabel) => {
+    if (submitting) return <CircularProgress color={color} size={25} style={{ verticalAlign: 'middle' }} />
+    if (submitted) return successLabel
     return label
   }
   render() {
-    const { submitting, label, style, successLabel } = this.props
-    const styles = style || {}
-    const backgroundColor = styles.backgroundColor || 'inherit'
-    const fontFamily = styles.fontFamily || 'inherit'
-    const margin = styles.margin || null
-    const color = styles.color || 'inherit'
-    const { submitSucceeded } = this.state
-    const isPrimary = style ? { primary: false } : { primary: true }
+    const { submitted } = this.state
+    const {
+      backgroundColor,
+      color,
+      fontFamily,
+      isFetching,
+      label,
+      submitting,
+      successLabel
+    } = this.props
     return (
+      !isFetching &&
       <RaisedButton
         type="submit"
-        label={this.renderLabel(submitting, submitSucceeded, label, successLabel)}
+        label={this.renderLabel(color, label, submitting, submitted, successLabel)}
         labelColor={color}
-        backgroundColor={submitSucceeded ? "#4CAF50" : backgroundColor }
-        style={{ flex: '1 1 auto', margin }}
-        buttonStyle={{ fontFamily }}
-        {...isPrimary}
+        backgroundColor={submitted ? "#4CAF50" : backgroundColor }
+        style={{ flex: '1 1 auto', margin: 8 }}
+        labelStyle={{ fontFamily }}
       />
     )
   }
 }
 
-export default connect()(SuccessableButton)
+export default connect(
+  ({
+    brand: {
+      isFetching,
+      theme: {
+        palette: { canvasColor, fontFamily, primary1Color, }
+      }
+    }
+  }) => ({
+    backgroundColor: primary1Color,
+    color: canvasColor,
+    fontFamily,
+    isFetching
+  })
+)(SuccessableButton)

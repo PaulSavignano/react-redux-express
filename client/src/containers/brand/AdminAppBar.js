@@ -8,6 +8,18 @@ import renderTextField from '../../components/fields/renderTextField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate } from '../../actions/brand'
 
+const fields = [
+  'backgroundColor',
+  'color',
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'letterSpacing',
+  'name',
+  'navColor',
+  'textShadow'
+]
+
 class AdminAppBar extends Component {
   state = {
     zDepth: 1,
@@ -34,7 +46,6 @@ class AdminAppBar extends Component {
       handleSubmit,
       image,
       isFetching,
-      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -57,71 +68,37 @@ class AdminAppBar extends Component {
             _id={_id}
             onImageEdit={this.handleImageEdit}
             onImageDelete={this.handleImageDelete}
-            style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor }}
             ref={this.setEditorRef}
+            fontFamily={fontFamily}
           />
         </CardMedia>
         <form onSubmit={handleSubmit((values) => {
           const path = `appbar/${_id}`
           if (this.state.imageEdit) {
             const img = this.editor.handleSave()
-            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, values }))
+            const oldImage = image.src
+            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, oldImage, values }))
           }
           return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
         })}
         >
           <div className="field-container">
-            <Field
-              name="backgroundColor"
-              label="backgroundColor"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="color"
-              label="color"
-              type="text"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="font"
-              label="font (style weight size family)"
-              type="text"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="name"
-              label="name"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="navColor"
-              label="navColor"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
-            <Field
-              name="textShadow"
-              label="textShadow (color x y blur-radius)"
-              component={renderTextField}
-              className="field"
-              style={{ fontFamily }}
-            />
+            {fields.map(field => (
+              <Field
+                key={field}
+                name={field}
+                label={field}
+                component={renderTextField}
+                className="field"
+                style={{ fontFamily }}
+              />
+            ))}
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update appbar"
               successLabel="appbar updated!"
             />

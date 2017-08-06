@@ -30,9 +30,8 @@ const ProductSchema = new Schema({
 
 ProductSchema.pre('remove', function(next) {
   const product = this
-  if (product.image.src) {
-    const Key = `${s3Path}${product._id}`
-    deleteFile({ Key }).catch(err => console.error(err))
+  if (product.image && product.image.src) {
+    deleteFile({ Key: product.image.src }).catch(err => console.error(err))
   }
   next()
 })

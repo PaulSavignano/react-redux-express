@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
+import PropTypes from 'prop-types'
 import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
@@ -56,7 +57,8 @@ class AdminCardEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                  const oldImage = image.src
+                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image, oldImage, values }))
                 } else {
                   return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
                 }
@@ -104,6 +106,7 @@ class AdminCardEdit extends Component {
             <div>
               <Field
                 name="text"
+                label="text"
                 component={renderWysiwgyField}
               />
             </div>
@@ -136,5 +139,11 @@ AdminCardEdit = compose(
     asyncBlurFields: []
   })
 )(AdminCardEdit)
+
+AdminCardEdit.propTypes = {
+  error: PropTypes.object,
+  item: PropTypes.object.isRequired,
+  submitting: PropTypes.bool
+}
 
 export default AdminCardEdit

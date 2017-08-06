@@ -41,7 +41,6 @@ class AdminPagesItem extends Component {
             label="Name"
             type="text"
             component={renderSuccessableTextField}
-            style={{ flex: '1 1 auto', margin: '8px 8px 16px 8px' }}
           />
           <div>
             <RaisedButton

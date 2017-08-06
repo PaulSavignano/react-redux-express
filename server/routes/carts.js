@@ -21,7 +21,7 @@ carts.post('/', (req, res) => {
         items: [{
           productId,
           productQty,
-          image: product.image.src,
+          image: product.image,
           name,
           price,
           total: productQty * price
@@ -152,7 +152,7 @@ carts.patch('/:_id', (req, res) => {
             const item = {
               productId,
               productQty,
-              image: pro.image.src,
+              image: pro.image,
               name: pro.values.name,
               price: pro.values.price,
               total: pro.values.price * productQty

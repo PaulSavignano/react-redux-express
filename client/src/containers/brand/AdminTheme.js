@@ -42,7 +42,6 @@ class AdminTheme extends Component {
       fontFamily,
       handleSubmit,
       isFetching,
-      primary1Color,
       submitSucceeded,
       submitting,
     } = this.props
@@ -80,7 +79,6 @@ class AdminTheme extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update theme"
               successLabel="theme updated!"
             />

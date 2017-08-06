@@ -27,7 +27,6 @@ const AdminIframeEdit = ({
   submitSucceeded,
   submitting
 }) => {
-    submitSucceeded && dispatch(stopEdit(_id))
     return (
       <Dialog
         actions={

@@ -40,7 +40,6 @@ class AddressItem extends Component {
               submitting={submitting}
               label="update address"
               successLabel="address updated!"
-              style={{ margin: 4 }}
             />
             <RaisedButton
               type="button"

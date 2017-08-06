@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Carousel from './containers/slides/Carousel'
 import SearchList from './containers/search/SearchList'
 import Header from './components/header/Header'
-import FooterContainer from './containers/footer/FooterContainer'
+import Footer from './components/footer/Footer'
 import { toggleCarousel } from './actions/slides'
 
 class Main extends Component {
@@ -26,7 +26,7 @@ class Main extends Component {
         <main>
           {search.value ? <SearchList /> : children}
         </main>
-        <FooterContainer />
+        <Footer />
       </div>
     )
   }

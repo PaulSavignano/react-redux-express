@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import adminLoadImage from '../../containers/images/adminLoadImage'
+import loadImage from '../../containers/images/loadImage'
 import AdminButtonItem from '../../containers/buttons/AdminButtonItem'
 import AdminCardItem from '../../containers/cards/AdminCardItem'
 import AdminContactForm  from '../../containers/users/AdminContactForm'
@@ -41,11 +41,12 @@ const renderComponents = (components) => {
   return components.map(component => componentList(component))
 }
 
-const AdminSectionItem = ({ dispatch, item, image, page }) => {
+const AdminSectionItem = ({ dispatch, item, page }) => {
   const {
     _id,
     components,
     editing,
+    image,
     values: {
       backgroundColor,
       containerMarginTop,
@@ -57,8 +58,8 @@ const AdminSectionItem = ({ dispatch, item, image, page }) => {
       minHeight
     }
   } = item
-  const backgroundImage = image && { backgroundImage: `url(${image})`,   transition: 'all 600ms ease-in-out' }
-  const backgroundImageClass = image && { className: 'background-image' }
+  const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
+  const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
     <div
       id={_id}
@@ -98,4 +99,4 @@ const AdminSectionItem = ({ dispatch, item, image, page }) => {
   )
 }
 
-export default connect()(adminLoadImage(AdminSectionItem))
+export default connect()(loadImage(AdminSectionItem))

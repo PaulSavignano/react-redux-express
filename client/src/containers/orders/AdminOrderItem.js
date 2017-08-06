@@ -63,12 +63,11 @@ class AdminOrderItem extends Component {
               <div>{moment(shipDate).format("YYYY-MM-DD, h:mm a")}</div>
             </CardText>
           }
-
           <CardText style={{ flex: '2 2 auto' }}>
             <div>Order #</div>
             <div>{_id}</div>
           </CardText>
-          <CardText style={{ flex: '1 1 auto', display: 'flex' }}>
+          <CardText style={{ flex: '0 1 auto', display: 'flex' }}>
             <form>
               <RaisedButton
                 label={shipped ? 'Shipped' : 'Mark Ship'}
@@ -78,9 +77,7 @@ class AdminOrderItem extends Component {
               />
             </form>
           </CardText>
-
         </div>
-
         <OrderCartList items={items} />
       </Card>
     )

@@ -162,7 +162,8 @@ class AdminSectionEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                  const oldImage = image.src
+                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, oldImage, values }))
                 } else {
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
                 }

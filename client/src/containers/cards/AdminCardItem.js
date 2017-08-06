@@ -1,9 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 import cardContainer from './cardContainer'
-import adminLoadImage from '../images/adminLoadImage'
+import loadImage from '../images/loadImage'
 import AdminCardEdit from './AdminCardEdit'
 import { startEdit } from '../../actions/cards'
 
@@ -33,4 +35,10 @@ const AdminCardItem = ({ dispatch, item, zDepth, events }) => {
   )
 }
 
-export default cardContainer(adminLoadImage(AdminCardItem))
+AdminCardItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  zDepth: PropTypes.number.isRequired,
+  events: PropTypes.object,
+}
+
+export default cardContainer(loadImage(connect()(AdminCardItem)))

@@ -51,7 +51,6 @@ const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceede
           submitting={submitting}
           label="update user"
           successLabel="user updated!"
-          style={{ margin: 4 }}
         />
         <RaisedButton
           type="button"

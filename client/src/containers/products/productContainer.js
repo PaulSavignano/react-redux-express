@@ -23,7 +23,6 @@ const cardContainer = (ComposedComponent) => {
         onMouseEnter: this.handleMouseEnter,
         onMouseLeave: this.handleMouseLeave,
       }
-      console.log(events)
       const props = {
         dispatch,
         item,

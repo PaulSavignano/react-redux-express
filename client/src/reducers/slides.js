@@ -44,9 +44,7 @@ const slides = (state = {
         items: [
           ...state.items,
           { ...action.item, editing: true }
-        ],
-        open: true,
-        autoplay: false
+        ]
       }
     case `UPDATE_${type}`:
       return {

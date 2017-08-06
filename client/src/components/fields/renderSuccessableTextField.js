@@ -32,6 +32,7 @@ class renderSuccessableTextField extends Component {
         errorText={this.renderMessage(touched, error, submitting, submitSucceeded)}
         {...input}
         {...custom}
+        style={{ flex: '1 1 auto', margin: '8px 8px 16px 8px' }}
       />
     )
   }

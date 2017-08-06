@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardMedia } from 'material-ui/Card'
 
 import imageContainer from './imageContainer'
-import adminLoadImage from './adminLoadImage'
+import loadImage from './loadImage'
 import AdminImageEdit from './AdminImageEdit'
 import { startEdit } from '../../actions/images'
 
@@ -33,4 +33,4 @@ const AdminImageItem  = ({
   )
 }
 
-export default imageContainer(adminLoadImage(AdminImageItem))
+export default imageContainer(loadImage(AdminImageItem))

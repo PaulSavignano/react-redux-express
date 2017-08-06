@@ -15,13 +15,22 @@ class HeaderBrand extends Component {
   }
   render() {
     const { image } = this.state
-    const { color, font, name, textShadow } = this.props
+    const {
+      color,
+      fontFamily,
+      fontSize,
+      fontWeight,
+      letterSpacing,
+      name,
+      textShadow
+    } = this.props
+    const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
     return (
       <div
         style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
       >
         { image && <img src={image} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
-        { name && <div style={{ color, font, textShadow }}>{name}</div> }
+        { name && <div style={{ ...styles }}>{name}</div> }
       </div>
     )
   }

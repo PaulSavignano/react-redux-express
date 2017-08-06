@@ -5,23 +5,15 @@ const IframeSchema = new Schema({
   pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
+    border: { type: String, trim: true },
     flex: { type: String, trim: true, default: '1 1 auto' },
     margin: { type: String, trim: true },
     iframe: { type: String, trim: true },
-    text: { type: String, trim: true },
     width: { type: String, trim: true },
     zDepth: { type: Number, trime: true, default: 1 }
   }
 }, {
   timestamps: true
-})
-
-IframeSchema.pre('remove', function(next) {
-  const iframe = this
-  if (iframe.image) {
-    deleteFile({ Key }).catch(err => console.error(err))
-  }
-  next()
 })
 
 const Iframe = mongoose.model('Iframe', IframeSchema)

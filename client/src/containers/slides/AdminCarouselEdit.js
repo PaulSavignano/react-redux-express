@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import AdminSlideEdit from './AdminSlideEdit'
 import { fetchAdd, toggleAdminCarousel } from '../../actions/slides'
 
-const AdminCarouselEdit = ({ dispatch, page, items, adminOpen }) => {
+const AdminCarouselEdit = ({ dispatch, items, adminOpen }) => {
   const editItem = items.find(item => item.editing === true)
   return (
     <div className="button-container">
@@ -13,7 +13,7 @@ const AdminCarouselEdit = ({ dispatch, page, items, adminOpen }) => {
         label="Add Slide"
         primary={true}
         className="button"
-        onTouchTap={() => dispatch(fetchAdd({ pageId: page._id, pageSlug: page.slug }))}
+        onTouchTap={() => dispatch(fetchAdd())}
       />
       {!items.length ? null :
       <RaisedButton

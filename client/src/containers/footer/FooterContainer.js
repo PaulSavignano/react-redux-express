@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Footer from '../../components/footer/Footer'
+const footerContainer = (ComposedComponent) => {
+  class Container extends Component {
+    render() {
+      const {
+        business,
+        isFetching,
+        item
+      } = this.props
+      const props = {
+        business,
+        item,
+      }
+      return (
+        !isFetching && item && <ComposedComponent {...props} />
+      )
+    }
+  }
+  const mapStateToProps = ({ brand: { isFetching, footer, business } }) => ({
+    business,
+    item: footer,
+    isFetching
+  })
+  return connect(mapStateToProps)(Container)
+}
 
-const FooterContainer = ({ isFetching, footer, business, updatedAt }) => (
-  !isFetching && <Footer business={business} footer={footer} updatedAt={updatedAt} />
-)
-
-const mapStateToProps = ({ brand: { isFetching, footer, business, updatedAt } }) => ({
-  isFetching,
-  footer,
-  business,
-  updatedAt
-})
-
-export default connect(mapStateToProps)(FooterContainer)
+export default footerContainer

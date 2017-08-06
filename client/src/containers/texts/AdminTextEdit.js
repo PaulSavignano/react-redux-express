@@ -12,7 +12,6 @@ import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/texts'
 
 const fields = [
-  'backgroundColor',
   'flex',
   'margin',
   'padding',
@@ -27,7 +26,6 @@ const AdminTextEdit = ({
   submitSucceeded,
   submitting
 }) => {
-  submitSucceeded && dispatch(stopEdit(_id))
   return (
     <Dialog
       actions={
@@ -69,6 +67,7 @@ const AdminTextEdit = ({
           <div>
             <Field
               name="text"
+              label="text"
               component={renderWysiwgyField}
             />
           </div>

@@ -82,9 +82,12 @@ const BrandSchema = new Schema({
 
 BrandSchema.pre('remove', function(next) {
   const brand = this
-  if (brand.image) {
-    const Key = `${s3Path}${brand._id}`
-    deleteFile({ Key }).catch(err => console.error(err))
+  const { appBar, footer } = brand
+  if (brand.image && brand.image.src) {
+    deleteFile({ Key: brand.image.src }).catch(err => console.error(err))
+  }
+  if (footer.image && footer.image.src) {
+    deleteFile({ Key: footer.image.src }).catch(err => console.error(err))
   }
   next()
 })

@@ -24,7 +24,6 @@ class OrderItem extends Component {
         total
       }
     } = this.props
-    console.log(moment(createdAt).format("YYYY-MM-DD-h:mm-a"))
     return (
       <Card
         zDepth={this.state.zDepth}

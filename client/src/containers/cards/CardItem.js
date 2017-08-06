@@ -1,5 +1,6 @@
 import React from 'react'
 import { push } from 'react-router-redux'
+import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
@@ -30,6 +31,14 @@ const CardItem = ({ cursor, dispatch, item, zDepth, events }) => {
       {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText> }
     </Card>
   )
+}
+
+CardItem.propTypes = {
+  cursor: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  zDepth: PropTypes.number.isRequired,
+  events: PropTypes.object,
 }
 
 export default cardContainer(loadImage(CardItem))

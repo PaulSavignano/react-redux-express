@@ -40,9 +40,8 @@ const SectionSchema = new Schema({
 
 SectionSchema.pre('remove', function(next) {
   const section = this
-  if (section.image) {
-    const Key = `${s3Path}${section._id}`
-    deleteFile({ Key }).catch(err => console.error(err))
+  if (section.image && section.image.src) {
+    deleteFile({ Key: section.image.src }).catch(err => console.error(err))
   }
   section.components.map(component => {
     switch(component.type) {

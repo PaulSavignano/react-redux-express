@@ -25,9 +25,8 @@ const ImageSchema = new Schema({
 
 ImageSchema.pre('remove', function(next) {
   const image = this
-  if (image.image) {
-    const Key = `${s3Path}${image._id}`
-    deleteFile({ Key }).catch(err => console.error(err))
+  if (image.image && image.image.src) {
+    deleteFile({ Key: image.image.src }).catch(err => console.error(err))
   }
   next()
 })

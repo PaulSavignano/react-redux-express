@@ -32,8 +32,7 @@ class AdminImageEdit extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, submitSucceeded, submitting } = this.props
-    submitSucceeded && dispatch(stopEdit(item._id))
+    const { dispatch, error, handleSubmit, item, submitting } = this.props
     return (
       <Dialog
         actions={
@@ -42,7 +41,8 @@ class AdminImageEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                  const oldImage = image.src
+                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, oldImage, values }))
                 } else {
                   return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
                 }

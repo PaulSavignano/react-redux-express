@@ -24,7 +24,7 @@ class OrderAdd extends Component {
     const { error, dispatch, handleSubmit, isFetching, cart, addresses, submitting } = this.props
     return (
       isFetching ? null : !cart.total ? dispatch(push('/')) :
-      <section>
+      <section className="page">
         <Card className="card">
           <form onSubmit={handleSubmit((values) => {
             const order = { ...values, cart }
@@ -117,7 +117,7 @@ class OrderAdd extends Component {
 }
 
 OrderAdd = reduxForm({
-  form: 'CheckoutForm',  // a unique identifier for this form
+  form: 'CheckoutForm',
   validate: validateCreditCard,
 })(OrderAdd)
 

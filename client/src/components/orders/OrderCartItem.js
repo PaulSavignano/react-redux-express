@@ -1,43 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { push } from 'react-router-redux'
 import { Card } from 'material-ui/Card'
 
+import loadImage from '../../containers/images/loadImage'
 import formatPrice from '../../utils/formatPrice'
 
 class OrderCartItem extends Component {
   state = {
-    zDepth: 1,
-    image: null,
-    loading: true
-  }
-  componentWillMount() {
-    const { image } = this.props.item
-    if (image) {
-      const img = new Image()
-      const src = image
-      img.onload = () => this.setState({ image: img, loading: false })
-      img.src = src
-    } else {
-      this.setState({ loading: false })
-    }
+    zDepth: 1
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
-    console.log(this.props.product)
-    const { image, loading } = this.state
-    const { dispatch, item: { productId, productQty, name, price, total }, isFetching } = this.props
+    const {
+      dispatch,
+      item: {
+        image,
+        productId,
+        productQty, 
+        name,
+        price,
+        total
+      },
+      isFetching
+    } = this.props
     return (
-      !isFetching && !loading &&
-      <CSSTransitionGroup
-        transitionName="image"
-        transitionAppear={true}
-        transitionAppearTimeout={600}
-        transitionEnter={false}
-        transitionLeave={false}
-      >
+      !isFetching &&
         <Card
           zDepth={this.state.zDepth}
           onMouseEnter={this.handleMouseEnter}
@@ -49,7 +38,7 @@ class OrderCartItem extends Component {
           style={{ margin: 16 }}
         >
           <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-            {image && <img src={image} alt="" width="auto" height="50px"/>}
+            {image && image.src && <img src={image.src} alt="" width="auto" height="50px"/>}
             <div style={{
               display: 'flex',
               flexFlow: 'row wrap',
@@ -66,7 +55,6 @@ class OrderCartItem extends Component {
             </div>
           </div>
         </Card>
-      </CSSTransitionGroup>
     )
   }
 }
@@ -76,4 +64,4 @@ const mapStateToProps = ({ products: { isFetching, items }}, { item: { productId
   product: items.find(item => item._id === productId)
 })
 
-export default connect(mapStateToProps)(OrderCartItem)
+export default connect(mapStateToProps)(loadImage(OrderCartItem))

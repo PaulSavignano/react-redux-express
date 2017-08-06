@@ -9,7 +9,7 @@ const AdminIframeItem = ({ dispatch, item, isFetching }) => {
   const {
     editing,
     values: {
-      backgroundColor,
+      border,
       flex,
       iframe,
       margin,
@@ -21,7 +21,14 @@ const AdminIframeItem = ({ dispatch, item, isFetching }) => {
     <Card
       onTouchTap={() => dispatch(startEdit(item._id))}
       zDepth={zDepth}
-      style={{ backgroundColor, flex, margin, width, cursor: 'pointer' }}
+      style={{
+        border,
+        flex,
+        margin,
+        width,
+        cursor: 'pointer',
+        borderBottom: '6px solid rgb(255, 255, 255)'
+      }}
     >
       <div style={{ position: 'relative', paddingBottom: '50%' }}>
         <iframe

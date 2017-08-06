@@ -29,7 +29,7 @@ const iframeContainer = (ComposedComponent) => {
       )
     }
   }
-  const mapStateToProps = ({ iframes: { items, isFetching } }, { componentId }) => ({
+  const mapStateToProps = ({ iframes: { items, isFetching }}, { componentId }) => ({
     item: items.find(item => item._id === componentId),
     isFetching,
   })

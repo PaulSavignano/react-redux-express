@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 const cardContainer = (ComposedComponent) => {
@@ -41,6 +42,10 @@ const cardContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
+  Container.propTypes = {
+    item: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired
+  }
   return connect(mapStateToProps)(Container)
 }
 

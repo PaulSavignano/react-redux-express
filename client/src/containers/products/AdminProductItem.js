@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import productContainer from './productContainer'
-import adminLoadImage from '../images/adminLoadImage'
+import loadImage from '../images/loadImage'
 import AdminProductEdit from './AdminProductEdit'
 import formatPrice from '../../utils/formatPrice'
 import { startEdit } from '../../actions/products'
@@ -68,4 +68,4 @@ const AdminProductItem = ({
   )
 }
 
-export default productContainer(adminLoadImage(AdminProductItem))
+export default productContainer(loadImage(AdminProductItem))

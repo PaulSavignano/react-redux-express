@@ -7,7 +7,7 @@ const IframeItem = ({
   dispatch,
   item: {
     values: {
-      backgroundColor,
+      border,
       flex,
       iframe,
       margin,
@@ -19,7 +19,7 @@ const IframeItem = ({
 }) => (
   <Card
     zDepth={zDepth}
-    style={{ backgroundColor, flex, margin, width, cursor: 'pointer' }}
+    style={{ border, flex, margin, width, cursor: 'pointer' }}
   >
     <div style={{ position: 'relative', paddingBottom: '50%' }}>
       <iframe

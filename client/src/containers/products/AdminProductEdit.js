@@ -52,10 +52,8 @@ class AdminProductEdit extends Component {
         editing,
         image
       },
-      submitSucceeded,
       submitting
     } = this.props
-    submitSucceeded && dispatch(stopEdit(_id))
     return (
       <Dialog
         actions={
@@ -64,7 +62,8 @@ class AdminProductEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const newImage = this.editor.handleSave()
-                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, values }))
+                  const oldImage = image.src
+                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, oldImage, values }))
                 } else {
                   return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
                 }
@@ -125,6 +124,7 @@ class AdminProductEdit extends Component {
             <div>
               <Field
                 name="detail"
+                label="detail"
                 component={renderWysiwgyField}
               />
             </div>

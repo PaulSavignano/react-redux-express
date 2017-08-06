@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 
@@ -21,7 +22,7 @@ const AdminTextItem = ({ dispatch, item }) => {
   return (
     <Paper
       onTouchTap={() => dispatch(startEdit(_id))}
-      style={{ flex, margin, width, cursor: 'pointer' }}
+      style={{ flex, height: '100%', margin, width, cursor: 'pointer' }}
       zDepth={0}
     >
       <div style={{ padding }}>{renderHTML(text)}</div>
@@ -30,4 +31,4 @@ const AdminTextItem = ({ dispatch, item }) => {
   )
 }
 
-export default textContainer(AdminTextItem)
+export default textContainer(connect()(AdminTextItem))

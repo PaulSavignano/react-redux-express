@@ -42,7 +42,6 @@ class AdminFooter extends Component {
       handleSubmit,
       image,
       isFetching,
-      primary1Color,
       submitSucceeded,
       submitting
     } = this.props
@@ -63,15 +62,16 @@ class AdminFooter extends Component {
             _id={_id}
             onImageEdit={this.handleImageEdit}
             onImageDelete={this.handleImageDelete}
-            style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor }}
             ref={this.setEditorRef}
+            fontFamily={fontFamily}
           />
         </CardMedia>
         <form onSubmit={handleSubmit((values) => {
           const path = `footer/${_id}`
           if (this.state.imageEdit) {
             const img = this.editor.handleSave()
-            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, values }))
+            const oldImage = image.src
+            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, oldImage, values }))
           }
           return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
         })}
@@ -80,6 +80,7 @@ class AdminFooter extends Component {
           <div className="field-container">
             {fields.map(field => (
               <Field
+                key={field}
                 name={field}
                 label={field}
                 component={renderTextField}
@@ -93,7 +94,6 @@ class AdminFooter extends Component {
             <SuccessableButton
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              style={{ fontFamily, backgroundColor: primary1Color, color: canvasColor, margin: 4 }}
               label="update footer"
               successLabel="footer updated!"
             />

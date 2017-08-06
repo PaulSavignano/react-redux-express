@@ -107,7 +107,10 @@ class ImageForm extends Component {
       reader.onload = (e) => {
         this.setState({
           ...this.state,
-          src: e.target.result,
+          image: {
+            ...this.state.image,
+            src: e.target.result,
+          },
           editing: true,
           loading: false
         })
@@ -119,10 +122,11 @@ class ImageForm extends Component {
   setEditorRef = (editor) => this.editor = editor
   render () {
     const { loading } = this.state
-    const { _id, onImageDelete, style } = this.props
-    const styles = style || {}
-    const fontFamily = styles.fontFamily || null
-    const color = styles.color || null
+    const {
+      _id,
+      fontFamily,
+      onImageDelete,
+    } = this.props
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {this.state.editing &&
@@ -248,11 +252,10 @@ class ImageForm extends Component {
         {!this.state.editing && this.state.src && <img src={this.state.src} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
         <div style={{ display: 'flex', flexFlow: 'row wrap', margin: 4 }}>
           <RaisedButton
-            label={loading ? <CircularProgress color={color} size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.image.width} x ${this.state.image.height} image`}
+            label={loading ? <CircularProgress size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.image.width} x ${this.state.image.height} image`}
             labelPosition="before"
             containerElement="label"
-            style={{ flex: '1 1 auto', margin: 4 }}
-            buttonStyle={{ fontFamily }}
+            style={{ flex: '1 1 auto', margin: 4, fontFamily }}
           >
             <input
               style={{ cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0 }}
@@ -282,6 +285,5 @@ class ImageForm extends Component {
     )
   }
 }
-
 
 export default ImageForm
