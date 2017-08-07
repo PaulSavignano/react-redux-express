@@ -72,7 +72,7 @@ images.get('/:_id', (req, res) => {
 images.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, sectionId, image, values } = req.body
+  const { type, sectionId, image, oldImage, values } = req.body
   const Key = `${s3Path}${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
 

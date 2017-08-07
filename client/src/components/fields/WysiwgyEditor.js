@@ -11,7 +11,12 @@ class WysiwgyEditor extends Component {
   static propTypes = {
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    borderColor: PropTypes.string,
+    colors: PropTypes.array,
+    fonts: PropTypes.array,
+    isFetching: PropTypes.bool
   }
   state = {
     editorState: null,
@@ -44,18 +49,11 @@ class WysiwgyEditor extends Component {
 		const {
       backgroundColor,
       borderColor,
-      brandFontFamily,
       isFetching,
       input,
       colors,
-      fontFamily
+      fonts
     } = this.props
-    const fonts = [
-      fontFamily,
-      brandFontFamily,
-      'Dancing Script, cursive',
-      'Futura, sans-serif'
-    ]
     return (
       !isFetching &&
         <Editor
@@ -69,7 +67,7 @@ class WysiwgyEditor extends Component {
           wrapperStyle={{ border: `2px solid ${borderColor}`, overflow: 'auto' }}
           toolbar={{
             fontFamily: {
-              options: fonts.filter((value, index, self) =>  self.indexOf(value) === index).sort(),
+              options: fonts.filter((value, index, self) => value && self.indexOf(value) === index).sort(),
             },
             colorPicker: { colors },
             inline: { inDropdown: true },
@@ -84,19 +82,20 @@ class WysiwgyEditor extends Component {
 
 const mapStateToProps = ({
   brand: {
-    appBar: { values: { brandFontFamily }},
+    appBar: { values },
     isFetching,
-    theme: {
-      fontFamily,
-      palette
-    }
+    theme: { fontFamily, palette }
   }
 }) => ({
   backgroundColor: palette.canvasColor,
   borderColor: palette.borderColor,
-  brandFontFamily,
   colors: Object.keys(palette).map(key => palette[key]).filter((item, i, self) => i === self.indexOf(item)),
-  fontFamily,
+  fonts: [
+    fontFamily,
+    values.fontFamily,
+    'Dancing Script, cursive',
+    'Futura, sans-serif'
+  ],
   isFetching,
 })
 

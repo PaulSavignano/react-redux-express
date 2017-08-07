@@ -34,7 +34,7 @@ const CardItem = ({ cursor, dispatch, item, zDepth, events }) => {
 }
 
 CardItem.propTypes = {
-  cursor: PropTypes.string.isRequired,
+  cursor: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   zDepth: PropTypes.number.isRequired,

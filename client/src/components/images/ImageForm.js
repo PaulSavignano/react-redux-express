@@ -30,11 +30,9 @@ class ImageForm extends Component {
     borderRadius: 0,
     opacity: 1,
     editing: false,
-    image: {
-      src: null,
-      width: null,
-      height: null,
-    },
+    src: null,
+    width: null,
+    height: null,
     gradientY0: 0,
     gradientY1: 0,
     loading: false
@@ -42,9 +40,9 @@ class ImageForm extends Component {
   componentWillMount() {
     const { image } = this.props
     if (image && image.src) {
-      this.setState({ image })
+      this.setState({ src: image.src, width: image.width, height: image.height })
     } else if (image && image.width && image.height){
-      this.setState({ image: { width: image.width, height: image.height }})
+      this.setState({ width: image.width, height: image.height })
     } else {
       return
     }
@@ -53,10 +51,10 @@ class ImageForm extends Component {
     const { type } = this.props
     const image = {
       src: this.editor.getImageScaledToCanvas().toDataURL(type, 1),
-      width: this.state.image.width,
-      height: this.state.image.height
+      width: this.state.width,
+      height: this.state.height
     }
-    this.setState({ editing: false, image, submitted: false })
+    this.setState({ editing: false, ...image, submitted: false })
     return image
   }
   handleGradientY0 = (e) => {
@@ -107,10 +105,7 @@ class ImageForm extends Component {
       reader.onload = (e) => {
         this.setState({
           ...this.state,
-          image: {
-            ...this.state.image,
-            src: e.target.result,
-          },
+          src: e.target.result,
           editing: true,
           loading: false
         })
@@ -121,7 +116,20 @@ class ImageForm extends Component {
   }
   setEditorRef = (editor) => this.editor = editor
   render () {
-    const { loading } = this.state
+    const {
+      borderRadius,
+      editing,
+      gradientY0,
+      gradientY1,
+      height,
+      loading,
+      opacity,
+      position,
+      rotate,
+      scale,
+      src,
+      width,
+    } = this.state
     const {
       _id,
       fontFamily,
@@ -134,25 +142,25 @@ class ImageForm extends Component {
             <div style={{ margin: 4 }}>
               <ImageEditor
                 ref={this.setEditorRef}
-                scale={parseFloat(this.state.scale)}
-                opacity={parseFloat(this.state.opacity)}
-                width={this.state.image.width}
-                height={this.state.image.height}
-                position={this.state.position}
+                scale={parseFloat(scale)}
+                opacity={parseFloat(opacity)}
+                width={width}
+                height={height}
+                position={position}
                 onPositionChange={this.handlePositionChange}
-                rotate={parseFloat(this.state.rotate)}
-                borderRadius={this.state.borderRadius}
+                rotate={parseFloat(rotate)}
+                borderRadius={borderRadius}
                 onSave={this.handleSave}
-                image={this.state.image.src}
-                gradientY0={this.state.gradientY0}
-                gradientY1={this.state.gradientY1}
+                image={src}
+                gradientY0={gradientY0}
+                gradientY1={gradientY1}
                 crossOrigin="anonymous"
               />
             </div>
 
             <div style={{ flex: '1 1 auto' }}>
               <div style={formStyles.controlContainer}>
-                <label>Zoom: {this.state.scale}</label>
+                <label>Zoom: {scale}</label>
                 <input
                   name="scale"
                   type="range"
@@ -166,7 +174,7 @@ class ImageForm extends Component {
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Opacity: {this.state.opacity}</label>
+                <label>Opacity: {opacity}</label>
                 <input
                   name="opacity"
                   type="range"
@@ -180,7 +188,7 @@ class ImageForm extends Component {
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Gradient Y0: {this.state.gradientY0}</label>
+                <label>Gradient Y0: {gradientY0}</label>
                 <input
                   name="gradient"
                   type="range"
@@ -188,13 +196,13 @@ class ImageForm extends Component {
                   min="0"
                   max="3000"
                   step="10"
-                  value={this.state.gradientY0}
+                  value={gradientY0}
                   style={formStyles.control}
                 />
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Gradient Y1: {this.state.gradientY1}</label>
+                <label>Gradient Y1: {gradientY1}</label>
                 <input
                   name="gradient"
                   type="range"
@@ -202,13 +210,13 @@ class ImageForm extends Component {
                   min="0"
                   max="3000"
                   step="10"
-                  value={this.state.gradientY1}
+                  value={gradientY1}
                   style={formStyles.control}
                 />
               </div>
 
               <div style={formStyles.controlContainer}>
-                <label>Border radius: {this.state.borderRadius}</label>
+                <label>Border radius: {borderRadius}</label>
                 <input
                   name="scale"
                   type="range"
@@ -232,7 +240,7 @@ class ImageForm extends Component {
                   hintText="Width"
                   floatingLabelText="Width"
                   type="number"
-                  value={this.state.image.width}
+                  value={width}
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
                   onChange={(e) => this.setState({ width: parseInt(e.target.value, 10) })}
                 />
@@ -240,7 +248,7 @@ class ImageForm extends Component {
                   hintText="Height"
                   floatingLabelText="Height"
                   type="number"
-                  value={this.state.image.height}
+                  value={height}
                   style={{ flex: '1 1 auto', margin: '0 8px' }}
                   onChange={(e) => this.setState({ height: parseInt(e.target.value, 10) })}
                 />
@@ -249,10 +257,10 @@ class ImageForm extends Component {
             </div>
           </div>
         }
-        {!this.state.editing && this.state.src && <img src={this.state.src} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
+        {!editing && src && <img src={src} alt="form" style={{ alignSelf: 'center', width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}/>}
         <div style={{ display: 'flex', flexFlow: 'row wrap', margin: 4 }}>
           <RaisedButton
-            label={loading ? <CircularProgress size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${this.state.image.width} x ${this.state.image.height} image`}
+            label={loading ? <CircularProgress size={24} style={{ verticalAlign: 'middle' }} /> : `Choose ${width} x ${height} image`}
             labelPosition="before"
             containerElement="label"
             style={{ flex: '1 1 auto', margin: 4, fontFamily }}
@@ -271,7 +279,7 @@ class ImageForm extends Component {
                   src: null,
                   editing: false
                 })
-                return onImageDelete(_id, { type: 'DELETE_IMAGE', image: { src: this.state.image.src }})
+                return onImageDelete(_id, { type: 'DELETE_IMAGE', image: { src }})
               }}
               type="button"
               label="Remove Image"

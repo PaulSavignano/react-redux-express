@@ -13,7 +13,6 @@ import { toggleDrawer } from '../../actions/drawer'
 import { searchToggle } from '../../actions/search'
 
 const HeaderAppBar = ({
-  activeColor,
   backgroundColor,
   color,
   dispatch,
@@ -94,7 +93,6 @@ const mapStateToProps = ({
   routing,
   search,
 }) => ({
-  activeColor: primary1Color,
   backgroundColor,
   color: navColor,
   fontFamily,

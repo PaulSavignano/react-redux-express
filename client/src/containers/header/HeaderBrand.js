@@ -1,56 +1,58 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class HeaderBrand extends Component {
-  state = {
-    image: null
+import loadImage from '../images/loadImage'
+
+const HeaderBrand = ({
+  item: {
+    color,
+    fontFamily,
+    fontSize,
+    fontWeight,
+    image,
+    letterSpacing,
+    name,
+    textShadow
   }
-  componentWillMount() {
-    const { image } = this.props
-    if (image.src) this.setState({ image: image.src })
-  }
-  componentWillReceiveProps({ image, updatedAt }) {
-    if (image && image.src && this.props.item.updatedAt !== updatedAt) return this.setState({ image: `${image.src}?${updatedAt}` })
-    if (!image || !image.src) return this.setState({ image: null })
-  }
-  render() {
-    const { image } = this.state
-    const {
-      color,
-      fontFamily,
-      fontSize,
-      fontWeight,
-      letterSpacing,
-      name,
-      textShadow
-    } = this.props
-    const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
-    return (
-      <div
-        style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
-      >
-        { image && <img src={image} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
-        { name && <div style={{ ...styles }}>{name}</div> }
-      </div>
-    )
-  }
+}) => {
+  const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
+  return (
+    <div
+      style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
+    >
+      { image && image.src && <img src={image.src} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
+      { name && <div style={{ ...styles }}>{name}</div> }
+    </div>
+  )
 }
+
 
 const mapStateToProps = ({
   brand: {
     appBar: {
       image,
-      values: { color, font, name, textShadow }
-    },
-    updatedAt
+      values: {
+        color,
+        fontFamily,
+        fontSize,
+        fontWeight,
+        letterSpacing,
+        name,
+        textShadow
+      }
+    }
   }
 }) => ({
-  color,
-  font,
-  image,
-  name,
-  textShadow,
-  updatedAt
+  item: {
+    color,
+    fontFamily,
+    fontSize,
+    fontWeight,
+    image,
+    letterSpacing,
+    name,
+    textShadow
+  }
 })
 
-export default connect(mapStateToProps)(HeaderBrand)
+export default connect(mapStateToProps)(loadImage(HeaderBrand))

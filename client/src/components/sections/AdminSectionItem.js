@@ -14,14 +14,14 @@ import AdminTextItem from '../../containers/texts/AdminTextItem'
 import AdminTitleItem from '../../containers/titles/AdminTitleItem'
 import { startEdit } from '../../actions/sections'
 
-const renderComponents = (components) => {
+const renderComponents = (components, item) => {
   const componentList = (component) => {
     const { type, componentId } = component
     switch(type) {
       case 'Button':
         return <AdminButtonItem key={component._id} componentId={componentId}  />
       case 'Contact':
-        return <AdminContactForm key={component._id} componentId={componentId} sectionId={this.props.item._id}  />
+        return <AdminContactForm key={component._id} componentId={componentId} sectionId={item._id}  />
       case 'Card':
         return <AdminCardItem key={component._id} componentId={componentId}  />
       case 'Iframe':
@@ -80,7 +80,7 @@ const AdminSectionItem = ({ dispatch, item, page }) => {
           margin,
           padding
         }}>
-          {renderComponents(components)}
+          {renderComponents(components, item)}
         </div>
         <div style={{ display: 'flex' }}>
           <RaisedButton

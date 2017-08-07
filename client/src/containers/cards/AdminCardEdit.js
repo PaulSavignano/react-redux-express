@@ -27,11 +27,6 @@ class AdminCardEdit extends Component {
   state = {
     imageEdit: false
   }
-  componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded && !item.editing) {
-      dispatch(stopEdit(item._id))
-    }
-  }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
@@ -130,9 +125,9 @@ class AdminCardEdit extends Component {
 }
 
 AdminCardEdit = compose(
-  connect((state, { item }) => ({
-    form: `card_${item._id}`,
-    initialValues: item.values
+  connect((state, { item: { _id, values }}) => ({
+    form: `card_${_id}`,
+    initialValues: values
   })),
   reduxForm({
     destroyOnUnmount: false,
@@ -140,10 +135,6 @@ AdminCardEdit = compose(
   })
 )(AdminCardEdit)
 
-AdminCardEdit.propTypes = {
-  error: PropTypes.object,
-  item: PropTypes.object.isRequired,
-  submitting: PropTypes.bool
-}
+
 
 export default AdminCardEdit

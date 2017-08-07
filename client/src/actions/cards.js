@@ -39,6 +39,7 @@ export const fetchAdd = (add) => {
         dispatch(sectionActions.fetchUpdateSuccess(section))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchAddFailure(err))
         throw new SubmissionError({ ...err, _error: 'Update failed!' })
     })

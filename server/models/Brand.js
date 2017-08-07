@@ -10,12 +10,15 @@ const BrandSchema = new Schema({
       height: { type: Number, trim: true, default: 128 }
     },
     values: {
-      name: { type: String, minlength: 1, trim: true, default: 'Brand' },
       backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
-      color: { type: String, minlength: 1, trim: true, default: '#ffffff' },
-      font: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+      color: { type: String, trim: true },
+      fontFamily: { type: String, trim: true },
+      fontSize: { type: String, trim: true },
+      fontWeight: { type: String, trim: true },
+      letterSpacing: { type: String, trim: true },
+      name: { type: String, minlength: 1, trim: true, default: 'Brand' },
+      navColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       textShadow: { type: String, trim: true },
-      navColor: { type: String, minlength: 1, trim: true, default: '#ffffff' }
     }
   },
   main: {

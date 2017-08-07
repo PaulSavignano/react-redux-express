@@ -9,6 +9,7 @@ const loadImage = (ComposedComponent) => {
     componentWillMount() {
       const { image } = this.props.item
       if (image && image.src) {
+        console.log(image)
         const img = new Image()
         const src = image.src
         img.onload = () => this.setState({ loading: false })
