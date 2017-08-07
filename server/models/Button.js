@@ -9,10 +9,15 @@ const ButtonSchema = new Schema({
     border: { type: String, trim: true },
     color: { type: String, trim: true, default: '#ffffff' },
     flex: { type: String, trim: true },
-    font: { type: String, trim: true },
+    fontFamily: { type: String, trim: true },
+    fontSize: { type: String, trim: true },
+    fontWeight: { type: String, trim: true },
     label: { type: String, trim: true, default: 'Button' },
+    letterSpacing: { type: String, trim: true },
     link: { type: String, trim: true },
     margin: { type: String, trim: true },
+    padding: { type: String, trim: true },
+    textShadow: { type: String, trim: true },
     width: { type: String, trim: true }
   }
 }, {

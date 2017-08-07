@@ -1,0 +1,18 @@
+{
+  "PORT": 3001,
+  "MONGODB_URI": "",
+  "APP_NAME": "",
+  "JWT_SECRET": "",
+  "STRIPE_SK_TEST": "",
+  "GMAIL_USER": "",
+  "GMAIL_PASSWORD": "",
+  "GMAIL_CLIENT_ID": "",
+  "GMAIL_CLIENT_SECRET": "",
+  "OAUTH_REFRESH_TOKEN": "",
+  "OAUTH_ACCESS_TOKEN": "",
+  "AWS_ACCESS_KEY_ID": "",
+  "AWS_SECRET_ACCESS_KEY": "",
+  "AWS_S3_BUCKET": "",
+  "MOVERBASE_KEY": ""
+
+}

@@ -12,10 +12,15 @@ const ButtonItem = ({
       border,
       color,
       flex,
-      font,
+      fontFamily,
+      fontSize,
+      fontWeight,
       label,
+      letterSpacing,
       link,
       margin,
+      padding,
+      textShadow,
       width
     }
   }
@@ -25,8 +30,8 @@ const ButtonItem = ({
     backgroundColor,
     label,
     labelColor: color,
-    labelStyle: { font },
-    style: { backgroundColor, border, flex, margin, width },
+    labelStyle: { fontFamily, fontSize, fontWeight, letterSpacing, textShadow },
+    style: { backgroundColor, border, flex, margin, padding, width },
     type: "button",
     ...nav
   }

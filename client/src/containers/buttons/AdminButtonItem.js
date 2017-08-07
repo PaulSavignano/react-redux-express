@@ -14,9 +14,15 @@ const AdminButtonItem = ({ dispatch, item }) => {
       border,
       color,
       flex,
-      font,
+      fontFamily,
+      fontSize,
+      fontWeight,
       label,
+      letterSpacing,
+      link,
       margin,
+      padding,
+      textShadow,
       width
     }
   } = item
@@ -25,8 +31,8 @@ const AdminButtonItem = ({ dispatch, item }) => {
     backgroundColor,
     label,
     labelColor: color,
-    labelStyle: { font },
-    style: { backgroundColor, border, flex, margin, width },
+    labelStyle: { fontFamily, fontSize, fontWeight, letterSpacing, textShadow },
+    style: { backgroundColor, border, flex, margin, padding, width },
     type: 'button',
     onTouchTap: () => dispatch(startEdit(_id)),
     ...editComp

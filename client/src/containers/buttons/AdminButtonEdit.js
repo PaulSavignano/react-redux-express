@@ -23,7 +23,6 @@ const fields = [
   'letterSpacing',
   'link',
   'padding',
-  'textAlign',
   'textShadow',
   'width'
 ]

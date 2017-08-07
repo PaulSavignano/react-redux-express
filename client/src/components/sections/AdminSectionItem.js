@@ -70,31 +70,33 @@ const AdminSectionItem = ({ dispatch, item, page }) => {
       }}
       {...backgroundImageClass}
     >
-      <section style={{
-        display: 'flex',
-        flexFlow,
-        minHeight,
-        justifyContent,
-        alignItems,
-        margin,
-        padding
-      }}>
-        {renderComponents(components)}
+      <section>
+        <div style={{
+          display: 'flex',
+          flexFlow,
+          minHeight,
+          justifyContent,
+          alignItems,
+          margin,
+          padding
+        }}>
+          {renderComponents(components)}
+        </div>
+        <div style={{ display: 'flex' }}>
+          <RaisedButton
+            type="button"
+            label="Edit Section"
+            style={{ margin: 8, flex: '1 1 auto' }}
+            onTouchTap={() => dispatch(startEdit(_id))}
+          />
+        </div>
+        {editing &&
+          <AdminSectionEdit
+            item={item}
+            page={page}
+          />
+        }
       </section>
-      <section style={{ display: 'flex' }}>
-        <RaisedButton
-          type="button"
-          label="Edit Section"
-          style={{ margin: 8, flex: '1 1 auto' }}
-          onTouchTap={() => dispatch(startEdit(_id))}
-        />
-      </section>
-      {editing &&
-        <AdminSectionEdit
-          item={item}
-          page={page}
-        />
-      }
     </div>
   )
 }

@@ -4,11 +4,7 @@ import { connect } from 'react-redux'
 const cardContainer = (ComposedComponent) => {
   class Container extends Component {
     state = {
-      zDepth: null
-    }
-    componentWillMount() {
-      const { values } = this.props.item
-      if (values.zDepth) this.setState({ zDepth: values.zDepth })
+      zDepth: 1
     }
     handleMouseEnter = () => this.setState({ zDepth: 4 })
     handleMouseLeave = () => this.setState({ zDepth: 1 })

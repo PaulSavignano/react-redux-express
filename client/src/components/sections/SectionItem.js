@@ -66,7 +66,8 @@ const SectionItem = ({
       }}
       {...backgroundImageClass}
     >
-      <section style={{
+      <section>
+        <div style={{
           display: 'flex',
           flexFlow,
           minHeight,
@@ -74,8 +75,9 @@ const SectionItem = ({
           alignItems,
           margin,
           padding
-      }}>
-        {renderComponents(components)}
+        }}>
+          {renderComponents(components)}
+        </div>
       </section>
     </div>
   )

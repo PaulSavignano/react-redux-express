@@ -6,8 +6,8 @@ import NotFound from '../../components/NotFound'
 const pageContainer = (ComposedComponent) => {
   class Container extends Component {
     render() {
-      const { dispatch, isFetching, page, pageSlug, sections, slides, open, autoplay } = this.props
-      const props = { dispatch, page, sections, slides, open, autoplay }
+      const { dispatch, isFetching, page, pageSlug, sections } = this.props
+      const props = { dispatch, page, sections }
       return (
         isFetching ? null : pageSlug === 'notFound' ?
         <NotFound />
@@ -23,18 +23,15 @@ const pageContainer = (ComposedComponent) => {
   }, {
     params
   }) => {
+    const isFetching = pages.isFetching || sections.isFetching ? true : false
     const slug = params.slug || 'home'
-    const page = pages.items.find(page => page.slug === slug)
+    const page = !isFetching && pages.items.find(page => page.slug === slug)
     const pageSlug = page ? page.slug : 'notFound'
-    const isFetching = pages.isFetching || sections.isFetching || slides.isFetching ? true : false
     return {
       isFetching,
       page,
       pageSlug,
       sections: !isFetching && page ? page.sections.map(section => sections.items.find(item => item._id === section.sectionId)) : {},
-      slides: !isFetching && page ? page.slides.map(slide => slides.items.find(item => item._id === slide.slideId)) : {},
-      open: slides.open,
-      autoplay: slides.autoplay
     }
   }
   return connect(mapStateToProps)(Container)
