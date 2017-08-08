@@ -22,7 +22,7 @@ const AdminTextItem = ({ dispatch, item }) => {
   return (
     <Paper
       onTouchTap={() => dispatch(startEdit(_id))}
-      style={{ flex, height: '100%', margin, width, cursor: 'pointer' }}
+      style={{ flex, margin, width, cursor: 'pointer' }}
       zDepth={0}
     >
       <div style={{ padding }}>{renderHTML(text)}</div>

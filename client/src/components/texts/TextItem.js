@@ -15,7 +15,7 @@ const TextItem = ({
     }
   }
 }) => (
-  <Paper zDepth={0} style={{ flex, height: '100%', margin, width }}>
+  <Paper zDepth={0} style={{ flex, margin, width }}>
     <div style={{ padding }}>{renderHTML(text)}</div>
   </Paper>
 )
