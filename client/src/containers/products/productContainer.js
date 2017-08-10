@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-const cardContainer = (ComposedComponent) => {
+const productContainer = (ComposedComponent) => {
   class Container extends Component {
     state = {
       zDepth: 1
@@ -37,4 +37,4 @@ const cardContainer = (ComposedComponent) => {
   return connect(mapStateToProps)(Container)
 }
 
-export default cardContainer
+export default productContainer

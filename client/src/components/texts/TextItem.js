@@ -6,6 +6,7 @@ import textContainer from '../../containers/texts/textContainer'
 
 const TextItem = ({
   item: {
+    _id,
     values: {
       flex,
       margin,
@@ -15,7 +16,7 @@ const TextItem = ({
     }
   }
 }) => (
-  <Paper zDepth={0} style={{ flex, margin, width }}>
+  <Paper zDepth={0} style={{ flex, margin, width }} id={_id}>
     <div style={{ padding }}>{renderHTML(text)}</div>
   </Paper>
 )

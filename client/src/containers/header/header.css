@@ -1,0 +1,33 @@
+
+/**** Mobile layout ****/
+
+@media (max-width: 375px) {
+  .largerThanIphone375 {
+    display: none !important;
+  }
+}
+@media (max-width: 667px) {
+  .largerThanIphone667 {
+    display: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .largerThanIpad768 {
+    display: none !important;
+  }
+}
+@media (max-width: 1024px) {
+  .largerThanIpad1024 {
+    display: none !important;
+  }
+}
+@media (max-width: 1366px) {
+  .largerThanIpad1366 {
+    display: none !important;
+  }
+}
+@media (max-width: 1920px) {
+  .largerThan1920 {
+    display: none !important;
+  }
+}

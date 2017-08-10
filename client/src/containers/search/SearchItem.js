@@ -14,8 +14,8 @@ class SearchItem extends Component {
   handleMouseLeave = () => this.setState({ zDepth: 1 })
   render() {
     const { dispatch, item } = this.props
-    const { values, image } = item
-    const slug = item.slug === 'home' ? '' : item.slug
+    const { _id, values, image, pageSlug, productSlug } = item
+    const slug = item.productSlug ? `products/${productSlug}` : pageSlug
     return (
       <Card
         zDepth={this.state.zDepth}
@@ -23,7 +23,7 @@ class SearchItem extends Component {
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={() => {
           dispatch(searchDelete())
-          return dispatch(push(`/${slug}`))
+          return dispatch(push(`/${slug}#${_id}`))
         }}
         containerStyle={{ display: 'flex', flexFlow: 'row', margin: 16 }}
       >

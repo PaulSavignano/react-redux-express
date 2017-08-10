@@ -1,18 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import loadImage from '../images/loadImage'
 
 const HeaderBrand = ({
   item: {
-    color,
-    fontFamily,
-    fontSize,
-    fontWeight,
     image,
-    letterSpacing,
-    name,
-    textShadow
+    values: {
+      color,
+      fontFamily,
+      fontSize,
+      fontWeight,
+      letterSpacing,
+      name,
+      textShadow
+    }
   }
 }) => {
   const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
@@ -44,14 +46,16 @@ const mapStateToProps = ({
   }
 }) => ({
   item: {
-    color,
-    fontFamily,
-    fontSize,
-    fontWeight,
     image,
-    letterSpacing,
-    name,
-    textShadow
+    values: {
+      color,
+      fontFamily,
+      fontSize,
+      fontWeight,
+      letterSpacing,
+      name,
+      textShadow
+    }
   }
 })
 

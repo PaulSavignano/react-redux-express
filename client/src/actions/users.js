@@ -80,7 +80,6 @@ export const fetchUser = (token) => {
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (update) => {
-  console.log('updating')
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'PATCH',
@@ -92,7 +91,6 @@ export const fetchUpdate = (update) => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateSuccess(json))
       })

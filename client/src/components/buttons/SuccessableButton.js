@@ -34,8 +34,10 @@ class SuccessableButton extends Component {
       isFetching,
       label,
       submitting,
-      successLabel
+      successLabel,
+      style,
     } = this.props
+    const styles = style ? style : { margin: 8 }
     return (
       !isFetching &&
       <RaisedButton
@@ -43,7 +45,7 @@ class SuccessableButton extends Component {
         label={this.renderLabel(color, label, submitting, submitted, successLabel)}
         labelColor={color}
         backgroundColor={submitted ? "#4CAF50" : backgroundColor }
-        style={{ flex: '1 1 auto', margin: 8 }}
+        style={{ flex: '1 1 auto', ...styles }}
         labelStyle={{ fontFamily }}
       />
     )

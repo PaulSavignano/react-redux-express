@@ -22,7 +22,7 @@ class App extends Component {
     } = this.props
     if(!isFetching) {
       const body = document.getElementsByTagName('body')[0]
-      body.style['background-color'] = main.styles.backgroundColor
+      body.style['background-color'] = main.values.backgroundColor
     }
     return (
       !isFetching &&

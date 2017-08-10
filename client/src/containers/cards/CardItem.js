@@ -8,15 +8,16 @@ import cardContainer from './cardContainer'
 import loadImage from '../images/loadImage'
 
 const CardItem = ({ cursor, dispatch, item, zDepth, events }) => {
-  const { image, values } = item
-  const { flex, iframe, iframeBorder, link, margin, text, width } = values
-  const nav = link && link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { href: link }
+  const { _id, image, values } = item
+  const { iframe, iframeBorder, link, margin, text } = values
+  const nav = !link ? null : link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { onTouchTap: () => window.location = link }
   return (
     <Card
       {...events}
       {...nav}
-      style={{ cursor, flex, margin, width }}
+      style={{ cursor, margin }}
       zDepth={zDepth}
+      id={_id}
     >
       {image && image.src && <CardMedia><img src={image.src} alt="card"/></CardMedia>}
       {iframe &&

@@ -110,7 +110,6 @@ export const fetchUpdate = (_id, update) => {
 const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
 const fetchDeleteFailure = (error) => ({ type: ERROR, error })
 export const fetchDelete = (_id) => {
-  console.log(_id)
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',

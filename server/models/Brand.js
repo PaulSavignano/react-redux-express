@@ -22,7 +22,7 @@ const BrandSchema = new Schema({
     }
   },
   main: {
-    styles: {
+    values: {
       backgroundColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       color: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
     }
@@ -51,7 +51,7 @@ const BrandSchema = new Schema({
       width: { type: Number, trim: true, default: 128 },
       height: { type: Number, trim: true, default: 128 }
     },
-    styles: {
+    values: {
       backgroundColor: { type: String, trim: true, default: 'rgb(0, 188, 212)' },
       color: { type: String, trim: true, default: '#ffffff' },
       borderTop: { type: String, trim: true },

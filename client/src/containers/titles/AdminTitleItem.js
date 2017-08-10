@@ -41,6 +41,7 @@ const AdminTitleItem = ({ dispatch, item }) => {
         width,
         cursor: 'pointer'
       }}
+      id={_id}
     >
       {text}
       {editing && <AdminTitleEdit item={item} />}

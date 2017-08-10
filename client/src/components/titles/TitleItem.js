@@ -4,6 +4,7 @@ import titleContainer from '../../containers/titles/titleContainer'
 
 const TitleItem = ({
   item: {
+    _id,
     color,
     flex,
     fontFamily,
@@ -32,6 +33,7 @@ const TitleItem = ({
       textShadow,
       width
     }}
+    id={_id}
   >
     {text}
   </div>

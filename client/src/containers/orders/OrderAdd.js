@@ -28,7 +28,7 @@ class OrderAdd extends Component {
         <Card className="card">
           <form onSubmit={handleSubmit((values) => {
             const order = { ...values, cart }
-            dispatch(fetchAddOrder(order))
+            return dispatch(fetchAddOrder(order))
           })}>
             <CardTitle title="Checkout" />
             <CardText>

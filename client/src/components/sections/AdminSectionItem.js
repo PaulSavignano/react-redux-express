@@ -86,7 +86,7 @@ const AdminSectionItem = ({ dispatch, item, page }) => {
           <RaisedButton
             type="button"
             label="Edit Section"
-            style={{ margin: 8, flex: '1 1 auto' }}
+            style={{ margin: 8, flex: '1 1 auto', zIndex: 1 }}
             onTouchTap={() => dispatch(startEdit(_id))}
           />
         </div>

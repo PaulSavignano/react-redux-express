@@ -1,18 +1,3 @@
-/**** Mobile layout ****/
-@media (max-width: 890px) {
-  .appbar-nav {
-    display: none !important;
-  }
-}
-
-@media (max-width: 420px) {
-  .appbar-user {
-    display: none !important;
-  }
-}
-
-
-
 /* Body */
 body {
   margin: 0;

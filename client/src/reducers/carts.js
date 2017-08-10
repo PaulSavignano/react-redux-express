@@ -30,7 +30,10 @@ const carts = (state = {
       }
     case `DELETE_${type}`:
       return {
-        isFetching: false
+        isFetching: false,
+        cart: {
+          items: []
+        }
       }
     case `ERROR_${type}`:
       return {

@@ -43,11 +43,8 @@ export const fetchAddOrder = (order) => {
           .then(json => {
             if (json.error) return Promise.reject(json.error)
             dispatch(fetchAddOrderSuccess(json))
-            return json
-          })
-          .then(json => {
             dispatch(fetchDeleteCart())
-            dispatch(push(`/user/order/${json._id}`))
+            return dispatch(push(`/user/order/${json._id}`))
           })
           .catch(err => {
             console.error(err)

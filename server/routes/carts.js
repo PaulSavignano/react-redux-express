@@ -21,7 +21,7 @@ carts.post('/', (req, res) => {
         items: [{
           productId,
           productQty,
-          image: product.image,
+          image: { src: product.image.src },
           name,
           price,
           total: productQty * price
@@ -65,11 +65,9 @@ carts.patch('/:_id', (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { type, productId, productQty } = req.body
-  console.log(req.body)
   Cart.findOne({ _id })
     .then(cart => {
       const index = cart.items.map(i => i.productId.toHexString()).indexOf(productId)
-      console.log(index)
       if (index !== -1) {
         switch (type) {
           case 'ADD_TO_CART':

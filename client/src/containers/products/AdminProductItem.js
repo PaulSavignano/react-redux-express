@@ -21,11 +21,9 @@ const AdminProductItem = ({
     image,
     values: {
       description,
-      flex,
       margin,
       name,
       price,
-      width,
     }
   } = item
   return (
@@ -33,11 +31,12 @@ const AdminProductItem = ({
       {...events}
       zDepth={zDepth}
       onTouchTap={() => dispatch(startEdit(_id))}
-      style={{ flex, margin, width }}
+      style={{ margin }}
+      id={_id}
     >
       {image.src &&
         <CardMedia>
-          <img src={image.src} alt={name} />
+          <img src={image.src} alt="section product" />
         </CardMedia>
       }
       <CardTitle title={

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -45,6 +47,7 @@ class ProductButtons extends Component {
               submitting={submitting}
               label="Add To Cart"
               successLabel="Product Added!"
+              style={{ margin: 0 }}
             />
           </div>
         </form>
@@ -82,6 +85,12 @@ class ProductButtons extends Component {
   }
 }
 
-ProductButtons = reduxForm({ form: 'addToCart' })(ProductButtons)
-
-export default ProductButtons
+export default compose(
+  connect((state, { _id }) => ({
+    form: `addToCard_${_id}`,
+  })),
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: []
+  })
+)(ProductButtons)

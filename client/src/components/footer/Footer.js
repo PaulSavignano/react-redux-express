@@ -26,7 +26,7 @@ const Footer = ({
   },
   item: {
     image,
-    styles: {
+    values: {
       backgroundColor,
       borderTop,
       borderBottom,

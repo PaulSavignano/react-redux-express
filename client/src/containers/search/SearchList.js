@@ -18,15 +18,23 @@ const filter = (items, search) => {
 const SearchList = ({ items, search }) => {
   const searchItems = filter(items, search.value)
   return (
-    !searchItems.length ? <section className="page"><h1>No matches</h1></section> :
-    <section>
-      {searchItems.map(obj => <SearchItem key={obj._id} item={obj} />)}
+    <section style={{ minHeight: '80vh'}}>
+      {searchItems.length < 1 ?
+        <h1>No matches</h1>
+      :
+      searchItems.map(item => <SearchItem key={item._id} item={item} />)
+      }
     </section>
   )
 }
 
-const mapStateToProps = ({ cards, products, sections, search }) => {
-  const items = [ ...cards.items, ...products.items, ...sections.items ]
+const mapStateToProps = ({ cards, products, search, texts, titles }) => {
+  const items = [
+    ...cards.items,
+    ...products.items,
+    ...texts.items,
+    ...titles.items
+  ]
   return {
     items,
     search

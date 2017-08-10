@@ -15,9 +15,7 @@ const AdminImageItem  = ({
     editing,
     image,
     values: {
-      flex,
       margin,
-      width,
       zDepth
     }
   } = item
@@ -25,9 +23,9 @@ const AdminImageItem  = ({
     <Card
       onTouchTap={() => dispatch(startEdit(_id))}
       zDepth={zDepth}
-      style={{ flex, margin, width, zDepth }}
+      style={{ margin }}
     >
-      <CardMedia><img src={image.src} alt="card"/></CardMedia>
+      <CardMedia><img src={image.src} alt="section item"/></CardMedia>
       {editing && <AdminImageEdit item={item} />}
     </Card>
   )

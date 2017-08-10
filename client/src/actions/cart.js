@@ -96,7 +96,6 @@ export const fetchUpdateCart = (update) => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateCartSuccess(json))
         if (json.quantity === 0) dispatch(fetchDeleteCart(json._id))

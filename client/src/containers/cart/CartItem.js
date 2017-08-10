@@ -84,7 +84,7 @@ class CartItem extends Component {
 }
 
 const mapStateToProps = ({ products: { items }}, { item }) => ({
-  item: { ...item, image: { src: item.image }},
+  item: { ...item, image: item.image },
   product: items.find(i => i._id === item.productId)
 })
 

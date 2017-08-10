@@ -1,5 +1,6 @@
 import { SubmissionError } from 'redux-form'
 
+import * as buttonActions from './buttons'
 import * as cardActions from './cards'
 import * as iframeActions from './iframes'
 import * as imageActions from './images'
@@ -136,6 +137,8 @@ export const fetchDelete = (_id) => {
         dispatch(pageActions.fetchUpdateSuccess(page))
         if (componentType) {
           switch(componentType) {
+            case 'Button':
+              return dispatch(buttonActions.deletes(components.map(comp => comp.componentId)))
             case 'Card':
               return dispatch(cardActions.deletes(components.map(comp => comp.componentId)))
             case 'Iframe':

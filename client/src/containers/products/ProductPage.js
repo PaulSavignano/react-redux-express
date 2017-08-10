@@ -18,6 +18,7 @@ const ProductPage = ({
   <Paper
     className="section page flex-row"
     zDepth={0}
+    id={_id}
   >
     <div style={{ display: 'flex', flexFlow: 'row wrap'}}>
       <Paper zDepth={3} style={{ flex: `2 1 300px`, margin: '0 0 16px' }}>

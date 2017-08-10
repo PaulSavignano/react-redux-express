@@ -36,7 +36,7 @@ const AdminCarousel = ({
               key={item._id}
               media={
                 <CardMedia onTouchTap={() => dispatch(startEdit(item._id))} mediaStyle={{ cursor: 'pointer', minHeight: 60, minWidth: 60 }}>
-                  <img src={item.image.src} alt={title}/>
+                  <img src={item.image.src} alt="carousel slide"/>
                 </CardMedia>
               }
               mediaBackgroundStyle={{ backgroundColor: mediaBackgroundColor, overflow: 'hidden' }}

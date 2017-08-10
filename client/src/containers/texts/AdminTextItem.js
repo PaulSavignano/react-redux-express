@@ -24,6 +24,7 @@ const AdminTextItem = ({ dispatch, item }) => {
       onTouchTap={() => dispatch(startEdit(_id))}
       style={{ flex, margin, width, cursor: 'pointer' }}
       zDepth={0}
+      id={_id}
     >
       <div style={{ padding }}>{renderHTML(text)}</div>
       {editing && <AdminTextEdit item={item} />}

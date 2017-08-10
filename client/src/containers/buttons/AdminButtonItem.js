@@ -19,7 +19,6 @@ const AdminButtonItem = ({ dispatch, item }) => {
       fontWeight,
       label,
       letterSpacing,
-      link,
       margin,
       padding,
       textShadow,

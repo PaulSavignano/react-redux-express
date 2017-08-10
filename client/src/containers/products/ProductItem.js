@@ -8,11 +8,6 @@ import ProductButtons from './ProductButtons'
 import formatPrice from '../../utils/formatPrice'
 
 class ProductItem extends Component {
-  state = {
-    qty: 1
-  }
-  minus = () => this.state.qty > 1 && this.setState({ qty: this.state.qty - 1 })
-  plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
     const {
       dispatch,
@@ -22,9 +17,10 @@ class ProductItem extends Component {
         image,
         productSlug,
         values: {
-          name,
           description,
-          price
+          margin,
+          name,
+          price,
         }
       },
       zDepth
@@ -33,6 +29,8 @@ class ProductItem extends Component {
       <Card
         {...events}
         zDepth={zDepth}
+        style={{ margin }}
+        id={_id}
       >
         {image.src &&
           <CardMedia onTouchTap={() => dispatch(push(`/products/${productSlug}`))}>

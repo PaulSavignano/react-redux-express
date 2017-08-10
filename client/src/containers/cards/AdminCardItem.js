@@ -9,15 +9,16 @@ import loadImage from '../images/loadImage'
 import AdminCardEdit from './AdminCardEdit'
 import { startEdit } from '../../actions/cards'
 
-const AdminCardItem = ({ dispatch, item, zDepth, events }) => {
+const AdminCardItem = ({ cursor, dispatch, item, zDepth, events }) => {
   const { _id, editing, image, values } = item
-  const { flex, iframe, iframeBorder, margin, text, width } = values
+  const { iframe, iframeBorder, margin, text } = values
   return (
     <Card
       {...events}
       onTouchTap={() => dispatch(startEdit(_id))}
-      style={{ flex, margin, width }}
+      style={{ cursor, margin }}
       zDepth={zDepth}
+      id={_id}
     >
       {image && image.src && <CardMedia><img src={image.src} alt="card"/></CardMedia>}
       {iframe &&
