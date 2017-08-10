@@ -2,10 +2,16 @@ import { type } from '../actions/brand'
 
 const brand = (state = {
   isFetching: false,
-  appBar: {},
+  appBar: {
+    values: {}
+  },
   business: {},
-  main: {},
-  footer: {},
+  main: {
+    values: {}
+  },
+  footer: {
+    values: {}
+  },
   theme: {}
 }, action) => {
   switch (action.type) {

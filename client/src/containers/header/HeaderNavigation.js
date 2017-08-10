@@ -17,7 +17,7 @@ class HeaderNavigation extends Component {
   }
   componentDidMount() {
     const width = this.navigation.clientWidth
-    const totalWidth = width/.75
+    const totalWidth = width/.8
     let navClass
     switch(true) {
       case totalWidth < 375:
@@ -64,7 +64,7 @@ class HeaderNavigation extends Component {
             <FlatButton
               key={page._id}
               style={{ color, minWidth: 'none', margin: '0 16px' }}
-              labelStyle={{ padding: '0 0 2px 0', ...activeStyle }}
+              labelStyle={{ padding: '0 0 2px 0', fontFamily, ...activeStyle }}
               onTouchTap={() => dispatch(push(`/${page.slug}`))}
               label={page.name}
               hoverColor="none"

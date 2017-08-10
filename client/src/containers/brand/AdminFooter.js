@@ -111,7 +111,7 @@ AdminFooter = reduxForm({
 const mapStateToProps = ({
   brand: {
     _id,
-    footer: { image, styles },
+    footer: { image, values },
     isFetching,
     theme: { fontFamily, palette: { canvasColor, primary1Color } }
   }
@@ -121,7 +121,7 @@ const mapStateToProps = ({
   isFetching,
   canvasColor,
   fontFamily,
-  initialValues: styles,
+  initialValues: values,
   primary1Color,
 })
 

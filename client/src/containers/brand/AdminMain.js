@@ -77,14 +77,14 @@ const mapStateToProps = ({
   brand: {
     _id,
     isFetching,
-    main: { styles },
+    main: { values },
     theme: { fontFamily, palette: { canvasColor, primary1Color } }
   }
 }) => ({
   _id,
   canvasColor,
   fontFamily,
-  initialValues: styles,
+  initialValues: values,
   isFetching,
   primary1Color
 })

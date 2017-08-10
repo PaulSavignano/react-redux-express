@@ -11,7 +11,7 @@ const BrandSchema = new Schema({
     },
     values: {
       backgroundColor: { type: String, minlength: 1, trim: true, default: 'rgb(0, 188, 212)' },
-      color: { type: String, trim: true },
+      color: { type: String, trim: true, default: 'rgb(255, 255, 255)' },
       fontFamily: { type: String, trim: true },
       fontSize: { type: String, trim: true },
       fontWeight: { type: String, trim: true },

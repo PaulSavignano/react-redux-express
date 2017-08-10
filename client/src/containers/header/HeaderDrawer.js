@@ -44,7 +44,7 @@ const HeaderDrawer = ({
   return (
     <Drawer docked={false} open={drawer.open} onRequestChange={() => dispatch(toggleDrawer()) }>
       <Paper
-        style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16, cursor: 'pointer' }}
+        style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16, cursor: 'pointer', display: 'flex' }}
         onTouchTap={() => {
           dispatch(toggleDrawer())
           return dispatch(push('/'))
@@ -58,14 +58,7 @@ const HeaderDrawer = ({
           {page.name}
         </MenuItem>
       ))}
-      {!isAdmin ? null : !name ?
-        <MenuItem onTouchTap={() => {
-          dispatch(brandActions.fetchAdd())
-          .then(() => handleTouchTap(`/admin/brand`))
-        }}
-        >
-          Add Brand
-        </MenuItem>
+      {!isAdmin ? null
       :
       <ListItem
         primaryText="Admin"
