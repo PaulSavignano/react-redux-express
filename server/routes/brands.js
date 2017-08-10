@@ -179,7 +179,7 @@ brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
                 width: image.width,
                 height: image.height
               },
-              styles: values
+              values
             }
           }
           Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })

@@ -17,7 +17,7 @@ class HeaderNavigation extends Component {
   }
   componentDidMount() {
     const width = this.navigation.clientWidth
-    const totalWidth = width/.8
+    const totalWidth = width/.85
     let navClass
     switch(true) {
       case totalWidth < 375:

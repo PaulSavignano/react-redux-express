@@ -515,8 +515,8 @@ class ImageEditor extends Component {
     attributes[deviceEvents.react.drop] = this.handleDrop
     if (isTouchDevice) attributes[deviceEvents.react.mouseDown] = this.handleMouseDown
     return (
-      <div style={{ border: '1px solid rgba(0,0,0,.7)' }}>
-        <canvas ref={this.setCanvas} {...attributes} style={{ width: '100%', height: 'auto' }}/>
+      <div>
+        <canvas ref={this.setCanvas} {...attributes} style={{ width: '100%', height: 'auto', border: '1px solid rgba(0,0,0,.7)' }}/>
       </div>
 
     )

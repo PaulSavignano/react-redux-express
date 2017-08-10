@@ -25,7 +25,7 @@ const ButtonItem = ({
     }
   }
 }) => {
-  const nav = link && link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { href: link }
+  const nav = !link ? null : link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { onTouchTap: () => window.location = link }
   const attributes = {
     backgroundColor,
     label,
