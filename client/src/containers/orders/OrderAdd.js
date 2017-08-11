@@ -9,6 +9,8 @@ import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import CircularProgress from 'material-ui/CircularProgress'
 import MenuItem from 'material-ui/MenuItem'
 
+import requireCart from './requireCart'
+import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import renderSelectField from '../../components/fields/renderSelectField'
 import AddressFields from '../../components/users/AddressFields'
@@ -21,9 +23,18 @@ class OrderAdd extends Component {
     newAddress: false
   }
   render() {
-    const { error, dispatch, handleSubmit, isFetching, cart, addresses, submitting } = this.props
+    const {
+      error,
+      dispatch,
+      handleSubmit,
+      isFetching,
+      cart,
+      addresses,
+      submitting ,
+      submitSucceeded
+    } = this.props
     return (
-      isFetching ? null : !cart.total ? dispatch(push('/')) :
+      isFetching ? null :
       <section className="page">
         <Card className="card">
           <form onSubmit={handleSubmit((values) => {
@@ -93,22 +104,19 @@ class OrderAdd extends Component {
             </CardText>
             {this.state.newAddress && <AddressFields />}
             {error && <div className="error">{error}</div>}
-            <CardText style={{ float: 'right' }}>
+            <CardText>
               <h2 style={{ textAlign: 'right '}}>Subtotal {formatPrice(cart.subTotal)}</h2>
               <h2 style={{ textAlign: 'right '}}>Tax {(cart.tax * 100).toFixed(2)}%</h2>
               <h2 style={{ textAlign: 'right '}}>Total {formatPrice(cart.total)}</h2>
             </CardText>
-            <CardText style={{ float: 'right' }}>
-              <p style={{ textAlign: 'right' }}></p>
-            </CardText>
-            <CardActions>
-              <RaisedButton
-                label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'PLACE ORDER'}
-                primary={true}
-                type="submit"
-                fullWidth={true}
+            <div style={{ display: 'flex' }}>
+              <SuccessableButton
+                submitSucceeded={submitSucceeded}
+                submitting={submitting}
+                label="PLACE ORDER"
+                successLabel="ORDER PLACED!"
               />
-            </CardActions>
+            </div>
           </form>
         </Card>
       </section>
@@ -121,12 +129,4 @@ OrderAdd = reduxForm({
   validate: validateCreditCard,
 })(OrderAdd)
 
-const mapStateToProps = ({ user: { addresses }, carts: { cart } }) => ({
-  isFetching: cart.isFetching,
-  cart,
-  addresses
-})
-
-OrderAdd = connect(mapStateToProps)(OrderAdd)
-
-export default OrderAdd
+export default requireCart(OrderAdd)

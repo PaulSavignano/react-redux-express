@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
 import RaisedButton from 'material-ui/RaisedButton'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 import { fetchAddToCart } from '../../actions/cart'
@@ -51,36 +49,7 @@ class ProductButtons extends Component {
             />
           </div>
         </form>
-        {!this.state.open ? null :
-        <Dialog
-          actions={
-            <div>
-              <FlatButton
-                label="Cart"
-                primary={true}
-                onTouchTap={() => {
-                  dispatch(push('/cart'))
-                  this.setState({ open: false })
-                }}
-              />
-              <FlatButton
-                label="Close"
-                primary={true}
-                onTouchTap={() => this.setState({ open: false })}
-              />
-            </div>
-          }
-          actionsContainerStyle={{ textAlign: 'center' }}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={() => this.setState({ open: false })}
-          bodyStyle={{ textAlign: 'center', fontSize: 24 }}
-        >
-          Added To Cart!
-        </Dialog>
-        }
       </div>
-
     )
   }
 }
