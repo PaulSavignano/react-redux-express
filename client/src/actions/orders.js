@@ -36,11 +36,9 @@ export const fetchAddOrder = (order) => {
           },
           body: JSON.stringify({ token, ...order })
         })
-          .then(res => {
-            if (res.ok) return res.json()
-            throw new Error('Network response was not ok.')
-          })
+          .then(res => res.json())
           .then(json => {
+            console.log(json)
             if (json.error) return Promise.reject(json.error)
             dispatch(fetchAddOrderSuccess(json))
             dispatch(fetchDeleteCart())

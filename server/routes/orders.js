@@ -18,7 +18,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
   User.findOne({ _id: req.user._id })
     .catch(err => {
       console.error(err)
-      res.status(400).send()
+      res.status(400).send({ error: err })
     })
     .then(user => {
       let address
@@ -30,14 +30,14 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
       }
       const stripe = require("stripe")(process.env.STRIPE_SK_TEST)
       stripe.charges.create({
-        amount: cart.total,
+        amount: Math.round(cart.total),
         currency: "usd",
         source: token,
         description: `${process.env.APP_NAME} Order`
       })
         .catch(err => {
           console.error(err)
-          res.status(400).send()
+          res.status(400).send({ error: err })
         })
         .then(charge => {
           const newOrder = new Order({
@@ -53,7 +53,7 @@ orders.post('/', authenticate(['user']), (req, res, next) => {
           newOrder.save()
             .catch(err => {
               console.error(err)
-              res.status(400).send()
+              res.status(400).send({ error: err })
             })
             .then(order => {
               res.send(order)
