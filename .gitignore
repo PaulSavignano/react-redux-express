@@ -18,3 +18,11 @@ build
 npm-debug.log
 yarn-error.log
 *.rdb
+
+# aws
+.elasticbeanstalk
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
