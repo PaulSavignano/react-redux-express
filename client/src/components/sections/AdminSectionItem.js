@@ -55,6 +55,7 @@ const AdminSectionItem = ({ dispatch, item, page }) => {
       alignItems,
       margin,
       padding,
+      pageLink,
       minHeight
     }
   } = item
@@ -62,7 +63,7 @@ const AdminSectionItem = ({ dispatch, item, page }) => {
   const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
     <div
-      id={_id}
+      id={pageLink ? pageLink : _id}
       style={{
         ...backgroundImage,
         backgroundColor,

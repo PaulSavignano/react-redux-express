@@ -10,6 +10,7 @@ import SigninSignout from '../users/SigninSignout'
 
 class HeaderUser extends Component {
   state = {
+    anchorEl: null,
     openMenu: false,
     navClass: null,
     width: 0,

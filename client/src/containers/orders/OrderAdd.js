@@ -1,12 +1,8 @@
 /* global Stripe */
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
-import CircularProgress from 'material-ui/CircularProgress'
+import { Card, CardText, CardTitle } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 
 import requireCart from './requireCart'

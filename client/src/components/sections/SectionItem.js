@@ -50,6 +50,7 @@ const SectionItem = ({
       alignItems,
       margin,
       padding,
+      pageLink,
       minHeight
     }
   }
@@ -58,7 +59,6 @@ const SectionItem = ({
   const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
     <div
-      id={_id}
       style={{
         ...backgroundImage,
         backgroundColor,
@@ -67,15 +67,18 @@ const SectionItem = ({
       {...backgroundImageClass}
     >
       <section>
-        <div style={{
-          display: 'flex',
-          flexFlow,
-          minHeight,
-          justifyContent,
-          alignItems,
-          margin,
-          padding
-        }}>
+        <div
+          id={pageLink ? pageLink : _id}
+          style={{
+            display: 'flex',
+            flexFlow,
+            minHeight,
+            justifyContent,
+            alignItems,
+            margin,
+            padding
+          }}
+        >
           {renderComponents(components)}
         </div>
       </section>

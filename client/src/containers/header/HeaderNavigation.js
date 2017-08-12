@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 
 import './header.css'
+import HeaderPageLink from './HeaderPageLink'
 import HeaderUser from './HeaderUser'
 import CartIcon from '../cart/CartIcon'
 import { searchToggle } from '../../actions/search'
@@ -49,7 +49,6 @@ class HeaderNavigation extends Component {
       hasProducts,
       isFetching,
       pages,
-      pathname,
       search
     } = this.props
     return (
@@ -58,32 +57,31 @@ class HeaderNavigation extends Component {
         ref={ (navigation) => this.navigation = navigation}
         style={{ fontFamily, display: 'flex', flexFlow: 'row nowrap', justifyContent: 'flex-end', alignItems: 'center' }}
       >
-        {pages.length && pages.filter(page => page.slug !== 'home').map(page => {
-          const activeStyle = pathname === `/${page.slug}` && { borderBottom: '2px solid' }
-          return (
-            <FlatButton
+        <div
+          style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
+          className={navClass}
+        >
+          {pages.length && pages.filter(page => page.slug !== 'home').map(page => (
+            <HeaderPageLink
               key={page._id}
-              style={{ color, minWidth: 'none', margin: '0 16px' }}
-              labelStyle={{ padding: '0 0 2px 0', fontFamily, ...activeStyle }}
-              onTouchTap={() => dispatch(push(`/${page.slug}`))}
-              label={page.name}
-              hoverColor="none"
-              className={navClass}
+              color={color}
+              fontFamily={fontFamily}
+              page={page}
             />
-          )
-        })}
+          ))}
+        </div>
         <IconButton
           iconClassName="fa fa-search"
           iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
           onTouchTap={() => dispatch(searchToggle(!search.searching))}
         />
         <HeaderUser fontFamily={fontFamily} />
-        { !hasProducts ? null :
-        <IconButton
-          children={<CartIcon color={color}/>}
-          onTouchTap={() => dispatch(push('/user/cart'))}
-          style={{ padding: '12px 0' }}
-        />
+        {hasProducts &&
+          <IconButton
+            children={<CartIcon color={color}/>}
+            onTouchTap={() => dispatch(push('/user/cart'))}
+            style={{ padding: '12px 0' }}
+          />
         }
       </div>
     )
@@ -94,23 +92,13 @@ HeaderNavigation.propTypes = {
   color: PropTypes.string,
   isFetching: PropTypes.bool,
   pages: PropTypes.array,
-  pathname: PropTypes.string
 }
 
-export default connect(
-  ({
-    brand,
-    pages,
-    products: { items },
-    routing: { locationBeforeTransitions: { pathname }},
-    search
-  }) => ({
-    color: brand.appBar.values.navColor,
-    fontFamily: brand.theme.fontFamily,
-    hasProducts: items.length,
-    isFetching: brand.isFetching || pages.isFetching ? true : false,
-    pages: pages.items,
-    pathname,
-    search
-  })
-)(HeaderNavigation)
+export default connect(({ brand, pages, products, search }) => ({
+  color: brand.appBar.values.navColor,
+  fontFamily: brand.theme.fontFamily,
+  hasProducts: products.items.length,
+  isFetching: brand.isFetching || pages.isFetching || products.isFetching ? true : false,
+  pages: pages.items,
+  search
+}))(HeaderNavigation)

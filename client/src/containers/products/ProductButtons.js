@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
-import { push } from 'react-router-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import SuccessableButton from '../../components/buttons/SuccessableButton'

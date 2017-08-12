@@ -4,37 +4,23 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
-import AdminSlideEdit from './AdminSlideEdit'
-import { startEdit } from '../../actions/slides'
-
-class AdminSlideList extends Component {
+class PageSlideList extends Component {
   state = {
     index: 0,
     intervalId: null,
-    editItem: null,
     play: true,
     rtBtnColor: 'rgba(0, 0, 0, .1)',
     ltBtnColor: 'rgba(0, 0, 0, .1)'
   }
   componentWillMount() {
-    const { editItem } = this.props
-    if (editItem) {
-      this.stop()
-      this.setState({ editItem })
-    }
-    if (!this.state.intervalId && !editItem) {
-      this.start()
-      this.setState({ editItem: null })
-    }
+    this.start()
   }
-  componentWillReceiveProps({ editItem }) {
-    if (editItem) {
-      this.stop()
-      this.setState({ editItem })
-    }
-    if (!this.state.intervalId && !editItem) {
-      this.start()
-      this.setState({ editItem: null })
+  componentWillReceiveProps(nextProps) {
+    if (this.state.editIndex) {
+      if (nextProps.items[this.state.editIndex].editing !== this.props.items[this.state.editIndex].editing ) {
+        this.setState({ editIndex: null })
+        this.start()
+      }
     }
   }
   componentWillUnmount() {
@@ -42,7 +28,7 @@ class AdminSlideList extends Component {
   }
   handleNext = () => {
     this.stop()
-    const nextIndex = this.state.index + 1 < this.props.items.length  ? this.state.index + 1 : 0
+    const nextIndex = this.state.index + 1 < this.props.items.length -1  ? this.state.index + 1 : 0
     this.setState({ index: nextIndex })
     this.start()
   }
@@ -68,10 +54,6 @@ class AdminSlideList extends Component {
     this.setState({ index })
     this.start()
   }
-  handleEdit = (_id) => {
-    this.stop()
-    this.props.dispatch(startEdit(_id))
-  }
   renderIndicators = (items) => items.map((item, index) => (
     <div
       key={item._id}
@@ -84,13 +66,13 @@ class AdminSlideList extends Component {
     const values = item.values || {}
     const { text } = values
     return (
-      <div onTouchTap={() => this.handleEdit(item._id)} key={item._id} style={{ cursor: 'pointer', height: '100%' }}>
+      <div key={item._id}>
         <Card
           zDepth={0}
           style={{ margin: '0 auto', backgroundColor: 'none' }}
           containerStyle={{ paddingBottom: 0 }}
         >
-          {src && <CardMedia><img src={src} alt="slide"/></CardMedia>}
+          {src && <CardMedia><img src={src} alt="slide" /></CardMedia>}
           {text && text.length > 8 && <CardText>{renderHTML(text)}</CardText>}
         </Card>
       </div>
@@ -132,7 +114,7 @@ class AdminSlideList extends Component {
             transitionEnter={true}
             transitionLeave={false}
             transitionEnterTimeout={600}
-            style={{ height: 300}}
+            style={{ height: '100%' }}
           >
             {this.renderItem(this.props.items[this.state.index])}
           </CSSTransitionGroup>
@@ -148,7 +130,6 @@ class AdminSlideList extends Component {
         <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between', width: items[0].image.width, margin: '0 auto', padding: '24px 0' }}>
           {this.renderIndicators(items)}
         </div>
-        {this.state.editItem && <AdminSlideEdit item={this.state.editItem} />}
       </div>
     )
   }
@@ -156,13 +137,11 @@ class AdminSlideList extends Component {
 
 
 const mapStateToProps = ({ brand: { theme: { palette: { canvasColor }}}, slides: { isFetching, items }}, { slides }) => {
-  const slideItems = slides.map(slide => items.find(item => item._id === slide.componentId))
   return {
     canvasColor,
     isFetching,
-    items: slideItems,
-    editItem: items.find(item => item.editing === true) || false
+    items: slides.map(slide => items.find(item => item._id === slide.componentId))
   }
 }
 
-export default connect(mapStateToProps)(AdminSlideList)
+export default connect(mapStateToProps)(PageSlideList)

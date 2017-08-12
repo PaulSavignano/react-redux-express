@@ -29,7 +29,8 @@ const fields = [
   'alignItems',
   'margin',
   'minHeight',
-  'padding'
+  'padding',
+  'pageLink'
 ]
 
 class AdminSectionEdit extends Component {

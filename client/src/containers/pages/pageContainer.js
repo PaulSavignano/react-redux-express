@@ -6,8 +6,16 @@ import NotFound from '../../components/NotFound'
 const pageContainer = (ComposedComponent) => {
   class Container extends Component {
     render() {
-      const { dispatch, isFetching, page, pageSlug, sections } = this.props
-      const props = { dispatch, page, sections }
+      const {
+        dispatch,
+        hash,
+        isFetching,
+        page,
+        pageSlug,
+        pathname,
+        sections
+      } = this.props
+      const props = { dispatch, hash, page, pathname, sections }
       return (
         isFetching ? null : pageSlug === 'notFound' ?
         <NotFound />
@@ -18,6 +26,7 @@ const pageContainer = (ComposedComponent) => {
   }
   const mapStateToProps = ({
     pages,
+    routing: { locationBeforeTransitions: { pathname, hash }},
     sections,
     slides
   }, {
@@ -28,9 +37,11 @@ const pageContainer = (ComposedComponent) => {
     const page = !isFetching && pages.items.find(page => page.slug === slug)
     const pageSlug = page ? page.slug : 'notFound'
     return {
+      hash,
       isFetching,
       page,
       pageSlug,
+      pathname,
       sections: !isFetching && page ? page.sections.map(section => sections.items.find(item => item._id === section.sectionId)) : {},
     }
   }

@@ -11,7 +11,7 @@ import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/slides'
 import ImageForm from '../../components/images/ImageForm'
 
-class AdminSlideItem extends Component {
+class PageAdminSlideEdit extends Component {
   state = {
     imageEdit: false
   }
@@ -94,7 +94,7 @@ class AdminSlideItem extends Component {
   }
 }
 
-AdminSlideItem = compose(
+PageAdminSlideEdit = compose(
   connect((state, { item }) => {
     const values = item.values || {}
     return {
@@ -103,6 +103,6 @@ AdminSlideItem = compose(
       initialValues: values
     }
   }),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminSlideItem)
+  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(PageAdminSlideEdit)
 
-export default AdminSlideItem
+export default PageAdminSlideEdit
