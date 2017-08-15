@@ -6,7 +6,7 @@ import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 
 import './header.css'
-import SigninSignout from '../users/SigninSignout'
+import SigninSignout from '../../containers/users/SigninSignout'
 
 class HeaderUser extends Component {
   state = {
@@ -62,7 +62,7 @@ class HeaderUser extends Component {
           label={firstName ? `Hello, ${firstName}`: `SIGN IN`}
           labelStyle={{ padding: '0 0 0 4px' }}
           hoverColor="none"
-          style={{ color, fontFamily }}
+          style={{ color, fontFamily, minWidth: 'none', margin: '0 16px' }}
         />
         <Popover
           open={this.state.openMenu}
@@ -80,17 +80,5 @@ class HeaderUser extends Component {
     )
   }
 }
-
-const mapStateToProps = ({
-  brand: {
-    appBar: { values: { navColor } }
-  },
-  user: { values: { firstName }}
-}) => ({
-  color: navColor,
-  firstName
-})
-
-HeaderUser = connect(mapStateToProps)(HeaderUser)
 
 export default HeaderUser

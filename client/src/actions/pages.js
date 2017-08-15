@@ -62,6 +62,7 @@ export const fetchPages = () => {
         dispatch(fetchPagesSuccess(json))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchPagesFailure(err))
       })
   }

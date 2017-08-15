@@ -1,5 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
+import * as sectionActions from './sections'
+
 export const type = 'SLIDE'
 const route = 'slides'
 
@@ -18,21 +20,25 @@ const ERROR = `ERROR_${type}`
 // Create
 const fetchAddSuccess = (item) => ({ type: ADD, item })
 const fetchAddFailure = (error) => ({ type: ERROR, error })
-export const fetchAdd = () => {
+export const fetchAdd = (add) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-auth': localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify(add)
     })
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
+        const { slide, section } = json
+        if (section) dispatch(sectionActions.fetchUpdateSuccess(section))
+        dispatch(fetchAddSuccess(slide))
       })
       .catch(err => {
+        console.log(err)
         dispatch(fetchAddFailure(err))
         throw new SubmissionError({ error: err.error, _error: err.error })
     })
@@ -120,7 +126,9 @@ export const fetchDelete = (_id) => {
     })
     .then(json => {
       if (json.error) return Promise.reject(json.error)
-      dispatch(fetchDeleteSuccess(json._id))
+      const { slide, section } = json
+      dispatch(sectionActions.fetchUpdateSuccess(section))
+      dispatch(fetchDeleteSuccess(slide._id))
     })
     .catch(err => {
       dispatch(fetchDeleteFailure(err))

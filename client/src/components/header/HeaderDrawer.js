@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Paper from 'material-ui/Paper'
 import Drawer from 'material-ui/Drawer'
@@ -7,20 +6,22 @@ import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
 
 import HeaderBrand from './HeaderBrand'
+import HeaderDrawerPageLink from './HeaderDrawerPageLink'
 import { toggleDrawer } from '../../actions/drawer'
-import SigninSignout from '../users/SigninSignout'
+import SigninSignout from '../../containers/users/SigninSignout'
 
 const HeaderDrawer = ({
-  backgroundColor,
+  brand: { appBar },
   dispatch,
   drawer,
   firstName,
   hasProducts,
   isAdmin,
-  isFetching,
   name,
-  pages
+  pages,
+  sections
 }) => {
+  const { backgroundColor } = appBar.values
   const handleTouchTap = (path) => {
     dispatch(push(path))
     dispatch(toggleDrawer())
@@ -49,13 +50,17 @@ const HeaderDrawer = ({
           return dispatch(push('/'))
         }}
       >
-        <HeaderBrand />
+        <HeaderBrand item={appBar} />
       </Paper>
       {firstName && <div style={{ padding: 16, marginTop: 8 }}>Hello, {firstName}</div>}
       {pages.filter(page => page.slug !== 'home').map(page => (
-        <MenuItem key={page._id} onTouchTap={() => handleTouchTap(`/${page.slug}`)}>
-          {page.name}
-        </MenuItem>
+        <HeaderDrawerPageLink
+          dispatch={dispatch}
+          key={page._id}
+          page={page}
+          sections={sections}
+          handleTouchTap={handleTouchTap}
+        />
       ))}
       {!isAdmin ? null
       :
@@ -89,21 +94,4 @@ const HeaderDrawer = ({
   )
 }
 
-const mapStateToProps = ({ brand, drawer, pages, products: { items }, user }) => {
-  const { appBar: { values }, business: { name }} = brand
-  const isFetching = !brand.isFetching && ! pages.isFetching && !user.isFetching ? false : true
-  const isAdmin = user.roles.find(role => role === 'admin') ? true : false
-  const backgroundColor = values ? values.backgroundColor : 'rgb(0, 188, 212)'
-  return {
-    backgroundColor,
-    drawer,
-    firstName: user.values.firstName,
-    hasProducts: items.length ? true : false,
-    isAdmin,
-    isFetching,
-    name,
-    pages: pages.items,
-  }
-}
-
-export default connect(mapStateToProps)(HeaderDrawer)
+export default HeaderDrawer

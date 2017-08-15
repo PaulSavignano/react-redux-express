@@ -14,6 +14,7 @@ import ImageForm from '../../components/images/ImageForm'
 import renderTextField from '../../components/fields/renderTextField'
 import * as buttonActions from '../../actions/buttons'
 import * as cardActions from '../../actions/cards'
+import * as carouselActions from '../../actions/carousels'
 import * as iframeActions from '../../actions/iframes'
 import * as imageActions from '../../actions/images'
 import * as productActions from '../../actions/products'
@@ -99,6 +100,15 @@ class AdminSectionEdit extends Component {
                   onTouchTap={() => {
                     const add = { pageId: page._id, pageSlug: page.slug, sectionId: item._id }
                     dispatch(cardActions.fetchAdd(add))
+                    this.setState({ openMenu: false })
+                    dispatch(stopEdit(item._id))
+                  }}
+                />
+                <MenuItem
+                  primaryText="Carousel"
+                  onTouchTap={() => {
+                    const add = { sectionId: item._id }
+                    dispatch(carouselActions.fetchAdd(add))
                     this.setState({ openMenu: false })
                     dispatch(stopEdit(item._id))
                   }}

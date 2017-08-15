@@ -5,6 +5,7 @@ import Card from './Card'
 import Iframe from './Iframe'
 import Image from './Image'
 import Product from './Product'
+import Slide from './Slide'
 import Text from './Text'
 import Title from './Title'
 
@@ -50,6 +51,10 @@ SectionSchema.pre('remove', function(next) {
         Card.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
+      case 'Carousel':
+        Carousel.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
       case 'Iframe':
         Iframe.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
@@ -60,6 +65,10 @@ SectionSchema.pre('remove', function(next) {
         break
       case 'Product':
         Product.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
+      case 'Slide':
+        Slide.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
       case 'Text':

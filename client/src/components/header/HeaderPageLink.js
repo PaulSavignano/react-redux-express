@@ -40,14 +40,14 @@ class HeaderPageLink extends Component {
       color,
       dispatch,
       fontFamily,
-      isFetching,
       page,
-      pageLinks,
-      pathname
+      pathname,
+      sections
     } = this.props
+    const pageSections = page.sections.map(section => sections.find(item => item._id === section.sectionId))
+    const pageSectionLinks = pageSections ? pageSections.filter(item => item.values.pageLink) : []
     const activeStyle = pathname === `/${page.slug}` && { borderBottom: '2px solid' }
     return (
-      isFetching ? null :
       <div>
         <FlatButton
           onMouseEnter={this.handleButtonMouseEnter}
@@ -58,7 +58,7 @@ class HeaderPageLink extends Component {
           label={page.name}
           hoverColor="none"
         />
-        {pageLinks.length ?
+        {pageSectionLinks.length ?
           <Popover
             useLayerForClickAway={false}
             open={this.state.openMenu}
@@ -72,7 +72,7 @@ class HeaderPageLink extends Component {
               onMouseEnter={this.handleMenuMouseEnter}
               onMouseLeave={this.handleMenuMouseLeave}
             >
-              {pageLinks.map(link => (
+              {pageSectionLinks.map(link => (
                 <MenuItem
                   key={link._id}
                   primaryText={link.values.pageLink}
@@ -90,20 +90,4 @@ class HeaderPageLink extends Component {
   }
 }
 
-export default connect(
-  ({
-    routing: { locationBeforeTransitions: { pathname }},
-    sections
-  }, {
-    page
-  }) => {
-  const isFetching = sections.isFetching
-  const pageSections = isFetching ? null : page.sections.map(section => sections.items.find(item => item._id === section.sectionId))
-  const pageLinks = pageSections ? pageSections.filter(item => item.values.pageLink) : null
-  return {
-    isFetching,
-    pageLinks,
-    pathname
-  }
-}
-)(HeaderPageLink)
+export default HeaderPageLink

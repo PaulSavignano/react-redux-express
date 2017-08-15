@@ -1,7 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-
-import loadImage from '../images/loadImage'
 
 const HeaderBrand = ({
   item: {
@@ -28,35 +25,4 @@ const HeaderBrand = ({
   )
 }
 
-
-const mapStateToProps = ({
-  brand: {
-    appBar: {
-      image,
-      values: {
-        color,
-        fontFamily,
-        fontSize,
-        fontWeight,
-        letterSpacing,
-        name,
-        textShadow
-      }
-    }
-  }
-}) => ({
-  item: {
-    image,
-    values: {
-      color,
-      fontFamily,
-      fontSize,
-      fontWeight,
-      letterSpacing,
-      name,
-      textShadow
-    }
-  }
-})
-
-export default connect(mapStateToProps)(loadImage(HeaderBrand))
+export default HeaderBrand

@@ -13,12 +13,12 @@ class App extends Component {
   render() {
     const {
       brand: { appBar, business, main, theme },
+      carousels,
       children,
       dispatch,
       isFetching,
       pathname,
       search,
-      slides
     } = this.props
     if(!isFetching) {
       const body = document.getElementsByTagName('body')[0]
@@ -36,11 +36,11 @@ class App extends Component {
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Main
+            carousels={carousels}
             children={children}
             dispatch={dispatch}
             pathname={pathname}
             search={search}
-            slides={slides}
           />
         </div>
       </MuiThemeProvider>
@@ -51,16 +51,16 @@ class App extends Component {
 
 const mapStateToProps = ({
   brand,
-  slides,
+  carousels,
   search
 }, {
   location: { pathname }
 }) => ({
   brand,
-  isFetching: brand.isFetching || slides.isFetching ? true : false,
+  isFetching: brand.isFetching || carousels.isFetching ? true : false,
   pathname,
   search,
-  slides
+  carousels
 })
 
 export default connect(mapStateToProps)(App)

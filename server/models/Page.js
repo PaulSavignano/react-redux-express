@@ -1,13 +1,16 @@
 import mongoose, { Schema } from 'mongoose'
 
 import Section from './Section'
-import Slide from './Slide'
+import Carousel from './Carousel'
 
 const PageSchema = new Schema({
   name: { type: String, trim: true, minlength: 1 },
   slug: { type: String },
   sections: [{
-    sectionId: { type: Schema.Types.ObjectId },
+    sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
+  }],
+  carousels: [{
+    carouselId: { type: Schema.Types.ObjectId, ref: 'Carousel' }
   }]
 }, {
   timestamps: true

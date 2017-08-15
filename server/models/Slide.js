@@ -1,10 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
-import { uploadFile, deleteFile } from '../middleware/s3'
-
-const s3Path = `${process.env.APP_NAME}/slides/slide_`
+import Carousel from '../models/Carousel'
+import { deleteFile } from '../middleware/s3'
 
 const SlideSchema = new Schema({
+  carouselId: { type: Schema.Types.ObjectId, ref: 'Carousel' },
   image: {
     src: { type: String },
     width: { type: Number, trim: true, default: 1920 },
@@ -26,7 +26,13 @@ SlideSchema.pre('remove', function(next) {
   if (slide.image && slide.image.src) {
     deleteFile({ Key: slide.image.src }).catch(err => console.error(err))
   }
-  next()
+  Carousel.findOneAndUpdate(
+    { _id: slide.carouselId },
+    { $pull: { slides: { slideId: slide._id }}},
+    { new: true }
+  )
+  .then(carousel => next({ carousel, slide }))
+  .catch(err => console.error(err))
 })
 
 const Slide = mongoose.model('Slide', SlideSchema)

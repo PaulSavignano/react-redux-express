@@ -1,29 +1,33 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import AppBar from 'material-ui/AppBar'
 
+import headerContainer from '../../containers/header/headerContainer'
 import HeaderBrand from './HeaderBrand'
-import SearchBar from '../search/SearchBar'
+import SearchBar from '../../containers/search/SearchBar'
 import HeaderNavigation from './HeaderNavigation'
 import { toggleDrawer } from '../../actions/drawer'
 
 const HeaderAppBar = ({
-  backgroundColor,
-  color,
+  brand: {
+    appBar,
+    theme: { fontFamily },
+  },
   dispatch,
+  firstName,
   hasProducts,
-  isFetching,
-  search
+  pages,
+  search,
+  sections
 }) => {
+  const { backgroundColor, navColor } = appBar.values
   return (
-    !isFetching &&
     <AppBar
       zDepth={backgroundColor === 'transparent' ? 0 : 1}
-      iconStyleLeft={{ fill: color }}
+      iconStyleLeft={{ fill: navColor }}
       onLeftIconButtonTouchTap={() => dispatch(toggleDrawer())}
-      titleStyle={{ height: 64, color }}
-      style={{ backgroundColor, color }}
+      titleStyle={{ height: 64, color: navColor }}
+      style={{ backgroundColor, color: navColor }}
       title={
         <nav>
           {search.searching ?
@@ -34,9 +38,18 @@ const HeaderAppBar = ({
               style={{ cursor: 'pointer' }}
               onTouchTap={() => dispatch(push('/'))}
             >
-              <HeaderBrand />
+              <HeaderBrand item={appBar} />
             </div>
-            <HeaderNavigation />
+            <HeaderNavigation
+              color={navColor}
+              dispatch={dispatch}
+              firstName={firstName}
+              fontFamily={fontFamily}
+              hasProducts={hasProducts}
+              pages={pages}
+              search={search}
+              sections={sections}
+            />
           </div>
           }
         </nav>
@@ -45,17 +58,4 @@ const HeaderAppBar = ({
   )
 }
 
-const mapStateToProps = ({
-  brand: {
-    appBar: { values: { backgroundColor, navColor }},
-    isFetching,
-  },
-  search,
-}) => ({
-  backgroundColor,
-  color: navColor,
-  isFetching,
-  search
-})
-
-export default connect(mapStateToProps)(HeaderAppBar)
+export default HeaderAppBar

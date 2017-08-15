@@ -7,28 +7,42 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import renderWysiwgyField from '../../components/fields/renderWysiwgyField'
-import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/slides'
+import renderTextField from '../../components/fields/renderTextField'
 import ImageForm from '../../components/images/ImageForm'
+import { fetchUpdateSub, fetchDeleteSub, stopEditSlide } from '../../actions/carousels'
 
-class PageAdminSlideEdit extends Component {
+const fields = [
+  'color',
+  'mediaBackgroundColor',
+  'contentBackgroundColor',
+  'title',
+  'subtitle'
+]
+
+class AdminSlideEdit extends Component {
   state = {
     imageEdit: false
-  }
-  componentWillReceiveProps({ dispatch, submitSucceeded, item }) {
-    if (submitSucceeded && !item.editing) dispatch(stopEdit(item._id))
   }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageDelete = (_id, update) => {
+    const { carouselId } = this.props
     this.setState({ imageEdit: false })
-    return this.props.dispatch(fetchUpdate(_id, update))
+    return this.props.dispatch(fetchUpdateSub(carouselId, _id, update))
   }
   setEditorRef = (editor) => this.editor = editor
   render() {
-    const { dispatch, error, handleSubmit, item, submitting } = this.props
+    const {
+      carouselId,
+      dispatch,
+      error,
+      handleSubmit,
+      open,
+      slide,
+      submitting
+    } = this.props
     return (
       <Dialog
         actions={
@@ -37,9 +51,11 @@ class PageAdminSlideEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, values }))
+                  const oldImage = image.src
+                  return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, oldImage, values }))
+                } else {
+                  return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_VALUES', values }))
                 }
-                return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
               })}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SLIDE'}
               primary={true}
@@ -51,7 +67,7 @@ class PageAdminSlideEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              onTouchTap={() => dispatch(fetchDeleteSub(carouselId, slide._id, slide.image))}
             />
             <RaisedButton
               type="button"
@@ -59,32 +75,38 @@ class PageAdminSlideEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(item._id))}
+              onTouchTap={() => dispatch(stopEditSlide(slide._id))}
             />
           </div>
         }
         modal={false}
-        open={item.editing}
-        onRequestClose={() => dispatch(stopEdit(item._id))}
+        open={open}
+        onRequestClose={() => dispatch(stopEditSlide(slide._id))}
         autoScrollBodyContent={true}
+        contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <CardHeader title={`Slide ${item._id}`} titleStyle={{ fontSize: 16 }} />
+        <CardHeader title={`Slide ${slide._id}`} titleStyle={{ fontSize: 16 }} />
         <CardMedia>
           <form>
             <ImageForm
-              image={item.image}
+              image={slide.image}
               type="image/jpg"
-              _id={item._id}
+              _id={slide._id}
               onImageEdit={this.handleImageEdit}
               onImageDelete={this.handleImageDelete}
               ref={this.setEditorRef}
             />
-            <div>
-              <Field
-                name="text"
-                component={renderWysiwgyField}
-              />
+            <div className="field-container">
+              {fields.map(field => (
+                <Field
+                  key={field}
+                  name={field}
+                  label={field}
+                  className="field"
+                  component={renderTextField}
+                />
+              ))}
             </div>
           </form>
         </CardMedia>
@@ -94,15 +116,13 @@ class PageAdminSlideEdit extends Component {
   }
 }
 
-PageAdminSlideEdit = compose(
-  connect((state, { item }) => {
-    const values = item.values || {}
-    return {
-      form: `slide_${item._id}`,
-      item,
-      initialValues: values
-    }
-  }),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(PageAdminSlideEdit)
-
-export default PageAdminSlideEdit
+export default compose(
+  connect((state, { slide: { _id, values }}) => ({
+    form: `slide_${_id}`,
+    initialValues: values
+  })),
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: []
+  })
+)(AdminSlideEdit)

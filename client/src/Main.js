@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Carousel from './containers/slides/Carousel'
+import PageCarousel from './components/carousels/PageCarousel'
 import SearchList from './containers/search/SearchList'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
@@ -15,11 +15,11 @@ class Main extends Component {
     const {
       children,
       search,
-      slides: { autoplay, items, open }
+      carousels: { autoplay, items, open }
     } = this.props
     return (
       open ?
-      <Carousel autoplay={autoplay} items={items} open={open} />
+      <PageCarousel autoplay={autoplay} slides={items} open={open} />
       :
       <div>
         <Header />

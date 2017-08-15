@@ -3,37 +3,41 @@ import { connect } from 'react-redux'
 
 import AdminPagesAdd from './AdminPagesAdd'
 import AdminPagesList from './AdminPagesList'
-import AdminCarouselEdit from '../slides/AdminCarouselEdit'
-import AdminCarousel from '../slides/AdminCarousel'
+import AdminPageCarouselButtons from '../../components/carousels/AdminPageCarouselButtons'
+import AdminPageCarousel from '../../components/carousels/AdminPageCarousel'
 
 const AdminPages = ({
+  adminOpen,
   dispatch,
+  editSlideId,
   isFetching,
   pages,
   sections,
-  slides
+  carousel
 }) => (
   !isFetching &&
   <section style={{ minHeight: '80vh', padding: '32px 0'}}>
     <AdminPagesAdd />
     <AdminPagesList items={pages.items} />
-    <AdminCarouselEdit items={slides.items} adminOpen={slides.adminOpen} />
-    {slides.adminOpen ?
-      <AdminCarousel
-        items={slides.items}
-        adminOpen={slides.adminOpen}
-        autoplay={slides.autoplay}
-      />
-    : null
+    <AdminPageCarouselButtons
+      adminOpen={adminOpen}
+      carousel={carousel}
+      dispatch={dispatch}
+      editSlideId={editSlideId}
+    />
+    {adminOpen &&
+      <AdminPageCarousel />
     }
   </section>
 )
 
-const mapStateToProps = ({ pages, sections, slides }) => ({
-  isFetching: pages.isFetching || sections.isFetching || slides.isFetching ? true : false,
+const mapStateToProps = ({ pages, sections, carousels }) => ({
+  isFetching: pages.isFetching || sections.isFetching || carousels.isFetching ? true : false,
   pages,
   sections,
-  slides,
+  adminOpen: carousels.adminOpen,
+  editSlideId: carousels.editSlideId,
+  carousel: carousels.items.find(item => item.pageSlug === 'home'),
 })
 
 

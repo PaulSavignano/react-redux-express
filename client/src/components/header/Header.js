@@ -1,13 +1,14 @@
 import React from 'react'
 
-import HeaderAppBar from '../../containers/header/HeaderAppBar'
-import HeaderDrawer from '../../containers/header/HeaderDrawer'
+import headerContainer from '../../containers/header/headerContainer'
+import HeaderAppBar from './HeaderAppBar'
+import HeaderDrawer from './HeaderDrawer'
 
-const Header = () => (
+const Header = (props) => (
   <header>
-    <HeaderAppBar />
-    <HeaderDrawer />
+    <HeaderAppBar {...props} />
+    <HeaderDrawer {...props} />
   </header>
 )
 
-export default Header
+export default headerContainer(Header)

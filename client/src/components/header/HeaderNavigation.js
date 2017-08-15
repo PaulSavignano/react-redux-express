@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import IconButton from 'material-ui/IconButton'
 
 import './header.css'
 import HeaderPageLink from './HeaderPageLink'
 import HeaderUser from './HeaderUser'
-import CartIcon from '../cart/CartIcon'
+import CartIcon from '../../containers/cart/CartIcon'
 import { searchToggle } from '../../actions/search'
 
 class HeaderNavigation extends Component {
@@ -45,14 +44,14 @@ class HeaderNavigation extends Component {
     const {
       color,
       dispatch,
+      firstName,
       fontFamily,
       hasProducts,
-      isFetching,
       pages,
-      search
+      search,
+      sections
     } = this.props
     return (
-      !isFetching &&
       <div
         ref={ (navigation) => this.navigation = navigation}
         style={{ fontFamily, display: 'flex', flexFlow: 'row nowrap', justifyContent: 'flex-end', alignItems: 'center' }}
@@ -65,8 +64,10 @@ class HeaderNavigation extends Component {
             <HeaderPageLink
               key={page._id}
               color={color}
+              dispatch={dispatch}
               fontFamily={fontFamily}
               page={page}
+              sections={sections}
             />
           ))}
         </div>
@@ -75,7 +76,11 @@ class HeaderNavigation extends Component {
           iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
           onTouchTap={() => dispatch(searchToggle(!search.searching))}
         />
-        <HeaderUser fontFamily={fontFamily} />
+        <HeaderUser
+          color={color}
+          firstName={firstName}
+          fontFamily={fontFamily}
+        />
         {hasProducts &&
           <IconButton
             children={<CartIcon color={color}/>}
@@ -94,11 +99,4 @@ HeaderNavigation.propTypes = {
   pages: PropTypes.array,
 }
 
-export default connect(({ brand, pages, products, search }) => ({
-  color: brand.appBar.values.navColor,
-  fontFamily: brand.theme.fontFamily,
-  hasProducts: products.items.length,
-  isFetching: brand.isFetching || pages.isFetching || products.isFetching ? true : false,
-  pages: pages.items,
-  search
-}))(HeaderNavigation)
+export default HeaderNavigation

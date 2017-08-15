@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import loadImage from '../../containers/images/loadImage'
 import AdminButtonItem from '../../containers/buttons/AdminButtonItem'
 import AdminCardItem from '../../containers/cards/AdminCardItem'
+import AdminSectionCarousel from '../carousels/AdminSectionCarousel'
 import AdminContactForm  from '../../containers/users/AdminContactForm'
 import AdminIframeItem from '../../containers/iframes/AdminIframeItem'
 import AdminImageItem from '../../containers/images/AdminImageItem'
@@ -22,6 +23,8 @@ const renderComponents = (components, item) => {
         return <AdminButtonItem key={component._id} componentId={componentId}  />
       case 'Contact':
         return <AdminContactForm key={component._id} componentId={componentId} sectionId={item._id}  />
+      case 'Carousel':
+        return <AdminSectionCarousel key={component._id} componentId={componentId} />
       case 'Card':
         return <AdminCardItem key={component._id} componentId={componentId}  />
       case 'Iframe':
@@ -95,6 +98,7 @@ const AdminSectionItem = ({ dispatch, item, page }) => {
           <AdminSectionEdit
             item={item}
             page={page}
+            sectionId={item._id}
           />
         }
       </section>
