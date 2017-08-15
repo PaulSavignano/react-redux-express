@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const carouselContainer = (ComposedComponent) => {
-  class CarouselContainer extends Component {
+const sectionCarouselContainer = (ComposedComponent) => {
+  class SectionCarouselContainer extends Component {
     render() {
       const {
         dispatch,
@@ -50,11 +50,11 @@ const carouselContainer = (ComposedComponent) => {
     isFetching,
     open
   })
-  CarouselContainer.propTypes = {
+  SectionCarouselContainer.propTypes = {
     carousel: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired
   }
-  return connect(mapStateToProps)(CarouselContainer)
+  return connect(mapStateToProps)(SectionCarouselContainer)
 }
 
-export default carouselContainer
+export default sectionCarouselContainer

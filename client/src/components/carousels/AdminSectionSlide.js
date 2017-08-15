@@ -1,4 +1,5 @@
 import React from 'react'
+import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import { startEditSlide } from '../../actions/carousels'
 import AdminSlideEdit from './AdminSlideEdit'
@@ -6,19 +7,31 @@ import AdminSlideEdit from './AdminSlideEdit'
 const AdminSectionSlide = ({
   carouselId,
   dispatch,
-  editSlideId,
+  editSlide,
   slide
 }) => {
-  const open = slide._id === editSlideId ? true : false
+  const {
+    image,
+    values: {
+      mediaBackgroundColor,
+      contentBackgroundColor,
+      color,
+      title,
+      subtitle,
+    }
+  } = slide
+  const open = editSlide ? true : false
   return (
-    <div key={slide._id} onTouchTap={() => dispatch(startEditSlide(slide._id))}>
-      <div>{slide.values.mediaBackgroundColor}</div>
-      <div>{slide.values.contentBackgroundColor}</div>
-      <div>{slide.values.color}</div>
-      <div>{slide.values.title}</div>
-      <div>{slide.values.subtitle}</div>
-      {open && <AdminSlideEdit carouselId={carouselId} slide={slide} open={open} />}
-    </div>
+    <Card onTouchTap={() => dispatch(startEditSlide(slide))} zDepth={0}>
+      {image && image.src &&
+        <CardMedia>
+          <img src={image.src} alt="section carousel slide"/>
+        </CardMedia>
+      }
+      <CardTitle title={title} style={{ color, textAlign: 'center' }}/>
+      <CardText style={{ color, textAlign: 'center' }}>{subtitle}</CardText>
+      {open && <AdminSlideEdit carouselId={carouselId} slide={editSlide} open={open} />}
+    </Card>
   )
 }
 

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 
 import AdminPagesAdd from './AdminPagesAdd'
 import AdminPagesList from './AdminPagesList'
-import AdminPageCarouselButtons from '../../components/carousels/AdminPageCarouselButtons'
-import AdminPageCarousel from '../../components/carousels/AdminPageCarousel'
+import AdminAppCarouselButtons from '../../components/carousels/AdminAppCarouselButtons'
+import AdminAppCarousel from '../../components/carousels/AdminAppCarousel'
 
 const AdminPages = ({
   adminOpen,
@@ -19,14 +19,15 @@ const AdminPages = ({
   <section style={{ minHeight: '80vh', padding: '32px 0'}}>
     <AdminPagesAdd />
     <AdminPagesList items={pages.items} />
-    <AdminPageCarouselButtons
+    <AdminAppCarouselButtons
       adminOpen={adminOpen}
       carousel={carousel}
       dispatch={dispatch}
       editSlideId={editSlideId}
+      pages={pages}
     />
     {adminOpen &&
-      <AdminPageCarousel />
+      <AdminAppCarousel />
     }
   </section>
 )

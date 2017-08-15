@@ -10,8 +10,8 @@ const START_EDIT = `START_EDIT_${type}`
 const STOP_EDIT = `STOP_EDIT_${type}`
 const START_EDIT_CHILD = `START_EDIT_CHILD_${type}`
 const STOP_EDIT_CHILD = `STOP_EDIT_CHILD_${type}`
-const TOGGLE = `TOGGLE_${type}`
-const TOGGLE_ADMIN = `TOGGLE_ADMIN_${type}`
+const TOGGLE_APP = `TOGGLE_APP_${type}`
+const TOGGLE_ADMIN_APP = `TOGGLE_ADMIN_APP_${type}`
 const ADD = `ADD_${type}`
 const ADD_SUB = `ADD_SUB_${type}`
 const REQUEST = `REQUEST_${type}S`
@@ -22,7 +22,7 @@ const DELETES = `DELETE_${type}S`
 const ERROR = `ERROR_${type}`
 
 // Create
-const fetchAddSuccess = (carousel, slideId) => ({ type: ADD, carousel, slideId })
+const fetchAddSuccess = (carousel, editSlide) => ({ type: ADD, carousel, editSlide })
 const fetchAddFailure = (error) => ({ type: ERROR, error })
 export const fetchAdd = (add) => {
   return (dispatch, getState) => {
@@ -38,9 +38,10 @@ export const fetchAdd = (add) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { carousel, page, section, slideId } = json
+        const editSlide = carousel.slides.find(item => item._id === slideId)
         if (page) dispatch(pageActions.fetchUpdateSuccess(page))
         if (section) dispatch(sectionActions.fetchUpdateSuccess(section))
-        dispatch(fetchAddSuccess(carousel, slideId))
+        dispatch(fetchAddSuccess(carousel, editSlide))
       })
       .catch(err => {
         console.log(err)
@@ -52,7 +53,7 @@ export const fetchAdd = (add) => {
 
 
 // Add Sub
-const fetchAddSubSuccess = (carousel, slideId) => ({ type: ADD, carousel, slideId })
+const fetchAddSubSuccess = (carousel, editSlide) => ({ type: ADD, carousel, editSlide })
 const fetchAddSubFailure = (error) => ({ type: ERROR, error })
 export const fetchAddSub = (carouselId) => {
   return (dispatch, getState) => {
@@ -67,7 +68,8 @@ export const fetchAddSub = (carouselId) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { carousel, slideId } = json
-        dispatch(fetchAddSubSuccess(carousel, slideId))
+        const editSlide = carousel.slides.find(item => item._id === slideId)
+        dispatch(fetchAddSubSuccess(carousel, editSlide))
       })
       .catch(err => {
         console.log(err)
@@ -96,7 +98,7 @@ export const fetchCarousels = () => {
     .then(json => {
       if (json.error) return Promise.reject(json.error)
       if (json.length && window.location.pathname === '/') {
-        dispatch(togglePageCarousel(true))
+        dispatch(toggleAppCarousel(true))
       }
       return dispatch(fetchCarouselsSuccess(json))
     })
@@ -219,11 +221,11 @@ export const fetchDeleteSub = (carouselId, slideId) => {
 
 export const deletes = (items) => ({ type: DELETES, items })
 
-export const togglePageCarousel = (open) => ({ type: TOGGLE, open })
-export const toggleAdminPageCarousel = (open) => ({ type: TOGGLE_ADMIN, open })
+export const toggleAppCarousel = (appOpen) => ({ type: TOGGLE_APP, appOpen })
+export const toggleAdminAppCarousel = (adminAppOpen) => ({ type: TOGGLE_ADMIN_APP, adminAppOpen })
 
-export const startEditCarousel = (editId) => ({ type: START_EDIT, editId })
-export const stopEditCarousel = (editId) => ({ type: STOP_EDIT, editId })
+export const startEditCarousel = (editCarouselId) => ({ type: START_EDIT, editCarouselId })
+export const stopEditCarousel = (editCarouselId) => ({ type: STOP_EDIT, editCarouselId })
 
-export const startEditSlide = (editId) => ({ type: START_EDIT_CHILD, editId })
-export const stopEditSlide = (editId) => ({ type: STOP_EDIT_CHILD, editId })
+export const startEditSlide = (editSlide) => ({ type: START_EDIT_CHILD, editSlide })
+export const stopEditSlide = () => ({ type: STOP_EDIT_CHILD })

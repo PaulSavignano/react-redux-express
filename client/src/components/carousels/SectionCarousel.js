@@ -3,7 +3,7 @@ import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import carouselContainer from '../../containers/carousels/carouselContainer'
+import sectionCarouselContainer from '../../containers/carousels/sectionCarouselContainer'
 import SectionSlide from './SectionSlide'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
@@ -12,7 +12,6 @@ const AdminSectionCarousel = ({
   autoplay,
   dispatch,
   editCarouselId,
-  editSlideId,
   carousel
 }) => (
   <div>
@@ -24,4 +23,4 @@ const AdminSectionCarousel = ({
   </div>
 )
 
-export default carouselContainer(AdminSectionCarousel)
+export default sectionCarouselContainer(AdminSectionCarousel)

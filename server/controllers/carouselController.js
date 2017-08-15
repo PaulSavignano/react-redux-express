@@ -4,12 +4,12 @@ import { ObjectID } from 'mongodb'
 import moment from 'moment'
 
 import Carousel from '../models/Carousel'
-import { deleteFile } from '../middleware/s3'
+import { deleteFile, uploadFile } from '../middleware/s3'
 
 
 export const add = (req, res) => {
-  const { sectionId, pageId, pageSlug } = req.body
-  const parent = sectionId ? { sectionId: ObjectID(sectionId) } : { pageId: ObjectID(pageId), pageSlug }
+  const { sectionId, pathname } = req.body
+  const parent = sectionId ? { sectionId: ObjectID(sectionId) } : { pathname: '/'}
   const slideId = new ObjectID()
   const newCarousel = new Carousel({
     ...parent,
@@ -28,17 +28,6 @@ export const add = (req, res) => {
           { new: true }
         )
         .then(section => res.send({ carousel, section, slideId }))
-        .catch(err => {
-          console.error(err)
-          res.status(400).send()
-        })
-      } else if (pageId) {
-        Page.findOneAndUpdate(
-          { _id: pageId },
-          { $push: { components: { componentId: carousel._id }}},
-          { new: true }
-        )
-        .then(page => res.send({ carousel, page, slideId }))
         .catch(err => {
           console.error(err)
           res.status(400).send()

@@ -1,20 +1,20 @@
 import { type } from '../actions/carousels'
 
 const carousels = (state = {
-  adminOpen: false,
+  adminAppOpen: false,
+  appOpen: false,
   autoplay: true,
   editCarouselId: null,
-  editSlideId: null,
+  editSlide: null,
   isFetching: true,
   items: [],
-  open: false
 }, action) => {
   switch (action.type) {
     case `START_EDIT_${type}`:
       return {
         ...state,
         autoplay: false,
-        editCarouselId: action.editId
+        editCarouselId: action.editCarouselId
       }
     case `STOP_EDIT_${type}`:
       return {
@@ -26,13 +26,13 @@ const carousels = (state = {
       return {
         ...state,
         autoplay: false,
-        editSlideId: action.editId
+        editSlide: action.editSlide
       }
     case `STOP_EDIT_CHILD_${type}`:
       return {
         ...state,
         autoplay: true,
-        editSlideId: null
+        editSlide: null
       }
     case `REQUEST_${type}S`:
       return {
@@ -50,9 +50,9 @@ const carousels = (state = {
         ...state,
         items: [
           ...state.items,
-          { ...action.carousel, editing: true }
+          { ...action.carousel }
         ],
-        editSlideId: action.slideId
+        editSlide: action.editSlide
       }
     case `UPDATE_${type}`:
       return {
@@ -86,15 +86,15 @@ const carousels = (state = {
         ...state,
         error: action.error
       }
-    case `TOGGLE_${type}`:
+    case `TOGGLE_APP_${type}`:
       return {
         ...state,
-        open: action.open
+        appOpen: action.appOpen
       }
-    case `TOGGLE_ADMIN_${type}`:
+    case `TOGGLE_ADMIN_APP_${type}`:
       return {
         ...state,
-        adminOpen: action.open
+        adminAppOpen: action.adminAppOpen
       }
     default:
       return state

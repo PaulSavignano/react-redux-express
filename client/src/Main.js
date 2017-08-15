@@ -1,25 +1,26 @@
 import React, { Component } from 'react'
 
-import PageCarousel from './components/carousels/PageCarousel'
+import AppCarousel from './components/carousels/AppCarousel'
 import SearchList from './containers/search/SearchList'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
-import { toggleCarousel } from './actions/slides'
+import { toggleAppCarousel } from './actions/carousels'
+
 
 class Main extends Component {
   componentWillMount() {
     const { dispatch, pathname } = this.props
-    if (pathname !== '/') return dispatch(toggleCarousel(false))
+    if (pathname !== '/') return dispatch(toggleAppCarousel(false))
   }
   render() {
     const {
       children,
       search,
-      carousels: { autoplay, items, open }
+      carousels: { appOpen }
     } = this.props
     return (
-      open ?
-      <PageCarousel autoplay={autoplay} slides={items} open={open} />
+      appOpen ?
+      <AppCarousel />
       :
       <div>
         <Header />

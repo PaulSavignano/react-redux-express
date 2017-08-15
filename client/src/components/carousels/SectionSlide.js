@@ -1,18 +1,31 @@
 import React from 'react'
+import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 const SectionSlide = ({
   dispatch,
-  slide
-}) => {
-  return (
-    <div>
-      <div>{slide.values.mediaBackgroundColor}</div>
-      <div>{slide.values.contentBackgroundColor}</div>
-      <div>{slide.values.color}</div>
-      <div>{slide.values.title}</div>
-      <div>{slide.values.subtitle}</div>
-    </div>
-  )
-}
+  slide: {
+    image,
+    values: {
+      mediaBackgroundColor,
+      contentBackgroundColor,
+      color,
+      title,
+      subtitle,
+    }
+  }
+}) => (
+  <Card
+    zDepth={0}
+  >
+    {image && image.src &&
+      <CardMedia>
+        <img src={image.src} alt="section carousel slide"/>
+      </CardMedia>
+    }
+    <CardTitle title={title} style={{ color }}/>
+    <CardText style={{ color }}>{subtitle}</CardText>
+  </Card>
+)
+
 
 export default SectionSlide

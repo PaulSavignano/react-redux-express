@@ -6,8 +6,7 @@ import Section from '../models/Section'
 import { deleteFiles } from '../middleware/s3'
 
 const CarouselSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
-  pageSlug: { type: String },
+  pathname: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   slides: [{
     image: {
@@ -42,14 +41,6 @@ CarouselSchema.pre('remove', function(next) {
       { new: true }
     )
     .then(section => next({ carousel, section }))
-    .catch(err => console.error(err))
-  } else if (carousel.pageId) {
-    Page.findOneAndUpdate(
-      { _id: slide.sectionId },
-      { $pull: { carousels: { carouselId: carousel._id }}},
-      { new: true }
-    )
-    .then(page => next({ carousel, page }))
     .catch(err => console.error(err))
   }
   next({ carousel })
