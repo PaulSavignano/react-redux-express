@@ -78,6 +78,7 @@ class HeaderNavigation extends Component {
         />
         <HeaderUser
           color={color}
+          dispatch={dispatch}
           firstName={firstName}
           fontFamily={fontFamily}
         />

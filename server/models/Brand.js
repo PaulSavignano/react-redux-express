@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-const s3Path = `${process.env.APP_NAME}/brand/image_`
+const s3Path = `${process.env.APP_NAME}/brand/image-`
 
 const BrandSchema = new Schema({
   appBar: {
@@ -21,7 +21,7 @@ const BrandSchema = new Schema({
       textShadow: { type: String, trim: true },
     }
   },
-  main: {
+  body: {
     values: {
       backgroundColor: { type: String, minlength: 1, trim: true, default: '#ffffff' },
       color: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, 0.87)' },

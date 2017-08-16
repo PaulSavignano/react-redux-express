@@ -53,11 +53,11 @@ brands.get('/:_id', (req, res) => {
 brands.patch('/appbar/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, image, oldImage, values } = req.body
+  const { type, image, removeImageSrc, values } = req.body
   const Key = `${s3Path}${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImage)
+      uploadFile({ Key }, image.src, removeImageSrc)
         .then(data => {
           const update = {
             appBar: {
@@ -144,11 +144,11 @@ brands.patch('/business/:_id', authenticate(['admin']), (req, res) => {
 
 
 // Update Main
-brands.patch('/main/:_id', authenticate(['admin']), (req, res) => {
+brands.patch('/body/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
   const { values } = req.body
-  const update = { main: { values } }
+  const update = { body: { values } }
   Brand.findOneAndUpdate({ _id }, { $set: update }, { new: true })
     .then(doc => res.send(doc))
     .catch(err => {
@@ -166,11 +166,11 @@ brands.patch('/main/:_id', authenticate(['admin']), (req, res) => {
 brands.patch('/footer/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, image, oldImage, values } = req.body
+  const { type, image, removeImageSrc, values } = req.body
   const Key = `${s3Path}${_id}/footer_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImage)
+      uploadFile({ Key }, image.src, removeImageSrc)
         .then(data => {
           const update = {
             footer: {

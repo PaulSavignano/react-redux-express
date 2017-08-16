@@ -2,7 +2,7 @@ import React from 'react'
 
 import AdminAppBar from '../../containers/brand/AdminAppBar'
 import AdminBusiness from '../../containers/brand/AdminBusiness'
-import AdminMain from '../../containers/brand/AdminMain'
+import AdminBody from '../../containers/brand/AdminBody'
 import AdminTheme from '../../containers/brand/AdminTheme'
 import AdminFooter from '../../containers/brand/AdminFooter'
 
@@ -13,7 +13,7 @@ const AdminBrand = () => {
       <br/>
       <AdminAppBar />
       <br/>
-      <AdminMain />
+      <AdminBody />
       <br/>
       <AdminTheme />
       <br/>

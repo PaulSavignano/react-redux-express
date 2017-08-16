@@ -15,10 +15,7 @@ const PageSchema = new Schema({
 PageSchema.pre('remove', function(next) {
   const page = this
   if (page.sections.length) {
-    Section.find({ pageId: page._id })
-      .then(items => items.map(item => item.remove()
-      .catch(err => console.error(err))
-    ))
+    Section.remove({ _id: { $in: sections.sectionId }})
   }
   next()
 })

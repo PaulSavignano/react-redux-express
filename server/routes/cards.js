@@ -9,8 +9,6 @@ import Section from '../models/Section'
 
 const cards = express.Router()
 
-const s3Path = `${process.env.APP_NAME}/cards/card_`
-
 // Create
 cards.post('/', authenticate(['admin']), (req, res) => {
   const { pageId, sectionId, pageSlug } = req.body
@@ -72,12 +70,12 @@ cards.get('/:_id', (req, res) => {
 cards.patch('/:_id', authenticate(['admin']), (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, sectionId, image, oldImage, values } = req.body
-  const Key = `${s3Path}${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  const { type, sectionId, image, removeImageSrc, values } = req.body
+  const Key = `${process.env.APP_NAME}/cards/card-${_id}-${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
 
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImage)
+      uploadFile({ Key }, image.src, removeImageSrc)
         .then(data => {
           const update = {
             image: {
@@ -127,7 +125,7 @@ cards.patch('/:_id', authenticate(['admin']), (req, res) => {
       break
 
     case 'DELETE_IMAGE':
-      deleteFile({ Key })
+      deleteFile({ Key: image.src })
         .then(() => {
           Card.findOneAndUpdate({ _id }, { $set: { 'image.src': null }}, { new: true })
             .then(doc => res.send(doc))

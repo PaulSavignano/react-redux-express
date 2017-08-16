@@ -11,10 +11,10 @@ AWS.config.update({
 const Bucket = process.env.AWS_S3_BUCKET
 const ACL = 'public-read'
 
-export const uploadFile = ({ Key }, image, oldImage) => {
-  const Body = new Buffer(image.replace(/^data:image\/\w+;base64,/, ""),'base64')
+export const uploadFile = ({ Key }, imageSrc, removeImageSrc) => {
+  const Body = new Buffer(imageSrc.replace(/^data:image\/\w+;base64,/, ""),'base64')
   const params = { Bucket, Key, Body, ACL }
-  if (oldImage) s3.deleteObject({ Bucket, Key: oldImage }).promise()
+  if (removeImageSrc) s3.deleteObject({ Bucket, Key: removeImageSrc }).promise()
   return s3.upload(params).promise()
 }
 
@@ -31,22 +31,4 @@ export const deleteFiles = (Keys) => {
     }
   }
   return s3.deleteObjects(params).promise()
-}
-
-export const handleS3 = ({ imageType, Key, Body }) => {
-  const hasImage = Body ? true : false
-  const urlParse = hasImage ? url.parse(component.image) : null
-  const hasUrl = urlParse.slashes ? true : false
-  switch (imageType) {
-    case 'HAS_IMAGE':
-      if (hasUrl) return Promise.resolve({ data: { Location: Body }})
-      if (hasImage) return uploadFile({ Key, Body })
-      break
-    case 'DELETE_IMAGE':
-      deleteFile({ Key })
-        .then(() => Promise.resolve({ data: { Location: null }}))
-      break
-    default:
-      return Promise.resolve({ data: { Location: null }})
-  }
 }

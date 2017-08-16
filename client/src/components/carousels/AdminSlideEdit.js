@@ -51,8 +51,8 @@ class AdminSlideEdit extends Component {
               onTouchTap={handleSubmit((values) => {
                 if (this.state.imageEdit) {
                   const image = this.editor.handleSave()
-                  const oldImage = image.src
-                  return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, oldImage, values }))
+                  const removeImageSrc = image.src
+                  return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, removeImageSrc, values }))
                 } else {
                   return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_VALUES', values }))
                 }

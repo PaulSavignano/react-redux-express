@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import loadImage from '../images/loadImage'
+import loadImage from '../../components/images/loadImage'
 import { fetchUpdateCart } from '../../actions/cart'
 import formatPrice from '../../utils/formatPrice'
 

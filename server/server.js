@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
+import mongoose from './db/mongoose'
 
 import Brand from './models/Brand'
 
@@ -8,7 +9,7 @@ Brand.findOne({})
   .then(doc => !doc && new Brand({}).save())
   .catch(err => console.error(err))
 
-import mongoose from './db/mongoose'
+import articles from './routes/articles'
 import brands from './routes/brands'
 import buttons from './routes/buttons'
 import cards from './routes/cards'
@@ -24,13 +25,13 @@ import texts from './routes/texts'
 import titles from './routes/titles'
 import users from './routes/users'
 
-
 const app = express()
 const port = process.env.PORT
 
-app.use(bodyParser.json({limit: '50mb'}))
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use('/api/articles', articles)
 app.use('/api/brands', brands)
 app.use('/api/buttons', buttons)
 app.use('/api/cards', cards)
@@ -52,7 +53,6 @@ app.use(staticFiles)
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'))
 })
-
 
 app.listen(port, () => console.log(`Started up at port: ${port}`))
 

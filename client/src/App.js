@@ -12,7 +12,7 @@ injectTapEventPlugin()
 class App extends Component {
   render() {
     const {
-      brand: { appBar, business, main, theme },
+      brand: { appBar, body, business, theme },
       carousels,
       children,
       dispatch,
@@ -21,8 +21,8 @@ class App extends Component {
       search,
     } = this.props
     if(!isFetching) {
-      const body = document.getElementsByTagName('body')[0]
-      body.style['background-color'] = main.values.backgroundColor
+      const appBody = document.getElementsByTagName('body')[0]
+      appBody.style['background-color'] = body.values.backgroundColor
     }
     return (
       !isFetching &&

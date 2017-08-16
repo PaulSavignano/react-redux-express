@@ -3,8 +3,8 @@ import { Link } from 'react-router'
 import Paper from 'material-ui/Paper'
 import FontIcon from 'material-ui/FontIcon'
 
-import footerContainer1 from '../../containers/footer/footerContainer1'
-import loadImage from '../../containers/images/loadImage'
+import footerContainer from '../../containers/footer/footerContainer'
+import loadImage from '../images/loadImage'
 
 const Footer = ({
   business: {
@@ -67,4 +67,4 @@ const Footer = ({
   </footer>
 )
 
-export default footerContainer1(loadImage(Footer))
+export default footerContainer(loadImage(Footer))

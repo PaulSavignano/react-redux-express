@@ -8,9 +8,9 @@ import App from './App'
 import AdminBrand from './components/brand/AdminBrand'
 
 // Page
-import Page from './containers/pages/Page'
-import AdminPages from './containers/pages/AdminPages'
-import AdminPage from './containers/pages/AdminPage'
+import Page from './components/pages/Page'
+import AdminPages from './components/pages/AdminPages'
+import AdminPage from './components/pages/AdminPage'
 
 // User
 import CartPage from './containers/cart/CartPage'
@@ -23,7 +23,7 @@ import ProfilePage from './components/users/ProfilePage'
 import RequestEstimate from './containers/users/RequestEstimate'
 
 // Product
-import ProductPage from './containers/products/ProductPage'
+import ProductPage from './components/products/ProductPage'
 
 //Order
 import OrderAdd from './containers/orders/OrderAdd'

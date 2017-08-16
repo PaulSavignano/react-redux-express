@@ -4,6 +4,7 @@ import { routerMiddleware, routerReducer } from 'react-router-redux'
 import { browserHistory } from 'react-router'
 import { reducer as formReducer } from 'redux-form'
 
+import articles from '../reducers/articles'
 import brand from '../reducers/brand'
 import buttons from '../reducers/buttons'
 import cards from '../reducers/cards'
@@ -22,6 +23,7 @@ import titles from '../reducers/titles'
 import user from '../reducers/users'
 
 const rootReducer = combineReducers({
+  articles,
   brand,
   buttons,
   cards,

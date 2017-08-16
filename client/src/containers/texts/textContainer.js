@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 const textContainer = (ComposedComponent) => {
   class Container extends Component {
     render() {
-      const { isFetching, item } = this.props
-      const props = { item }
+      const { dispatch, isFetching, item } = this.props
+      const props = { dispatch, item }
       return (
         !isFetching && <ComposedComponent {...props} />
       )

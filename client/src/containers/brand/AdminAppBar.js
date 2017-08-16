@@ -76,8 +76,8 @@ class AdminAppBar extends Component {
           const path = `appbar/${_id}`
           if (this.state.imageEdit) {
             const img = this.editor.handleSave()
-            const oldImage = image.src
-            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, oldImage, values }))
+            const removeImageSrc = image.src
+            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, removeImageSrc, values }))
           }
           return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
         })}

@@ -9,7 +9,7 @@ import {
   updateSub,
   remove,
   removeSub
-} from '../controllers/carouselController'
+} from '../controllers/carousel'
 
 const carousels = express.Router()
 

@@ -1,11 +1,13 @@
 import mongoose, { Schema } from 'mongoose'
 
 import { uploadFile, deleteFile } from '../middleware/s3'
+import Article from './Article'
 import Card from './Card'
+import Carousel from './Carousel'
 import Iframe from './Iframe'
 import Image from './Image'
+import Page from './Page'
 import Product from './Product'
-import Slide from './Slide'
 import Text from './Text'
 import Title from './Title'
 
@@ -14,7 +16,6 @@ const s3Path = `${process.env.APP_NAME}/sections/section_`
 const SectionSchema = new Schema({
   pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
   pageSlug: { type: String },
-  index: { type: Number },
   image: {
     src: { type: String },
     width: { type: Number, trim: true, default: 1920 },
@@ -33,7 +34,6 @@ const SectionSchema = new Schema({
   },
   components: [{
     componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },
-    index: { type: Number },
     type: { type: String }
   }],
 }, {
@@ -45,8 +45,12 @@ SectionSchema.pre('remove', function(next) {
   if (section.image && section.image.src) {
     deleteFile({ Key: section.image.src }).catch(err => console.error(err))
   }
-  section.components.map(component => {
+  section.components.forEach(component => {
     switch(component.type) {
+      case 'Article':
+        Article.find({ sectionId: section._id })
+          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
+        break
       case 'Card':
         Card.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
@@ -67,10 +71,6 @@ SectionSchema.pre('remove', function(next) {
         Product.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
         break
-      case 'Slide':
-        Slide.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
       case 'Text':
         Text.find({ sectionId: section._id })
           .then(items => items.map(item => item.remove().catch(err => console.error(err))))
@@ -83,7 +83,16 @@ SectionSchema.pre('remove', function(next) {
         return
     }
   })
-  next()
+  Page.findOneAndUpdate(
+    { _id: section.pageId },
+    { $pull: { sections: { sectionId: section._id }}},
+    { new: true }
+  )
+  .then(page => next({ section, page }))
+  .catch(err => {
+    console.error(err)
+    next(err)
+  })
 })
 
 const Section = mongoose.model('Section', SectionSchema)

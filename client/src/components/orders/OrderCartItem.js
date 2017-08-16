@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Card } from 'material-ui/Card'
 
-import loadImage from '../../containers/images/loadImage'
+import loadImage from '../images/loadImage'
 import formatPrice from '../../utils/formatPrice'
 
 class OrderCartItem extends Component {
@@ -18,7 +18,7 @@ class OrderCartItem extends Component {
       item: {
         image,
         productId,
-        productQty, 
+        productQty,
         name,
         price,
         total

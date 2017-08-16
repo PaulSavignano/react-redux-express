@@ -74,13 +74,13 @@ products.get('/:_id', (req, res) => {
 products.patch('/:_id', (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  const { type, image, oldImage, values } = req.body
+  const { type, image, removeImageSrc, values } = req.body
   const Key = `${s3Path}/${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   const productSlug = values ? `${slugIt(values.name)}/${_id}` : null
   switch (type) {
 
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImage)
+      uploadFile({ Key }, image.src, removeImageSrc)
         .then(data => {
           const update = {
             image: {

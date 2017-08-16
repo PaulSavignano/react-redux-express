@@ -5,10 +5,10 @@ const brand = (state = {
   appBar: {
     values: {}
   },
-  business: {},
-  main: {
+  body: {
     values: {}
   },
+  business: {},
   footer: {
     values: {}
   },
