@@ -1,8 +1,28 @@
 import mongoose, { Schema } from 'mongoose'
 
-const s3Path = `${process.env.APP_NAME}/brand/image-`
-
 const BrandSchema = new Schema({
+  article: {
+    values: {
+      textColor: { type: String, minlength: 1, trim: true },
+      textFontFamily: { type: String, minlength: 1, trim: true },
+      textFontSize: { type: String, minlength: 1, trim: true },
+      textFontWeight: { type: String, minlength: 1, trim: true },
+      textLetterSpacing: { type: String, minlength: 1, trim: true },
+      textTextShadow: { type: String, minlength: 1, trim: true },
+      titleColor: { type: String, minlength: 1, trim: true },
+      titleFontFamily: { type: String, minlength: 1, trim: true },
+      titleFontSize: { type: String, minlength: 1, trim: true },
+      titleFontWeight: { type: String, minlength: 1, trim: true },
+      titleLetterSpacing: { type: String, minlength: 1, trim: true },
+      titleTextShadow: { type: String, minlength: 1, trim: true },
+      subtitleColor: { type: String, minlength: 1, trim: true },
+      subtitleFontFamily: { type: String, minlength: 1, trim: true },
+      subtitleFontSize: { type: String, minlength: 1, trim: true },
+      subtitleFontWeight: { type: String, minlength: 1, trim: true },
+      subtitleLetterSpacing: { type: String, minlength: 1, trim: true },
+      subtitleTextShadow: { type: String, minlength: 1, trim: true },
+    }
+  },
   appBar: {
     image: {
       src: { type: String, minlength: 1, trim: true },
@@ -28,22 +48,24 @@ const BrandSchema = new Schema({
     }
   },
   business: {
-    name: { type: String, minlength: 1, trim: true, default: 'Brand' },
-    description: { type: String, minlength: 1, trim: true },
-    phone: { type: String, minlength: 1, trim: true },
-    email: { type: String, minlength: 1, trim: true },
-    street: { type: String, minlength: 1, trim: true },
-    city: { type: String, minlength: 1, trim: true },
-    state: { type: String, minlength: 1, trim: true },
-    zip: { type: String, minlength: 1, trim: true },
-    facebook: { type: String, minlength: 1, trim: true },
-    github: { type: String, minlength: 1, trim: true },
-    google: { type: String, minlength: 1, trim: true },
-    instagram: { type: String, minlength: 1, trim: true },
-    linkedin: { type: String, minlength: 1, trim: true },
-    twitter: { type: String, minlength: 1, trim: true },
-    yelp: { type: String, minlength: 1, trim: true },
-    youtube: { type: String, minlength: 1, trim: true },
+    values: {
+      name: { type: String, minlength: 1, trim: true, default: 'Brand' },
+      description: { type: String, minlength: 1, trim: true },
+      phone: { type: String, minlength: 1, trim: true },
+      email: { type: String, minlength: 1, trim: true },
+      street: { type: String, minlength: 1, trim: true },
+      city: { type: String, minlength: 1, trim: true },
+      state: { type: String, minlength: 1, trim: true },
+      zip: { type: String, minlength: 1, trim: true },
+      facebook: { type: String, minlength: 1, trim: true },
+      github: { type: String, minlength: 1, trim: true },
+      google: { type: String, minlength: 1, trim: true },
+      instagram: { type: String, minlength: 1, trim: true },
+      linkedin: { type: String, minlength: 1, trim: true },
+      twitter: { type: String, minlength: 1, trim: true },
+      yelp: { type: String, minlength: 1, trim: true },
+      youtube: { type: String, minlength: 1, trim: true },
+    }
   },
   footer: {
     image: {

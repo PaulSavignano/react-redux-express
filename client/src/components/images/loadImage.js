@@ -31,7 +31,7 @@ const loadImage = (ComposedComponent) => {
           transitionAppearTimeout={600}
           transitionEnter={false}
           transitionLeave={false}
-          style={{ flex, width }}
+          style={{ flex: '1 1 auto' }}
         >
           <ComposedComponent {...this.props} />
         </CSSTransitionGroup>

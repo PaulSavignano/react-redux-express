@@ -7,28 +7,104 @@ import articleContainer from '../../containers/articles/articleContainer'
 import loadImage from '../images/loadImage'
 
 const Article = ({
+  article: {
+    values: {
+      textColor,
+      textFontFamily,
+      textFontSize,
+      textFontWeight,
+      textLetterSpacing,
+      textTextShadow,
+      titleColor,
+      titleFontFamily,
+      titleFontSize,
+      titleFontWeight,
+      titleLetterSpacing,
+      titleTextShadow,
+      subtitleColor,
+      subtitleFontFamily,
+      subtitleFontSize,
+      subtitleFontWeight,
+      subtitleLetterSpacing,
+      subtitleTextShadow
+    }
+  },
   item: {
     _id,
     image,
     values: {
       title,
+      subtitle,
       text,
       textAlign,
-      ImageFlex,
-      flexFlow,
+      imageFlex,
       navigation
     }
   }
-}) => (
-  <div id={_id}>
-    <Card zDepth={0} id={navigation}>
-      {title && <CardTitle title={title} />}
-      {text && textAlign === 'left' && <CardText>{text}</CardText>}
-      {image.src && <CardMedia><img src={image.src} alt="article"/></CardMedia>}
-      {text && textAlign === 'right' && <CardText>{text}</CardText>}
+}) => {
+  const flexFlow = textAlign === 'right' ? 'row wrap' : 'row wrap-reverse'
+  const RenderCardText = () => (
+    <CardText
+      style={{
+        color: textColor,
+        flex: `1 1 auto`,
+        fontFamily: textFontFamily,
+        fontSize: textFontSize,
+        fontWeight: textFontWeight,
+        letterSpacing: textLetterSpacing,
+        textShadow: textTextShadow,
+      }}
+    >
+      {text}
+    </CardText>
+  )
+  return (
+    <Card
+      zDepth={0}
+      id={navigation}
+      style={{ width: '100%'}}
+    >
+      {title &&
+        <CardTitle
+          id={_id}
+          title={title}
+          titleStyle={{
+            color: titleColor,
+            fontFamily: titleFontFamily,
+            fontSize: titleFontSize,
+            fontWeight: titleFontWeight,
+            letterSpacing: titleLetterSpacing,
+            textShadow: titleTextShadow
+          }}
+          subtitle={subtitle}
+          subtitleStyle={{
+            color: subtitleColor,
+            fontFamily: subtitleFontFamily,
+            fontSize: subtitleFontSize,
+            fontWeight:subtitleFontWeight,
+            letterSpacing: subtitleLetterSpacing,
+            textShadow: subtitleTextShadow
+          }}
+          style={{ width: '100%' }}
+        />}
+      <div style={{ display: 'flex', flexFlow }}>
+        {text && textAlign === 'left' &&
+          <RenderCardText />
+        }
+        {image.src &&
+          <CardMedia
+            style={{ flex: imageFlex }}
+          >
+            <img src={image.src} alt="card"/>
+          </CardMedia>
+        }
+        {text && textAlign === 'right' &&
+          <RenderCardText />
+        }
+      </div>
     </Card>
-  </div>
-)
+  )
+}
 
 Article.propTypes = {
   item: PropTypes.object.isRequired

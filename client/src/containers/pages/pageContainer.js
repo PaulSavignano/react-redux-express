@@ -38,7 +38,7 @@ const pageContainer = (ComposedComponent) => {
       page,
       pageSlug,
       pathname,
-      sections: page.sections.map(section => sections.items.find(item => item._id === section.sectionId)),
+      sections: !isFetching && page.sections.map(section => sections.items.find(item => item._id === section.sectionId)),
     }
   }
   return connect(mapStateToProps)(PageContainer)

@@ -1,23 +1,24 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import PropTypes from 'prop-types'
 import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
+import MenuItem from 'material-ui/MenuItem'
 
 import renderTextField from '../../components/fields/renderTextField'
+import renderSelectField from '../../components/fields/renderSelectField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/articles'
 
 const fields = [
   'title',
+  'subtitle',
   'text',
-  'textAlign',
-  'ImageFlex',
-  'flexFlow',
+  'imageFlex',
   'navigation'
 ]
 
@@ -106,6 +107,15 @@ class AdminArticleEdit extends Component {
                   component={renderTextField}
                 />
               ))}
+              <Field
+                name="textAlign"
+                component={renderSelectField}
+                label="textAlign"
+                className="field"
+              >
+                <MenuItem value={1} primaryText="Right" />
+                <MenuItem value={2} primaryText="Left" />
+              </Field>
             </div>
           </form>
           {error && <div className="error">{error}</div>}

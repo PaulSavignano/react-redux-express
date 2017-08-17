@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 
@@ -20,7 +19,7 @@ const fields = [
   'textShadow'
 ]
 
-class AdminAppBar extends Component {
+class AppBarAdmin extends Component {
   state = {
     zDepth: 1,
     imageEdit: false
@@ -28,8 +27,6 @@ class AdminAppBar extends Component {
   componentWillReceiveProps({ submitSucceeded }) {
     if (submitSucceeded) this.setState({ imageEdit: false })
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
   handleImageEdit = (bool) => this.setState({ imageEdit: bool })
   handleImageDelete = (_id, update) => {
     this.setState({ imageEdit: false })
@@ -39,24 +36,19 @@ class AdminAppBar extends Component {
   render() {
     const {
       _id,
-      canvasColor,
+      backgroundColor,
       dispatch,
       error,
       fontFamily,
       handleSubmit,
       image,
-      isFetching,
       submitSucceeded,
-      submitting
+      submitting,
     } = this.props
     return (
-      !isFetching &&
       <Card
-        zDepth={this.state.zDepth}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ backgroundColor: canvasColor, fontFamily }}
+        style={{ backgroundColor, fontFamily }}
       >
         <CardTitle
           title="AppBar"
@@ -109,27 +101,4 @@ class AdminAppBar extends Component {
   }
 }
 
-AdminAppBar = reduxForm({
-  form: 'appBar'
-})(AdminAppBar)
-
-const mapStateToProps = ({
-  brand: {
-    _id,
-    appBar: { image, values },
-    isFetching,
-    theme: { fontFamily, palette: { canvasColor, primary1Color }}
-  }
-}) => ({
-  _id,
-  canvasColor,
-  fontFamily,
-  image,
-  initialValues: values,
-  isFetching,
-  primary1Color,
-})
-
-AdminAppBar = connect(mapStateToProps)(AdminAppBar)
-
-export default AdminAppBar
+export default reduxForm({ form: 'appBarAdmin' })(AppBarAdmin)

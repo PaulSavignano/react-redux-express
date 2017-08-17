@@ -5,6 +5,9 @@ const brand = (state = {
   appBar: {
     values: {}
   },
+  article: {
+    values: {}
+  },
   body: {
     values: {}
   },

@@ -9,6 +9,7 @@ import Routing from './Routing'
 import './index.css'
 
 // Actions
+import { fetchArticles } from './actions/articles'
 import { fetchButtons } from './actions/buttons'
 import { fetchBrand } from './actions/brand'
 import { fetchCards } from './actions/cards'
@@ -39,6 +40,7 @@ if (cart) {
   store.dispatch(fetchCart(cart))
 }
 
+store.dispatch(fetchArticles())
 store.dispatch(fetchButtons())
 store.dispatch(fetchBrand())
 store.dispatch(fetchCards())

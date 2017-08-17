@@ -60,10 +60,12 @@ export const fetchArticles = () => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchSuccess(json))
       })
       .catch(err => {
+        console.og(err)
         dispatch(fetchFailure(err))
       })
   }

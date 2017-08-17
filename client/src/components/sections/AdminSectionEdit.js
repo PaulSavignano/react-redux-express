@@ -106,6 +106,7 @@ class AdminSectionEdit extends Component {
               <Menu autoWidth={true}>
                 {components.map(component => (
                   <MenuItem
+                    key={component.label}
                     primaryText={component.label}
                     onTouchTap={() => this.handleComponentAdd(component.action, dispatch, item, page)}
                   />

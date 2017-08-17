@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-const footerContainer1 = (ComposedComponent) => {
-  class Container extends Component {
+const footerContainer = (ComposedComponent) => {
+  class FooterContainer extends Component {
     render() {
       const {
         business,
@@ -23,7 +23,7 @@ const footerContainer1 = (ComposedComponent) => {
     item: footer,
     isFetching
   })
-  return connect(mapStateToProps)(Container)
+  return connect(mapStateToProps)(FooterContainer)
 }
 
-export default footerContainer1
+export default footerContainer

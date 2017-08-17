@@ -11,10 +11,10 @@ const ArticleSchema = new Schema({
   },
   values: {
     title: { type: String, trim: true, default: 'Title' },
-    text: { type: String, trim: true, default: '<p>Text</p>' },
+    subtitle: { type: String, trim: true, default: 'Subtitle' },
+    text: { type: String, trim: true, default: 'Text' },
     textAlign: { type: String, trim: true, default: 'right'},
     imageFlex: { type: String, trim: true, default: '1 1 auto' },
-    flexFlow: { type: String, trim: true, default: 'row wrap' },
     navigation: { type: String, trim: true },
   }
 }, {

@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import Article from '../models/Article'
 import Section from '../models/Section'
+import authenticate from '../middleware/authenticate'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
@@ -34,6 +35,7 @@ export const add = (req, res) => {
 
 
 export const get = (req, res) => {
+  console.log('requesting articles')
   Article.find({})
     .then(docs => res.send(docs))
     .catch(err => {

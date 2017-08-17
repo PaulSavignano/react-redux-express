@@ -22,6 +22,7 @@ const articles = (state = {
         )
       }
     case `REQUEST_${type}S`:
+    console.log('requesting articles')
       return {
         ...state,
         isFetching: true

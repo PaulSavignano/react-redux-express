@@ -1,8 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import loadImage from '../images/loadImage'
+import AdminSectionEditButton from './AdminSectionEditButton'
+import AdminArticle from '../articles/AdminArticle'
 import AdminButton from '../buttons/AdminButton'
 import AdminCardItem from '../cards/AdminCardItem'
 import AdminSectionCarousel from '../carousels/AdminSectionCarousel'
@@ -19,14 +20,16 @@ const renderComponents = (components, item) => {
   const componentList = (component) => {
     const { type, componentId } = component
     switch(type) {
+      case 'Article':
+        return <AdminArticle key={component._id} componentId={componentId} />
       case 'Button':
-        return <AdminButton key={component._id} componentId={componentId}  />
+        return <AdminButton key={component._id} componentId={componentId} />
       case 'Contact':
-        return <AdminContactForm key={component._id} componentId={componentId} sectionId={item._id}  />
+        return <AdminContactForm key={component._id} componentId={componentId} sectionId={item._id} />
       case 'Carousel':
         return <AdminSectionCarousel key={component._id} componentId={componentId} />
       case 'Card':
-        return <AdminCardItem key={component._id} componentId={componentId}  />
+        return <AdminCardItem key={component._id} componentId={componentId} />
       case 'Iframe':
         return <AdminIframe key={component._id} componentId={componentId} />
       case 'Image':
@@ -70,11 +73,12 @@ const AdminSection = ({ dispatch, item, page }) => {
       style={{
         ...backgroundImage,
         backgroundColor,
-        marginTop: containerMarginTop
+        marginTop: containerMarginTop,
+        minHeight: 64
       }}
       {...backgroundImageClass}
     >
-      <section>
+      <section style={{ position: 'relative' }}>
         <div style={{
           display: 'flex',
           flexFlow,
@@ -86,14 +90,10 @@ const AdminSection = ({ dispatch, item, page }) => {
         }}>
           {renderComponents(components, item)}
         </div>
-        <div style={{ display: 'flex' }}>
-          <RaisedButton
-            type="button"
-            label="Edit Section"
-            style={{ margin: 8, flex: '1 1 auto', zIndex: 1 }}
-            onTouchTap={() => dispatch(startEdit(_id))}
-          />
-        </div>
+        <AdminSectionEditButton
+          _id={_id}
+          dispatch={dispatch}
+        />
         {editing &&
           <AdminSectionEdit
             item={item}

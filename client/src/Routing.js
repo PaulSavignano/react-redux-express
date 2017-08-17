@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute } from 'react-router'
 import App from './App'
 
 // Brand
-import AdminBrand from './components/brand/AdminBrand'
+import BrandAdmin from './components/brands/BrandAdmin'
 
 // Page
 import Page from './components/pages/Page'
@@ -53,7 +53,7 @@ const Routing = ({ history }) => (
 
 
       {/* Brand */}
-      <Route path="admin/brand" component={RequireAuth(AdminBrand, ['admin'])} />
+      <Route path="admin/brand" component={RequireAuth(BrandAdmin, ['admin'])} />
 
       {/* User */}
       <Route path="user/cart" component={CartPage} />

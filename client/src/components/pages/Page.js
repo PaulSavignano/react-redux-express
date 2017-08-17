@@ -36,9 +36,14 @@ class Page extends Component {
   render() {
     const { sections } = this.props
     return (
-      sections.map(section => (
-        <Section item={section} />
-      ))
+      <div>
+        {sections.map(section => (
+          <Section
+            key={section._id}
+            item={section}
+          />
+        ))}
+      </div>
     )
   }
 }

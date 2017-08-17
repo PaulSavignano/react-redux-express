@@ -83,16 +83,7 @@ SectionSchema.pre('remove', function(next) {
         return
     }
   })
-  Page.findOneAndUpdate(
-    { _id: section.pageId },
-    { $pull: { sections: { sectionId: section._id }}},
-    { new: true }
-  )
-  .then(page => next({ section, page }))
-  .catch(err => {
-    console.error(err)
-    next(err)
-  })
+  next()
 })
 
 const Section = mongoose.model('Section', SectionSchema)

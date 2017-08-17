@@ -16,16 +16,13 @@ const fields = [
   'margin'
 ]
 
-class AdminFooter extends Component {
+class FooterAdmin extends Component {
   state = {
-    zDepth: 1,
     imageEdit: false
   }
   componentWillReceiveProps({ submitSucceeded }) {
     if (submitSucceeded) this.setState({ imageEdit: false })
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
   handleImageEdit = (bool) => this.setState({ imageEdit: bool, submitted: false })
   handleImageDelete = (_id, update) => {
     this.setState({ imageEdit: false })
@@ -35,24 +32,22 @@ class AdminFooter extends Component {
   render() {
     const {
       _id,
-      canvasColor,
+      backgroundColor,
       dispatch,
       error,
       fontFamily,
       handleSubmit,
       image,
-      isFetching,
       submitSucceeded,
       submitting
     } = this.props
     return (
-      !isFetching &&
       <Card
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ backgroundColor: canvasColor, fontFamily }}
+        style={{ backgroundColor, fontFamily }}
       >
         <CardTitle title="Footer" />
         <CardMedia>
@@ -104,27 +99,6 @@ class AdminFooter extends Component {
   }
 }
 
-AdminFooter = reduxForm({
+export default reduxForm({
   form: 'footer'
-})(AdminFooter)
-
-const mapStateToProps = ({
-  brand: {
-    _id,
-    footer: { image, values },
-    isFetching,
-    theme: { fontFamily, palette: { canvasColor, primary1Color } }
-  }
-}) => ({
-  _id,
-  image,
-  isFetching,
-  canvasColor,
-  fontFamily,
-  initialValues: values,
-  primary1Color,
-})
-
-AdminFooter = connect(mapStateToProps)(AdminFooter)
-
-export default AdminFooter
+})(FooterAdmin)
