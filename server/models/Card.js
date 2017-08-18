@@ -2,10 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 
 import { uploadFile, deleteFile } from '../middleware/s3'
 
-const s3Path = `${process.env.APP_NAME}/cards/card_`
-
 const CardSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
   pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: {
@@ -14,14 +11,17 @@ const CardSchema = new Schema({
     height: { type: Number, trim: true, default: 433 }
   },
   values: {
-    flex: { type: String, trim: true, default: '1 1 auto' },
+    button1Content: { type: String, trim: true },
+    button1Link: { type: String, trim: true },
+    button2Content: { type: String, trim: true },
+    button2Link: { type: String, trim: true },
+    h1Content: { type: String, trim: true, default: 'Heading 1' },
+    h2Content: { type: String, trim: true, default: 'Heading 2' },
+    h3Content: { type: String, trim: true, default: 'Heading 3' },
     iframe: { type: String, trim: true },
-    iframeBorder: { type: String, trim: true },
     link: { type: String, trim: true },
-    margin: { type: String, trim: true },
-    text: { type: String, trim: true },
-    width: { type: String, trim: true },
-    zDepth: { type: Number, trime: true, default: 1 }
+    mediaBorder: { type: String, trim: true },
+    pContent: { type: String, time: true, default: '<p>Paragraph</p>' },
   }
 }, {
   timestamps: true
@@ -29,7 +29,7 @@ const CardSchema = new Schema({
 
 CardSchema.pre('remove', function(next) {
   const card = this
-  if (card.image && card.image.src) {
+  if (card.image.src) {
     deleteFile({ Key: card.image.src }).catch(err => console.error(err))
   }
   next()

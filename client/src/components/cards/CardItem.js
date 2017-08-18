@@ -7,7 +7,7 @@ import { Card, CardMedia, CardText } from 'material-ui/Card'
 import cardContainer from '../../containers/cards/cardContainer'
 import loadImage from '../images/loadImage'
 
-const CardItem = ({ cursor, dispatch, item, zDepth, events }) => {
+const CardItem = ({ cursor, dispatch, item, elevation, events }) => {
   const { _id, image, values } = item
   const { iframe, iframeBorder, link, margin, text } = values
   const nav = !link ? null : link.indexOf("/") === 0 ? { onTouchTap: () => dispatch(push(link)) } : { onTouchTap: () => window.location = link }
@@ -16,7 +16,7 @@ const CardItem = ({ cursor, dispatch, item, zDepth, events }) => {
       {...events}
       {...nav}
       style={{ cursor, margin }}
-      zDepth={zDepth}
+      zDepth={elevation}
       id={_id}
     >
       {image && image.src && <CardMedia><img src={image.src} alt="card"/></CardMedia>}
@@ -38,7 +38,7 @@ CardItem.propTypes = {
   cursor: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
-  zDepth: PropTypes.number.isRequired,
+  elevation: PropTypes.number.isRequired,
   events: PropTypes.object,
 }
 

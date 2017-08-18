@@ -21,12 +21,11 @@ const validate = values => {
 }
 
 const fields = [
-  'description',
-  'flex',
-  'margin',
-  'name',
-  'price',
-  'width'
+  { name: 'flex', type: 'text' },
+  { name: 'margin', type: 'text' },
+  { name: 'name', type: 'text' },
+  { name: 'price', type: 'number' },
+  { name: 'width', type: 'text' }
 ]
 
 class AdminProductEdit extends Component {
@@ -111,11 +110,12 @@ class AdminProductEdit extends Component {
           </CardMedia>
           <form>
             <div className="field-container">
-              {fields.map(field => (
+              {fields.map(({ name, type }) => (
                 <Field
-                  key={field}
-                  name={field}
-                  label={field}
+                  key={name}
+                  name={name}
+                  label={name}
+                  type={type}
                   className="field"
                   component={renderTextField}
                 />

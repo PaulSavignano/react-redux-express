@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose'
 import { deleteFile } from '../middleware/s3'
 
 const ArticleSchema = new Schema({
+  pageSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   image: {
     src: { type: String, trim: true },
@@ -10,12 +11,19 @@ const ArticleSchema = new Schema({
     height: { type: Number, trim: true, default: 433 }
   },
   values: {
-    title: { type: String, trim: true, default: 'Title' },
-    subtitle: { type: String, trim: true, default: 'Subtitle' },
-    text: { type: String, trim: true, default: 'Text' },
-    textAlign: { type: String, trim: true, default: 'right'},
-    imageFlex: { type: String, trim: true, default: '1 1 auto' },
-    navigation: { type: String, trim: true },
+    button1Content: { type: String, trim: true },
+    button1Link: { type: String, trim: true },
+    button2Content: { type: String, trim: true },
+    button2Link: { type: String, trim: true },
+    flexFlow: { type: String, trim: true, default: 'row wrap' },
+    h1Content: { type: String, trim: true, default: 'Heading 2' },
+    h2Content: { type: String, trim: true, default: 'Heading 2' },
+    h3Content: { type: String, trim: true, default: 'Heading 3' },
+    iframe: { type: String, trim: true },
+    mediaAlign: { type: String, trim: true, default: 'right' },
+    mediaBorder: { type: String, trim: true },
+    mediaFlex: { type: String, trim: true, default: '1 1 auto' },
+    pContent: { type: String, time: true, default: '<p>Paragraph</p>' },
   }
 }, {
   timestamps: true

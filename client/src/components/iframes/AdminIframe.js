@@ -14,13 +14,13 @@ const AdminIframe = ({ dispatch, item, isFetching }) => {
       iframe,
       margin,
       width,
-      zDepth
+      elevation
     }
   } = item
   return (
     <Card
       onTouchTap={() => dispatch(startEdit(item._id))}
-      zDepth={zDepth}
+      zDepth={elevation}
       style={{
         border,
         flex,

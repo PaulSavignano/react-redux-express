@@ -11,16 +11,16 @@ import { fetchUpdate, fetchDelete } from '../../actions/pages'
 
 class AdminPagesItem extends Component {
   state = {
-    zDepth: 1
+    elevation: 1
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleMouseEnter = () => this.setState({ elevation: 4 })
+  handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
     const { dispatch, handleSubmit, item, dirty } = this.props
     const { _id, slug } = item
     return (
       <Card
-        zDepth={this.state.zDepth}
+        zDepth={this.state.elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="vertical-card"

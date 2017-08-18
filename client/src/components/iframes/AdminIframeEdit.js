@@ -11,12 +11,12 @@ import renderTextField from '../fields/renderTextField'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/iframes'
 
 const fields = [
-  'backgroundColor',
-  'flex',
-  'iframe',
-  'margin',
-  'width',
-  'zDepth'
+  { name: 'backgroundColor', type: 'text' },
+  { name: 'elevation', type: 'text' },
+  { name: 'flex', type: 'text' },
+  { name: 'iframe', type: 'text' },
+  { name: 'margin', type: 'text' },
+  { name: 'width', type: 'text' }
 ]
 
 const AdminIframeEdit = ({
@@ -65,11 +65,12 @@ const AdminIframeEdit = ({
         <Card>
           <CardHeader title={`Iframe ${_id}`}/>
           <form className="field-container">
-            {fields.map(field => (
+            {fields.map(({ name, type }) => (
               <Field
-                key={field}
-                name={field}
-                label={field}
+                key={name}
+                name={name}
+                label={name}
+                type={type}
                 className="field"
                 component={renderTextField}
               />
@@ -84,7 +85,10 @@ const AdminIframeEdit = ({
 export default compose(
   connect((state, { item: { _id, values }}) => ({
     form: `iframe_${_id}`,
-    initialValues: values
+    initialValues: {
+      ...values,
+      elevation: values.elevation && values.elevation.toString()
+    }
   })),
   reduxForm({
     destroyOnUnmount: false,

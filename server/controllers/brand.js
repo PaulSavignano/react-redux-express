@@ -1,14 +1,12 @@
 import express from 'express'
 import { ObjectID } from 'mongodb'
 import url from 'url'
-import Brand from '../models/Brand'
-import authenticate from '../middleware/authenticate'
-import { uploadFile, deleteFile } from '../middleware/s3'
 import moment from 'moment'
 
-const brands = express.Router()
+import Brand from '../models/Brand'
+import { uploadFile, deleteFile } from '../middleware/s3'
 
-// Create
+
 export const add = (req, res) => {
   const _id = new ObjectID()
   const brand = new Brand({ _id })
@@ -20,7 +18,7 @@ export const add = (req, res) => {
     })
 }
 
-// Read
+
 export const get = (req, res) => {
   Brand.find({})
     .then(doc => res.send(doc))
@@ -30,7 +28,7 @@ export const get = (req, res) => {
     })
 }
 
-// By page name
+
 export const getId = (req, res) => {
   const _id = req.params._id
   Brand.find({ _id })
@@ -42,9 +40,6 @@ export const getId = (req, res) => {
 }
 
 
-
-
-// Update AppBar
 export const updateAppBar = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
@@ -122,8 +117,6 @@ export const updateAppBar = (req, res) => {
 }
 
 
-
-// Update Article
 export const updateArticle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
@@ -318,8 +311,3 @@ export const remove = (req, res) => {
     res.status(400).send({ error })
   })
 }
-
-
-
-
-export default brands

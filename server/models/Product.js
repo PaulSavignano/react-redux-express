@@ -5,7 +5,6 @@ import { uploadFile, deleteFile } from '../middleware/s3'
 const s3Path = `${process.env.APP_NAME}/products/product_`
 
 const ProductSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
   pageSlug: { type: String },
   productSlug: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },

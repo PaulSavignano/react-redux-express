@@ -15,6 +15,7 @@ import buttons from './routes/buttons'
 import cards from './routes/cards'
 import carousels from './routes/carousels'
 import carts from './routes/carts'
+import heros from './routes/heros'
 import iframes from './routes/iframes'
 import images from './routes/images'
 import orders from './routes/orders'
@@ -37,6 +38,7 @@ app.use('/api/buttons', buttons)
 app.use('/api/cards', cards)
 app.use('/api/carousels', carousels)
 app.use('/api/carts', carts)
+app.use('/api/heros', heros)
 app.use('/api/iframes', iframes)
 app.use('/api/images', images)
 app.use('/api/orders', orders)

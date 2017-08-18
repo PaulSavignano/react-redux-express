@@ -11,6 +11,7 @@ import cards from '../reducers/cards'
 import carts from '../reducers/carts'
 import carousels from '../reducers/carousels'
 import drawer from '../reducers/drawer'
+import heros from '../reducers/heros'
 import iframes from '../reducers/iframes'
 import images from '../reducers/images'
 import orders from '../reducers/orders'
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   carousels,
   drawer,
   form: formReducer,
+  heros,
   iframes,
   images,
   orders,

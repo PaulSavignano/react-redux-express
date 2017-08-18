@@ -5,7 +5,7 @@ import loadImage from '../images/loadImage'
 import AdminSectionEditButton from './AdminSectionEditButton'
 import AdminArticle from '../articles/AdminArticle'
 import AdminButton from '../buttons/AdminButton'
-import AdminCardItem from '../cards/AdminCardItem'
+import AdminCard from '../cards/AdminCard'
 import AdminSectionCarousel from '../carousels/AdminSectionCarousel'
 import AdminContactForm  from '../../containers/users/AdminContactForm'
 import AdminIframe from '../iframes/AdminIframe'
@@ -29,7 +29,7 @@ const renderComponents = (components, item) => {
       case 'Carousel':
         return <AdminSectionCarousel key={component._id} componentId={componentId} />
       case 'Card':
-        return <AdminCardItem key={component._id} componentId={componentId} />
+        return <AdminCard key={component._id} componentId={componentId} />
       case 'Iframe':
         return <AdminIframe key={component._id} componentId={componentId} />
       case 'Image':
@@ -74,7 +74,6 @@ const AdminSection = ({ dispatch, item, page }) => {
         ...backgroundImage,
         backgroundColor,
         marginTop: containerMarginTop,
-        minHeight: 64
       }}
       {...backgroundImageClass}
     >
@@ -82,7 +81,7 @@ const AdminSection = ({ dispatch, item, page }) => {
         <div style={{
           display: 'flex',
           flexFlow,
-          minHeight,
+          minHeight: minHeight || '64px',
           justifyContent,
           alignItems,
           margin,

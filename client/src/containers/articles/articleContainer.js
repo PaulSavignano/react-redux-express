@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -7,29 +7,35 @@ const articleContainer = (ComposedComponent) => {
     article,
     dispatch,
     isFetching,
-    item
-  }) => (
-    isFetching ? null :
-    <ComposedComponent
-      article={article}
-      dispatch={dispatch}
-      item={item}
-    />
-  )
+    item,
+    typography
+  }) => {
+    const props = {
+      article,
+      dispatch,
+      item,
+      typography
+    }
+    return (
+      isFetching ? null : <ComposedComponent {...props} />
+    )
+  }
   const mapStateToProps = ({
     articles,
-    brand: { isFetching, article }
+    brand: { isFetching, article, typography }
   }, {
     componentId
   }) => ({
     article,
     isFetching: isFetching || articles.isFetching ? true : false,
-    item: !articles.isFetching && articles.items.find(item => item._id === componentId)
+    item: !articles.isFetching && articles.items.find(item => item._id === componentId),
+    typography
   })
   ArticleContainer.propTypes = {
     article: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    typography: PropTypes.object.isRequired
   }
   return connect(mapStateToProps)(ArticleContainer)
 }

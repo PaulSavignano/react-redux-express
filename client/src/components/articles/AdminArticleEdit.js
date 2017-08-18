@@ -9,17 +9,26 @@ import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 import MenuItem from 'material-ui/MenuItem'
 
+import renderWysiwgyField from '../fields/renderWysiwgyField'
 import renderTextField from '../../components/fields/renderTextField'
 import renderSelectField from '../../components/fields/renderSelectField'
 import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/articles'
 
 const fields = [
-  'title',
-  'subtitle',
-  'text',
-  'imageFlex',
-  'navigation'
+  'button1Content',
+  'button1Link',
+  'button2Content',
+  'button2Link',
+  'flexFlow',
+  'h1Content',
+  'h2Content',
+  'h3Content',
+  'iframe',
+  'mediaAlign',
+  'mediaBorder',
+  'mediaFlex',
+  'pContent'
 ]
 
 class AdminArticleEdit extends Component {
@@ -108,14 +117,21 @@ class AdminArticleEdit extends Component {
                 />
               ))}
               <Field
-                name="textAlign"
+                name="imageAlign"
                 component={renderSelectField}
-                label="textAlign"
+                label="imageAlign"
                 className="field"
               >
-                <MenuItem value={1} primaryText="Right" />
-                <MenuItem value={2} primaryText="Left" />
+                <MenuItem value="right" primaryText="Right" />
+                <MenuItem value="left" primaryText="Left" />
               </Field>
+            </div>
+            <div>
+              <Field
+                name="text"
+                label="text"
+                component={renderWysiwgyField}
+              />
             </div>
           </form>
           {error && <div className="error">{error}</div>}
@@ -133,13 +149,5 @@ AdminArticleEdit.propTypes = {
   submitting: PropTypes.bool.isRequired,
 }
 
-export default compose(
-  connect((state, { item: { _id, values }}) => ({
-    form: `article_${_id}`,
-    initialValues: values
-  })),
-  reduxForm({
-    destroyOnUnmount: false,
-    asyncBlurFields: []
-  })
-)(AdminArticleEdit)
+
+export default reduxForm()(AdminArticleEdit)

@@ -15,7 +15,8 @@ const CartSchema = new Schema({
     price: { type: Number, required: true },
     total: { type: Number }
   }],
-  createdAt: { type: Date, default: Date.now }
+}, {
+  timestamps: true
 })
 
 const Cart = mongoose.model('Cart', CartSchema)

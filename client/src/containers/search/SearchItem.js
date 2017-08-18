@@ -8,17 +8,17 @@ import { searchDelete } from '../../actions/search'
 
 class SearchItem extends Component {
   state = {
-    zDepth: 1,
+    elevation: 1,
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleMouseEnter = () => this.setState({ elevation: 4 })
+  handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
     const { dispatch, item } = this.props
     const { _id, values, image, pageSlug, productSlug } = item
     const slug = item.productSlug ? `products/${productSlug}` : pageSlug
     return (
       <Card
-        zDepth={this.state.zDepth}
+        zDepth={this.state.elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={() => {

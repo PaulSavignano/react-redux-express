@@ -11,6 +11,7 @@ class Product extends Component {
   render() {
     const {
       dispatch,
+      elevation,
       events,
       item: {
         _id,
@@ -23,12 +24,11 @@ class Product extends Component {
           price,
         }
       },
-      zDepth
     } = this.props
     return (
       <Card
         {...events}
-        zDepth={zDepth}
+        zDepth={elevation}
         style={{ margin }}
         id={_id}
       >

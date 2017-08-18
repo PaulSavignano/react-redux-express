@@ -8,12 +8,12 @@ const Image  = ({
   item: {
     image,
     values: {
-      margin,
-      zDepth
+      elevation,
+      margin
     }
   }
 }) => (
-  <Card zDepth={zDepth} style={{ margin }}>
+  <Card zDepth={elevation} style={{ margin }}>
     <CardMedia><img src={image.src} alt="card"/></CardMedia>
   </Card>
 )

@@ -8,7 +8,7 @@ import loadImage from '../images/loadImage'
 import AdminCardEdit from './AdminCardEdit'
 import { startEdit } from '../../actions/cards'
 
-const AdminCardItem = ({ cursor, dispatch, item, zDepth, events }) => {
+const AdminCard = ({ cursor, dispatch, item, elevation, events }) => {
   const { _id, editing, image, values } = item
   const { iframe, iframeBorder, margin, text } = values
   return (
@@ -16,7 +16,7 @@ const AdminCardItem = ({ cursor, dispatch, item, zDepth, events }) => {
       {...events}
       onTouchTap={() => dispatch(startEdit(_id))}
       style={{ cursor, margin }}
-      zDepth={zDepth}
+      zDepth={elevation}
       id={_id}
     >
       {image && image.src && <CardMedia><img src={image.src} alt="card"/></CardMedia>}
@@ -35,10 +35,10 @@ const AdminCardItem = ({ cursor, dispatch, item, zDepth, events }) => {
   )
 }
 
-AdminCardItem.propTypes = {
+AdminCard.propTypes = {
   item: PropTypes.object.isRequired,
-  zDepth: PropTypes.number.isRequired,
+  elevation: PropTypes.number.isRequired,
   events: PropTypes.object,
 }
 
-export default cardContainer(loadImage(AdminCardItem))
+export default cardContainer(loadImage(AdminCard))

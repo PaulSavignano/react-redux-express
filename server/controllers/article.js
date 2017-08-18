@@ -3,7 +3,6 @@ import moment from 'moment'
 
 import Article from '../models/Article'
 import Section from '../models/Section'
-import authenticate from '../middleware/authenticate'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {

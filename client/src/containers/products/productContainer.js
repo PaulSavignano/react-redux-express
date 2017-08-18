@@ -4,12 +4,12 @@ import { connect } from 'react-redux'
 const productContainer = (ComposedComponent) => {
   class Container extends Component {
     state = {
-      zDepth: 1
+      elevation: 1
     }
-    handleMouseEnter = () => this.setState({ zDepth: 4 })
-    handleMouseLeave = () => this.setState({ zDepth: 1 })
+    handleMouseEnter = () => this.setState({ elevation: 4 })
+    handleMouseLeave = () => this.setState({ elevation: 1 })
     render() {
-      const { zDepth } = this.state
+      const { elevation } = this.state
       const {
         dispatch,
         isFetching,
@@ -22,7 +22,7 @@ const productContainer = (ComposedComponent) => {
       const props = {
         dispatch,
         item,
-        zDepth,
+        elevation,
         events
       }
       return (

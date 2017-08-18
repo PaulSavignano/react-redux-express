@@ -43,7 +43,7 @@ class FooterAdmin extends Component {
     } = this.props
     return (
       <Card
-        zDepth={this.state.zDepth}
+        zDepth={0}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"

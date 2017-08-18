@@ -11,9 +11,9 @@ import { startEdit } from '../../actions/products'
 
 const AdminProduct = ({
   dispatch,
+  elevation,
   events,
   item,
-  zDepth
 }) => {
   const {
     _id,
@@ -29,7 +29,7 @@ const AdminProduct = ({
   return (
     <Card
       {...events}
-      zDepth={zDepth}
+      zDepth={elevation}
       onTouchTap={() => dispatch(startEdit(_id))}
       style={{ margin }}
       id={_id}

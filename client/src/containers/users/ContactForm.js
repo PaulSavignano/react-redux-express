@@ -26,20 +26,20 @@ const validate = values => {
 class ContactForm extends Component {
   state = {
     open: false,
-    zDepth: 1,
+    elevation: 1,
   }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleMouseEnter = () => this.setState({ elevation: 4 })
+  handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
-    const { open, zDepth } = this.state
+    const { open, elevation } = this.state
     const { dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
     return (
       <Card
-        zDepth={zDepth}
+        zDepth={elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         style={{ flex: '1 1 auto', margin: 16 }}

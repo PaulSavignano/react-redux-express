@@ -12,10 +12,10 @@ import ImageForm from '../images/ImageForm'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/images'
 
 const fields = [
-  'flex',
-  'margin',
-  'width',
-  'zDepth'
+  { name: 'elevation', type: 'text' },
+  { name: 'flex', type: 'text' },
+  { name: 'margin', type: 'text' },
+  { name: 'width', type: 'text' },
 ]
 
 class AdminImageEdit extends Component {
@@ -109,7 +109,10 @@ class AdminImageEdit extends Component {
 export default compose(
   connect((state, { item: { _id, values } }) => ({
     form: `image_${_id}`,
-    initialValues: values
+    initialValues: {
+      ...values,
+      elevation: values.elevation && values.elevation.toString()
+    }
   })),
   reduxForm({
     destroyOnUnmount: false,

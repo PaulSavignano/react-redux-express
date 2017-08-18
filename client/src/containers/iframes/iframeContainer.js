@@ -4,16 +4,16 @@ import { connect } from 'react-redux'
 const iframeContainer = (ComposedComponent) => {
   class Container extends Component {
     state = {
-      zDepth: null
+      elevation: null
     }
     componentWillMount() {
       const { values } = this.props.item
-      if (values.zDepth) this.setState({ zDepth: values.zDepth })
+      if (values.elevation) this.setState({ elevation: values.elevation })
     }
-    handleMouseEnter = () => this.setState({ zDepth: 4 })
-    handleMouseLeave = () => this.setState({ zDepth: 1 })
+    handleMouseEnter = () => this.setState({ elevation: 4 })
+    handleMouseLeave = () => this.setState({ elevation: 1 })
     render() {
-      const { zDepth } = this.state
+      const { elevation } = this.state
       const {
         dispatch,
         isFetching,
@@ -22,7 +22,7 @@ const iframeContainer = (ComposedComponent) => {
       const props = {
         dispatch,
         item,
-        zDepth,
+        elevation,
       }
       return (
         !isFetching && item && <ComposedComponent {...props} />

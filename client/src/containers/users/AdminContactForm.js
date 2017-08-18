@@ -8,18 +8,18 @@ import AdminContactFormEdit from './AdminContactFormEdit'
 
 class AdminContactForm extends Component {
   state = {
-    zDepth: 1,
+    elevation: 1,
     editing: false
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleMouseEnter = () => this.setState({ elevation: 4 })
+  handleMouseLeave = () => this.setState({ elevation: 1 })
   handleEdit = () => this.setState({ editing: !this.state.editing })
   render() {
-    const { editing, zDepth } = this.state
+    const { editing, elevation } = this.state
     const { componentId, sectionId } = this.props
     return (
       <Card
-        zDepth={zDepth}
+        zDepth={elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={() => this.setState({ editing: true })}

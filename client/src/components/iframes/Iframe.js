@@ -12,13 +12,13 @@ const Iframe = ({
       iframe,
       margin,
       width,
-      zDepth
+      elevation
     }
   },
   isFetching,
 }) => (
   <Card
-    zDepth={zDepth}
+    zDepth={elevation}
     style={{ border, flex, margin, width, cursor: 'pointer' }}
   >
     <div style={{ position: 'relative', paddingBottom: '50%' }}>

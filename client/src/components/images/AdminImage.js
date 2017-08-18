@@ -16,13 +16,13 @@ const AdminImage  = ({
     image,
     values: {
       margin,
-      zDepth
+      elevation
     }
   } = item
   return (
     <Card
       onTouchTap={() => dispatch(startEdit(_id))}
-      zDepth={zDepth}
+      zDepth={elevation}
       style={{ margin }}
     >
       <CardMedia><img src={image.src} alt="section item"/></CardMedia>

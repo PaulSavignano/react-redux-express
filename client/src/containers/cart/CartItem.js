@@ -10,10 +10,10 @@ import formatPrice from '../../utils/formatPrice'
 
 class CartItem extends Component {
   state = {
-    zDepth: 1
+    elevation: 1
   }
-  handleMouseEnter = () => this.setState({ zDepth: 4 })
-  handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleMouseEnter = () => this.setState({ elevation: 4 })
+  handleMouseLeave = () => this.setState({ elevation: 1 })
   add = (e, dispatch, productId) => {
     e.stopPropagation()
     const update = { type: 'ADD_TO_CART', productId, productQty: 1 }
@@ -40,7 +40,7 @@ class CartItem extends Component {
     const navToPage = product && { onTouchTap: () => dispatch(push(`/products/${product.productSlug}`)) }
     return (
       <Card
-        zDepth={this.state.zDepth}
+        zDepth={this.state.elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"

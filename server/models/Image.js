@@ -14,10 +14,10 @@ const ImageSchema = new Schema({
     height: { type: Number, trim: true, default: 433 }
   },
   values: {
+    elevation: { type: Number, trime: true, default: 1 },
     flex: { type: String, trim: true, default: '1 1 auto' },
     margin: { type: String, trim: true },
-    width: { type: String, trim: true },
-    zDepth: { type: Number, trime: true, default: 1 }
+    width: { type: String, trim: true }
   }
 }, {
   timestamps: true

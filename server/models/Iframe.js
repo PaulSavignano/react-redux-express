@@ -6,11 +6,11 @@ const IframeSchema = new Schema({
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
     border: { type: String, trim: true },
+    elevation: { type: Number, trime: true, default: 1 },
     flex: { type: String, trim: true, default: '1 1 auto' },
     margin: { type: String, trim: true },
     iframe: { type: String, trim: true },
-    width: { type: String, trim: true },
-    zDepth: { type: Number, trime: true, default: 1 }
+    width: { type: String, trim: true }
   }
 }, {
   timestamps: true
