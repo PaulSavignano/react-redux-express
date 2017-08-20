@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
@@ -32,6 +33,21 @@ class AdminSlideEdit extends Component {
     this.setState({ imageEdit: false })
     return this.props.dispatch(fetchUpdateSub(carouselId, _id, update))
   }
+  handleForm = (values) => {
+    const { dispatch, item: { _id, image }} = this.props
+    if (this.state.imageEdit) {
+      const newImage = this.editor.handleSave()
+      const remmoveImageSrc = image.src
+      return dispatch(fetchUpdateSub(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, remmoveImageSrc, values }))
+    } else {
+      return dispatch(fetchUpdateSub(_id, { type: 'UPDATE_VALUES', values }))
+    }
+  }
+  handleRemoveSub = () => {
+    const { carouselId, dispatch, slide } = this.props
+    return dispatch(fetchDeleteSub(carouselId, slide._id, slide.image))
+  }
+  handleStopEdit = () => this.props.dispatch(stopEditSlide(this.props.slide._id))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -48,15 +64,7 @@ class AdminSlideEdit extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              onTouchTap={handleSubmit((values) => {
-                if (this.state.imageEdit) {
-                  const image = this.editor.handleSave()
-                  const removeImageSrc = image.src
-                  return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, removeImageSrc, values }))
-                } else {
-                  return dispatch(fetchUpdateSub(carouselId, slide._id, { type: 'UPDATE_VALUES', values }))
-                }
-              })}
+              onTouchTap={handleSubmit(values => this.handleForm(values))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SLIDE'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -67,7 +75,7 @@ class AdminSlideEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDeleteSub(carouselId, slide._id, slide.image))}
+              onTouchTap={this.handleRemoveSub}
             />
             <RaisedButton
               type="button"
@@ -75,13 +83,13 @@ class AdminSlideEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '1 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEditSlide(slide._id))}
+              onTouchTap={this.handleStopEdit}
             />
           </div>
         }
         modal={false}
         open={open}
-        onRequestClose={() => dispatch(stopEditSlide(slide._id))}
+        onRequestClose={this.handleStopEdit}
         autoScrollBodyContent={true}
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}

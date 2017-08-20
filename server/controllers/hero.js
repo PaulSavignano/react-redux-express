@@ -7,7 +7,7 @@ import { deleteFile, uploadFile } from '../middleware/s3'
 
 
 export const add = (req, res) => {
-  const { sectionId, pageSlug } = req.body
+  const { pageSlug, sectionId } = req.body
   const newDoc = new Hero({
     sectionId: ObjectID(sectionId),
     pageSlug,

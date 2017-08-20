@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 const footerContainer = (ComposedComponent) => {
@@ -23,6 +24,12 @@ const footerContainer = (ComposedComponent) => {
     item: footer,
     isFetching
   })
+  FooterContainer.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    business: PropTypes.object.isRequired,
+    item: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired
+  }
   return connect(mapStateToProps)(FooterContainer)
 }
 

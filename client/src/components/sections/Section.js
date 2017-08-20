@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import sectionContainer from '../../containers/sections/sectionContainer'
 import loadImage from '../images/loadImage'
 import Article from '../articles/Article'
 import Button from '../buttons/Button'
@@ -62,7 +63,6 @@ const Section = ({
     }
   }
 }) => {
-  const slides = components.filter(item => item.type === 'Slide')
   const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
   const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
@@ -98,4 +98,4 @@ Section.propTypes = {
   item: PropTypes.object.isRequired
 }
 
-export default loadImage(Section)
+export default sectionContainer(loadImage(Section))

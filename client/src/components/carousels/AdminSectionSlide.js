@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import { startEditSlide } from '../../actions/carousels'

@@ -1,6 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import sectionContainer from '../../containers/sections/sectionContainer'
 import loadImage from '../images/loadImage'
 import AdminSectionEditButton from './AdminSectionEditButton'
 import AdminArticle from '../articles/AdminArticle'
@@ -47,7 +49,7 @@ const renderComponents = (components, item) => {
   return components.map(component => componentList(component))
 }
 
-const AdminSection = ({ dispatch, item, page }) => {
+const AdminSection = ({ dispatch, item, pageSlug }) => {
   const {
     _id,
     components,
@@ -96,7 +98,7 @@ const AdminSection = ({ dispatch, item, page }) => {
         {editing &&
           <AdminSectionEdit
             item={item}
-            page={page}
+            pageSlug={pageSlug}
             sectionId={item._id}
           />
         }
@@ -105,4 +107,4 @@ const AdminSection = ({ dispatch, item, page }) => {
   )
 }
 
-export default loadImage(AdminSection)
+export default sectionContainer(loadImage(AdminSection))

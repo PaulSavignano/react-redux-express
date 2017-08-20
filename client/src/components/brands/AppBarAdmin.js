@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 
@@ -32,6 +33,16 @@ class AppBarAdmin extends Component {
     this.setState({ imageEdit: false })
     return this.props.dispatch(fetchUpdate(`appbar/${_id}`, update))
   }
+  handleForm = (values) => {
+    const { _id, dispatch, image } = this.props
+    const path = `appbar/${_id}`
+    if (this.state.imageEdit) {
+      const newImage = this.editor.handleSave()
+      const removeImageSrc = image.src
+      return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, removeImageSrc, values }))
+    }
+    return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
+  }
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -64,15 +75,7 @@ class AppBarAdmin extends Component {
             fontFamily={fontFamily}
           />
         </CardMedia>
-        <form onSubmit={handleSubmit((values) => {
-          const path = `appbar/${_id}`
-          if (this.state.imageEdit) {
-            const img = this.editor.handleSave()
-            const removeImageSrc = image.src
-            return dispatch(fetchUpdate(path, { type: 'UPDATE_IMAGE_AND_VALUES', image: img, removeImageSrc, values }))
-          }
-          return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
-        })}
+        <form onSubmit={handleSubmit(values => this.handleForm(values))}
         >
           <div className="field-container">
             {fields.map(field => (

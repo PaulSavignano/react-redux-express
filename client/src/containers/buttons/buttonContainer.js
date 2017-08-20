@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 const buttonContainer = (ComposedComponent) => {
-  class Container extends Component {
+  class ButtonContainer extends Component {
     render() {
       const { dispatch, isFetching, item } = this.props
       const props = { dispatch, item }
@@ -15,7 +15,7 @@ const buttonContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
-  return connect(mapStateToProps)(Container)
+  return connect(mapStateToProps)(ButtonContainer)
 }
 
 export default buttonContainer

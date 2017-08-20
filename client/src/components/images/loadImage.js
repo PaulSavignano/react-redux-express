@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
 const loadImage = (ComposedComponent) => {
-  class Container extends Component {
+  class ImageContainer extends Component {
     state = {
       image: false,
       loading: true
@@ -21,8 +21,8 @@ const loadImage = (ComposedComponent) => {
     render() {
       const { image, loading } = this.state
       const { item } = this.props
-      const flex = item.values && item.values.flex &&  item.values.flex
-      const width = item.values && item.values.width && item.values.width
+      const flex = item.values && item.values.flex ? item.values.flex : '1 1 auto'
+      const width = item.values && item.values.width ? item.values.width : null
       return (
         loading ? null : image ?
         <CSSTransitionGroup
@@ -31,7 +31,7 @@ const loadImage = (ComposedComponent) => {
           transitionAppearTimeout={600}
           transitionEnter={false}
           transitionLeave={false}
-          style={{ flex: '1 1 auto' }}
+          style={{ flex, width }}
         >
           <ComposedComponent {...this.props} />
         </CSSTransitionGroup>
@@ -42,7 +42,7 @@ const loadImage = (ComposedComponent) => {
       )
     }
   }
-  return Container
+  return ImageContainer
 }
 
 export default loadImage

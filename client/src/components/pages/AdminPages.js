@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import pagesContainer from '../../containers/pages/pagesContainer'
 import AdminPagesAdd from './AdminPagesAdd'

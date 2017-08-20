@@ -31,6 +31,7 @@ export const fetchAdd = (add) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
+        console.log(json)
         const { article, section } = json
         dispatch(fetchAddSuccess(article))
         dispatch(sectionActions.fetchUpdateSuccess(section))
@@ -65,7 +66,7 @@ export const fetchArticles = () => {
         dispatch(fetchSuccess(json))
       })
       .catch(err => {
-        console.og(err)
+        console.log(err)
         dispatch(fetchFailure(err))
       })
   }

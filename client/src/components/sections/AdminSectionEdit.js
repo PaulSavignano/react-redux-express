@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
@@ -10,6 +11,7 @@ import MenuItem from 'material-ui/MenuItem'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
 
+import AdminSectionAddComponent from './AdminSectionAddComponent'
 import ImageForm from '../images/ImageForm'
 import renderTextField from '../fields/renderTextField'
 import { fetchAdd as articleAdd } from '../../actions/articles'
@@ -68,11 +70,25 @@ class AdminSectionEdit extends Component {
     this.setState({ imageEdit: false })
     return this.props.dispatch(fetchUpdate(_id, update))
   }
-  handleComponentAdd = (action, dispatch, item, page) => {
-    dispatch(action({ pageId: page._id, pageSlug: page.slug, sectionId: item._id }))
+  handleAddContactForm = () => {
+    const { dispatch, item } = this.props
+    const add = { type: 'ADD_CONTACT_FORM' }
+    dispatch(fetchUpdate(item._id, add))
     this.setState({ openMenu: false })
     dispatch(stopEdit(item._id))
   }
+  handleForm = (values) => {
+    const { dispatch, item: { _id, image }} = this.props
+    if (this.state.imageEdit) {
+      const newImage = this.editor.handleSave()
+      const remmoveImageSrc = image.src
+      return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, remmoveImageSrc, values }))
+    } else {
+      return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
+    }
+  }
+  handleStopEdit = () => this.props.dispatch(stopEdit(this.props.item._id))
+  handleRemove = () => this.props.dispatch(fetchDelete(this.props.item._id, this.props.item.image))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -105,33 +121,22 @@ class AdminSectionEdit extends Component {
             >
               <Menu autoWidth={true}>
                 {components.map(component => (
-                  <MenuItem
+                  <AdminSectionAddComponent
+                    component={component}
+                    dispatch={dispatch}
+                    item={item}
                     key={component.label}
-                    primaryText={component.label}
-                    onTouchTap={() => this.handleComponentAdd(component.action, dispatch, item, page)}
+                    page={page}
                   />
                 ))}
                 <MenuItem
                   primaryText="Contact Form"
-                  onTouchTap={() => {
-                    const add = { type: 'ADD_CONTACT_FORM' }
-                    dispatch(fetchUpdate(item._id, add))
-                    this.setState({ openMenu: false })
-                    dispatch(stopEdit(item._id))
-                  }}
+                  onTouchTap={this.handleAddContactForm}
                 />
               </Menu>
             </Popover>
             <RaisedButton
-              onTouchTap={handleSubmit((values) => {
-                if (this.state.imageEdit) {
-                  const image = this.editor.handleSave()
-                  const removeImageSrc = image.src
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_IMAGE_AND_VALUES', image, removeImageSrc, values }))
-                } else {
-                  return dispatch(fetchUpdate(item._id, { type: 'UPDATE_VALUES', values }))
-                }
-              })}
+              onTouchTap={handleSubmit(values => this.handleForm(values))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SECTION'}
               primary={true}
               style={{ flex: '0 1 auto', margin: 4 }}
@@ -142,7 +147,7 @@ class AdminSectionEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(item._id, item.image))}
+              onTouchTap={this.handleRemove}
             />
             <RaisedButton
               type="button"
@@ -150,13 +155,13 @@ class AdminSectionEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(item._id))}
+              onTouchTap={this.handleStopEdit}
             />
           </div>
         }
         modal={false}
         open={item.editing}
-        onRequestClose={() => dispatch(stopEdit(item._id))}
+        onRequestClose={this.handleStopEdit}
         autoScrollBodyContent={true}
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
@@ -189,7 +194,7 @@ class AdminSectionEdit extends Component {
   }
 }
 
-AdminSectionEdit = compose(
+export default compose(
   connect((state, { item: { _id, values }}) => ({
     form: `section_${_id}`,
     initialValues: values
@@ -199,5 +204,3 @@ AdminSectionEdit = compose(
     asyncBlurFields: []
   })
 )(AdminSectionEdit)
-
-export default AdminSectionEdit

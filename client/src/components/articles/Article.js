@@ -1,25 +1,25 @@
 import React from 'react'
-import { push } from 'react-router-redux'
 import PropTypes from 'prop-types'
-import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import articleContainer from '../../containers/articles/articleContainer'
-import H1 from '../typography/H1'
-import H2 from '../typography/H2'
-import H3 from '../typography/H3'
-import P from '../typography/P'
+import ArticleButtons from './ArticleButtons'
+import ArticleHeading from './ArticleHeading'
+import ArticleMedia from './ArticleMedia'
+import ArticleParagraph from './ArticleParagraph'
+
 import loadImage from '../images/loadImage'
 import AdminArticleEdit from './AdminArticleEdit'
 import { startEdit } from '../../actions/articles'
 
-const AdminArticle = ({
+const Article = ({
   article: {
     values: {
-      buttonColor,
-      buttonBackground,
+      button1Color,
+      button2Color,
+      button1Background,
+      button2Background,
       mediaElevation,
       h1Align,
       h1Color,
@@ -33,118 +33,89 @@ const AdminArticle = ({
     }
   },
   dispatch,
+  hasButtons,
+  hasHeading,
+  hasMedia,
+  hasParagraph,
   item: {
     _id,
     editing,
     image,
     values: {
-      button1Content,
+      button1Text,
       button1Link,
-      button2Content,
+      button2Text,
       button2Link,
       flexFlow,
-      h1Content,
-      h2Content,
-      h3Content,
+      h1Text,
+      h2Text,
+      h3Text,
       iframe,
       mediaAlign,
       mediaBorder,
       mediaFlex,
-      pContent
+      pText
     },
-  }
+  },
+  onButtonClick
 }) => {
-  const RenderP = () => (
-    <CardText style={{ flex: `1 1 auto`, padding: 8 }}>
-      {renderHTML(pContent)}
-    </CardText>
-  )
-  const RenderMedia = () => (
-    <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8 }}>
-      {image.src &&
-        <CardMedia>
-          <img src={image.src} alt="card"/>
-        </CardMedia>
-      }
-      {iframe &&
-        <div style={{ position: 'relative', paddingBottom: '50%' }}>
-          <iframe
-            title="iframe"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            src={iframe}
-            frameBorder="0"
-            allowFullScreen
-          >
-          </iframe>
-        </div>
-      }
-    </Paper>
-  )
   return (
-    <Card
-      zDepth={0}
+    <article
       onTouchTap={() => dispatch(startEdit(_id))}
-      style={{ width: '100%', padding: 8 }}
+      style={{ overflow: 'hidden' }}
+      className="article"
     >
-      {h1Content &&
-        <H1 textAlign={h1Align} color={h1Color} textShadow={h1TextShadow}>
-          {h1Content}
-        </H1>
+      {hasHeading &&
+        <ArticleHeading
+          h1Align={h1Align}
+          h2Align={h2Align}
+          h3Align={h3Align}
+          h1Color={h1Color}
+          h2Color={h2Color}
+          h3Color={h3Color}
+          h1Text={h1Text}
+          h2Text={h2Text}
+          h3Text={h3Text}
+          h1TextShadow={h1TextShadow}
+          h2TextShadow={h2TextShadow}
+          h3TextShadow={h3TextShadow}
+        />
       }
-      {h2Content &&
-        <H2 textAlign={h2Align} color={h2Color} textShadow={h2TextShadow}>
-          {h2Content}
-        </H2>
+      {hasParagraph && mediaAlign === 'right' ? <ArticleParagraph pText={pText} /> : null}
+      {hasMedia ?
+        <ArticleMedia
+          mediaElevation={mediaElevation}
+          mediaFlex={mediaFlex}
+          image={image}
+          iframe={iframe}
+        />
+      : null}
+      {hasParagraph && mediaAlign === 'left' ? <ArticleParagraph pText={pText} /> : null}
+      {hasButtons &&
+        <ArticleButtons
+          button1Background={button1Background}
+          button2Background={button2Background}
+          button1Color={button1Color}
+          button2Color={button2Color}
+          button1Link={button1Link}
+          button2Link={button2Link}
+          button1Text={button1Text}
+          button2Text={button2Text}
+          onButtonClick={onButtonClick}
+        />
       }
-      {h3Content &&
-        <H3 textAlign={h3Align} color={h3Color} textShadow={h3TextShadow}>
-          {h3Content}
-        </H3>
-      }
-      {pContent && mediaAlign ==='left' &&
-        <RenderMedia/>
-      }
-      {pContent &&
-        <CardText style={{ flex: `1 1 auto`, padding: 8 }}>
-          {renderHTML(pContent)}
-        </CardText>
-      }
-      {pContent && mediaAlign ==='right' &&
-        <RenderMedia/>
-      }
-      {button1Content &&
-        <div
-          style={{
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            justifyContent: 'space-around',
-            margin: 8
-          }}
-        >
-          <RaisedButton
-            backgroundColor={buttonBackground}
-            label={button1Content}
-            labelColor={buttonColor}
-            style={{ margin: 8 }}
-          />
-          {button2Content &&
-            <RaisedButton
-              backgroundColor={buttonBackground}
-              label={button2Content}
-              labelColor={buttonColor}
-              style={{ margin: 8 }}
-            />
-          }
-        </div>
-      }
-    </Card>
+    </article>
   )
 }
 
-AdminArticle.propTypes = {
+Article.propTypes = {
   article: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  hasButtons: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
+  hasMedia: PropTypes.bool.isRequired,
+  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 
-export default articleContainer(loadImage(AdminArticle))
+export default articleContainer(loadImage(Article))

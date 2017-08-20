@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 const iframeContainer = (ComposedComponent) => {
-  class Container extends Component {
+  class IframeContainer extends Component {
     state = {
       elevation: null
     }
@@ -33,7 +33,7 @@ const iframeContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
-  return connect(mapStateToProps)(Container)
+  return connect(mapStateToProps)(IframeContainer)
 }
 
 export default iframeContainer

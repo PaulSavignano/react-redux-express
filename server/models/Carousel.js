@@ -6,6 +6,7 @@ import Section from '../models/Section'
 import { deleteFiles } from '../middleware/s3'
 
 const CarouselSchema = new Schema({
+  pageSlug: { type: String },
   pathname: { type: String },
   sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
   slides: [{

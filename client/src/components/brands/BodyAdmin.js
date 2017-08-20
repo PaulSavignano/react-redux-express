@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
 
@@ -21,12 +22,9 @@ const BodyAdmin = ({
     style={{ backgroundColor, fontFamily }}
   >
     <form
-      onSubmit={handleSubmit((values) => {
-        const path = `body/${_id}`
-        return dispatch(fetchUpdate(path, { values }))
-      })}
-    >
-      <CardTitle title="Body" />
+      onSubmit={handleSubmit(values => dispatch(fetchUpdate(`body/${_id}`, { values })))}
+        >
+          <CardTitle title="Body" />
       <div className="field-container">
         <Field
           name="backgroundColor"

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { CardActions, CardTitle } from 'material-ui/Card'

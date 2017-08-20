@@ -5,31 +5,18 @@ import typographyContainer from '../../containers/typography/typographyContainer
 
 const P = ({
   children,
-  color,
-  textAlign,
-  textShadow,
-  typography: {
-    values: {
-      pFontFamily,
-      pFontSize,
-      pFontWeight,
-      pLetterSpacing
-    }
-  }
+  fontFamily,
+  textColor
 }) => (
-  <p
+  <div
     style={{
-      color,
-      fontFamily: pFontFamily,
-      fontSize: pFontSize,
-      fontWeight: pFontWeight,
-      letterSpacing: pLetterSpacing,
-      textAlign,
-      textShadow,
+      color: textColor,
+      fontFamily,
+      overflow: 'hidden'
     }}
   >
     {children}
-  </p>
+  </div>
 )
 
 export default typographyContainer(P)

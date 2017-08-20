@@ -6,8 +6,9 @@ import Section from '../models/Section'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
-  const { sectionId } = req.body
+  const { pageSlug, sectionId } = req.body
   const newDoc = new Article({
+    pageSlug,
     sectionId: ObjectID(sectionId),
     image: null,
     values: []
@@ -118,13 +119,30 @@ export const update = (req, res) => {
 
 export const remove = (req, res) => {
   const { _id } = req.params
+  console.log('inside remove')
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Article.remove(
-    { _id }
-  )
-  .then(update => res.send(update))
-  .catch(err => {
-    console.error(err)
-    res.status(400).send()
-  })
+  Article.findOne({ _id })
+    .then(article => {
+      article.remove()
+        .then(article => {
+          Section.findOneAndUpdate(
+            { _id: article.sectionId },
+            { $pull: { components: { componentId: article._id }}},
+            { new: true }
+          )
+          .then(section => res.send({ article, section }))
+          .catch(error => {
+            console.error(error)
+            res.status(400).send({ error })
+          })
+        })
+        .catch(error => {
+          console.error(error)
+          res.status(400).send({ error })
+        })
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(400).send({ error })
+    })
 }

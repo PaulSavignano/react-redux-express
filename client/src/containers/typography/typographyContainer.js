@@ -1,28 +1,46 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 const typographyContainer = (ComposedComponent) => {
-  const TypographyContainer = ({
-    dispatch,
-    isFetching,
-    typography
-  }) => {
-    const props = {
-      dispatch,
-      typography
+  class TypographyContainer extends Component {
+    render() {
+      const {
+        children,
+        color,
+        dispatch,
+        fontFamily,
+        isFetching,
+        typography,
+        textAlign,
+        textColor,
+        textShadow,
+      } = this.props
+      const props = {
+        children,
+        color,
+        dispatch,
+        fontFamily,
+        typography,
+        textAlign,
+        textColor,
+        textShadow,
+      }
+      return (
+        isFetching ? null : <ComposedComponent {...props} />
+      )
     }
-    return (
-      isFetching ? null : <ComposedComponent {...props} />
-    )
   }
   const mapStateToProps = ({
-    brand: { isFetching, typography }
+    brand: { isFetching, typography, theme: { fontFamily, palette: { textColor }} }
   }) => ({
+    fontFamily,
     isFetching,
+    textColor,
     typography
   })
   TypographyContainer.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     typography: PropTypes.object.isRequired
   }

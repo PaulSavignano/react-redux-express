@@ -1,6 +1,6 @@
 import React from 'react'
-import { push } from 'react-router-redux'
 import PropTypes from 'prop-types'
+import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -10,7 +10,6 @@ import articleContainer from '../../containers/articles/articleContainer'
 import H1 from '../typography/H1'
 import H2 from '../typography/H2'
 import H3 from '../typography/H3'
-import P from '../typography/P'
 import loadImage from '../images/loadImage'
 import AdminArticleEdit from './AdminArticleEdit'
 import { startEdit } from '../../actions/articles'
@@ -40,26 +39,22 @@ const AdminArticle = ({
     editing,
     image,
     values: {
-      button1Content,
+      button1Text,
       button1Link,
-      button2Content,
+      button2Text,
       button2Link,
       flexFlow,
-      h1Content,
-      h2Content,
-      h3Content,
+      h1Text,
+      h2Text,
+      h3Text,
       iframe,
       mediaAlign,
       mediaBorder,
       mediaFlex,
-      pContent
+      pText
     }
   } = item
-  const RenderP = () => (
-    <CardText style={{ flex: `1 1 auto`, padding: 8 }}>
-      {renderHTML(pContent)}
-    </CardText>
-  )
+  const hasMedia = image.src || iframe ? true : false
   const RenderMedia = () => (
     <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8 }}>
       {image.src &&
@@ -82,56 +77,61 @@ const AdminArticle = ({
     </Paper>
   )
   return (
-    <Card
-      zDepth={0}
+    <article
       onTouchTap={() => dispatch(startEdit(_id))}
-      style={{ width: '100%', padding: 8 }}
+      style={{ width: '100%', padding: 8, overflow: 'hidden' }}
+      className="article"
     >
-      {h1Content &&
+      {h1Text &&
         <H1 textAlign={h1Align} color={h1Color} textShadow={h1TextShadow}>
-          {h1Content}
+          {h1Text}
         </H1>
       }
-      {h2Content &&
+      {h2Text &&
         <H2 textAlign={h2Align} color={h2Color} textShadow={h2TextShadow}>
-          {h2Content}
+          {h2Text}
         </H2>
       }
-      {h3Content &&
+      {h3Text &&
         <H3 textAlign={h3Align} color={h3Color} textShadow={h3TextShadow}>
-          {h3Content}
+          {h3Text}
         </H3>
       }
-      {pContent && mediaAlign ==='left' &&
-        <RenderMedia/>
-      }
-      {pContent &&
-        <CardText style={{ flex: `1 1 auto`, padding: 8 }}>
-          {renderHTML(pContent)}
-        </CardText>
-      }
-      {pContent && mediaAlign ==='right' &&
-        <RenderMedia/>
-      }
-      {button1Content &&
+
+      {pText || hasMedia ?
+        <div style={{ display: 'flex', flexFlow}}>
+          {hasMedia && mediaAlign === 'left' ?
+            <RenderMedia/>
+          : null}
+          {pText && pText.length > 8 &&
+            <CardText style={{ flex: `1 1 auto`, padding: 8 }}>
+              {renderHTML(pText)}
+            </CardText>
+          }
+          {hasMedia && mediaAlign === 'right' ?
+            <RenderMedia/>
+          : null}
+        </div>
+      : null}
+      {button1Text &&
         <div
           style={{
             display: 'flex',
             flexFlow: 'row nowrap',
-            justifyContent: 'space-around',
+            justifyContent: 'center',
             margin: 8
           }}
         >
           <RaisedButton
             backgroundColor={buttonBackground}
-            label={button1Content}
+            label={button1Text}
             labelColor={buttonColor}
             style={{ margin: 8 }}
           />
-          {button2Content &&
+          {button2Text &&
             <RaisedButton
               backgroundColor={buttonBackground}
-              label={button2Content}
+              label={button2Text}
               labelColor={buttonColor}
               style={{ margin: 8 }}
             />
@@ -145,7 +145,7 @@ const AdminArticle = ({
           initialValues={item.values}
         />
       }
-    </Card>
+    </article>
   )
 }
 

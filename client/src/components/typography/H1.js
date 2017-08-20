@@ -13,23 +13,28 @@ const H1 = ({
       h1FontFamily,
       h1FontSize,
       h1FontWeight,
-      h1LetterSpacing
+      h1LetterSpacing,
+      h1LineHeight
     }
   }
-}) => (
-  <h1
-    style={{
-      color,
-      fontFamily: h1FontFamily,
-      fontSize: h1FontSize,
-      fontWeight: h1FontWeight,
-      letterSpacing: h1LetterSpacing,
-      textAlign,
-      textShadow,
-    }}
-  >
-    {children}
-  </h1>
-)
+}) => {
+  return (
+    <h1
+      style={{
+        color,
+        fontFamily: h1FontFamily,
+        fontSize: h1FontSize,
+        fontWeight: h1FontWeight,
+        letterSpacing: h1LetterSpacing,
+        lineHeight: h1LineHeight,
+        overflow: 'hidden',
+        textAlign,
+        textShadow,
+      }}
+    >
+      {children}
+    </h1>
+  )
+}
 
 export default typographyContainer(H1)

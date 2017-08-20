@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
@@ -27,7 +28,7 @@ const AdminCarouselEdit = ({
     actions={
       <div className="button-container">
         <RaisedButton
-          onTouchTap={handleSubmit((values) => dispatch(fetchUpdate(carousel._id, { values })))}
+          onTouchTap={handleSubmit(values => dispatch(fetchUpdate(carousel._id, { values })))}
           label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE SLIDE'}
           primary={true}
           style={{ flex: '1 1 auto', margin: 4 }}

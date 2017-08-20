@@ -34,6 +34,7 @@ const headerContainer = (ComposedComponent) => {
     search
   })
   HeaderContainer.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     brand: PropTypes.object.isRequired,
     hasProducts: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired

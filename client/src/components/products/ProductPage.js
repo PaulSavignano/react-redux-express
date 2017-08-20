@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card'

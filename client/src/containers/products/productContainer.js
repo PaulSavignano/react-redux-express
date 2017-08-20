@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 const productContainer = (ComposedComponent) => {
-  class Container extends Component {
+  class ProductContainer extends Component {
     state = {
       elevation: 1
     }
@@ -26,7 +27,7 @@ const productContainer = (ComposedComponent) => {
         events
       }
       return (
-        !isFetching && item && <ComposedComponent {...props} />
+        !isFetching && item ? <ComposedComponent {...props} /> : null
       )
     }
   }
@@ -34,7 +35,12 @@ const productContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
-  return connect(mapStateToProps)(Container)
+  ProductContainer.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired
+  }
+  return connect(mapStateToProps)(ProductContainer)
 }
 
 export default productContainer

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 const titleContainer = (ComposedComponent) => {
-  class Container extends Component {
+  class TitleContainer extends Component {
     render() {
       const { isFetching, item } = this.props
       const props = { item }
@@ -15,7 +15,7 @@ const titleContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
-  return connect(mapStateToProps)(Container)
+  return connect(mapStateToProps)(TitleContainer)
 }
 
 export default titleContainer

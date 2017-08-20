@@ -1,5 +1,6 @@
 /* global Stripe */
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import { Card, CardText, CardTitle } from 'material-ui/Card'

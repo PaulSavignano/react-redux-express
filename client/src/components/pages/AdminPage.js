@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import pageContainer from '../../containers/pages/pageContainer'
 import AdminSection from '../sections/AdminSection'
@@ -9,20 +10,21 @@ class AdminPage extends Component {
     window.scrollTo(0,0)
   }
   render() {
-    const { dispatch, page, sections } = this.props
+    const { dispatch, page } = this.props
+    const { sections } = page
     return (
       <div style={{ minHeight: '80vh'}}>
-        {sections.map(item => (
+        {sections.map(section => (
           <AdminSection
-            dispatch={dispatch}
-            key={item._id}
-            item={item}
-            page={page}
+            key={section.sectionId}
+            sectionId={section.sectionId}
+            pageSlug={page.slug}
           />
         ))}
         <AdminSectionAdd
           dispatch={dispatch}
-          page={page}
+          pageId={page._id}
+          pageSlug={page.slug}
         />
       </div>
     )

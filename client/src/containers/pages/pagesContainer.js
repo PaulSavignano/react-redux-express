@@ -1,24 +1,30 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 const pagesContainer = (ComposedComponent) => {
-  const PagesContainer = ({
-    adminAppOpen,
-    editSlide,
-    carousel,
-    dispatch,
-    isFetching,
-    pages
-  }) => (
-    isFetching ? null :
-    <ComposedComponent
-      adminAppOpen={adminAppOpen}
-      editSlide={editSlide}
-      carousel={carousel}
-      dispatch={dispatch}
-      pages={pages}
-    />
-  )
+  class PagesContainer extends Component {
+    render() {
+      const {
+        adminAppOpen,
+        editSlide,
+        carousel,
+        dispatch,
+        isFetching,
+        pages
+      } = this.props
+      const props = {
+        adminAppOpen,
+        editSlide,
+        carousel,
+        dispatch,
+        pages
+      }
+      return (
+        isFetching ? null : <ComposedComponent {...props} />
+      )
+    }
+  }
   const mapStateToProps = ({
     pages,
     carousels
@@ -30,6 +36,15 @@ const pagesContainer = (ComposedComponent) => {
     isFetching: pages.isFetching || carousels.isFetching ? true : false,
     pages: pages.items,
   })
+  PagesContainer.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    adminAppOpen: PropTypes.bool.isRequired,
+    autoplay: PropTypes.bool.isRequired,
+    editSlide: PropTypes.object,
+    carousel: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    pages: PropTypes.array.isRequired
+  }
   return connect(mapStateToProps)(PagesContainer)
 }
 

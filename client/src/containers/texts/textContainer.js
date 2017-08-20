@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 const textContainer = (ComposedComponent) => {
-  class Container extends Component {
+  class TextContainer extends Component {
     render() {
       const { dispatch, isFetching, item } = this.props
       const props = { dispatch, item }
@@ -15,7 +15,7 @@ const textContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
-  return connect(mapStateToProps)(Container)
+  return connect(mapStateToProps)(TextContainer)
 }
 
 export default textContainer

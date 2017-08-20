@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import pageContainer from '../../containers/pages/pageContainer'
 import Section from '../sections/Section'
@@ -37,10 +38,10 @@ class Page extends Component {
     const { sections } = this.props
     return (
       <div>
-        {sections.map(section => (
+        {sections.map(({ sectionId }) => (
           <Section
-            key={section._id}
-            item={section}
+            key={sectionId}
+            sectionId={sectionId}
           />
         ))}
       </div>

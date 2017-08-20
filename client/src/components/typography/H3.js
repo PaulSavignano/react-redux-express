@@ -13,7 +13,8 @@ const H3 = ({
       h3FontFamily,
       h3FontSize,
       h3FontWeight,
-      h3LetterSpacing
+      h3LetterSpacing,
+      h3LineHeight
     }
   }
 }) => (
@@ -24,6 +25,8 @@ const H3 = ({
       fontSize: h3FontSize,
       fontWeight: h3FontWeight,
       letterSpacing: h3LetterSpacing,
+      lineHeight: h3LineHeight,
+      overflow: 'hidden',
       textAlign,
       textShadow,
     }}

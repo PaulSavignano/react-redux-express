@@ -55,6 +55,7 @@ const cardContainer = (ComposedComponent) => {
   })
   CardContainer.propTypes = {
     card: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     typography: PropTypes.object.isRequired

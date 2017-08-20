@@ -7,11 +7,12 @@ import { deleteFile, uploadFile } from '../middleware/s3'
 
 
 export const add = (req, res) => {
-  const { sectionId, pathname } = req.body
+  const { pageSlug, pathname, sectionId } = req.body
   const parent = sectionId ? { sectionId: ObjectID(sectionId) } : { pathname: '/'}
   const slideId = new ObjectID()
   const newCarousel = new Carousel({
     ...parent,
+    pageSlug,
     slides: [{
       _id: slideId,
       image: null,

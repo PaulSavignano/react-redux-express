@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'

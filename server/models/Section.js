@@ -29,7 +29,7 @@ const SectionSchema = new Schema({
     alignItems: { type: String, trim: true },
     margin: { type: String, trim: true },
     minHeight: { type: String, trim: true, default: '64px' },
-    padding: { type: String, trim: true, default: '0 8px' },
+    padding: { type: String, trim: true },
     pageLink: { type: String, trim: true }
   },
   components: [{

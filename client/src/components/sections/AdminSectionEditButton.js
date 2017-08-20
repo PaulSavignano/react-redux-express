@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -10,6 +11,10 @@ class AdminSectionEditButton extends Component {
   }
   handleMouseEnter = () => this.setState({ elevation: 5 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
+  handleStartEdit = () => {
+    console.log('starting Edit')
+    this.props.dispatch(startEdit(this.props._id))
+  }
   render() {
     const { _id, dispatch } = this.props
     return (
@@ -21,7 +26,7 @@ class AdminSectionEditButton extends Component {
         <RaisedButton
           type="button"
           label="Edit Section"
-          onTouchTap={() => dispatch(startEdit(_id))}
+          onTouchTap={this.handleStartEdit}
         />
       </Paper>
     )

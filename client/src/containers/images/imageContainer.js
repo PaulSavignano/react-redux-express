@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 const imageContainer = (ComposedComponent) => {
-  class Container extends Component {
+  class ImageContainer extends Component {
     render() {
       const {
         dispatch,
@@ -22,7 +22,7 @@ const imageContainer = (ComposedComponent) => {
     item: items.find(item => item._id === componentId),
     isFetching,
   })
-  return connect(mapStateToProps)(Container)
+  return connect(mapStateToProps)(ImageContainer)
 }
 
 export default imageContainer

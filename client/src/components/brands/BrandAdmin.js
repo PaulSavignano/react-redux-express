@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import brandContainer from '../../containers/brands/brandContainer'
 import AppBarAdmin from './AppBarAdmin'
@@ -6,8 +7,10 @@ import ArticleAdmin from './ArticleAdmin'
 import BusinessAdmin from './BusinessAdmin'
 import BodyAdmin from './BodyAdmin'
 import CardAdmin from './CardAdmin'
-import ThemeAdmin from './ThemeAdmin'
 import FooterAdmin from './FooterAdmin'
+import HeroAdmin from './HeroAdmin'
+import ThemeAdmin from './ThemeAdmin'
+import TypographyAdmin from './TypographyAdmin'
 
 const BrandAdmin = ({
   _id,
@@ -17,7 +20,9 @@ const BrandAdmin = ({
   business,
   card,
   footer,
-  theme
+  hero,
+  theme,
+  typography
 }) => {
   return (
     <section className="page">
@@ -89,6 +94,13 @@ const BrandAdmin = ({
           fontFamily: theme.fontFamily,
           ...theme.palette
         }}
+      />
+      <br/>
+      <TypographyAdmin
+        _id={_id}
+        backgroundColor={theme.palette.canvasColor}
+        fontFamily={theme.fontFamily}
+        initialValues={typography.values}
       />
       <br/><br/>
     </section>

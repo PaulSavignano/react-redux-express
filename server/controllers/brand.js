@@ -166,6 +166,22 @@ export const updateBody = (req, res) => {
   })
 }
 
+export const updateCard = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+  const { values } = req.body
+  Brand.findOneAndUpdate(
+    { _id },
+    { $set: { card: { values }}},
+    { new: true }
+  )
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send()
+  })
+}
+
 
 export const updateFooter = (req, res) => {
   const { _id } = req.params
@@ -240,6 +256,23 @@ export const updateFooter = (req, res) => {
     default:
       return
   }
+}
+
+
+export const updateHero = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+  const { values } = req.body
+  Brand.findOneAndUpdate(
+    { _id },
+    { $set: { hero: { values }}},
+    { new: true }
+  )
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send()
+  })
 }
 
 

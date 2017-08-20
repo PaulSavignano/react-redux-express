@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import AppCarousel from './components/carousels/AppCarousel'
 import SearchList from './containers/search/SearchList'

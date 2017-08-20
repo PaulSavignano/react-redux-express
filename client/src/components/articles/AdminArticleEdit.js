@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import PropTypes from 'prop-types'
 import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
@@ -16,19 +16,18 @@ import ImageForm from '../../components/images/ImageForm'
 import { fetchUpdate, fetchDelete, stopEdit } from '../../actions/articles'
 
 const fields = [
-  'button1Content',
+  'button1Text',
   'button1Link',
-  'button2Content',
+  'button2Text',
   'button2Link',
   'flexFlow',
-  'h1Content',
-  'h2Content',
-  'h3Content',
+  'h1Text',
+  'h2Text',
+  'h3Text',
   'iframe',
   'mediaAlign',
   'mediaBorder',
   'mediaFlex',
-  'pContent'
 ]
 
 class AdminArticleEdit extends Component {
@@ -43,6 +42,18 @@ class AdminArticleEdit extends Component {
     this.setState({ imageEdit: false })
     return this.props.dispatch(fetchUpdate(_id, update))
   }
+  handleForm = (values) => {
+    const { dispatch, item: { _id, image }} = this.props
+    if (this.state.imageEdit) {
+      const newImage = this.editor.handleSave()
+      const remmoveImageSrc = image.src
+      return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, remmoveImageSrc, values }))
+    } else {
+      return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
+    }
+  }
+  handleRemove = () => this.props.dispatch(fetchDelete(this.props.item_id))
+  handleStopEdit = () => this.props.dispatch(stopEdit(this.props.item._id))
   setEditorRef = (editor) => this.editor = editor
   render() {
     const {
@@ -57,15 +68,7 @@ class AdminArticleEdit extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              onTouchTap={handleSubmit((values) => {
-                if (this.state.imageEdit) {
-                  const image = this.editor.handleSave()
-                  const remmoveImageSrc = image.src
-                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image, remmoveImageSrc, values }))
-                } else {
-                  return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
-                }
-              })}
+              onTouchTap={handleSubmit((values) => this.handleForm(values))}
               label={submitting ? <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} /> : 'UPDATE ARTICLE'}
               primary={true}
               style={{ flex: '1 1 auto', margin: 4 }}
@@ -76,7 +79,7 @@ class AdminArticleEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(fetchDelete(_id))}
+              onTouchTap={this.handleRemove}
             />
             <RaisedButton
               type="button"
@@ -84,13 +87,13 @@ class AdminArticleEdit extends Component {
               className="delete-button"
               labelColor="#ffffff"
               style={{ flex: '0 1 auto', margin: 4 }}
-              onTouchTap={() => dispatch(stopEdit(_id))}
+              onTouchTap={this.handleStopEdit}
             />
           </div>
         }
         modal={false}
         open={editing}
-        onRequestClose={() => dispatch(stopEdit(_id))}
+        onRequestClose={this.handleStopEdit}
         autoScrollBodyContent={true}
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
@@ -117,9 +120,9 @@ class AdminArticleEdit extends Component {
                 />
               ))}
               <Field
-                name="imageAlign"
+                name="mediaAlign"
                 component={renderSelectField}
-                label="imageAlign"
+                label="mediaAlign"
                 className="field"
               >
                 <MenuItem value="right" primaryText="Right" />
@@ -128,8 +131,8 @@ class AdminArticleEdit extends Component {
             </div>
             <div>
               <Field
-                name="text"
-                label="text"
+                name="pText"
+                label="pText"
                 component={renderWysiwgyField}
               />
             </div>
@@ -150,4 +153,4 @@ AdminArticleEdit.propTypes = {
 }
 
 
-export default reduxForm()(AdminArticleEdit)
+export default reduxForm({})(AdminArticleEdit)

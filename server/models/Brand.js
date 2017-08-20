@@ -3,9 +3,10 @@ import mongoose, { Schema } from 'mongoose'
 const BrandSchema = new Schema({
   article: {
     values: {
-      buttonColor: { type: String, trim: true },
-      buttonBackground: { type: String, trim: true },
-      mediaElevation: { type: String, trim: true, default: 2 },
+      button1Color: { type: String, trim: true },
+      button2Color: { type: String, trim: true },
+      button1Background: { type: String, trim: true },
+      button2Background: { type: String, trim: true },
       h1Align: { type: String, trim: true, default: 'center' },
       h1Color: { type: String, minlength: 1, trim: true },
       h1TextShadow: { type: String, minlength: 1, trim: true },
@@ -15,6 +16,7 @@ const BrandSchema = new Schema({
       h3Align: { type: String, trim: true, default: 'center' },
       h3Color: { type: String, minlength: 1, trim: true },
       h3TextShadow: { type: String, minlength: 1, trim: true },
+      mediaElevation: { type: Number, trim: true, default: 2 }
     }
   },
   appBar: {
@@ -37,9 +39,11 @@ const BrandSchema = new Schema({
   },
   card: {
     values: {
-      buttonColor: { type: String, trim: true },
-      buttonBackground: { type: String, trim: true },
-      elevation: { type: String, minlength: 1, trim: true, default: 1 },
+      button1Color: { type: String, trim: true },
+      button2Color: { type: String, trim: true },
+      button1Background: { type: String, trim: true },
+      button2Background: { type: String, trim: true },
+      elevation: { type: Number, minlength: 1, trim: true, default: 1 },
       flex: { type: String, minlength: 1, trim: true, default: '1 1 auto' },
       h1Align: { type: String, trim: true, default: 'center' },
       h1Color: { type: String, minlength: 1, trim: true },
@@ -48,7 +52,7 @@ const BrandSchema = new Schema({
       h2Color: { type: String, minlength: 1, trim: true },
       h2TextShadow: { type: String, minlength: 1, trim: true },
       h3Align: { type: String, trim: true, default: 'center' },
-      h3Color: { type: String, minlength: 1, trim: true },
+      h3Color: { type: String, minlength: 1, trim: true, default: 'rgba(0, 0, 0, .5)' },
       h3TextShadow: { type: String, minlength: 1, trim: true },
     }
   },
@@ -94,14 +98,17 @@ const BrandSchema = new Schema({
   },
   hero: {
     values: {
-      buttonColor: { type: String, trim: true },
-      buttonBackground: { type: String, trim: true },
+      button1Color: { type: String, trim: true },
+      button2Color: { type: String, trim: true },
+      button1Background: { type: String, trim: true },
+      button2Background: { type: String, trim: true },
       h1Color: { type: String, minlength: 1, trim: true },
       h1TextShadow: { type: String, minlength: 1, trim: true },
       h2Color: { type: String, minlength: 1, trim: true },
       h2TextShadow: { type: String, minlength: 1, trim: true },
       h3Color: { type: String, minlength: 1, trim: true },
       h3TextShadow: { type: String, minlength: 1, trim: true },
+      mediaElevation: { type: Number, trim: true, default: 2 }
     }
   },
   theme: {
@@ -126,24 +133,23 @@ const BrandSchema = new Schema({
   },
   typography: {
     values: {
-      h1FontFamily: { type: String, minlength: 1, trim: true },
-      h1FontSize: { type: String, minlength: 1, trim: true },
-      h1FontWeight: { type: String, minlength: 1, trim: true },
-      h1LetterSpacing: { type: String, minlength: 1, trim: true },
-      h2Align: { type: String, trim: true, default: 'center' },
-      h2Color: { type: String, minlength: 1, trim: true },
-      h2FontFamily: { type: String, minlength: 1, trim: true },
-      h2FontSize: { type: String, minlength: 1, trim: true },
-      h2FontWeight: { type: String, minlength: 1, trim: true },
-      h2LetterSpacing: { type: String, minlength: 1, trim: true },
-      pAlign: { type: String, trim: true, default: 'center' },
-      pColor: { type: String, minlength: 1, trim: true },
-      pFontFamily: { type: String, minlength: 1, trim: true },
-      pFontSize: { type: String, minlength: 1, trim: true },
-      pFontWeight: { type: String, minlength: 1, trim: true },
-      pLetterSpacing: { type: String, minlength: 1, trim: true },
+      h1FontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+      h1FontSize: { type: String, minlength: 1, trim: true, default: '45px'},
+      h1FontWeight: { type: String, minlength: 1, trim: true, default: '400' },
+      h1LetterSpacing: { type: String, minlength: 1, trim: true, default: 'normal' },
+      h1LineHeight: { type: String, minlength: 1, trim: true, default: '48px' },
+      h2FontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+      h2FontSize: { type: String, minlength: 1, trim: true, default: '34px' },
+      h2FontWeight: { type: String, minlength: 1, trim: true, default: '400' },
+      h2LetterSpacing: { type: String, minlength: 1, trim: true, default: 'normal' },
+      h2LineHeight: { type: String, minlength: 1, trim: true, default: '40px' },
+      h3FontFamily: { type: String, minlength: 1, trim: true, default: 'Roboto, sans-serif' },
+      h3FontSize: { type: String, minlength: 1, trim: true, default: '24px' },
+      h3FontWeight: { type: String, minlength: 1, trim: true, default: '400' },
+      h3LetterSpacing: { type: String, minlength: 1, trim: true, default: 'normal' },
+      h3LineHeight: { type: String, minlength: 1, trim: true, default: '32px' },
     }
-  },
+  }
 }, {
   timestamps: true
 })

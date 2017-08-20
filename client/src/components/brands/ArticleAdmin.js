@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
@@ -10,25 +10,18 @@ import renderTextField from '../../components/fields/renderTextField'
 import { fetchUpdate } from '../../actions/brand'
 
 const fields = [
-  { name: 'imageElevation', type: 'number' },
-  { name: 'textColor', type: 'text' },
-  { name: 'textFontFamily', type: 'text' },
-  { name: 'textFontSize', type: 'text' },
-  { name: 'textFontWeight', type: 'text' },
-  { name: 'textLetterSpacing', type: 'text' },
-  { name: 'textTextShadow', type: 'text' },
-  { name: 'titleColor', type: 'text' },
-  { name: 'titleFontFamily', type: 'text' },
-  { name: 'titleFontSize', type: 'text' },
-  { name: 'titleFontWeight', type: 'text' },
-  { name: 'titleLetterSpacing', type: 'text' },
-  { name: 'titleTextShadow', type: 'text' },
-  { name: 'subtitleColor', type: 'text' },
-  { name: 'subtitleFontFamily', type: 'text' },
-  { name: 'subtitleFontSize', type: 'text' },
-  { name: 'subtitleFontWeight', type: 'text' },
-  { name: 'subtitleLetterSpacing', type: 'text' },
-  { name: 'subtitleTextShadow', type: 'text' }
+  { name: 'button1Color', type: 'text' },
+  { name: 'button2Color', type: 'text' },
+  { name: 'mediaElevation', type: 'number' },
+  { name: 'h1Align', type: 'select' },
+  { name: 'h1Color', type: 'text' },
+  { name: 'h1TextShadow', type: 'text' },
+  { name: 'h2Align', type: 'select' },
+  { name: 'h2Color', type: 'text' },
+  { name: 'h2TextShadow', type: 'text' },
+  { name: 'h3Align', type: 'select' },
+  { name: 'h3Color', type: 'text' },
+  { name: 'h3TextShadow', type: 'text' },
 ]
 
 const ArticleAdmin = ({
@@ -46,14 +39,24 @@ const ArticleAdmin = ({
     style={{ backgroundColor, fontFamily }}
   >
     <form
-      onSubmit={handleSubmit((values) => {
-        const path = `article/${_id}`
-        return dispatch(fetchUpdate(path, { values }))
-      })}
+      onSubmit={handleSubmit((values) => dispatch(fetchUpdate(`article/${_id}`, { values })))}
     >
       <CardTitle title="Article" />
       <div className="field-container">
         {fields.map(({ name, type }) => (
+          type === 'select' ?
+            <Field
+              key={name}
+              name={name}
+              component={renderSelectField}
+              label={name}
+              className="field"
+            >
+              <MenuItem value='left' primaryText="Left" />
+              <MenuItem value='center' primaryText="Center" />
+              <MenuItem value='right' primaryText="Right" />
+            </Field>
+          :
           <Field
             key={name}
             name={name}
@@ -64,24 +67,14 @@ const ArticleAdmin = ({
             style={{ fontFamily }}
           />
         ))}
-        <Field
-          name="titleAlign"
-          component={renderSelectField}
-          label="titleAlign"
-          className="field"
-        >
-          <MenuItem value={1} primaryText="Right" />
-          <MenuItem value={2} primaryText="Center" />
-          <MenuItem value={3} primaryText="Left" />
-        </Field>
       </div>
       {error && <div className="error">{error}</div>}
       <div className="button-container">
         <SuccessableButton
           submitSucceeded={submitSucceeded}
           submitting={submitting}
-          label="update theme"
-          successLabel="theme updated!"
+          label="update article"
+          successLabel="article updated!"
         />
       </div>
     </form>
