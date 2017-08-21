@@ -4,12 +4,12 @@ import { push } from 'react-router-redux'
 import IconButton from 'material-ui/IconButton'
 
 import './header.css'
-import HeaderPageLink from './HeaderPageLink'
-import HeaderUser from './HeaderUser'
-import CartIcon from '../../containers/cart/CartIcon'
+import AppBarPageLink from './AppBarPageLink'
+import AppBarUser from './AppBarUser'
+import HeaderCartIcon from './HeaderCartIcon'
 import { searchToggle } from '../../actions/search'
 
-class HeaderNavigation extends Component {
+class AppBarNavigation extends Component {
   state = {
     navClass: null,
     width: 0
@@ -39,17 +39,21 @@ class HeaderNavigation extends Component {
     }
     this.setState({ navClass, width });
   }
+  handleSearchToggle = () => {
+    const { dispatch, search } = this.porps
+    return dispatch(searchToggle(!search.searching))
+  }
   render() {
     const { navClass } = this.state
     const {
+      cartQty,
       color,
       dispatch,
       firstName,
       fontFamily,
-      hasProducts,
       pages,
+      pathname,
       search,
-      sections
     } = this.props
     return (
       <div
@@ -61,32 +65,33 @@ class HeaderNavigation extends Component {
           className={navClass}
         >
           {pages.length && pages.filter(page => page.slug !== 'home').map(page => (
-            <HeaderPageLink
+            <AppBarPageLink
               key={page._id}
               color={color}
               dispatch={dispatch}
               fontFamily={fontFamily}
               page={page}
-              sections={sections}
+              pathname={pathname}
+
             />
           ))}
         </div>
         <IconButton
           iconClassName="fa fa-search"
           iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
-          onTouchTap={() => dispatch(searchToggle(!search.searching))}
+          onTouchTap={this.handleSearchToggle}
         />
-        <HeaderUser
+        <AppBarUser
           color={color}
           dispatch={dispatch}
           firstName={firstName}
           fontFamily={fontFamily}
         />
-        {hasProducts &&
-          <IconButton
-            children={<CartIcon color={color}/>}
-            onTouchTap={() => dispatch(push('/user/cart'))}
-            style={{ padding: '12px 0' }}
+        {cartQty &&
+          <HeaderCartIcon
+            cartQty={cartQty}
+            dispatch={dispatch}
+            color={color}
           />
         }
       </div>
@@ -94,10 +99,15 @@ class HeaderNavigation extends Component {
   }
 }
 
-HeaderNavigation.propTypes = {
+AppBarNavigation.propTypes = {
+  cartQty: PropTypes.number,
   color: PropTypes.string,
-  isFetching: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+  firstName: PropTypes.string,
+  fontFamily: PropTypes.string,
   pages: PropTypes.array,
+  pathname: PropTypes.string,
+  search: PropTypes.object
 }
 
-export default HeaderNavigation
+export default AppBarNavigation

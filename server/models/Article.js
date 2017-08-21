@@ -4,7 +4,7 @@ import { deleteFile } from '../middleware/s3'
 
 const ArticleSchema = new Schema({
   pageSlug: { type: String },
-  sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
+  sectionId: { type: Schema.ObjectId, ref: 'Section' },
   image: {
     src: { type: String, trim: true },
     width: { type: Number, trim: true, default: 650 },

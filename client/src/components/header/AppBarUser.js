@@ -5,11 +5,11 @@ import { push } from 'react-router-redux'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
 
 import './header.css'
-import SigninSignout from '../../containers/users/SigninSignout'
 
-class HeaderUser extends Component {
+class AppBarUser extends Component {
   state = {
     anchorEl: null,
     openMenu: false,
@@ -20,9 +20,21 @@ class HeaderUser extends Component {
     e.preventDefault()
     this.setState({ openMenu: true, anchorEl: e.currentTarget })
   }
-  handleTouchTap = (path) => {
+  handleSignout = () => {
     this.setState({ openMenu: false })
-    return this.props.dispatch(push(path))
+    return this.props.dispatch(push('/user/signin'))
+  }
+  handleProfile = () => {
+    this.setState({ openMenu: false })
+    return this.props.dispatch(push('/user/profile'))
+  }
+  handleSignin = () => {
+    this.setState({ openMenu: false })
+    return this.props.dispatch(push('/user/profile'))
+  }
+  handleSignup = () => {
+    this.setState({ openMenu: false })
+    return this.props.dispatch(push('/user/signup'))
   }
   componentDidMount() {
     const width = this.userNav.clientWidth
@@ -74,7 +86,20 @@ class HeaderUser extends Component {
           animation={PopoverAnimationVertical}
         >
           <Menu>
-            <SigninSignout firstName={firstName} handleTouchTap={this.handleTouchTap} />
+            {firstName ?
+              <div>
+                <MenuItem primaryText="Sign out" onTouchTap={this.handleSignout}/>
+                <MenuItem primaryText="Profile" onTouchTap={this.handleProfile}/>
+              </div>
+            :
+            <div>
+              <MenuItem primaryText="Sign in"
+                onTouchTap={this.handleSignin}
+              />
+              <MenuItem primaryText="Sign up"
+                onTouchTap={this.handleSignup}/>
+            </div>
+            }
           </Menu>
         </Popover>
       </div>
@@ -82,4 +107,4 @@ class HeaderUser extends Component {
   }
 }
 
-export default HeaderUser
+export default AppBarUser

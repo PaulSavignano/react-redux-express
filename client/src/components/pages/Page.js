@@ -38,10 +38,10 @@ class Page extends Component {
     const { sections } = this.props
     return (
       <div>
-        {sections.map(({ sectionId }) => (
+        {sections.map(({ section: { section } }) => (
           <Section
-            key={sectionId}
-            sectionId={sectionId}
+            key={section._id}
+            section={section}
           />
         ))}
       </div>

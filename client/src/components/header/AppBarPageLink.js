@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import FlatButton from 'material-ui/FlatButton'
-
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
-class HeaderPageLink extends Component {
+import AppBarSectionLink from './AppBarSectionLink'
+
+class AppBarPageLink extends Component {
   state = {
     anchorEl: null,
     openMenu: false,
@@ -36,6 +37,7 @@ class HeaderPageLink extends Component {
   handleMenuMouseLeave = () => {
     this.setState({ openMenu: false, anchorEl: null, usingMenu: false })
   }
+  handleOpenMenu = () => this.setState({ openMenu: false })
   render() {
     const {
       color,
@@ -43,10 +45,9 @@ class HeaderPageLink extends Component {
       fontFamily,
       page,
       pathname,
-      sections
     } = this.props
-    const pageSections = page.sections.map(section => sections.find(item => item._id === section.sectionId))
-    const pageSectionLinks = pageSections ? pageSections.filter(item => item.values.pageLink) : []
+    const pageSectionLinks = page.sections.filter(section => section.section.values.pageLink)
+    console.log('sectionPageLinks', pageSectionLinks)
     const activeStyle = pathname === `/${page.slug}` && { borderBottom: '2px solid' }
     return (
       <div>
@@ -74,13 +75,11 @@ class HeaderPageLink extends Component {
               onMouseLeave={this.handleMenuMouseLeave}
             >
               {pageSectionLinks.map(link => (
-                <MenuItem
+                <AppBarSectionLink
+                  dispatch={dispatch}
                   key={link._id}
-                  primaryText={link.values.pageLink}
-                  onTouchTap={() => {
-                    this.setState({ openMenu: false })
-                    return dispatch(push(`/${page.slug}#${link.values.pageLink}`))
-                  }}/>
+                  link={link}
+                />
               ))}
             </Menu>
           </Popover>
@@ -91,4 +90,4 @@ class HeaderPageLink extends Component {
   }
 }
 
-export default HeaderPageLink
+export default AppBarPageLink

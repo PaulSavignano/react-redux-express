@@ -14,10 +14,10 @@ class AdminPage extends Component {
     const { sections } = page
     return (
       <div style={{ minHeight: '80vh'}}>
-        {sections.map(section => (
+        {sections.map(({ section: { section }}) => (
           <AdminSection
-            key={section.sectionId}
-            sectionId={section.sectionId}
+            key={section._id}
+            section={section}
             pageSlug={page.slug}
           />
         ))}

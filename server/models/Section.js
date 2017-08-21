@@ -14,7 +14,7 @@ import Title from './Title'
 const s3Path = `${process.env.APP_NAME}/sections/section_`
 
 const SectionSchema = new Schema({
-  pageId: { type: Schema.Types.ObjectId, ref: 'Page' },
+  pageId: { type: Schema.ObjectId, ref: 'Page' },
   pageSlug: { type: String },
   image: {
     src: { type: String },
@@ -33,12 +33,25 @@ const SectionSchema = new Schema({
     pageLink: { type: String, trim: true }
   },
   components: [{
-    componentId: { type: Schema.Types.ObjectId, refPath: 'components.type' },
-    type: { type: String }
-  }],
+    kind: String,
+    component: { type: Schema.ObjectId, refPath: 'components.kind' }
+  }]
 }, {
   timestamps: true
 })
+
+
+function autopopulate(next) {
+  const section = this
+  section.populate({
+    path: 'components.component',
+  })
+  next();
+}
+
+SectionSchema.pre('find', autopopulate)
+SectionSchema.pre('findOne', autopopulate)
+
 
 SectionSchema.pre('remove', function(next) {
   const section = this
