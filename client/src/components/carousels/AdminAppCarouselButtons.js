@@ -12,7 +12,7 @@ const AdminAppCarouselButtons = ({
   autoplay,
   carousel,
   dispatch,
-  editCarouselId,
+  editCarousel,
   editSlide,
 }) => {
   const open = editSlide ? true : false
@@ -42,10 +42,10 @@ const AdminAppCarouselButtons = ({
         <AdminAppCarousel
           adminAppOpen={adminAppOpen}
           autoplay={autoplay}
-          editCarouselId={editCarouselId}
-          editSlide={editSlide}
-          dispatch={dispatch}
           carousel={carousel}
+          dispatch={dispatch}
+          editCarousel={editCarousel}
+          editSlide={editSlide}
         />
       }
     </div>
@@ -71,6 +71,13 @@ const AdminAppCarouselButtons = ({
   )
 }
 
-
+AdminAppCarouselButtons.propTypes = {
+  adminAppOpen: PropTypes.bool.isRequired,
+  autoplay: PropTypes.bool.isRequired,
+  carousel: PropTypes.object,
+  dispatch: PropTypes.func.isRequired,
+  editCarousel: PropTypes.object,
+  editSlide: PropTypes.object
+}
 
 export default appCarouselContainer(AdminAppCarouselButtons)

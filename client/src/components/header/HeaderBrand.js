@@ -26,4 +26,8 @@ const HeaderBrand = ({
   )
 }
 
+HeaderBrand.propTypes = {
+  item: PropTypes.object.isRequired
+}
+
 export default HeaderBrand

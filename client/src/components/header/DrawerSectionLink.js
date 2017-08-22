@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import { ListItem } from 'material-ui/List'
 
@@ -17,6 +18,12 @@ class DrawerSectionLink extends Component {
       />
     )
   }
+}
+
+DrawerSectionLink.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired,
+  link: PropTypes.object.isRequired
 }
 
 export default DrawerSectionLink

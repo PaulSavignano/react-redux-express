@@ -12,7 +12,6 @@ const AdminPages = ({
   autoplay,
   dispatch,
   editSlide,
-  isFetching,
   pages,
   carousel
 }) => (
@@ -22,6 +21,8 @@ const AdminPages = ({
       <AdminPagesItem
         key={item._id}
         item={item}
+        initialValues={item.values}
+        form={`page_${item._id}`}
       />
     ))}
     <AdminAppCarouselButtons
@@ -43,5 +44,14 @@ const AdminPages = ({
     }
   </section>
 )
+
+AdminPages.propTypes = {
+  adminAppOpen: PropTypes.bool.isRequired,
+  autoplay: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  editSlide: PropTypes.object,
+  pages: PropTypes.array.isRequired,
+  carousel: PropTypes.object,
+}
 
 export default pagesContainer(AdminPages)

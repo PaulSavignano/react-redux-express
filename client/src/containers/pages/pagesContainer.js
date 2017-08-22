@@ -7,6 +7,7 @@ const pagesContainer = (ComposedComponent) => {
     render() {
       const {
         adminAppOpen,
+        autoplay,
         editSlide,
         carousel,
         dispatch,
@@ -15,6 +16,7 @@ const pagesContainer = (ComposedComponent) => {
       } = this.props
       const props = {
         adminAppOpen,
+        autoplay,
         editSlide,
         carousel,
         dispatch,
@@ -41,7 +43,7 @@ const pagesContainer = (ComposedComponent) => {
     adminAppOpen: PropTypes.bool.isRequired,
     autoplay: PropTypes.bool.isRequired,
     editSlide: PropTypes.object,
-    carousel: PropTypes.object.isRequired,
+    carousel: PropTypes.object,
     isFetching: PropTypes.bool.isRequired,
     pages: PropTypes.array.isRequired
   }

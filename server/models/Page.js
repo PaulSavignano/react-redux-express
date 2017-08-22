@@ -1,21 +1,15 @@
 import mongoose, { Schema } from 'mongoose'
 
 import Section from './Section'
-import Article from './Article'
-import Card from './Card'
-import Carousel from './Carousel'
-import Iframe from './Iframe'
-import Image from './Image'
-import Product from './Product'
-import Text from './Text'
-import Title from './Title'
 
 const PageSchema = new Schema({
-  name: { type: String, trim: true, minlength: 1 },
   slug: { type: String },
   sections: [{
     section: { type: Schema.ObjectId, ref: 'Section' }
-  }]
+  }],
+  values: {
+    name: { type: String, trim: true, minlength: 1 }
+  },
 }, {
   timestamps: true
 })

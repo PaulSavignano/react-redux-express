@@ -5,18 +5,11 @@ import { push } from 'react-router-redux'
 
 const articleContainer = (ComposedComponent) => {
   class ArticleContainer extends Component {
-    handleButtonClick = (buttonLink) => {
-      const { dispatch } = this.props
-      if (buttonLink.indexOf("/") === 0) {
-        return { onTouchTap: dispatch(push(buttonLink)) }
-      } else {
-        return { onTouchTap: window.location = buttonLink }
-      }
-    }
     render() {
       const {
         article,
         dispatch,
+        editItem,
         hasButtons,
         hasHeading,
         hasMedia,
@@ -28,12 +21,12 @@ const articleContainer = (ComposedComponent) => {
       const props = {
         article,
         dispatch,
+        editItem,
         hasButtons,
         hasHeading,
         hasMedia,
         hasParagraph,
         item,
-        onButtonClick: this.handleButtonClick,
         typography
       }
       return (
@@ -42,30 +35,30 @@ const articleContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    articles,
+    articles: { editItem },
     brand: { isFetching, article, typography }
   }, {
-    componentId
+    item
   }) => {
-    const item = !articles.isFetching && articles.items.find(item => item._id === componentId)
-    const hasHeading = !articles.isFetching && item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
-    const hasMedia = !articles.isFetching && item.image.src || item.iframe ? true : false
-    const hasParagraph = !articles.isFetching && item.values.pText && item.values.pText.length > 8 ? true : false
-    const hasButtons = !articles.isFetching && item.values.buttonText ? true : false
+    const hasHeading = item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
+    const hasMedia = item.image.src || item.iframe ? true : false
+    const hasParagraph = item.values.pText && item.values.pText.length > 8 ? true : false
+    const hasButtons = item.values.button1Text ? true : false
     return {
       article,
+      editItem,
       hasButtons,
       hasHeading,
       hasMedia,
       hasParagraph,
-      isFetching: isFetching || articles.isFetching ? true : false,
+      isFetching,
       item,
       typography
     }
-
   }
   ArticleContainer.propTypes = {
     article: PropTypes.object.isRequired,
+    editItem: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
     hasHeading: PropTypes.bool.isRequired,

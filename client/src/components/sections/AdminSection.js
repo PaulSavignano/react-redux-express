@@ -2,20 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import sectionContainer from '../../containers/sections/sectionContainer'
 import loadImage from '../images/loadImage'
 import AdminSectionEditButton from './AdminSectionEditButton'
 import AdminArticle from '../articles/AdminArticle'
-import AdminButton from '../buttons/AdminButton'
 import AdminCard from '../cards/AdminCard'
 import AdminSectionCarousel from '../carousels/AdminSectionCarousel'
 import AdminContactForm  from '../../containers/users/AdminContactForm'
-import AdminIframe from '../iframes/AdminIframe'
-import AdminImage from '../images/AdminImage'
+import AdminHero from '../heros/AdminHero'
 import AdminProduct from '../products/AdminProduct'
 import AdminSectionEdit from '../sections/AdminSectionEdit'
-import AdminText from '../texts/AdminText'
-import AdminTitle from '../titles/AdminTitle'
 import { startEdit } from '../../actions/sections'
 
 const renderComponents = (components, item) => {
@@ -24,24 +19,16 @@ const renderComponents = (components, item) => {
     switch(type) {
       case 'Article':
         return <AdminArticle key={component._id} componentId={componentId} />
-      case 'Button':
-        return <AdminButton key={component._id} componentId={componentId} />
       case 'Contact':
         return <AdminContactForm key={component._id} componentId={componentId} sectionId={item._id} />
       case 'Carousel':
         return <AdminSectionCarousel key={component._id} componentId={componentId} />
       case 'Card':
         return <AdminCard key={component._id} componentId={componentId} />
-      case 'Iframe':
-        return <AdminIframe key={component._id} componentId={componentId} />
-      case 'Image':
-        return <AdminImage key={component._id} componentId={componentId} />
+      case 'Hero':
+        return <AdminHero key={component._id} componentId={componentId} />
       case 'Product':
         return <AdminProduct key={component._id} componentId={componentId} />
-      case 'Text':
-        return <AdminText key={component._id} componentId={componentId} />
-      case 'Title':
-        return <AdminTitle key={component._id} componentId={componentId} />
       default:
         return
     }
@@ -107,4 +94,4 @@ const AdminSection = ({ dispatch, item, pageSlug }) => {
   )
 }
 
-export default sectionContainer(loadImage(AdminSection))
+export default loadImage(AdminSection)

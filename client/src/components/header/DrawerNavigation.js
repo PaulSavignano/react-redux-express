@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
@@ -55,6 +56,7 @@ class DrawerNavigation extends Component {
     } = this.props
     const adminPages = pages.map(page => (
       <DrawerAdminPageLink
+        dispatch={dispatch}
         key={page._id}
         page={page}
       />
@@ -117,15 +119,25 @@ class DrawerNavigation extends Component {
             onTouchTap={this.handleSignup}/>
         </div>
         }
-        <HeaderCartIcon
-          cartQty={cartQty}
-          dispatch={dispatch}
-          color={color}
-        />
-
+        {cartQty &&
+          <HeaderCartIcon
+            cartQty={cartQty}
+            dispatch={dispatch}
+            color={color}
+          />
+        }
       </div>
     )
   }
+}
+
+DrawerNavigation.propTypes = {
+  cartQty: PropTypes.number,
+  color: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  firstName: PropTypes.string,
+  isAdmin: PropTypes.bool,
+  pages: PropTypes.array
 }
 
 export default DrawerNavigation

@@ -1,13 +1,11 @@
 import { SubmissionError } from 'redux-form'
 
-import * as buttonActions from './buttons'
+import * as articleActions from './articles'
 import * as cardActions from './cards'
-import * as iframeActions from './iframes'
-import * as imageActions from './images'
+import * as carouselActions from './carousels'
+import * as heroActions from './heros'
 import * as pageActions from './pages'
-import * as productActions from './products'
-import * as textActions from './texts'
-import * as titleActions from './titles'
+
 
 export const type = 'SECTION'
 const route = 'sections'
@@ -22,7 +20,7 @@ const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
 
 // Create
-const fetchAddSuccess = (item) => ({ type: ADD, item })
+const fetchAddSuccess = (editItem) => ({ type: ADD, editItem })
 const fetchAddFailure = (error) => ({ type: ERROR, error })
 export const fetchAdd = (add) => {
   return (dispatch, getState) => {
@@ -41,7 +39,7 @@ export const fetchAdd = (add) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { section, page } = json
-        dispatch(fetchAddSuccess(section))
+        dispatch(fetchAddSuccess({ editItem: section }))
         dispatch(pageActions.fetchUpdateSuccess(page))
       })
       .catch(err => {
@@ -53,38 +51,8 @@ export const fetchAdd = (add) => {
 
 
 
-// Read
-const fetchSectionsRequest = () => ({ type: REQUEST })
-const fetchSectionsSuccess = (items) => ({ type: RECEIVE, items })
-const fetchSectionsFailure = (error) => ({ type: ERROR, error })
-export const fetchSections = () => {
-  return (dispatch, getState) => {
-    dispatch(fetchSectionsRequest())
-    return fetch(`/api/${route}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchSectionsSuccess(json))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(fetchSectionsFailure(err))
-      })
-  }
-}
-
-
-
 // Update
-export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+export const fetchUpdateSuccess = (editItem) => ({ type: UPDATE, editItem })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
@@ -96,13 +64,12 @@ export const fetchUpdate = (_id, update) => {
       },
       body: JSON.stringify(update)
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateSuccess(json))
+        const { section, page } = json
+        dispatch(fetchUpdateSuccess({ editItem: section }))
+        dispatch(pageActions.fetchUpdateSuccess(page))
       })
       .catch(err => {
         console.log(err)
@@ -126,36 +93,12 @@ export const fetchDelete = (_id) => {
         'x-auth': localStorage.getItem('token'),
       },
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { section, page } = json
-        const { _id, componentType, components } = section
+        dispatch(fetchDeleteSuccess(section._id))
         dispatch(pageActions.fetchUpdateSuccess(page))
-        if (componentType) {
-          switch(componentType) {
-            case 'Button':
-              return dispatch(buttonActions.deletes(components.map(comp => comp.componentId)))
-            case 'Card':
-              return dispatch(cardActions.deletes(components.map(comp => comp.componentId)))
-            case 'Iframe':
-              return dispatch(iframeActions.deletes(components.map(comp => comp.componentId)))
-            case 'Image':
-              return dispatch(imageActions.deletes(components.map(comp => comp.componentId)))
-            case 'Product':
-              return dispatch(productActions.deletes(components.map(comp => comp.componentId)))
-            case 'Text':
-              return dispatch(textActions.deletes(components.map(comp => comp.componentId)))
-            case 'Title':
-              return dispatch(titleActions.deletes(components.map(comp => comp.componentId)))
-            default:
-              return
-          }
-        }
-        dispatch(fetchDeleteSuccess(_id))
       })
       .catch(err => {
         console.error(err)
@@ -166,5 +109,5 @@ export const fetchDelete = (_id) => {
 }
 
 
-export const startEdit = (_id) => ({ type: START_EDIT, _id })
-export const stopEdit = (_id) => ({ type: STOP_EDIT, _id })
+export const startEdit = (editItem) => ({ type: START_EDIT, editItem })
+export const stopEdit = () => ({ type: STOP_EDIT })

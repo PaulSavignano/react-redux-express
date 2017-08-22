@@ -1,18 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import sectionContainer from '../../containers/sections/sectionContainer'
 import loadImage from '../images/loadImage'
 import Article from '../articles/Article'
-import Button from '../buttons/Button'
 import ContactForm  from '../../containers/users/ContactForm'
 import CardItem from '../cards/CardItem'
-import Iframe from '../iframes/Iframe'
-import Image from '../images/Image'
+import Hero from '../heros/Hero'
 import Product from '../products/Product'
 import SectionCarousel from '../carousels/SectionCarousel'
-import Text from '../texts/Text'
-import Title from '../titles/Title'
 
 const renderComponents = (components) => {
   const componentList = (component) => {
@@ -20,24 +15,16 @@ const renderComponents = (components) => {
     switch(type) {
       case 'Article':
         return <Article key={component._id} componentId={componentId} />
-      case 'Button':
-        return <Button key={component._id} componentId={componentId} />
       case 'Contact':
         return <ContactForm key={component._id} componentId={componentId} />
       case 'Card':
         return <CardItem key={component._id} componentId={componentId} />
       case 'Carousel':
         return <SectionCarousel key={component._id} componentId={componentId} />
-      case 'Iframe':
-        return <Iframe key={component._id} componentId={componentId} />
-      case 'Image':
-        return <Image key={component._id} componentId={componentId} />
+      case 'Hero':
+        return <Hero key={component._id} componentId={componentId} />
       case 'Product':
         return <Product key={component._id} componentId={componentId} />
-      case 'Text':
-        return <Text key={component._id} componentId={componentId} />
-      case 'Title':
-        return <Title key={component._id} componentId={componentId} />
       default:
         return
     }
@@ -47,19 +34,20 @@ const renderComponents = (components) => {
 
 const Section = ({
   item: {
+    _id,
     components,
     image,
     values: {
-      _id,
+      alignItems,
       backgroundColor,
       containerMarginTop,
       flexFlow,
       justifyContent,
-      alignItems,
+      maxWidth,
+      minHeight,
       margin,
       padding,
       pageLink,
-      minHeight
     }
   }
 }) => {
@@ -78,11 +66,14 @@ const Section = ({
         <div
           id={pageLink ? pageLink : _id}
           style={{
+            alignItems,
             display: 'flex',
             flexFlow,
-            minHeight,
             justifyContent,
-            alignItems,
+            maxWidth,
+            minHeight,
+
+
             margin,
             padding
           }}
@@ -98,4 +89,4 @@ Section.propTypes = {
   item: PropTypes.object.isRequired
 }
 
-export default sectionContainer(loadImage(Section))
+export default loadImage(Section)

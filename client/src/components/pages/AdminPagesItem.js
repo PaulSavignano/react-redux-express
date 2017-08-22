@@ -17,7 +17,12 @@ class AdminPagesItem extends Component {
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
-    const { dispatch, handleSubmit, item, dirty } = this.props
+    const {
+      dispatch,
+      handleSubmit,
+      item,
+      dirty
+    } = this.props
     const { _id, slug } = item
     return (
       <Card
@@ -61,15 +66,8 @@ class AdminPagesItem extends Component {
   }
 }
 
-AdminPagesItem = compose(
-  connect((state, { item: { _id, name }}) => ({
-    form: `page_${_id}`,
-    initialValues: { name }
-  })),
-  reduxForm({
-    destroyOnUnmount: false,
-    asyncBlurFields: []
-  })
-)(AdminPagesItem)
+AdminPagesItem.propTypes = {
+  item: PropTypes.object.isRequired,
+}
 
-export default AdminPagesItem
+export default reduxForm({})(AdminPagesItem)

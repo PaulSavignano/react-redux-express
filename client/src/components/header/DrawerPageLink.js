@@ -16,8 +16,6 @@ class DrawerPageLink extends Component {
     const {
       dispatch,
       page,
-      sections,
-      handleTouchTap
     } = this.props
     const pageSectionLinks = page.sections.filter(section => section.section.values.pageLink)
     if (pageSectionLinks.length) {
@@ -44,6 +42,11 @@ class DrawerPageLink extends Component {
       )
     }
   }
+}
+
+DrawerPageLink.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired
 }
 
 export default DrawerPageLink

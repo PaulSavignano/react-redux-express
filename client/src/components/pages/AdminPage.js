@@ -10,11 +10,14 @@ class AdminPage extends Component {
     window.scrollTo(0,0)
   }
   render() {
-    const { dispatch, page } = this.props
+    const {
+      dispatch,
+      page
+    } = this.props
     const { sections } = page
     return (
       <div style={{ minHeight: '80vh'}}>
-        {sections.map(({ section: { section }}) => (
+        {sections.map(section => (
           <AdminSection
             key={section._id}
             section={section}
@@ -29,6 +32,11 @@ class AdminPage extends Component {
       </div>
     )
   }
+}
+
+AdminPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired,
 }
 
 export default pageContainer(AdminPage)

@@ -4,7 +4,7 @@ const carousels = (state = {
   adminAppOpen: false,
   appOpen: false,
   autoplay: true,
-  editCarouselId: null,
+  editCarousel: null,
   editSlide: null,
   isFetching: true,
   items: [],
@@ -14,13 +14,13 @@ const carousels = (state = {
       return {
         ...state,
         autoplay: false,
-        editCarouselId: action.editCarouselId
+        editCarousel: action.editCarousel
       }
     case `STOP_EDIT_${type}`:
       return {
         ...state,
         autoplay: true,
-        editCarouselId: null
+        editCarousel: null
       }
     case `START_EDIT_CHILD_${type}`:
       return {
@@ -58,7 +58,7 @@ const carousels = (state = {
       return {
         ...state,
         autoplay: true,
-        editCarouselId: null,
+        editCarousel: null,
         editSlideId: null,
         items: state.items.map(item => item._id === action.item._id ?
           { ...item, ...action.item } :
@@ -69,7 +69,7 @@ const carousels = (state = {
       return {
         ...state,
         autoplay: true,
-        editCarouselId: null,
+        editCarousel: null,
         editSlideId: null,
         items: state.items.filter(item => item._id !== action._id)
       }
@@ -77,7 +77,7 @@ const carousels = (state = {
       return {
         ...state,
         autoplay: true,
-        editCarouselId: null,
+        editCarousel: null,
         editSlideId: null,
         items: state.items.filter(item => action.items.indexOf(item._id) === -1),
       }

@@ -40,7 +40,7 @@ class AppBarNavigation extends Component {
     this.setState({ navClass, width });
   }
   handleSearchToggle = () => {
-    const { dispatch, search } = this.porps
+    const { dispatch, search } = this.props
     return dispatch(searchToggle(!search.searching))
   }
   render() {
@@ -101,12 +101,12 @@ class AppBarNavigation extends Component {
 
 AppBarNavigation.propTypes = {
   cartQty: PropTypes.number,
-  color: PropTypes.string,
+  color: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   firstName: PropTypes.string,
-  fontFamily: PropTypes.string,
+  fontFamily: PropTypes.string.isRequired,
   pages: PropTypes.array,
-  pathname: PropTypes.string,
+  pathname: PropTypes.string.isRequired,
   search: PropTypes.object
 }
 

@@ -6,7 +6,7 @@ import { startEditSlide } from '../../actions/carousels'
 import AdminSlideEdit from './AdminSlideEdit'
 
 const AdminSectionSlide = ({
-  carouselId,
+  carousel,
   dispatch,
   editSlide,
   slide
@@ -31,9 +31,27 @@ const AdminSectionSlide = ({
       }
       <CardTitle title={title} style={{ color, textAlign: 'center' }}/>
       <CardText style={{ color, textAlign: 'center' }}>{subtitle}</CardText>
-      {open && <AdminSlideEdit carouselId={carouselId} slide={editSlide} open={open} />}
+      {open &&
+        <AdminSlideEdit
+          carouselId={carousel._id}
+          dispatch={dispatch}
+          form={`slide_${editSlide._id}`}
+          initialVaues={editSlide.values}
+          editSlide={editSlide}
+          open={open}
+        />
+      }
     </Card>
   )
+}
+
+AdminSectionSlide.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  carousel: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  slide: PropTypes.object.isRequired
 }
 
 export default AdminSectionSlide

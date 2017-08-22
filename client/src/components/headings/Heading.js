@@ -5,7 +5,7 @@ import H1 from '../typography/H1'
 import H2 from '../typography/H2'
 import H3 from '../typography/H3'
 
-const ArticleHeading = ({
+const Heading = ({
   h1Align,
   h2Align,
   h3Align,
@@ -38,7 +38,7 @@ const ArticleHeading = ({
   </div>
 )
 
-ArticleHeading.propTypes = {
+Heading.propTypes = {
   h1Align: PropTypes.string,
   h2Align: PropTypes.string,
   h3Align: PropTypes.string,
@@ -53,4 +53,4 @@ ArticleHeading.propTypes = {
   h3TextShadow: PropTypes.string
 }
 
-export default ArticleHeading
+export default Heading

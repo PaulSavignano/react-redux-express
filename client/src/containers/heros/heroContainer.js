@@ -24,17 +24,30 @@ const heroContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    heros,
     brand: { isFetching, hero, typography }
   }, {
-    componentId
-  }) => ({
-    hero,
-    isFetching: isFetching || heros.isFetching ? true : false,
-    item: !heros.isFetching && heros.items.find(item => item._id === componentId)
-  })
+    item
+  }) => {
+    const hasHeading = item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
+    const hasMedia = item.image.src || item.iframe ? true : false
+    const hasParagraph = item.values.pText && item.values.pText.length > 8 ? true : false
+    const hasButtons = item.values.button1Text ? true : false
+    return {
+      hasHeading,
+      hasMedia,
+      hasParagraph,
+      hasButtons,
+      hero,
+      isFetching,
+      typography
+    }
+  }
   HeroContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    hasButtons: PropTypes.bool.isRequired,
+    hasHeading: PropTypes.bool.isRequired,
+    hasMedia: PropTypes.bool.isRequired,
+    hasParagraph: PropTypes.bool.isRequired,
     hero: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,

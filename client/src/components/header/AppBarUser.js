@@ -107,4 +107,11 @@ class AppBarUser extends Component {
   }
 }
 
+AppBarUser.propTypes = {
+  color: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  firstName: PropTypes.string,
+  fontFamily: PropTypes.string.isRequired
+}
+
 export default AppBarUser

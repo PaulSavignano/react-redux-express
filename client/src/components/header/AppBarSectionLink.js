@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import MenuItem from 'material-ui/MenuItem'
 
@@ -17,6 +18,12 @@ class AppBarSectionLink extends Component {
         onTouchTap={this.handleSectionNavigation} />
     )
   }
+}
+
+AppBarSectionLink.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  link: PropTypes.object.isRequired,
+  page: PropTypes.object.isRequired
 }
 
 export default AppBarSectionLink

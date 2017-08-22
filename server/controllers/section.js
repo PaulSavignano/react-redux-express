@@ -8,7 +8,6 @@ import { uploadFile, deleteFile, deleteFiles } from '../middleware/s3'
 
 
 export const add = (req, res) => {
-  console.log('adding ')
   const { pageId, pageSlug } = req.body
   const newSection = new Section({
     pageId: ObjectID(pageId),
@@ -18,7 +17,7 @@ export const add = (req, res) => {
     .then(section => {
       Page.findOneAndUpdate(
         { _id: pageId },
-        { $push: { sections: { sectionId: section._id }}},
+        { $push: { sections: section._id }},
         { new: true }
       )
       .then(page => res.send({ section, page }))
@@ -163,7 +162,7 @@ export const remove = (req, res) => {
     section.remove()
       .then(section => {
         Page.findOneAndUpdate(
-          { _id: section.pageId }, 
+          { _id: section.pageId },
           { $pull: { sections: { sectionId: section._id }}},
           { new: true }
         )

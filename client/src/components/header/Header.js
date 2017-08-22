@@ -41,7 +41,7 @@ class Header extends Component {
         <AppBar
           zDepth={backgroundColor === 'transparent' ? 0 : 1}
           iconStyleLeft={{ fill: navColor }}
-          onLeftIconButtonTouchTap={this.handleDrawer}
+          onLeftIconButtonTouchTap={this.handleDrawerToggle}
           titleStyle={{ height: 64, color: navColor }}
           style={{ backgroundColor, color: navColor }}
           title={

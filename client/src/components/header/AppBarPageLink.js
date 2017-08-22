@@ -90,4 +90,12 @@ class AppBarPageLink extends Component {
   }
 }
 
+AppBarPageLink.propTypes = {
+  color: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  fontFamily: PropTypes.string.isRequired,
+  page: PropTypes.object,
+  pathname: PropTypes.string.isRequired,
+}
+
 export default AppBarPageLink

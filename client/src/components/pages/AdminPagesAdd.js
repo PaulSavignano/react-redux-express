@@ -20,13 +20,18 @@ const validate = values => {
 
 class AdminPagesAdd extends Component {
   render() {
-    const { error, handleSubmit, dispatch } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      reset
+    } = this.props
     return (
       <Card className="card" style={{ margin: 8 }}>
         <form
           onSubmit={handleSubmit(values => {
-            this.props.reset()
-            dispatch(fetchAdd(values))
+            reset()
+            return dispatch(fetchAdd(values))
           })}
           style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', padding: '4px 8px 16px 8px' }}
         >
@@ -47,9 +52,14 @@ class AdminPagesAdd extends Component {
   }
 }
 
-AdminPagesAdd = reduxForm({
+AdminPagesAdd.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired
+}
+
+export default reduxForm({
   form: 'AdminPageAdd',
   validate
 })(AdminPagesAdd)
-
-export default AdminPagesAdd

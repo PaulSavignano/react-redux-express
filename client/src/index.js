@@ -8,27 +8,15 @@ import configureStore from './store/configureStore'
 import Routing from './Routing'
 import './index.css'
 
-// Actions
-import { fetchArticles } from './actions/articles'
-import { fetchButtons } from './actions/buttons'
 import { fetchBrand } from './actions/brand'
-import { fetchCards } from './actions/cards'
 import { fetchCart } from './actions/cart'
 import { fetchCarousels } from './actions/carousels'
-import { fetchHeros } from './actions/heros'
-import { fetchIframes } from './actions/iframes'
-import { fetchImages } from './actions/images'
-import { fetchSections } from './actions/sections'
 import { fetchOrders } from './actions/orders'
 import { fetchPages } from './actions/pages'
-import { fetchProducts } from './actions/products'
-import { fetchTexts } from './actions/texts'
-import { fetchTitles } from './actions/titles'
 import { fetchUser } from './actions/users'
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
-
 
 const token = localStorage.getItem('token')
 if (token) {
@@ -41,19 +29,9 @@ if (cart) {
   store.dispatch(fetchCart(cart))
 }
 
-store.dispatch(fetchArticles())
-store.dispatch(fetchButtons())
 store.dispatch(fetchBrand())
-store.dispatch(fetchCards())
 store.dispatch(fetchCarousels())
-store.dispatch(fetchHeros())
-store.dispatch(fetchIframes())
-store.dispatch(fetchImages())
 store.dispatch(fetchPages())
-store.dispatch(fetchProducts())
-store.dispatch(fetchSections())
-store.dispatch(fetchTexts())
-store.dispatch(fetchTitles())
 
 ReactDOM.render(
   <Provider store={store}>

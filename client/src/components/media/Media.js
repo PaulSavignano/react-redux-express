@@ -1,20 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
-import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
+import { CardMedia } from 'material-ui/Card'
 
-const ArticleMedia = ({
-  mediaElevation,
-  mediaFlex,
+const Media = ({
   image,
   iframe
 }) => (
-  <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
-    {image.src &&
-      <CardMedia>
-        <img src={image.src} alt="card"/>
-      </CardMedia>
-    }
+  <CardMedia>
+    {image.src && <img src={image.src} alt="card"/>}
     {iframe &&
       <div style={{ position: 'relative', paddingBottom: '50%' }}>
         <iframe
@@ -27,7 +20,12 @@ const ArticleMedia = ({
         </iframe>
       </div>
     }
-  </Paper>
+  </CardMedia>
 )
+
+Media.propTypes = {
+  image: PropTypes.object,
+  iframe: PropTypes.string,
+}
 
 export default ArticleMedia

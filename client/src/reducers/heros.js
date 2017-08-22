@@ -22,7 +22,6 @@ const heros = (state = {
         )
       }
     case `REQUEST_${type}S`:
-    console.log('requesting heros')
       return {
         ...state,
         isFetching: true

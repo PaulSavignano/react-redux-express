@@ -35,19 +35,26 @@ class Page extends Component {
     this.setState({ timeoutId })
   }
   render() {
-    const { sections } = this.props
+    const { page } = this.props
+    console.log('page', page)
     return (
       <div>
-        {sections.map(({ section: { section } }) => (
-          <Section
-            key={section._id}
-            section={section}
-          />
-        ))}
+        {page.sections.map(section => {
+          console.log('section', section)
+          return (
+            <Section
+              key={section._id}
+              item={section}
+            />
+          )
+        })}
       </div>
     )
   }
 }
 
+Page.propTypes = {
+  page: PropTypes.object.isRequired,
+}
 
 export default pageContainer(Page)

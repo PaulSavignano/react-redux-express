@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import articleContainer from '../../containers/articles/articleContainer'
-import ArticleButtons from './ArticleButtons'
-import ArticleHeading from './ArticleHeading'
-import ArticleMedia from './ArticleMedia'
-import ArticleParagraph from './ArticleParagraph'
-
+import Buttons from '../buttons/Buttons'
+import Heading from '../headings/Heading'
+import Media from '../media/Media'
+import P from '../typography/P'
 import loadImage from '../images/loadImage'
 import AdminArticleEdit from './AdminArticleEdit'
 import { startEdit } from '../../actions/articles'
@@ -56,8 +56,7 @@ const Article = ({
       mediaFlex,
       pText
     },
-  },
-  onButtonClick
+  }
 }) => {
   return (
     <article
@@ -66,7 +65,7 @@ const Article = ({
       className="article"
     >
       {hasHeading &&
-        <ArticleHeading
+        <Heading
           h1Align={h1Align}
           h2Align={h2Align}
           h3Align={h3Align}
@@ -81,18 +80,18 @@ const Article = ({
           h3TextShadow={h3TextShadow}
         />
       }
-      {hasParagraph && mediaAlign === 'right' ? <ArticleParagraph pText={pText} /> : null}
+      {hasParagraph && mediaAlign === 'right' ? <P>{renderHTML(pText)}</P> : null}
       {hasMedia ?
-        <ArticleMedia
-          mediaElevation={mediaElevation}
-          mediaFlex={mediaFlex}
-          image={image}
-          iframe={iframe}
-        />
+        <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
+          <Media
+            image={image}
+            iframe={iframe}
+          />
+        </Paper>
       : null}
-      {hasParagraph && mediaAlign === 'left' ? <ArticleParagraph pText={pText} /> : null}
+      {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
       {hasButtons &&
-        <ArticleButtons
+        <Buttons
           button1Background={button1Background}
           button2Background={button2Background}
           button1Color={button1Color}
@@ -101,7 +100,6 @@ const Article = ({
           button2Link={button2Link}
           button1Text={button1Text}
           button2Text={button2Text}
-          onButtonClick={onButtonClick}
         />
       }
     </article>

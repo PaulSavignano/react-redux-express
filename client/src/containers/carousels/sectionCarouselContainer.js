@@ -9,23 +9,22 @@ const sectionCarouselContainer = (ComposedComponent) => {
         dispatch,
         adminOpen,
         autoplay,
-        editCarouselId,
-        editSlideId,
+        editCarousel,
+        editSlide,
         carousel,
-        isFetching,
         open,
       } = this.props
       const props = {
         adminOpen,
         autoplay,
         dispatch,
-        editCarouselId,
-        editSlideId,
+        editCarousel,
+        editSlide,
         carousel,
         open
       }
       return (
-        isFetching ? null : !carousel ? null : <ComposedComponent {...props} />
+        <ComposedComponent {...props} />
       )
     }
   }
@@ -33,26 +32,27 @@ const sectionCarouselContainer = (ComposedComponent) => {
     carousels: {
       adminOpen,
       autoplay,
-      editCarouselId,
-      editSlideId,
-      items,
-      isFetching,
+      editCarousel,
+      editSlide,
       open
     }
   }, {
-    componentId
+    carousel
   }) => ({
     adminOpen,
     autoplay,
-    editCarouselId,
-    editSlideId,
-    carousel: !isFetching && items.find(item => item._id === componentId),
-    isFetching,
+    editCarousel,
+    editSlide,
+    carousel,
     open
   })
   SectionCarouselContainer.propTypes = {
+    adminOpen: PropTypes.bool.isRequired,
+    autoplay: PropTypes.bool.isRequired,
+    editCarousel: PropTypes.object,
+    editSlide: PropTypes.object,
     carousel: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired
+    open: PropTypes.bool.isRequired
   }
   return connect(mapStateToProps)(SectionCarouselContainer)
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import { ListItem } from 'material-ui/List'
 
@@ -20,6 +21,11 @@ class DrawerAdminPageLink extends Component {
       />
     )
   }
+}
+
+DrawerAdminPageLink.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired,
 }
 
 export default DrawerAdminPageLink

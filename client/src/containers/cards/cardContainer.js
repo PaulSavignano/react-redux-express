@@ -38,24 +38,33 @@ const cardContainer = (ComposedComponent) => {
         typography
       }
       return (
-        !isFetching && item && <ComposedComponent {...props} />
+        isFetching ? null : <ComposedComponent {...props} />
       )
     }
   }
   const mapStateToProps = ({
     brand: { isFetching, card, typography },
-    cards
   }, {
-    componentId
-  }) => ({
-    card,
-    item: cards.items.find(item => item._id === componentId),
-    isFetching,
-    typography
-  })
+    item
+  }) => {
+    const hasHeading = item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
+    const hasMedia = item.image.src || item.iframe ? true : false
+    const hasParagraph = item.values.pText && item.values.pText.length > 8 ? true : false
+    const hasButtons = item.values.button1Text ? true : false
+    return {
+      card,
+      item,
+      isFetching,
+      typography
+    }
+  }
   CardContainer.propTypes = {
     card: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    hasButtons: PropTypes.bool.isRequired,
+    hasHeading: PropTypes.bool.isRequired,
+    hasMedia: PropTypes.bool.isRequired,
+    hasParagraph: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     typography: PropTypes.object.isRequired

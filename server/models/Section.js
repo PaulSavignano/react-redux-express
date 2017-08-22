@@ -28,6 +28,7 @@ const SectionSchema = new Schema({
     justifyContent: { type: String, trim: true, default: 'space-between' },
     alignItems: { type: String, trim: true },
     margin: { type: String, trim: true },
+    maxWidth: { type: String, trim: true },
     minHeight: { type: String, trim: true, default: '64px' },
     padding: { type: String, trim: true },
     pageLink: { type: String, trim: true }

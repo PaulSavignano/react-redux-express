@@ -13,14 +13,14 @@ export const add = (req, res) => {
   .then(doc => {
     if (!doc) {
       const page = new Page({
-        name: req.body.name,
         slug: slugIt(req.body.name),
+        values: { name: req.body.name }
       })
       page.save()
         .then(doc => res.send(doc))
         .catch(error => {
           console.error(error)
-          res.status(400).send()
+          res.status(400).send({ error })
         })
     } else {
       return res.status(400).send({ error: 'That name already exists' })
@@ -48,7 +48,7 @@ export const update = (req, res) => {
   const slug = slugIt(name)
   Page.findOneAndUpdate(
     { _id },
-    { $set: { name, slug }},
+    { $set: { slug, values: { name }}},
     { new: true }
   )
   .then(doc => res.send(doc))

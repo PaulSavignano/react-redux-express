@@ -3,22 +3,21 @@ import PropTypes from 'prop-types'
 import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 const SectionSlide = ({
-  dispatch,
   slide: {
     image,
     values: {
-      mediaBackgroundColor,
-      contentBackgroundColor,
       color,
+      contentBackgroundColor,
+      mediaBackgroundColor,
       title,
-      subtitle,
+      subtitle
     }
   }
 }) => (
   <Card
     zDepth={0}
   >
-    {image && image.src &&
+    {image.src &&
       <CardMedia>
         <img src={image.src} alt="section carousel slide"/>
       </CardMedia>
@@ -28,5 +27,8 @@ const SectionSlide = ({
   </Card>
 )
 
+SectionSlide.propTypes = {
+  slide: PropTypes.object.isRequired,
+}
 
 export default SectionSlide

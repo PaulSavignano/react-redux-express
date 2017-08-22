@@ -3,10 +3,10 @@ import { type } from '../actions/cart'
 const carts = (state = {
   isFetching: false,
   cart: {
-    quantity: 0,
-    total: 0,
-    subTotal: 0,
-    tax: 0,
+    quantity: null,
+    total: null,
+    subTotal: null,
+    tax: null,
     items: []
   }
 }, action) => {

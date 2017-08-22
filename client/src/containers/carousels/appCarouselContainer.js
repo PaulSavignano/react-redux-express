@@ -12,10 +12,8 @@ const appCarouselContainer = (ComposedComponent) => {
         editCarouselId,
         editSlide,
         carousel,
-        isFetching,
         appOpen,
       } = this.props
-      console.log('container carousel', carousel)
       const props = {
         adminAppOpen,
         autoplay,
@@ -26,7 +24,7 @@ const appCarouselContainer = (ComposedComponent) => {
         appOpen
       }
       return (
-        isFetching ? null : <ComposedComponent {...props} />
+        <ComposedComponent {...props} />
       )
     }
   }
@@ -34,22 +32,29 @@ const appCarouselContainer = (ComposedComponent) => {
     carousels: {
       adminAppOpen,
       autoplay,
-      editCarouselId,
+      editCarousel,
       editSlide,
+      appOpen,
       items,
-      isFetching,
-      appOpen
+      isFetching
     },
+  }, {
+    carousel
   }) => ({
     adminAppOpen,
     autoplay,
-    editCarouselId,
+    editCarousel,
     editSlide,
     carousel: items.find(item => item.pathname === '/'),
     isFetching,
     appOpen
   })
   AppCarouselContainer.propTypes = {
+    adminAppOpen: PropTypes.bool.isRequired,
+    appOpen: PropTypes.bool.isRequired,
+    autoplay: PropTypes.bool.isRequired,
+    editCarousel: PropTypes.object,
+    editSlide: PropTypes.object,
     carousel: PropTypes.object,
     isFetching: PropTypes.bool.isRequired
   }

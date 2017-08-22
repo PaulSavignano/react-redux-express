@@ -9,19 +9,28 @@ import SectionSlide from './SectionSlide'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
-const AdminSectionCarousel = ({
+const SectionCarousel = ({
   autoplay,
   dispatch,
-  editCarouselId,
   carousel
 }) => (
   <div>
     <AutoPlaySwipeableViews autoplay={autoplay}>
       {carousel.slides.map(slide => (
-        <SectionSlide key={slide._id} dispatch={dispatch} slide={slide} />
+        <SectionSlide
+          key={slide._id}
+          dispatch={dispatch}
+          slide={slide}
+        />
       ))}
     </AutoPlaySwipeableViews>
   </div>
 )
 
-export default sectionCarouselContainer(AdminSectionCarousel)
+SectionCarousel.propTypes = {
+  autoplay: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  carousel: PropTypes.object.isRequired,
+}
+
+export default sectionCarouselContainer(SectionCarousel)
