@@ -14,6 +14,14 @@ class AdminPagesItem extends Component {
   state = {
     elevation: 1
   }
+  handleNavigation = () => {
+    const { dispatch , item: { slug }} = this.props
+    dispatch(push(`/admin/pages/${slug}`))
+  }
+  handleRemove = () => {
+    const { dispatch, item: { _id }} = this.props
+    dispatch(fetchDelete(_id))
+  }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
@@ -45,14 +53,14 @@ class AdminPagesItem extends Component {
           />
           <div>
             <RaisedButton
-              onTouchTap={() => dispatch(push(`/admin/pages/${slug}`))}
+              onTouchTap={this.handleNavigation}
               type="button"
               label="Edit"
               style={{ margin: 4 }}
               primary={true}
             />
             <RaisedButton
-              onTouchTap={() => dispatch(fetchDelete(_id))}
+              onTouchTap={this.handleRemove}
               type="button"
               label="X"
               className="delete-button"

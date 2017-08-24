@@ -15,7 +15,12 @@ const pageContainer = (ComposedComponent) => {
         pageSlug,
         pathname,
       } = this.props
-      const props = { dispatch, hash, page, pathname }
+      const props = {
+        dispatch,
+        hash, 
+        page,
+        pathname
+      }
       return (
         isFetching ? null : pageSlug === 'notFound' ?
         <NotFound />

@@ -7,19 +7,41 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import cardContainer from '../../containers/cards/cardContainer'
+import AdminItemForm from '../forms/AdminItemForm'
 import Buttons from '../buttons/Buttons'
 import Heading from '../headings/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
-import AdminCardEdit from './AdminCardEdit'
-import { startEdit } from '../../actions/cards'
+import { fetchUpdate, fetchDelete } from '../../actions/cards'
+import { startEdit } from '../../actions/editItem'
+
+import renderTextField from '../fields/renderTextField'
+import renderWysiwgyField from '../fields/renderWysiwgyField'
+
+const fields = [
+  { name: 'button1Text', type: 'text', component: renderTextField },
+  { name: 'button1Link', type: 'text', component: renderTextField },
+  { name: 'button2Text', type: 'text', component: renderTextField },
+  { name: 'button2Link', type: 'text', component: renderTextField },
+  { name: 'flex', type: 'text', component: renderTextField },
+  { name: 'h1Text', type: 'text',  component: renderTextField },
+  { name: 'h2Text', type: 'text',  component: renderTextField },
+  { name: 'h3Text', type: 'text',  component: renderTextField },
+  { name: 'iframe', type: 'text',  component: renderTextField },
+  { name: 'link', type: 'text',  component: renderTextField },
+  { name: 'pText', type: 'text',  component: renderWysiwgyField },
+]
 
 class AdminCard extends Component {
-  handleStartEdit = () => this.props.dispatch(startEdit(this.props.item))
+  handleStartEdit = (e) => {
+    e.stopPropagation()
+    const { dispatch, item } = this.props
+    return dispatch(startEdit(item, 'CARD'))
+  }
   render() {
     const {
-      card: {
+      cardStyle: {
         values: {
           button1Color,
           button1Background,
@@ -34,34 +56,35 @@ class AdminCard extends Component {
           h2TextShadow,
           h3Align,
           h3Color,
-          h3TextShadow
+          h3TextShadow,
+          margin,
         }
       },
       cursor,
       dispatch,
+      editItem,
       events,
-      item,
-    } = this.props
-    const {
-      _id,
-      editing,
-      image,
-      values: {
-        button1Text,
-        button1Link,
-        button2Text,
-        button2Link,
-        flex,
-        h1Text,
-        h2Text,
-        h3Text,
-        iframe,
-        margin,
-        mediaAlign,
-        mediaBorder,
-        pText
+      item: {
+        _id,
+        editing,
+        image,
+        values: {
+          button1Text,
+          button1Link,
+          button2Text,
+          button2Link,
+          flex,
+          h1Text,
+          h2Text,
+          h3Text,
+          iframe,
+          margin,
+          mediaAlign,
+          mediaBorder,
+          pText
+        }
       }
-    } = item
+    } = this.props
     return (
       <Card
         {...events}
@@ -71,6 +94,12 @@ class AdminCard extends Component {
         id={_id}
         className="card"
       >
+        {hasMedia &&
+          <Media
+            image={image}
+            iframe={iframe}
+          />
+        }
         {hasHeading &&
           <Heading
             h1Align={h1Align}
@@ -87,14 +116,7 @@ class AdminCard extends Component {
             h3TextShadow={h3TextShadow}
           />
         }
-        {hasParagraph && mediaAlign === 'right' ? <P>{renderHTML(pText)}</P> : null}
-        {hasMedia &&
-          <Media
-            image={image}
-            iframe={iframe}
-          />
-        }
-        {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
+        {hasParagraph && <P>{renderHTML(pText)}</P>}
         {hasButtons &&
           <Buttons
             button1Background={button1Background}
@@ -107,21 +129,29 @@ class AdminCard extends Component {
             button2Text={button2Text}
           />
         }
-        {editing &&
-          <AdminCardEdit
-            form={`article_${_id}`}
-            item={item}
-            initialValues={item.values}
+        {editItem.editing && editItem.kind === 'CARD' ?
+          <AdminItemForm
+            form={`card_${editItem.item._id}`}
+            editItem={editItem}
+            initialValues={editItem.item.values}
+            fields={fields}
+            dispatch={dispatch}
+            fetchUpdate={fetchUpdate}
+            fetchDelete={fetchDelete}
           />
-        }
+        : null}
       </Card>
     )
   }
 }
 
 AdminCard.propTypes = {
-  card: PropTypes.object.isRequired,
+  cardStyle: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  hasButtons: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
+  hasMedia: PropTypes.bool.isRequired,
+  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 

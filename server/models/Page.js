@@ -5,7 +5,8 @@ import Section from './Section'
 const PageSchema = new Schema({
   slug: { type: String },
   sections: [{
-    section: { type: Schema.ObjectId, ref: 'Section' }
+    kind: { type: String },
+    section: { type: Schema.ObjectId, refPath: 'sections.kind' }
   }],
   values: {
     name: { type: String, trim: true, minlength: 1 }
@@ -15,8 +16,7 @@ const PageSchema = new Schema({
 })
 
 function autopopulate(next) {
-  const page = this
-  page.populate('sections.section')
+  this.populate('sections')
   next();
 }
 
@@ -24,10 +24,7 @@ PageSchema.pre('find', autopopulate)
 PageSchema.pre('findOne', autopopulate)
 
 PageSchema.pre('remove', function(next) {
-  const page = this
-  if (page.sections.length) {
-    Section.remove({ _id: { $in: sections.sectionId }})
-  }
+  this.model('Section').remove({ _id: { $in: this.sections._id }})
   next()
 })
 

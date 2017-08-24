@@ -5,33 +5,42 @@ import { uploadFile, deleteFile } from '../middleware/s3'
 const s3Path = `${process.env.APP_NAME}/products/product_`
 
 const ProductSchema = new Schema({
-  pageSlug: { type: String },
-  productSlug: { type: String },
-  sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
-  values: {
-    description: { type: String, minlength: 1, trim: true },
-    detail: { type: String },
-    flex: { type: String, trim: true, default: '1 1 auto' },
-    margin: { type: String, trim: true, default: '16px' },
-    name: { type: String, minlength: 1, trim: true },
-    price: { type: Number, default: 0 },
-    width: { type: String, trim: true, default: '300px' }
-  },
   image: {
     src: { type: String, minlength: 1, trim: true },
     width: { type: Number, trim: true, default: 1012 },
     height: { type: Number, trim: true, default: 675 }
   },
-  slug: { type: String },
+  page: { type: Schema.ObjectId, ref: 'Page' },
+  productSlug: { type: String },
+  productSection: { type: Schema.Types.ObjectId, ref: 'ProductSection' },
+  values: {
+    description: { type: String, minlength: 1, trim: true },
+    detail: { type: String },
+    name: { type: String, minlength: 1, trim: true },
+    price: { type: Number, default: 0 },
+  }
 }, {
   timestamps: true
 })
 
+ProductSchema.post('save', function(next) {
+  this.model('ProductSection').update(
+    { _id: this.productSection },
+    { $push: { products: this._id }},
+    { new: true }
+  )
+  next()
+})
+
 ProductSchema.pre('remove', function(next) {
-  const product = this
-  if (product.image && product.image.src) {
-    deleteFile({ Key: product.image.src }).catch(err => console.error(err))
+  if (this.image && this.image.src) {
+    deleteFile({ Key: this.image.src }).catch(err => console.error(err))
   }
+  this.model('ProductSection').update(
+    { _id: this.productSection },
+    { $pull: { products: this._id }},
+    { multi: true }
+  )
   next()
 })
 

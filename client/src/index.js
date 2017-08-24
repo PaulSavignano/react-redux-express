@@ -10,7 +10,6 @@ import './index.css'
 
 import { fetchBrand } from './actions/brand'
 import { fetchCart } from './actions/cart'
-import { fetchCarousels } from './actions/carousels'
 import { fetchOrders } from './actions/orders'
 import { fetchPages } from './actions/pages'
 import { fetchUser } from './actions/users'
@@ -30,7 +29,6 @@ if (cart) {
 }
 
 store.dispatch(fetchBrand())
-store.dispatch(fetchCarousels())
 store.dispatch(fetchPages())
 
 ReactDOM.render(

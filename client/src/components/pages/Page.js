@@ -2,7 +2,32 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import pageContainer from '../../containers/pages/pageContainer'
-import Section from '../sections/Section'
+import ArticleSection from '../articles/ArticleSection'
+import CardSection from '../cards/CardSection'
+import HeroSection from '../heros/HeroSection'
+import ProductSection from '../products/ProductSection'
+import SwipeableSection from '../swipeables/SwipeableSection'
+
+const renderSections = (sections) => {
+  const sectionList = (section) => {
+    const { kind } = section
+    switch(type) {
+      case 'ArticleSection':
+        return <ArticleSection key={section._id} section={section} />
+      case 'CardSection':
+        return <CardSection key={section._id} section={section} />
+      case 'HeroSection':
+        return <HeroSection key={section._id} section={section} />
+      case 'ProductSection':
+        return <ProductSection key={section._id} section={section} />
+      case 'SwipeableSection':
+        return <SwipeableSection key={section._id} section={section} />
+      default:
+        return
+    }
+  }
+  return sections.map(section => sectionList(section))
+}
 
 class Page extends Component {
   state = {
@@ -39,15 +64,7 @@ class Page extends Component {
     console.log('page', page)
     return (
       <div>
-        {page.sections.map(section => {
-          console.log('section', section)
-          return (
-            <Section
-              key={section._id}
-              item={section}
-            />
-          )
-        })}
+        {renderComponents(page.sections)}
       </div>
     )
   }

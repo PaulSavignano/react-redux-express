@@ -6,7 +6,6 @@ import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
-import cardContainer from '../../containers/cards/cardContainer'
 import Buttons from '../buttons/Buttons'
 import Heading from '../headings/Heading'
 import Media from '../media/Media'
@@ -14,7 +13,7 @@ import P from '../typography/P'
 import loadImage from '../images/loadImage'
 
 const CardItem = ({
-  card: {
+  cardStyle: {
     values: {
       button1Color,
       button1Background,
@@ -33,7 +32,6 @@ const CardItem = ({
     }
   },
   cursor,
-  dispatch,
   events,
   hasButtons,
   hasHeading,
@@ -68,6 +66,12 @@ const CardItem = ({
       id={_id}
       className="card"
     >
+      {hasMedia &&
+        <Media
+          image={image}
+          iframe={iframe}
+        />
+      }
       {hasHeading &&
         <Heading
           h1Align={h1Align}
@@ -84,14 +88,7 @@ const CardItem = ({
           h3TextShadow={h3TextShadow}
         />
       }
-      {hasParagraph && mediaAlign === 'right' ? <P>{renderHTML(pText)}</P> : null}
-      {hasMedia &&
-        <Media
-          image={image}
-          iframe={iframe}
-        />
-      }
-      {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
+      {hasParagraph && <P>{renderHTML(pText)}</P>}
       {hasButtons &&
         <Buttons
           button1Background={button1Background}
@@ -109,9 +106,12 @@ const CardItem = ({
 }
 
 CardItem.propTypes = {
-  card: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  cardStyle: PropTypes.object.isRequired,
+  hasButtons: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
+  hasMedia: PropTypes.bool.isRequired,
+  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 
-export default cardContainer(loadImage(CardItem))
+export default loadImage(CardItem)

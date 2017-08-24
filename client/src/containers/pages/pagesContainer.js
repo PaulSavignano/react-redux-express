@@ -6,19 +6,11 @@ const pagesContainer = (ComposedComponent) => {
   class PagesContainer extends Component {
     render() {
       const {
-        adminAppOpen,
-        autoplay,
-        editSlide,
-        carousel,
         dispatch,
         isFetching,
         pages
       } = this.props
       const props = {
-        adminAppOpen,
-        autoplay,
-        editSlide,
-        carousel,
         dispatch,
         pages
       }
@@ -28,22 +20,13 @@ const pagesContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    pages,
-    carousels
+    pages: { items, isFetching }
   }) => ({
-    adminAppOpen: carousels.adminAppOpen,
-    autoplay: carousels.autoplay,
-    editSlide: carousels.editSlide,
-    carousel: carousels.items.find(item => item.pageSlug === 'home'),
-    isFetching: pages.isFetching || carousels.isFetching ? true : false,
-    pages: pages.items,
+    isFetching,
+    pages: pages.items
   })
   PagesContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    adminAppOpen: PropTypes.bool.isRequired,
-    autoplay: PropTypes.bool.isRequired,
-    editSlide: PropTypes.object,
-    carousel: PropTypes.object,
     isFetching: PropTypes.bool.isRequired,
     pages: PropTypes.array.isRequired
   }

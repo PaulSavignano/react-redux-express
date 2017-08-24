@@ -7,16 +7,14 @@ import slugIt from '../middleware/slugIt'
 
 export const add = (req, res) => {
   const { name } = req.body
-  Page.findOne(
-    { name }
-  )
+  Page.findOne({ name })
   .then(doc => {
     if (!doc) {
-      const page = new Page({
+      const newDoc = new Page({
         slug: slugIt(req.body.name),
         values: { name: req.body.name }
       })
-      page.save()
+      newDoc.save()
         .then(doc => res.send(doc))
         .catch(error => {
           console.error(error)
@@ -63,11 +61,11 @@ export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Page.findOne({ _id,})
-    .then(page => {
-      page.remove().then(page => res.send(page).catch(error => console.error(error)))
-    })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send()
-    })
+  .then(page => {
+    page.remove().then(page => res.send(page).catch(error => console.error(error)))
+  })
+  .catch(error => {
+    console.error(error)
+    res.status(400).send()
+  })
 }

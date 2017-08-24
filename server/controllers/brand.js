@@ -49,9 +49,6 @@ export const updateAppBar = (req, res) => {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, removeImageSrc)
         .then(data => {
-          const update = {
-
-          }
           Brand.findOneAndUpdate(
             { _id },
             { $set: {
@@ -117,13 +114,13 @@ export const updateAppBar = (req, res) => {
 }
 
 
-export const updateArticle = (req, res) => {
+export const updateArticleStyle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const { values } = req.body
   Brand.findOneAndUpdate(
     { _id },
-    { $set: { article: { values }}},
+    { $set: { articleStyle: { values }}},
     { new: true }
   )
   .then(doc => res.send(doc))
@@ -149,14 +146,14 @@ export const updateBusiness = (req, res) => {
   })
 }
 
-export const updateBody = (req, res) => {
+export const updateBodyStyle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   const { values } = req.body
   const update = { body: { values } }
   Brand.findOneAndUpdate(
     { _id },
-    { $set: { body: { values }}},
+    { $set: { bodyStyle: { values }}},
     { new: true }
   )
   .then(doc => res.send(doc))
@@ -166,13 +163,13 @@ export const updateBody = (req, res) => {
   })
 }
 
-export const updateCard = (req, res) => {
+export const updateCardStyle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const { values } = req.body
   Brand.findOneAndUpdate(
     { _id },
-    { $set: { card: { values }}},
+    { $set: { cardStyle: { values }}},
     { new: true }
   )
   .then(doc => res.send(doc))
@@ -259,13 +256,29 @@ export const updateFooter = (req, res) => {
 }
 
 
-export const updateHero = (req, res) => {
+export const updateHeroSyle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const { values } = req.body
   Brand.findOneAndUpdate(
     { _id },
-    { $set: { hero: { values }}},
+    { $set: { heroStyle: { values }}},
+    { new: true }
+  )
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send()
+  })
+}
+
+export const updateProductSyle = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+  const { values } = req.body
+  Brand.findOneAndUpdate(
+    { _id },
+    { $set: { productStyle: { values }}},
     { new: true }
   )
   .then(doc => res.send(doc))

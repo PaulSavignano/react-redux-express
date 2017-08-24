@@ -64,6 +64,12 @@ const AdminCard = ({
       id={_id}
       className="card"
     >
+      {hasMedia &&
+        <Media
+          image={image}
+          iframe={iframe}
+        />
+      }
       {hasHeading &&
         <Heading
           h1Align={h1Align}
@@ -80,16 +86,7 @@ const AdminCard = ({
           h3TextShadow={h3TextShadow}
         />
       }
-      {hasParagraph && mediaAlign === 'right' ? <P>{renderHTML(pText)}</P> : null}
-      {hasMedia &&
-        <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
-          <Media
-            image={image}
-            iframe={iframe}
-          />
-        </Paper>
-      }
-      {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
+      {hasParagraph && <P>{renderHTML(pText)}</P>}
       {hasButtons &&
         <Buttons
           button1Background={button1Background}

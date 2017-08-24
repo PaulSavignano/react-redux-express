@@ -3,13 +3,19 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 const brandContainer = (ComposedComponent) => {
-  const BrandContainer = ({ brand }) => (
-    brand.isFetching ? null :
-    <ComposedComponent {...brand} />
-  )
+  class BrandContainer extends Component {
+    render() {
+      const { brand } = this.props
+      return (
+        brand.isFetching ? null :
+        <ComposedComponent {...brand} />
+      )
+    }
+  }
   const mapStateToProps = ({ brand }) => ({ brand })
   BrandContainer.propTypes = {
     brand: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
   }
   return connect(mapStateToProps)(BrandContainer)
 }

@@ -4,17 +4,14 @@ import { uploadFile, deleteFile } from '../middleware/s3'
 import Article from './Article'
 import Card from './Card'
 import Carousel from './Carousel'
-import Iframe from './Iframe'
-import Image from './Image'
+import Hero from './Hero'
 import Page from './Page'
 import Product from './Product'
-import Text from './Text'
-import Title from './Title'
 
 const s3Path = `${process.env.APP_NAME}/sections/section_`
 
 const SectionSchema = new Schema({
-  pageId: { type: Schema.ObjectId, ref: 'Page' },
+  page: { type: Schema.ObjectId, ref: 'Page' },
   pageSlug: { type: String },
   image: {
     src: { type: String },
@@ -34,69 +31,32 @@ const SectionSchema = new Schema({
     pageLink: { type: String, trim: true }
   },
   components: [{
-    kind: String,
+    kind: { type: String },
     component: { type: Schema.ObjectId, refPath: 'components.kind' }
   }]
 }, {
   timestamps: true
 })
 
-
-function autopopulate(next) {
-  const section = this
-  section.populate({
-    path: 'components.component',
-  })
-  next();
-}
-
-SectionSchema.pre('find', autopopulate)
-SectionSchema.pre('findOne', autopopulate)
-
+SectionSchema.post('save', function(next) {
+  this.model('Page').update(
+    { _id: this.page._id },
+    { $push: { sections: this._id }},
+    { new: true }
+  )
+  next()
+})
 
 SectionSchema.pre('remove', function(next) {
-  const section = this
-  if (section.image && section.image.src) {
-    deleteFile({ Key: section.image.src }).catch(err => console.error(err))
+  if (this.image && this.image.src) {
+    deleteFile({ Key: this.image.src }).catch(err => console.error(err))
   }
-  section.components.forEach(component => {
-    switch(component.type) {
-      case 'Article':
-        Article.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Card':
-        Card.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Carousel':
-        Carousel.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Iframe':
-        Iframe.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Image':
-        Image.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Product':
-        Product.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Text':
-        Text.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      case 'Title':
-        Title.find({ sectionId: section._id })
-          .then(items => items.map(item => item.remove().catch(err => console.error(err))))
-        break
-      default:
-        return
-    }
-  })
+  this.model('Page').update(
+    { sections: { $in: this._id }},
+    { $pull: { section: this._id }},
+    { multi: true }
+  )
+  this.model('Swipeable').remove({ _id: { $in: this.swipeables._id }})
   next()
 })
 

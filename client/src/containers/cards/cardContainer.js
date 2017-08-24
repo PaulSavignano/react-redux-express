@@ -16,8 +16,9 @@ const cardContainer = (ComposedComponent) => {
     render() {
       const { elevation } = this.state
       const {
-        card,
+        cardStyle,
         dispatch,
+        editItem,
         isFetching,
         item,
         typography
@@ -29,7 +30,7 @@ const cardContainer = (ComposedComponent) => {
         onMouseLeave: this.handleMouseLeave,
       }
       const props = {
-        card,
+        cardStyle,
         dispatch,
         elevation,
         events,
@@ -43,24 +44,25 @@ const cardContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, card, typography },
+    brand: { isFetching, cardStyle, typography },
+    editItem
   }, {
-    item
-  }) => {
-    const hasHeading = item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
-    const hasMedia = item.image.src || item.iframe ? true : false
-    const hasParagraph = item.values.pText && item.values.pText.length > 8 ? true : false
-    const hasButtons = item.values.button1Text ? true : false
-    return {
-      card,
-      item,
-      isFetching,
-      typography
-    }
-  }
+    item: { values, image }
+  }) => ({
+    cardStyle,
+    editItem: editItem.kind === 'CARD_SECTION' || editItem.kind === 'CARD' ? editItem : null,
+    hasButtons: item.values.button1Text ? true : false,
+    hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
+    hasMedia: item.image.src || item.values.iframe ? true : false,
+    hasParagraph: item.values.pText && item.values.pText.length > 8 ? true : false,
+    isFetching,
+    item,
+    typography
+  })
   CardContainer.propTypes = {
-    card: PropTypes.object.isRequired,
+    cardStyle: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    editItem: PropTypes.object,
     hasButtons: PropTypes.bool.isRequired,
     hasHeading: PropTypes.bool.isRequired,
     hasMedia: PropTypes.bool.isRequired,

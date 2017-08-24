@@ -8,14 +8,14 @@ import articles from '../reducers/articles'
 import brand from '../reducers/brand'
 import cards from '../reducers/cards'
 import carts from '../reducers/carts'
-import carousels from '../reducers/carousels'
 import drawer from '../reducers/drawer'
+import editItem from '../reducers/editItem'
 import heros from '../reducers/heros'
 import orders from '../reducers/orders'
 import pages from '../reducers/pages'
 import products from '../reducers/products'
 import search from '../reducers/search'
-import sections from '../reducers/sections'
+import swipeableViews from '../reducers/swipeableViews'
 import user from '../reducers/users'
 
 const rootReducer = combineReducers({
@@ -23,8 +23,8 @@ const rootReducer = combineReducers({
   brand,
   cards,
   carts,
-  carousels,
   drawer,
+  editItem,
   form: formReducer,
   heros,
   orders,
@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
   products,
   routing: routerReducer,
   search,
-  sections,
+  swipeableViews,
   user,
 })
 

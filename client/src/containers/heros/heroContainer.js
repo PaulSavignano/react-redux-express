@@ -6,14 +6,14 @@ const heroContainer = (ComposedComponent) => {
   class HeroContainer extends Component {
     render() {
       const {
-        hero,
+        heroStyle,
         dispatch,
         isFetching,
         item,
         typography
       } = this.props
       const props = {
-        hero,
+        heroStyle,
         dispatch,
         item,
         typography
@@ -24,31 +24,28 @@ const heroContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, hero, typography }
+    brand: { isFetching, heroStyle, typography },
+    editItem
   }, {
     item
-  }) => {
-    const hasHeading = item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
-    const hasMedia = item.image.src || item.iframe ? true : false
-    const hasParagraph = item.values.pText && item.values.pText.length > 8 ? true : false
-    const hasButtons = item.values.button1Text ? true : false
-    return {
-      hasHeading,
-      hasMedia,
-      hasParagraph,
-      hasButtons,
-      hero,
-      isFetching,
-      typography
-    }
-  }
+  }) => ({
+    heroStyle,
+    editItem: editItem.kind === 'HERO' ? editItem : null,
+    hasButtons: item.values.button1Text ? true : false,
+    hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
+    hasMedia: item.image.src || item.values.iframe ? true : false,
+    hasParagraph: item.values.pText && item.values.pText.length > 8 ? true : false,
+    isFetching,
+    item,
+    typography
+  })
   HeroContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
     hasHeading: PropTypes.bool.isRequired,
     hasMedia: PropTypes.bool.isRequired,
     hasParagraph: PropTypes.bool.isRequired,
-    hero: PropTypes.object.isRequired,
+    heroStyle: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     typography: PropTypes.object.isRequired

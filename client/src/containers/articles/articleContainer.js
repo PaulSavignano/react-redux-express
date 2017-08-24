@@ -7,7 +7,7 @@ const articleContainer = (ComposedComponent) => {
   class ArticleContainer extends Component {
     render() {
       const {
-        article,
+        articleStyle,
         dispatch,
         editItem,
         hasButtons,
@@ -19,7 +19,7 @@ const articleContainer = (ComposedComponent) => {
         typography
       } = this.props
       const props = {
-        article,
+        articleStyle,
         dispatch,
         editItem,
         hasButtons,
@@ -35,30 +35,24 @@ const articleContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    articles: { editItem },
-    brand: { isFetching, article, typography }
+    editItem,
+    brand: { isFetching, articleStyle, typography }
   }, {
     item
-  }) => {
-    const hasHeading = item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false
-    const hasMedia = item.image.src || item.iframe ? true : false
-    const hasParagraph = item.values.pText && item.values.pText.length > 8 ? true : false
-    const hasButtons = item.values.button1Text ? true : false
-    return {
-      article,
-      editItem,
-      hasButtons,
-      hasHeading,
-      hasMedia,
-      hasParagraph,
-      isFetching,
-      item,
-      typography
-    }
-  }
+  }) => ({
+    articleStyle,
+    editItem: editItem.kind === 'ARTICLE_SECTION' ? editItem : null,
+    hasButtons: item.values.button1Text ? true : false,
+    hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
+    hasMedia: item.image.src || item.values.iframe ? true : false,
+    hasParagraph: item.values.pText && item.values.pText.length > 8 ? true : false,
+    isFetching,
+    item,
+    typography
+  })
   ArticleContainer.propTypes = {
-    article: PropTypes.object.isRequired,
-    editItem: PropTypes.object.isRequired,
+    articleStyle: PropTypes.object.isRequired,
+    editItem: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
     hasHeading: PropTypes.bool.isRequired,

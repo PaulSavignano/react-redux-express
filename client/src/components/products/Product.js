@@ -52,4 +52,4 @@ class Product extends Component {
   }
 }
 
-export default productContainer(loadImage(Product))
+export default loadImage(Product)

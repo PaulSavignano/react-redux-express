@@ -13,8 +13,10 @@ const productContainer = (ComposedComponent) => {
       const { elevation } = this.state
       const {
         dispatch,
+        editItem,
         isFetching,
-        item
+        item,
+        productStyle
       } = this.props
       const events = {
         onMouseEnter: this.handleMouseEnter,
@@ -22,23 +24,36 @@ const productContainer = (ComposedComponent) => {
       }
       const props = {
         dispatch,
+        editItem,
         item,
         elevation,
-        events
+        events,
+        productStyle
       }
       return (
         !isFetching && item ? <ComposedComponent {...props} /> : null
       )
     }
   }
-  const mapStateToProps = ({ products: { items, isFetching } }, { componentId }) => ({
-    item: items.find(item => item._id === componentId),
+  const mapStateToProps = ({
+    brand: { isFetching, productStyle, typography },
+    editItem
+  }, {
+    item: { values, image }
+  }) => ({
+    productStyle,
+    editItem: editItem.kind === 'PRODUCT_SECTION' || editItem.kind === 'PRODUCT' ? editItem : null,
     isFetching,
+    item,
+    typography
   })
   ProductContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    editItem: PropTypes.object,
     item: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    productStyle: PropTypes.object.isRequired,
+    typography: PropTypes.object.isRequired
   }
   return connect(mapStateToProps)(ProductContainer)
 }
