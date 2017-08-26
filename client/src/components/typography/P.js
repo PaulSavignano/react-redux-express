@@ -12,6 +12,7 @@ const P = ({
     style={{
       color: textColor,
       fontFamily,
+      margin: '0 16px',
       overflow: 'hidden'
     }}
   >

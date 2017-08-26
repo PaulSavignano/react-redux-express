@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import Buttons from '../buttons/Buttons'
-import Heading from '../headings/Heading'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
@@ -35,7 +35,10 @@ class SwipeableView extends Component {
         }
       },
       dispatch,
-      editItem,
+      hasButtons,
+      hasHeading,
+      hasMedia,
+      hasParagraph,
       item: {
         _id,
         editing,
@@ -61,7 +64,7 @@ class SwipeableView extends Component {
         style={{ margin }}
         zDepth={elevation}
         id={_id}
-        className="card"
+        className="swipeable-view"
       >
         {hasMedia &&
           <Media
@@ -96,6 +99,7 @@ class SwipeableView extends Component {
             button2Link={button2Link}
             button1Text={button1Text}
             button2Text={button2Text}
+            dispatch={dispatch}
           />
         }
       </Card>

@@ -1,40 +1,110 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
+import MenuItem from 'material-ui/MenuItem'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageForm from '../images/ImageForm'
 import { stopEdit } from '../../actions/editItem'
+import adminItemFormContainer from './adminItemFormContainer'
+
+import renderSelectField from '../../components/fields/renderSelectField'
+import renderTextField from '../fields/renderTextField'
+import renderWysiwgyField from '../fields/renderWysiwgyField'
+
+import { fetchUpdate as articleSectionUpdate, fetchDelete as articleSectionDelete } from '../../actions/articles'
+import { fetchUpdate as cardUpdate, fetchDelete as cardDelete } from '../../actions/cards'
+import { fetchUpdate as cardSectionUpdate, fetchDelete as cardSectionDelete } from '../../actions/cardSections'
+import { fetchUpdate as productUpdate, fetchDelete as productDelete } from '../../actions/products'
+import { fetchUpdate as productSectionUpdate, fetchDelete as productSectionDelete } from '../../actions/productSections'
+import { fetchUpdate as swipeableSectionUpdate, fetchDelete as swipeableSectionDelete } from '../../actions/swipeableSections'
+import { fetchUpdate as swipeableViewUpdate, fetchDelete as swipeableViewDelete } from '../../actions/swipeableViews'
+
+import adminItemForms from './adminItemForms'
+
+console.log(adminItemForms)
 
 class AdminItemForm extends Component {
   state = {
-    imageEdit: false
+    imageEdit: false,
+    backgroundImageEdit: false
+  }
+  findForm = () => {
+    const { editItem: { kind }} = this.props
+    console.log(this.props)
+    console.log(adminItemForms.find(form => form.name === kind))
+    return adminItemForms.find(form => form.name === kind)
   }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
-  handleImageDelete = (_id, update) => {
+  handleBackgroundImageEdit = (bool) => {
+    this.setState({ backgroundImageEdit: bool })
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
+  }
+  handleImageRemove = (image) => {
+    const { dispatch, fetchUpdate, editItem: { item: { _id }}} = this.props
     this.setState({ imageEdit: false })
-    return this.props.dispatch(fetchUpdate(_id, update))
+    return dispatch(fetchUpdate(_id, { type: 'DELETE_IMAGE', image }))
   }
+  handleBackgroundImageRemove = (image) => {
+    const { dispatch, fetchUpdate, editItem: { item: { _id }}} = this.props
+    this.setState({ backgroundImageEdit: false })
+    return dispatch(fetchUpdate(_id, { type: 'DELETE_BACKGROUND_IMAGE', image }))
+  }
+
   handleFormSubmit = (values) => {
-    const { dispatch, item: { _id, image }} = this.props
-    if (this.state.imageEdit) {
-      const newImage = this.editor.handleSave()
-      const remmoveImageSrc = image.src
-      return dispatch(fetchUpdate(_id, { type: 'UPDATE_IMAGE_AND_VALUES', image: newImage, remmoveImageSrc, values }))
-    } else {
-      return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
+    const { imageEdit, backgroundImageEdit } = this.state
+    const { dispatch, editItem: { item: { _id }}, image, backgroundImage } = this.props
+    const oldImageSrc = image && image.src ? image.src : null
+    const oldBackgroundImageSrc = backgroundImage && backgroundImage.src ? backgroundImage.src : null
+    const newImage = imageEdit ? this.imageEditor.handleSave() : null
+    const newBackgroundImage = backgroundImageEdit ? this.backgroundImageEditor.handleSave() : null
+    const fetchUpdate = this.findForm().update
+    if (imageEdit && backgroundImageEdit) {
+      return dispatch(fetchUpdate(_id, {
+        type: 'UPDATE_IMAGE_AND_BACKGROUND_IMAGE_AND_VALUES',
+        image: newImage,
+        backgroundImage: newBackgroundImage,
+        oldImageSrc,
+        oldBackgroundImageSrc,
+        values
+      }))
     }
+    if (imageEdit) {
+      return dispatch(fetchUpdate(_id, {
+        type: 'UPDATE_IMAGE_AND_VALUES',
+        image: newImage,
+        oldImageSrc,
+        values
+      }))
+    }
+    if (backgroundImageEdit) {
+      return dispatch(fetchUpdate(_id, {
+        type: 'UPDATE_BACKGROUND_IMAGE_AND_VALUES',
+        backgroundImage: newBackgroundImage,
+        oldBackgroundImageSrc,
+        values
+      }))
+    }
+    return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
   }
-  handleRemove = () => this.props.dispatch(fetchDelete(this.props.editItem.item._id))
+  handleRemove = () => {
+    const fetchDelete = this.findRemove()
+    const { dispatch, editItem: { item: { _id }}} = this.props
+    return dispatch(fetchDelete(_id))
+  }
   handleStopEdit = () => this.props.dispatch(stopEdit())
-  setEditorRef = (editor) => this.editor = editor
+  setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
+  setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
+    this.findForm()
     const {
       dispatch,
       error,
@@ -42,12 +112,14 @@ class AdminItemForm extends Component {
       handleSubmit,
       editItem: {
         editing,
-        item: { _id, image },
-        kind
+        item: { _id, backgroundImage, image },
+        kind,
       },
       submitting
     } = this.props
+    console.log('rendering')
     return (
+      !editing ? null :
       <Dialog
         actions={
           <div className="button-container">
@@ -86,49 +158,70 @@ class AdminItemForm extends Component {
         contentStyle={{ width: '100%', maxWidth: 1000 }}
         bodyStyle={{ padding: 8 }}
       >
-        <Card>
-          <CardHeader title={`${kind.toLowerCase().charAt(0).toUpperCase()} ${_id}`}/>
-          <form>
-            {image &&
-              <ImageForm
-                image={image}
-                type="image/jpg"
-                _id={_id}
-                onImageEdit={this.handleImageEdit}
-                onImageDelete={this.handleImageDelete}
-                ref={this.setEditorRef}
-              />
-            }
-            <div className="field-container">
-              {fields.map(({ name, type, component, options }) => (
-                type === 'select' ?
-                  <Field
-                    className="field"
-                    component={component}
-                    label={name}
-                    name={name}
-                  >
-                    {options.map(option => (
-                      <MenuItem
-                        value={option}
-                        primaryText={option}
-                      />
-                    ))}
-                  </Field>
-                :
+        <CardHeader title={`${kind} ${_id}`}/>
+        <form>
+          {image &&
+            <ImageForm
+              key={1}
+              image={image}
+              label="image"
+              type="image/jpg"
+              onImageEdit={this.handleImageEdit}
+              onImageRemove={this.handleImageRemove}
+              ref={this.setImageFormRef}
+            />
+          }
+          {backgroundImage &&
+            <ImageForm
+              key={2}
+              image={backgroundImage}
+              label="backgroundImage"
+              type="image/jpg"
+              onImageEdit={this.handleBackgroundImageEdit}
+              onImageRemove={this.handleBackgroundImageRemove}
+              ref={this.setBackgroundImageFormRef}
+            />
+          }
+          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+            {this.findForm().fields.map(({ name, type, options }) => (
+              type === 'select' ?
+                <Field
+                  key={name}
+                  className="field"
+                  component={renderSelectField}
+                  label={name}
+                  name={name}
+                >
+                  {options.map(option => (
+                    <MenuItem
+                      key={option}
+                      value={option}
+                      primaryText={option}
+                    />
+                  ))}
+                </Field>
+              : type === 'wysiwgy' ?
                 <Field
                   className="field"
-                  component={component}
+                  component={renderWysiwgyField}
                   key={name}
                   label={name}
                   name={name}
                   type={type}
                 />
-              ))}
-            </div>
-          </form>
-          {error && <div className="error">{error}</div>}
-        </Card>
+              :
+              <Field
+                className="field"
+                component={renderTextField}
+                key={name}
+                label={name}
+                name={name}
+                type={type}
+              />
+            ))}
+          </div>
+        </form>
+        {error && <div className="error">{error}</div>}
       </Dialog>
     )
   }
@@ -136,11 +229,21 @@ class AdminItemForm extends Component {
 
 AdminItemForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  fields: PropTypes.array.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   editItem: PropTypes.object.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
   submitting: PropTypes.bool.isRequired,
 }
 
-export default reduxForm({})(AdminItemForm)
+export default adminItemFormContainer(compose(
+  connect(( state, { editItem }) => ({
+    editItem,
+    form: `${editItem.kind}_${editItem.item._id}`,
+    initialValues: editItem.item.values
+  })),
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: []
+  })
+)(AdminItemForm))

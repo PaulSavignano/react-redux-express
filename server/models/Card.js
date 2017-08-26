@@ -3,7 +3,8 @@ import mongoose, { Schema } from 'mongoose'
 import { uploadFile, deleteFile } from '../middleware/s3'
 
 const CardSchema = new Schema({
-  cardSection: { type: Schema.Types.ObjectId, ref: 'CardSection' },
+  section: { type: Schema.Types.ObjectId, ref: 'CardSection' },
+  page: { type: Schema.Types.ObjectId, ref: 'Page' },
   image: {
     src: { type: String, trim: true },
     width: { type: Number, trim: true, default: 650 },
@@ -27,13 +28,12 @@ const CardSchema = new Schema({
   timestamps: true
 })
 
-CardSchema.post('save', function(next) {
+CardSchema.post('save', function(doc) {
   this.model('CardSection').update(
     { _id: this.cardSection },
     { $push: { cards: this._id }},
     { new: true }
   )
-  next()
 })
 
 CardSchema.pre('remove', function(next) {

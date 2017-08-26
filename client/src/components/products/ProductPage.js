@@ -10,6 +10,7 @@ import loadImage from '../images/loadImage'
 import ProductButtons from './ProductButtons'
 
 const ProductPage = ({
+  dispatch,
   item: {
     _id,
     image,
@@ -31,7 +32,13 @@ const ProductPage = ({
           <CardTitle title={formatPrice(price)} />
         </div>
         <CardText>{renderHTML(detail)}</CardText>
-        <CardActions><ProductButtons _id={_id}/></CardActions>
+        <CardActions>
+          <ProductButtons
+            dispatch={dispatch}
+            form={`addToCard_${_id}`}
+            productId={_id}
+          />
+        </CardActions>
       </Card>
     </div>
   </Paper>

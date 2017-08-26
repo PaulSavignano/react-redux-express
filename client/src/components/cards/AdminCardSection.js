@@ -1,86 +1,79 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import cardContainer from '../../containers/cards/cardContainer'
-import AdminItemForm from '../forms/AdminItemForm'
-import AdminCardItem from './AdminCardItem'
+import AdminCard from './AdminCard'
 import { fetchUpdate, fetchDelete } from '../../actions/cardSections'
+import { fetchAdd } from '../../actions/cards'
 import { startEdit } from '../../actions/editItem'
 
-import renderTextField from '../fields/renderTextField'
-
-const fields = [
-  { name: 'backgroundColor', type: 'text', component: renderTextField },
-  { name: 'pageLink', type: 'text',  component: renderTextField }
-]
-
 class AdminCardSection extends Component {
-  handleStartEdit = () => {
+  handleStartEdit = (e) => {
+    e.stopPropagation()
     const { dispatch, item } = this.props
-    dispatch(startEdit(item, 'ARTICLE_SECTION'))
+    return dispatch(startEdit({ item, kind: 'CARD_SECTION' }))
+  }
+  handleAdd = (e) => {
+    e.stopPropagation()
+    const { dispatch, item: { _id }} = this.props
+    console.log(_id)
+    return dispatch(fetchAdd({ sectionId: _id }))
   }
   render() {
     const {
-      cardStyle,
-      cursor,
-      editItem,
-      events,
-      hasButtons,
-      hasHeading,
-      hasMedia,
-      hasParagraph,
+      dispatch,
       item: {
         _id,
-        cards,
-        values: {
-          backgroundColor,
-          pageLink,
-        }
+        items,
+        image,
+        values
       }
     } = this.props
+    const backgroundColor = values && values.backgroundColor
+    const pageLink = values && values.pageLink
+    const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
+    const backgroundImageClass = image && image.src && { className: 'background-image' }
     return (
       <section
         id={pageLink}
-        style={{ backgroundColor }}
         onTouchTap={this.handleStartEdit}
+        style={{
+          ...backgroundImage,
+          backgroundColor,
+          width: '100%',
+          overflow: 'hidden',
+          position: 'relative',
+          minHeight: 60
+        }}
+        {...backgroundImageClass}
+        className="card-section"
       >
-        {cards.map(card => (
-          <AdminCardItem
-            cardStyle={cardStyle}
-            cursor={cursor}
-            editItem={editItem}
-            events={events}
-            hasButtons={hasButtons}
-            hasHeading={hasHeading}
-            hasMedia={hasMedia}
-            hasParagraph={hasParagraph}
-            item={card}
+        {items.map(item => (
+          <AdminCard
+            key={item._id}
+            item={item}
           />
         ))}
-        {editItem.editing && editItem.kind === 'CARD_SECTION' ?
-          <AdminItemForm
-            form={`cardSection_${editItem.item._id}`}
-            editItem={editItem}
-            initialValues={editItem.item.values}
-            fields={fields}
-            dispatch={dispatch}
-            fetchUpdate={fetchUpdate}
-            fetchDelete={fetchDelete}
+        <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
+          <RaisedButton
+            label="Add Card"
+            onTouchTap={this.handleAdd}
+            style={{ margin: 8 }}
           />
-        : null}
+          <RaisedButton
+            label="Edit Section"
+            onTouchTap={this.handleStartEdit}
+            style={{ margin: 8 }}
+          />
+        </div>
       </section>
     )
   }
 }
 
 AdminCardSection.propTypes = {
-  cardStyle: PropTypes.object.isRequired,
-  editItem: PropTypes.object.isRequired,
-  hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
-  hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 
-export default cardContainer(AdminCardSection)
+export default AdminCardSection

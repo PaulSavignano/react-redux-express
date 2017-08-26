@@ -1,37 +1,29 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import RaisedButton from 'material-ui/RaisedButton'
 
-import productContainer from '../../containers/cards/productContainer'
-import AdminItemForm from '../forms/AdminItemForm'
+import productContainer from '../../containers/products/productContainer'
 import AdminProduct from './AdminProduct'
 import { fetchUpdate, fetchDelete } from '../../actions/productSections'
+import { fetchAdd } from '../../actions/products'
 import { startEdit } from '../../actions/editItem'
 
-import renderTextField from '../fields/renderTextField'
-
-const fields = [
-  { name: 'backgroundColor', type: 'text', component: renderTextField },
-  { name: 'pageLink', type: 'text',  component: renderTextField }
-]
-
 class AdminProductSection extends Component {
-  handleStartEdit = () => {
+  handleAdd = (e) => {
+    e.stopPropagation()
+    const { dispatch, item: { _id }} = this.props
+    return dispatch(fetchAdd({ sectionId: _id }))
+  }
+  handleStartEdit = (e) => {
+    e.stopPropagation()
     const { dispatch, item } = this.props
-    dispatch(startEdit(item, 'PRODUCT_SECTION'))
+    return dispatch(startEdit({ item, kind: 'PRODUCT_SECTION' }))
   }
   render() {
     const {
-      productStyle,
-      cursor,
-      editItem,
-      events,
-      hasButtons,
-      hasHeading,
-      hasMedia,
-      hasParagraph,
       item: {
         _id,
-        cards,
+        items,
         values: {
           backgroundColor,
           pageLink,
@@ -43,44 +35,34 @@ class AdminProductSection extends Component {
         id={pageLink}
         style={{ backgroundColor }}
         onTouchTap={this.handleStartEdit}
+        className="product-section"
       >
-        {cards.map(card => (
+        {items.map(item => (
           <AdminProduct
-            productStyle={productStyle}
-            cursor={cursor}
-            editItem={editItem}
-            events={events}
-            hasButtons={hasButtons}
-            hasHeading={hasHeading}
-            hasMedia={hasMedia}
-            hasParagraph={hasParagraph}
-            item={card}
+            key={item._id}
+            item={item}
           />
         ))}
-        {editItem.editing && editItem.kind === 'PRODUCT_SECTION' ?
-          <AdminItemForm
-            form={`productSection_${editItem.item._id}`}
-            editItem={editItem}
-            initialValues={editItem.item.values}
-            fields={fields}
-            dispatch={dispatch}
-            fetchUpdate={fetchUpdate}
-            fetchDelete={fetchDelete}
+        <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
+          <RaisedButton
+            label="Add Product"
+            onTouchTap={this.handleAdd}
+            style={{ margin: 8 }}
           />
-        : null}
+          <RaisedButton
+            label="Edit Section"
+            onTouchTap={this.handleStartEdit}
+            style={{ margin: 8 }}
+          />
+        </div>
       </section>
     )
   }
 }
 
 AdminProductSection.propTypes = {
-  productStyle: PropTypes.object.isRequired,
-  editItem: PropTypes.object.isRequired,
-  hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
-  hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
 }
 
-export default productContainer(AdminProductSection)
+export default AdminProductSection

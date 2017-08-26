@@ -10,7 +10,7 @@ import {
 const cards = express.Router()
 
 cards.post('/', authenticate(['admin']), add)
-cards.patch('/:_id', authenticate(['admin']), update)
 cards.delete('/:_id', authenticate(['admin']), remove)
+cards.patch('/:_id', authenticate(['admin']), update)
 
 export default cards

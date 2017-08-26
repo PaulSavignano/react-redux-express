@@ -28,4 +28,4 @@ Media.propTypes = {
   iframe: PropTypes.string,
 }
 
-export default ArticleMedia
+export default Media

@@ -14,6 +14,7 @@ import brands from './routes/brands'
 import cards from './routes/cards'
 import cardSections from './routes/cardSections'
 import carts from './routes/carts'
+import heros from './routes/heros'
 import heroSections from './routes/heroSections'
 import orders from './routes/orders'
 import pages from './routes/pages'
@@ -34,6 +35,7 @@ app.use('/api/brands', brands)
 app.use('/api/cards', cards)
 app.use('/api/card-sections', cardSections)
 app.use('/api/carts', carts)
+app.use('/api/hero', heros)
 app.use('/api/hero-sections', heroSections)
 app.use('/api/orders', orders)
 app.use('/api/pages', pages)

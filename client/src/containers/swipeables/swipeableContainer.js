@@ -7,14 +7,12 @@ const swipeableContainer = (ComposedComponent) => {
     render() {
       const {
         dispatch,
-        editItem,
         isFetching,
         item,
         swipeableStyle
       } = this.props
       const props = {
         dispatch,
-        editItem,
         item,
         swipeableStyle
       }
@@ -25,19 +23,16 @@ const swipeableContainer = (ComposedComponent) => {
   }
   const mapStateToProps = ({
     brand: { isFetching, swipeableStyle, typography },
-    editItem
   }, {
     item
   }) => ({
     swipeableStyle,
-    editItem: editItem.kind === 'SWIPEABLE_SECTION' || editItem.kind === 'SWIPEABLE_VIEW' ? editItem : null,
     isFetching,
     item,
     typography
   })
   SwipeableContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    editItem: PropTypes.object,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     swipeableStyle: PropTypes.object.isRequired,

@@ -4,7 +4,7 @@ import { deleteFiles } from '../middleware/s3'
 
 const SwipeableSectionSchema = new Schema({
   page: { type: Schema.ObjectId, ref: 'Page' },
-  swipeableViews: [{ type: Schema.ObjectId, ref: 'SwipeableView' }],
+  items: [{ type: Schema.ObjectId, ref: 'SwipeableView' }],
   values: {
     backgroundColor: { type: String, trim: true },
     pageLink: { type: String, trim: true }
@@ -13,7 +13,7 @@ const SwipeableSectionSchema = new Schema({
   timestamps: true
 })
 
-SwipeableSectionSchema.post('save', function(next) {
+SwipeableSectionSchema.post('save', function(doc) {
   this.model('Page').update(
     { _id: this.page },
     { $push: {
@@ -24,7 +24,6 @@ SwipeableSectionSchema.post('save', function(next) {
     }},
     { new: true }
   )
-  next()
 })
 
 SwipeableSectionSchema.pre('remove', function(next) {

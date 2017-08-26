@@ -2,23 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import brandContainer from '../../containers/brands/brandContainer'
-import AppBarAdmin from './AppBarAdmin'
-import ArticleStyleAdmin from './ArticleStyleAdmin'
-import BusinessAdmin from './BusinessAdmin'
-import BodyStyleAdmin from './BodyStyleAdmin'
-import CardStyleAdmin from './CardStyleAdmin'
-import FooterAdmin from './FooterAdmin'
-import HeroStyleAdmin from './HeroStyleAdmin'
-import ProductStyleAdmin from './ProductStyleAdmin'
-import ThemeAdmin from './ThemeAdmin'
-import TypographyAdmin from './TypographyAdmin'
+import BrandForm from './BrandForm'
 
 import renderSelectField from '../../components/fields/renderSelectField'
 import renderTextField from '../fields/renderTextField'
 import renderWysiwgyField from '../fields/renderWysiwgyField'
 
-const fields = [{
-  appBar: [
+const formFields = [{
+  name: 'appBar',
+  fields: [
     { name: 'backgroundColor', type: 'text' },
     { name: 'color', type: 'text' },
     { name: 'fontFamily', type: 'text' },
@@ -28,26 +20,32 @@ const fields = [{
     { name: 'name', type: 'text' },
     { name: 'navColor', type: 'text' },
     { name: 'textShadow', type: 'text' },
-  ],
-  articleStyle: [
+  ]
+}, {
+  name: 'articleStyle',
+  fields: [
     { name: 'button1Color', type: 'text' },
     { name: 'button2Color', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select' },
+    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right'] },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select' },
+    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h2Color', type: 'text' },
     { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select' },
+    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
-  ],
-  bodyStyle: [
+  ]
+}, {
+  name: 'bodyStyle',
+  fields: [
     { name: 'backgroundColor', type: 'text' }
-  ],
-  business: [
+  ]
+}, {
+  name: 'business',
+  fields: [
     { name: 'name', type: 'text' },
     { name: 'description', type: 'text' },
     { name: 'phone', type: 'text' },
@@ -64,29 +62,35 @@ const fields = [{
     { name: 'twitter', type: 'text' },
     { name: 'yelp', type: 'text' },
     { name: 'youtube', type: 'text' }
-  ],
-  cardStyle: [
+  ]
+}, {
+  name: 'cardStyle',
+  fields: [
     { name: 'buttonColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select' },
+    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select' },
+    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h2Color', type: 'text' },
     { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select' },
+    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' },
-  ],
-  footer: [
+    { name: 'h3TextShadow', type: 'text' }
+  ]
+}, {
+  name: 'footer',
+  fields: [
     { name: 'backgroundColor', type: 'text' },
     { name: 'color', type: 'text' },
     { name: 'borderTop', type: 'text' },
     { name: 'borderBottom', type: 'text' },
     { name: 'margin', type: 'text' }
-  ],
-  heroStyle: [
+  ]
+}, {
+  name: 'heroStyle',
+  fields: [
     { name: 'buttonColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
@@ -95,37 +99,43 @@ const fields = [{
     { name: 'h2Color', type: 'text' },
     { name: 'h2TextShadow', type: 'text' },
     { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' },
-  ],
-  productStyle: [
+    { name: 'h3TextShadow', type: 'text' }
+  ]
+}, {
+  name: 'productStyle',
+  fields: [
     { name: 'buttonColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select' },
+    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select' },
+    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h2Color', type: 'text' },
     { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select' },
+    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
-  ],
-  swipeableStyle: [
+  ]
+}, {
+  name: 'swipeableStyle',
+  fields: [
     { name: 'buttonColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select' },
+    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select' },
+    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h2Color', type: 'text' },
     { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select' },
+    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
-  ],
-  theme: [
+  ]
+}, {
+  name: 'theme',
+  fields: [
     { name: 'fontFamily', type: 'text' },
     { name: 'primary1Color', type: 'text' },
     { name: 'primary2Color', type: 'text' },
@@ -141,8 +151,10 @@ const fields = [{
     { name: 'disabledColor', type: 'text' },
     { name: 'pickerHeaderColor', type: 'text' },
     { name: 'shadowColor', type: 'text' },
-  ],
-  typography: [
+  ]
+}, {
+  name: 'typography',
+  fields: [
     { name: 'h1FontFamily', type: 'text' },
     { name: 'h1FontSize', type: 'text' },
     { name: 'h1FontWeight', type: 'text' },
@@ -167,6 +179,7 @@ const BrandAdmin = ({
   bodyStyle,
   business,
   cardStyle,
+  dispatch,
   footer,
   heroStyle,
   productStyle,
@@ -174,104 +187,51 @@ const BrandAdmin = ({
   theme,
   typography
 }) => {
+  const forms = [
+    appBar,
+    articleStyle,
+    bodyStyle,
+    business,
+    cardStyle,
+    dispatch,
+    footer,
+    heroStyle,
+    productStyle,
+    swipeableStyle,
+    theme,
+    typography
+  ]
   return (
     <section className="page">
-      <AppBarAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        image={appBarStyle.image}
-        initialValues={appBarStyle.values}
-      />
-      <br/>
-      <ArticleStyleAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={{
-            ...articleStyle.values,
-          imageElevation: articleStyle.values.imageElevation && articleStyle.values.imageElevation.toString()
-        }}
-      />
-      <br/>
-      <BodyStyleAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={bodyStyle.values}
-      />
-      <br/>
-      <BusinessAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={business.values}
-      />
-      <br/>
-      <CardStyleAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={{
-            ...cardStyle.values,
-          imageElevation: cardStyle.values.imageElevation && cardStyle.values.imageElevation.toString()
-        }}
-      />
-      <br />
-      <FooterAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        image={footer.image}
-        initialValues={footer.values}
-      />
-      <br/>
-      <HeroStyleAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={{
-            ...heroStyle.values,
-          imageElevation: heroStyle.values.imageElevation && heroStyle.values.imageElevation.toString()
-        }}
-      />
-      <br />
-      <ProductAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={{
-            ...productStyle.values,
-          imageElevation: productStyle.values.imageElevation && productStyle.values.imageElevation.toString()
-        }}
-      />
-      <br/>
-      <SwipeableStyleAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={swipeableStyle.values}
-      />
-      <br/>
-      <ThemeAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={{
-          fontFamily: theme.fontFamily,
-          ...theme.palette
-        }}
-      />
-      <br/>
-      <TypographyAdmin
-        _id={_id}
-        backgroundColor={theme.palette.canvasColor}
-        fontFamily={theme.fontFamily}
-        initialValues={typography.values}
-      />
-      <br/><br/>
+      {forms.map((form, i) => (
+        <BrandForm
+          _id={_id}
+          backgroundColor={theme.palette.canvasColor}
+          dispatch={dispatch}
+          fields={formFields[i]}
+          fontFamily={theme.fontFamily}
+          form={form}
+          initialValues={form.values}
+        />
+      ))}
     </section>
   )
+}
+
+BrandAdmin.propTypes = {
+  _id: PropTypes.string.isRequired,
+  appBar: PropTypes.object.isRequired,
+  articleStyle: PropTypes.object.isRequired,
+  bodyStyle: PropTypes.object.isRequired,
+  business: PropTypes.object.isRequired,
+  cardStyle: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  footer: PropTypes.object.isRequired,
+  heroStyle: PropTypes.object.isRequired,
+  productStyle: PropTypes.object.isRequired,
+  swipeableStyle: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+  typography: PropTypes.object.isRequired
 }
 
 export default brandContainer(BrandAdmin)

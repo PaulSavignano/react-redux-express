@@ -4,7 +4,7 @@ import { deleteFiles } from '../middleware/s3'
 
 const ProductSectionSchema = new Schema({
   page: { type: Schema.ObjectId, ref: 'Page' },
-  products: [{ type: Schema.ObjectId, ref: 'Product' }],
+  items: [{ type: Schema.ObjectId, ref: 'Product' }],
   values: {
     backgroundColor: { type: String, trim: true },
     pageLink: { type: String, trim: true }
@@ -13,7 +13,7 @@ const ProductSectionSchema = new Schema({
   timestamps: true
 })
 
-ProductSectionSchema.post('save', function(next) {
+ProductSectionSchema.post('save', function(doc) {
   this.model('Page').update(
     { _id: this.page },
     { $push: {
@@ -24,7 +24,6 @@ ProductSectionSchema.post('save', function(next) {
     }},
     { new: true }
   )
-  next()
 })
 
 ProductSectionSchema.pre('remove', function(next) {

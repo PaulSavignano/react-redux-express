@@ -13,7 +13,6 @@ const productContainer = (ComposedComponent) => {
       const { elevation } = this.state
       const {
         dispatch,
-        editItem,
         isFetching,
         item,
         productStyle
@@ -24,7 +23,6 @@ const productContainer = (ComposedComponent) => {
       }
       const props = {
         dispatch,
-        editItem,
         item,
         elevation,
         events,
@@ -36,20 +34,17 @@ const productContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, productStyle, typography },
-    editItem
+    brand: { isFetching, productStyle, typography }
   }, {
-    item: { values, image }
+    item
   }) => ({
     productStyle,
-    editItem: editItem.kind === 'PRODUCT_SECTION' || editItem.kind === 'PRODUCT' ? editItem : null,
     isFetching,
     item,
     typography
   })
   ProductContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    editItem: PropTypes.object,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     productStyle: PropTypes.object.isRequired,

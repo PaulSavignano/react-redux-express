@@ -20,11 +20,13 @@ class Product extends Component {
         productSlug,
         values: {
           description,
-          margin,
           name,
           price,
         }
       },
+      productStyle: {
+        margin
+      }
     } = this.props
     return (
       <Card
@@ -32,6 +34,7 @@ class Product extends Component {
         zDepth={elevation}
         style={{ margin }}
         id={_id}
+        className="product"
       >
         {image.src &&
           <CardMedia onTouchTap={() => dispatch(push(`/products/${productSlug}`))}>
@@ -46,10 +49,26 @@ class Product extends Component {
         }
         />
         <CardText>{description}</CardText>
-        <ProductButtons _id={_id} dispatch={dispatch}/>
+        <ProductButtons
+          dispatch={dispatch}
+          form={`addToCard_${_id}`}
+          productId={_id}
+        />
       </Card>
     )
   }
+}
+
+Product.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  elevation: PropTypes.number.isRequired,
+  events: PropTypes.object,
+  hasButtons: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
+  hasMedia: PropTypes.bool.isRequired,
+  hasParagraph: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  productStyle: PropTypes.object.isRequired,
 }
 
 export default loadImage(Product)

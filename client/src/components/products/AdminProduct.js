@@ -5,33 +5,21 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import productContainer from '../../containers/products/productContainer'
-import AdminItemForm from '../forms/AdminItemForm'
 import loadImage from '../images/loadImage'
 import formatPrice from '../../utils/formatPrice'
 import { fetchUpdate, fetchDelete } from '../../actions/products'
 import { startEdit } from '../../actions/editItem'
 
-import renderTextField from '../fields/renderTextField'
-import renderWysiwgyField from '../fields/renderWysiwgyField'
-
-const fields = [
-  { name: 'description', type: 'text', component: renderTextField },
-  { name: 'detail', type: 'text', component: renderTextField },
-  { name: 'name', type: 'text', component: renderTextField },
-  { name: 'price', type: 'number', component: renderTextField },
-]
-
 class AdminProduct extends Component {
   handleStartEdit = (e) => {
     e.stopPropagation()
     const { dispatch, item } = this.props
-    return dispatch(startEdit(item, 'PRODUCT'))
+    return dispatch(startEdit({ item, kind: 'PRODUCT' }))
   }
   render() {
     const {
       dispatch,
       elevation,
-      editItem,
       events,
       item: {
         _id,
@@ -43,6 +31,9 @@ class AdminProduct extends Component {
           price,
         }
       },
+      productStyle: {
+        margin
+      }
     } = this.props
     return (
       <Card
@@ -51,6 +42,7 @@ class AdminProduct extends Component {
         onTouchTap={this.handleStartEdit}
         style={{ margin }}
         id={_id}
+        className="product"
       >
         {image && image.src &&
           <CardMedia>
@@ -80,23 +72,21 @@ class AdminProduct extends Component {
           primary={true}
           fullWidth={true}
         />
-        {editItem.editing && editItem.kind === 'PRODUCT' ?
-          <AdminItemForm
-            form={`product_${editItem.item._id}`}
-            editItem={editItem}
-            initialValues={{
-              ...editItem.item.values,
-              price: editItem.item.values.price && editItem.item.values.price.toString()
-            }}
-            fields={fields}
-            dispatch={dispatch}
-            fetchUpdate={fetchUpdate}
-            fetchDelete={fetchDelete}
-          />
-        : null}
       </Card>
     )
   }
+}
+
+AdminProduct.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  elevation: PropTypes.number.isRequired,
+  events: PropTypes.object,
+  hasButtons: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
+  hasMedia: PropTypes.bool.isRequired,
+  hasParagraph: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  productStyle: PropTypes.object.isRequired,
 }
 
 export default loadImage(AdminProduct)

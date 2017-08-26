@@ -4,30 +4,21 @@ import { deleteFile } from '../middleware/s3'
 
 const HeroSectionSchema = new Schema({
   page: { type: Schema.ObjectId, ref: 'Page' },
+  items: [{ type: Schema.ObjectId, ref: 'Hero' }],
   image: {
     src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 1920 },
-    height: { type: Number, trim: true, default: 1080 }
+    width: { type: Number, trim: true, default: 650 },
+    height: { type: Number, trim: true, default: 433 }
   },
   values: {
     backgroundColor: { type: String, trim: true },
-    button1Text: { type: String, trim: true },
-    button1Link: { type: String, trim: true },
-    button2Text: { type: String, trim: true },
-    button2Link: { type: String, trim: true },
-    h1Text: { type: String, trim: true, default: 'Heading 1' },
-    h2Text: { type: String, trim: true, default: 'Heading 2' },
-    h3Text: { type: String, trim: true, default: 'Heading 3' },
-    iframe: { type: String, trim: true },
-    mediaBorder: { type: String, trim: true },
-    mediaFlex: { type: String, trim: true, default: '1 1 auto' },
-    pText: { type: String, time: true, default: '<p>Paragraph</p>' },
+    pageLink: { type: String, trim: true }
   }
 }, {
   timestamps: true
 })
 
-HeroSectionSchema.post('save', function(next) {
+HeroSectionSchema.post('save', function(doc) {
   this.model('Page').update(
     { _id: this.page },
     { $push: {
@@ -38,11 +29,10 @@ HeroSectionSchema.post('save', function(next) {
     }},
     { new: true }
   )
-  next()
 })
 
 HeroSectionSchema.pre('remove', function(next) {
-  if (this.image.src) {
+  if (this.image && this.image.src) {
     deleteFile({ Key: this.image.src }).catch(err => console.error(err))
   }
   this.model('Page').update(
@@ -50,6 +40,7 @@ HeroSectionSchema.pre('remove', function(next) {
     { $pull: { section: this._id }},
     { multi: true }
   )
+  this.model('Hero').remove({ _id: { $in: this.heros }})
   next()
 })
 

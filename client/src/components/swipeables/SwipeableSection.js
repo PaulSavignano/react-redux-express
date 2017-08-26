@@ -1,31 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import sectionCarouselContainer from '../../containers/carousels/sectionCarouselContainer'
 import SwipeableView from './SwipeableView'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
 const SwipeableSection = ({
-  dispatch,
-  editItem,
-  item,
-  swipeableStyle
+  autoplay,
+  item: { items, values },
 }) => (
-  <div>
+  <div
+    style={{ backgroundColor: values && values.backgroundColor }}
+    className="swipeable-section"
+  >
     <AutoPlaySwipeableViews
-      autoplay={editItem.autoplay}
+      autoplay={autoplay}
     >
-      {item.views.map(view => (
+      {items.map(item => (
         <SwipeableView
-          dispatch={dispatch}
-          editItem={editItem}
-          item={view}
-          key={view._id}
-          swipeableStyle={swipeableStyle}
+          item={item}
+          key={item._id}
         />
       ))}
     </AutoPlaySwipeableViews>
@@ -33,10 +31,8 @@ const SwipeableSection = ({
 )
 
 SwipeableSection.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  editItem: PropTypes.object.isRequired,
+  autoplay: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
-  swipeableStyle: PropTypes.object.isRequired
 }
 
-export default sectionCarouselContainer(SwipeableSection)
+export default connect(({ swipeables: { autoplay }}) => ({ autoplay }))(SwipeableSection)

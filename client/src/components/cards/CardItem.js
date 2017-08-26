@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import Buttons from '../buttons/Buttons'
-import Heading from '../headings/Heading'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
@@ -32,6 +32,7 @@ const CardItem = ({
     }
   },
   cursor,
+  dispatch,
   events,
   hasButtons,
   hasHeading,
@@ -99,6 +100,7 @@ const CardItem = ({
           button2Link={button2Link}
           button1Text={button1Text}
           button2Text={button2Text}
+          dispatch={dispatch}
         />
       }
     </Card>

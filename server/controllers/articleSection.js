@@ -2,19 +2,31 @@ import { ObjectID } from 'mongodb'
 import moment from 'moment'
 
 import ArticleSection from '../models/ArticleSection'
+import Page from '../models/Page'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
   const { pageId } = req.body
   const newDoc = new ArticleSection({
-    pageId: ObjectID(pageId),
+    page: ObjectID(pageId),
     image: null,
     values: []
   })
   newDoc.save()
-    .then(articleSection => {
-      Page.findOne({ _id: pageId })
-      .then(page => res.send({ editItem: articleSection, page }))
+  .then(doc => {
+    Page.findOneAndUpdate(
+      { _id: doc.page },
+      { $push: {
+        sections: {
+          kind: 'ArticleSection',
+          section: doc._id
+        }
+      }},
+      { new: true }
+    )
+    .then(() => {
+      Page.findOne({ _id: doc.page })
+      .then(page => res.send({ editItem: doc, page }))
       .catch(error => {
         console.error(error)
         res.status(400).send({ error })
@@ -24,6 +36,11 @@ export const add = (req, res) => {
       console.error(error)
       res.status(400).send({ error })
     })
+  })
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
 }
 
 export const update = (req, res) => {
@@ -31,15 +48,16 @@ export const update = (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {
     pageId,
+    pageSlug,
     image,
-    removeImageSrc,
+    oldImageSrc,
     type,
     values
   } = req.body
   const Key = `${process.env.APP_NAME}/page-${pageSlug}/article-section-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, removeImageSrc)
+      uploadFile({ Key }, image.src, oldImageSrc)
         .then(data => {
           ArticleSection.findOneAndUpdate(
             { _id },
@@ -53,8 +71,8 @@ export const update = (req, res) => {
             }},
             { new: true }
           )
-          .then(() => {
-            Page.findOne({ _id: pageId })
+          .then(doc => {
+            Page.findOne({ _id: doc.page })
             .then(page => res.send({ page }))
           })
           .catch(error => {
@@ -75,8 +93,8 @@ export const update = (req, res) => {
             { $set: { 'image.src': null }},
             { new: true }
           )
-          .then(() => {
-            Page.findOne({ _id: pageId })
+          .then(doc => {
+            Page.findOne({ _id: doc.page })
             .then(page => res.send({ page }))
           })
           .catch(error => {
@@ -95,8 +113,8 @@ export const update = (req, res) => {
         { $set: { values }},
         { new: true }
       )
-      .then(() => {
-        Page.findOne({ _id: pageId })
+      .then(doc => {
+        Page.findOne({ _id: doc.page })
         .then(page => res.send({ page }))
         .catch(error => {
           console.error(error)
@@ -119,8 +137,8 @@ export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   ArticleSection.findOne({ _id })
-  .then(articleSection => {
-    Page.findOne({ _id: articleSection.page })
+  .then(doc => {
+    Page.findOne({ _id: doc.page })
     .then(page => res.send({ page }))
     .catch(error => {
       console.error(error)

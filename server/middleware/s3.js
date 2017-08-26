@@ -11,10 +11,10 @@ AWS.config.update({
 const Bucket = process.env.AWS_S3_BUCKET
 const ACL = 'public-read'
 
-export const uploadFile = ({ Key }, imageSrc, removeImageSrc) => {
+export const uploadFile = ({ Key }, imageSrc, oldImageSrc) => {
   const Body = new Buffer(imageSrc.replace(/^data:image\/\w+;base64,/, ""),'base64')
   const params = { Bucket, Key, Body, ACL }
-  if (removeImageSrc) s3.deleteObject({ Bucket, Key: removeImageSrc }).promise()
+  if (oldImageSrc) s3.deleteObject({ Bucket, Key: oldImageSrc }).promise()
   return s3.upload(params).promise()
 }
 

@@ -29,19 +29,6 @@ const ArticleSectionSchema = new Schema({
   timestamps: true
 })
 
-ArticleSectionSchema.post('save', function(next) {
-  this.model('Page').update(
-    { _id: this.page },
-    { $push: {
-      sections: {
-        kind: 'ArticleSection',
-        section: this._id
-      }
-    }},
-    { new: true }
-  )
-  next()
-})
 
 ArticleSectionSchema.pre('remove', function(next) {
   if (this.image.src) {

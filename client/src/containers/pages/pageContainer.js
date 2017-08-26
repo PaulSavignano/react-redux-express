@@ -17,7 +17,7 @@ const pageContainer = (ComposedComponent) => {
       } = this.props
       const props = {
         dispatch,
-        hash, 
+        hash,
         page,
         pathname
       }

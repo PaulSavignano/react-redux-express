@@ -10,7 +10,7 @@ import {
 const heroSections = express.Router()
 
 heroSections.post('/', authenticate(['admin']), add)
-heroSections.patch('/:_id', authenticate(['admin']), update)
 heroSections.delete('/:_id', authenticate(['admin']), remove)
+heroSections.patch('/:_id', authenticate(['admin']), update)
 
 export default heroSections

@@ -15,7 +15,7 @@ import orders from '../reducers/orders'
 import pages from '../reducers/pages'
 import products from '../reducers/products'
 import search from '../reducers/search'
-import swipeableViews from '../reducers/swipeableViews'
+import swipeables from '../reducers/swipeables'
 import user from '../reducers/users'
 
 const rootReducer = combineReducers({
@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
   products,
   routing: routerReducer,
   search,
-  swipeableViews,
+  swipeables,
   user,
 })
 

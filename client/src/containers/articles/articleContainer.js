@@ -9,7 +9,6 @@ const articleContainer = (ComposedComponent) => {
       const {
         articleStyle,
         dispatch,
-        editItem,
         hasButtons,
         hasHeading,
         hasMedia,
@@ -21,7 +20,6 @@ const articleContainer = (ComposedComponent) => {
       const props = {
         articleStyle,
         dispatch,
-        editItem,
         hasButtons,
         hasHeading,
         hasMedia,
@@ -35,13 +33,11 @@ const articleContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    editItem,
     brand: { isFetching, articleStyle, typography }
   }, {
     item
   }) => ({
     articleStyle,
-    editItem: editItem.kind === 'ARTICLE_SECTION' ? editItem : null,
     hasButtons: item.values.button1Text ? true : false,
     hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,
@@ -52,7 +48,6 @@ const articleContainer = (ComposedComponent) => {
   })
   ArticleContainer.propTypes = {
     articleStyle: PropTypes.object.isRequired,
-    editItem: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
     hasHeading: PropTypes.bool.isRequired,

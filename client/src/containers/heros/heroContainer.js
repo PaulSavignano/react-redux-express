@@ -24,13 +24,11 @@ const heroContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, heroStyle, typography },
-    editItem
+    brand: { isFetching, heroStyle, typography }
   }, {
     item
   }) => ({
     heroStyle,
-    editItem: editItem.kind === 'HERO' ? editItem : null,
     hasButtons: item.values.button1Text ? true : false,
     hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,

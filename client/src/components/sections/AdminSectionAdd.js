@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
+import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
 
 import AdminSectionAddSection from './AdminSectionAddSection'
 import { fetchAdd as articleSectionAdd } from '../../actions/articles'
@@ -30,6 +33,10 @@ class AdminSectionAdd extends Component {
   }
   handleCloseMenu = () => this.setState({ openMenu: false, anchorEl: null })
   render() {
+    const {
+      dispatch,
+      pageId
+    } = this.props
     return (
       <section style={{ display: 'flex' }}>
         <RaisedButton

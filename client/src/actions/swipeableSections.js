@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import * as pageActions from './pages'
-import { startEdit, stopeEdit } from './editItem'
+import { startEdit, stopEdit } from './editItem'
 
 export const type = 'SWIPEABLE_SECTION'
 const route = 'swipeable-sections'
@@ -10,6 +10,8 @@ const ADD = `ADD_${type}`
 const UPDATE = `UPDATE_${type}`
 const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
+const START_PLAY = `START_PLAY_${type}`
+const STOP_PLAY = `STOP_PLAY_${type}`
 
 // Create
 export const fetchAdd = (add) => {
@@ -25,9 +27,9 @@ export const fetchAdd = (add) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { page } = json
+        const { editItem, page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        dispatch(startEdit(editItem, 'SWIPEABLE_SECTION'))
+        return dispatch(startEdit({ item: editItem, kind: 'SWIPEABLE_SECTION' }))
       })
       .catch(error => {
         console.log(error)
@@ -65,9 +67,9 @@ export const fetchUpdate = (_id, update) => {
 
 
 // Delete
-export const fetchDelete = (pageId, swipeableSectionId) => {
+export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${pageId}/${swipeableSectionId}`, {
+    return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -79,6 +81,7 @@ export const fetchDelete = (pageId, swipeableSectionId) => {
         if (json.error) return Promise.reject(json.error)
         const { page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
+        return dispatch(stopEdit())
       })
       .catch(error => {
         dispatch({ type: ERROR, error })
@@ -86,3 +89,7 @@ export const fetchDelete = (pageId, swipeableSectionId) => {
       })
   }
 }
+
+export const startPlay = () => ({ type: START_PLAY })
+
+export const stopPlay = () => ({ type: STOP_PLAY })

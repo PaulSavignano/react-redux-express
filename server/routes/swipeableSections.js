@@ -3,7 +3,8 @@ import express from 'express'
 import authenticate from '../middleware/authenticate'
 import {
   add,
-  remove
+  remove,
+  update
 } from '../controllers/swipeableSection'
 
 const swipeableSections = express.Router()

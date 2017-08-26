@@ -7,37 +7,22 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import cardContainer from '../../containers/cards/cardContainer'
-import AdminItemForm from '../forms/AdminItemForm'
 import Buttons from '../buttons/Buttons'
-import Heading from '../headings/Heading'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
 import { fetchUpdate, fetchDelete } from '../../actions/cards'
 import { startEdit } from '../../actions/editItem'
 
-import renderTextField from '../fields/renderTextField'
-import renderWysiwgyField from '../fields/renderWysiwgyField'
-
-const fields = [
-  { name: 'button1Text', type: 'text', component: renderTextField },
-  { name: 'button1Link', type: 'text', component: renderTextField },
-  { name: 'button2Text', type: 'text', component: renderTextField },
-  { name: 'button2Link', type: 'text', component: renderTextField },
-  { name: 'flex', type: 'text', component: renderTextField },
-  { name: 'h1Text', type: 'text',  component: renderTextField },
-  { name: 'h2Text', type: 'text',  component: renderTextField },
-  { name: 'h3Text', type: 'text',  component: renderTextField },
-  { name: 'iframe', type: 'text',  component: renderTextField },
-  { name: 'link', type: 'text',  component: renderTextField },
-  { name: 'pText', type: 'text',  component: renderWysiwgyField },
-]
-
 class AdminCard extends Component {
   handleStartEdit = (e) => {
     e.stopPropagation()
     const { dispatch, item } = this.props
-    return dispatch(startEdit(item, 'CARD'))
+    return dispatch(startEdit({
+      item,
+      kind: 'CARD',
+    }))
   }
   render() {
     const {
@@ -62,8 +47,11 @@ class AdminCard extends Component {
       },
       cursor,
       dispatch,
-      editItem,
       events,
+      hasButtons,
+      hasHeading,
+      hasMedia,
+      hasParagraph,
       item: {
         _id,
         editing,
@@ -78,7 +66,6 @@ class AdminCard extends Component {
           h2Text,
           h3Text,
           iframe,
-          margin,
           mediaAlign,
           mediaBorder,
           pText
@@ -127,19 +114,9 @@ class AdminCard extends Component {
             button2Link={button2Link}
             button1Text={button1Text}
             button2Text={button2Text}
+            dispatch={dispatch}
           />
         }
-        {editItem.editing && editItem.kind === 'CARD' ?
-          <AdminItemForm
-            form={`card_${editItem.item._id}`}
-            editItem={editItem}
-            initialValues={editItem.item.values}
-            fields={fields}
-            dispatch={dispatch}
-            fetchUpdate={fetchUpdate}
-            fetchDelete={fetchDelete}
-          />
-        : null}
       </Card>
     )
   }

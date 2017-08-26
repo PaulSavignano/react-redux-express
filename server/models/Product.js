@@ -12,7 +12,7 @@ const ProductSchema = new Schema({
   },
   page: { type: Schema.ObjectId, ref: 'Page' },
   productSlug: { type: String },
-  productSection: { type: Schema.Types.ObjectId, ref: 'ProductSection' },
+  section: { type: Schema.Types.ObjectId, ref: 'ProductSection' },
   values: {
     description: { type: String, minlength: 1, trim: true },
     detail: { type: String },
@@ -23,13 +23,12 @@ const ProductSchema = new Schema({
   timestamps: true
 })
 
-ProductSchema.post('save', function(next) {
+ProductSchema.post('save', function(doc) {
   this.model('ProductSection').update(
     { _id: this.productSection },
     { $push: { products: this._id }},
     { new: true }
   )
-  next()
 })
 
 ProductSchema.pre('remove', function(next) {

@@ -5,8 +5,15 @@ import { connect } from 'react-redux'
 const productPageContainer = (ComposedComponent) => {
   class ProductPageContainer extends Component {
     render() {
-      const { isFetching, item } = this.props
-      const props = { item }
+      const {
+        dispatch,
+        isFetching,
+        item
+      } = this.props
+      const props = {
+        dispatch,
+        item
+      }
       return (
         !isFetching && item ?
         <ComposedComponent {...props} />

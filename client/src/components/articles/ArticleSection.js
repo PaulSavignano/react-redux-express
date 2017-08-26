@@ -6,12 +6,10 @@ import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import articleContainer from '../../containers/articles/articleContainer'
 import Buttons from '../buttons/Buttons'
-import Heading from '../headings/Heading'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
-import AdminArticleEdit from './AdminArticleEdit'
-import { startEdit } from '../../actions/articles'
 
 const ArticleSection = ({
   articleStyle: {
@@ -62,7 +60,7 @@ const ArticleSection = ({
     <section>
       <article
         style={{ overflow: 'hidden' }}
-        className="article"
+        className="article-section"
       >
         {hasHeading &&
           <Heading
@@ -100,6 +98,7 @@ const ArticleSection = ({
             button2Link={button2Link}
             button1Text={button1Text}
             button2Text={button2Text}
+            dispatch={dispatch}
           />
         }
       </article>

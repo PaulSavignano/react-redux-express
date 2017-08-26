@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import * as pageActions from './pages'
-import { startEdit, stopeEdit } from './editItem'
+import { startEdit, stopEdit } from './editItem'
 
 export const type = 'SWIPEABLE_VIEW'
 const route = 'swipeable-views'
@@ -27,7 +27,7 @@ export const fetchAdd = (add) => {
         if (json.error) return Promise.reject(json.error)
         const { editItem, page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        dispatch(startEdit(editItem, 'SWIPEABLE_VIEW'))
+        return dispatch(startEdit({ item: editItem, kind: 'SWIPEABLE_VIEW' }))
       })
       .catch(error => {
         console.log(error)
@@ -54,7 +54,7 @@ export const fetchUpdate = (_id, update) => {
         if (json.error) return Promise.reject(json.error)
         const { page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        dispatch(stopEdit())
+        return dispatch(stopEdit())
       })
       .catch(error => {
         dispatch({ type: ERROR, error })
@@ -66,9 +66,9 @@ export const fetchUpdate = (_id, update) => {
 
 
 // Delete
-export const fetchDelete = (pageId, swipeableViewId) => {
+export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${pageId}/${swipeableViewId}`, {
+    return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

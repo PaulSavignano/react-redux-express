@@ -11,17 +11,17 @@ import SwipeableSection from '../swipeables/SwipeableSection'
 const renderSections = (sections) => {
   const sectionList = (section) => {
     const { kind } = section
-    switch(type) {
+    switch(kind) {
       case 'ArticleSection':
-        return <ArticleSection key={section._id} section={section} />
+        return <ArticleSection key={section._id} item={section.section} />
       case 'CardSection':
-        return <CardSection key={section._id} section={section} />
+        return <CardSection key={section._id} item={section.section} />
       case 'HeroSection':
-        return <HeroSection key={section._id} section={section} />
+        return <HeroSection key={section._id} item={section.section} />
       case 'ProductSection':
-        return <ProductSection key={section._id} section={section} />
+        return <ProductSection key={section._id} item={section.section} />
       case 'SwipeableSection':
-        return <SwipeableSection key={section._id} section={section} />
+        return <SwipeableSection key={section._id} item={section.section} />
       default:
         return
     }
@@ -64,7 +64,7 @@ class Page extends Component {
     console.log('page', page)
     return (
       <div>
-        {renderComponents(page.sections)}
+        {renderSections(page.sections)}
       </div>
     )
   }

@@ -6,36 +6,19 @@ import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
-import AdminItemForm from '../forms/AdminItemForm'
 import Buttons from '../buttons/Buttons'
-import Heading from '../headings/Heading'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
 import { fetchUpdate, fetchDelete } from '../../actions/swipeableViews'
 import { startEdit } from '../../actions/editItem'
 
-import renderTextField from '../fields/renderTextField'
-import renderWysiwgyField from '../fields/renderWysiwgyField'
-
-const fields = [
-  { name: 'button1Text', type: 'text', component: renderTextField },
-  { name: 'button1Link', type: 'text', component: renderTextField },
-  { name: 'button2Text', type: 'text', component: renderTextField },
-  { name: 'button2Link', type: 'text', component: renderTextField },
-  { name: 'flex', type: 'text', component: renderTextField },
-  { name: 'h1Text', type: 'text',  component: renderTextField },
-  { name: 'h2Text', type: 'text',  component: renderTextField },
-  { name: 'h3Text', type: 'text',  component: renderTextField },
-  { name: 'iframe', type: 'text',  component: renderTextField },
-  { name: 'pText', type: 'text',  component: renderWysiwgyField },
-]
-
 class AdminSwipeableView extends Component {
   handleStartEdit = (e) => {
     e.stopPropagation()
     const { dispatch, item } = this.props
-    return dispatch(startEdit(item, 'CARD'))
+    return dispatch(startEdit({ item, kind: 'SWIPEABLE_VIEW' }))
   }
   render() {
     const {
@@ -60,6 +43,10 @@ class AdminSwipeableView extends Component {
       },
       dispatch,
       editItem,
+      hasButtons,
+      hasHeading,
+      hasMedia,
+      hasParagraph,
       item: {
         _id,
         editing,
@@ -74,7 +61,6 @@ class AdminSwipeableView extends Component {
           h2Text,
           h3Text,
           iframe,
-          margin,
           mediaAlign,
           mediaBorder,
           pText
@@ -84,10 +70,10 @@ class AdminSwipeableView extends Component {
     return (
       <Card
         onTouchTap={this.handleStartEdit}
-        style={{ cursor, margin }}
+        style={{ margin }}
         zDepth={elevation}
         id={_id}
-        className="card"
+        className="swipeable-view"
       >
         {hasMedia &&
           <Media
@@ -122,19 +108,9 @@ class AdminSwipeableView extends Component {
             button2Link={button2Link}
             button1Text={button1Text}
             button2Text={button2Text}
+            dispatch={dispatch}
           />
         }
-        {editItem.editing && editItem.kind === 'SWIPEABLE_VIEW' ?
-          <AdminItemForm
-            form={`swipeableView_${editItem.item._id}`}
-            editItem={editItem}
-            initialValues={editItem.item.values}
-            fields={fields}
-            dispatch={dispatch}
-            fetchUpdate={fetchUpdate}
-            fetchDelete={fetchDelete}
-          />
-        : null}
       </Card>
     )
   }

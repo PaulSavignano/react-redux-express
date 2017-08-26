@@ -5,37 +5,34 @@ import cardContainer from '../../containers/cards/cardContainer'
 import CardItem from './CardItem'
 
 const CardSection = ({
-  cardStyle,
-  cursor,
-  events,
-  hasButtons,
-  hasHeading,
-  hasMedia,
-  hasParagraph,
   item: {
     _id,
-    cards,
-    values: {
-      backgroundColor,
-      pageLink,
-    }
+    items,
+    image,
+    values
   }
 }) => {
+  const backgroundColor = values && values.backgroundColor
+  const pageLink = values && values.pageLink
+  const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
+  const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
     <section
       id={pageLink}
-      style={{ backgroundColor }}
+      style={{
+        ...backgroundImage,
+        backgroundColor,
+        width: '100%',
+        overflow: 'hidden',
+        position: 'relative',
+        minHeight: 60
+      }}
+      {...backgroundImageClass}
+      className="card-section"
     >
-      {cards.map(card => (
+      {items.map(item => (
         <CardItem
-          cardStyle={cardStyle}
-          cursor={cursor}
-          events={events}
-          hasButtons={hasButtons}
-          hasHeading={hasHeading}
-          hasMedia={hasMedia}
-          hasParagraph={hasParagraph}
-          item={card}
+          item={item}
         />
       ))}
     </section>
@@ -43,12 +40,7 @@ const CardSection = ({
 }
 
 CardSection.propTypes = {
-  cardStyle: PropTypes.object.isRequired,
-  hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
-  hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 
-export default cardContainer(CardSection)
+export default CardSection

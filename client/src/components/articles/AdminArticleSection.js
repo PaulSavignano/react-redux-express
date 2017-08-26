@@ -7,9 +7,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import articleContainer from '../../containers/articles/articleContainer'
-import AdminItemForm from '../forms/AdminItemForm'
 import Buttons from '../buttons/Buttons'
-import Heading from '../headings/Heading'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
 import loadImage from '../images/loadImage'
@@ -20,25 +19,14 @@ import renderSelectField from '../../components/fields/renderSelectField'
 import renderTextField from '../fields/renderTextField'
 import renderWysiwgyField from '../fields/renderWysiwgyField'
 
-const fields = [
-  { name: 'button1Text', type: 'text', component: renderTextField },
-  { name: 'button1Link', type: 'text', component: renderTextField },
-  { name: 'button2Text', type: 'text', component: renderTextField },
-  { name: 'button2Link', type: 'text', component: renderTextField },
-  { name: 'flex', type: 'text', component: renderTextField },
-  { name: 'h1Text', type: 'text',  component: renderTextField },
-  { name: 'h2Text', type: 'text',  component: renderTextField },
-  { name: 'h3Text', type: 'text',  component: renderTextField },
-  { name: 'iframe', type: 'text',  component: renderTextField },
-  { name: 'link', type: 'text',  component: renderTextField },
-  { name: 'mediaAlign', type: 'select',  component: renderSelectField, options: [ 'right', 'left' ] },
-  { name: 'pText', type: 'text',  component: renderWysiwgyField },
-]
-
 class AdminArticle extends Component {
-  handleStartEdit = () => {
+  handleStartEdit = (e) => {
+    e.stopPropagation()
     const { dispatch, item } = this.props
-    dispatch(startEdit(item, 'ARTICLE_SECTION'))
+    return dispatch(startEdit({
+      item,
+      kind: 'ARTICLE_SECTION',
+    }))
   }
   render() {
     const {
@@ -90,8 +78,8 @@ class AdminArticle extends Component {
       <section>
         <article
           onTouchTap={this.handleStartEdit}
-          style={{ width: '100%', padding: 8, overflow: 'hidden' }}
-          className="article"
+          style={{ width: '100%', overflow: 'hidden', position: 'relative', minHeight: 60 }}
+          className="article-section"
         >
           {hasHeading &&
             <Heading
@@ -130,19 +118,17 @@ class AdminArticle extends Component {
               button2Link={button2Link}
               button1Text={button1Text}
               button2Text={button2Text}
-            />
-          }
-          {editItem.editing &&
-            <AdminItemForm
-              form={`article_${editItem.item._id}`}
-              editItem={editItem}
-              initialValues={editItem.item.values}
-              fields={fields}
               dispatch={dispatch}
-              fetchUpdate={fetchUpdate}
-              fetchDelete={fetchDelete}
             />
           }
+          <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
+            <RaisedButton
+              type="button"
+              label="Edit Article"
+              onTouchTap={this.handleStartEdit}
+              style={{ margin: 8 }}
+            />
+          </div>
         </article>
       </section>
     )

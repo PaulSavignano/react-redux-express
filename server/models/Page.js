@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-import Section from './Section'
+import CardSection from './CardSection'
 
 const PageSchema = new Schema({
   slug: { type: String },
@@ -16,7 +16,12 @@ const PageSchema = new Schema({
 })
 
 function autopopulate(next) {
-  this.populate('sections')
+  this.populate({
+    path: 'sections.section',
+    populate: [
+      { path: 'items', model: 'Card' },
+    ]
+  })
   next();
 }
 
@@ -24,7 +29,7 @@ PageSchema.pre('find', autopopulate)
 PageSchema.pre('findOne', autopopulate)
 
 PageSchema.pre('remove', function(next) {
-  this.model('Section').remove({ _id: { $in: this.sections._id }})
+  this.model('sections.section').remove({ _id: { $in: this.sections.section }})
   next()
 })
 

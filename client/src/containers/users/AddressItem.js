@@ -62,6 +62,10 @@ AddressItem = compose(
   connect((state, { item }) => ({
     form: `address_${item._id}`
   })),
-  reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AddressItem)
+  reduxForm({
+    destroyOnUnmount: false,
+    asyncBlurFields: []
+  })
+)(AddressItem)
 
 export default AddressItem

@@ -4,7 +4,12 @@ import { deleteFiles } from '../middleware/s3'
 
 const CardSectionSchema = new Schema({
   page: { type: Schema.ObjectId, ref: 'Page' },
-  cards: [{ type: Schema.ObjectId, ref: 'Card' }],
+  items: [{ type: Schema.ObjectId, ref: 'Card' }],
+  image: {
+    src: { type: String, trim: true },
+    width: { type: Number, trim: true, default: 650 },
+    height: { type: Number, trim: true, default: 433 }
+  },
   values: {
     backgroundColor: { type: String, trim: true },
     pageLink: { type: String, trim: true }
@@ -13,9 +18,9 @@ const CardSectionSchema = new Schema({
   timestamps: true
 })
 
-CardSectionSchema.post('save', function(next) {
+CardSectionSchema.post('save', function(doc) {
   this.model('Page').update(
-    { _id: this.page },
+    { _id: doc.page },
     { $push: {
       sections: {
         kind: 'CardSection',
@@ -24,7 +29,6 @@ CardSectionSchema.post('save', function(next) {
     }},
     { new: true }
   )
-  next()
 })
 
 CardSectionSchema.pre('remove', function(next) {

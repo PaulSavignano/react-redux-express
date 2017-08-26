@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
-import { stopEdit } from '../../actions/sections'
-
-class AdminSectionEditButton extends Component {
+class AdminSectionAddSection extends Component {
   handleSectionAdd = () => {
     const {
-      component: { action },
+      section: { action },
       dispatch,
-      handleCloseMenu
+      handleCloseMenu,
       pageId,
     } = this.props
     dispatch(action({ pageId }))
@@ -26,4 +24,4 @@ class AdminSectionEditButton extends Component {
   }
 }
 
-export default AdminSectionEditButton
+export default AdminSectionAddSection

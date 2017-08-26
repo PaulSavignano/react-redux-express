@@ -4,7 +4,7 @@ const editItem = (state = {
   autoplay: true,
   editing: false,
   item: null,
-  kind: null
+  kind: null,
 }, action) => {
   switch (action.type) {
     case `START_EDIT_${type}`:
@@ -13,7 +13,7 @@ const editItem = (state = {
         autoplay: false,
         editing: true,
         item: action.item,
-        kind: action.kind
+        kind: action.kind,
       }
     case `STOP_EDIT_${type}`:
       return {
@@ -21,7 +21,7 @@ const editItem = (state = {
         autoplay: true,
         editing: false,
         item: null,
-        kind: null
+        kind: null,
       }
     default:
       return state

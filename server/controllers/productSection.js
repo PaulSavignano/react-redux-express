@@ -1,5 +1,6 @@
 import { ObjectID } from 'mongodb'
 
+import Page from '../models/Page'
 import ProductSection from '../models/ProductSection'
 
 export const add = (req, res) => {
@@ -8,12 +9,28 @@ export const add = (req, res) => {
     page: ObjectID(pageId),
   })
   newDoc.save()
-  .then(() => {
-    Page.findOne({ _id: pageId })
-    .then(page => res.send({ page }))
-    .catch(err => {
-      console.error(err)
-      res.status(400).send()
+  .then(doc => {
+    Page.findOneAndUpdate(
+      { _id: doc.page },
+      { $push: {
+        sections: {
+          kind: 'ProductSection',
+          section: doc._id
+        }
+      }},
+      { new: true }
+    )
+    .then(() => {
+      Page.findOne({ _id: doc.page })
+      .then(page => res.send({ editItem: doc, page }))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(400).send({ error })
     })
   })
   .catch(err => {
@@ -33,8 +50,8 @@ export const update = (req, res) => {
     { $set: { values }},
     { new: true }
   )
-  .then(() => {
-    Page.findOne({ _id: pageId })
+  .then(doc => {
+    Page.findOne({ _id: doc.page })
     .then(page => res.send({ page }))
     .catch(error => {
       console.error(error)

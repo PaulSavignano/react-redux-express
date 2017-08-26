@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { startEdit } from '../../actions/sections'
+import { startEdit } from '../../actions/editItem'
 
 class AdminSectionEditButton extends Component {
   state = {
@@ -12,8 +12,9 @@ class AdminSectionEditButton extends Component {
   handleMouseEnter = () => this.setState({ elevation: 5 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
   handleStartEdit = () => {
+    const { dispatch, _id } = this.props
     console.log('starting Edit')
-    this.props.dispatch(startEdit(this.props._id))
+    return dispatch(startEdit(_id, {}))
   }
   render() {
     const { _id, dispatch } = this.props

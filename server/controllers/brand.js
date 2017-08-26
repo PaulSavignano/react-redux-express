@@ -11,88 +11,88 @@ export const add = (req, res) => {
   const _id = new ObjectID()
   const brand = new Brand({ _id })
   brand.save()
-    .then(doc => res.send(doc))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
 }
 
 
 export const get = (req, res) => {
   Brand.find({})
-    .then(doc => res.send(doc))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
 }
 
 
 export const getId = (req, res) => {
   const _id = req.params._id
   Brand.find({ _id })
-    .then(doc => res.send(doc))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
 }
 
 
 export const updateAppBar = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type, image, removeImageSrc, values } = req.body
+  const { type, image, oldImageSrc, values } = req.body
   const Key = `${process.env.APP_NAME}/brand_${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, removeImageSrc)
-        .then(data => {
-          Brand.findOneAndUpdate(
-            { _id },
-            { $set: {
-              appBar: {
-                image: {
-                  src: data.Location,
-                  width: image.width,
-                  height: image.height
-                },
-                values
-              }
-            }},
-            { new: true }
-          )
-          .then(doc => res.send(doc))
-          .catch(error => {
-            console.error(error)
-            res.status(400).send({ error })
-          })
-        })
+      uploadFile({ Key }, image.src, oldImageSrc)
+      .then(data => {
+        Brand.findOneAndUpdate(
+          { _id },
+          { $set: {
+            appBar: {
+              image: {
+                src: data.Location,
+                width: image.width,
+                height: image.height
+              },
+              values
+            }
+          }},
+          { new: true }
+        )
+        .then(doc => res.send(doc))
         .catch(error => {
           console.error(error)
           res.status(400).send({ error })
         })
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
       break
 
     case 'DELETE_IMAGE':
       deleteFile({ Key: image.src })
-        .then(() => {
-          Brand.findOneAndUpdate(
-            { _id },
-            { $set: { 'appBar.image.src': null }},
-            { new: true }
-          )
-          .then(doc => res.send(doc))
-          .catch(error => {
-            console.error(error)
-            res.status(400).send({ error })
-          })
-        })
+      .then(() => {
+        Brand.findOneAndUpdate(
+          { _id },
+          { $set: { 'appBar.image.src': null }},
+          { new: true }
+        )
+        .then(doc => res.send(doc))
         .catch(error => {
           console.error(error)
           res.status(400).send({ error })
         })
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
       break
 
     case 'UPDATE_VALUES':
@@ -183,11 +183,11 @@ export const updateCardStyle = (req, res) => {
 export const updateFooter = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type, image, removeImageSrc, values } = req.body
+  const { type, image, oldImageSrc, values } = req.body
   const Key = `${process.env.APP_NAME}/brand-${_id}/footer_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, removeImageSrc)
+      uploadFile({ Key }, image.src, oldImageSrc)
         .then(data => {
           Brand.findOneAndUpdate(
             { _id },
@@ -256,7 +256,7 @@ export const updateFooter = (req, res) => {
 }
 
 
-export const updateHeroSyle = (req, res) => {
+export const updateHeroStyle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const { values } = req.body
@@ -272,7 +272,7 @@ export const updateHeroSyle = (req, res) => {
   })
 }
 
-export const updateProductSyle = (req, res) => {
+export const updateProductStyle = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const { values } = req.body

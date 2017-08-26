@@ -3,20 +3,34 @@ import moment from 'moment'
 
 import Page from '../models/Page'
 import Card from '../models/Card'
+import CardSection from '../models/CardSection'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
-  const { pageId, cardSectionId } = req.body
+  console.log('req')
+  const { sectionId } = req.body
+  console.log('sectionId', sectionId)
   const newDoc = new Card({
-    cardSection: ObjectID(cardSectionId),
-    page: ObjectID(pageId),
+    section: ObjectID(sectionId),
     image: null,
     values: []
   })
   newDoc.save()
-  .then(card => {
-    Page.findOne({ _id: pageId })
-    .then(page => res.send({ page, editItem: card }))
+  .then(doc => {
+    console.log('doc', doc)
+    CardSection.findOneAndUpdate(
+      { _id: doc.section },
+      { $push: { items: doc._id }},
+      { new: true }
+    )
+    .then(section => {
+      Page.findOne({ _id: section.page })
+      .then(page => res.send({ editItem: doc, page }))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+    })
     .catch(error => {
       console.error(error)
       res.status(400).send({ error })
@@ -36,15 +50,15 @@ export const update = (req, res) => {
     image,
     pageId,
     pageSlug,
-    removeImageSrc,
-    cardSectionId,
+    oldImageSrc,
+    sectionId,
     type,
     values
   } = req.body
-  const Key = `${process.env.APP_NAME}/page-${pageSlug}/card-section-${cardSectionId}/card-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const Key = `${process.env.APP_NAME}/page-${pageSlug}/card-section-${sectionId}/card-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, removeImageSrc)
+      uploadFile({ Key }, image.src, oldImageSrc)
         .then(data => {
           Card.findOneAndUpdate(
             { _id },
@@ -58,8 +72,8 @@ export const update = (req, res) => {
             }},
             { new: true }
           )
-          .then(() => {
-            Page.findOne({ _id: pageId })
+          .then(doc => {
+            Page.findOne({ _id: doc.page })
             .then(page => res.send({ page }))
             .catch(error => {
               console.error(error)
@@ -84,8 +98,8 @@ export const update = (req, res) => {
             { $set: { 'image.src': null }},
             { new: true }
           )
-          .then(() => {
-            Page.findOne({ _id: pageId })
+          .then(doc => {
+            Page.findOne({ _id: doc.page })
             .then(page => res.send({ page }))
             .catch(error => {
               console.error(error)
@@ -108,8 +122,8 @@ export const update = (req, res) => {
         { $set: { values }},
         { new: true }
       )
-      .then(() => {
-        Page.findOne({ _id: pageId })
+      .then(doc => {
+        Page.findOne({ _id: doc.page })
         .then(page => res.send({ page }))
         .catch(error => {
           console.error(error)

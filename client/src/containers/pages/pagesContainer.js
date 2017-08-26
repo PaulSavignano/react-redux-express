@@ -23,7 +23,7 @@ const pagesContainer = (ComposedComponent) => {
     pages: { items, isFetching }
   }) => ({
     isFetching,
-    pages: pages.items
+    pages: items
   })
   PagesContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,

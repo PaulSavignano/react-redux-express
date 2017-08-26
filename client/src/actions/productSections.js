@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import * as pageActions from './pages'
-import { startEdit, stopeEdit } from './editItem'
+import { startEdit, stopEdit } from './editItem'
 
 export const type = 'PRODUCT_SECTION'
 const route = 'product-sections'
@@ -25,9 +25,9 @@ export const fetchAdd = (add) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { page } = json
+        const { editItem, page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        dispatch(startEdit(editItem, 'PRODUCT_SECTION'))
+        return dispatch(startEdit({ item: editItem, kind: 'PRODUCT_SECTION' }))
       })
       .catch(error => {
         console.log(error)
@@ -54,6 +54,7 @@ export const fetchUpdate = (_id, update) => {
         if (json.error) return Promise.reject(json.error)
         const { page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
+        return dispatch(stopEdit())
       })
       .catch(error => {
         dispatch({ type: ERROR, error })
@@ -65,9 +66,9 @@ export const fetchUpdate = (_id, update) => {
 
 
 // Delete
-export const fetchDelete = (pageId, productSectionId) => {
+export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${pageId}/${productSectionId}`, {
+    return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

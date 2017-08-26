@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import * as pageActions from './pages'
-import { startEdit, stopeEdit } from './editItem'
+import { startEdit, stopEdit } from './editItem'
 
 export const type = 'CARD'
 const route = 'cards'
@@ -13,6 +13,7 @@ const ERROR = `ERROR_${type}`
 
 // Create
 export const fetchAdd = (add) => {
+  console.log('add', add)
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',
@@ -27,7 +28,7 @@ export const fetchAdd = (add) => {
         if (json.error) return Promise.reject(json.error)
         const { editItem, page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        dispatch(startEdit(editItem, 'CARD'))
+        return dispatch(startEdit({ item: editItem, kind: 'CARD' }))
       })
       .catch(error => {
         console.log(error)
@@ -54,7 +55,7 @@ export const fetchUpdate = (_id, update) => {
         if (json.error) return Promise.reject(json.error)
         const { page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        dispatch(stopEdit())
+        return dispatch(stopEdit())
       })
       .catch(error => {
         dispatch({ type: ERROR, error })
@@ -66,9 +67,9 @@ export const fetchUpdate = (_id, update) => {
 
 
 // Delete
-export const fetchDelete = (pageId, cardId) => {
+export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${pageId}/${cardId}`, {
+    return fetch(`/api/${route}/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

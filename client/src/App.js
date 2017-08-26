@@ -6,7 +6,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Helmet } from "react-helmet"
 
-import Main from './Main'
+import SearchList from './containers/search/SearchList'
+import Header from './components/header/Header'
+import Footer from './components/footer/Footer'
 
 injectTapEventPlugin()
 
@@ -14,7 +16,6 @@ class App extends Component {
   render() {
     const {
       brand: { appBar, body, business, theme },
-      carousels,
       children,
       dispatch,
       isFetching,
@@ -36,13 +37,11 @@ class App extends Component {
             {appBar.image && <link rel="shortcut icon" href={appBar.image.src} />}
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
-          <Main
-            carousels={carousels}
-            children={children}
-            dispatch={dispatch}
-            pathname={pathname}
-            search={search}
-          />
+          <Header />
+          <main>
+            {search.value ? <SearchList /> : children}
+          </main>
+          <Footer />
         </div>
       </MuiThemeProvider>
     )
@@ -52,16 +51,14 @@ class App extends Component {
 
 const mapStateToProps = ({
   brand,
-  carousels,
   search
 }, {
   location: { pathname }
 }) => ({
   brand,
-  isFetching: brand.isFetching || carousels.isFetching ? true : false,
+  isFetching: brand.isFetching,
   pathname,
   search,
-  carousels
 })
 
 export default connect(mapStateToProps)(App)

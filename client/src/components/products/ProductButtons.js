@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -11,26 +9,30 @@ import { fetchAddToCart } from '../../actions/cart'
 class ProductButtons extends Component {
   state = {
     qty: 1,
-    open: false
   }
-  componentWillReceiveProps({ submitSucceeded }) {
-    if (submitSucceeded) this.setState({ open: true })
+  handleFormSubmit = (values) => {
+    const { dispatch, productId } = this.props
+    const update = {
+      type: 'ADD_TO_CART',
+      productId,
+      productQty: this.state.qty,
+    }
+    return dispatch(fetchAddToCart(update))
   }
   minus = () => this.state.qty > 1 && this.setState({ qty: this.state.qty - 1 })
   plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
-    const { dispatch, handleSubmit, _id, submitSucceeded, submitting  } = this.props
+    const {
+      dispatch,
+      handleSubmit,
+      productId,
+      submitSucceeded,
+      submitting
+    } = this.props
     return (
       <div>
         <form
-          onSubmit={handleSubmit(values => {
-            const update = {
-              type: 'ADD_TO_CART',
-              productId: _id,
-              productQty: this.state.qty,
-            }
-            return dispatch(fetchAddToCart(update))
-          })}
+          onSubmit={handleSubmit(values => this.handleFormSubmit(values))}
         >
           <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
             <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: '24px' }} />
@@ -54,12 +56,11 @@ class ProductButtons extends Component {
   }
 }
 
-export default compose(
-  connect((state, { _id }) => ({
-    form: `addToCard_${_id}`,
-  })),
-  reduxForm({
-    destroyOnUnmount: false,
-    asyncBlurFields: []
-  })
-)(ProductButtons)
+ProductButtons.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  productId: PropTypes.string.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired
+}
+
+export default reduxForm({})(ProductButtons)
