@@ -12,6 +12,7 @@ import {
   updateCardStyle,
   updateFooter,
   updateHeroStyle,
+  updatePalette,
   updateProductStyle,
   updateTheme,
   remove
@@ -29,6 +30,7 @@ brands.patch('/bodystyle/:_id', authenticate(['admin']), updateBodyStyle)
 brands.patch('/cardstyle/:_id', authenticate(['admin']), updateCardStyle)
 brands.patch('/footer/:_id', authenticate(['admin']), updateFooter)
 brands.patch('/herostyle/:_id', authenticate(['admin']), updateHeroStyle)
+brands.patch('/palette/:_id', authenticate(['admin']), updatePalette)
 brands.patch('/productstyle/:_id', authenticate(['admin']), updateProductStyle)
 brands.patch('/theme/:_id', authenticate(['admin']), updateTheme)
 brands.delete('/:_id', authenticate(['admin']), remove)

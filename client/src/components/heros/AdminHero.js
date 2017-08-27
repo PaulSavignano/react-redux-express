@@ -12,12 +12,12 @@ import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import loadImage from '../images/loadImage'
 import { fetchUpdate, fetchDelete } from '../../actions/heros'
 import { startEdit } from '../../actions/editItem'
 
 class AdminHero extends Component {
-  handleStartEdit = () => {
+  handleStartEdit = (e) => {
+    e.stopPropagation()
     const { dispatch, item } = this.props
     return dispatch(startEdit({ item, kind: 'HERO' }))
   }
@@ -57,10 +57,12 @@ class AdminHero extends Component {
           button1Link,
           button2Text,
           button2Link,
+          flex,
           flexFlow,
           h1Text,
           h2Text,
           h3Text,
+          justifyContent,
           iframe,
           mediaAlign,
           mediaBorder,
@@ -72,20 +74,21 @@ class AdminHero extends Component {
     const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
     const backgroundImageClass = image && image.src && { className: 'background-image' }
     return (
-      <section
+      <div
         onTouchTap={this.handleStartEdit}
         style={{
           ...backgroundImage,
           backgroundColor,
-          marginTop
+          marginTop,
+          flexFlow,
+          justifyContent
         }}
         {...backgroundImageClass}
-        className="hero"
       >
         <Card
           zDepth={0}
           onTouchTap={this.handleStartEdit}
-          style={{ width: '100%', padding: 8 }}
+          style={{ flex, margin: '0 auto' }}
           className="hero"
         >
           {hasMedia &&
@@ -125,7 +128,7 @@ class AdminHero extends Component {
             />
           }
         </Card>
-      </section>
+      </div>
     )
   }
 }
@@ -140,4 +143,4 @@ AdminHero.propTypes = {
   item: PropTypes.object.isRequired,
 }
 
-export default heroContainer(loadImage(AdminHero))
+export default heroContainer(AdminHero)

@@ -1,4 +1,4 @@
-import { startPlay, stopPlay } from './swipeableSections'
+import { startPlay, stopPlay } from './swipeables'
 
 export const type = 'EDIT_ITEM'
 

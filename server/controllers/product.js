@@ -6,8 +6,10 @@ import Product from '../models/Product'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
-  const { pageId, sectionId } = req.body
+  const { pageId, pageSlug, sectionId } = req.body
   const newDoc = new Product({
+    page: ObjectID(pageSlug),
+    pageSlug,
     section: ObjectID(sectionId),
     image: null,
     values: []
@@ -16,7 +18,7 @@ export const add = (req, res) => {
   .then(doc => {
     ProductSection.findOneAndUpdate(
       { _id: doc.section },
-      { $push: { items: doc._id }},
+      { $push: { items: { kind: 'Product', item: doc._id }}},
       { new: true }
     )
     .then(section => {
@@ -44,14 +46,12 @@ export const update = (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {
     image,
-    pageId,
     pageSlug,
     oldImageSrc,
-    sectionId,
     type,
     values
   } = req.body
-  const Key = `${process.env.APP_NAME}/page-${pageSlug}/product-section-${sectionId}/product-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const Key = `${process.env.APP_NAME}/page-${pageSlug}/product-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
@@ -142,8 +142,8 @@ export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Product.remove({ _id })
-  .then(product => {
-    Page.findOne({ _id: product.page })
+  .then(doc => {
+    Page.findOne({ _id: doc.page })
     .then(page => res.send({ page }))
     .catch(error => {
       console.error(error)

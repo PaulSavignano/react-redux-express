@@ -3,24 +3,23 @@ import moment from 'moment'
 
 import Page from '../models/Page'
 import Card from '../models/Card'
-import CardSection from '../models/CardSection'
+import Section from '../models/Section'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
-  console.log('req')
-  const { sectionId } = req.body
-  console.log('sectionId', sectionId)
+  const { pageId, pageSlug, sectionId } = req.body
   const newDoc = new Card({
+    page: ObjectID(pageId),
+    pageSlug,
     section: ObjectID(sectionId),
     image: null,
     values: []
   })
   newDoc.save()
   .then(doc => {
-    console.log('doc', doc)
-    CardSection.findOneAndUpdate(
+    Section.findOneAndUpdate(
       { _id: doc.section },
-      { $push: { items: doc._id }},
+      { $push: { items: { kind: 'Card', item: doc._id }}},
       { new: true }
     )
     .then(section => {
@@ -48,14 +47,12 @@ export const update = (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {
     image,
-    pageId,
     pageSlug,
     oldImageSrc,
-    sectionId,
     type,
     values
   } = req.body
-  const Key = `${process.env.APP_NAME}/page-${pageSlug}/card-section-${sectionId}/card-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const Key = `${process.env.APP_NAME}/page-${pageSlug}/card-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
@@ -146,8 +143,8 @@ export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Card.remove({ _id })
-  .then(card => {
-    Page.findOne({ _id: card.page })
+  .then(doc => {
+    Page.findOne({ _id: doc.page })
     .then(page => res.send({ page }))
     .catch(error => {
       console.error(error)

@@ -1,4 +1,4 @@
-import { type } from '../actions/swipeableSections'
+import { type } from '../actions/swipeables'
 
 const swipeables = (state = {
   autoplay: true

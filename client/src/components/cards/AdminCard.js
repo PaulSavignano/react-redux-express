@@ -11,7 +11,6 @@ import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import loadImage from '../images/loadImage'
 import { fetchUpdate, fetchDelete } from '../../actions/cards'
 import { startEdit } from '../../actions/editItem'
 
@@ -132,4 +131,4 @@ AdminCard.propTypes = {
   item: PropTypes.object.isRequired
 }
 
-export default cardContainer(loadImage(AdminCard))
+export default cardContainer(AdminCard)

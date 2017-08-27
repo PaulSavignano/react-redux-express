@@ -48,72 +48,70 @@ class RequestEstimate extends Component {
   render() {
     const { dispatch, error, handleSubmit, submitting } = this.props
     return (
-      <main>
-        <section>
-          <Card>
-            <CardTitle title="Request Estimate" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchRequestEstimate(values)))} >
-              <CardText>
-                <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-                <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
-                <Field name="phone" component={renderTextField} label="Phone" fullWidth={true} />
-                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-                <br/><br/>
-                <Field name="date" component={DatePicker} autoOk={true} format={null} floatingLabelText="Move Date" hintText="Move Date" fullWidth={true} />
-                <Field name="from" component={renderTextField} label="From" fullWidth={true} />
-                <Field name="to" component={renderTextField} label="To" fullWidth={true} />
-                <Field
-                  name="Size"
-                  component={renderSelectField}
-                  label="Select Move Size"
-                  fullWidth={true}
-                >
-                  <MenuItem value="Small Studio" primaryText="Small Studio" />
-                  <MenuItem value="Large Studio" primaryText="Large Studio" />
-                  <MenuItem value="1 Bedroom Apt" primaryText="1 Bedroom Apt" />
-                  <MenuItem value="1 Bedroom Apt Large" primaryText="1 Bedroom Apt Large" />
-                  <MenuItem value="2 Bedroom Apt" primaryText="2 Bedroom Apt" />
-                  <MenuItem value="2 Bedroom Apt Large" primaryText="2 Bedroom Apt Large" />
-                  <MenuItem value="3 Bedroom Apt" primaryText="3 Bedroom Apt" />
-                  <MenuItem value="4+ Bedroom Apt" primaryText="4+ Bedroom Apt" />
-                  <MenuItem value="2 Bedroom House" primaryText="2 Bedroom House" />
-                  <MenuItem value="3 Bedroom House" primaryText="3 Bedroom House" />
-                  <MenuItem value="4+ Bedroom House" primaryText="4+ Bedroom House" />
-                  <MenuItem value="Small Office" primaryText="Small Office" />
-                  <MenuItem value="Large Office" primaryText="Large Office" />
-                </Field>
-                <Field name="note" component={renderTextField} label="Note" fullWidth={true} multiLine={true} rows={2} />
-              </CardText>
-              {error && <div className="error">{error}</div>}
-              {!this.state.open ? null :
-              <Dialog
-                actions={
-                  <FlatButton
-                    label="Close"
-                    primary={true}
-                    onTouchTap={this.handleClose}
-                  />
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
+      <section className="page-height section-width">
+        <Card>
+          <CardTitle title="Request Estimate" subtitle="Enter your information" />
+          <form onSubmit={handleSubmit(values => dispatch(fetchRequestEstimate(values)))} >
+            <CardText>
+              <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
+              <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
+              <Field name="phone" component={renderTextField} label="Phone" fullWidth={true} />
+              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+              <br/><br/>
+              <Field name="date" component={DatePicker} autoOk={true} format={null} floatingLabelText="Move Date" hintText="Move Date" fullWidth={true} />
+              <Field name="from" component={renderTextField} label="From" fullWidth={true} />
+              <Field name="to" component={renderTextField} label="To" fullWidth={true} />
+              <Field
+                name="Size"
+                component={renderSelectField}
+                label="Select Move Size"
+                fullWidth={true}
               >
-                Email was successfully sent!
-              </Dialog>
-              }
-              <CardActions>
-                <RaisedButton
-                  label="Request Estimate"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
+                <MenuItem value="Small Studio" primaryText="Small Studio" />
+                <MenuItem value="Large Studio" primaryText="Large Studio" />
+                <MenuItem value="1 Bedroom Apt" primaryText="1 Bedroom Apt" />
+                <MenuItem value="1 Bedroom Apt Large" primaryText="1 Bedroom Apt Large" />
+                <MenuItem value="2 Bedroom Apt" primaryText="2 Bedroom Apt" />
+                <MenuItem value="2 Bedroom Apt Large" primaryText="2 Bedroom Apt Large" />
+                <MenuItem value="3 Bedroom Apt" primaryText="3 Bedroom Apt" />
+                <MenuItem value="4+ Bedroom Apt" primaryText="4+ Bedroom Apt" />
+                <MenuItem value="2 Bedroom House" primaryText="2 Bedroom House" />
+                <MenuItem value="3 Bedroom House" primaryText="3 Bedroom House" />
+                <MenuItem value="4+ Bedroom House" primaryText="4+ Bedroom House" />
+                <MenuItem value="Small Office" primaryText="Small Office" />
+                <MenuItem value="Large Office" primaryText="Large Office" />
+              </Field>
+              <Field name="note" component={renderTextField} label="Note" fullWidth={true} multiLine={true} rows={2} />
+            </CardText>
+            {error && <div className="error">{error}</div>}
+            {!this.state.open ? null :
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
                   primary={true}
+                  onTouchTap={this.handleClose}
                 />
-              </CardActions>
-            </form>
-          </Card>
-        </section>
-      </main>
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              Email was successfully sent!
+            </Dialog>
+            }
+            <CardActions>
+              <RaisedButton
+                label="Request Estimate"
+                fullWidth={true}
+                disabled={submitting}
+                type="submit"
+                primary={true}
+              />
+            </CardActions>
+          </form>
+        </Card>
+      </section>
     )
   }
 }

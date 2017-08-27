@@ -17,17 +17,7 @@ import renderSelectField from '../../components/fields/renderSelectField'
 import renderTextField from '../fields/renderTextField'
 import renderWysiwgyField from '../fields/renderWysiwgyField'
 
-import { fetchUpdate as articleSectionUpdate, fetchDelete as articleSectionDelete } from '../../actions/articles'
-import { fetchUpdate as cardUpdate, fetchDelete as cardDelete } from '../../actions/cards'
-import { fetchUpdate as cardSectionUpdate, fetchDelete as cardSectionDelete } from '../../actions/cardSections'
-import { fetchUpdate as productUpdate, fetchDelete as productDelete } from '../../actions/products'
-import { fetchUpdate as productSectionUpdate, fetchDelete as productSectionDelete } from '../../actions/productSections'
-import { fetchUpdate as swipeableSectionUpdate, fetchDelete as swipeableSectionDelete } from '../../actions/swipeableSections'
-import { fetchUpdate as swipeableViewUpdate, fetchDelete as swipeableViewDelete } from '../../actions/swipeableViews'
-
 import adminItemForms from './adminItemForms'
-
-console.log(adminItemForms)
 
 class AdminItemForm extends Component {
   state = {
@@ -36,8 +26,6 @@ class AdminItemForm extends Component {
   }
   findForm = () => {
     const { editItem: { kind }} = this.props
-    console.log(this.props)
-    console.log(adminItemForms.find(form => form.name === kind))
     return adminItemForms.find(form => form.name === kind)
   }
   handleImageEdit = (bool) => {
@@ -58,10 +46,9 @@ class AdminItemForm extends Component {
     this.setState({ backgroundImageEdit: false })
     return dispatch(fetchUpdate(_id, { type: 'DELETE_BACKGROUND_IMAGE', image }))
   }
-
   handleFormSubmit = (values) => {
     const { imageEdit, backgroundImageEdit } = this.state
-    const { dispatch, editItem: { item: { _id }}, image, backgroundImage } = this.props
+    const { dispatch, editItem: { item: { _id, pageSlug }}, image, backgroundImage } = this.props
     const oldImageSrc = image && image.src ? image.src : null
     const oldBackgroundImageSrc = backgroundImage && backgroundImage.src ? backgroundImage.src : null
     const newImage = imageEdit ? this.imageEditor.handleSave() : null
@@ -74,6 +61,7 @@ class AdminItemForm extends Component {
         backgroundImage: newBackgroundImage,
         oldImageSrc,
         oldBackgroundImageSrc,
+        pageSlug,
         values
       }))
     }
@@ -82,6 +70,7 @@ class AdminItemForm extends Component {
         type: 'UPDATE_IMAGE_AND_VALUES',
         image: newImage,
         oldImageSrc,
+        pageSlug,
         values
       }))
     }
@@ -90,13 +79,14 @@ class AdminItemForm extends Component {
         type: 'UPDATE_BACKGROUND_IMAGE_AND_VALUES',
         backgroundImage: newBackgroundImage,
         oldBackgroundImageSrc,
+        pageSlug,
         values
       }))
     }
-    return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
+    return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values, pageSlug }))
   }
   handleRemove = () => {
-    const fetchDelete = this.findRemove()
+    const fetchDelete = this.findForm().delete
     const { dispatch, editItem: { item: { _id }}} = this.props
     return dispatch(fetchDelete(_id))
   }
@@ -104,7 +94,6 @@ class AdminItemForm extends Component {
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
-    this.findForm()
     const {
       dispatch,
       error,
@@ -117,7 +106,6 @@ class AdminItemForm extends Component {
       },
       submitting
     } = this.props
-    console.log('rendering')
     return (
       !editing ? null :
       <Dialog

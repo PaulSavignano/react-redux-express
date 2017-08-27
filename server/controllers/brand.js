@@ -293,48 +293,27 @@ export const updateProductStyle = (req, res) => {
 export const updateTheme = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const {
-    fontFamily,
-    primary1Color,
-    primary2Color,
-    primary3Color,
-    accent1Color,
-    accent2Color,
-    accent3Color,
-    textColor,
-    secondaryTextColor,
-    alternateTextColor,
-    canvasColor,
-    borderColor,
-    disabledColor,
-    pickerHeaderColor,
-    clockCircleColor,
-    shadowColor
-  } = req.body.values
+  const { values } = req.body
   Brand.findOneAndUpdate(
     { _id },
-    { $set: {
-      theme: {
-        fontFamily,
-        palette: {
-          primary1Color,
-          primary2Color,
-          primary3Color,
-          accent1Color,
-          accent2Color,
-          accent3Color,
-          textColor,
-          secondaryTextColor,
-          alternateTextColor,
-          canvasColor,
-          borderColor,
-          disabledColor,
-          pickerHeaderColor,
-          clockCircleColor,
-          shadowColor
-        }
-      }
-    }},
+    { $set: { theme: { values }}},
+    { new: true }
+  )
+  .then(doc => res.send(doc))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
+}
+
+// Update Theme
+export const updatePalette = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
+  const { values } = req.body
+  Brand.findOneAndUpdate(
+    { _id },
+    { $set: { palette: { values }}},
     { new: true }
   )
   .then(doc => res.send(doc))

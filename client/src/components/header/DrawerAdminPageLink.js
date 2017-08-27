@@ -12,11 +12,11 @@ class DrawerAdminPageLink extends Component {
     dispatch(toggleDrawer())
   }
   render() {
-    const { page } = this.props
+    const { page: { _id, values: { name }}} = this.props
     return (
       <ListItem
-        key={page._id}
-        primaryText={page.name}
+        key={_id}
+        primaryText={name}
         onTouchTap={this.handleNavigation}
       />
     )

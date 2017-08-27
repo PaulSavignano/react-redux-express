@@ -24,7 +24,7 @@ class Header extends Component {
     const {
       brand: {
         appBar,
-        theme: { fontFamily },
+        theme: { values: { fontFamily }},
       },
       cartQty,
       dispatch,

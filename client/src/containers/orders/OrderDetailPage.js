@@ -6,7 +6,7 @@ import OrderDetail from '../../components/orders/OrderDetail'
 
 const OrderDetailPage = ({ isFetching, order }) => (
   !isFetching &&
-  <section className="page">
+  <section className="page-height section-width">
     <OrderDetail order={order} />
   </section>
 )

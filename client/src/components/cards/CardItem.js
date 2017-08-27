@@ -10,7 +10,6 @@ import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import loadImage from '../images/loadImage'
 
 const CardItem = ({
   cardStyle: {
@@ -116,4 +115,4 @@ CardItem.propTypes = {
   item: PropTypes.object.isRequired
 }
 
-export default loadImage(CardItem)
+export default CardItem

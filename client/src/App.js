@@ -15,16 +15,26 @@ injectTapEventPlugin()
 class App extends Component {
   render() {
     const {
-      brand: { appBar, body, business, theme },
+      brand: {
+        appBar,
+        bodyStyle: { values: { backgroundColor }},
+        business,
+        theme: { values: { fontFamily }},
+        palette
+      },
       children,
       dispatch,
       isFetching,
       pathname,
       search,
     } = this.props
+    const theme = {
+      fontFamily,
+      palette: palette.values
+    }
     if(!isFetching) {
       const appBody = document.getElementsByTagName('body')[0]
-      appBody.style['background-color'] = body.values.backgroundColor
+      appBody.style['background-color'] = backgroundColor
     }
     return (
       !isFetching &&

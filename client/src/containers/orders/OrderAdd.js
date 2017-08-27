@@ -32,7 +32,7 @@ class OrderAdd extends Component {
     } = this.props
     return (
       isFetching ? null :
-      <section className="page">
+      <section className="page-height section-width">
         <Card className="card">
           <form onSubmit={handleSubmit((values) => {
             const order = { ...values, cart }

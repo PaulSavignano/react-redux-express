@@ -21,8 +21,8 @@ const loadImage = (ComposedComponent) => {
     render() {
       const { image, loading } = this.state
       const { item } = this.props
-      const flex = item.values && item.values.flex &&  item.values.flex
-      const width = item.values && item.values.width && item.values.width
+      const flex = item.values && item.values.flex ? item.values.flex : '1 1 auto'
+      const width = item.values && item.values.width ? item.values.width : '100%'
       return (
         loading ? null : image ?
         <CSSTransitionGroup

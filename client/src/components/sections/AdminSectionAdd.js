@@ -5,17 +5,19 @@ import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
-import AdminSectionAddSection from './AdminSectionAddSection'
-import { fetchAdd as articleSectionAdd } from '../../actions/articles'
-import { fetchAdd as cardSectionAdd } from '../../actions/cardSections'
-import { fetchAdd as productSectionAdd } from '../../actions/productSections'
-import { fetchAdd as swipeableSectionAdd } from '../../actions/swipeableSections'
+import AdminSectionAddComponent from './AdminSectionAddComponent'
+import { fetchAdd as articleAdd } from '../../actions/articles'
+import { fetchAdd as cardAdd } from '../../actions/cards'
+import { fetchAdd as heroAdd } from '../../actions/heros'
+import { fetchAdd as productAdd } from '../../actions/products'
+import { fetchAdd as viewAdd } from '../../actions/views'
 
-const sections = [
-  { label: 'Article Section', action: articleSectionAdd },
-  { label: 'Card Section', action: cardSectionAdd },
-  { label: 'Product Section', action: productSectionAdd },
-  { label: 'Swipeable Section', action: swipeableSectionAdd },
+const components = [
+  { label: 'Article', action: articleAdd },
+  { label: 'Card', action: cardAdd },
+  { label: 'Hero', action: heroAdd },
+  { label: 'Product', action: productAdd },
+  { label: 'View', action: viewAdd },
 ]
 
 class AdminSectionAdd extends Component {
@@ -26,6 +28,7 @@ class AdminSectionAdd extends Component {
   }
   handleOpenMenu = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     this.setState({
       openMenu: true,
       anchorEl: e.currentTarget,
@@ -35,16 +38,16 @@ class AdminSectionAdd extends Component {
   render() {
     const {
       dispatch,
-      pageId
+      pageId,
+      pageSlug,
+      sectionId
     } = this.props
     return (
-      <section style={{ display: 'flex' }}>
+      <div>
         <RaisedButton
           onTouchTap={this.handleOpenMenu}
-          label="Add Section"
-          type="button"
-          primary={true}
-          style={{ flex: '1 1 auto', margin: 4 }}
+          label="Add Item"
+          style={{ margin: 8 }}
         />
         <Popover
           open={this.state.openMenu}
@@ -56,22 +59,21 @@ class AdminSectionAdd extends Component {
           style={{ flex: '1 1 auto', width: 'auto' }}
         >
           <Menu autoWidth={true}>
-            {sections.map(section => (
-              <AdminSectionAddSection
+            {components.map(component => (
+              <AdminSectionAddComponent
+                action={component.action}
+                component={component}
                 dispatch={dispatch}
                 handleCloseMenu={this.handleCloseMenu}
-                key={section.label}
+                key={component.label}
                 pageId={pageId}
-                section={section}
+                pageSlug={pageSlug}
+                sectionId={sectionId}
               />
             ))}
-            <MenuItem
-              primaryText="Contact Form"
-              onTouchTap={this.handleAddContactForm}
-            />
           </Menu>
         </Popover>
-      </section>
+      </div>
     )
   }
 }

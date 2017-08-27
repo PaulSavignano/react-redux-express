@@ -3,16 +3,9 @@ body {
   margin: 0;
 }
 
-section {
+.section-width {
   max-width: 1044px;
   margin: 0 auto;
-  height: 100%;
-}
-
-.section {
-  max-width: 1044px;
-  margin: 0 auto;
-  height: 100%;
 }
 
 .vertical-card {
@@ -24,9 +17,9 @@ section {
   padding: 0 8px;
 }
 
-.page {
+.page-height {
   min-height: 85vh;
-  padding: 32px 0;
+  padding: 40px 0;
 }
 
 svg {
@@ -44,6 +37,7 @@ svg {
   background-position: center center !important;
   background-repeat:  no-repeat !important;
   background-size:  cover !important;
+  width: 100% !important;
 }
 
 
@@ -115,13 +109,13 @@ a {
 
 
 h1 {
-  margin: 0.35em 8px;
+  margin: 0.35em 0;
 }
 h2 {
-  margin: 0.25em 8px;
+  margin: 0.25em 0;
 }
 h3 {
-  margin: 0.15em 8px;
+  margin: 0.15em 0;
 }
 
 

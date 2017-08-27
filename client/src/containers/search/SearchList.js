@@ -19,7 +19,7 @@ const filter = (items, search) => {
 const SearchList = ({ items, search }) => {
   const searchItems = filter(items, search.value)
   return (
-    <section style={{ minHeight: '80vh'}}>
+    <section className="page-height section-width">
       {searchItems.length < 1 ?
         <h1>No matches</h1>
       :

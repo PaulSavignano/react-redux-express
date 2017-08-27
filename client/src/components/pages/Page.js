@@ -2,28 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import pageContainer from '../../containers/pages/pageContainer'
-import ArticleSection from '../articles/ArticleSection'
-import CardSection from '../cards/CardSection'
-import HeroSection from '../heros/HeroSection'
-import ProductSection from '../products/ProductSection'
-import SwipeableSection from '../swipeables/SwipeableSection'
+import Section from '../sections/Section'
+import SwipeableSection from '../sections/SwipeableSection'
 
-const renderSections = (sections) => {
+const renderSections = ({ dispatch, sections }) => {
   const sectionList = (section) => {
     const { kind } = section
     switch(kind) {
-      case 'ArticleSection':
-        return <ArticleSection key={section._id} item={section.section} />
-      case 'CardSection':
-        return <CardSection key={section._id} item={section.section} />
-      case 'HeroSection':
-        return <HeroSection key={section._id} item={section.section} />
-      case 'ProductSection':
-        return <ProductSection key={section._id} item={section.section} />
-      case 'SwipeableSection':
-        return <SwipeableSection key={section._id} item={section.section} />
+      case 'Flex':
+        return <Section dispatch={dispatch} key={section._id} item={section.section} />
+      case 'Swipeable':
+        return <SwipeableSection dispatch={dispatch} key={section._id} item={section.section} />
       default:
-        return
+        return <Section dispatch={dispatch} key={section._id} item={section.section} />
     }
   }
   return sections.map(section => sectionList(section))
@@ -44,7 +35,6 @@ class Page extends Component {
   componentWillReceiveProps(nextProps, nextState) {
     const { hash } = nextProps
     if (hash !== '') {
-      console.log(hash)
       return this.scrollToId(hash)
     }
   }
@@ -60,11 +50,16 @@ class Page extends Component {
     this.setState({ timeoutId })
   }
   render() {
-    const { page } = this.props
-    console.log('page', page)
+    const {
+      dispatch,
+      page: { sections }
+    } = this.props
     return (
       <div>
-        {renderSections(page.sections)}
+        {renderSections({
+          dispatch,
+          sections,
+        })}
       </div>
     )
   }

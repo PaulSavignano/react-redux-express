@@ -39,10 +39,18 @@ class Signin extends Component {
     submitSucceeded && this.setState({ message: `Welcome back ${user.values.firstName}!`})
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, muiTheme, reset } = this.props
-    const { primary1Color } = muiTheme.palette
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      isFetching,
+      primary1Color,
+      reset,
+      submitting
+    } = this.props
     return (
-      <section className="page">
+      isFetching ? null :
+      <section className="page-height section-width">
         <Card className="card" style={{ margin: 16 }}>
           <CardTitle title="Sign in" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => {
@@ -98,10 +106,10 @@ Signin = reduxForm({
   validate
 })(Signin)
 
-const mapStateToProps = ({ user }) => ({
-  user
+const mapStateToProps = ({ brand: { isFetching, palette: { primary1Color }}, user }) => ({
+  isFetching: isFetching || user.isFetching ? true : false,
+  primary1Color,
+  user,
 })
 
-Signin = compose(connect(mapStateToProps), muiThemeable())(Signin)
-
-export default Signin
+export default connect(mapStateToProps)(Signin)

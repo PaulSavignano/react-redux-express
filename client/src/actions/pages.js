@@ -28,9 +28,9 @@ export const fetchAdd = (add) => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchAddSuccess(json))
       })
-      .catch(err => {
-        dispatch(fetchAddFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Update failed!' })
+      .catch(error => {
+        dispatch(fetchAddFailure(error))
+        throw new SubmissionError({ ...error, _error: 'Update failed!' })
     })
   }
 }
@@ -55,9 +55,9 @@ export const fetchPages = () => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchPagesSuccess(json))
       })
-      .catch(err => {
-        console.log(err)
-        dispatch(fetchPagesFailure(err))
+      .catch(error => {
+        console.log(error)
+        dispatch(fetchPagesFailure(error))
       })
   }
 }
@@ -82,9 +82,9 @@ export const fetchUpdate = (_id, update) => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateSuccess(json))
       })
-      .catch(err => {
-        dispatch(fetchUpdateFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Update failed!' })
+      .catch(error => {
+        dispatch(fetchUpdateFailure(error))
+        throw new SubmissionError({ ...error, _error: 'Update failed!' })
       })
   }
 }
@@ -111,9 +111,9 @@ export const fetchDelete = (_id) => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchDeleteSuccess(json._id))
       })
-      .catch(err => {
-        dispatch(fetchDeleteFailure(err))
-        throw new SubmissionError({ ...err, _error: 'Delete failed!' })
+      .catch(error => {
+        dispatch(fetchDeleteFailure(error))
+        throw new SubmissionError({ ...error, _error: 'Delete failed!' })
       })
   }
 }

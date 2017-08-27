@@ -11,8 +11,9 @@ const ProductSchema = new Schema({
     height: { type: Number, trim: true, default: 675 }
   },
   page: { type: Schema.ObjectId, ref: 'Page' },
+  pageSlug: { type: String, trim: true },
   productSlug: { type: String },
-  section: { type: Schema.Types.ObjectId, ref: 'ProductSection' },
+  section: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
     description: { type: String, minlength: 1, trim: true },
     detail: { type: String },
@@ -24,9 +25,9 @@ const ProductSchema = new Schema({
 })
 
 ProductSchema.post('save', function(doc) {
-  this.model('ProductSection').update(
-    { _id: this.productSection },
-    { $push: { products: this._id }},
+  this.model('Section').update(
+    { _id: doc.section },
+    { $push: { items: { kind: 'Product', item: doc._id }}},
     { new: true }
   )
 })
@@ -35,9 +36,9 @@ ProductSchema.pre('remove', function(next) {
   if (this.image && this.image.src) {
     deleteFile({ Key: this.image.src }).catch(err => console.error(err))
   }
-  this.model('ProductSection').update(
-    { _id: this.productSection },
-    { $pull: { products: this._id }},
+  this.model('Section').update(
+    { _id: this.section },
+    { $pull: { items: this._id }},
     { multi: true }
   )
   next()

@@ -56,9 +56,8 @@ export default connect(
   ({
     brand: {
       isFetching,
-      theme: {
-        palette: { canvasColor, fontFamily, primary1Color, }
-      }
+      theme: { values: { fontFamily }},
+      palette: { values: { canvasColor, primary1Color }}
     }
   }) => ({
     backgroundColor: primary1Color,

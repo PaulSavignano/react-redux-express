@@ -9,7 +9,7 @@ const AdminPages = ({
   dispatch,
   pages
 }) => (
-  <section style={{ minHeight: '80vh', padding: '32px 0'}}>
+  <section className="page-height">
     <AdminPagesAdd />
     {pages.map(item => (
       <AdminPagesItem

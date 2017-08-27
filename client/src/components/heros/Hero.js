@@ -6,11 +6,11 @@ import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
+import HeroCard from './HeroCard'
 import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import loadImage from '../images/loadImage'
 
 const Hero = ({
   heroStyle: {
@@ -60,59 +60,21 @@ const Hero = ({
     }
   }
 }) => {
-  const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
+  const backgroundImage = backgroundImage && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
   const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
-    <section
+    <div
       style={{
         ...backgroundImage,
         backgroundColor,
         marginTop
       }}
       {...backgroundImageClass}
-      className="hero"
     >
-      <Card
-        id={_id}
-      >
-        {hasMedia &&
-          <Media
-            image={image}
-            iframe={iframe}
-          />
-        }
-        {hasHeading &&
-          <Heading
-            h1Align={h1Align}
-            h2Align={h2Align}
-            h3Align={h3Align}
-            h1Color={h1Color}
-            h2Color={h2Color}
-            h3Color={h3Color}
-            h1Text={h1Text}
-            h2Text={h2Text}
-            h3Text={h3Text}
-            h1TextShadow={h1TextShadow}
-            h2TextShadow={h2TextShadow}
-            h3TextShadow={h3TextShadow}
-          />
-        }
-        {hasParagraph && <P>{renderHTML(pText)}</P>}
-        {hasButtons &&
-          <Buttons
-            button1Background={button1Background}
-            button2Background={button2Background}
-            button1Color={button1Color}
-            button2Color={button2Color}
-            button1Link={button1Link}
-            button2Link={button2Link}
-            button1Text={button1Text}
-            button2Text={button2Text}
-            dispatch={dispatch}
-          />
-        }
-      </Card>
-    </section>
+      <HeroCard
+
+      />
+    </div>
   )
 }
 
@@ -126,4 +88,4 @@ Hero.propTypes = {
   item: PropTypes.object.isRequired,
 }
 
-export default loadImage(Hero)
+export default Hero

@@ -18,6 +18,10 @@ const cardContainer = (ComposedComponent) => {
       const {
         cardStyle,
         dispatch,
+        hasButtons,
+        hasHeading,
+        hasMedia,
+        hasParagraph,
         isFetching,
         item,
         typography
@@ -33,10 +37,15 @@ const cardContainer = (ComposedComponent) => {
         dispatch,
         elevation,
         events,
+        hasButtons,
+        hasHeading,
+        hasMedia,
+        hasParagraph,
         item,
         cursor,
         typography
       }
+      console.log(props)
       return (
         isFetching ? null : <ComposedComponent {...props} />
       )
@@ -47,6 +56,7 @@ const cardContainer = (ComposedComponent) => {
   }, {
     item
   }) => ({
+    cardStyle,
     hasButtons: item.values.button1Text ? true : false,
     hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,

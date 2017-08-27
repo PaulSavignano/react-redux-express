@@ -4,7 +4,7 @@ import * as pageActions from './pages'
 import { startEdit, stopEdit } from './editItem'
 
 export const type = 'ARTICLE'
-const route = 'article-sections'
+const route = 'articles'
 
 const ADD = `ADD_${type}`
 const UPDATE = `UPDATE_${type}`
@@ -27,7 +27,7 @@ export const fetchAdd = (add) => {
         if (json.error) return Promise.reject(json.error)
         const { editItem, page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        return dispatch(startEdit({ item: editItem, kind: 'ARTICLE_SECTION' }))
+        return dispatch(startEdit({ item: editItem, kind: 'ARTICLE' }))
       })
       .catch(error => {
         console.log(error)
@@ -51,7 +51,6 @@ export const fetchUpdate = (_id, update) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { page } = json
-        console.log(page)
         dispatch(pageActions.fetchUpdateSuccess(page))
         dispatch(stopEdit())
       })

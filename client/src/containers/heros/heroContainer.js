@@ -8,6 +8,10 @@ const heroContainer = (ComposedComponent) => {
       const {
         heroStyle,
         dispatch,
+        hasButtons,
+        hasHeading,
+        hasMedia,
+        hasParagraph,
         isFetching,
         item,
         typography
@@ -15,6 +19,10 @@ const heroContainer = (ComposedComponent) => {
       const props = {
         heroStyle,
         dispatch,
+        hasButtons,
+        hasHeading,
+        hasMedia,
+        hasParagraph,
         item,
         typography
       }

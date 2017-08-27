@@ -102,23 +102,25 @@ const formFields = [{
     { name: 'h3TextShadow', type: 'text' }
   ]
 }, {
-  name: 'productStyle',
+  name: 'palette',
   fields: [
-    { name: 'buttonColor', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h1Color', type: 'text' },
-    { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h2Color', type: 'text' },
-    { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' },
+    { name: 'primary1Color', type: 'text' },
+    { name: 'primary2Color', type: 'text' },
+    { name: 'primary3Color', type: 'text' },
+    { name: 'accent1Color', type: 'text' },
+    { name: 'accent2Color', type: 'text' },
+    { name: 'accent3Color', type: 'text' },
+    { name: 'textColor', type: 'text' },
+    { name: 'secondaryTextColor', type: 'text' },
+    { name: 'alternateTextColor', type: 'text' },
+    { name: 'canvasColor', type: 'text' },
+    { name: 'borderColor', type: 'text' },
+    { name: 'disabledColor', type: 'text' },
+    { name: 'pickerHeaderColor', type: 'text' },
+    { name: 'shadowColor', type: 'text' },
   ]
 }, {
-  name: 'swipeableStyle',
+  name: 'productStyle',
   fields: [
     { name: 'buttonColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
@@ -136,21 +138,7 @@ const formFields = [{
 }, {
   name: 'theme',
   fields: [
-    { name: 'fontFamily', type: 'text' },
-    { name: 'primary1Color', type: 'text' },
-    { name: 'primary2Color', type: 'text' },
-    { name: 'primary3Color', type: 'text' },
-    { name: 'accent1Color', type: 'text' },
-    { name: 'accent2Color', type: 'text' },
-    { name: 'accent3Color', type: 'text' },
-    { name: 'textColor', type: 'text' },
-    { name: 'secondaryTextColor', type: 'text' },
-    { name: 'alternateTextColor', type: 'text' },
-    { name: 'canvasColor', type: 'text' },
-    { name: 'borderColor', type: 'text' },
-    { name: 'disabledColor', type: 'text' },
-    { name: 'pickerHeaderColor', type: 'text' },
-    { name: 'shadowColor', type: 'text' },
+    { name: 'fontFamily', type: 'text' }
   ]
 }, {
   name: 'typography',
@@ -170,68 +158,82 @@ const formFields = [{
     { name: 'h3FontWeight', type: 'text' },
     { name: 'h3LetterSpacing', type: 'text' }
   ]
+}, {
+  name: 'viewStyle',
+  fields: [
+    { name: 'buttonColor', type: 'text' },
+    { name: 'mediaBorder', type: 'text' },
+    { name: 'mediaElevation', type: 'number' },
+    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
+    { name: 'h1Color', type: 'text' },
+    { name: 'h1TextShadow', type: 'text' },
+    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
+    { name: 'h2Color', type: 'text' },
+    { name: 'h2TextShadow', type: 'text' },
+    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
+    { name: 'h3Color', type: 'text' },
+    { name: 'h3TextShadow', type: 'text' },
+  ]
 }]
 
 const BrandAdmin = ({
-  _id,
-  appBar,
-  articleStyle,
-  bodyStyle,
-  business,
-  cardStyle,
-  dispatch,
-  footer,
-  heroStyle,
-  productStyle,
-  swipeableStyle,
-  theme,
-  typography
+  brand: {
+    _id,
+    appBar,
+    articleStyle,
+    bodyStyle,
+    business,
+    cardStyle,
+    footer,
+    heroStyle,
+    palette,
+    productStyle,
+    theme,
+    typography,
+    viewStyle
+  },
+  dispatch
 }) => {
+  console.log(theme.values)
   const forms = [
     appBar,
     articleStyle,
     bodyStyle,
     business,
     cardStyle,
-    dispatch,
     footer,
     heroStyle,
+    palette,
     productStyle,
-    swipeableStyle,
     theme,
-    typography
+    typography,
+    viewStyle
   ]
   return (
-    <section className="page">
-      {forms.map((form, i) => (
-        <BrandForm
-          _id={_id}
-          backgroundColor={theme.palette.canvasColor}
-          dispatch={dispatch}
-          fields={formFields[i]}
-          fontFamily={theme.fontFamily}
-          form={form}
-          initialValues={form.values}
-        />
-      ))}
+    <section className="page-height section-width">
+      {forms.map((form, i) => {
+        const { values, image } = form
+        return (
+          <BrandForm
+            _id={_id}
+            backgroundColor={palette.values.canvasColor}
+            dispatch={dispatch}
+            key={i}
+            image={image}
+            fields={formFields[i].fields}
+            fontFamily={theme.values.fontFamily}
+            form={formFields[i].name}
+            initialValues={values}
+          />
+        )
+      })}
     </section>
   )
 }
 
 BrandAdmin.propTypes = {
-  _id: PropTypes.string.isRequired,
-  appBar: PropTypes.object.isRequired,
-  articleStyle: PropTypes.object.isRequired,
-  bodyStyle: PropTypes.object.isRequired,
-  business: PropTypes.object.isRequired,
-  cardStyle: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  footer: PropTypes.object.isRequired,
-  heroStyle: PropTypes.object.isRequired,
-  productStyle: PropTypes.object.isRequired,
-  swipeableStyle: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-  typography: PropTypes.object.isRequired
+  brand: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 export default brandContainer(BrandAdmin)

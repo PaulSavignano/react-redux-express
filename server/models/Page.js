@@ -1,13 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
 
-import CardSection from './CardSection'
-
 const PageSchema = new Schema({
   slug: { type: String },
-  sections: [{
-    kind: { type: String },
-    section: { type: Schema.ObjectId, refPath: 'sections.kind' }
-  }],
+  sections: [{ type: Schema.Types.ObjectId, ref: 'Section' }],
   values: {
     name: { type: String, trim: true, minlength: 1 }
   },
@@ -17,10 +12,8 @@ const PageSchema = new Schema({
 
 function autopopulate(next) {
   this.populate({
-    path: 'sections.section',
-    populate: [
-      { path: 'items', model: 'Card' },
-    ]
+    path: 'sections',
+    populate: { path: 'items.item' }
   })
   next();
 }

@@ -32,7 +32,12 @@ const typographyContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, typography, theme: { fontFamily, palette: { textColor }} }
+    brand: {
+      isFetching,
+      typography,
+      theme: { values: { fontFamily }},
+      palette: { values: { textColor }}
+    }
   }) => ({
     fontFamily,
     isFetching,

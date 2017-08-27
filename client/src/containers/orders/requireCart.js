@@ -6,7 +6,6 @@ import { push } from 'react-router-redux'
 const requireCart = (ComposedComponent) => {
   class RequireCart extends Component {
     componentWillMount() {
-      console.log('requireCart')
       const cart = localStorage.getItem('cart')
       if (!cart) {
         this.props.dispatch(push('/'))

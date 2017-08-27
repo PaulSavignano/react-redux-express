@@ -22,7 +22,7 @@ const AdminOrderDetail = ({
   handleSubmit
  }) => (
    !isFetching &&
-   <section className="page">
+   <section className="page-height section-width">
      <Card>
        <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between', alignItems: 'center'}}>
          <CardTitle title={`Order ${_id}`} />

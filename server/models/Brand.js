@@ -1,25 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
 const BrandSchema = new Schema({
-  articleStyle: {
-    values: {
-      button1Color: { type: String, trim: true },
-      button2Color: { type: String, trim: true },
-      button1Background: { type: String, trim: true },
-      button2Background: { type: String, trim: true },
-      h1Align: { type: String, trim: true, default: 'center' },
-      h1Color: { type: String, trim: true },
-      h1TextShadow: { type: String, trim: true },
-      h2Align: { type: String, trim: true, default: 'center' },
-      h2Color: { type: String, trim: true },
-      h2TextShadow: { type: String, trim: true },
-      h3Align: { type: String, trim: true, default: 'center' },
-      h3Color: { type: String, trim: true },
-      h3TextShadow: { type: String, trim: true },
-      mediaElevation: { type: Number, trim: true, default: 2 },
-      mediaBorder: { type: String, trim: true }
-    }
-  },
   appBar: {
     image: {
       src: { type: String, trim: true },
@@ -38,14 +19,12 @@ const BrandSchema = new Schema({
       textShadow: { type: String, trim: true },
     }
   },
-  cardStyle: {
+  articleStyle: {
     values: {
       button1Color: { type: String, trim: true },
       button2Color: { type: String, trim: true },
       button1Background: { type: String, trim: true },
       button2Background: { type: String, trim: true },
-      elevation: { type: Number, trim: true, default: 1 },
-      flex: { type: String, trim: true, default: '1 1 auto' },
       h1Align: { type: String, trim: true, default: 'center' },
       h1Color: { type: String, trim: true },
       h1TextShadow: { type: String, trim: true },
@@ -53,9 +32,9 @@ const BrandSchema = new Schema({
       h2Color: { type: String, trim: true },
       h2TextShadow: { type: String, trim: true },
       h3Align: { type: String, trim: true, default: 'center' },
-      h3Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .5)' },
+      h3Color: { type: String, trim: true },
       h3TextShadow: { type: String, trim: true },
-      margin: { type: String, trim: true, default: '16px' },
+      mediaElevation: { type: Number, trim: true, default: 2 },
       mediaBorder: { type: String, trim: true }
     }
   },
@@ -83,6 +62,27 @@ const BrandSchema = new Schema({
       twitter: { type: String, trim: true },
       yelp: { type: String, trim: true },
       youtube: { type: String, trim: true },
+    }
+  },
+  cardStyle: {
+    values: {
+      button1Color: { type: String, trim: true },
+      button2Color: { type: String, trim: true },
+      button1Background: { type: String, trim: true },
+      button2Background: { type: String, trim: true },
+      elevation: { type: Number, trim: true, default: 1 },
+      flex: { type: String, trim: true, default: '1 1 auto' },
+      h1Align: { type: String, trim: true, default: 'center' },
+      h1Color: { type: String, trim: true },
+      h1TextShadow: { type: String, trim: true },
+      h2Align: { type: String, trim: true, default: 'center' },
+      h2Color: { type: String, trim: true },
+      h2TextShadow: { type: String, trim: true },
+      h3Align: { type: String, trim: true, default: 'center' },
+      h3Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .5)' },
+      h3TextShadow: { type: String, trim: true },
+      margin: { type: String, trim: true, default: '16px' },
+      mediaBorder: { type: String, trim: true }
     }
   },
   footer: {
@@ -117,9 +117,8 @@ const BrandSchema = new Schema({
       minHeight: { type: String, trim: true }
     }
   },
-  theme: {
-    fontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
-    palette: {
+  palette: {
+    values: {
       primary1Color: { type: String, trim: true, default: '#00BCD4' },
       primary2Color: { type: String, trim: true, default: '#0097A7' },
       primary3Color: { type: String, trim: true, default: '#BDBDBD' },
@@ -135,6 +134,11 @@ const BrandSchema = new Schema({
       pickerHeaderColor: { type: String, trim: true, default: '#00BCD4' },
       clockCircleColor: { type: String, trim: true, default: 'rgba(0, 0, 0, .7)' },
       shadowColor: { type: String, trim: true, default: 'rgba(0, 0, 0, 1)' }
+    }
+  },
+  theme: {
+    values: {
+      fontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
     }
   },
   typography: {
@@ -157,6 +161,28 @@ const BrandSchema = new Schema({
     }
   }
 }, {
+  viewStyle: {
+    values: {
+      button1Color: { type: String, trim: true },
+      button2Color: { type: String, trim: true },
+      button1Background: { type: String, trim: true },
+      button2Background: { type: String, trim: true },
+      elevation: { type: Number, trim: true, default: 1 },
+      flex: { type: String, trim: true, default: '1 1 auto' },
+      h1Align: { type: String, trim: true, default: 'center' },
+      h1Color: { type: String, trim: true },
+      h1TextShadow: { type: String, trim: true },
+      h2Align: { type: String, trim: true, default: 'center' },
+      h2Color: { type: String, trim: true },
+      h2TextShadow: { type: String, trim: true },
+      h3Align: { type: String, trim: true, default: 'center' },
+      h3Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .5)' },
+      h3TextShadow: { type: String, trim: true },
+      margin: { type: String, trim: true, default: '16px' },
+      mediaBorder: { type: String, trim: true }
+    }
+  }
+},{
   timestamps: true
 })
 

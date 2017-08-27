@@ -5,10 +5,18 @@ import { connect } from 'react-redux'
 const brandContainer = (ComposedComponent) => {
   class BrandContainer extends Component {
     render() {
-      const { brand } = this.props
+      const {
+        brand,
+        dispatch,
+        isFetching
+      } = this.props
+      const props = {
+        brand,
+        dispatch
+      }
       return (
-        brand.isFetching ? null :
-        <ComposedComponent {...brand} />
+        isFetching ? null :
+        <ComposedComponent {...props} />
       )
     }
   }

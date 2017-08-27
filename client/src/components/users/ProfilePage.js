@@ -5,7 +5,7 @@ import AddressesForm from './AddressesForm'
 import OrderList from '../../containers/orders/OrderList'
 
 const ProfilePage = () => (
-  <section>
+  <section className="page-height section-width">
     <br/>
     <ProfileForm />
     <br/>

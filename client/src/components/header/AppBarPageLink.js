@@ -47,7 +47,6 @@ class AppBarPageLink extends Component {
       pathname,
     } = this.props
     const pageSectionLinks = page.sections.filter(section => section.section.values.pageLink)
-    console.log('sectionPageLinks', pageSectionLinks)
     const activeStyle = pathname === `/${page.slug}` && { borderBottom: '2px solid' }
     return (
       <div>

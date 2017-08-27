@@ -5,10 +5,17 @@ import { CardMedia } from 'material-ui/Card'
 const Media = ({
   image,
   iframe
-}) => (
-  <CardMedia>
-    {image.src && <img src={image.src} alt="card"/>}
-    {iframe &&
+}) => {
+  console.log('made it to Media')
+  console.log(iframe)
+  return (
+    image.src ?
+    <CardMedia>
+      <img src={image.src} alt="card"/>
+    </CardMedia>
+    :
+    iframe ?
+    <CardMedia>
       <div style={{ position: 'relative', paddingBottom: '50%' }}>
         <iframe
           title="iframe"
@@ -19,9 +26,10 @@ const Media = ({
         >
         </iframe>
       </div>
-    }
-  </CardMedia>
-)
+    </CardMedia>
+  : null
+  )
+}
 
 Media.propTypes = {
   image: PropTypes.object,
