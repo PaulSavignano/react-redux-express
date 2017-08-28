@@ -6,8 +6,10 @@ import Section from '../models/Section'
 import Hero from '../models/Hero'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
+// Find out why req is empty
 export const add = (req, res) => {
   const { pageId, pageSlug, sectionId } = req.body
+  console.log(req.body)
   const newDoc = new Hero({
     section: ObjectID(sectionId),
     page: ObjectID(pageId),
@@ -17,6 +19,7 @@ export const add = (req, res) => {
   })
   newDoc.save()
   .then(doc => {
+    console.log(doc)
     Section.findOneAndUpdate(
       { _id: doc.section },
       { $push: { items: { kind: 'Hero', item: doc._id }}},
@@ -152,7 +155,6 @@ export const update = (req, res) => {
     case 'UPDATE_BACKGROUND_IMAGE_AND_VALUES':
       uploadFile({ Key: backgroundImageKey }, backgroundImage.src, oldBackgroundImageSrc)
       .then(data => {
-        console.log('updating backgroudn ')
         Hero.findOneAndUpdate(
           { _id },
           { $set: {
@@ -267,13 +269,20 @@ export const update = (req, res) => {
 export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Hero.remove({ _id })
+  Hero.findOneAndRemove({ _id })
   .then(doc => {
-    Page.findOne({ _id: doc.page })
-    .then(page => res.send({ page }))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
+    Section.findOneAndUpdate(
+      { _id: doc.section },
+      { $pull: { items: { kind: 'Hero', item: doc._id }}},
+      { new: true }
+    )
+    .then(section => {
+      Page.findOne({ _id: section.page })
+      .then(page => res.send({ page }))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
     })
   })
   .catch(error => {

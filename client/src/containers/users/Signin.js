@@ -50,7 +50,7 @@ class Signin extends Component {
     } = this.props
     return (
       isFetching ? null :
-      <section className="page-height section-width">
+      <section className="page-height page-padding section-width">
         <Card className="card" style={{ margin: 16 }}>
           <CardTitle title="Sign in" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => {

@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
+import cardContainer from '../../containers/cards/cardContainer'
 import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
@@ -14,11 +15,12 @@ import P from '../typography/P'
 const CardItem = ({
   cardStyle: {
     values: {
+      button1BackgroundColor,
+      button2BackgroundColor,
       button1Color,
-      button1Background,
       button2Color,
-      button2Background,
       elevation,
+      flex,
       h1Align,
       h1Color,
       h1TextShadow,
@@ -27,7 +29,10 @@ const CardItem = ({
       h2TextShadow,
       h3Align,
       h3Color,
-      h3TextShadow
+      h3TextShadow,
+      margin,
+      mediaBorder,
+      width
     }
   },
   cursor,
@@ -46,22 +51,19 @@ const CardItem = ({
       button1Link,
       button2Text,
       button2Link,
-      flex,
       h1Text,
       h2Text,
       h3Text,
       iframe,
-      margin,
-      mediaAlign,
-      mediaBorder,
-      pText
+      link,
+      pText,
     }
   }
 }) => {
   return (
     <Card
       {...events}
-      style={{ cursor, margin }}
+      style={{ cursor, flex, margin, width }}
       zDepth={elevation}
       id={_id}
       className="card"
@@ -91,8 +93,8 @@ const CardItem = ({
       {hasParagraph && <P>{renderHTML(pText)}</P>}
       {hasButtons &&
         <Buttons
-          button1Background={button1Background}
-          button2Background={button2Background}
+          button1BackgroundColor={button1BackgroundColor}
+          button2BackgroundColor={button2BackgroundColor}
           button1Color={button1Color}
           button2Color={button2Color}
           button1Link={button1Link}
@@ -115,4 +117,4 @@ CardItem.propTypes = {
   item: PropTypes.object.isRequired
 }
 
-export default CardItem
+export default cardContainer(CardItem)

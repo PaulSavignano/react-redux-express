@@ -11,8 +11,8 @@ export const add = (req, res) => {
   .then(doc => {
     if (!doc) {
       const newDoc = new Page({
-        slug: slugIt(req.body.name),
-        values: { name: req.body.name }
+        slug: slugIt(name),
+        values: { name }
       })
       newDoc.save()
         .then(doc => res.send(doc))
@@ -60,9 +60,14 @@ export const update = (req, res) => {
 export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Page.findOne({ _id,})
-  .then(page => {
-    page.remove().then(page => res.send(page).catch(error => console.error(error)))
+  Page.findOneAndRemove({ _id })
+  .then(() => {
+    Page.findOne({ _id })
+    .then(page => res.send(page))
+    .catch(error => {
+      console.log(error)
+      res.status(400).send({ error })
+    })
   })
   .catch(error => {
     console.error(error)

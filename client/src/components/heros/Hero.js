@@ -6,19 +6,20 @@ import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
-import HeroCard from './HeroCard'
+import heroContainer from '../../containers/heros/heroContainer'
 import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
+import loadImage from '../images/loadImage'
 
 const Hero = ({
   heroStyle: {
     values: {
       button1Color,
-      button1Background,
       button2Color,
-      button2Background,
+      button1BackgroundColor,
+      button2BackgroundColor,
       h1Align,
       h1Color,
       h1TextShadow,
@@ -28,8 +29,9 @@ const Hero = ({
       h3Align,
       h3Color,
       h3TextShadow,
-      marginTop,
+      mediaBorder,
       mediaElevation,
+      minHeight,
     }
   },
   dispatch,
@@ -47,33 +49,60 @@ const Hero = ({
       button1Link,
       button2Text,
       button2Link,
-      flex,
       h1Text,
       h2Text,
       h3Text,
       iframe,
-      margin,
-      mediaAlign,
-      mediaBorder,
-      mediaFlex,
       pText
     }
-  }
+  },
+  propsForParent,
+  propsForChild
 }) => {
-  const backgroundImage = backgroundImage && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
-  const backgroundImageClass = image && image.src && { className: 'background-image' }
   return (
-    <div
-      style={{
-        ...backgroundImage,
-        backgroundColor,
-        marginTop
-      }}
-      {...backgroundImageClass}
-    >
-      <HeroCard
-
-      />
+    <div {...propsForParent}>
+      <Card
+        id={_id}
+        {...propsForChild}
+        className="hero"
+      >
+        {hasMedia &&
+          <Media
+            image={image}
+            iframe={iframe}
+          />
+        }
+        {hasHeading &&
+          <Heading
+            h1Align={h1Align}
+            h2Align={h2Align}
+            h3Align={h3Align}
+            h1Color={h1Color}
+            h2Color={h2Color}
+            h3Color={h3Color}
+            h1Text={h1Text}
+            h2Text={h2Text}
+            h3Text={h3Text}
+            h1TextShadow={h1TextShadow}
+            h2TextShadow={h2TextShadow}
+            h3TextShadow={h3TextShadow}
+          />
+        }
+        {hasParagraph && <P>{renderHTML(pText)}</P>}
+        {hasButtons &&
+          <Buttons
+            button1BackgroundColor={button1BackgroundColor}
+            button2BackgroundColor={button2BackgroundColor}
+            button1Color={button1Color}
+            button2Color={button2Color}
+            button1Link={button1Link}
+            button2Link={button2Link}
+            button1Text={button1Text}
+            button2Text={button2Text}
+            dispatch={dispatch}
+          />
+        }
+      </Card>
     </div>
   )
 }
@@ -88,4 +117,4 @@ Hero.propTypes = {
   item: PropTypes.object.isRequired,
 }
 
-export default Hero
+export default heroContainer(Hero)

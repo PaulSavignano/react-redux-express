@@ -32,11 +32,10 @@ class AdminArticle extends Component {
     const {
       articleStyle: {
         values: {
+          button1BackgroundColor,
+          button2BackgroundColor,
           button1Color,
-          button1Background,
           button2Color,
-          button2Background,
-          mediaElevation,
           h1Align,
           h1Color,
           h1TextShadow,
@@ -45,7 +44,9 @@ class AdminArticle extends Component {
           h2TextShadow,
           h3Align,
           h3Color,
-          h3TextShadow
+          h3TextShadow,
+          mediaBorder,
+          mediaElevation,
         }
       },
       dispatch,
@@ -69,16 +70,14 @@ class AdminArticle extends Component {
         h3Text,
         iframe,
         mediaAlign,
-        mediaBorder,
         mediaFlex,
-        pText
+        pText,
       }
     } = item
     return (
       <article
         onTouchTap={this.handleStartEdit}
         style={{
-          flexFlow,
           width: '100%',
           overflow: 'hidden',
           position: 'relative',
@@ -114,20 +113,20 @@ class AdminArticle extends Component {
 
           : null}
           {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
-          {hasButtons &&
-            <Buttons
-              button1Background={button1Background}
-              button2Background={button2Background}
-              button1Color={button1Color}
-              button2Color={button2Color}
-              button1Link={button1Link}
-              button2Link={button2Link}
-              button1Text={button1Text}
-              button2Text={button2Text}
-              dispatch={dispatch}
-            />
-          }
         </div>
+        {hasButtons &&
+          <Buttons
+            button1BackgroundColor={button1BackgroundColor}
+            button2BackgroundColor={button2BackgroundColor}
+            button1Color={button1Color}
+            button2Color={button2Color}
+            button1Link={button1Link}
+            button2Link={button2Link}
+            button1Text={button1Text}
+            button2Text={button2Text}
+            dispatch={dispatch}
+          />
+        }
       </article>
     )
   }

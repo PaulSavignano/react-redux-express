@@ -14,19 +14,22 @@ class SwipeableSection extends Component {
     const {
       autoplay,
       dispatch,
-      item: { items, kind, values },
+      item: {
+        _id,
+        items
+      },
+      propsForParent,
+      propsForChild,
     } = this.props
-    const backgroundColor = values && values.backgroundColor
-    const pageLink = values && values.pageLink
     return (
-      <section
-        className="swipeable-section"
-      >
-        <AutoPlaySwipeableViews
-          autoplay={autoplay}
-        >
-          {renderComponents({ components: items, kind })}
-        </AutoPlaySwipeableViews>
+      <section {...propsForParent}>
+        <div {...propsForChild}>
+          <AutoPlaySwipeableViews
+            autoplay={autoplay}
+          >
+            {renderComponents({ components: items })}
+          </AutoPlaySwipeableViews>
+        </div>
       </section>
     )
   }

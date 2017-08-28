@@ -16,8 +16,8 @@ class Buttons extends Component {
   handleButton2 = () => this.handleNavType(this.props.button2Link)
   render() {
     const {
-      button1Background,
-      button2Background,
+      button1BackgroundColor,
+      button2BackgroundColor,
       button1Color,
       button2Color,
       button1Link,
@@ -36,7 +36,7 @@ class Buttons extends Component {
         }}
       >
         <RaisedButton
-          backgroundColor={button1Background}
+          backgroundColor={button1BackgroundColor}
           label={button1Text}
           labelColor={button1Color}
           onTouchTap={this.handleButton1}
@@ -44,7 +44,7 @@ class Buttons extends Component {
         />
         {button2Text &&
           <RaisedButton
-            backgroundColor={button2Background}
+            backgroundColor={button2BackgroundColor}
             label={button2Text}
             labelColor={button2Color}
             onTouchTap={this.handleButton2}
@@ -57,8 +57,8 @@ class Buttons extends Component {
 }
 
 Buttons.propTypes = {
-  button1Background: PropTypes.string,
-  button2Background: PropTypes.string,
+  button1BackgroundColor: PropTypes.string,
+  button2BackgroundColor: PropTypes.string,
   button1Color: PropTypes.string,
   button2Color: PropTypes.string,
   button1Link: PropTypes.string,

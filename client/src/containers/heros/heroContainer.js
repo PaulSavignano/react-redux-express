@@ -4,7 +4,52 @@ import { connect } from 'react-redux'
 
 const heroContainer = (ComposedComponent) => {
   class HeroContainer extends Component {
+    state = {
+      propsForParent: null,
+      propsForChild: null
+    }
+    handleProps = (item) => {
+      const { alignItems, marginTop, minHeight } = this.props.heroStyle.values
+      console.log('minHeight', minHeight)
+      const {
+        _id,
+        backgroundImage,
+        values: {
+          backgroundColor,
+        }
+      } = item
+      const propsForParent = {
+        style: {
+          alignItems,
+          backgroundImage: backgroundImage.src && `url(${backgroundImage.src})`,
+          backgroundColor,
+          display: 'flex',
+          flex: '1 1 auto',
+          justifyContent: 'center',
+          marginTop,
+          minHeight
+        },
+        className: backgroundImage.src ? 'hero background-image' : 'hero'
+      }
+      const propsForChild = {
+        style: {
+          margin: '0 auto',
+          backgroundColor: 'transparent'
+        }
+      }
+      this.setState({ propsForParent, propsForChild })
+    }
+    componentWillMount() {
+      this.handleProps(this.props.item)
+    }
+    componentWillReceiveProps(nextProps) {
+      this.handleProps(nextProps.item)
+    }
     render() {
+      const {
+        propsForParent,
+        propsForChild
+      } = this.state
       const {
         heroStyle,
         dispatch,
@@ -24,6 +69,8 @@ const heroContainer = (ComposedComponent) => {
         hasMedia,
         hasParagraph,
         item,
+        propsForParent,
+        propsForChild,
         typography
       }
       return (

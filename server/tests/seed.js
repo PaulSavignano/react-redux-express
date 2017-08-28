@@ -10,7 +10,7 @@ export const productSeeds = [
 ]
 
 export const populateProducts = (done) => {
-  ProductModel.remove({}).then(() => {
+  ProductModel.findOneAndDelete({}).then(() => {
     const productOne = new ProductModel(productSeeds[0]).save()
     const productTwo = new ProductModel(productSeeds[1]).save()
     return Promise.all([productOne, productTwo])
@@ -24,7 +24,7 @@ export const cartSeeds = [
 ]
 
 export const populateCarts = (done) => {
-  CartModel.remove({})
+  CartModel.findOneAndDelete({})
     .then(() => CartModel.insertMany(cartSeeds))
     .then(() => done())
 }

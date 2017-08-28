@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import sectionContainer from '../../containers/sections/sectionContainer'
 import AdminSectionAdd from './AdminSectionAdd'
+import renderAdminComponents from './renderAdminComponents'
 import { fetchUpdate, fetchDelete } from '../../actions/sections'
 import { fetchAdd } from '../../actions/cards'
 import { startEdit } from '../../actions/editItem'
-
-import sectionContainer from '../../containers/sections/sectionContainer'
-import renderAdminComponents from './renderAdminComponents'
 
 class AdminSection extends Component {
   handleStartEdit = (e) => {
@@ -19,37 +18,23 @@ class AdminSection extends Component {
   render() {
     const {
       dispatch,
-      pageId,
-      pageSlug,
       item: {
         _id,
-        items,
-        image,
-        kind,
-        values
-      }
+        items
+      },
+      pageId,
+      pageSlug,
+      propsForParent,
+      propsForChild,
     } = this.props
-    const backgroundColor = values && values.backgroundColor
-    const pageLink = values && values.pageLink
-    const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
-    const backgroundImageClass = image && image.src && { className: 'background-image' }
     return (
       <section
-        id={pageLink}
         onTouchTap={this.handleStartEdit}
-        style={{
-          ...backgroundImage,
-          backgroundColor,
-          width: '100%',
-          overflow: 'hidden',
-          position: 'relative',
-          minHeight: 70,
-          display: 'flex'
-        }}
-        {...backgroundImageClass}
-        className="admin-section"
+        {...propsForParent}
       >
-        {renderAdminComponents({ components: items, pageSlug })}
+        <div {...propsForChild}>
+          {renderAdminComponents({ components: items, pageSlug })}
+        </div>
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd
             dispatch={dispatch}
@@ -70,7 +55,9 @@ class AdminSection extends Component {
 
 AdminSection.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  pageId: PropTypes.string.isRequired,
+  pageSlug: PropTypes.string.isRequired
 }
 
 export default sectionContainer(AdminSection)

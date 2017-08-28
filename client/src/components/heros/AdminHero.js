@@ -26,9 +26,9 @@ class AdminHero extends Component {
       heroStyle: {
         values: {
           button1Color,
-          button1Background,
           button2Color,
-          button2Background,
+          button1BackgroundColor,
+          button2BackgroundColor,
           h1Align,
           h1Color,
           h1TextShadow,
@@ -38,8 +38,9 @@ class AdminHero extends Component {
           h3Align,
           h3Color,
           h3TextShadow,
-          marginTop,
+          mediaBorder,
           mediaElevation,
+          minHeight,
         }
       },
       dispatch,
@@ -57,38 +58,26 @@ class AdminHero extends Component {
           button1Link,
           button2Text,
           button2Link,
-          flex,
-          flexFlow,
           h1Text,
           h2Text,
           h3Text,
-          justifyContent,
           iframe,
-          mediaAlign,
-          mediaBorder,
-          mediaFlex,
           pText
         }
-      }
+      },
+      propsForParent,
+      propsForChild
     } = this.props
-    const backgroundImage = image && image.src && { backgroundImage: `url(${image.src})`,   transition: 'all 600ms ease-in-out' }
-    const backgroundImageClass = image && image.src && { className: 'background-image' }
     return (
       <div
+        id="this is the div that should have props"
         onTouchTap={this.handleStartEdit}
-        style={{
-          ...backgroundImage,
-          backgroundColor,
-          marginTop,
-          flexFlow,
-          justifyContent
-        }}
-        {...backgroundImageClass}
+        {...propsForParent}
       >
         <Card
           zDepth={0}
           onTouchTap={this.handleStartEdit}
-          style={{ flex, margin: '0 auto' }}
+          {...propsForChild}
           className="hero"
         >
           {hasMedia &&
@@ -116,8 +105,8 @@ class AdminHero extends Component {
           {hasParagraph && <P>{renderHTML(pText)}</P>}
           {hasButtons &&
             <Buttons
-              button1Background={button1Background}
-              button2Background={button2Background}
+              button1BackgroundColor={button1BackgroundColor}
+              button2BackgroundColor={button2BackgroundColor}
               button1Color={button1Color}
               button2Color={button2Color}
               button1Link={button1Link}

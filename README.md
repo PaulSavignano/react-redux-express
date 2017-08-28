@@ -10,13 +10,7 @@ Demo: https://react-redux-express-mongo.herokuapp.com/
 - Stripe
 
 # Configurable Components
-- Button
+- Article
 - Card
-- Carousel
-- Iframe
-- Image
-- Page
+- Hero
 - Product
-- Section
-- Text
-- Title

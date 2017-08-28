@@ -35,7 +35,7 @@ class Reset extends Component {
   render() {
     const { error, dispatch, handleSubmit, submitting, params, user } = this.props
     return (
-      <section className="page-height section-width">
+      <section className="page-height page-padding section-width">
         <Card>
           <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
           <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">

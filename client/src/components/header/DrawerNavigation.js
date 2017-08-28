@@ -54,7 +54,6 @@ class DrawerNavigation extends Component {
       isAdmin,
       pages
     } = this.props
-    console.log(pages)
     const adminPages = pages.map(page => (
       <DrawerAdminPageLink
         dispatch={dispatch}

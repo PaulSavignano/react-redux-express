@@ -18,6 +18,7 @@ class DrawerAdminPageLink extends Component {
         key={_id}
         primaryText={name}
         onTouchTap={this.handleNavigation}
+        innerDivStyle={{ marginLeft: 36 }}
       />
     )
   }

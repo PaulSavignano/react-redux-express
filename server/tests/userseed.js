@@ -25,7 +25,7 @@ export const userSeeds = [{
 }]
 
 export const populateUsers = (done) => {
-  UserModel.remove({})
+  UserModel.findOneAndDelete({})
     .then(() => {
       const userOne = new UserModel(userSeeds[0]).save()
       const userTwo = new UserModel(userSeeds[1]).save()

@@ -18,7 +18,6 @@ import orders from './routes/orders'
 import pages from './routes/pages'
 import products from './routes/products'
 import sections from './routes/sections'
-import views from './routes/views'
 import users from './routes/users'
 
 const app = express()
@@ -36,7 +35,6 @@ app.use('/api/orders', orders)
 app.use('/api/pages', pages)
 app.use('/api/products', products)
 app.use('/api/sections', sections)
-app.use('/api/views', views)
 app.use('/api/users', users)
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))

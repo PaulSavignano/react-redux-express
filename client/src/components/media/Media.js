@@ -6,8 +6,6 @@ const Media = ({
   image,
   iframe
 }) => {
-  console.log('made it to Media')
-  console.log(iframe)
   return (
     image.src ?
     <CardMedia>

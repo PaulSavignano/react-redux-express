@@ -37,7 +37,7 @@ class Recovery extends Component {
     const { dispatch, error, handleSubmit, submitting, isFetching } = this.props
     return (
       isFetching ? null :
-      <section className="page-height section-width">
+      <section className="page-height page-padding section-width">
         <Card>
           <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
           <form onSubmit={handleSubmit(values => {

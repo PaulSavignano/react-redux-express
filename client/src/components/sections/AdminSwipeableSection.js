@@ -23,28 +23,34 @@ class AdminSwipeableSection extends Component {
     const {
       autoplay,
       dispatch,
-      item: { items, kind, values },
+      item: {
+        _id,
+        items
+      },
       pageId,
       pageSlug,
+      propsForParent,
+      propsForChild,
     } = this.props
-    const backgroundColor = values && values.backgroundColor
-    const pageLink = values && values.pageLink
     return (
       <section
         onTouchTap={this.handleStartEdit}
-        className="swipeable-section"
-        style={{ width: '100%', overflow: 'hidden', position: 'relative', minHeight: 60 }}
+        {...propsForParent}
       >
         <AutoPlaySwipeableViews
+          id="swipeableviewbaby"
           autoplay={autoplay}
+          slideStyle={propsForChild}
         >
-          {renderAdminComponents({ components: items, kind, pageSlug })}
+          {renderAdminComponents({ components: items, pageSlug })}
         </AutoPlaySwipeableViews>
+
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd
             dispatch={dispatch}
             pageId={pageId}
             pageSlug={pageSlug}
+            sectionId={_id}
           />
           <RaisedButton
             label="Edit Section"

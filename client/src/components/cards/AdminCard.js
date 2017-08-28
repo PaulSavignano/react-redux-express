@@ -27,11 +27,12 @@ class AdminCard extends Component {
     const {
       cardStyle: {
         values: {
+          button1BackgroundColor,
+          button2BackgroundColor,
           button1Color,
-          button1Background,
           button2Color,
-          button2Background,
           elevation,
+          flex,
           h1Align,
           h1Color,
           h1TextShadow,
@@ -42,6 +43,8 @@ class AdminCard extends Component {
           h3Color,
           h3TextShadow,
           margin,
+          mediaBorder,
+          width
         }
       },
       cursor,
@@ -60,14 +63,12 @@ class AdminCard extends Component {
           button1Link,
           button2Text,
           button2Link,
-          flex,
           h1Text,
           h2Text,
           h3Text,
           iframe,
-          mediaAlign,
-          mediaBorder,
-          pText
+          link,
+          pText,
         }
       }
     } = this.props
@@ -75,7 +76,7 @@ class AdminCard extends Component {
       <Card
         {...events}
         onTouchTap={this.handleStartEdit}
-        style={{ cursor, margin }}
+        style={{ cursor, flex, margin, width }}
         zDepth={elevation}
         id={_id}
         className="card"
@@ -105,8 +106,8 @@ class AdminCard extends Component {
         {hasParagraph && <P>{renderHTML(pText)}</P>}
         {hasButtons &&
           <Buttons
-            button1Background={button1Background}
-            button2Background={button2Background}
+            button1BackgroundColor={button1BackgroundColor}
+            button2BackgroundColor={button2BackgroundColor}
             button1Color={button1Color}
             button2Color={button2Color}
             button1Link={button1Link}

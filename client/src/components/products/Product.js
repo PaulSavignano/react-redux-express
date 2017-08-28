@@ -25,14 +25,21 @@ class Product extends Component {
         }
       },
       productStyle: {
-        margin
+        values: {
+          descriptionColor,
+          detailColor,
+          flex,
+          nameColor,
+          nameTextShadow,
+          margin,
+        }
       }
     } = this.props
     return (
       <Card
         {...events}
         zDepth={elevation}
-        style={{ margin }}
+        style={{ flex, margin }}
         id={_id}
         className="product"
       >
@@ -42,13 +49,27 @@ class Product extends Component {
           </CardMedia>
         }
         <CardTitle title={
-          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexFlow: 'row wrap',
+              justifyContent: 'space-between',
+              color: nameColor,
+              textShadow: nameTextShadow
+            }}
+          >
             <div>{name}</div>
             <div>{formatPrice(price)}</div>
           </div>
         }
         />
-        <CardText>{description}</CardText>
+        <CardText
+          style={{
+            color: descriptionColor,
+          }}
+        >
+          {description}
+        </CardText>
         <ProductButtons
           dispatch={dispatch}
           form={`addToCard_${_id}`}
@@ -63,12 +84,8 @@ Product.propTypes = {
   dispatch: PropTypes.func.isRequired,
   elevation: PropTypes.number.isRequired,
   events: PropTypes.object,
-  hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
-  hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   productStyle: PropTypes.object.isRequired,
 }
 
-export default loadImage(Product)
+export default productContainer(Product)

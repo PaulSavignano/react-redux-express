@@ -14,11 +14,10 @@ import loadImage from '../images/loadImage'
 const Article = ({
   articleStyle: {
     values: {
+      button1BackgroundColor,
+      button2BackgroundColor,
       button1Color,
       button2Color,
-      button1Background,
-      button2Background,
-      mediaElevation,
       h1Align,
       h1Color,
       h1TextShadow,
@@ -27,7 +26,9 @@ const Article = ({
       h2TextShadow,
       h3Align,
       h3Color,
-      h3TextShadow
+      h3TextShadow,
+      mediaBorder,
+      mediaElevation,
     }
   },
   dispatch,
@@ -50,9 +51,8 @@ const Article = ({
       h3Text,
       iframe,
       mediaAlign,
-      mediaBorder,
       mediaFlex,
-      pText
+      pText,
     },
   }
 }) => {
@@ -90,20 +90,20 @@ const Article = ({
           </Paper>
         : null}
         {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
-        {hasButtons &&
-          <Buttons
-            button1Background={button1Background}
-            button2Background={button2Background}
-            button1Color={button1Color}
-            button2Color={button2Color}
-            button1Link={button1Link}
-            button2Link={button2Link}
-            button1Text={button1Text}
-            button2Text={button2Text}
-            dispatch={dispatch}
-          />
-        }
       </div>
+      {hasButtons &&
+        <Buttons
+          button1BackgroundColor={button1BackgroundColor}
+          button2BackgroundColor={button2BackgroundColor}
+          button1Color={button1Color}
+          button2Color={button2Color}
+          button1Link={button1Link}
+          button2Link={button2Link}
+          button1Text={button1Text}
+          button2Text={button2Text}
+          dispatch={dispatch}
+        />
+      }
     </article>
   )
 }

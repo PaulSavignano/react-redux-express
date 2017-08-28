@@ -327,9 +327,7 @@ export const updatePalette = (req, res) => {
 export const remove = (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send()
-  Brand.findOne(
-    { _id }
-  )
+  Brand.findOneAndRemove({ _id })
   .then(_id => res.send(_id))
   .catch(error => {
     console.error(error)

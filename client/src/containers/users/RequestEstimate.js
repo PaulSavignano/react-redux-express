@@ -48,7 +48,7 @@ class RequestEstimate extends Component {
   render() {
     const { dispatch, error, handleSubmit, submitting } = this.props
     return (
-      <section className="page-height section-width">
+      <section className="page-height page-padding section-width">
         <Card>
           <CardTitle title="Request Estimate" subtitle="Enter your information" />
           <form onSubmit={handleSubmit(values => dispatch(fetchRequestEstimate(values)))} >

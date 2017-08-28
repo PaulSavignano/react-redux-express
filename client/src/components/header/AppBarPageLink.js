@@ -46,7 +46,7 @@ class AppBarPageLink extends Component {
       page,
       pathname,
     } = this.props
-    const pageSectionLinks = page.sections.filter(section => section.section.values.pageLink)
+    const pageSectionLinks = page.sections.filter(section => section.values.pageLink)
     const activeStyle = pathname === `/${page.slug}` && { borderBottom: '2px solid' }
     return (
       <div>
@@ -56,7 +56,7 @@ class AppBarPageLink extends Component {
           style={{ color, minWidth: 'none', margin: '0 16px' }}
           labelStyle={{ padding: '0 0 2px 0', fontFamily, ...activeStyle }}
           onTouchTap={() => dispatch(push(`/${page.slug}`))}
-          label={page.name}
+          label={page.values.name}
           hoverColor="none"
         />
         {pageSectionLinks.length ?

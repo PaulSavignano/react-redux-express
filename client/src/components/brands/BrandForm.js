@@ -39,6 +39,9 @@ class BrandForm extends Component {
     }
     return dispatch(fetchUpdate(path, { type: 'UPDATE_VALUES', values }))
   }
+  handleNumberToString = value => {
+    if (value) return value.toString()
+  }
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   render() {
     const {
@@ -76,8 +79,7 @@ class BrandForm extends Component {
           }
           <div className="field-container">
             {fields.map(({ name, type, options }) => {
-              const numberToString = value => value && value.toString()
-              const normalizeNumber = type === 'number' ? { normalize: numberToString } : null
+              const normalizeNumber = type === 'number' ? { normalize: this.handleNumberToString() } : null
               return (
                 type === 'select' ?
                   <Field

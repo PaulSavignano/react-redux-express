@@ -15,6 +15,16 @@ const ProductPage = ({
     _id,
     image,
     values: { description, detail, name, price }
+  },
+  productStyle: {
+    values: {
+      descriptionColor,
+      detailColor,
+      flex,
+      nameColor,
+      nameTextShadow,
+      margin,
+    }
   }
 }) => (
   <Paper
@@ -28,10 +38,16 @@ const ProductPage = ({
       </Paper>
       <Card style={{ flex: '1 1 300px', margin: '8px 16px' }} zDepth={0}>
         <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
-          <CardTitle title={name} subtitle={description} />
+          <CardTitle
+            title={name}
+            titleColor={nameColor}
+            titleStyle={nameTextShadow}
+            subtitle={description}
+            subtitleColor={descriptionColor}
+          />
           <CardTitle title={formatPrice(price)} />
         </div>
-        <CardText>{renderHTML(detail)}</CardText>
+        <CardText style={{ color: detailColor }}>{renderHTML(detail)}</CardText>
         <CardActions>
           <ProductButtons
             dispatch={dispatch}

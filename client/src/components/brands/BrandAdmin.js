@@ -24,10 +24,10 @@ const formFields = [{
 }, {
   name: 'articleStyle',
   fields: [
+    { name: 'button1BackgroundColor', type: 'text' },
+    { name: 'button2BackgroundColor', type: 'text' },
     { name: 'button1Color', type: 'text' },
     { name: 'button2Color', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
     { name: 'h1Align', type: 'select', options: ['left', 'center', 'right'] },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
@@ -37,6 +37,8 @@ const formFields = [{
     { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
+    { name: 'mediaBorder', type: 'text' },
+    { name: 'mediaElevation', type: 'number' },
   ]
 }, {
   name: 'bodyStyle',
@@ -66,9 +68,12 @@ const formFields = [{
 }, {
   name: 'cardStyle',
   fields: [
-    { name: 'buttonColor', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
+    { name: 'button1BackgroundColor', type: 'text' },
+    { name: 'button2BackgroundColor', type: 'text' },
+    { name: 'button1Color', type: 'text' },
+    { name: 'button2Color', type: 'text' },
+    { name: 'elevation', type: 'number' },
+    { name: 'flex', type: 'number' },
     { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
@@ -77,7 +82,10 @@ const formFields = [{
     { name: 'h2TextShadow', type: 'text' },
     { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' }
+    { name: 'h3TextShadow', type: 'text' },
+    { name: 'margin', type: 'text' },
+    { name: 'mediaBorder', type: 'text' },
+    { name: 'width', type: 'text' }
   ]
 }, {
   name: 'footer',
@@ -91,15 +99,24 @@ const formFields = [{
 }, {
   name: 'heroStyle',
   fields: [
-    { name: 'buttonColor', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
+    { name: 'alignItems', type: 'select', options: [ 'flex-start', 'center', 'flex-end' ] },
+    { name: 'button1BackgroundColor', type: 'text' },
+    { name: 'button2BackgroundColor', type: 'text' },
+    { name: 'button1Color', type: 'text' },
+    { name: 'button2Color', type: 'text' },
+    { name: 'h1Align', type: 'text' },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
+    { name: 'h2Align', type: 'text' },
     { name: 'h2Color', type: 'text' },
     { name: 'h2TextShadow', type: 'text' },
+    { name: 'h3Align', type: 'text' },
     { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' }
+    { name: 'h3TextShadow', type: 'text' },
+    { name: 'marginTop', type: 'text' },
+    { name: 'mediaBorder', type: 'text' },
+    { name: 'mediaElevation', type: 'number' },
+    { name: 'minHeight', type: 'text' },
   ]
 }, {
   name: 'palette',
@@ -122,18 +139,12 @@ const formFields = [{
 }, {
   name: 'productStyle',
   fields: [
-    { name: 'buttonColor', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h1Color', type: 'text' },
-    { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h2Color', type: 'text' },
-    { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' },
+    { name: 'descriptionColor', type: 'text' },
+    { name: 'detailColor', type: 'text' },
+    { name: 'flex', type: 'text' },
+    { name: 'nameColor', type: 'text' },
+    { name: 'nameTextShadow', type: 'text' },
+    { name: 'margin', type: 'text' },
   ]
 }, {
   name: 'theme',
@@ -158,22 +169,6 @@ const formFields = [{
     { name: 'h3FontWeight', type: 'text' },
     { name: 'h3LetterSpacing', type: 'text' }
   ]
-}, {
-  name: 'viewStyle',
-  fields: [
-    { name: 'buttonColor', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
-    { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h1Color', type: 'text' },
-    { name: 'h1TextShadow', type: 'text' },
-    { name: 'h2Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h2Color', type: 'text' },
-    { name: 'h2TextShadow', type: 'text' },
-    { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
-    { name: 'h3Color', type: 'text' },
-    { name: 'h3TextShadow', type: 'text' },
-  ]
 }]
 
 const BrandAdmin = ({
@@ -190,11 +185,9 @@ const BrandAdmin = ({
     productStyle,
     theme,
     typography,
-    viewStyle
   },
   dispatch
 }) => {
-  console.log(theme.values)
   const forms = [
     appBar,
     articleStyle,
@@ -207,10 +200,9 @@ const BrandAdmin = ({
     productStyle,
     theme,
     typography,
-    viewStyle
   ]
   return (
-    <section className="page-height section-width">
+    <section className="page-height page-padding section-width">
       {forms.map((form, i) => {
         const { values, image } = form
         return (

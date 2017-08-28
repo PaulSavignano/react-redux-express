@@ -46,7 +46,6 @@ export const update = (req, res) => {
     type,
     values
   } = req.body
-  console.log('type', type, 'values', values)
   const Key = `${process.env.APP_NAME}/page-${pageSlug}/section-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
@@ -124,13 +123,20 @@ export const update = (req, res) => {
 export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Section.remove({ _id })
+  Section.findOneAndRemove({ _id })
   .then(doc => {
-    Page.find({ _id: doc.page })
-    .then(page => res.send({ page }))
-    .catch(err => {
-      console.error(err)
-      res.status(400).send()
+    Page.findOneAndUpdate(
+      { _id: doc.page },
+      { $pull: { sections: doc._id }},
+      { new: true }
+    )
+    .then(page => {
+      Page.findOne({ _id: page._id })
+      .then(page => res.send({ page }))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
     })
   })
   .catch(err => {

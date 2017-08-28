@@ -40,7 +40,6 @@ export const fetchAdd = (add) => {
 
 // Update
 export const fetchUpdate = (_id, update) => {
-  console.log(_id)
   return (dispatch, getState) => {
     return fetch(`/api/${route}/${_id}`, {
       method: 'PATCH',

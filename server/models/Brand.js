@@ -21,10 +21,10 @@ const BrandSchema = new Schema({
   },
   articleStyle: {
     values: {
+      button1BackgroundColor: { type: String, trim: true },
+      button2BackgroundColor: { type: String, trim: true },
       button1Color: { type: String, trim: true },
       button2Color: { type: String, trim: true },
-      button1Background: { type: String, trim: true },
-      button2Background: { type: String, trim: true },
       h1Align: { type: String, trim: true, default: 'center' },
       h1Color: { type: String, trim: true },
       h1TextShadow: { type: String, trim: true },
@@ -34,8 +34,8 @@ const BrandSchema = new Schema({
       h3Align: { type: String, trim: true, default: 'center' },
       h3Color: { type: String, trim: true },
       h3TextShadow: { type: String, trim: true },
-      mediaElevation: { type: Number, trim: true, default: 2 },
-      mediaBorder: { type: String, trim: true }
+      mediaBorder: { type: String, trim: true },
+      mediaElevation: { type: Number, trim: true, default: 2 }
     }
   },
   bodyStyle: {
@@ -66,10 +66,10 @@ const BrandSchema = new Schema({
   },
   cardStyle: {
     values: {
+      button1BackgroundColor: { type: String, trim: true },
+      button2BackgroundColor: { type: String, trim: true },
       button1Color: { type: String, trim: true },
       button2Color: { type: String, trim: true },
-      button1Background: { type: String, trim: true },
-      button2Background: { type: String, trim: true },
       elevation: { type: Number, trim: true, default: 1 },
       flex: { type: String, trim: true, default: '1 1 auto' },
       h1Align: { type: String, trim: true, default: 'center' },
@@ -82,7 +82,8 @@ const BrandSchema = new Schema({
       h3Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .5)' },
       h3TextShadow: { type: String, trim: true },
       margin: { type: String, trim: true, default: '16px' },
-      mediaBorder: { type: String, trim: true }
+      mediaBorder: { type: String, trim: true },
+      width: { type: String, trim: true },
     }
   },
   footer: {
@@ -101,20 +102,24 @@ const BrandSchema = new Schema({
   },
   heroStyle: {
     values: {
+      alignItems: { type: String, trim: true, default: 'center' },
       button1Color: { type: String, trim: true },
       button2Color: { type: String, trim: true },
-      button1Background: { type: String, trim: true },
-      button2Background: { type: String, trim: true },
+      button1BackgroundColor: { type: String, trim: true },
+      button2BackgroundColor: { type: String, trim: true },
+      h1Align: { type: String, trim: true, default: 'center' },
       h1Color: { type: String, trim: true },
       h1TextShadow: { type: String, trim: true },
+      h2Align: { type: String, trim: true, default: 'center' },
       h2Color: { type: String, trim: true },
       h2TextShadow: { type: String, trim: true },
+      h3Align: { type: String, trim: true, default: 'center' },
       h3Color: { type: String, trim: true },
       h3TextShadow: { type: String, trim: true },
       marginTop: { type: String, trim: true },
       mediaBorder: { type: String, trim: true },
       mediaElevation: { type: Number, trim: true, default: 2 },
-      minHeight: { type: String, trim: true }
+      minHeight: { type: String, trim: true, default: '80vh' }
     }
   },
   palette: {
@@ -134,6 +139,16 @@ const BrandSchema = new Schema({
       pickerHeaderColor: { type: String, trim: true, default: '#00BCD4' },
       clockCircleColor: { type: String, trim: true, default: 'rgba(0, 0, 0, .7)' },
       shadowColor: { type: String, trim: true, default: 'rgba(0, 0, 0, 1)' }
+    }
+  },
+  productStyle: {
+    values: {
+      descriptionColor: { type: String, trim: true },
+      detailColor: { type: String, trim: true },
+      flex: { type: String, trim: true, default: '1 1 auto' },
+      nameColor: { type: String, trim: true },
+      nameTextShadow: { type: String, trim: true },
+      margin: { type: String, trim: true, default: '16px' },
     }
   },
   theme: {
@@ -186,16 +201,14 @@ const BrandSchema = new Schema({
   timestamps: true
 })
 
-BrandSchema.pre('remove', function(next) {
-  const brand = this
-  const { appBar, footer } = brand
-  if (brand.image && brand.image.src) {
-    deleteFile({ Key: brand.image.src }).catch(err => console.error(err))
+BrandSchema.post('findOneAndRemove', function(doc) {
+  const { appBar, footer } = doc
+  if (appBar.image.src) {
+    deleteFile({ Key: appBar.image.src }).catch(err => console.error(err))
   }
-  if (footer.image && footer.image.src) {
+  if (footer.image.src) {
     deleteFile({ Key: footer.image.src }).catch(err => console.error(err))
   }
-  next()
 })
 
 const Brand = mongoose.model('Brand', BrandSchema)

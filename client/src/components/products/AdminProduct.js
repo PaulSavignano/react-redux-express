@@ -32,7 +32,14 @@ class AdminProduct extends Component {
         }
       },
       productStyle: {
-        margin
+        values: {
+          descriptionColor,
+          detailColor,
+          flex,
+          nameColor,
+          nameTextShadow,
+          margin,
+        }
       }
     } = this.props
     return (
@@ -40,8 +47,7 @@ class AdminProduct extends Component {
         {...events}
         zDepth={elevation}
         onTouchTap={this.handleStartEdit}
-        style={{ margin }}
-        id={_id}
+        style={{ flex, margin }}
         className="product"
       >
         {image && image.src &&
@@ -50,13 +56,27 @@ class AdminProduct extends Component {
           </CardMedia>
         }
         <CardTitle title={
-          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexFlow: 'row wrap',
+              justifyContent: 'space-between',
+              color: nameColor,
+              textShadow: nameTextShadow
+            }}
+          >
             <div>{name}</div>
             <div>{formatPrice(price)}</div>
           </div>
         }
         />
-        <CardText>{description}</CardText>
+        <CardText
+          style={{
+            color: descriptionColor,
+          }}
+        >
+          {description}
+        </CardText>
         <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
           <RaisedButton label="-" primary={true} labelStyle={{ fontSize: '24px' }} />
           <TextField
@@ -81,12 +101,8 @@ AdminProduct.propTypes = {
   dispatch: PropTypes.func.isRequired,
   elevation: PropTypes.number.isRequired,
   events: PropTypes.object,
-  hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
-  hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired,
   productStyle: PropTypes.object.isRequired,
 }
 
-export default loadImage(AdminProduct)
+export default productContainer(AdminProduct)

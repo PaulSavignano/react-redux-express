@@ -15,24 +15,21 @@ const SectionSchema = new Schema({
   page: { type: Schema.ObjectId, ref: 'Page' },
   pageSlug: { type: String, trim: true },
   values: {
-    kind: { type: String, trim: true, default: 'Flex' },
+    alignItems: { type: String, trim: true },
     backgroundColor: { type: String, trim: true },
-    justifyContent: { type: String, trim: true, default: 'space-between' },
+    containerMarginTop: { type: String, trim: true },
     flexFlow: { type: String, trim: true, default: 'row wrap' },
-    maxWidth: { type: String, trim: true },
+    justifyContent: { type: String, trim: true, default: 'space-between' },
+    kind: { type: String, trim: true, default: 'Flex' },
+    margin: { type: String, trim: true, default: '0 auto' },
+    maxWidth: { type: String, trim: true, default: '1044px' },
+    minHeight: { type: String, trim: true, default: '72px' },
     pageLink: { type: String, trim: true }
   }
 }, {
   timestamps: true
 })
 
-SectionSchema.post('save', function(doc) {
-  this.model('Page').update(
-    { _id: doc.page },
-    { $push: { sections: doc._id }},
-    { new: true }
-  )
-})
 
 SectionSchema.pre('remove', function(next) {
   if (this.image && this.image.src) {
@@ -47,19 +44,16 @@ SectionSchema.pre('remove', function(next) {
     switch(item.kind) {
       case 'Article':
         return Article.remove({ _id: { $in: this.items.item }})
-        .catch(err => console.error(err))
+        .catch(error => console.error({ error }))
       case 'Card':
         return Card.remove({ _id: { $in: this.items.item }})
-        .catch(err => console.error(err))
+        .catch(error => console.error({ error }))
       case 'Hero':
         return Hero.remove({ _id: { $in: this.items.item }})
-        .catch(err => console.error(err))
+        .catch(error => console.error({ error }))
       case 'Product':
         return Product.remove({ _id: { $in: this.items.item }})
-        .catch(err => console.error(err))
-      case 'View':
-        return View.remove({ _id: { $in: this.items.item }})
-        .catch(err => console.error(err))
+        .catch(error => console.error({ error }))
       default:
         return
     }

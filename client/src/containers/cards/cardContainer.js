@@ -45,7 +45,6 @@ const cardContainer = (ComposedComponent) => {
         cursor,
         typography
       }
-      console.log(props)
       return (
         isFetching ? null : <ComposedComponent {...props} />
       )

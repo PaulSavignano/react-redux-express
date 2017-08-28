@@ -142,13 +142,20 @@ export const update = (req, res) => {
 export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Card.remove({ _id })
+  Card.findOneAndRemove({ _id })
   .then(doc => {
-    Page.findOne({ _id: doc.page })
-    .then(page => res.send({ page }))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
+    Section.findOneAndUpdate(
+      { _id: doc.section },
+      { $pull: { items: { kind: 'Card', item: doc._id }}},
+      { new: true }
+    )
+    .then(section => {
+      Page.findOne({ _id: section.page })
+      .then(page => res.send({ page }))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
     })
   })
   .catch(error => {

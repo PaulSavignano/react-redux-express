@@ -3,12 +3,14 @@ import moment from 'moment'
 
 import Page from '../models/Page'
 import Product from '../models/Product'
+import Section from '../models/Section'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
+  console.log('adding', req.body)
   const { pageId, pageSlug, sectionId } = req.body
   const newDoc = new Product({
-    page: ObjectID(pageSlug),
+    page: ObjectID(pageId),
     pageSlug,
     section: ObjectID(sectionId),
     image: null,
@@ -16,7 +18,7 @@ export const add = (req, res) => {
   })
   newDoc.save()
   .then(doc => {
-    ProductSection.findOneAndUpdate(
+    Section.findOneAndUpdate(
       { _id: doc.section },
       { $push: { items: { kind: 'Product', item: doc._id }}},
       { new: true }
@@ -141,13 +143,20 @@ export const update = (req, res) => {
 export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Product.remove({ _id })
+  Product.findOneAndRemove({ _id })
   .then(doc => {
-    Page.findOne({ _id: doc.page })
-    .then(page => res.send({ page }))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
+    Section.findOneAndUpdate(
+      { _id: doc.section },
+      { $pull: { items: { kind: 'Product', item: doc._id }}},
+      { new: true }
+    )
+    .then(section => {
+      Page.findOne({ _id: section.page })
+      .then(page => res.send({ page }))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
     })
   })
   .catch(error => {

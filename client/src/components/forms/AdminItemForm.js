@@ -91,6 +91,9 @@ class AdminItemForm extends Component {
     return dispatch(fetchDelete(_id))
   }
   handleStopEdit = () => this.props.dispatch(stopEdit())
+  handleNumberToString = value => {
+    if (value) return value.toString()
+  }
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
@@ -171,42 +174,46 @@ class AdminItemForm extends Component {
             />
           }
           <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
-            {this.findForm().fields.map(({ name, type, options }) => (
-              type === 'select' ?
+            {this.findForm().fields.map(({ name, type, options }) => {
+              const normalizeNumber = type === 'number' ? { normalize: this.handleNumberToString() } : null
+              return (
+                type === 'select' ?
+                  <Field
+                    key={name}
+                    className="field"
+                    component={renderSelectField}
+                    label={name}
+                    name={name}
+                  >
+                    {options.map(option => (
+                      <MenuItem
+                        key={option}
+                        value={option}
+                        primaryText={option}
+                      />
+                    ))}
+                  </Field>
+                : type === 'wysiwgy' ?
+                  <Field
+                    className="field"
+                    component={renderWysiwgyField}
+                    key={name}
+                    label={name}
+                    name={name}
+                    type={type}
+                  />
+                :
                 <Field
-                  key={name}
                   className="field"
-                  component={renderSelectField}
-                  label={name}
-                  name={name}
-                >
-                  {options.map(option => (
-                    <MenuItem
-                      key={option}
-                      value={option}
-                      primaryText={option}
-                    />
-                  ))}
-                </Field>
-              : type === 'wysiwgy' ?
-                <Field
-                  className="field"
-                  component={renderWysiwgyField}
+                  component={renderTextField}
                   key={name}
                   label={name}
                   name={name}
                   type={type}
+                  {...normalizeNumber}
                 />
-              :
-              <Field
-                className="field"
-                component={renderTextField}
-                key={name}
-                label={name}
-                name={name}
-                type={type}
-              />
-            ))}
+              )
+            })}
           </div>
         </form>
         {error && <div className="error">{error}</div>}
