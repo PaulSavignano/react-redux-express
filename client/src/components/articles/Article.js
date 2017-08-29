@@ -52,6 +52,7 @@ const Article = ({
       iframe,
       mediaAlign,
       mediaFlex,
+      pFlex,
       pText,
     },
   }
@@ -82,7 +83,7 @@ const Article = ({
       }
       <div style={{ display: 'flex', flexFlow }}>
         {hasParagraph && mediaAlign === 'right' ?
-          <P>{renderHTML(pText)}</P>
+          <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
         : null}
         {hasMedia ?
           <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
@@ -93,7 +94,7 @@ const Article = ({
           </Paper>
         : null}
         {hasParagraph && mediaAlign === 'left' ?
-          <P>{renderHTML(pText)}</P>
+          <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
         : null}
       </div>
       {hasButtons &&

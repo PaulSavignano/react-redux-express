@@ -19,7 +19,6 @@ const adminItemForms = [{
     { name: 'button1Link', type: 'text' },
     { name: 'button2Text', type: 'text' },
     { name: 'button2Link', type: 'text' },
-    { name: 'flex', type: 'text' },
     { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse' ] },
     { name: 'h1Text', type: 'text' },
     { name: 'h2Text', type: 'text' },
@@ -28,6 +27,7 @@ const adminItemForms = [{
     { name: 'mediaAlign', type: 'select', options: [ 'right', 'left' ] },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaFlex', type: 'text' },
+    { name: 'pFlex', type: 'text' },
     { name: 'pText', type: 'wysiwgy' },
   ]
 }, {

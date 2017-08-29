@@ -11,7 +11,6 @@ const P = ({
   <div
     style={{
       color: textColor,
-      flex: '1 1 auto',
       fontFamily,
       overflow: 'hidden'
     }}

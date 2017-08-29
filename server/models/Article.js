@@ -23,6 +23,7 @@ const ArticleSchema = new Schema({
     iframe: { type: String, trim: true },
     mediaAlign: { type: String, trim: true, default: 'right' },
     mediaFlex: { type: String, trim: true, default: '1 1 auto' },
+    pFlex: { type: String, trim: true, default: '1 1 500px'},
     pText: { type: String, trim: true, default: '<p>Paragraph</p>' },
   }
 }, {

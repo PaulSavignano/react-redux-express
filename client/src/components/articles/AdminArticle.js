@@ -71,6 +71,7 @@ class AdminArticle extends Component {
         iframe,
         mediaAlign,
         mediaFlex,
+        pFlex,
         pText,
       }
     } = item
@@ -104,7 +105,7 @@ class AdminArticle extends Component {
         }
         <div style={{ display: 'flex', flexFlow }}>
           {hasParagraph && mediaAlign === 'right' ?
-            <P>{renderHTML(pText)}</P>
+            <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
           : null}
           {hasMedia ?
             <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
@@ -116,7 +117,7 @@ class AdminArticle extends Component {
 
           : null}
           {hasParagraph && mediaAlign === 'left' ?
-            <P>{renderHTML(pText)}</P>
+            <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
           : null}
         </div>
         {hasButtons &&
