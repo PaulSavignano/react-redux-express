@@ -63,6 +63,7 @@ const Hero = ({
     <div {...propsForParent}>
       <Card
         id={_id}
+        zDepth={0}
         {...propsForChild}
         className="hero"
       >

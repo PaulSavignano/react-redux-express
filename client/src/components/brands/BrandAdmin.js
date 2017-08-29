@@ -73,7 +73,7 @@ const formFields = [{
     { name: 'button1Color', type: 'text' },
     { name: 'button2Color', type: 'text' },
     { name: 'elevation', type: 'number' },
-    { name: 'flex', type: 'number' },
+    { name: 'flex', type: 'text' },
     { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },
@@ -113,7 +113,6 @@ const formFields = [{
     { name: 'h3Align', type: 'text' },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
-    { name: 'marginTop', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
     { name: 'minHeight', type: 'text' },
@@ -202,24 +201,26 @@ const BrandAdmin = ({
     typography,
   ]
   return (
-    <section className="page-height page-padding section-width">
-      {forms.map((form, i) => {
-        const { values, image } = form
-        return (
-          <BrandForm
-            _id={_id}
-            backgroundColor={palette.values.canvasColor}
-            dispatch={dispatch}
-            key={i}
-            image={image}
-            fields={formFields[i].fields}
-            fontFamily={theme.values.fontFamily}
-            form={formFields[i].name}
-            initialValues={values}
-          />
-        )
-      })}
-    </section>
+    <div className="page">
+      <section className="section-margin">
+        {forms.map((form, i) => {
+          const { values, image } = form
+          return (
+            <BrandForm
+              _id={_id}
+              backgroundColor={palette.values.canvasColor}
+              dispatch={dispatch}
+              key={i}
+              image={image}
+              fields={formFields[i].fields}
+              fontFamily={theme.values.fontFamily}
+              form={formFields[i].name}
+              initialValues={values}
+            />
+          )
+        })}
+      </section>
+    </div>
   )
 }
 

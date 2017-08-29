@@ -3,9 +3,8 @@ body {
   margin: 0;
 }
 
-.section-width {
-  max-width: 1044px;
-  margin: 0 auto;
+.section-margin {
+  margin: 8px;
 }
 
 .vertical-card {
@@ -17,13 +16,13 @@ body {
   padding: 0 8px;
 }
 
-.page-height {
+.page {
   min-height: 85vh;
+  max-width: 1044px;
+  margin: 0 auto;
+  padding: 24px 0;
 }
 
-.page-padding {
-  padding: 40px 0;
-}
 
 svg {
   fill: inherit !important;
@@ -111,10 +110,13 @@ a {
 
 
 h1 {
-  margin: 16px 0 8px;
+  margin: 16px 16px 8px;
 }
-h2, h3, p {
-  margin: 8px 0;
+h2, h3 {
+  margin: 8px 16px;
+}
+p {
+    margin: 8px 16px 24px;
 }
 
 

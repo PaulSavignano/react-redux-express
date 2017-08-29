@@ -6,9 +6,11 @@ import OrderDetail from '../../components/orders/OrderDetail'
 
 const OrderDetailPage = ({ isFetching, order }) => (
   !isFetching &&
-  <section className="page-height page-padding section-width">
-    <OrderDetail order={order} />
-  </section>
+  <div className="page">
+    <section className="section-margin">
+      <OrderDetail order={order} />
+    </section>
+  </div>
 )
 
 const mapStateToProps = ({

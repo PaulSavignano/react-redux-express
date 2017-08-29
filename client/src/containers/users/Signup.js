@@ -36,19 +36,20 @@ class Signup extends Component {
   render() {
     const { dispatch, error, handleSubmit, submitting, user } = this.props
     return (
-      <section className="page-height page-padding section-width">
-        <Card className="card">
-          <CardTitle title="Signup" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)).then(() => this.props.reset()))} >
-            <CardText>
-              <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
-              <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
-              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-              <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
-            </CardText>
-            {error && <div className="error">{error}</div>}
-            {!this.state.open ? null :
+      <div className="page">
+        <section className="section-margin">
+          <Card>
+            <CardTitle title="Signup" subtitle="Enter your information" />
+            <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)).then(() => this.props.reset()))} >
+              <CardText>
+                <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
+                <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
+                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
+              </CardText>
+              {error && <div className="error">{error}</div>}
+              {!this.state.open ? null :
               <Dialog
                 actions={
                   <FlatButton
@@ -63,19 +64,20 @@ class Signup extends Component {
               >
                 Welcome {user.values.firstName && user.values.firstName}!
               </Dialog>
-            }
-            <CardActions>
-              <RaisedButton
-                label="Sign Up"
-                fullWidth={true}
-                disabled={submitting}
-                type="submit"
-                primary={true}
-              />
-            </CardActions>
-          </form>
-        </Card>
-      </section>
+              }
+              <CardActions>
+                <RaisedButton
+                  label="Sign Up"
+                  fullWidth={true}
+                  disabled={submitting}
+                  type="submit"
+                  primary={true}
+                />
+              </CardActions>
+            </form>
+          </Card>
+        </section>
+      </div>
     )
   }
 }

@@ -35,16 +35,17 @@ class Reset extends Component {
   render() {
     const { error, dispatch, handleSubmit, submitting, params, user } = this.props
     return (
-      <section className="page-height page-padding section-width">
-        <Card>
-          <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
-          <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">
-            <CardText>
-              <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
-              <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
-            </CardText>
-            {error && <div className="error">{error}</div>}
-            {!this.state.open ? null :
+      <div className="page">
+        <section className="section-margin">
+          <Card>
+            <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
+            <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">
+              <CardText>
+                <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
+                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
+              </CardText>
+              {error && <div className="error">{error}</div>}
+              {!this.state.open ? null :
               <Dialog
                 actions={
                   <FlatButton
@@ -59,19 +60,20 @@ class Reset extends Component {
               >
                 Welcome back {user.values.firstName || null}
               </Dialog>
-            }
-            <CardActions>
-              <RaisedButton
-                label="Recover"
-                fullWidth={true}
-                disabled={submitting}
-                type="submit"
-                primary={true}
-              />
-            </CardActions>
-          </form>
-        </Card>
-      </section>
+              }
+              <CardActions>
+                <RaisedButton
+                  label="Recover"
+                  fullWidth={true}
+                  disabled={submitting}
+                  type="submit"
+                  primary={true}
+                />
+              </CardActions>
+            </form>
+          </Card>
+        </section>
+      </div>
     )
   }
 }

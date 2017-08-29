@@ -37,45 +37,47 @@ class Recovery extends Component {
     const { dispatch, error, handleSubmit, submitting, isFetching } = this.props
     return (
       isFetching ? null :
-      <section className="page-height page-padding section-width">
-        <Card>
-          <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
-          <form onSubmit={handleSubmit(values => {
-            this.setState({ email: values.email })
-            return dispatch(fetchRecovery(values))
-          })} className="">
-            <CardText>
-              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-            </CardText>
-            {error && <div className="error">{error}</div>}
-            {!this.state.open ? null :
-            <Dialog
-              actions={
-                <FlatButton
-                  label="Close"
-                  primary={true}
-                  onTouchTap={this.handleClose}
-                />
+      <div className="page">
+        <section className="section-margin">
+          <Card>
+            <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
+            <form onSubmit={handleSubmit(values => {
+              this.setState({ email: values.email })
+              return dispatch(fetchRecovery(values))
+            })} className="">
+              <CardText>
+                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+              </CardText>
+              {error && <div className="error">{error}</div>}
+              {!this.state.open ? null :
+              <Dialog
+                actions={
+                  <FlatButton
+                    label="Close"
+                    primary={true}
+                    onTouchTap={this.handleClose}
+                  />
+                }
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose}
+              >
+                An email has been sent to {this.state.email}
+              </Dialog>
               }
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-            >
-              An email has been sent to {this.state.email}
-            </Dialog>
-            }
-            <CardActions>
-              <RaisedButton
-                label="Recovery"
-                fullWidth={true}
-                disabled={submitting}
-                type="submit"
-                primary={true}
-              />
-            </CardActions>
-          </form>
-        </Card>
-      </section>
+              <CardActions>
+                <RaisedButton
+                  label="Recovery"
+                  fullWidth={true}
+                  disabled={submitting}
+                  type="submit"
+                  primary={true}
+                />
+              </CardActions>
+            </form>
+          </Card>
+        </section>
+      </div>
     )
   }
 }

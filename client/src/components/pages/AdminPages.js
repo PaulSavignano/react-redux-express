@@ -9,17 +9,19 @@ const AdminPages = ({
   dispatch,
   pages
 }) => (
-  <section className="page-height page-padding">
-    <AdminPagesAdd />
-    {pages.map(item => (
-      <AdminPagesItem
-        key={item._id}
-        item={item}
-        initialValues={item.values}
-        form={`page_${item._id}`}
-      />
-    ))}
-  </section>
+  <div className="page">
+    <section className="section-margin">
+      <AdminPagesAdd />
+      {pages.map(item => (
+        <AdminPagesItem
+          key={item._id}
+          item={item}
+          initialValues={item.values}
+          form={`page_${item._id}`}
+        />
+      ))}
+    </section>
+  </div>
 )
 
 AdminPages.propTypes = {

@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import Page from '../models/Page'
 import Section from '../models/Section'
+import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
   const { pageId, pageSlug } = req.body

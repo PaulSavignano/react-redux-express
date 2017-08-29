@@ -5,12 +5,21 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-import AdminContactFormEdit from './AdminContactFormEdit'
+import contactFormContainer from '../../containers/contactForms/contactFormContainer'
+import { startEdit } from '../../actions/editItem'
 
 class AdminContactForm extends Component {
   state = {
     elevation: 1,
     editing: false
+  }
+  handleStartEdit = (e) => {
+    e.stopPropagation()
+    const { dispatch, item } = this.props
+    return dispatch(startEdit({
+      item,
+      kind: 'CONTACT_FORM',
+    }))
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
@@ -23,7 +32,7 @@ class AdminContactForm extends Component {
         zDepth={elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onTouchTap={() => this.setState({ editing: true })}
+        onTouchTap={this.handleStartEdit}
         style={{ flex: '1 1 auto', margin: 16 }}
       >
         <CardTitle title="Contact" subtitle="Enter your information" />
@@ -40,11 +49,10 @@ class AdminContactForm extends Component {
             className="button"
           />
         </div>
-        {editing && <AdminContactFormEdit handleEdit={this.handleEdit} editing={editing} sectionId={sectionId} componentId={componentId} />}
       </Card>
     )
   }
 }
 
 
-export default connect()(AdminContactForm)
+export default contactFormContainer(AdminContactForm)

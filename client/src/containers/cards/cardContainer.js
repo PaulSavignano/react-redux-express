@@ -8,7 +8,7 @@ const cardContainer = (ComposedComponent) => {
       elevation: null
     }
     componentWillMount() {
-      const { values } = this.props.item
+      const { values } = this.props.cardStyle
       if (values.elevation) this.setState({ elevation: values.elevation })
     }
     handleMouseEnter = () => this.setState({ elevation: 4 })

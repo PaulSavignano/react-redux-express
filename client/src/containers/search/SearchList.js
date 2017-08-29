@@ -19,13 +19,15 @@ const filter = (items, search) => {
 const SearchList = ({ items, search }) => {
   const searchItems = filter(items, search.value)
   return (
-    <section className="page-height page-padding section-width">
-      {searchItems.length < 1 ?
-        <h1>No matches</h1>
-      :
-      searchItems.map(item => <SearchItem key={item._id} item={item} />)
-      }
-    </section>
+    <div className="page">
+      <section className="section-margin">
+        {searchItems.length < 1 ?
+          <h1>No matches</h1>
+        :
+        searchItems.map(item => <SearchItem key={item._id} item={item} />)
+        }
+      </section>
+    </div>
   )
 }
 

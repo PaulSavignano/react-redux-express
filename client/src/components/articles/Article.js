@@ -59,7 +59,8 @@ const Article = ({
   return (
     <article
       style={{
-        overflow: 'hidden'
+        overflow: 'hidden',
+        margin: '16px 0',
       }}
       className="article"
     >
@@ -80,7 +81,9 @@ const Article = ({
         />
       }
       <div style={{ display: 'flex', flexFlow }}>
-        {hasParagraph && mediaAlign === 'right' ? <P>{renderHTML(pText)}</P> : null}
+        {hasParagraph && mediaAlign === 'right' ?
+          <P>{renderHTML(pText)}</P>
+        : null}
         {hasMedia ?
           <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
             <Media
@@ -89,7 +92,9 @@ const Article = ({
             />
           </Paper>
         : null}
-        {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
+        {hasParagraph && mediaAlign === 'left' ?
+          <P>{renderHTML(pText)}</P>
+        : null}
       </div>
       {hasButtons &&
         <Buttons

@@ -11,8 +11,8 @@ const HeroSchema = new Schema({
   },
   image: {
     src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 650 },
-    height: { type: Number, trim: true, default: 433 }
+    width: { type: Number, trim: true, default: 333 },
+    height: { type: Number, trim: true, default: 188 }
   },
   page: { type: Schema.ObjectId, ref: 'Page' },
   pageSlug: { type: String, trim: true },

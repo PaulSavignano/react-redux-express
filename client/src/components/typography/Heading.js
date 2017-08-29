@@ -19,7 +19,7 @@ const Heading = ({
   h2TextShadow,
   h3TextShadow
 }) => (
-  <div style={{ margin: '0 16px', overflow: 'hidden' }}>
+  <div style={{ overflow: 'hidden' }}>
     {h1Text &&
       <H1 textAlign={h1Align} color={h1Color} textShadow={h1TextShadow}>
         {h1Text}

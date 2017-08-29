@@ -8,16 +8,16 @@ import MenuItem from 'material-ui/MenuItem'
 import AdminSectionAddComponent from './AdminSectionAddComponent'
 import { fetchAdd as articleAdd } from '../../actions/articles'
 import { fetchAdd as cardAdd } from '../../actions/cards'
+import { fetchAdd as contactFormAdd } from '../../actions/contactForms'
 import { fetchAdd as heroAdd } from '../../actions/heros'
 import { fetchAdd as productAdd } from '../../actions/products'
-import { fetchAdd as viewAdd } from '../../actions/views'
 
 const components = [
   { label: 'Article', action: articleAdd },
   { label: 'Card', action: cardAdd },
+  { label: 'ContactForm', action: contactFormAdd },
   { label: 'Hero', action: heroAdd },
-  { label: 'Product', action: productAdd },
-  { label: 'View', action: viewAdd },
+  { label: 'Product', action: productAdd }
 ]
 
 class AdminSectionAdd extends Component {

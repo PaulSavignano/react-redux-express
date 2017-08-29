@@ -116,7 +116,6 @@ const BrandSchema = new Schema({
       h3Align: { type: String, trim: true, default: 'center' },
       h3Color: { type: String, trim: true },
       h3TextShadow: { type: String, trim: true },
-      marginTop: { type: String, trim: true },
       mediaBorder: { type: String, trim: true },
       mediaElevation: { type: Number, trim: true, default: 2 },
       minHeight: { type: String, trim: true, default: '80vh' }

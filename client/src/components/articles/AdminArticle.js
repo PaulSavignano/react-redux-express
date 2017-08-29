@@ -81,6 +81,7 @@ class AdminArticle extends Component {
           width: '100%',
           overflow: 'hidden',
           position: 'relative',
+          margin: '16px 0',
           minHeight: 60
         }}
         className="article"
@@ -102,7 +103,9 @@ class AdminArticle extends Component {
           />
         }
         <div style={{ display: 'flex', flexFlow }}>
-          {hasParagraph && mediaAlign === 'right' ? <P>{renderHTML(pText)}</P> : null}
+          {hasParagraph && mediaAlign === 'right' ?
+            <P>{renderHTML(pText)}</P>
+          : null}
           {hasMedia ?
             <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
               <Media
@@ -112,7 +115,9 @@ class AdminArticle extends Component {
             </Paper>
 
           : null}
-          {hasParagraph && mediaAlign === 'left' ? <P>{renderHTML(pText)}</P> : null}
+          {hasParagraph && mediaAlign === 'left' ?
+            <P>{renderHTML(pText)}</P>
+          : null}
         </div>
         {hasButtons &&
           <Buttons

@@ -8,15 +8,17 @@ import OrderDetail from '../../components/orders/OrderDetail'
 const OrderConfirmation = ({ item, isFetching }) => {
   return (
     !isFetching &&
-    <section className="page-height page-padding section-width">
-      <Card className="card" zDepth={0}>
-        <CardTitle title="Order" subtitle={item._id} />
-        <CardText>
-          Hi {item.firstName}, thank you for your order {item._id}!
-        </CardText>
-        <OrderDetail order={item} />
-      </Card>
-    </section>
+    <div className="page">
+      <section className="section-margin">
+        <Card className="card" zDepth={0}>
+          <CardTitle title="Order" subtitle={item._id} />
+          <CardText>
+            Hi {item.firstName}, thank you for your order {item._id}!
+          </CardText>
+          <OrderDetail order={item} />
+        </Card>
+      </section>
+    </div>
   )
 }
 

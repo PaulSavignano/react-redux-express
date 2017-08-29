@@ -5,15 +5,17 @@ import AddressesForm from './AddressesForm'
 import OrderList from '../../containers/orders/OrderList'
 
 const ProfilePage = () => (
-  <section className="page-height page-padding section-width">
-    <br/>
-    <ProfileForm />
-    <br/>
-    <AddressesForm />
-    <br/>
-    <OrderList />
-    <br/>
-  </section>
+  <div className="page">
+    <section className="section-margin">
+      <br/>
+      <ProfileForm />
+      <br/>
+      <AddressesForm />
+      <br/>
+      <OrderList />
+      <br/>
+    </section>
+  </div>
 )
 
 export default ProfilePage

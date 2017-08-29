@@ -13,7 +13,6 @@ const P = ({
       color: textColor,
       flex: '1 1 auto',
       fontFamily,
-      margin: '0 16px',
       overflow: 'hidden'
     }}
   >

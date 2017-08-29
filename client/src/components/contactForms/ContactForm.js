@@ -6,8 +6,9 @@ import FlatButton from 'material-ui/FlatButton'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 
-import SuccessableButton from '../../components/buttons/SuccessableButton'
-import renderTextField from '../../components/fields/renderTextField'
+import contactFormContainer from '../../containers/contactForms/contactFormContainer'
+import SuccessableButton from '../buttons/SuccessableButton'
+import renderTextField from '../fields/renderTextField'
 import { fetchContact } from '../../actions/users'
 
 const validate = values => {
@@ -96,4 +97,4 @@ const mapStateToProps = ({ user }) => ({
 
 ContactForm = connect(mapStateToProps)(ContactForm)
 
-export default ContactForm
+export default contactFormContainer(ContactForm)

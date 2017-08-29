@@ -13,6 +13,7 @@ import articles from './routes/articles'
 import brands from './routes/brands'
 import cards from './routes/cards'
 import carts from './routes/carts'
+import contactForms from './routes/contactForms'
 import heros from './routes/heros'
 import orders from './routes/orders'
 import pages from './routes/pages'
@@ -30,6 +31,7 @@ app.use('/api/articles', articles)
 app.use('/api/brands', brands)
 app.use('/api/cards', cards)
 app.use('/api/carts', carts)
+app.use('/api/contact-forms', contactForms)
 app.use('/api/heros', heros)
 app.use('/api/orders', orders)
 app.use('/api/pages', pages)

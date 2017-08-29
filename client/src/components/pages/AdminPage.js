@@ -32,7 +32,7 @@ class AdminPage extends Component {
             pageSlug: slug
           })}
         </div>
-        <section style={{ display: 'flex' }}>
+        <section style={{ display: 'flex', maxWidth: 1044, margin: '0 auto' }}>
           <RaisedButton
             onTouchTap={this.handleAddSection}
             label="Add Section"

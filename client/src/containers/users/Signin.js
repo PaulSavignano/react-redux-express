@@ -50,53 +50,55 @@ class Signin extends Component {
     } = this.props
     return (
       isFetching ? null :
-      <section className="page-height page-padding section-width">
-        <Card className="card" style={{ margin: 16 }}>
-          <CardTitle title="Sign in" subtitle="Enter your information" />
-          <form onSubmit={handleSubmit(values => {
-            return dispatch(fetchSignin(values))
-            .then(() => {
-              reset()
-              this.setState({ open: true })
-            })
-          })}>
-            <CardText>
-              <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
-              <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
-            </CardText>
-            {error && <div className="error">{error}</div>}
-            <CardActions>
-              <RaisedButton
-                label="Sign In"
-                fullWidth={true}
-                disabled={submitting}
-                type="submit"
-                primary={true}
-              />
-            </CardActions>
-          </form>
-          {!this.state.open ? null :
-          <Dialog
-            actions={
-              <FlatButton
-                label="Close"
-                primary={true}
-                onTouchTap={this.handleClose}
-              />
+      <div className="page">
+        <section className="section-margin">
+          <Card>
+            <CardTitle title="Sign in" subtitle="Enter your information" />
+            <form onSubmit={handleSubmit(values => {
+              return dispatch(fetchSignin(values))
+              .then(() => {
+                reset()
+                this.setState({ open: true })
+              })
+            })}>
+              <CardText>
+                <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+              </CardText>
+              {error && <div className="error">{error}</div>}
+              <CardActions>
+                <RaisedButton
+                  label="Sign In"
+                  fullWidth={true}
+                  disabled={submitting}
+                  type="submit"
+                  primary={true}
+                />
+              </CardActions>
+            </form>
+            {!this.state.open ? null :
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={this.handleClose}
+                />
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              {this.state.message}
+            </Dialog>
             }
-            modal={false}
-            open={this.state.open}
-            onRequestClose={this.handleClose}
-          >
-            {this.state.message}
-          </Dialog>
-          }
-          <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-            <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>
-            <p><Link to="/user/recovery" style={{ color: primary1Color }}>Forgot your password?</Link></p>
-          </CardActions>
-        </Card>
-      </section>
+            <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>
+              <p><Link to="/user/recovery" style={{ color: primary1Color }}>Forgot your password?</Link></p>
+            </CardActions>
+          </Card>
+        </section>
+      </div>
     )
   }
 }

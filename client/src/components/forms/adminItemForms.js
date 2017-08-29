@@ -4,6 +4,7 @@ import renderWysiwgyField from '../fields/renderWysiwgyField'
 
 import { fetchUpdate as articleUpdate, fetchDelete as articleDelete } from '../../actions/articles'
 import { fetchUpdate as cardUpdate, fetchDelete as cardDelete } from '../../actions/cards'
+import { fetchUpdate as contactFormUpdate, fetchDelete as contactFormDelete } from '../../actions/contactForms'
 import { fetchUpdate as heroUpdate, fetchDelete as heroDelete } from '../../actions/heros'
 import { fetchUpdate as productUpdate, fetchDelete as productDelete } from '../../actions/products'
 import { fetchUpdate as sectionUpdate, fetchDelete as sectionDelete } from '../../actions/sections'
@@ -19,7 +20,7 @@ const adminItemForms = [{
     { name: 'button2Text', type: 'text' },
     { name: 'button2Link', type: 'text' },
     { name: 'flex', type: 'text' },
-    { name: 'flexFlow', type: 'text' },
+    { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse' ] },
     { name: 'h1Text', type: 'text' },
     { name: 'h2Text', type: 'text' },
     { name: 'h3Text', type: 'text' },
@@ -33,6 +34,22 @@ const adminItemForms = [{
   name: 'CARD',
   update: cardUpdate,
   delete: cardDelete,
+  fields: [
+    { name: 'button1Text', type: 'text' },
+    { name: 'button1Link', type: 'text' },
+    { name: 'button2Text', type: 'text' },
+    { name: 'button2Link', type: 'text' },
+    { name: 'h1Text', type: 'text', },
+    { name: 'h2Text', type: 'text', },
+    { name: 'h3Text', type: 'text', },
+    { name: 'iframe', type: 'text', },
+    { name: 'link', type: 'text', },
+    { name: 'pText', type: 'wysiwgy' },
+  ]
+}, {
+  name: 'CONTACT_FORM',
+  update: contactFormUpdate,
+  delete: contactFormDelete,
   fields: [
     { name: 'button1Text', type: 'text' },
     { name: 'button1Link', type: 'text' },
@@ -80,7 +97,7 @@ const adminItemForms = [{
     { name: 'backgroundColor', type: 'text' },
     { name: 'containerMarginTop', type: 'text' },
     { name: 'kind', type: 'select', options: [ 'Flex', 'Swipeable' ] },
-    { name: 'flexFlow', type: 'text' },
+    { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse', 'row nowrap', 'column' ] },
     { name: 'justifyContent', type: 'text' },
     { name: 'margin', type: 'text' },
     { name: 'maxWidth', type: 'text' },

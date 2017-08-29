@@ -9,8 +9,7 @@ const heroContainer = (ComposedComponent) => {
       propsForChild: null
     }
     handleProps = (item) => {
-      const { alignItems, marginTop, minHeight } = this.props.heroStyle.values
-      console.log('minHeight', minHeight)
+      const { alignItems, minHeight } = this.props.heroStyle.values
       const {
         _id,
         backgroundImage,
@@ -26,7 +25,6 @@ const heroContainer = (ComposedComponent) => {
           display: 'flex',
           flex: '1 1 auto',
           justifyContent: 'center',
-          marginTop,
           minHeight
         },
         className: backgroundImage.src ? 'hero background-image' : 'hero'

@@ -23,13 +23,12 @@ class SwipeableSection extends Component {
     } = this.props
     return (
       <section {...propsForParent}>
-        <div {...propsForChild}>
-          <AutoPlaySwipeableViews
-            autoplay={autoplay}
-          >
-            {renderComponents({ components: items })}
-          </AutoPlaySwipeableViews>
-        </div>
+        <AutoPlaySwipeableViews
+          autoplay={autoplay}
+          slideStyle={propsForChild}
+        >
+          {renderComponents({ components: items })}
+        </AutoPlaySwipeableViews>
       </section>
     )
   }

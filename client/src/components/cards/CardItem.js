@@ -19,7 +19,6 @@ const CardItem = ({
       button2BackgroundColor,
       button1Color,
       button2Color,
-      elevation,
       flex,
       h1Align,
       h1Color,
@@ -37,6 +36,7 @@ const CardItem = ({
   },
   cursor,
   dispatch,
+  elevation,
   events,
   hasButtons,
   hasHeading,
@@ -74,36 +74,39 @@ const CardItem = ({
           iframe={iframe}
         />
       }
-      {hasHeading &&
-        <Heading
-          h1Align={h1Align}
-          h2Align={h2Align}
-          h3Align={h3Align}
-          h1Color={h1Color}
-          h2Color={h2Color}
-          h3Color={h3Color}
-          h1Text={h1Text}
-          h2Text={h2Text}
-          h3Text={h3Text}
-          h1TextShadow={h1TextShadow}
-          h2TextShadow={h2TextShadow}
-          h3TextShadow={h3TextShadow}
-        />
-      }
-      {hasParagraph && <P>{renderHTML(pText)}</P>}
-      {hasButtons &&
-        <Buttons
-          button1BackgroundColor={button1BackgroundColor}
-          button2BackgroundColor={button2BackgroundColor}
-          button1Color={button1Color}
-          button2Color={button2Color}
-          button1Link={button1Link}
-          button2Link={button2Link}
-          button1Text={button1Text}
-          button2Text={button2Text}
-          dispatch={dispatch}
-        />
-      }
+      <div style={{ padding: 8 }}>
+        {hasHeading &&
+          <Heading
+            h1Align={h1Align}
+            h2Align={h2Align}
+            h3Align={h3Align}
+            h1Color={h1Color}
+            h2Color={h2Color}
+            h3Color={h3Color}
+            h1Text={h1Text}
+            h2Text={h2Text}
+            h3Text={h3Text}
+            h1TextShadow={h1TextShadow}
+            h2TextShadow={h2TextShadow}
+            h3TextShadow={h3TextShadow}
+          />
+        }
+        {hasParagraph && <P>{renderHTML(pText)}</P>}
+        {hasButtons &&
+          <Buttons
+            button1BackgroundColor={button1BackgroundColor}
+            button2BackgroundColor={button2BackgroundColor}
+            button1Color={button1Color}
+            button2Color={button2Color}
+            button1Link={button1Link}
+            button2Link={button2Link}
+            button1Text={button1Text}
+            button2Text={button2Text}
+            dispatch={dispatch}
+          />
+        }
+      </div>
+
     </Card>
   )
 }

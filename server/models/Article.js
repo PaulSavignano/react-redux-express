@@ -7,8 +7,8 @@ const ArticleSchema = new Schema({
   pageSlug: { type: String, trim: true },
   image: {
     src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 650 },
-    height: { type: Number, trim: true, default: 433 }
+    width: { type: Number, trim: true, default: 333 },
+    height: { type: Number, trim: true, default: 188 }
   },
   section: { type: Schema.ObjectId, ref: 'Section' },
   values: {
