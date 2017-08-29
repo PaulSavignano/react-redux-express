@@ -37,7 +37,7 @@ class AppBarPageLink extends Component {
   handleMenuMouseLeave = () => {
     this.setState({ openMenu: false, anchorEl: null, usingMenu: false })
   }
-  handleOpenMenu = () => this.setState({ openMenu: false })
+  handleCloseMenu = () => this.setState({ openMenu: false })
   render() {
     const {
       color,
@@ -78,6 +78,8 @@ class AppBarPageLink extends Component {
                   dispatch={dispatch}
                   key={link._id}
                   link={link}
+                  page={page}
+                  onCloseMenu={this.handleCloseMenu}
                 />
               ))}
             </Menu>

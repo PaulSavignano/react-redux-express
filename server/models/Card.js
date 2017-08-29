@@ -8,8 +8,8 @@ const CardSchema = new Schema({
   pageSlug: { type: String, trim: true },
   image: {
     src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 500 },
-    height: { type: Number, trim: true, default: 281 }
+    width: { type: Number, trim: true, default: 1000 },
+    height: { type: Number, trim: true, default: 563 }
   },
   values: {
     button1Text: { type: String, trim: true },

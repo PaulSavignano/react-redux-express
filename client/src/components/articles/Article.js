@@ -86,7 +86,7 @@ const Article = ({
           <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
         : null}
         {hasMedia ?
-          <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden' }}>
+          <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden', height: '100%' }}>
             <Media
               image={image}
               iframe={iframe}

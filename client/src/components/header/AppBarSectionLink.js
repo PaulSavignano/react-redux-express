@@ -5,8 +5,8 @@ import MenuItem from 'material-ui/MenuItem'
 
 class AppBarSectionLink extends Component {
   handleSectionNavigation = () => {
-    const { dispatch, link, page } = this.props
-    this.handleOpenMenu()
+    const { dispatch, link, onCloseMenu, page } = this.props
+    onCloseMenu()
     return dispatch(push(`/${page.slug}#${link.values.pageLink}`))
   }
   render() {

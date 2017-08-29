@@ -27,8 +27,10 @@ class DrawerPageLink extends Component {
           primaryTogglesNestedList={true}
           nestedItems={pageSectionLinks.map(link => (
             <DrawerSectionLink
+              dispatch={dispatch}
               key={link._id}
               link={link}
+              page={page}
             />
           ))}
         />

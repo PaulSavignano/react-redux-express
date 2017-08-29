@@ -7,8 +7,8 @@ const s3Path = `${process.env.APP_NAME}/products/product_`
 const ProductSchema = new Schema({
   image: {
     src: { type: String, minlength: 1, trim: true },
-    width: { type: Number, trim: true, default: 500 },
-    height: { type: Number, trim: true, default: 281 }
+    width: { type: Number, trim: true, default: 1000 },
+    height: { type: Number, trim: true, default: 563 }
   },
   page: { type: Schema.ObjectId, ref: 'Page' },
   pageSlug: { type: String, trim: true },
