@@ -76,7 +76,7 @@ class AdminCard extends Component {
       <Card
         {...events}
         onTouchTap={this.handleStartEdit}
-        style={{ cursor, flex, margin, width }}
+        style={{ cursor, flex, margin, width, height: '100%' }}
         zDepth={elevation}
         id={_id}
         className="card"

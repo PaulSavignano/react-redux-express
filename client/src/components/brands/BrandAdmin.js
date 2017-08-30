@@ -50,7 +50,7 @@ const formFields = [{
   fields: [
     { name: 'name', type: 'text' },
     { name: 'description', type: 'text' },
-    { name: 'phone', type: 'text' },
+    { name: 'phone', type: 'phone' },
     { name: 'email', type: 'text' },
     { name: 'street', type: 'text' },
     { name: 'city', type: 'text' },

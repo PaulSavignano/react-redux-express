@@ -63,7 +63,7 @@ const CardItem = ({
   return (
     <Card
       {...events}
-      style={{ cursor, flex, margin, width }}
+      style={{ cursor, flex, margin, width, height: '100%' }}
       zDepth={elevation}
       id={_id}
       className="card"

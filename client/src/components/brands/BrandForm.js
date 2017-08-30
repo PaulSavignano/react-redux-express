@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
-import MenuItem from 'material-ui/MenuItem'
 
 import ImageForm from '../images/ImageForm'
+import BrandFormField from './BrandFormField'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
-import renderSelectField from '../../components/fields/renderSelectField'
-import renderTextField from '../../components/fields/renderTextField'
+
 import { fetchUpdate } from '../../actions/brand'
 
 class BrandForm extends Component {
@@ -84,38 +83,15 @@ class BrandForm extends Component {
             />
           }
           <div className="field-container">
-            {fields.map(({ name, type, options }) => {
-              const normalizeNumber = type === 'number' ? { normalize: this.handleNumberToString() } : null
-              return (
-                type === 'select' ?
-                  <Field
-                    key={name}
-                    name={name}
-                    component={renderSelectField}
-                    label={name}
-                    className="field"
-                  >
-                    {options.map(option => (
-                      <MenuItem
-                        key={option}
-                        value={option}
-                        primaryText={option}
-                      />
-                    ))}
-                  </Field>
-                :
-                <Field
-                  key={name}
-                  name={name}
-                  label={name}
-                  type={type}
-                  component={renderTextField}
-                  className="field"
-                  style={{ fontFamily }}
-                  {...normalizeNumber}
-                />
-              )
-            })}
+            {fields.map(({ name, options, type }) => (
+              <BrandFormField
+                key={name}
+                fontFamily={fontFamily}
+                name={name}
+                options={options}
+                type={type}
+              />
+            ))}
           </div>
           {error && <div className="error">{error}</div>}
           <div className="button-container">

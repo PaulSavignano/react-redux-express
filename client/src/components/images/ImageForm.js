@@ -115,27 +115,37 @@ class ImageForm extends Component {
   updateCheck = () => {
     this.setState((oldState) => {
       return {
-        checked: !oldState.resizeProportionally,
+        resizeProportionally: !oldState.resizeProportionally,
       }
     })
   }
   handleWidth = (e) => {
-    const { height, width } = this.state
+    const { height, width, resizeProportionally } = this.state
     const newWidth = parseInt(e.target.value, 10)
-    const ratio = newWidth / width
-    const newHeight = height * ratio
+    if (resizeProportionally) {
+      const ratio = newWidth / width
+      const newHeight = height * ratio
+      this.setState({
+        width: newWidth,
+        height: newHeight
+      })
+    }
     this.setState({
-      width: newWidth,
-      height: newHeight
+      width: newWidth
     })
   }
   handleHeight = (e) => {
-    const { height, width } = this.state
+    const { height, width, resizeProportionally } = this.state
     const newHeight = parseInt(e.target.value, 10)
-    const ratio = newHeight / height
-    const newWidth = width * ratio
+    if (resizeProportionally) {
+      const ratio = newHeight / height
+      const newWidth = width * ratio
+      this.setState({
+        width: newWidth,
+        height: newHeight
+      })
+    }
     this.setState({
-      width: newWidth,
       height: newHeight
     })
   }
@@ -313,9 +323,10 @@ class ImageForm extends Component {
 
               <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
                 <Checkbox
-                  label="Simple with controlled value"
+                  label="Resize Proportionally"
                   checked={this.state.resizeProportionally}
                   onCheck={this.updateCheck}
+                  style={{ alignSelf: 'flex-end', width: 'auto' }}
                 />
                 <TextField
                   hintText="Width"
