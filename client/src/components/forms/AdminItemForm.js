@@ -21,12 +21,9 @@ import adminItemForms from './adminItemForms'
 
 class AdminItemForm extends Component {
   state = {
+    backgroundImageEdit: false,
     imageEdit: false,
-    backgroundImageEdit: false
-  }
-  findForm = () => {
-    const { editItem: { kind }} = this.props
-    return adminItemForms.find(form => form.name === kind)
+    itemForm: null
   }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
@@ -37,14 +34,14 @@ class AdminItemForm extends Component {
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageRemove = (image) => {
-    const { dispatch, fetchUpdate, editItem: { item: { _id }}} = this.props
+    const { dispatch, editItem: { item: { _id }}} = this.props
     this.setState({ imageEdit: false })
-    return dispatch(fetchUpdate(_id, { type: 'DELETE_IMAGE', image }))
+    return dispatch(this.state.itemForm.update(_id, { type: 'DELETE_IMAGE', image }))
   }
   handleBackgroundImageRemove = (image) => {
-    const { dispatch, fetchUpdate, editItem: { item: { _id }}} = this.props
+    const { dispatch, editItem: { item: { _id }}} = this.props
     this.setState({ backgroundImageEdit: false })
-    return dispatch(fetchUpdate(_id, { type: 'DELETE_BACKGROUND_IMAGE', image }))
+    return dispatch(this.state.itemForm.update(_id, { type: 'DELETE_BACKGROUND_IMAGE', image }))
   }
   handleFormSubmit = (values) => {
     const { imageEdit, backgroundImageEdit } = this.state
@@ -53,7 +50,7 @@ class AdminItemForm extends Component {
     const oldBackgroundImageSrc = backgroundImage && backgroundImage.src ? backgroundImage.src : null
     const newImage = imageEdit ? this.imageEditor.handleSave() : null
     const newBackgroundImage = backgroundImageEdit ? this.backgroundImageEditor.handleSave() : null
-    const fetchUpdate = this.findForm().update
+    const fetchUpdate = this.state.itemForm.update
     if (imageEdit && backgroundImageEdit) {
       return dispatch(fetchUpdate(_id, {
         type: 'UPDATE_IMAGE_AND_BACKGROUND_IMAGE_AND_VALUES',
@@ -86,13 +83,17 @@ class AdminItemForm extends Component {
     return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values, pageSlug }))
   }
   handleRemove = () => {
-    const fetchDelete = this.findForm().delete
     const { dispatch, editItem: { item: { _id }}} = this.props
-    return dispatch(fetchDelete(_id))
+    return dispatch(this.state.itemForm.delete(_id))
   }
   handleStopEdit = () => this.props.dispatch(stopEdit())
   handleNumberToString = value => {
     if (value) return value.toString()
+  }
+  componentWillMount() {
+    const { editItem: { kind }} = this.props
+    const itemForm = adminItemForms.find(form => form.name === kind)
+    this.setState({ itemForm })
   }
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
@@ -174,7 +175,7 @@ class AdminItemForm extends Component {
             />
           }
           <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
-            {this.findForm().fields.map(({ name, type, options }) => {
+            {this.state.itemForm.fields.map(({ name, type, options }) => {
               const normalizeNumber = type === 'number' ? { normalize: this.handleNumberToString() } : null
               return (
                 type === 'select' ?

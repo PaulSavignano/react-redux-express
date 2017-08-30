@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import NotFound from '../../components/NotFound'
+import NotFound from '../../components/not-found/NotFound'
 
 const pageContainer = (ComposedComponent) => {
   class PageContainer extends Component {

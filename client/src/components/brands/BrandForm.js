@@ -13,20 +13,21 @@ import { fetchUpdate } from '../../actions/brand'
 class BrandForm extends Component {
   state = {
     imageEdit: false,
+    path: null
   }
   handleImageEdit = (bool) => {
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageRemove = (image) => {
-    const { dispatch, fetchUpdate, editItem: { item: { _id }}} = this.props
+    const { path } = this.state
+    const { dispatch } = this.props
     this.setState({ imageEdit: false })
-    return dispatch(fetchUpdate(_id, { type: 'DELETE_IMAGE', image }))
+    return dispatch(fetchUpdate(path, { type: 'DELETE_IMAGE', image }))
   }
   handleFormSubmit = (values) => {
-    const { imageEdit } = this.state
+    const { imageEdit, path } = this.state
     const { _id, dispatch, form, image } = this.props
-    const path = `${form.toLowerCase()}/${_id}`
     const oldImageSrc = image && image.src ? image.src : null
     const newImage = imageEdit ? this.imageEditor.handleSave() : null
     if (imageEdit) {
@@ -41,6 +42,11 @@ class BrandForm extends Component {
   }
   handleNumberToString = value => {
     if (value) return value.toString()
+  }
+  componentWillMount() {
+    const { _id, form } = this.props
+    const path = `${form.toLowerCase()}/${_id}`
+    this.setState({ path })
   }
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   render() {

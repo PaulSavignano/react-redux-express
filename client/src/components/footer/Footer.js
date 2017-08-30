@@ -9,21 +9,23 @@ import loadImage from '../images/loadImage'
 
 const Footer = ({
   business: {
-    name,
-    phone,
-    email,
-    street,
-    city,
-    state,
-    zip,
-    facebook,
-    github,
-    google,
-    instagram,
-    linkedin,
-    twitter,
-    yelp,
-    youtube
+    values: {
+      name,
+      phone,
+      email,
+      street,
+      city,
+      state,
+      zip,
+      facebook,
+      github,
+      google,
+      instagram,
+      linkedin,
+      twitter,
+      yelp,
+      youtube
+    }
   },
   item: {
     image,

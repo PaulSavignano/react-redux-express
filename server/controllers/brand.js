@@ -44,11 +44,13 @@ export const updateAppBar = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   const { type, image, oldImageSrc, values } = req.body
+  console.log('trying image. ', image)
   const Key = `${process.env.APP_NAME}/brand_${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
       .then(data => {
+        console.log('updateimage', image)
         Brand.findOneAndUpdate(
           { _id },
           { $set: {
@@ -76,6 +78,7 @@ export const updateAppBar = (req, res) => {
       break
 
     case 'DELETE_IMAGE':
+      console.log('have image in delete', image)
       deleteFile({ Key: image.src })
       .then(() => {
         Brand.findOneAndUpdate(

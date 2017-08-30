@@ -2,7 +2,7 @@ import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 //import ReactGA from 'react-ga'
 
-import App from './App'
+import App from './components/app/App'
 
 // Brand
 import BrandAdmin from './components/brands/BrandAdmin'
@@ -32,7 +32,7 @@ import OrderDetailPage from './containers/orders/OrderDetailPage'
 import AdminOrderList from './containers/orders/AdminOrderList'
 import AdminOrderDetail from './containers/orders/AdminOrderDetail'
 
-import NotFound from './components/NotFound'
+import NotFound from './components/not-found/NotFound'
 
 // Google Analytics
 // ReactGA.initialize('UA-100349397-1')

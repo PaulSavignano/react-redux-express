@@ -15,6 +15,7 @@ class DrawerSectionLink extends Component {
         key={link._id}
         primaryText={link.values.pageLink}
         onTouchTap={this.handleSectionNavigation}
+        innerDivStyle={{ marginLeft: 16 }}
       />
     )
   }

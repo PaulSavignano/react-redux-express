@@ -1,24 +1,42 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Helmet } from "react-helmet"
 
-import SearchList from './containers/search/SearchList'
-import Header from './components/header/Header'
-import Footer from './components/footer/Footer'
+import appContainer from '../../containers/app/appContainer'
+import SearchList from '../../containers/search/SearchList'
+import Header from '../header/Header'
+import Footer from '../footer/Footer'
 
 injectTapEventPlugin()
 
 class App extends Component {
+  state = {
+    backgroundColor: null
+  }
+  componentWillMount() {
+    const { backgroundColor } = this.props.brand.bodyStyle.values
+    this.setState({ backgroundColor })
+  }
+  componentWillReceiveProps({ brand: { bodyStyle: { values: {backgroundColor }}}}) {
+    if (backgroundColor !== this.props.brand.bodyStyle.values.backgroundColor) {
+      this.setState({ backgroundColor })
+    }
+  }
   render() {
+    document.getElementsByTagName('body')[0].style['background-color'] = this.state.backgroundColor
     const {
       brand: {
-        appBar,
+        appBar: { image },
         bodyStyle: { values: { backgroundColor }},
-        business,
+        business: {
+          values: {
+            name,
+            description
+          }
+        },
         theme: { values: { fontFamily }},
         palette
       },
@@ -32,19 +50,14 @@ class App extends Component {
       fontFamily,
       palette: palette.values
     }
-    if(!isFetching) {
-      const appBody = document.getElementsByTagName('body')[0]
-      appBody.style['background-color'] = backgroundColor
-    }
     return (
-      !isFetching &&
       <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
         <div>
           <Helmet>
             <meta charSet="utf-8" />
-            {business.name && <title>{business.name}</title>}
-            {business.description && <meta name="description" content={business.description} />}
-            {appBar.image && <link rel="shortcut icon" href={appBar.image.src} />}
+            {name && <title>{name}</title>}
+            {description && <meta name="description" content={description} />}
+            {image.src ? <link rel="shortcut icon" href={image.src} /> : null}
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           <Header />
@@ -58,17 +71,4 @@ class App extends Component {
   }
 }
 
-
-const mapStateToProps = ({
-  brand,
-  search
-}, {
-  location: { pathname }
-}) => ({
-  brand,
-  isFetching: brand.isFetching,
-  pathname,
-  search,
-})
-
-export default connect(mapStateToProps)(App)
+export default appContainer(App)

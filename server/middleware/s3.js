@@ -19,6 +19,7 @@ export const uploadFile = ({ Key }, imageSrc, oldImageSrc) => {
 }
 
 export const deleteFile = ({ Key }) => {
+  console.log('inside deleteFile', Key)
   const params = { Bucket, Key }
   return s3.deleteObject(params).promise()
 }
