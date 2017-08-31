@@ -9,9 +9,7 @@ import { toggleDrawer } from '../../actions/drawer'
 
 class HeaderCartIcon extends Component {
   handleNavToCart = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    this.props.dispatch(push('/user/cart'))
+    this.props.onNavToCart()
   }
   render() {
     const {
@@ -22,10 +20,9 @@ class HeaderCartIcon extends Component {
       <IconButton
         children={
           <Badge
-            style={{ padding: '0 16px 0 0' }}
             badgeContent={cartQty}
             primary={true}
-            badgeStyle={{top: -10, left: 10 }}
+            badgeStyle={{top: -10, left: 9 }}
           >
             <FontIcon
               className="fa fa-shopping-cart"
@@ -34,7 +31,7 @@ class HeaderCartIcon extends Component {
           </Badge>
         }
         onTouchTap={this.handleNavToCart}
-        style={{ padding: '12px 0' }}
+        iconStyle={{ padding: 0 }}
       />
     )
   }

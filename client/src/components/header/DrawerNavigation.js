@@ -45,6 +45,12 @@ class DrawerNavigation extends Component {
     dispatch(toggleDrawer())
     dispatch(push(`/admin/brand`))
   }
+  handleNavToCart = () => {
+    console.log('inside na')
+    const { dispatch } = this.props
+    dispatch(toggleDrawer())
+    dispatch(push('/user/cart'))
+  }
   render() {
     const {
       cartQty,
@@ -124,6 +130,7 @@ class DrawerNavigation extends Component {
             cartQty={cartQty}
             dispatch={dispatch}
             color={color}
+            onNavToCart={this.handleNavToCart}
           />
         }
       </div>

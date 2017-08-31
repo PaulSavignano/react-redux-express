@@ -5,9 +5,9 @@ import { add, getId, update, remove } from '../controllers/cart'
 
 const carts = express.Router()
 
-carts.post('/', authenticate(['admin']), add)
-carts.get('/', getId)
-carts.patch('/:_id', authenticate(['admin']), update)
-carts.delete('/:_id', authenticate(['admin']), remove)
+carts.post('/', add)
+carts.get('/:_id', getId)
+carts.patch('/:_id', update)
+carts.delete('/:_id', remove)
 
 export default carts

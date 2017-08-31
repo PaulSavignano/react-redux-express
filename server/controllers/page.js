@@ -32,11 +32,11 @@ export const add = (req, res) => {
 
 export const get = (req, res) => {
   Page.find({})
-    .then(pages => res.send(pages))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send()
-    })
+  .then(pages => res.send(pages))
+  .catch(error => {
+    console.error(error)
+    res.status(400).send()
+  })
 }
 
 export const update = (req, res) => {

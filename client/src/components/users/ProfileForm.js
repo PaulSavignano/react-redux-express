@@ -28,14 +28,17 @@ const validate = values => {
   return errors
 }
 
-const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceeded, submitting }) => (
-  !isFetching &&
+const ProfileForm = ({
+  dispatch,
+  error,
+  handleSubmit,
+  submitSucceeded,
+  submitting
+}) => (
   <Card>
     <CardTitle title="Profile" />
-    <form onSubmit={handleSubmit(values => {
-      const update = { type: 'UPDATE_VALUES', values}
-      return dispatch(fetchUpdate(update))
-    })}
+    <form onSubmit={handleSubmit(values => dispatch(fetchUpdate({ type: 'UPDATE_VALUES', values}))
+    )}
     >
       <div className="field-container">
         <Field name="firstName" component={renderTextField} label="First Name" className="field" />
@@ -65,10 +68,12 @@ const ProfileForm = ({ dispatch, error, handleSubmit, isFetching, submitSucceede
 )
 
 export default compose(
-  connect(({ user: { isFetching, values }}) => ({
-    isFetching,
-    initialValues: values
-  })),
+  connect((state, { user }) => {
+    console.log('somehow in profile form', user)
+    return {
+      initialValues: user.values
+    }
+  }),
   reduxForm({
     form: 'profile',
     validate

@@ -8,11 +8,13 @@ const productPageContainer = (ComposedComponent) => {
       const {
         dispatch,
         isFetching,
-        item
+        item,
+        productStyle
       } = this.props
       const props = {
         dispatch,
-        item
+        item,
+        productStyle
       }
       return (
         !isFetching && item ?
@@ -23,17 +25,20 @@ const productPageContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    products: { items, isFetching }
+    brand,
+    products
   }, {
     params: { productId }
   }) => ({
-    isFetching,
-    item: items.find(item => item._id === productId)
+    isFetching: brand.isFetching || products.isFetching ? true : false,
+    productStyle: brand.productStyle,
+    item: products.items.find(item => item._id === productId)
   })
   ProductPageContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    item: PropTypes.object.isRequired
+    item: PropTypes.object,
+    productStyle: PropTypes.object
   }
   return connect(mapStateToProps)(ProductPageContainer)
 }

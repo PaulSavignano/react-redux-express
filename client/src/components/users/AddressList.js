@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 import AddressItem from './AddressItem'
 
-const AddressList = ({ addresses, isFetching }) => (
-  !isFetching &&
+const AddressList = ({ addresses }) => (
   <div>
     {addresses.map(address => (
       <AddressItem
@@ -17,9 +16,4 @@ const AddressList = ({ addresses, isFetching }) => (
   </div>
 )
 
-const mapStateToProps = ({ user: { isFetching, addresses }}) => ({
-  isFetching,
-  addresses
-})
-
-export default connect(mapStateToProps)(AddressList)
+export default AddressList

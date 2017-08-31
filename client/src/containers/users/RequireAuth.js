@@ -3,21 +3,21 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-const RequireAuth = (ComposedComponent, roles) => {
+const RequireAuth = (ComposedComponent, requiredRoles) => {
   class Authentication extends Component {
     hasRoles = (roles) => {
-      const userRoles = this.props.userRoles
-      if (userRoles) return roles.some(v => userRoles.indexOf(v) >= 0)
+      if (roles) return requiredRoles.some(v => roles.indexOf(v) >= 0)
       return false
     }
     componentWillMount() {
-      if (!this.hasRoles(roles, this.props.userRoles)) {
-        this.props.dispatch(push('/user/signin'))
+      const { dispatch, user: { roles }} = this.props
+      if (!this.hasRoles(roles)) {
+        dispatch(push('/user/signin'))
       }
     }
-    componentWillUpdate(nextProps) {
-      if (!this.hasRoles(roles, nextProps.roles)) {
-        this.props.dispatch(push('/user/signin'))
+    componentWillUpdate({ dispatch, user: { roles }}) {
+      if (!this.hasRoles(roles)) {
+        dispatch(push('/user/signin'))
       }
     }
     render() {
@@ -29,7 +29,7 @@ const RequireAuth = (ComposedComponent, roles) => {
   }
   const mapStateToProps = ({ user }) => ({
     isFetching: user.isFetching,
-    userRoles: user.roles
+    user
   })
   return connect(mapStateToProps)(Authentication)
 }

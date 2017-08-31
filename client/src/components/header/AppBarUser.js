@@ -8,6 +8,7 @@ import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
 import './header.css'
+import { fetchSignout } from '../../actions/users'
 
 class AppBarUser extends Component {
   state = {
@@ -21,8 +22,10 @@ class AppBarUser extends Component {
     this.setState({ openMenu: true, anchorEl: e.currentTarget })
   }
   handleSignout = () => {
+    const { dispatch } = this.props
     this.setState({ openMenu: false })
-    return this.props.dispatch(push('/user/signin'))
+    dispatch(push('/user/signin'))
+    return dispatch(fetchSignout())
   }
   handleProfile = () => {
     this.setState({ openMenu: false })
@@ -30,7 +33,7 @@ class AppBarUser extends Component {
   }
   handleSignin = () => {
     this.setState({ openMenu: false })
-    return this.props.dispatch(push('/user/profile'))
+    return this.props.dispatch(push('/user/signin'))
   }
   handleSignup = () => {
     this.setState({ openMenu: false })

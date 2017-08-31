@@ -17,15 +17,15 @@ export const add = (req, res) => {
     values: []
   })
   newDoc.save()
-  .then(doc => {
+  .then(product => {
     Section.findOneAndUpdate(
-      { _id: doc.section },
-      { $push: { items: { kind: 'Product', item: doc._id }}},
+      { _id: product.section },
+      { $push: { items: { kind: 'Product', item: product._id }}},
       { new: true }
     )
     .then(section => {
       Page.findOne({ _id: section.page })
-      .then(page => res.send({ editItem: doc, page }))
+      .then(page => res.send({ editItem: product, page }))
       .catch(error => {
         console.error(error)
         res.status(400).send({ error })
@@ -36,6 +36,15 @@ export const add = (req, res) => {
       res.status(400).send({ error })
     })
   })
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
+}
+
+export const get = (req, res) => {
+  Product.find({})
+  .then(products => res.send(products))
   .catch(error => {
     console.error(error)
     res.status(400).send({ error })
@@ -70,9 +79,9 @@ export const update = (req, res) => {
             }},
             { new: true }
           )
-          .then(doc => {
-            Page.findOne({ _id: doc.page })
-            .then(page => res.send({ page }))
+          .then(product => {
+            Page.findOne({ _id: product.page })
+            .then(page => res.send({ page, product }))
             .catch(error => {
               console.error(error)
               res.status(400).send({ error })
@@ -96,9 +105,9 @@ export const update = (req, res) => {
             { $set: { 'image.src': null }},
             { new: true }
           )
-          .then(doc => {
-            Page.findOne({ _id: doc.page })
-            .then(page => res.send({ page }))
+          .then(product => {
+            Page.findOne({ _id: product.page })
+            .then(page => res.send({ page, product }))
             .catch(error => {
               console.error(error)
               res.status(400).send({ error })
@@ -120,9 +129,9 @@ export const update = (req, res) => {
         { $set: { values }},
         { new: true }
       )
-      .then(doc => {
-        Page.findOne({ _id: doc.page })
-        .then(page => res.send({ page }))
+      .then(product => {
+        Page.findOne({ _id: product.page })
+        .then(page => res.send({ page, product }))
         .catch(error => {
           console.error(error)
           res.status(400).send({ error })
@@ -144,15 +153,15 @@ export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Product.findOneAndRemove({ _id })
-  .then(doc => {
+  .then(product => {
     Section.findOneAndUpdate(
-      { _id: doc.section },
-      { $pull: { items: { kind: 'Product', item: doc._id }}},
+      { _id: product.section },
+      { $pull: { items: { kind: 'Product', item: product._id }}},
       { new: true }
     )
     .then(section => {
       Page.findOne({ _id: section.page })
-      .then(page => res.send({ page }))
+      .then(page => res.send({ page, product }))
       .catch(error => {
         console.error(error)
         res.status(400).send({ error })

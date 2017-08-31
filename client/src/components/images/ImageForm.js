@@ -196,7 +196,7 @@ class ImageForm extends Component {
     if (width && height) {
       return `Choose ${Math.round(width)} x ${Math.round(height)} ${label}`
     }
-    `Choose ${label}`
+    return `Choose ${label}`
   }
   setEditorRef = (editor) => this.editor = editor
   render () {

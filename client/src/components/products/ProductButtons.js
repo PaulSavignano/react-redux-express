@@ -17,6 +17,7 @@ class ProductButtons extends Component {
       productId,
       productQty: this.state.qty,
     }
+    console.log(update)
     return dispatch(fetchAddToCart(update))
   }
   minus = () => this.state.qty > 1 && this.setState({ qty: this.state.qty - 1 })

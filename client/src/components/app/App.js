@@ -29,9 +29,9 @@ class App extends Component {
     document.getElementsByTagName('body')[0].style['background-color'] = this.state.backgroundColor
     const {
       brand: {
-        appBar: { image },
         bodyStyle: { values: { backgroundColor }},
         business: {
+          image,
           values: {
             name,
             description

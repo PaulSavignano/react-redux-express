@@ -13,14 +13,14 @@ import AdminPages from './components/pages/AdminPages'
 import AdminPage from './components/pages/AdminPage'
 
 // User
-import CartPage from './containers/cart/CartPage'
+import CartPage from './components/cart/CartPage'
 import RequireAuth from './containers/users/RequireAuth'
-import Signup from './containers/users/Signup'
-import Signin from './containers/users/Signin'
-import Recovery from './containers/users/Recovery'
-import Reset from './containers/users/Reset'
+import Signup from './components/users/Signup'
+import Signin from './components/users/Signin'
+import Recovery from './components/users/Recovery'
+import Reset from './components/users/Reset'
 import ProfilePage from './components/users/ProfilePage'
-import RequestEstimate from './containers/users/RequestEstimate'
+import RequestEstimate from './components/users/RequestEstimate'
 
 // Product
 import ProductPage from './components/products/ProductPage'
@@ -68,7 +68,7 @@ const Routing = ({ history }) => (
       <Route path="user/request-estimate" component={RequestEstimate} />
 
       {/* Product */}
-      <Route path="products/:product/:productId" component={ProductPage} />
+      <Route path="products/:productSlug/:productId" component={ProductPage} />
 
       {/* Orders */}
       <Route path="admin/orders" component={RequireAuth(AdminOrderList, ['admin'])} />

@@ -44,7 +44,6 @@ export const updateAppBar = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   const { type, image, oldImageSrc, values } = req.body
-  console.log('trying image. ', image)
   const Key = `${process.env.APP_NAME}/brand_${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
@@ -133,20 +132,80 @@ export const updateArticleStyle = (req, res) => {
   })
 }
 
+
 export const updateBusiness = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { values } = req.body
-  Brand.findOneAndUpdate(
-    { _id },
-    { $set: { business: { values }}},
-    { new: true }
-  )
-  .then(doc => res.send(doc))
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  const { type, image, oldImageSrc, values } = req.body
+  const Key = `${process.env.APP_NAME}/brand_${_id}/business_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  switch (type) {
+    case 'UPDATE_IMAGE_AND_VALUES':
+      uploadFile({ Key }, image.src, oldImageSrc)
+      .then(data => {
+        console.log('updateimage', image)
+        Brand.findOneAndUpdate(
+          { _id },
+          { $set: {
+            business: {
+              image: {
+                src: data.Location,
+                width: image.width,
+                height: image.height
+              },
+              values
+            }
+          }},
+          { new: true }
+        )
+        .then(doc => res.send(doc))
+        .catch(error => {
+          console.error(error)
+          res.status(400).send({ error })
+        })
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+      break
+
+    case 'DELETE_IMAGE':
+      console.log('have image in delete', image)
+      deleteFile({ Key: image.src })
+      .then(() => {
+        Brand.findOneAndUpdate(
+          { _id },
+          { $set: { 'business.image.src': null }},
+          { new: true }
+        )
+        .then(doc => res.send(doc))
+        .catch(error => {
+          console.error(error)
+          res.status(400).send({ error })
+        })
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+      break
+
+    case 'UPDATE_VALUES':
+      Brand.findOneAndUpdate(
+        { _id },
+        { $set: { 'business.values': values }},
+        { new: true }
+      )
+      .then(doc => res.send(doc))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+      break
+
+    default:
+      return
+  }
 }
 
 export const updateBodyStyle = (req, res) => {

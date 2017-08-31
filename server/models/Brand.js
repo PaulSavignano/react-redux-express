@@ -45,6 +45,11 @@ const BrandSchema = new Schema({
     }
   },
   business: {
+    image: {
+      src: { type: String, trim: true },
+      width: { type: Number, trim: true, default: 128 },
+      height: { type: Number, trim: true, default: 128 }
+    },
     values: {
       name: { type: String, trim: true, default: 'Brand' },
       description: { type: String, trim: true, default: null },

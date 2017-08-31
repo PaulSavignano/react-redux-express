@@ -14,7 +14,7 @@ const fetchAddToCartFailure = (error) => ({ type: ERROR, error })
 export const fetchAddToCart = (update) => {
   return (dispatch, getState) => {
     const cartId = localStorage.getItem('cart')
-    if (cartId !== null) {
+    if (cartId) {
       return fetch(`/api/${route}/${cartId}`, {
         method: 'PATCH',
         headers: {
@@ -30,8 +30,9 @@ export const fetchAddToCart = (update) => {
           if (json.error) return Promise.reject(json.error)
           dispatch(fetchAddToCartSuccess(json))
         })
-        .catch(err => dispatch(fetchAddToCartFailure(err)))
+        .catch(error => dispatch(fetchAddToCartFailure(error)))
     } else {
+      console.log('no cartId for action')
       return fetch(`/api/${route}`, {
         method: 'POST',
         headers: {
@@ -49,7 +50,7 @@ export const fetchAddToCart = (update) => {
           if (json.error) return Promise.reject(json.error)
           dispatch(fetchAddToCartSuccess(json))
         })
-        .catch(err => dispatch(fetchAddToCartFailure(err)))
+        .catch(error => dispatch(fetchAddToCartFailure(error)))
     }
   }
 }
@@ -60,6 +61,7 @@ const fetchCartRequest = () => ({ type: REQUEST })
 const fetchCartSuccess = (cart) => ({ type: RECEIVE, cart })
 const fetchCartFailure = (error) => ({ type: ERROR, error })
 export const fetchCart = (cartId) => {
+  console.log('actionCartId', cartId)
   return (dispatch, getState) => {
     dispatch(fetchCartRequest())
     return fetch(`/api/${route}/${cartId}`, {
@@ -73,9 +75,10 @@ export const fetchCart = (cartId) => {
       if (json.error) return Promise.reject()
       dispatch(fetchCartSuccess(json))
     })
-    .catch(err => {
+    .catch(error => {
+      console.log(error)
       localStorage.removeItem('cart')
-      dispatch(fetchCartFailure(err))
+      dispatch(fetchCartFailure(error))
     })
   }
 }
@@ -100,7 +103,7 @@ export const fetchUpdateCart = (update) => {
         dispatch(fetchUpdateCartSuccess(json))
         if (json.quantity === 0) dispatch(fetchDeleteCart(json._id))
       })
-      .catch(err => dispatch(fetchUpdateCartFailure(err)))
+      .catch(error => dispatch(fetchUpdateCartFailure(error)))
   }
 }
 
@@ -124,6 +127,6 @@ export const fetchDeleteCart = () => {
         localStorage.removeItem('cart')
         dispatch(fetchDeleteCartSuccess())
       })
-      .catch(err => fetchDeleteCartFailure(err))
+      .catch(error => fetchDeleteCartFailure(error))
   }
 }

@@ -1,28 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { Card, CardTitle } from 'material-ui/Card'
 
+import cartContainer from '../../containers/cart/cartContainer'
 import CartList from './CartList'
 import CartTotal from './CartTotal'
 
-const CartPage = ({ isFetching, cart, user }) => (
-  !isFetching && !cart.items.length ?
+const CartPage = ({ cart, dispatch, user }) => (
+  !cart.items.length ?
   <Card zDepth={0} className="section page">
     <CardTitle title="Nothing in your cart yet" />
   </Card>
   :
   <Card zDepth={0} className="section page">
     <CardTitle title="Cart" />
-    <CartList cart={cart} />
-    <CartTotal cart={cart} user={user} />
+    <CartList
+      cart={cart}
+      dispatch={dispatch}
+    />
+    <CartTotal
+      cart={cart}
+      dispatch={dispatch}
+      user={user}
+    />
   </Card>
 )
 
-const mapStateToProps = ({ carts: { cart, isFetching }, user }) => ({
-  isFetching,
-  cart,
-  user
-})
-
-export default connect(mapStateToProps)(CartPage)
+export default cartContainer(CartPage)

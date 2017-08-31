@@ -1,13 +1,13 @@
 import React from 'react'
 import { Card, CardTitle } from 'material-ui/Card'
 
-import AddressAdd from '../../containers/users/AddressAdd'
-import AddressList from '../../containers/users/AddressList'
+import AddressAdd from './AddressAdd'
+import AddressList from './AddressList'
 
-const AddressesForm = () => (
+const AddressesForm = ({ addresses }) => (
   <Card>
     <CardTitle title="Addresses" />
-    <AddressList />
+    <AddressList addresses={addresses} />
     <AddressAdd />
   </Card>
 )

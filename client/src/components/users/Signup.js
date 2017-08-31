@@ -7,7 +7,8 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { Field, reduxForm } from 'redux-form'
 
-import renderTextField from '../../components/fields/renderTextField'
+import userContainer from '../../containers/users/userContainer'
+import renderTextField from '../fields/renderTextField'
 import { fetchAdd } from '../../actions/users'
 
 const validate = values => {
@@ -82,16 +83,8 @@ class Signup extends Component {
   }
 }
 
-
-Signup = reduxForm({
+export default userContainer(
+  reduxForm({
   form: 'signup',
   validate
-})(Signup)
-
-const mapStateToProps = ({ user }) => ({
-  user
-})
-
-Signup = connect(mapStateToProps)(Signup)
-
-export default Signup
+})(Signup))

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { push } from 'react-router-redux'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
@@ -10,6 +11,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
+import userContainer from '../../containers/users/userContainer'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchSignin } from '../../actions/users'
 
@@ -33,10 +35,19 @@ class Signin extends Component {
     open: false,
     message: null
   }
-  handleClose = () => this.setState({open: false})
+  handleClose = () => {
+    this.setState({open: false})
+    this.props.dispatch(push('/'))
+  }
   componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, user } = nextProps
-    submitSucceeded && this.setState({ message: `Welcome back ${user.values.firstName}!`})
+    const { submitSucceeded, reset, user } = nextProps
+    if (submitSucceeded) {
+      reset()
+      this.setState({
+        open: true,
+        message: `Welcome back ${user.values.firstName}!`
+      })
+    }
   }
   render() {
     const {
@@ -54,13 +65,8 @@ class Signin extends Component {
         <section className="section-margin">
           <Card>
             <CardTitle title="Sign in" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => {
-              return dispatch(fetchSignin(values))
-              .then(() => {
-                reset()
-                this.setState({ open: true })
-              })
-            })}>
+            <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values))
+            )}>
               <CardText>
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
                 <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
@@ -103,15 +109,4 @@ class Signin extends Component {
   }
 }
 
-Signin = reduxForm({
-  form: 'signin',
-  validate
-})(Signin)
-
-const mapStateToProps = ({ brand: { isFetching, palette: { primary1Color }}, user }) => ({
-  isFetching: isFetching || user.isFetching ? true : false,
-  primary1Color,
-  user,
-})
-
-export default connect(mapStateToProps)(Signin)
+export default userContainer(Signin)

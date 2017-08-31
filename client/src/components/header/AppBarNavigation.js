@@ -43,6 +43,11 @@ class AppBarNavigation extends Component {
     const { dispatch, search } = this.props
     return dispatch(searchToggle(!search.searching))
   }
+  handleNavToCart = () => {
+    console.log('inside nav to cart')
+    const { dispatch } = this.props
+    dispatch(push('/user/cart'))
+  }
   render() {
     const { navClass } = this.state
     const {
@@ -92,6 +97,7 @@ class AppBarNavigation extends Component {
             cartQty={cartQty}
             dispatch={dispatch}
             color={color}
+            onNavToCart={this.handleNavToCart}
           />
         }
       </div>

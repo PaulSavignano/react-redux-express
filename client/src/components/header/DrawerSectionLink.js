@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import { ListItem } from 'material-ui/List'
 
+import { toggleDrawer } from '../../actions/drawer'
+
 class DrawerSectionLink extends Component {
   handleSectionNavigation = () => {
     const { dispatch, page, link } = this.props
+    dispatch(toggleDrawer())
     return dispatch(push(`/${page.slug}#${link.values.pageLink}`))
   }
   render() {
