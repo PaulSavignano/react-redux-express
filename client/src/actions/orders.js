@@ -61,7 +61,7 @@ export const fetchAddOrder = (order) => {
 
 
 const fetchOrdersRequest = () => ({ type: REQUEST })
-const fetchOrdersSuccess = (items) => ({ type: RECEIVE, items })
+export const fetchOrdersSuccess = (items) => ({ type: RECEIVE, items })
 const fetchOrdersFailure = (error) => ({ type: ERROR, error })
 export const fetchOrders = () => {
   return (dispatch, getState) => {
@@ -73,15 +73,12 @@ export const fetchOrders = () => {
         'x-auth': localStorage.getItem('token'),
       }
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchOrdersSuccess(json))
       })
-      .catch(err => dispatch(fetchOrdersFailure(err)))
+      .catch(error => dispatch(fetchOrdersFailure(error)))
   }
 }
 

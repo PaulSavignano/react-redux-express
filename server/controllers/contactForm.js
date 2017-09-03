@@ -13,7 +13,7 @@ export const add = (req, res) => {
     pageSlug,
     section: ObjectID(sectionId),
     image: null,
-    values: []
+    values: {}
   })
   newDoc.save()
   .then(doc => {

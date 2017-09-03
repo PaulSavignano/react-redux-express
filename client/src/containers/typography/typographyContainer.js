@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import './typography.css'
+
 const typographyContainer = (ComposedComponent) => {
   class TypographyContainer extends Component {
     render() {

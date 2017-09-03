@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-const RequireAuth = (ComposedComponent, requiredRoles) => {
-  class Authentication extends Component {
+import userContainer from './userContainer'
+
+const authenticate = (ComposedComponent, requiredRoles) => {
+  class Authenticate extends Component {
     hasRoles = (roles) => {
       if (roles) return requiredRoles.some(v => roles.indexOf(v) >= 0)
       return false
@@ -27,11 +29,7 @@ const RequireAuth = (ComposedComponent, requiredRoles) => {
       )
     }
   }
-  const mapStateToProps = ({ user }) => ({
-    isFetching: user.isFetching,
-    user
-  })
-  return connect(mapStateToProps)(Authentication)
+  return userContainer(Authenticate)
 }
 
-export default RequireAuth
+export default authenticate

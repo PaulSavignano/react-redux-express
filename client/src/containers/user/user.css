@@ -1,0 +1,4 @@
+.UserProfileForm, .AddressesForm, .OrderList {
+  margin: 32px 8px;
+  overflow: hidden;
+}

@@ -5,6 +5,7 @@ import typographyContainer from '../../containers/typography/typographyContainer
 
 const H1 = ({
   children,
+  className,
   color,
   textAlign,
   textShadow,
@@ -31,6 +32,7 @@ const H1 = ({
         textAlign,
         textShadow,
       }}
+      {...className}
     >
       {children}
     </h1>

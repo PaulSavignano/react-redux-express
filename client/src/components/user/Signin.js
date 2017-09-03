@@ -11,9 +11,9 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
-import userContainer from '../../containers/users/userContainer'
+import userContainer from '../../containers/user/userContainer'
 import renderTextField from '../../components/fields/renderTextField'
-import { fetchSignin } from '../../actions/users'
+import { fetchSignin } from '../../actions/user'
 
 const validate = values => {
   const errors = {}
@@ -109,4 +109,4 @@ class Signin extends Component {
   }
 }
 
-export default userContainer(Signin)
+export default userContainer(reduxForm({ form: 'signin' })(Signin))

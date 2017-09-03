@@ -49,7 +49,6 @@ export const updateAppBar = (req, res) => {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
       .then(data => {
-        console.log('updateimage', image)
         Brand.findOneAndUpdate(
           { _id },
           { $set: {
@@ -77,7 +76,6 @@ export const updateAppBar = (req, res) => {
       break
 
     case 'DELETE_IMAGE':
-      console.log('have image in delete', image)
       deleteFile({ Key: image.src })
       .then(() => {
         Brand.findOneAndUpdate(
@@ -142,7 +140,6 @@ export const updateBusiness = (req, res) => {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
       .then(data => {
-        console.log('updateimage', image)
         Brand.findOneAndUpdate(
           { _id },
           { $set: {
@@ -170,7 +167,6 @@ export const updateBusiness = (req, res) => {
       break
 
     case 'DELETE_IMAGE':
-      console.log('have image in delete', image)
       deleteFile({ Key: image.src })
       .then(() => {
         Brand.findOneAndUpdate(

@@ -11,7 +11,7 @@ import MenuItem from 'material-ui/MenuItem'
 
 import renderTextField from '../../components/fields/renderTextField'
 import renderSelectField from '../../components/fields/renderSelectField'
-import { fetchRequestEstimate } from '../../actions/users'
+import { fetchRequestEstimate } from '../../actions/user'
 
 const validate = values => {
   const errors = {}

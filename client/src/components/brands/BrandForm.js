@@ -68,7 +68,7 @@ class BrandForm extends Component {
         style={{ backgroundColor, fontFamily, margin: '48px 0' }}
       >
         <form
-          onSubmit={handleSubmit(values => this.handleFormSubmit(values))}
+          onSubmit={handleSubmit(this.handleFormSubmit)}
         >
           <CardTitle title={`${form}`} />
           {image &&

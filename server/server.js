@@ -9,6 +9,7 @@ Brand.findOne({})
   .then(doc => !doc && new Brand({}).save())
   .catch(err => console.error(err))
 
+import addresses from './routes/addresses'
 import articles from './routes/articles'
 import brands from './routes/brands'
 import cards from './routes/cards'
@@ -27,6 +28,7 @@ const port = process.env.PORT
 app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use('/api/addresses', addresses)
 app.use('/api/articles', articles)
 app.use('/api/brands', brands)
 app.use('/api/cards', cards)

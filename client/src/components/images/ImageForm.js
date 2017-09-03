@@ -159,9 +159,7 @@ class ImageForm extends Component {
         const img = new Image()
         const src = e.target.result
         img.src = e.target.result
-
         img.onload = () => {
-          console.log(img.width)
           this.setState({
             src,
             width: img.width,
@@ -190,7 +188,6 @@ class ImageForm extends Component {
     return onImageRemove(image)
   }
   renderLabel = () => {
-    console.log('inside render label')
     const { width, height } = this.state
     const { label } = this.props
     if (width && height) {

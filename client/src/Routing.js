@@ -2,37 +2,30 @@ import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 //import ReactGA from 'react-ga'
 
+import authenticate from './containers/user/authenticate'
+
 import App from './components/app/App'
-
-// Brand
-import BrandAdmin from './components/brands/BrandAdmin'
-
-// Page
-import Page from './components/pages/Page'
-import AdminPages from './components/pages/AdminPages'
 import AdminPage from './components/pages/AdminPage'
-
-// User
+import AdminPages from './components/pages/AdminPages'
+import AdminOrderPage from './components/orders/AdminOrderPage'
+import AdminOrderDetailPage from './components/orders/AdminOrderDetailPage'
+import AdminUsersPage from './components/users/AdminUsersPage'
+import AdminUsersEditUserPage from './containers/users/AdminUsersEditUserPage'
+import BrandAdmin from './components/brands/BrandAdmin'
 import CartPage from './components/cart/CartPage'
-import RequireAuth from './containers/users/RequireAuth'
-import Signup from './components/users/Signup'
-import Signin from './components/users/Signin'
-import Recovery from './components/users/Recovery'
-import Reset from './components/users/Reset'
-import ProfilePage from './components/users/ProfilePage'
-import RequestEstimate from './components/users/RequestEstimate'
-
-// Product
-import ProductPage from './components/products/ProductPage'
-
-//Order
-import OrderAdd from './containers/orders/OrderAdd'
-import OrderConfirmation from './containers/orders/OrderConfirmation'
-import OrderDetailPage from './containers/orders/OrderDetailPage'
-import AdminOrderList from './containers/orders/AdminOrderList'
-import AdminOrderDetail from './containers/orders/AdminOrderDetail'
-
 import NotFound from './components/not-found/NotFound'
+import OrderAdd from './components/orders/OrderAdd'
+import OrderConfirmation from './components/orders/OrderConfirmation'
+import OrderDetailPage from './components/orders/OrderDetailPage'
+import Page from './components/pages/Page'
+import ProductPage from './components/products/ProductPage'
+import UserProfilePage from './containers/user/UserProfilePage'
+import Recovery from './components/user/Recovery'
+import Reset from './components/user/Reset'
+import Signin from './components/user/Signin'
+import Signup from './components/user/Signup'
+
+import RequestEstimate from './components/user/RequestEstimate'
 
 // Google Analytics
 // ReactGA.initialize('UA-100349397-1')
@@ -48,12 +41,13 @@ const Routing = ({ history }) => (
       {/* Page */}
       <IndexRoute component={Page} />
       <Route path=":slug" component={Page} />
-      <Route path="admin/pages" component={RequireAuth(AdminPages, ['admin'])} />
-      <Route path="admin/pages/:slug" component={RequireAuth(AdminPage, ['admin'])} />
-
+      <Route path="admin/pages" component={authenticate(AdminPages, ['admin'])} />
+      <Route path="admin/pages/:slug" component={authenticate(AdminPage, ['admin'])} />
+      <Route path="admin/users" component={authenticate(AdminUsersPage, ['owner'])} />
+      <Route path="admin/users/edit/:userId" component={authenticate(AdminUsersEditUserPage, ['owner'])} />
 
       {/* Brand */}
-      <Route path="admin/brand" component={RequireAuth(BrandAdmin, ['admin'])} />
+      <Route path="admin/brand" component={authenticate(BrandAdmin, ['admin'])} />
 
       {/* User */}
       <Route path="user/cart" component={CartPage} />
@@ -61,18 +55,19 @@ const Routing = ({ history }) => (
       <Route path="user/signin" component={Signin} />
       <Route path="user/recovery" component={Recovery} />
       <Route path="user/reset/:token" component={Reset} />
-      <Route path="user/profile" component={RequireAuth(ProfilePage, ['admin', 'user'])} />
-      <Route path="user/order" component={RequireAuth(OrderAdd, ['user'])} />
-      <Route path="user/order/:orderId" component={RequireAuth(OrderConfirmation, ['user'])} />
-      <Route path="user/orders/:orderId" component={RequireAuth(OrderDetailPage, ['user'])} />
+      <Route path="user/profile" component={authenticate(UserProfilePage, ['admin', 'user'])} />
+      <Route path="user/order" component={authenticate(OrderAdd, ['user'])} />
+      <Route path="user/order/:orderId" component={authenticate(OrderConfirmation, ['user'])} />
+      <Route path="user/orders/:orderId" component={authenticate(OrderDetailPage, ['user'])} />
       <Route path="user/request-estimate" component={RequestEstimate} />
+
 
       {/* Product */}
       <Route path="products/:productSlug/:productId" component={ProductPage} />
 
       {/* Orders */}
-      <Route path="admin/orders" component={RequireAuth(AdminOrderList, ['admin'])} />
-      <Route path="admin/orders/:orderId" component={RequireAuth(AdminOrderDetail, ['admin'])} />
+      <Route path="admin/orders" component={authenticate(AdminOrderPage, ['admin'])} />
+      <Route path="admin/orders/:orderId" component={authenticate(AdminOrderDetailPage, ['admin'])} />
 
       <Route path='*' component={NotFound} />
     </Route>

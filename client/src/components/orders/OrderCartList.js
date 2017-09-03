@@ -3,16 +3,21 @@ import PropTypes from 'prop-types'
 
 import OrderCartItem from './OrderCartItem'
 
-const OrderCartList = ({ items }) => (
-  !items.length ? <h3>No items yet</h3> :
-  <div>
+const OrderCartList = ({ dispatch, items }) => (
+  <div style={{ overflow: 'hidden' }}>
     {items.map(item => (
       <OrderCartItem
+        dispatch={dispatch}
         key={item._id}
         item={item}
       />
     ))}
   </div>
 )
+
+OrderCartList.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
+}
 
 export default OrderCartList

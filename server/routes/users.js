@@ -3,6 +3,9 @@ import express from 'express'
 import authenticate from '../middleware/authenticate'
 import {
   add,
+  adminAdd,
+  adminRemove,
+  adminUpdate,
   get,
   update,
   remove,
@@ -17,13 +20,16 @@ import {
 const users = express.Router()
 
 users.post('/', add)
-users.get('/', authenticate(['user','admin']), get)
-users.patch('/', authenticate(['user', 'admin']), update)
-users.delete('/', authenticate([ 'user', 'admin' ]), remove)
+users.post('/admin', adminAdd)
+users.get('/', authenticate([ 'user', 'admin', 'owner' ]), get)
+users.patch('/', authenticate([ 'user', 'admin', 'owner' ]), update)
+users.patch('/admin/:userId', authenticate([ 'owner']), adminUpdate)
+users.delete('/', authenticate([ 'user', 'admin', 'owner' ]), remove)
+users.delete('/admin/:userId', authenticate([ 'owner' ]), adminRemove)
 users.post('/signin', signin)
 users.post('/recovery', recovery)
 users.post('/reset/:token', reset)
-users.patch('/signout', authenticate(['admin','user']), signout)
+users.patch('/signout', authenticate([ 'admin', 'user', 'owner' ]), signout)
 users.post('/contact', contact)
 users.post('/request-estimate', requestEstimate)
 

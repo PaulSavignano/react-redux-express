@@ -32,7 +32,6 @@ export const fetchAddToCart = (update) => {
         })
         .catch(error => dispatch(fetchAddToCartFailure(error)))
     } else {
-      console.log('no cartId for action')
       return fetch(`/api/${route}`, {
         method: 'POST',
         headers: {
@@ -61,7 +60,6 @@ const fetchCartRequest = () => ({ type: REQUEST })
 const fetchCartSuccess = (cart) => ({ type: RECEIVE, cart })
 const fetchCartFailure = (error) => ({ type: ERROR, error })
 export const fetchCart = (cartId) => {
-  console.log('actionCartId', cartId)
   return (dispatch, getState) => {
     dispatch(fetchCartRequest())
     return fetch(`/api/${route}/${cartId}`, {

@@ -8,7 +8,6 @@ import { fetchUpdate as contactFormUpdate, fetchDelete as contactFormDelete } fr
 import { fetchUpdate as heroUpdate, fetchDelete as heroDelete } from '../../actions/heros'
 import { fetchUpdate as productUpdate, fetchDelete as productDelete } from '../../actions/products'
 import { fetchUpdate as sectionUpdate, fetchDelete as sectionDelete } from '../../actions/sections'
-import { fetchUpdate as viewUpdate, fetchDelete as viewDelete } from '../../actions/views'
 
 const adminItemForms = [{
   name: 'ARTICLE',

@@ -13,7 +13,7 @@ import { fetchCart } from './actions/cart'
 import { fetchOrders } from './actions/orders'
 import { fetchPages } from './actions/pages'
 import { fetchProducts } from './actions/products'
-import { fetchUser } from './actions/users'
+import { fetchUser } from './actions/user'
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
@@ -21,7 +21,6 @@ const history = syncHistoryWithStore(browserHistory, store)
 const token = localStorage.getItem('token')
 if (token) {
   store.dispatch(fetchUser(token))
-  store.dispatch(fetchOrders())
 }
 
 const cart = localStorage.getItem('cart')

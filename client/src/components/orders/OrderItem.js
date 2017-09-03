@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Card, CardText } from 'material-ui/Card'
 import moment from 'moment'
@@ -14,10 +13,14 @@ class OrderItem extends Component {
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
+  handleNavigation = () => {
+    const { dispatch, order: { _id }} = this.props
+    dispatch(push(`/user/orders/${_id}`))
+  }
   render() {
     const {
       dispatch,
-      item: {
+      order: {
         _id,
         cart: { items },
         createdAt,
@@ -30,7 +33,7 @@ class OrderItem extends Component {
         zDepth={this.state.elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onTouchTap={() => dispatch(push(`/user/orders/${_id}`))}
+        onTouchTap={this.handleNavigation}
         className="card"
         style={{ margin: 16 }}
       >
@@ -52,11 +55,18 @@ class OrderItem extends Component {
             <div>{_id}</div>
           </div>
         </CardText>
-        <OrderCartList items={items} />
+        <OrderCartList
+          dispatch={dispatch}
+          items={items}
+        />
       </Card>
     )
   }
 }
 
+OrderItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  order: PropTypes.object.isRequired,
+}
 
-export default connect()(OrderItem)
+export default OrderItem

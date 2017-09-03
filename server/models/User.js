@@ -3,6 +3,9 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
+import Address from '../models/Address'
+import Order from '../models/Order'
+
 const UserSchema = new Schema({
   values: {
     email: {
@@ -21,20 +24,10 @@ const UserSchema = new Schema({
     lastName: { type: String, trim: true, minlength: 1, required: true },
     phone: { type: String, trim: true, minlength: 1 },
   },
-  addresses: [{
-    values: {
-      name: { type: String, trim: true, minlength: 1 },
-      phone: { type: String, trim: true, minlength: 1 },
-      street: { type: String, trim: true, minlength: 1 },
-      city: { type: String, trim: true, minlength: 1 },
-      zip: { type: String, trim: true, minlength: 1 },
-      state: { type: String, trim: true, minlength: 1 }
-    },
-    createdAt: { type: Date, default: Date.now }
-  }],
+  addresses: [{ type: Schema.ObjectId, ref: 'Address' }],
   password: { type: String, required: true, minlength: 6 },
   roles: {
-    type: [{ type: String, enum: ['user', 'admin'] }],
+    type: [{ type: String, enum: ['admin', 'owner', 'user'] }],
     default: ['user']
   },
   tokens: [{
@@ -47,12 +40,19 @@ const UserSchema = new Schema({
   createdAt: { type: Date, default: Date.now }
 })
 
+function autopopulate(next) {
+  this.populate({ path: 'addresses', select: '-user' })
+  next()
+}
+
+UserSchema.pre('find', autopopulate)
+UserSchema.pre('findOne', autopopulate)
+
 UserSchema.methods.toJSON = function() {
   const user = this
   const userObject = user.toObject()
-  const { _id } = userObject
-  const { email } = userObject.values
-  return { _id, email }
+  const { _id, addresses, roles, values } = userObject
+  return { _id, addresses, roles, values }
 }
 
 UserSchema.methods.generateAuthToken = function() {
@@ -85,6 +85,33 @@ UserSchema.methods.removeTokens = function(tokens) {
       }
     }
   })
+}
+
+UserSchema.methods.buildResponse = function() {
+  const user = this
+  this.populate({ path: 'addresses' })
+  const { addresses, roles, values } = user
+  const isOwner = roles.some(role => role === 'owner')
+  const isAdmin = roles.some(role => role === 'admin')
+  if (isAdmin) {
+    return Promise.all([
+      Order.find({}).then(orders => orders),
+      User.find({}).sort({ 'values.lastName': 1, 'values.firstName': 1 }).then(users => users)
+    ])
+    .then(([orders, users]) => {
+      return {
+        user: { addresses, roles, values },
+        orders: orders,
+        users: users
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(400).send()
+    })
+  } else {
+    return Promise.resolve({ user: { addresses, values, roles }})
+  }
 }
 
 UserSchema.statics.findByToken = function(token, roles) {
@@ -135,6 +162,12 @@ UserSchema.pre('save', function(next) {
   } else {
     next()
   }
+})
+
+UserSchema.pre('remove', function(next) {
+  const user = this
+  user.model('addresses').remove({ _id: { $in: user.addresses }})
+  next()
 })
 
 const User = mongoose.model('User', UserSchema)

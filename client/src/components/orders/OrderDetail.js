@@ -23,6 +23,7 @@ const styles = {
 }
 
 const OrderDetail = ({
+  dispatch,
   order: {
     _id,
     cart: { items, subTotal, tax, total },
@@ -68,10 +69,17 @@ const OrderDetail = ({
       </div>
     </CardText>
     <CardText>
-      <OrderCartList items={items} />
+      <OrderCartList 
+        dispatch={dispatch}
+        items={items}
+      />
     </CardText>
   </Card>
 )
 
+OrderDetail.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  order: PropTypes.object.isRequired,
+}
 
 export default OrderDetail

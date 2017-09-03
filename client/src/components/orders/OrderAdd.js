@@ -6,11 +6,11 @@ import Payment from 'payment'
 import { Card, CardText, CardTitle } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 
-import requireCart from './requireCart'
-import SuccessableButton from '../../components/buttons/SuccessableButton'
-import renderTextField from '../../components/fields/renderTextField'
-import renderSelectField from '../../components/fields/renderSelectField'
-import AddressFields from '../../components/users/AddressFields'
+import requireCart from '../../containers/orders/requireCart'
+import SuccessableButton from '../buttons/SuccessableButton'
+import renderTextField from '../fields/renderTextField'
+import renderSelectField from '../fields/renderSelectField'
+import AddressFields from '../addresses/AddressFields'
 import validateCreditCard from '../../utils/validateCreditCard'
 import formatPrice from '../../utils/formatPrice'
 import { fetchAddOrder } from '../../actions/orders'
@@ -18,6 +18,10 @@ import { fetchAddOrder } from '../../actions/orders'
 class OrderAdd extends Component {
   state = {
     newAddress: false
+  }
+  handleFormSubmit = (values) => {
+    const { dispatch, handleSubmit, cart } = this.props
+    return dispatch(fetchAddOrder({ ...values, cart }))
   }
   render() {
     const {
@@ -27,18 +31,14 @@ class OrderAdd extends Component {
       isFetching,
       cart,
       addresses,
-      submitting ,
+      submitting,
       submitSucceeded
     } = this.props
     return (
-      isFetching ? null :
       <div className="page">
         <section className="section-margin">
           <Card className="card">
-            <form onSubmit={handleSubmit((values) => {
-              const order = { ...values, cart }
-              return dispatch(fetchAddOrder(order))
-            })}>
+            <form onSubmit={handleSubmit(this.handleFormSubmit)}>
               <CardTitle title="Checkout" />
               <CardText>
                 <ul className="credit-card-list">
@@ -123,9 +123,17 @@ class OrderAdd extends Component {
   }
 }
 
-OrderAdd = reduxForm({
+OrderAdd.propTypes = {
+  error: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  cart: PropTypes.object.isRequired,
+  addresses: PropTypes.array,
+  submitting: PropTypes.bool.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired
+}
+
+export default requireCart(reduxForm({
   form: 'CheckoutForm',
   validate: validateCreditCard,
-})(OrderAdd)
-
-export default requireCart(OrderAdd)
+})(OrderAdd))

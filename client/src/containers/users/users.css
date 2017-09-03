@@ -1,0 +1,30 @@
+.AdminUsersItem {
+  margin: 16px
+}
+
+.AdminUsersItemForm {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+
+.AdminUsersItemFormFieldContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.AdminUsersItemFormField {
+  margin: -16px 16px 16px;
+  flex: 1 1 auto;
+}
+
+.AdminUsersItemFormP {
+  flex: 3 3 auto;
+  padding: 16px 8px
+}
+
+.AdminUsersItemButtons {
+  align-self: center;
+}

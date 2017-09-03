@@ -9,17 +9,15 @@ import { deleteFile, uploadFile } from '../middleware/s3'
 // Find out why req is empty
 export const add = (req, res) => {
   const { pageId, pageSlug, sectionId } = req.body
-  console.log(req.body)
   const newDoc = new Hero({
     section: ObjectID(sectionId),
     page: ObjectID(pageId),
     pageSlug,
     image: null,
-    values: []
+    values: {}
   })
   newDoc.save()
   .then(doc => {
-    console.log(doc)
     Section.findOneAndUpdate(
       { _id: doc.section },
       { $push: { items: { kind: 'Hero', item: doc._id }}},

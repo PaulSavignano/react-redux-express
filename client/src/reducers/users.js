@@ -1,85 +1,51 @@
 import { type } from '../actions/users'
 
-const user = (state = {
-  values: {},
-  addresses: [],
-  roles: [],
-  error: null
+const users = (state = {
+  isFetching: false,
+  items: []
 }, action) => {
   switch(action.type) {
-    case `START_EDIT_${type}`:
+    case `REQUEST_${type}S`:
       return {
         ...state,
-        editing: true
+        isFetching: true
       }
-    case `STOP_EDIT_${type}`:
+    case `RECEIVE_${type}S`:
       return {
         ...state,
-        editing: false
+        isFetching: false,
+        items: action.items
       }
     case `ADD_${type}`:
       return {
         ...state,
         isFetching: false,
-        ...action.item
-      }
-    case 'ADD_ADDRESS':
-      return {
-        ...state,
-        addresses: [
-          ...state.addresses,
-          action.address
+        items: [
+          ...state.items,
+          { ...action.item, editing: true }
         ]
-      }
-    case `REQUEST_${type}`:
-      return {
-        ...state,
-        isFetching: true
-      }
-    case `RECEIVE_${type}`:
-      return {
-        ...state,
-        isFetching: false,
-        ...action.item
       }
     case `UPDATE_${type}`:
       return {
         ...state,
-        ...action.item
+        items: state.items.map(item => item._id === action.item._id ?
+          { ...item, ...action.item } :
+          item
+        )
       }
     case `DELETE_${type}`:
       return {
-        roles: [],
-        values: [],
-        error: null
+        ...state,
+        items: state.items.filter(item => item._id !== action._id)
       }
-    case 'REDIRECT_USER':
+    case `ERROR_${type}`:
       return {
         ...state,
-        redirect: action.path
-      }
-
-    case 'ERROR_USER':
-      return { ...state, error: action.error }
-
-    case 'RECOVER_USER':
-      return {
-        ...state,
-        ...action.recovery
-      }
-      case 'RESET_USER':
-        return {
-          ...state,
-          ...action.user
-        }
-    case 'CONTACT_USER':
-      return {
-        ...state,
-        message: action.values
+        error: action.error
       }
     default:
       return state
   }
 }
 
-export default user
+export default users

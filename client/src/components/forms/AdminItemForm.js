@@ -116,7 +116,7 @@ class AdminItemForm extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              onTouchTap={handleSubmit(values => this.handleFormSubmit(values))}
+              onTouchTap={handleSubmit(this.handleFormSubmit)}
               label={submitting ?
                 <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} />
               :

@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -9,7 +7,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import normalizePhone from '../../utils/normalizePhone'
-import { fetchUpdate, fetchDelete } from '../../actions/users'
 
 const validate = values => {
   const errors = {}
@@ -28,25 +25,26 @@ const validate = values => {
   return errors
 }
 
-const ProfileForm = ({
+const UserProfileForm = ({
   dispatch,
   error,
   handleSubmit,
+  onDelete,
+  onFormSubmit,
   submitSucceeded,
   submitting
 }) => (
-  <Card>
-    <CardTitle title="Profile" />
-    <form onSubmit={handleSubmit(values => dispatch(fetchUpdate({ type: 'UPDATE_VALUES', values}))
-    )}
+  <Card className="UserProfileForm">
+    <CardTitle title="User" />
+    <form onSubmit={handleSubmit(onFormSubmit)}
     >
       <div className="field-container">
         <Field name="firstName" component={renderTextField} label="First Name" className="field" />
         <Field name="lastName" component={renderTextField} label="Last Name" className="field" />
         <Field name="email" component={renderTextField} label="Email" className="field" />
         <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
-        <Field name="password" component={renderTextField} label="Password" type="password" className="field" />
-        <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" className="field"/>
+        <Field name="password" component={renderTextField} label="Update Password" type="password" className="field" />
+        <Field name="passwordConfirm" component={renderTextField} label="Confirm Password" type="password" className="field"/>
       </div>
       {error && <div className="error">{error}</div>}
       <div className="button-container">
@@ -60,22 +58,20 @@ const ProfileForm = ({
           type="button"
           label="Delete Account"
           className="button delete-button"
-          onTouchTap={() => dispatch(fetchDelete())}
+          onTouchTap={onDelete}
         />
       </div>
     </form>
   </Card>
 )
 
-export default compose(
-  connect((state, { user }) => {
-    console.log('somehow in profile form', user)
-    return {
-      initialValues: user.values
-    }
-  }),
-  reduxForm({
-    form: 'profile',
-    validate
-  })
-)(ProfileForm)
+UserProfileForm.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
+}
+
+export default reduxForm({})(UserProfileForm)

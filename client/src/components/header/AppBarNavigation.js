@@ -44,7 +44,6 @@ class AppBarNavigation extends Component {
     return dispatch(searchToggle(!search.searching))
   }
   handleNavToCart = () => {
-    console.log('inside nav to cart')
     const { dispatch } = this.props
     dispatch(push('/user/cart'))
   }

@@ -17,13 +17,17 @@ class AdminOrderItem extends Component {
     zDepth: 1,
   }
   handleShipOrder = (e) =>  {
-    const { shipped, dispatch, order: { _id }} = this.props
     e.stopPropagation()
+    const { shipped, dispatch, order: { _id }} = this.props
     if (!shipped) return dispatch(fetchUpdate(_id, { type: 'SHIPPED' }))
     return
   }
   handleMouseEnter = () => this.setState({ zDepth: 4 })
   handleMouseLeave = () => this.setState({ zDepth: 1 })
+  handleNavigation = () => {
+    const { dispatch, order: { _id }} = this.props
+    return dispatch(push(`/user/orders/${_id}`))
+  }
   render() {
     const {
       dispatch,
@@ -42,7 +46,7 @@ class AdminOrderItem extends Component {
         zDepth={this.state.zDepth}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onTouchTap={() => dispatch(push(`/user/orders/${_id}`))}
+        onTouchTap={this.handleNavigation}
         className="card"
       >
         <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -79,14 +83,18 @@ class AdminOrderItem extends Component {
             </form>
           </CardText>
         </div>
-        <OrderCartList items={items} />
+        <OrderCartList
+          dispatch={dispatch}
+          items={items}
+        />
       </Card>
     )
   }
 }
 
+AdminOrderItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  order: PropTypes.object.isRequired,
+}
 
-export default compose(connect((state, { order: { _id }}) => ({
-  form: `order_${_id}`
-})),
-reduxForm({destroyOnUnmount: false, asyncBlurFields: []}))(AdminOrderItem)
+export default AdminOrderItem

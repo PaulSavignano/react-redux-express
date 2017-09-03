@@ -14,44 +14,41 @@ injectTapEventPlugin()
 
 class App extends Component {
   state = {
-    backgroundColor: null
+    theme: null
   }
   componentWillMount() {
-    const { backgroundColor } = this.props.brand.bodyStyle.values
-    this.setState({ backgroundColor })
+    const {
+      bodyStyle: { values: { backgroundColor}},
+      palette: { values },
+      theme: { values: { fontFamily }}
+    } = this.props.brand
+    const theme = { fontFamily, palette: values }
+    this.setState({ theme })
+    document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
   }
   componentWillReceiveProps({ brand: { bodyStyle: { values: {backgroundColor }}}}) {
     if (backgroundColor !== this.props.brand.bodyStyle.values.backgroundColor) {
-      this.setState({ backgroundColor })
+      document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
     }
   }
   render() {
-    document.getElementsByTagName('body')[0].style['background-color'] = this.state.backgroundColor
     const {
       brand: {
-        bodyStyle: { values: { backgroundColor }},
         business: {
           image,
           values: {
             name,
             description
           }
-        },
-        theme: { values: { fontFamily }},
-        palette
+        }
       },
       children,
       dispatch,
-      isFetching,
       pathname,
       search,
     } = this.props
-    const theme = {
-      fontFamily,
-      palette: palette.values
-    }
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(this.state.theme)}>
         <div>
           <Helmet>
             <meta charSet="utf-8" />
@@ -69,6 +66,14 @@ class App extends Component {
       </MuiThemeProvider>
     )
   }
+}
+
+App.propTypes = {
+  brand: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  pathname: PropTypes.string.isRequired,
+  search: PropTypes.object.isRequired,
 }
 
 export default appContainer(App)

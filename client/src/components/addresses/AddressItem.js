@@ -6,9 +6,9 @@ import { reduxForm } from 'redux-form'
 import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import AddressFields from '../../components/users/AddressFields'
+import AddressFields from './AddressFields'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
-import { fetchUpdate } from '../../actions/users'
+import { fetchUpdate, fetchDelete } from '../../actions/addresses'
 
 class AddressItem extends Component {
   state = {
@@ -16,8 +16,25 @@ class AddressItem extends Component {
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
+  handleFormSubmit = (values) => {
+    const { dispatch, item: { _id }, onAddressUpdate } = this.props
+    return onAddressUpdate(_id, values)
+  }
+  handleDelete = () => {
+    const { dispatch, item: { _id }, onAddressDelete } = this.props
+    return onAddressDelete(_id)
+  }
   render() {
-    const { dispatch, error, handleSubmit, item, submitSucceeded, submitting } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      item,
+      submitSucceeded,
+      submitting,
+      onAddressUpdate,
+      onAddressDelete
+    } = this.props
     return (
       <Card
         zDepth={this.state.elevation}
@@ -27,10 +44,7 @@ class AddressItem extends Component {
         style={{ margin: 16 }}
       >
         <form
-          onSubmit={handleSubmit((values) => {
-            const update = { type: 'UPDATE_ADDRESS', itemId: item._id, values }
-            return dispatch(fetchUpdate(update))
-          })}
+          onSubmit={handleSubmit(this.handleFormSubmit)}
           style={{ flex: '1 1 auto' }}
         >
           <AddressFields />
@@ -46,10 +60,7 @@ class AddressItem extends Component {
               type="button"
               label="X"
               className="button delete-button"
-              onTouchTap={() => {
-                const update = { type: 'DELETE_ADDRESS', itemId: item._id }
-                return dispatch(fetchUpdate(update))
-              }}
+              onTouchTap={this.handleDelete}
             />
           </div>
         </form>

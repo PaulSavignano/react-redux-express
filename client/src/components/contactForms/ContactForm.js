@@ -9,7 +9,7 @@ import { Field, reduxForm } from 'redux-form'
 import contactFormContainer from '../../containers/contactForms/contactFormContainer'
 import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../fields/renderTextField'
-import { fetchContact } from '../../actions/users'
+import { fetchContact } from '../../actions/user'
 
 const validate = values => {
   const errors = {}

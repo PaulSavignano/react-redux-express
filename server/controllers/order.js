@@ -30,7 +30,7 @@ export const add = (req, res, next) => {
     })
       .then(charge => {
         const newOrder = new Order({
-          userId: user._id,
+          user: user._id,
           paymentId: charge.id,
           total: cart.total,
           firstName,
@@ -87,6 +87,29 @@ export const add = (req, res, next) => {
 }
 
 
+export const get = (req, res) => {
+  const isAdmin = req.user.roles.some(role => role === 'admin')
+  if (isAdmin) {
+    Order.find({})
+      .then(orders => res.send(orders))
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+  } else {
+    Order.find(
+      { user: req.user._id }
+    )
+    .then(orders => res.send(orders))
+    .catch(error => {
+      console.error(error)
+      res.status(400).send({ error })
+    })
+  }
+}
+
+
+
 export const update = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
@@ -133,27 +156,5 @@ export const update = (req, res) => {
       break
     default:
       return
-  }
-}
-
-
-export const get = (req, res) => {
-  const isAdmin = req.user.roles.some(role => role === 'admin')
-  if (isAdmin) {
-    Order.find({})
-      .then(orders => res.send(orders))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
-  } else {
-    Order.find(
-      { userId: req.user._id }
-    )
-    .then(orders => res.send(orders))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
   }
 }

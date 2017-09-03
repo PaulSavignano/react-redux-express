@@ -7,14 +7,13 @@ import Section from '../models/Section'
 import { deleteFile, uploadFile } from '../middleware/s3'
 
 export const add = (req, res) => {
-  console.log('adding', req.body)
   const { pageId, pageSlug, sectionId } = req.body
   const newDoc = new Product({
     page: ObjectID(pageId),
     pageSlug,
     section: ObjectID(sectionId),
     image: null,
-    values: []
+    values: {}
   })
   newDoc.save()
   .then(product => {

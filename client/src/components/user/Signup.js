@@ -2,17 +2,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import { Field, reduxForm } from 'redux-form'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import { Field, reduxForm } from 'redux-form'
 
-import renderTextField from '../../components/fields/renderTextField'
-import { fetchRecovery } from '../../actions/users'
+import userContainer from '../../containers/user/userContainer'
+import renderTextField from '../fields/renderTextField'
+import { fetchAdd } from '../../actions/user'
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'email' ]
+  const requiredFields = [ 'firstName', 'lastName', 'email', 'password', 'passwordConfirm' ]
   requiredFields.forEach(field => {
     if (!values[ field ]) {
       errors[ field ] = 'Required'
@@ -21,32 +22,32 @@ const validate = values => {
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address'
   }
+  if (values.password !== values.passwordConfirm) {
+    errors.passwordConfirm = 'Passwords must match'
+  }
   return errors
 }
 
-class Recovery extends Component {
-  state = {
-    open: false,
-    email: null
-  }
+class Signup extends Component {
+  state = { open: false }
   handleClose = () => this.setState({open: false})
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, isFetching } = this.props
+    const { dispatch, error, handleSubmit, submitting, user } = this.props
     return (
-      isFetching ? null :
       <div className="page">
         <section className="section-margin">
           <Card>
-            <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
-            <form onSubmit={handleSubmit(values => {
-              this.setState({ email: values.email })
-              return dispatch(fetchRecovery(values))
-            })} className="">
+            <CardTitle title="Signup" subtitle="Enter your information" />
+            <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)).then(() => this.props.reset()))} >
               <CardText>
+                <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
+                <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
+                <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
+                <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" fullWidth={true} type="password"/>
               </CardText>
               {error && <div className="error">{error}</div>}
               {!this.state.open ? null :
@@ -62,12 +63,12 @@ class Recovery extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleClose}
               >
-                An email has been sent to {this.state.email}
+                Welcome {user.values.firstName && user.values.firstName}!
               </Dialog>
               }
               <CardActions>
                 <RaisedButton
-                  label="Recovery"
+                  label="Sign Up"
                   fullWidth={true}
                   disabled={submitting}
                   type="submit"
@@ -82,17 +83,8 @@ class Recovery extends Component {
   }
 }
 
-
-Recovery = reduxForm({
-  form: 'recovery',
+export default userContainer(
+  reduxForm({
+  form: 'signup',
   validate
-})(Recovery)
-
-const mapStateToProps = ({ user }) => ({
-  isFetching: user.isFetching,
-  user
-})
-
-Recovery = connect(mapStateToProps)(Recovery)
-
-export default Recovery
+})(Signup))

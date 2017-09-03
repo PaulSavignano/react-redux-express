@@ -8,7 +8,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
 import renderTextField from '../../components/fields/renderTextField'
-import { fetchReset } from '../../actions/users'
+import { fetchReset } from '../../actions/user'
 
 const validate = values => {
   const errors = {}

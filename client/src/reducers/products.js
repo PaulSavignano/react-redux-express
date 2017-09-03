@@ -5,22 +5,6 @@ const products = (state = {
   items: []
 }, action) => {
   switch (action.type) {
-    case `START_EDIT_${type}`:
-      return {
-        ...state,
-        items: state.items.map(item => item._id === action._id ?
-          { ...item, editing: true } :
-          item
-        )
-      }
-    case `STOP_EDIT_${type}`:
-      return {
-        ...state,
-        items: state.items.map(item => item._id === action._id ?
-          { ...item, editing: false } :
-          item
-        )
-      }
     case `REQUEST_${type}S`:
       return {
         ...state,

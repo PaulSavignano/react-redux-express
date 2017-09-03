@@ -13,7 +13,6 @@ const ERROR = `ERROR_${type}`
 
 // Create
 export const fetchAdd = (add) => {
-  console.log(add)
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',

@@ -5,6 +5,7 @@ import typographyContainer from '../../containers/typography/typographyContainer
 
 const P = ({
   children,
+  className,
   fontFamily,
   textColor
 }) => (
@@ -14,6 +15,7 @@ const P = ({
       fontFamily,
       overflow: 'hidden'
     }}
+    {...className}
   >
     {children}
   </div>

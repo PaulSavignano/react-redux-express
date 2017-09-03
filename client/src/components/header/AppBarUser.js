@@ -8,7 +8,7 @@ import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
 import './header.css'
-import { fetchSignout } from '../../actions/users'
+import { fetchSignout } from '../../actions/user'
 
 class AppBarUser extends Component {
   state = {
@@ -78,7 +78,7 @@ class AppBarUser extends Component {
           label={firstName ? `Hello, ${firstName}`: `SIGN IN`}
           labelStyle={{ padding: '0 0 0 4px' }}
           hoverColor="none"
-          style={{ color, fontFamily, minWidth: 'none', margin: '0 16px' }}
+          style={{ color, fontFamily, minWidth: 'none', margin: '0 0 0 8px' }}
         />
         <Popover
           open={this.state.openMenu}

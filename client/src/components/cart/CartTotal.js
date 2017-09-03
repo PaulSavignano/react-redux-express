@@ -6,7 +6,7 @@ import { CardActions, CardTitle } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import formatPrice from '../../utils/formatPrice'
-import { redirectUser } from '../../actions/users'
+import { redirectUser } from '../../actions/user'
 
 const CartTotal = ({ dispatch, cart, user }) => (
   cart.total &&

@@ -2,6 +2,8 @@ import { ObjectID } from 'mongodb'
 import crypto from 'crypto'
 import fetch from 'node-fetch'
 
+import Address from '../models/Address'
+import Order from '../models/Order'
 import User from '../models/User'
 import { sendEmail1 } from '../middleware/nodemailer'
 
@@ -16,43 +18,75 @@ export const add = (req, res) => {
     values: { email, firstName, lastName }
   })
   user.save()
-    .then(doc => {
-      const { values, roles } = doc
-      const { email, firstName, lastName } = values
-      return user.generateAuthToken()
-        .then(token => {
-          sendEmail1({
-            to: email,
-            toSubject: `Welcome to ${process.env.APP_NAME}!`,
-            toBody: `
-              <p>Hi ${firstName},</p>
-              <p>Thank you for joining ${process.env.APP_NAME}!</p>
-              <p>I hope you enjoy our offerings.  You may modify your profile settings at ${process.env.ROOT_URL}/user/profile.</p>
-              <p>Please let us know if there is anything we can do to better assist you.</p>
-            `,
-            fromSubject: `New ${process.env.APP_NAME} user!`,
-            fromBody: `
-              <p>New user ${firstName} ${lastName} just signed up at ${process.env.APP_NAME}.</p>
-              `
-          })
-          res.header('x-auth', token).send({ values, roles })
+  .then(doc => {
+    const { values, roles } = doc
+    const { email, firstName, lastName } = values
+    return user.generateAuthToken()
+      .then(token => {
+        sendEmail1({
+          to: email,
+          toSubject: `Welcome to ${process.env.APP_NAME}!`,
+          toBody: `
+            <p>Hi ${firstName},</p>
+            <p>Thank you for joining ${process.env.APP_NAME}!</p>
+            <p>I hope you enjoy our offerings.  You may modify your profile settings at ${process.env.ROOT_URL}/user/profile.</p>
+            <p>Please let us know if there is anything we can do to better assist you.</p>
+          `,
+          fromSubject: `New ${process.env.APP_NAME} user!`,
+          fromBody: `
+            <p>New user ${firstName} ${lastName} just signed up at ${process.env.APP_NAME}.</p>
+            `
         })
-        .catch(error => {
-          console.error('generateAuthToken(): ', error)
-          res.status(400).send({ error: { password: 'password not valid' }})
-        })
-    })
-    .catch(error => {
-      console.error('user.save() : ', error)
-      res.status(400).send({ error: { email: 'User already exists'}})
-    })
+        res.header('x-auth', token).send({ values, roles })
+      })
+      .catch(error => {
+        console.error('generateAuthToken(): ', error)
+        res.status(400).send({ error: { password: 'password not valid' }})
+      })
+  })
+  .catch(error => {
+    console.error('user.save() : ', error)
+    res.status(400).send({ error: { email: 'User already exists'}})
+  })
+}
+
+export const adminAdd = (req, res) => {
+  const { user } = req
+  const isOwner = user.roles.some(role => role === 'owner')
+  if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
+  const { email, firstName, lastName, password } = req.body
+  if ( !email || !firstName || !firstName || !password) {
+    return res.status(422).send({ error: 'You must provide all fields' });
+  }
+  const newUser = new User({
+    password,
+    values: { email, firstName, lastName }
+  })
+  newUser.save()
+  .then(doc => {
+    const { values, roles } = doc
+    const { email, firstName, lastName } = values
+    return user.generateAuthToken()
+      .then(token => {
+        res.header('x-auth', token).send({ values, roles })
+      })
+      .catch(error => {
+        console.error('generateAuthToken(): ', error)
+        res.status(400).send({ error: { password: 'password not valid' }})
+      })
+  })
+  .catch(error => {
+    console.error('user.save() : ', error)
+    res.status(400).send({ error: { email: 'User already exists'}})
+  })
 }
 
 
 export const get = (req, res) => {
   const { token, user } = req
   const { values, addresses, roles } = user
-  const ttl = (1000 * 60 * 60 * 24)
+  const isAdmin = roles.some(role => role === 'admin')
+  const ttl = (1000 * 60 * 60 * 72) // 72 hours
   const expiredTokens = user.tokens.filter(token => (token.createdAt + ttl) < Date.now())
   if (expiredTokens.length) {
     user.removeTokens(expiredTokens)
@@ -64,7 +98,15 @@ export const get = (req, res) => {
         res.status(401).send({ error })
       })
   } else {
-    res.send({ token: 'valid', values, addresses, roles })
+    return user.buildResponse()
+    .then(response => {
+      const { user, users } = response
+      res.send({ user, users })
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(400).send()
+    })
   }
 }
 
@@ -72,76 +114,78 @@ export const get = (req, res) => {
 export const update = (req, res) => {
   const { user } = req
   const { type, itemId, values } = req.body
-  switch (type) {
-
-    case 'UPDATE_VALUES':
-      if (values.password) {
-        user.password = values.password
-      }
-      user.values = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phone: values.phone
-      }
-      user.save()
-        .then(() => user.generateAuthToken())
-        .then(token => {
-          const { values } = user
-          res.header('x-auth', token).send({ values })
-        })
-        .catch(error => {
-          console.error('user.save(): ', error)
-          res.status(400).send({ error: { password: error }})
-        })
-      break
-
-    case 'ADD_ADDRESS':
-      User.findOneAndUpdate({ _id: req.user._id }, { $push: { addresses: { values } }}, { new: true })
-        .then(doc => {
-          const { values, addresses, roles } = doc
-          res.send({ addresses })
-        })
-        .catch(error => {
-          console.error('User.findOneAndUpdate: ', error)
-          res.status(400).send({ error: { address: 'Update failed' }})
-        })
-      break
-
-    case 'UPDATE_ADDRESS':
-      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': itemId }, { $set: { 'addresses.$.values': values }}, { new: true })
-        .then(doc => {
-          const { addresses } = doc
-          res.send({ addresses })
-        })
-        .catch(error => {
-          console.error('User.findOneAndUpdate: ', error)
-          res.status(400).send({ error: 'Address update failed'})
-        })
-      break
-
-    case 'DELETE_ADDRESS':
-      User.findOneAndUpdate({ _id: req.user._id, 'addresses._id': itemId }, { $pull: { 'addresses': { _id: itemId } }}, { new: true })
-        .then(doc => {
-          const { values, addresses, roles } = doc
-          res.send({ addresses })
-        })
-        .catch(error => {
-          console.error('User.findOneAndUpdate: ', error)
-          res.status(400).send({ error: 'Address delete failed' })
-        })
-      break
-
-    default:
-      return
+  if (values.password) {
+    user.password = values.password
   }
+  user.values = {
+    firstName: values.firstName,
+    lastName: values.lastName,
+    email: values.email,
+    phone: values.phone
+  }
+  user.save()
+  .then(() => user.generateAuthToken())
+  .then(token => {
+    const { values } = user
+    res.header('x-auth', token).send({ values })
+  })
+  .catch(error => {
+    console.error({ error })
+    res.status(400).send({ error })
+  })
+}
+
+export const adminUpdate = (req, res) => {
+  const { user } = req
+  const isOwner = user.roles.some(role => role === 'owner')
+  if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
+  const { userId } = req.params
+  const { values } = req.body
+  User.findOne({ _id: userId })
+  .then(user => {
+    if (values.password) {
+      user.password = values.password
+    }
+    user.values = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      phone: values.phone
+    }
+    user.save()
+    .then(() => user.generateAuthToken())
+    .then(token => {
+      const { values } = user
+      res.header('x-auth', token).send({ values })
+    })
+    .catch(error => {
+      console.error({ error })
+      res.status(400).send({ error })
+    })
+  })
+  .catch(error => {
+    console.log({ error })
+    res.status(400).send({ error })
+  })
 }
 
 
 export const remove = (req, res) => {
-  User.findOneAndRemove(
-    { _id: req.user._id }
-  )
+  const { _id } = req.user
+  User.findOneAndRemove({ _id })
+  .then(doc => res.status(200).send())
+  .catch(error => {
+    console.error('User.findOneAndRemove: ', error)
+    res.status(400).send({ error: 'user delete failed' })
+  })
+}
+
+export const adminRemove = (req, res) => {
+  const { user } = req
+  const isOwner = user.roles.some(role => role === 'owner')
+  if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
+  const { _id } = req.params
+  User.findOneAndRemove({ _id })
   .then(doc => res.status(200).send())
   .catch(error => {
     console.error('User.findOneAndRemove: ', error)
@@ -153,22 +197,28 @@ export const remove = (req, res) => {
 export const signin = (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
-    .then(user => {
-      if (!user) return Promise.reject({ error: 'User not found' })
-      return user.generateAuthToken()
-        .then(token => {
-          const { values, roles, addresses } = user
-          res.header('x-auth', token).send({ values, roles, addresses })
-        })
-        .catch(error => {
-          console.error('user.generateAuthToken(): ', error)
-          res.status(400).send({ error })
-        })
+  .then(user => {
+    if (!user) return Promise.reject({ error: 'User not found' })
+    return user.generateAuthToken()
+    .then(token => {
+      return user.buildResponse()
+      .then(response => {
+        res.header('x-auth', token).send(response)
+      })
+      .catch(error => {
+        console.log(error)
+        res.status(400).send()
+      })
     })
     .catch(error => {
-      console.error('User.findByCredentials: ', error)
+      console.error('user.generateAuthToken(): ', error)
       res.status(400).send({ error })
     })
+  })
+  .catch(error => {
+    console.error('User.findByCredentials: ', error)
+    res.status(400).send({ error })
+  })
 }
 
 
@@ -227,20 +277,26 @@ export const reset = (req, res) => {
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined
     user.save()
-      .then(() => user.generateAuthToken())
-      .then(token => {
-        const { values, roles, addresses } = user
-        res.header('x-auth', token).send({ values, roles, addresses })
+    .then(() => user.generateAuthToken())
+    .then(token => {
+      user.buildResponse()
+      .then(response => {
+        res.header('x-auth', token).send(response)
       })
       .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
+        console.log(error)
+        res.status(400).send()
       })
     })
     .catch(error => {
       console.error(error)
       res.status(400).send({ error })
     })
+  })
+  .catch(error => {
+    console.error(error)
+    res.status(400).send({ error })
+  })
 }
 
 
