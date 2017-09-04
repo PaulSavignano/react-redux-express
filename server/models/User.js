@@ -90,18 +90,16 @@ UserSchema.methods.removeTokens = function(tokens) {
 UserSchema.methods.buildResponse = function() {
   const user = this
   this.populate({ path: 'addresses' })
-  const { addresses, roles, values } = user
+  const { _id, addresses, roles, values } = user
   const isOwner = roles.some(role => role === 'owner')
   const isAdmin = roles.some(role => role === 'admin')
   if (isAdmin) {
     return Promise.all([
-      Order.find({}).then(orders => orders),
       User.find({}).sort({ 'values.lastName': 1, 'values.firstName': 1 }).then(users => users)
     ])
-    .then(([orders, users]) => {
+    .then(([users]) => {
       return {
-        user: { addresses, roles, values },
-        orders: orders,
+        user: { _id, addresses, roles, values },
         users: users
       }
     })
@@ -110,7 +108,7 @@ UserSchema.methods.buildResponse = function() {
       res.status(400).send()
     })
   } else {
-    return Promise.resolve({ user: { addresses, values, roles }})
+    return Promise.resolve({ user: { _id, addresses, values, roles }})
   }
 }
 

@@ -140,35 +140,55 @@ export const adminUpdate = (req, res) => {
   const isOwner = user.roles.some(role => role === 'owner')
   if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
   const { userId } = req.params
-  const { values } = req.body
-  User.findOne({ _id: userId })
-  .then(user => {
-    if (values.password) {
-      user.password = values.password
-    }
-    user.values = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone
-    }
-    user.save()
-    .then(() => user.generateAuthToken())
-    .then(token => {
-      const { values } = user
-      res.header('x-auth', token).send({ values })
-    })
-    .catch(error => {
-      console.error({ error })
-      res.status(400).send({ error })
-    })
-  })
-  .catch(error => {
-    console.log({ error })
-    res.status(400).send({ error })
-  })
+  const { values, type } = req.body
+  switch(type) {
+    case 'UPDATE_VALUES':
+      return User.findOne({ _id: userId })
+        .then(user => {
+          if (values.password) {
+            user.password = values.password
+          }
+          user.values = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            phone: values.phone
+          }
+          user.save()
+          .then(user => res.send(user))
+          .catch(error => {
+            console.error({ error })
+            res.status(400).send({ error })
+          })
+        })
+        .catch(error => {
+          console.log({ error })
+          res.status(400).send({ error })
+        })
+    case 'UPDATE_ROLES':
+      const roles = values.owner ?
+      [ 'admin', 'owner', 'user' ]
+      :
+      values.admin ?
+      [ 'admin', 'user' ]
+      :
+      [ 'user' ]
+      console.log(roles)
+      return User.findOneAndUpdate(
+          { _id: userId },
+          { $set: { roles: roles }},
+          { new: true }
+        )
+        .populate('addresses')
+        .then(user => res.send(user))
+        .catch(error => {
+          console.log({ error })
+          res.status(400).send({ error })
+        })
+    default:
+      return
+  }
 }
-
 
 export const remove = (req, res) => {
   const { _id } = req.user

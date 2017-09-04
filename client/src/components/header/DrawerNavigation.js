@@ -62,6 +62,7 @@ class DrawerNavigation extends Component {
       dispatch,
       firstName,
       isAdmin,
+      isOwner,
       pages
     } = this.props
     const adminPages = pages.map(page => (
@@ -112,11 +113,13 @@ class DrawerNavigation extends Component {
                 />
               ]}
             />,
-            <ListItem
-              key={4}
-              primaryText="Users"
-              onTouchTap={this.handleNavToAdminUsers}
-            />
+            isOwner ?
+              <ListItem
+                key={4}
+                primaryText="Users"
+                onTouchTap={this.handleNavToAdminUsers}
+              />
+            : null
           ]}
         />
         }

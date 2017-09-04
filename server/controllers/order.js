@@ -88,7 +88,8 @@ export const add = (req, res, next) => {
 
 
 export const get = (req, res) => {
-  const isAdmin = req.user.roles.some(role => role === 'admin')
+  console.log(req.user)
+  const isAdmin = req.user.roles.some(role => role === 'admin' || role === 'owner')
   if (isAdmin) {
     Order.find({})
       .then(orders => res.send(orders))
@@ -97,9 +98,7 @@ export const get = (req, res) => {
         res.status(400).send({ error })
       })
   } else {
-    Order.find(
-      { user: req.user._id }
-    )
+    Order.find({ user: req.user._id })
     .then(orders => res.send(orders))
     .catch(error => {
       console.error(error)

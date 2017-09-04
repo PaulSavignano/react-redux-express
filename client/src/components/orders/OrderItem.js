@@ -34,8 +34,6 @@ class OrderItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={this.handleNavigation}
-        className="card"
-        style={{ margin: 16 }}
       >
         <CardText style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
           <div>

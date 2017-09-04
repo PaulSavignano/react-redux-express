@@ -7,12 +7,25 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import MenuItem from 'material-ui/MenuItem'
 
-
 import renderSelectField from '../../components/fields/renderSelectField'
 
 import H3 from '../typography/H3'
 import P from '../typography/P'
 import { fetchDelete, fetchUpdate } from '../../actions/users'
+
+const styles = {
+  card: {
+    margin: 16
+  },
+  cardContainer: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+  },
+  p: {
+    flex: '3 3 auto',
+    padding: '16px 8px'
+  }
+}
 
 class AdminUsersItem extends Component {
   state = {
@@ -53,9 +66,10 @@ class AdminUsersItem extends Component {
         zDepth={this.state.elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className="AdminUsersItem"
+        containerStyle={styles.cardContainer}
+        style={styles.card}
       >
-        <div className="AdminUsersItemFormP">
+        <div style={styles.p}>
           <P>{email}</P>
         </div>
 

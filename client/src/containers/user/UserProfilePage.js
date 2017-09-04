@@ -68,7 +68,7 @@ class UserProfilePage extends Component {
 export default connect(
   ({ user, orders }) => ({
     isFetching: user.isFetching || orders.isFetching ? true : false,
-    orders: orders.items,
+    orders: orders.items.filter(item => item.user === user._id),
     user
   })
 )(UserProfilePage)

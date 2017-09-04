@@ -21,6 +21,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 const token = localStorage.getItem('token')
 if (token) {
   store.dispatch(fetchUser(token))
+  store.dispatch(fetchOrders())
 }
 
 const cart = localStorage.getItem('cart')

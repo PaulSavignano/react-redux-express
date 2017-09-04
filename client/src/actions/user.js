@@ -2,7 +2,7 @@ import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
 
 import * as usersActions from './users'
-import { fetchOrdersSuccess } from './orders'
+import { fetchOrders } from './orders'
 import { fetchUsersSuccess } from './users'
 
 export const type = 'USER'
@@ -66,9 +66,9 @@ export const fetchUser = (token) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { orders, user, users } = json
-        if (orders) dispatch(fetchOrdersSuccess(orders))
+        const { user, users } = json
         if (users) dispatch(fetchUsersSuccess(users))
+        dispatch(fetchOrders())
         return dispatch(fetchUserSuccess(user))
       })
       .catch(error => {
@@ -166,9 +166,9 @@ export const fetchSignin = (values) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { orders, user, users } = json
-        if (orders) dispatch(fetchOrdersSuccess(orders))
+        const { user, users } = json
         if (users) dispatch(fetchUsersSuccess(users))
+        dispatch(fetchOrders())
         dispatch(fetchSigninSuccess(user))
         const path = getState().user.redirect || null
         if (path) return dispatch(push(path))

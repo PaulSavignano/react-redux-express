@@ -31,6 +31,7 @@ class Header extends Component {
       drawer,
       firstName,
       isAdmin,
+      isOwner,
       pages,
       pathname,
       search,
@@ -83,6 +84,7 @@ class Header extends Component {
           <DrawerNavigation
             dispatch={dispatch}
             isAdmin={isAdmin}
+            isOwner={isOwner}
             pages={pages}
             push={push}
             cartQty={cartQty}

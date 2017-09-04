@@ -23,6 +23,9 @@ body {
   padding: 24px 0;
 }
 
+.card {
+  margin: 16px 8px;
+}
 
 svg {
   fill: inherit !important;
@@ -70,6 +73,16 @@ a {
 
 .field {
   flex: 1 1 auto;
+  margin: 0 8px;
+}
+.checkbox-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin: 16px
+}
+.checkbox {
+  width: auto !important;
   margin: 0 8px;
 }
 

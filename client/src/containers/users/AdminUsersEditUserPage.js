@@ -6,18 +6,24 @@ import AddressesForm from '../../components/addresses/AddressesForm'
 import OrderList from '../../components/orders/OrderList'
 import H3 from '../../components/typography/H3'
 import UserProfileForm from '../../components/user/UserProfileForm'
+import UsersRolesForm from '../../components/users/UsersRolesForm'
 import * as addressesActions from '../../actions/addresses'
 import * as usersActions from '../../actions/users'
 
 class AdminUsersEditUserPage extends Component {
-  handleUserValues= (values) => {
+  handleUserValues = (values) => {
     console.log('inside handler', values)
     const { dispatch, user: { _id }} = this.props
-    return dispatch(usersActions.fetchUpdate(_id, { values }))
+    return dispatch(usersActions.fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
   }
   handleUserDelete = () => {
     const { dispatch, user: { _id }} = this.props
     return dispatch(usersActions.fetchDelete(_id))
+  }
+  handleUserRoles = (values) => {
+    console.log('inside handler', values)
+    const { dispatch, user: { _id }} = this.props
+    return dispatch(usersActions.fetchUpdate(_id, { type: 'UPDATE_ROLES', values }))
   }
   handleAddressAdd = (values) => {
     const { dispatch, user } = this.props
@@ -49,6 +55,16 @@ class AdminUsersEditUserPage extends Component {
             onFormSubmit={this.handleUserValues}
             onDelete={this.handleUserDelete}
             user={user}
+          />
+          <UsersRolesForm
+            user={user}
+            form='user_roles'
+            handleUserRoles={this.handleUserRoles}
+            initialValues={{
+              user: user.roles.some(role => role === 'user'),
+              admin: user.roles.some(role => role === 'admin'),
+              owner: user.roles.some(role => role === 'owner')
+            }}
           />
           <AddressesForm
             dispatch={dispatch}

@@ -21,6 +21,9 @@ export const sendEmail1 = (mail) => {
     .then(brand => {
       if (!brand) return Promise.reject({ error: 'No brand found'})
       const {
+        appBar: {
+          values: { fontFamily }
+        },
         business: {
           image,
           values: {
@@ -35,7 +38,8 @@ export const sendEmail1 = (mail) => {
         }
       } = brand
       const signature = `
-      ${image ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : `<div>${name}</div>`}
+      ${image ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
+      <div style="font-family: ${fontFamily}">${name}</div>
       <div>
         <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none;">
           ${process.env.GMAIL_USER}

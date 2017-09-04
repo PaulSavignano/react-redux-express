@@ -64,7 +64,7 @@ export const fetchUsers = () => {
 // Update
 export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
-export const fetchUpdate = (_id, update) => {s
+export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}/admin/${_id}`, {
       method: 'PATCH',
