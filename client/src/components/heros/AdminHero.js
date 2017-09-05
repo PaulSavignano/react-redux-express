@@ -70,7 +70,6 @@ class AdminHero extends Component {
     } = this.props
     return (
       <div
-        id="this is the div that should have props"
         onTouchTap={this.handleStartEdit}
         {...propsForParent}
       >
@@ -78,7 +77,6 @@ class AdminHero extends Component {
           zDepth={0}
           onTouchTap={this.handleStartEdit}
           {...propsForChild}
-          className="hero"
         >
           {hasMedia &&
             <Media

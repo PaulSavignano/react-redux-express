@@ -38,9 +38,16 @@ class AdminSwipeableSection extends Component {
         {...propsForParent}
       >
         <AutoPlaySwipeableViews
-          id="swipeableviewbaby"
-          autoplay={autoplay}
-          slideStyle={propsForChild}
+          autoplay={true}
+          slideStyle={propsForChild.style}
+          interval={4000}
+          animateTransitions={true}
+          springConfig={{
+            duration: '4s',
+            easeFunction: 'ease-in-out',
+            delay: '-1s'
+          }}
+          className="heroCarousel"
         >
           {renderAdminComponents({ components: items, pageSlug })}
         </AutoPlaySwipeableViews>

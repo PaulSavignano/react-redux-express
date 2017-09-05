@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Section from '../sections/Section'
+import SlideShow from '../sections/SlideShow'
 import SwipeableSection from '../sections/SwipeableSection'
 
 const renderSections = ({ dispatch, sections, pageId, pageSlug }) => {
@@ -15,6 +16,14 @@ const renderSections = ({ dispatch, sections, pageId, pageSlug }) => {
           pageId={pageId}
           pageSlug={pageSlug}
                />
+     case 'SlideShow':
+       return <SlideShow
+         dispatch={dispatch}
+         key={section._id}
+         item={section}
+         pageId={pageId}
+         pageSlug={pageSlug}
+              />
       case 'Swipeable':
         return <SwipeableSection
           dispatch={dispatch}

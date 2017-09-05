@@ -38,11 +38,13 @@ svg {
 
 
 
+
+
+
 .background-image {
   background-position: center center !important;
   background-repeat:  no-repeat !important;
   background-size:  cover !important;
-  transition: all 600ms ease-in-out !important;
 }
 
 
@@ -208,10 +210,18 @@ p {
 
 
 
-.slide-enter {
+.cross-fade-leave {
+  opacity: 1;
+}
+.cross-fade-leave.cross-fade-leave-active {
+  opacity: 0;
+  transition: opacity 2s ease-in;
+}
+
+.cross-fade-enter {
   opacity: 0;
 }
-.slide-enter.slide-enter-active {
+.cross-fade-enter.cross-fade-enter-active {
   opacity: 1;
-  transition: opacity 600ms ease-in;
+  transition: opacity 2s ease-in;
 }

@@ -95,7 +95,7 @@ const adminItemForms = [{
     { name: 'alignItems', type: 'text' },
     { name: 'backgroundColor', type: 'text' },
     { name: 'containerMarginTop', type: 'text' },
-    { name: 'kind', type: 'select', options: [ 'Flex', 'Swipeable' ] },
+    { name: 'kind', type: 'select', options: [ 'Flex', 'SlideShow', 'Swipeable' ] },
     { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse', 'row nowrap', 'column' ] },
     { name: 'justifyContent', type: 'text' },
     { name: 'margin', type: 'text' },

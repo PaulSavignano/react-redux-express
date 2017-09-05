@@ -25,14 +25,16 @@ const heroContainer = (ComposedComponent) => {
           display: 'flex',
           flex: '1 1 auto',
           justifyContent: 'center',
-          minHeight
+          minHeight,
+          position: 'absolute',
+          width: '100%'
         },
         className: backgroundImage.src ? 'hero background-image' : 'hero'
       }
       const propsForChild = {
         style: {
           margin: '0 auto',
-          backgroundColor: 'transparent'
+          backgroundColor: 'transparent',
         }
       }
       this.setState({ propsForParent, propsForChild })

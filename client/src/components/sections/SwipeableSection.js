@@ -24,8 +24,16 @@ class SwipeableSection extends Component {
     return (
       <section {...propsForParent}>
         <AutoPlaySwipeableViews
-          autoplay={autoplay}
-          slideStyle={propsForChild}
+          autoplay={true}
+          slideStyle={propsForChild.style}
+          interval={5000}
+          animateTransitions={false}
+          springConfig={{
+            duration: '1s',
+            opacity: 1,
+            easeFunction: 'opacity 300ms ease-in 200ms',
+            delay: '0s'
+          }}
         >
           {renderComponents({ components: items })}
         </AutoPlaySwipeableViews>
