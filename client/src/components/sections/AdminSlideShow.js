@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import slideShowContainer from '../../containers/sections/slideShowContainer'
 import AdminSectionAdd from './AdminSectionAdd'
-import renderComponents from './renderComponents'
+import renderAdminComponents from './renderAdminComponents'
 import { startEdit } from '../../actions/editItem'
 
 class SlideShow extends Component {
@@ -67,7 +67,7 @@ class SlideShow extends Component {
           transitionLeaveTimeout={2000}
           {...propsForChild}
         >
-          {renderComponents({ components: items })[this.state.index]}
+          {renderAdminComponents({ components: items })[this.state.index]}
         </CSSTransitionGroup>
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd

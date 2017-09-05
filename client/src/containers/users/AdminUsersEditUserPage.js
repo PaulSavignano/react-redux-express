@@ -12,7 +12,6 @@ import * as usersActions from '../../actions/users'
 
 class AdminUsersEditUserPage extends Component {
   handleUserValues = (values) => {
-    console.log('inside handler', values)
     const { dispatch, user: { _id }} = this.props
     return dispatch(usersActions.fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
   }
@@ -21,7 +20,6 @@ class AdminUsersEditUserPage extends Component {
     return dispatch(usersActions.fetchDelete(_id))
   }
   handleUserRoles = (values) => {
-    console.log('inside handler', values)
     const { dispatch, user: { _id }} = this.props
     return dispatch(usersActions.fetchUpdate(_id, { type: 'UPDATE_ROLES', values }))
   }

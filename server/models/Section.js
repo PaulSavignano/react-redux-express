@@ -1,5 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
 
+import Article from './Article'
+import Card from './Card'
+import Hero from './Hero'
+import Product from './Product'
+
 import { deleteFiles } from '../middleware/s3'
 
 const SectionSchema = new Schema({
@@ -31,29 +36,30 @@ const SectionSchema = new Schema({
 })
 
 
-SectionSchema.pre('remove', function(next) {
-  if (this.image && this.image.src) {
-    deleteFile({ Key: this.image.src }).catch(err => console.error(err))
+SectionSchema.post('findOneAndRemove', function(doc, next) {
+  console.log('inside pre remove', doc)
+  if (doc.image && doc.image.src) {
+    deleteFile({ Key: doc.image.src }).catch(err => console.error(err))
   }
-  this.model('Page').update(
-    { _id: this.page },
-    { $pull: { section: this._id }},
-    { multi: true }
-  )
-  this.items.forEach(item => {
+  doc.items.forEach(item => {
     switch(item.kind) {
       case 'Article':
-        return Article.remove({ _id: { $in: this.items.item }})
+        Article.remove({ _id: item.item })
         .catch(error => console.error({ error }))
+        break
       case 'Card':
-        return Card.remove({ _id: { $in: this.items.item }})
+      console.log('removing card', item.item)
+        Card.remove({ _id: item.item })
         .catch(error => console.error({ error }))
+        break
       case 'Hero':
-        return Hero.remove({ _id: { $in: this.items.item }})
+        Hero.remove({ _id: item.item })
         .catch(error => console.error({ error }))
+        break
       case 'Product':
-        return Product.remove({ _id: { $in: this.items.item }})
+        Product.remove({ _id: item.item })
         .catch(error => console.error({ error }))
+        break
       default:
         return
     }

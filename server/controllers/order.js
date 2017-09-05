@@ -88,7 +88,6 @@ export const add = (req, res, next) => {
 
 
 export const get = (req, res) => {
-  console.log(req.user)
   const isAdmin = req.user.roles.some(role => role === 'admin' || role === 'owner')
   if (isAdmin) {
     Order.find({})

@@ -133,7 +133,10 @@ export const remove = (req, res) => {
     )
     .then(page => {
       Page.findOne({ _id: page._id })
-      .then(page => res.send({ page }))
+      .then(page => {
+        console.log('page', page)
+        res.send({ page })
+      })
       .catch(error => {
         console.error(error)
         res.status(400).send({ error })
