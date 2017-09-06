@@ -15,7 +15,7 @@ class SearchItem extends Component {
   handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
     const { dispatch, item } = this.props
-    const { _id, values, image, pageSlug, productSlug } = item
+    const { _id, values, image, pageSlug, productSlug } = item.item
     const slug = item.productSlug ? `products/${productSlug}` : pageSlug
     return (
       <Card
@@ -30,8 +30,13 @@ class SearchItem extends Component {
       >
         {item.image && <img src={image.src} alt="search result" style={{ maxHeight: 100 }}/>}
         <div>
+          {values.h1Text && <CardTitle>{values.h1Text}</CardTitle>}
+          {values.h2Text && <CardTitle>{values.h2Text}</CardTitle>}
+          {values.h3Text && <CardTitle>{values.h3Text}</CardTitle>}
+          {values.pText && <CardTitle>{values.pText}</CardTitle>}
           {values.name && <CardTitle>{values.name}</CardTitle>}
           {values.description && <CardText style={{paddingTop: 0}}>{values.description}</CardText>}
+          {values.detail && <CardText style={{paddingTop: 0}}>{values.detail}</CardText>}
           {values.text && <CardText style={{paddingTop: 0}}>{renderHTML(values.text)}</CardText>}
         </div>
       </Card>

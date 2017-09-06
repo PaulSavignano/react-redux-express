@@ -83,6 +83,7 @@ class Header extends Component {
           {firstName && <div style={{ padding: 16, marginTop: 8 }}>Hello, {firstName}</div>}
           <DrawerNavigation
             dispatch={dispatch}
+            firstName={firstName}
             isAdmin={isAdmin}
             isOwner={isOwner}
             pages={pages}
