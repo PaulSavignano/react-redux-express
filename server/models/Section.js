@@ -28,7 +28,7 @@ const SectionSchema = new Schema({
     kind: { type: String, trim: true, default: 'Flex' },
     margin: { type: String, trim: true, default: '0 auto' },
     maxWidth: { type: String, trim: true, default: '1044px' },
-    minHeight: { type: String, trim: true, default: '72px' },
+    minHeight: { type: String, trim: true, default: '120px' },
     pageLink: { type: String, trim: true }
   }
 }, {
@@ -37,29 +37,24 @@ const SectionSchema = new Schema({
 
 
 SectionSchema.post('findOneAndRemove', function(doc, next) {
-  console.log('inside pre remove', doc)
+  console.log('inside section hook')
   if (doc.image && doc.image.src) {
     deleteFile({ Key: doc.image.src }).catch(err => console.error(err))
   }
   doc.items.forEach(item => {
     switch(item.kind) {
       case 'Article':
-        Article.remove({ _id: item.item })
+        return Article.findOneAndRemove({ _id: item.item })
         .catch(error => console.error({ error }))
-        break
       case 'Card':
-      console.log('removing card', item.item)
-        Card.remove({ _id: item.item })
+        return Card.findOneAndRemove({ _id: item.item })
         .catch(error => console.error({ error }))
-        break
       case 'Hero':
-        Hero.remove({ _id: item.item })
+        return Hero.findOneAndRemove({ _id: item.item })
         .catch(error => console.error({ error }))
-        break
       case 'Product':
-        Product.remove({ _id: item.item })
+        return Product.findOneAndRemove({ _id: item.item })
         .catch(error => console.error({ error }))
-        break
       default:
         return
     }

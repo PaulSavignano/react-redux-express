@@ -84,7 +84,8 @@ const slideShowContainer = (ComposedComponent) => {
           backgroundImage: image.src ? `url(${image.src})` : null,
           backgroundColor,
           marginTop: containerMarginTop,
-          minHeight: '80vh',
+          minHeight,
+          position: 'relative'
         },
         className: image.src ? 'section background-image' : 'section'
       }
@@ -96,7 +97,6 @@ const slideShowContainer = (ComposedComponent) => {
           justifyContent,
           maxWidth,
           margin,
-          position: 'relative'
         }
       }
       this.setState({ propsForParent, propsForChild })

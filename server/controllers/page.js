@@ -61,14 +61,7 @@ export const remove = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Page.findOneAndRemove({ _id })
-  .then(() => {
-    Page.findOne({ _id })
-    .then(page => res.send(page))
-    .catch(error => {
-      console.log(error)
-      res.status(400).send({ error })
-    })
-  })
+  .then(page => res.send(page))
   .catch(error => {
     console.error(error)
     res.status(400).send()

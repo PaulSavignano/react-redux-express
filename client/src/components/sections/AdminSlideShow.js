@@ -26,8 +26,12 @@ class SlideShow extends Component {
     }
   }
   componentWillReceiveProps({ autoplay }) {
-    if (!autoplay) {
-      this.stop()
+    if (this.props.autoplay !== autoplay) {
+      if (!autoplay) {
+        this.stop()
+      } else {
+        this.start()
+      }
     }
   }
   componentWillUnmount() {

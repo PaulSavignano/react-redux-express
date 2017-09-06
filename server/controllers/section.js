@@ -31,7 +31,7 @@ export const add = (req, res) => {
       res.status(400).send({ error })
     })
   })
-  .catch(err => {
+  .catch(error => {
     console.error(error)
     res.status(400).send()
   })
@@ -134,7 +134,6 @@ export const remove = (req, res) => {
     .then(page => {
       Page.findOne({ _id: page._id })
       .then(page => {
-        console.log('page', page)
         res.send({ page })
       })
       .catch(error => {
@@ -143,8 +142,8 @@ export const remove = (req, res) => {
       })
     })
   })
-  .catch(err => {
-    console.error(err)
+  .catch(error => {
+    console.error(error)
     res.status(400).send()
   })
 }

@@ -206,7 +206,7 @@ export const adminRemove = (req, res) => {
   if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
   const { _id } = req.params
   User.findOneAndRemove({ _id })
-  .then(doc => res.status(200).send())
+  .then(doc => res.send(user))
   .catch(error => {
     console.error('User.findOneAndRemove: ', error)
     res.status(400).send({ error: 'user delete failed' })

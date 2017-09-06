@@ -16,7 +16,8 @@ class AppBarNavigation extends Component {
   }
   componentDidMount() {
     const width = this.navigation.clientWidth
-    const totalWidth = width/.85
+    const totalWidth = width/.785
+
     let navClass
     switch(true) {
       case totalWidth < 375:
