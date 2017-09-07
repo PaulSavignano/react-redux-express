@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper'
 
 import headerContainer from '../../containers/header/headerContainer'
 import HeaderBrand from './HeaderBrand'
-import SearchBar from '../../containers/search/SearchBar'
+import SearchBar from '../../components/search/SearchBar'
 import AppBarNavigation from './AppBarNavigation'
 import DrawerNavigation from './DrawerNavigation'
 import { toggleDrawer } from '../../actions/drawer'
@@ -48,7 +48,9 @@ class Header extends Component {
           title={
             <nav>
               {search.searching ?
-                <SearchBar />
+                <SearchBar
+                  navColor={navColor}
+                />
               :
               <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
                 <div

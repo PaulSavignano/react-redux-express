@@ -7,60 +7,8 @@ import { connect } from 'react-redux'
 const swipeableContainer = (ComposedComponent) => {
   class SwipeableContainer extends Component {
     state = {
-      loadingBackground: true,
-      loadingItemImages: true,
-      loadingItemBackgroundImages: true,
       propsForParent: null,
       propsForChild: null
-    }
-    handleBackgroundImage = () => {
-      const { image } = this.props.item
-      if (image && image.src) {
-        const img = new Image()
-        const src = image.src
-        img.onload = () => this.setState({ loadingBackground: false })
-        img.src = src
-      } else {
-        this.setState({ loadingBackground: false })
-      }
-    }
-    handleItemImages = () => {
-      const { items } = this.props.item
-      let qty = 0
-      let qtyLoaded = 0
-      items.forEach(({ image }) => {
-        if (image && image.src) {
-          qty = qty + 1
-          const img = new Image()
-          const src = image.src
-          img.onload = () => {
-            qtyLoaded = qtyLoaded + 1
-          }
-          img.src = src
-        }
-      })
-      if (qty === qtyLoaded) {
-        this.setState({ loadingItemImages: false })
-      }
-    }
-    handleItemBackgroundImages = () => {
-      const { items } = this.props.item
-      let qty = 0
-      let qtyLoaded = 0
-      items.forEach(({ backgroundImage }) => {
-        if (backgroundImage && backgroundImage.src) {
-          qty = qty + 1
-          const img = new Image()
-          const src = backgroundImage.src
-          img.onload = () => {
-            qtyLoaded = qtyLoaded + 1
-          }
-          img.src = src
-        }
-      })
-      if (qty === qtyLoaded) {
-        this.setState({ loadingItemBackgroundImages: false })
-      }
     }
     handleProps = (item) => {
       const {
@@ -102,9 +50,6 @@ const swipeableContainer = (ComposedComponent) => {
       this.setState({ propsForParent, propsForChild })
     }
     componentWillMount() {
-      this.handleBackgroundImage()
-      this.handleItemImages()
-      this.handleItemBackgroundImages()
       this.handleProps(this.props.item)
     }
     componentWillReceiveProps(nextProps) {
@@ -112,9 +57,6 @@ const swipeableContainer = (ComposedComponent) => {
     }
     render() {
       const {
-        loadingBackground,
-        loadingItemImages,
-        loadingItemBackgroundImages,
         propsForParent,
         propsForChild
       } = this.state
@@ -135,7 +77,6 @@ const swipeableContainer = (ComposedComponent) => {
         propsForChild
       }
       return (
-        !loadingBackground && !loadingItemImages && !loadingItemBackgroundImages ?
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
@@ -146,7 +87,6 @@ const swipeableContainer = (ComposedComponent) => {
         >
           <ComposedComponent {...props} />
         </CSSTransitionGroup>
-          : null
       )
     }
   }

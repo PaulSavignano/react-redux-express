@@ -6,25 +6,72 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Helmet } from "react-helmet"
 
 import appContainer from '../../containers/app/appContainer'
-import SearchList from '../../containers/search/SearchList'
+import SearchList from '../../components/search/SearchList'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
+import flattenArray from '../../utils/flattenArray'
 
 injectTapEventPlugin()
 
 class App extends Component {
   state = {
-    theme: null
+    theme: null,
+    loadingItemImages: true,
+    loadingItemBackgroundImages: true
+  }
+  handleItemImages = (items) => {
+    let qty = 0
+    let qtyLoaded = 0
+    items.forEach(({ image }) => {
+      if (image && image.src) {
+        qty = qty + 1
+        const img = new Image()
+        const src = image.src
+        img.onload = () => {
+          qtyLoaded = qtyLoaded + 1
+        }
+        img.src = src
+      }
+    })
+    if (qty === qtyLoaded) {
+      this.setState({ loadingItemImages: false })
+    }
+  }
+  handleItemBackgroundImages = (items) => {
+    let qty = 0
+    let qtyLoaded = 0
+    items.forEach(({ backgroundImage }) => {
+      if (backgroundImage && backgroundImage.src) {
+        qty = qty + 1
+        const img = new Image()
+        const src = backgroundImage.src
+        img.onload = () => {
+          qtyLoaded = qtyLoaded + 1
+        }
+        img.src = src
+      }
+    })
+    if (qty === qtyLoaded) {
+      this.setState({ loadingItemBackgroundImages: false })
+    }
   }
   componentWillMount() {
     const {
-      bodyStyle: { values: { backgroundColor}},
-      palette: { values },
-      theme: { values: { fontFamily }}
-    } = this.props.brand
+      brand: {
+        bodyStyle: { values: { backgroundColor}},
+        palette: { values },
+        theme: { values: { fontFamily }}
+      },
+      pages
+    } = this.props
+    const itemsArray = pages.map(page => page.sections.map(section => section.items.map(item => item)))
+    const items = flattenArray(itemsArray)
+    this.handleItemImages(items)
+    this.handleItemBackgroundImages(items)
     const theme = { fontFamily, palette: values }
     this.setState({ theme })
     document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
+
   }
   componentWillReceiveProps({ brand: { bodyStyle: { values: {backgroundColor }}}}) {
     if (backgroundColor !== this.props.brand.bodyStyle.values.backgroundColor) {
@@ -32,6 +79,11 @@ class App extends Component {
     }
   }
   render() {
+    const {
+      theme,
+      loadingItemImages,
+      loadingItemBackgroundImages
+    } = this.state
     const {
       brand: {
         business: {
@@ -57,11 +109,18 @@ class App extends Component {
             {image.src ? <link rel="shortcut icon" href={image.src} /> : null}
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
-          <Header />
-          <main>
-            {search.value ? <SearchList /> : children}
-          </main>
-          <Footer />
+          {!loadingItemImages && !loadingItemBackgroundImages ?
+            <div>
+              <Header />
+              <main>
+                {search.value ? <SearchList /> : children}
+              </main>
+              <Footer />
+            </div>
+          :
+            null
+          }
+
         </div>
       </MuiThemeProvider>
     )
@@ -72,6 +131,7 @@ App.propTypes = {
   brand: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   dispatch: PropTypes.func.isRequired,
+  pages: PropTypes.array.isRequired,
   pathname: PropTypes.string.isRequired,
   search: PropTypes.object.isRequired,
 }

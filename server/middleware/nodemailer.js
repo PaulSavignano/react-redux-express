@@ -7,11 +7,10 @@ const transporter = nodemailer.createTransport({
   auth: {
     type: 'OAuth2',
     user: process.env.GMAIL_USER,
-    clientId: process.env.GMAIL_CLIENT_ID,
-    clientSecret: process.env.GMAIL_CLIENT_SECRET,
+    clientId: process.env.OAUTH_CLIENT_ID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
     refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-    accessToken: process.env.OAUTH_ACCESS_TOKEN,
-    expires: 30000
+    accessToken: process.env.OAUTH_ACCESS_TOKEN
   }
 })
 
@@ -38,15 +37,15 @@ export const sendEmail1 = (mail) => {
         }
       } = brand
       const signature = `
-      ${image ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
-      <div style="font-family: ${fontFamily}">${name}</div>
-      <div>
-        <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none;">
-          ${process.env.GMAIL_USER}
-        </a>
-      </div>
-      ${street ? `<div>${street}</div>` : '' }
-      ${zip ? `<div>${city} ${state}, ${zip}</div>` : '' }
+        ${image ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
+        <div>${name}</div>
+        <div>
+          <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none;">
+            ${process.env.GMAIL_USER}
+          </a>
+        </div>
+        ${street ? `<div>${street}</div>` : '' }
+        ${zip ? `<div>${city} ${state}, ${zip}</div>` : '' }
       `
       const userMail = {
         from: process.env.GMAIL_USER,

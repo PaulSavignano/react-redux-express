@@ -6,61 +6,8 @@ import { connect } from 'react-redux'
 const slideShowContainer = (ComposedComponent) => {
   class SlideShowContainer extends Component {
     state = {
-      backgroundImage: false,
-      loadingBackground: true,
-      loadingItemImages: true,
-      loadingItemBackgroundImages: true,
       propsForParent: null,
       propsForChild: null
-    }
-    handleBackgroundImage = () => {
-      const { image } = this.props.item
-      if (image && image.src) {
-        const img = new Image()
-        const src = image.src
-        img.onload = () => this.setState({ backgroundImage: true, loadingBackground: false })
-        img.src = src
-      } else {
-        this.setState({ loadingBackground: false })
-      }
-    }
-    handleItemImages = () => {
-      const { items } = this.props.item
-      let qty = 0
-      let qtyLoaded = 0
-      items.forEach(({ image }) => {
-        if (image && image.src) {
-          qty = qty + 1
-          const img = new Image()
-          const src = image.src
-          img.onload = () => {
-            qtyLoaded = qtyLoaded + 1
-          }
-          img.src = src
-        }
-      })
-      if (qty === qtyLoaded) {
-        this.setState({ loadingItemImages: false })
-      }
-    }
-    handleItemBackgroundImages = () => {
-      const { items } = this.props.item
-      let qty = 0
-      let qtyLoaded = 0
-      items.forEach(({ backgroundImage }) => {
-        if (backgroundImage && backgroundImage.src) {
-          qty = qty + 1
-          const img = new Image()
-          const src = backgroundImage.src
-          img.onload = () => {
-            qtyLoaded = qtyLoaded + 1
-          }
-          img.src = src
-        }
-      })
-      if (qty === qtyLoaded) {
-        this.setState({ loadingItemBackgroundImages: false })
-      }
     }
     handleProps = (item) => {
       const {
@@ -102,9 +49,6 @@ const slideShowContainer = (ComposedComponent) => {
       this.setState({ propsForParent, propsForChild })
     }
     componentWillMount() {
-      this.handleBackgroundImage()
-      this.handleItemImages()
-      this.handleItemBackgroundImages()
       this.handleProps(this.props.item)
     }
     componentWillReceiveProps(nextProps) {
@@ -112,9 +56,6 @@ const slideShowContainer = (ComposedComponent) => {
     }
     render() {
       const {
-        loadingBackground,
-        loadingItemImages,
-        loadingItemBackgroundImages,
         propsForParent,
         propsForChild
       } = this.state
@@ -135,7 +76,6 @@ const slideShowContainer = (ComposedComponent) => {
         pageSlug,
       }
       return (
-        !loadingBackground && !loadingItemImages && !loadingItemBackgroundImages ?
         <CSSTransitionGroup
           transitionName="image"
           transitionAppear={true}
@@ -146,7 +86,6 @@ const slideShowContainer = (ComposedComponent) => {
         >
           <ComposedComponent {...props} />
         </CSSTransitionGroup>
-          : null
       )
     }
   }

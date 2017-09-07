@@ -11,7 +11,6 @@ import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import loadImage from '../images/loadImage'
 import { fetchUpdate, fetchDelete } from '../../actions/articles'
 import { startEdit } from '../../actions/editItem'
 

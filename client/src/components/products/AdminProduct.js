@@ -5,7 +5,6 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import productContainer from '../../containers/products/productContainer'
-import loadImage from '../images/loadImage'
 import formatPrice from '../../utils/formatPrice'
 import { fetchUpdate, fetchDelete } from '../../actions/products'
 import { startEdit } from '../../actions/editItem'

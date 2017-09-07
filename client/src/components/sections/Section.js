@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import sectionContainer from '../../containers/sections/sectionContainer'
-import loadImage from '../images/loadImage'
 import renderComponents from './renderComponents'
 
 const Section = ({

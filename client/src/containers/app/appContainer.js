@@ -8,11 +8,13 @@ const appContainer = (ComposedComponent) => {
       const {
         brand,
         isFetching,
+        pages,
         pathname,
         search
       } = this.props
       const props = {
         brand,
+        pages,
         pathname,
         search,
       }
@@ -23,18 +25,21 @@ const appContainer = (ComposedComponent) => {
   }
   const mapStateToProps = ({
     brand,
+    pages,
     search
   }, {
     location: { pathname }
   }) => ({
     brand,
-    isFetching: brand.isFetching,
+    isFetching: brand.isFetching || pages.isFetching ? true : false,
+    pages: pages.items,
     pathname,
     search,
   })
   AppContainer.propTypes = {
     brand: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    pages: PropTypes.array,
     pathname: PropTypes.string.isRequired,
     search: PropTypes.object.isRequired
   }
