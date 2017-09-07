@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { push } from 'react-router-redux'
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
@@ -44,8 +45,17 @@ class Product extends Component {
         className="product"
       >
         {image.src &&
+
           <CardMedia onTouchTap={() => dispatch(push(`/products/${productSlug}`))}>
-            <img src={image.src} alt={name} />
+            <CSSTransitionGroup
+              transitionName="image"
+              transitionAppear={true}
+              transitionAppearTimeout={600}
+              transitionEnter={false}
+              transitionLeave={false}
+            >
+              <img src={image.src} alt={name} />
+            </CSSTransitionGroup>
           </CardMedia>
         }
         <CardTitle title={

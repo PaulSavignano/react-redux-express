@@ -31,11 +31,18 @@ class ContactForm extends Component {
     elevation: 1,
   }
   handleClose = () => this.setState({open: false})
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ open: true })
+  componentWillReceiveProps({ submitSucceeded }) {
+    if (submitSucceeded) {
+      this.setState({ open: true })
+      this.props.reset()
+    }
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
+  handleFormSubmit = (values) => {
+    const { dispatch } = this.props
+    return dispatch(fetchContact(values))
+  }
   render() {
     const { open, elevation } = this.state
     const { dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
@@ -47,7 +54,7 @@ class ContactForm extends Component {
         style={{ flex: '1 1 auto', margin: 16 }}
       >
         <CardTitle title="Contact" subtitle="Enter your information" />
-        <form onSubmit={handleSubmit(values => dispatch(fetchContact(values)))} >
+        <form onSubmit={handleSubmit(this.handleFormSubmit)} >
           <CardText>
             <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
             <Field name="email" component={renderTextField} label="Email" fullWidth={true} />

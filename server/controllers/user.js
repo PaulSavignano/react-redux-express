@@ -332,19 +332,18 @@ export const signout = (req, res) => {
 
 
 export const contact = (req, res) => {
-  const { email, firstName, phone, message } = req.body
+  const { email, firstName, message } = req.body
   if (!firstName || !email || !message) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
   sendEmail1({
     to: email,
-    toSubject: 'Thank you for contacting us!',
+    toSubject: `Thank you for contacting ${process.end.APP_NAME}!`,
     name: firstName,
-    toBody: `<p>Thank you for reaching out.  We will contact you shortly!</p>`,
+    toBody: `<p>Thank you for contacting ${procee.env.APP_NAME}.  We will respond to your request shortly!</p>`,
     fromSubject: `New Contact Request`,
     fromBody: `
       <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
-      ${phone && `<div>Phone: ${phone}</div>`}
       <div>Email: ${email}</div>
       <div>Message: ${message}</div>
     `
