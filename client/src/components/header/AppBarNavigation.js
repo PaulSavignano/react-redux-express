@@ -58,7 +58,6 @@ class AppBarNavigation extends Component {
       fontFamily,
       pages,
       pathname,
-      search,
     } = this.props
     return (
       <div

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 import AddressItem from './AddressItem'
 
@@ -23,5 +22,12 @@ const AddressList = ({
     ))}
   </div>
 )
+
+AddressList.propTypes = {
+  addresses: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  onAddressUpdate: PropTypes.func.isRequired,
+  onAddressDelete: PropTypes.func.isRequired
+}
 
 export default AddressList

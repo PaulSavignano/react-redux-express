@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { Field } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 
 import renderSelectField from '../../components/fields/renderSelectField'

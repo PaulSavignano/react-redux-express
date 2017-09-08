@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
@@ -74,4 +74,4 @@ UserProfileForm.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-export default reduxForm({})(UserProfileForm)
+export default reduxForm({ validate })(UserProfileForm)

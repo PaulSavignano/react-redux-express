@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { CSSTransitionGroup } from 'react-transition-group'
-import renderHTML from 'react-render-html'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import slideShowContainer from '../../containers/sections/slideShowContainer'
@@ -50,7 +47,6 @@ class SlideShow extends Component {
   }
   render() {
     const {
-      autoplay,
       dispatch,
       item: {
         _id,

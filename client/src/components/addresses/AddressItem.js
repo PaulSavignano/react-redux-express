@@ -8,7 +8,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import AddressFields from './AddressFields'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
-import { fetchUpdate, fetchDelete } from '../../actions/addresses'
 
 class AddressItem extends Component {
   state = {
@@ -17,23 +16,19 @@ class AddressItem extends Component {
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
   handleFormSubmit = (values) => {
-    const { dispatch, item: { _id }, onAddressUpdate } = this.props
+    const { item: { _id }, onAddressUpdate } = this.props
     return onAddressUpdate(_id, values)
   }
   handleDelete = () => {
-    const { dispatch, item: { _id }, onAddressDelete } = this.props
+    const { item: { _id }, onAddressDelete } = this.props
     return onAddressDelete(_id)
   }
   render() {
     const {
-      dispatch,
       error,
       handleSubmit,
-      item,
       submitSucceeded,
       submitting,
-      onAddressUpdate,
-      onAddressDelete
     } = this.props
     return (
       <Card
@@ -67,6 +62,17 @@ class AddressItem extends Component {
       </Card>
     )
   }
+}
+
+AddressItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  onAddressUpdate: PropTypes.func.isRequired,
+  onAddressDelete: PropTypes.func.isRequired,
 }
 
 AddressItem = compose(

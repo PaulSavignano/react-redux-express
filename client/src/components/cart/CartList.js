@@ -15,4 +15,9 @@ const CartList = ({ cart, dispatch }) => (
   </div>
 )
 
+CartList.propTypes = {
+  cart: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
+
 export default CartList

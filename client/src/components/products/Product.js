@@ -4,7 +4,6 @@ import { push } from 'react-router-redux'
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 import productContainer from '../../containers/products/productContainer'
-import loadImage from '../images/loadImage'
 import ProductButtons from './ProductButtons'
 import formatPrice from '../../utils/formatPrice'
 
@@ -21,7 +20,6 @@ class Product extends Component {
       item: {
         _id,
         image,
-        productSlug,
         values: {
           description,
           name,
@@ -31,7 +29,6 @@ class Product extends Component {
       productStyle: {
         values: {
           descriptionColor,
-          detailColor,
           flex,
           nameColor,
           nameTextShadow,

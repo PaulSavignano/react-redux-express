@@ -29,13 +29,9 @@ class SearchItem extends Component {
   }
   render() {
     const {
-      dispatch,
       item: {
         item: {
-          _id,
           image,
-          pageSlug,
-          productSlug,
           values: {
             h1Text,
             h2Text,
@@ -86,6 +82,5 @@ SearchItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
 }
-
 
 export default SearchItem

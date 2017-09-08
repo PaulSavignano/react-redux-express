@@ -44,9 +44,13 @@ class ContactForm extends Component {
     return dispatch(fetchContact(values))
   }
   render() {
-    console.log('rendered contact form')
     const { open, elevation } = this.state
-    const { dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
+    const { 
+      error,
+      handleSubmit,
+      submitSucceeded,
+      submitting
+    } = this.props
     return (
       <Card
         zDepth={elevation}
@@ -92,6 +96,13 @@ class ContactForm extends Component {
   }
 }
 
+ContactForm.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+}
 
 ContactForm = reduxForm({
   form: 'contact',

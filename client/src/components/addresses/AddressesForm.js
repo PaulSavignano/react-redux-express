@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardTitle } from 'material-ui/Card'
 
-import addressesContainer from '../../containers/addresses/addressesContainer'
 import AddressAdd from './AddressAdd'
 import AddressList from './AddressList'
 

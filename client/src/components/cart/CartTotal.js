@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
-import { connect } from 'react-redux'
 import { CardActions, CardTitle } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -30,4 +29,10 @@ const CartTotal = ({ dispatch, cart, user }) => (
   </div>
 )
 
-export default connect()(CartTotal)
+CartTotal.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  cart: PropTypes.array.isRequired,
+  user: PropTypes.string.isRequired,
+}
+
+export default CartTotal

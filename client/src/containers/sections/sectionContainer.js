@@ -63,7 +63,6 @@ const sectionContainer = (ComposedComponent) => {
       const {
         dispatch,
         item,
-        autoplay,
         pageId,
         pageSlug,
       } = this.props
@@ -80,8 +79,7 @@ const sectionContainer = (ComposedComponent) => {
       )
     }
   }
-  const mapStateToProps = ({
-  }, {
+  const mapStateToProps = (state, {
     item, pageId, pageSlug
   }) => ({
     item, pageId, pageSlug

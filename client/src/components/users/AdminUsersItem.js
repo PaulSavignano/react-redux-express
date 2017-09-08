@@ -34,7 +34,7 @@ class AdminUsersItem extends Component {
     return dispatch(fetchDelete(_id))
   }
   handleFormSubmit = (values) => {
-    const { dispatch, handleSubmit, user: { _id }} = this.props
+    const { dispatch, user: { _id }} = this.props
     return dispatch(fetchUpdate(_id, values))
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })

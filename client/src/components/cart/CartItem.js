@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -40,13 +39,11 @@ class CartItem extends Component {
   }
   render() {
     const {
-      dispatch,
       item: {
         image,
         name,
         price,
         productQty,
-        productId,
         total
       }
     } = this.props
@@ -89,6 +86,11 @@ class CartItem extends Component {
       </Card>
     )
   }
+}
+
+CartItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
 }
 
 export default loadImage(CartItem)

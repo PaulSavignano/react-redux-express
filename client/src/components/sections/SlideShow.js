@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { CSSTransitionGroup } from 'react-transition-group'
-import renderHTML from 'react-render-html'
-import { Card, CardMedia, CardText } from 'material-ui/Card'
 
 import slideShowContainer from '../../containers/sections/slideShowContainer'
 import renderComponents from './renderComponents'
@@ -40,9 +37,7 @@ class SlideShow extends Component {
   render() {
     const {
       autoplay,
-      dispatch,
       item: {
-        _id,
         items
       },
       propsForParent,
@@ -52,9 +47,9 @@ class SlideShow extends Component {
       <section {...propsForParent}>
         <CSSTransitionGroup
           transitionName="cross-fade"
-          transitionEnter={true}
+          transitionEnter={autoplay}
           transitionEnterTimeout={2000}
-          transitionLeave={true}
+          transitionLeave={autoplay}
           transitionLeaveTimeout={2000}
           {...propsForChild}
         >

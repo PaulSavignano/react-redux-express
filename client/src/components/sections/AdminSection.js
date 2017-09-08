@@ -5,8 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import sectionContainer from '../../containers/sections/sectionContainer'
 import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'
-import { fetchUpdate, fetchDelete } from '../../actions/sections'
-import { fetchAdd } from '../../actions/cards'
 import { startEdit } from '../../actions/editItem'
 
 class AdminSection extends Component {

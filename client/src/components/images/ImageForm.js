@@ -178,7 +178,7 @@ class ImageForm extends Component {
   }
   handleImageRemove = () => {
     const { src } = this.state
-    const { dispatch, onImageRemove } = this.props
+    const { onImageRemove } = this.props
     const image = { src }
     this.setState({
       ...this.state,
@@ -216,7 +216,6 @@ class ImageForm extends Component {
     const {
       fontFamily,
       label,
-      onImageRemove,
     } = this.props
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>

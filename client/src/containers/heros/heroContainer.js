@@ -11,7 +11,6 @@ const heroContainer = (ComposedComponent) => {
     handleProps = (item) => {
       const { alignItems, minHeight } = this.props.heroStyle.values
       const {
-        _id,
         backgroundImage,
         values: {
           backgroundColor,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Card } from 'material-ui/Card'
 
@@ -21,10 +20,8 @@ class OrderCartItem extends Component {
   }
   render() {
     const {
-      dispatch,
       item: {
         image,
-        productId,
         productQty,
         name,
         price,

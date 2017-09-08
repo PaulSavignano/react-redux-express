@@ -1,7 +1,3 @@
-import renderSelectField from '../../components/fields/renderSelectField'
-import renderTextField from '../fields/renderTextField'
-import renderWysiwgyField from '../fields/renderWysiwgyField'
-
 import { fetchUpdate as articleUpdate, fetchDelete as articleDelete } from '../../actions/articles'
 import { fetchUpdate as cardUpdate, fetchDelete as cardDelete } from '../../actions/cards'
 import { fetchUpdate as contactFormUpdate, fetchDelete as contactFormDelete } from '../../actions/contactForms'

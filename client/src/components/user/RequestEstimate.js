@@ -46,7 +46,12 @@ class RequestEstimate extends Component {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      submitting
+    } = this.props
     return (
       <div className="page">
         <section className="section-margin">
@@ -119,6 +124,12 @@ class RequestEstimate extends Component {
   }
 }
 
+RequestEstimate.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+}
 
 RequestEstimate = reduxForm({
   form: 'contact',

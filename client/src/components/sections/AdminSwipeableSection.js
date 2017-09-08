@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
@@ -8,7 +7,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import swipeableContainer from '../../containers/sections/swipeableContainer'
 import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'
-import { fetchUpdate, fetchDelete } from '../../actions/sections'
 import { startEdit } from '../../actions/editItem'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
@@ -38,7 +36,7 @@ class AdminSwipeableSection extends Component {
         {...propsForParent}
       >
         <AutoPlaySwipeableViews
-          autoplay={true}
+          autoplay={autoplay}
           slideStyle={propsForChild.style}
           interval={4000}
           animateTransitions={true}

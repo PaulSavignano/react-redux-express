@@ -39,4 +39,13 @@ const H1 = ({
   )
 }
 
+H1.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  textAlign: PropTypes.string,
+  textShadow: PropTypes.string,
+  typography: PropTypes.object
+}
+
 export default typographyContainer(H1)

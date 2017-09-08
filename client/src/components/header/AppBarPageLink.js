@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
 
 import AppBarSectionLink from './AppBarSectionLink'
 

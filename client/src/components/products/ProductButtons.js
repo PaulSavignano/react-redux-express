@@ -23,9 +23,7 @@ class ProductButtons extends Component {
   plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
     const {
-      dispatch,
       handleSubmit,
-      productId,
       submitSucceeded,
       submitting
     } = this.props

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
 
 import AdminSectionAddComponent from './AdminSectionAddComponent'
 import { fetchAdd as articleAdd } from '../../actions/articles'
@@ -76,6 +75,13 @@ class AdminSectionAdd extends Component {
       </div>
     )
   }
+}
+
+AdminSectionAdd.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  pageId: PropTypes.string.isRequired,
+  pageSlug: PropTypes.string.isRequired,
+  sectionId: PropTypes.string.isRequired,
 }
 
 export default AdminSectionAdd

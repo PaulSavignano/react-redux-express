@@ -6,9 +6,6 @@ import { startEdit, stopEdit } from './editItem'
 export const type = 'ARTICLE'
 const route = 'articles'
 
-const ADD = `ADD_${type}`
-const UPDATE = `UPDATE_${type}`
-const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
 
 // Create

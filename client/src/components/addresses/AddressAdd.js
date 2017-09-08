@@ -4,12 +4,9 @@ import { reduxForm } from 'redux-form'
 import { CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { fetchAdd } from '../../actions/addresses'
-
 class AddressAdd extends Component {
   render() {
     const {
-      dispatch,
       error,
       handleSubmit,
       onAddressAdd

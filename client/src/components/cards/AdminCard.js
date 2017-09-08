@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 
 import cardContainer from '../../containers/cards/cardContainer'
 import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import { fetchUpdate, fetchDelete } from '../../actions/cards'
 import { startEdit } from '../../actions/editItem'
 
 class AdminCard extends Component {
@@ -56,7 +52,6 @@ class AdminCard extends Component {
       hasParagraph,
       item: {
         _id,
-        editing,
         image,
         values: {
           button1Text,
@@ -67,7 +62,6 @@ class AdminCard extends Component {
           h2Text,
           h3Text,
           iframe,
-          link,
           pText,
         }
       }
@@ -85,6 +79,7 @@ class AdminCard extends Component {
           <Media
             image={image}
             iframe={iframe}
+            border={mediaBorder}
           />
         }
         <div style={{ padding: 8 }}>

@@ -11,7 +11,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageForm from '../images/ImageForm'
 import { stopEdit } from '../../actions/editItem'
-import adminItemFormContainer from './adminItemFormContainer'
+import adminItemFormContainer from '../../containers/forms/adminItemFormContainer'
 
 import renderSelectField from '../../components/fields/renderSelectField'
 import renderTextField from '../fields/renderTextField'

@@ -24,10 +24,15 @@ const requireCart = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({ user: { addresses }, carts: { cart } }) => ({
-    isFetching: cart.isFetching,
+    addresses,
     cart,
-    addresses
+    isFetching: cart.isFetching,
   })
+  RequireCart.propTypes = {
+    addresses: PropTypes.array.isRequired,
+    cart: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+  }
   return connect(mapStateToProps)(RequireCart)
 }
 

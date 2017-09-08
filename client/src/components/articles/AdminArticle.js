@@ -1,22 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import articleContainer from '../../containers/articles/articleContainer'
 import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import { fetchUpdate, fetchDelete } from '../../actions/articles'
 import { startEdit } from '../../actions/editItem'
-
-import renderSelectField from '../../components/fields/renderSelectField'
-import renderTextField from '../fields/renderTextField'
-import renderWysiwgyField from '../fields/renderWysiwgyField'
 
 class AdminArticle extends Component {
   handleStartEdit = (e) => {
@@ -56,7 +48,6 @@ class AdminArticle extends Component {
       item,
     } = this.props
     const {
-      _id,
       image,
       values: {
         button1Text,
@@ -107,7 +98,15 @@ class AdminArticle extends Component {
             <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
           : null}
           {hasMedia ?
-            <Paper zDepth={mediaElevation} style={{ flex: mediaFlex, margin: 8, overflow: 'hidden', height: '100%' }}>
+            <Paper
+              zDepth={mediaElevation}
+              style={{
+                flex: mediaFlex,
+                margin: 8,
+                overflow: 'hidden',
+                height: '100%',
+                border: mediaBorder
+              }}>
               <Media
                 image={image}
                 iframe={iframe}

@@ -21,4 +21,11 @@ const P = ({
   </div>
 )
 
+P.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  fontFamily: PropTypes.string,
+  textColor: PropTypes.string,
+}
+
 export default typographyContainer(P)

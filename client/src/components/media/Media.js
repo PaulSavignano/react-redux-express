@@ -4,16 +4,17 @@ import { CardMedia } from 'material-ui/Card'
 
 const Media = ({
   image,
-  iframe
+  iframe,
+  border
 }) => {
   return (
     image.src ?
-      <CardMedia>
+      <CardMedia style={{ border }}>
         <img src={image.src} alt="card"/>
       </CardMedia>
     :
       iframe ?
-        <CardMedia>
+        <CardMedia style={{ border }}>
           <div style={{ position: 'relative', paddingBottom: '50%' }}>
             <iframe
               title="iframe"

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 
@@ -27,8 +26,7 @@ class SearchBar extends Component {
   render() {
     const {
       color,
-      search,
-      isFetching
+      search
     } = this.props
     return (
       <span>
@@ -53,5 +51,10 @@ class SearchBar extends Component {
   }
 }
 
+SearchBar.propTypes = {
+  color: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  search: PropTypes.object.isRequired,
+}
 
 export default searchContainer(SearchBar)

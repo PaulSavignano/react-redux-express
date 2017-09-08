@@ -26,7 +26,7 @@ class BrandForm extends Component {
   }
   handleFormSubmit = (values) => {
     const { imageEdit, path } = this.state
-    const { _id, dispatch, form, image } = this.props
+    const { dispatch, image } = this.props
     const oldImageSrc = image && image.src ? image.src : null
     const newImage = imageEdit ? this.imageEditor.handleSave() : null
     if (imageEdit) {
@@ -50,9 +50,7 @@ class BrandForm extends Component {
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   render() {
     const {
-      _id,
       backgroundColor,
-      dispatch,
       error,
       fields,
       fontFamily,

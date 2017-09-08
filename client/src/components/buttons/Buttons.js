@@ -20,8 +20,6 @@ class Buttons extends Component {
       button2BackgroundColor,
       button1Color,
       button2Color,
-      button1Link,
-      button2Link,
       button1Text,
       button2Text,
     } = this.props

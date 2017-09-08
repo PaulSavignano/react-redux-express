@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
-import RaisedButton from 'material-ui/RaisedButton'
 
 import swipeableContainer from '../../containers/sections/swipeableContainer'
 import renderComponents from './renderComponents'
@@ -13,9 +12,7 @@ class SwipeableSection extends Component {
   render() {
     const {
       autoplay,
-      dispatch,
       item: {
-        _id,
         items
       },
       propsForParent,
@@ -24,7 +21,7 @@ class SwipeableSection extends Component {
     return (
       <section {...propsForParent}>
         <AutoPlaySwipeableViews
-          autoplay={true}
+          autoplay={autoplay}
           slideStyle={propsForChild.style}
           interval={5000}
           animateTransitions={false}

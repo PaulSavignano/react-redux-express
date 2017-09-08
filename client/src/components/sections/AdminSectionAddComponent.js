@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 
 class AdminSectionAddComponent extends Component {

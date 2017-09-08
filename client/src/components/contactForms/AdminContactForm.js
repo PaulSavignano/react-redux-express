@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
@@ -11,7 +10,6 @@ import { startEdit } from '../../actions/editItem'
 class AdminContactForm extends Component {
   state = {
     elevation: 1,
-    editing: false
   }
   handleStartEdit = (e) => {
     e.stopPropagation()
@@ -23,10 +21,8 @@ class AdminContactForm extends Component {
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
-  handleEdit = () => this.setState({ editing: !this.state.editing })
   render() {
-    const { editing, elevation } = this.state
-    const { componentId, sectionId } = this.props
+    const { elevation } = this.state
     return (
       <Card
         zDepth={elevation}
@@ -52,6 +48,11 @@ class AdminContactForm extends Component {
       </Card>
     )
   }
+}
+
+AdminContactForm.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
 }
 
 

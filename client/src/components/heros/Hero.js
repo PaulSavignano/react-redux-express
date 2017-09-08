@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 
 import heroContainer from '../../containers/heros/heroContainer'
 import Buttons from '../buttons/Buttons'

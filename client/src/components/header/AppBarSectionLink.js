@@ -10,7 +10,7 @@ class AppBarSectionLink extends Component {
     return dispatch(push(`/${page.slug}#${link.values.pageLink}`))
   }
   render() {
-    const { link, page } = this.props
+    const { link } = this.props
     return (
       <MenuItem
         key={link._id}

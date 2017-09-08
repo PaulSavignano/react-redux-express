@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import renderHTML from 'react-render-html'
-import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 
 import heroContainer from '../../containers/heros/heroContainer'
 
@@ -12,7 +9,6 @@ import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'
 import Media from '../media/Media'
 import P from '../typography/P'
-import { fetchUpdate, fetchDelete } from '../../actions/heros'
 import { startEdit } from '../../actions/editItem'
 
 class AdminHero extends Component {
@@ -23,6 +19,7 @@ class AdminHero extends Component {
   }
   render() {
     const {
+      dispatch,
       heroStyle: {
         values: {
           button1Color,
@@ -40,20 +37,15 @@ class AdminHero extends Component {
           h3TextShadow,
           mediaBorder,
           mediaElevation,
-          minHeight,
         }
       },
-      dispatch,
       hasButtons,
       hasHeading,
       hasMedia,
       hasParagraph,
       item: {
-        _id,
-        editing,
         image,
         values: {
-          backgroundColor,
           button1Text,
           button1Link,
           button2Text,
@@ -82,6 +74,8 @@ class AdminHero extends Component {
             <Media
               image={image}
               iframe={iframe}
+              border={mediaBorder}
+              elevation={mediaElevation}
             />
           }
           {hasHeading &&

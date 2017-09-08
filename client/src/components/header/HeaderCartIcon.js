@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import IconButton from 'material-ui/IconButton'
 import FontIcon from 'material-ui/FontIcon'
 import Badge from 'material-ui/Badge'
-
-import { toggleDrawer } from '../../actions/drawer'
 
 class HeaderCartIcon extends Component {
   handleNavToCart = () => {

@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
-import { Card, CardMedia, CardText, CardTitle } from 'material-ui/Card'
 
 import articleContainer from '../../containers/articles/articleContainer'
 import Buttons from '../buttons/Buttons'
