@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
@@ -35,7 +34,13 @@ class Signup extends Component {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, user } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      submitting,
+      user
+    } = this.props
     return (
       <div className="page">
         <section className="section-margin">
@@ -81,6 +86,14 @@ class Signup extends Component {
       </div>
     )
   }
+}
+
+Signup.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default userContainer(

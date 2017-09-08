@@ -6,18 +6,8 @@ const appContainer = (ComposedComponent) => {
   class AppContainer extends Component {
     render() {
       const {
-        brand,
         isFetching,
-        pages,
-        pathname,
-        search
       } = this.props
-      const props = {
-        brand,
-        pages,
-        pathname,
-        search,
-      }
       return (
         isFetching ? null : <ComposedComponent {...this.props} />
       )

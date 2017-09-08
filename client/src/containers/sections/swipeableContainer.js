@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { connect } from 'react-redux'
-
 
 const swipeableContainer = (ComposedComponent) => {
   class SwipeableContainer extends Component {
@@ -77,16 +75,7 @@ const swipeableContainer = (ComposedComponent) => {
         propsForChild
       }
       return (
-        <CSSTransitionGroup
-          transitionName="image"
-          transitionAppear={true}
-          transitionAppearTimeout={600}
-          transitionEnter={false}
-          transitionLeave={false}
-          style={{ width: '100%' }}
-        >
-          <ComposedComponent {...props} />
-        </CSSTransitionGroup>
+        <ComposedComponent {...props} />
       )
     }
   }

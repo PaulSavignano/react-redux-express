@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 
 const cardContainer = (ComposedComponent) => {
@@ -13,6 +14,14 @@ const cardContainer = (ComposedComponent) => {
     }
     handleMouseEnter = () => this.setState({ elevation: 4 })
     handleMouseLeave = () => this.setState({ elevation: 1 })
+    handleNavigation = () => {
+      const { dispatch, item: { values: { link }}} = this.props
+      if (link.indexOf("/") === 0) {
+        dispatch(push(link))
+      } else {
+        window.location = link
+      }
+    }
     render() {
       const { elevation } = this.state
       const {
@@ -31,6 +40,7 @@ const cardContainer = (ComposedComponent) => {
       const events = link && {
         onMouseEnter: this.handleMouseEnter,
         onMouseLeave: this.handleMouseLeave,
+        onTouchTap: this.handleNavigation
       }
       const props = {
         cardStyle,

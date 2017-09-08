@@ -29,17 +29,27 @@ class Reset extends Component {
     open: false
   }
   handleClose = () => this.setState({open: false})
+  handleFormSubmit = values => {
+    const { dispatch, params: { token }} = this.props
+    return dispatch(fetchReset(values, token))
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { error, dispatch, handleSubmit, submitting, params, user } = this.props
+    const {
+      error,
+      handleSubmit,
+      submitting,
+      user
+    } = this.props
     return (
+      user.isFetching ? null :
       <div className="page">
         <section className="section-margin">
           <Card>
             <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchReset(values, params.token)))} className="">
+            <form onSubmit={handleSubmit(this.handleFormSubmit)} className="">
               <CardText>
                 <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
                 <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
@@ -76,6 +86,14 @@ class Reset extends Component {
       </div>
     )
   }
+}
+
+Reset.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 Reset = reduxForm({

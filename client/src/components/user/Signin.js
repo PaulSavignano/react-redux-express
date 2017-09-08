@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 import { push } from 'react-router-redux'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -9,7 +7,6 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 import userContainer from '../../containers/user/userContainer'
 import renderTextField from '../../components/fields/renderTextField'
@@ -39,6 +36,10 @@ class Signin extends Component {
     this.setState({open: false})
     this.props.dispatch(push('/'))
   }
+  handleSignin = values => {
+    const { dispatch } = this.props
+    dispatch(fetchSignin(values))
+  }
   componentWillReceiveProps(nextProps) {
     const { submitSucceeded, reset, user } = nextProps
     if (submitSucceeded) {
@@ -51,12 +52,10 @@ class Signin extends Component {
   }
   render() {
     const {
-      dispatch,
       error,
       handleSubmit,
       isFetching,
       primary1Color,
-      reset,
       submitting
     } = this.props
     return (
@@ -65,8 +64,7 @@ class Signin extends Component {
         <section className="section-margin">
           <Card>
             <CardTitle title="Sign in" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchSignin(values))
-            )}>
+            <form onSubmit={handleSubmit(this.handleSignin)}>
               <CardText>
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
                 <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
@@ -109,4 +107,14 @@ class Signin extends Component {
   }
 }
 
-export default userContainer(reduxForm({ form: 'signin' })(Signin))
+Signin.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  primary1Color: PropTypes.string,
+  reset: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+}
+
+export default userContainer(reduxForm({ form: 'signin', validate })(Signin))

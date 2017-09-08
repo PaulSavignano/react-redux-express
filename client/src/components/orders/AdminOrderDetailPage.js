@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
@@ -13,7 +12,7 @@ import { fetchUpdate } from '../../actions/orders'
 
 class AdminOrderDetailPage extends Component {
   handleFormSubmit = (values) => {
-    const { dispatch, handleSubmit, order: { _id, shipped }} = this.props
+    const { dispatch, order: { _id, shipped }} = this.props
     if (shipped) {
       return dispatch(fetchUpdate(_id, { type: 'SHIPPED' }))
     }

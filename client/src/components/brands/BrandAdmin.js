@@ -4,10 +4,6 @@ import PropTypes from 'prop-types'
 import brandContainer from '../../containers/brands/brandContainer'
 import BrandForm from './BrandForm'
 
-import renderSelectField from '../../components/fields/renderSelectField'
-import renderTextField from '../fields/renderTextField'
-import renderWysiwgyField from '../fields/renderWysiwgyField'
-
 const formFields = [{
   name: 'appBar',
   fields: [

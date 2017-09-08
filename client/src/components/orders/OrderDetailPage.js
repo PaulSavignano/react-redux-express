@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
 import orderContainer from '../../containers/orders/orderContainer'
 import OrderDetail from '../../components/orders/OrderDetail'

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
 import userContainer from './userContainer'
@@ -23,12 +22,16 @@ const authenticate = (ComposedComponent, requiredRoles) => {
       }
     }
     render() {
-      const { isFetching } = this.props
       return (
-        !isFetching && <ComposedComponent {...this.props} />
+        <ComposedComponent {...this.props} />
       )
     }
   }
+  Authenticate.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+  }
+
   return userContainer(Authenticate)
 }
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 
 import orderContainer from '../../containers/orders/orderContainer'
@@ -17,7 +16,7 @@ const OrderConfirmation = ({ dispatch, order }) => {
           </CardText>
           <OrderDetail
             dispatch={dispatch}
-            order={order} 
+            order={order}
           />
         </Card>
       </section>

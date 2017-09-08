@@ -28,7 +28,7 @@ class AdminUsersEditUserPage extends Component {
     return dispatch(addressesActions.fetchAdminAdd(user._id, { values }))
   }
   handleAddressUpdate = (itemId, values) => {
-    const { dispatch, user: { _id } } = this.props
+    const { dispatch } = this.props
     return dispatch(addressesActions.fetchAdminUpdate(itemId, { values }))
   }
   handleAddressDelete = (itemId) => {
@@ -43,6 +43,7 @@ class AdminUsersEditUserPage extends Component {
       user
     } = this.props
     return (
+      isFetching ? null :
       <div className="page">
         <section>
           <H3>Profile for {user.values.email}</H3>

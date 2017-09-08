@@ -44,6 +44,7 @@ class ContactForm extends Component {
     return dispatch(fetchContact(values))
   }
   render() {
+    console.log('rendered contact form')
     const { open, elevation } = this.state
     const { dispatch, error, handleSubmit, submitSucceeded, submitting } = this.props
     return (

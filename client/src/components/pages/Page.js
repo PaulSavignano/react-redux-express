@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import pageContainer from '../../containers/pages/pageContainer'
 import renderSections from './renderSections'
-import Section from '../sections/Section'
-import SwipeableSection from '../sections/SwipeableSection'
 
 class Page extends Component {
   state = {
@@ -18,10 +16,13 @@ class Page extends Component {
     }
     window.scrollTo(0, 0)
   }
-  componentWillReceiveProps(nextProps, nextState) {
-    const { hash } = nextProps
-    if (hash !== '') {
-      return this.scrollToId(hash)
+  componentWillReceiveProps({ pathname, hash }, nextState) {
+    if (pathname !== this.props.pathname) {
+      if (hash !== '') {
+        this.scrollToId(hash)
+      } else {
+        window.scrollTo(0, 0)
+      }
     }
   }
   componentWillUnmount() {

@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import MenuItem from 'material-ui/MenuItem'
 
-import renderSelectField from '../../components/fields/renderSelectField'
-
-import H3 from '../typography/H3'
 import P from '../typography/P'
 import { fetchDelete, fetchUpdate } from '../../actions/users'
 
@@ -47,19 +41,11 @@ class AdminUsersItem extends Component {
   handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
     const {
-      dispatch,
-      handleSubmit,
       user: {
         values: {
-          firstName,
-          lastName,
-          phone,
           email
         }
       },
-      dirty,
-      submitting,
-      submitSucceeded
     } = this.props
     return (
       <Card
@@ -90,8 +76,6 @@ class AdminUsersItem extends Component {
             primary={true}
           />
         </div>
-
-
       </Card>
     )
   }
@@ -99,8 +83,7 @@ class AdminUsersItem extends Component {
 
 AdminUsersItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  form: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired
 }
 
-export default reduxForm({})(AdminUsersItem)
+export default AdminUsersItem

@@ -123,7 +123,7 @@ const BrandSchema = new Schema({
       h3TextShadow: { type: String, trim: true },
       mediaBorder: { type: String, trim: true },
       mediaElevation: { type: Number, trim: true, default: 2 },
-      minHeight: { type: String, trim: true, default: '80vh' }
+      minHeight: { type: String, trim: true, default: '85vh' }
     }
   },
   palette: {

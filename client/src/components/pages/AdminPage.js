@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import AdminItemForm from '../forms/AdminItemForm'
 import pageContainer from '../../containers/pages/pageContainer'
 import renderAdminSections from './renderAdminSections'
-import AdminSectionAdd from '../sections/AdminSectionAdd'
 import { fetchAdd } from '../../actions/sections'
 
 class AdminPage extends Component {
@@ -19,7 +18,6 @@ class AdminPage extends Component {
   render() {
     const {
       dispatch,
-      editItem,
       page: { _id, slug, sections }
     } = this.props
     return (
@@ -40,7 +38,6 @@ class AdminPage extends Component {
             style={{ flex: '1 1 auto', margin: 4 }}
           />
         </section>
-
         <AdminItemForm />
       </div>
     )
@@ -49,7 +46,6 @@ class AdminPage extends Component {
 
 AdminPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  editItem: PropTypes.object,
   page: PropTypes.object.isRequired,
 }
 

@@ -160,12 +160,12 @@ p {
 
 
 /* Image Transistions */
-.image-appear {
+.fadein-appear {
   opacity: 0;
 }
-.image-appear.image-appear-active {
+.fadein-appear.fadein-appear-active {
   opacity: 1;
-  transition: opacity 600s ease-in;
+  transition: opacity 500s ease-in;
 }
 
 

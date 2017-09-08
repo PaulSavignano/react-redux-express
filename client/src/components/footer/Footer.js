@@ -56,7 +56,7 @@ const Footer = ({
           { phone && <div><a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a></div> }
           { email && <div>{email}</div> }
           { street && <div>{street}</div> }
-          { city && <div>{city}, {state}. {zip}</div> }
+          { city && <div>{city}, {state} {zip}</div> }
         </div>
       </div>
       {image && image.src ?
@@ -69,5 +69,10 @@ const Footer = ({
     </Paper>
   </footer>
 )
+
+Footer.propTypes = {
+  business: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
+}
 
 export default footerContainer(loadImage(Footer))

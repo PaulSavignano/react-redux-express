@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card } from 'material-ui/Card'
@@ -31,7 +29,7 @@ class AdminPagesItem extends Component {
       item,
       dirty
     } = this.props
-    const { _id, slug } = item
+    const { _id } = item
     return (
       <Card
         zDepth={this.state.elevation}

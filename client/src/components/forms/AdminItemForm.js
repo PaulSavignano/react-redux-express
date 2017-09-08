@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
-import { Card, CardHeader } from 'material-ui/Card'
+import { CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import MenuItem from 'material-ui/MenuItem'
@@ -99,9 +99,7 @@ class AdminItemForm extends Component {
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
     const {
-      dispatch,
       error,
-      fields,
       handleSubmit,
       editItem: {
         editing,

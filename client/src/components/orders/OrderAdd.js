@@ -20,15 +20,13 @@ class OrderAdd extends Component {
     newAddress: false
   }
   handleFormSubmit = (values) => {
-    const { dispatch, handleSubmit, cart } = this.props
+    const { dispatch, cart } = this.props
     return dispatch(fetchAddOrder({ ...values, cart }))
   }
   render() {
     const {
       error,
-      dispatch,
       handleSubmit,
-      isFetching,
       cart,
       addresses,
       submitting,

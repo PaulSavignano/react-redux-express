@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionGroup } from 'react-transition-group'
 import renderHTML from 'react-render-html'
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 
@@ -62,6 +63,14 @@ class SlideShow extends Component {
       </section>
     )
   }
+}
+
+SlideShow.propTypes = {
+  autoplay: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
+  propsForChild: PropTypes.object.isRequired
 }
 
 export default slideShowContainer(SlideShow)

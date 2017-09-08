@@ -26,4 +26,10 @@ const CartPage = ({ cart, dispatch, user }) => (
   </Card>
 )
 
+CartPage.propTypes = {
+  cart: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+}
+
 export default cartContainer(CartPage)

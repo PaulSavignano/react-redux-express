@@ -10,9 +10,11 @@ const UPDATE = `UPDATE_${type}`
 const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
 
+
+const fetchFailure = (error) => ({ type: ERROR, error })
+
 // Create
 const fetchAddSuccess = (item) => ({ type: ADD, item })
-const fetchAddFailure = (error) => ({ type: ERROR, error })
 export const fetchAdd = (add) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}/admin`, {
@@ -30,7 +32,7 @@ export const fetchAdd = (add) => {
       })
       .catch(error => {
         console.log(error)
-        dispatch(fetchAddFailure(error))
+        dispatch(fetchFailure(error))
         throw new SubmissionError({ ...error, _error: 'Update failed!' })
     })
   }
@@ -63,7 +65,6 @@ export const fetchUsers = () => {
 
 // Update
 export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
-const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}/admin/${_id}`, {
@@ -80,7 +81,7 @@ export const fetchUpdate = (_id, update) => {
         dispatch(fetchUpdateSuccess(json))
       })
       .catch(error => {
-        dispatch({ type: ERROR, error })
+        dispatch(fetchFailure(error))
         throw new SubmissionError({ ...error, _error: 'Update failed!' })
       })
   }
@@ -90,7 +91,6 @@ export const fetchUpdate = (_id, update) => {
 
 // Delete
 const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
-const fetchDeleteFailure = (error) => ({ type: ERROR, error })
 export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}/admin/${_id}`, {
@@ -106,7 +106,7 @@ export const fetchDelete = (_id) => {
         dispatch(fetchDeleteSuccess(json._id))
       })
       .catch(error => {
-        dispatch({ type: ERROR, error })
+        dispatch(fetchFailure(error))
         throw new SubmissionError({ ...error, _error: 'Delete failed!' })
       })
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionGroup } from 'react-transition-group'
 
 const loadImage = (ComposedComponent) => {
   class LoadImage extends Component {
@@ -26,9 +26,9 @@ const loadImage = (ComposedComponent) => {
       return (
         loading ? null : image ?
         <CSSTransitionGroup
-          transitionName="image"
+          transitionName="fadein"
           transitionAppear={true}
-          transitionAppearTimeout={600}
+          transitionAppearTimeout={500}
           transitionEnter={false}
           transitionLeave={false}
           style={{ flex, width }}

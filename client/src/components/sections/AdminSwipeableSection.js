@@ -51,7 +51,6 @@ class AdminSwipeableSection extends Component {
         >
           {renderAdminComponents({ components: items, pageSlug })}
         </AutoPlaySwipeableViews>
-
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd
             dispatch={dispatch}

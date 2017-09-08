@@ -34,7 +34,13 @@ class Recovery extends Component {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
   render() {
-    const { dispatch, error, handleSubmit, submitting, isFetching } = this.props
+    const {
+      dispatch,
+      error,
+      handleSubmit,
+      isFetching,
+      submitting,
+    } = this.props
     return (
       isFetching ? null :
       <div className="page">
@@ -82,6 +88,13 @@ class Recovery extends Component {
   }
 }
 
+Recovery.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+}
 
 Recovery = reduxForm({
   form: 'recovery',

@@ -25,6 +25,18 @@ import users from './routes/users'
 const app = express()
 const port = process.env.PORT
 
+const forceSsl = (req, res, next) => {
+  let sslUrl;
+  if (process.env.NODE_ENV === 'production' &&
+    req.headers['x-forwarded-proto'] !== 'https') {
+    sslUrl = ['https://', req.hostname, req.url].join('');
+    return res.redirect(sslUrl);
+  }
+  return next();
+}
+
+app.use(forceSsl)
+
 app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -40,6 +52,7 @@ app.use('/api/pages', pages)
 app.use('/api/products', products)
 app.use('/api/sections', sections)
 app.use('/api/users', users)
+
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))
 app.use(staticFiles)

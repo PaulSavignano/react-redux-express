@@ -24,7 +24,7 @@
     "react-scripts": "^1.0.1",
     "react-swipeable-views": "^0.12.5",
     "react-tap-event-plugin": "^2.0.1",
-    "react-transition-group": "^1.1.2",
+    "react-transition-group": "1.x",
     "redux": "^3.6.0",
     "redux-form": "^6.5.0",
     "redux-form-material-ui": "^4.2.0",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { CSSTransitionGroup } from 'react-transition-group'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -86,6 +87,7 @@ class App extends Component {
     } = this.state
     const {
       brand: {
+        _id,
         business: {
           image,
           values: {
@@ -95,12 +97,10 @@ class App extends Component {
         }
       },
       children,
-      dispatch,
-      pathname,
       search,
     } = this.props
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(this.state.theme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
         <div>
           <Helmet>
             <meta charSet="utf-8" />
@@ -110,13 +110,21 @@ class App extends Component {
             <link rel="canonical" href={window.location.hostname} />
           </Helmet>
           {!loadingItemImages && !loadingItemBackgroundImages ?
-            <div>
-              <Header />
-              <main>
-                {search.value ? <SearchList /> : children}
-              </main>
-              <Footer />
-            </div>
+            <CSSTransitionGroup
+              transitionName="fadein"
+              transitionAppear={true}
+              transitionAppearTimeout={500}
+              transitionEnter={false}
+              transitionLeave={false}
+            >
+              <div key={_id}>
+                <Header />
+                <main>
+                  {search.value ? <SearchList /> : children}
+                </main>
+                <Footer />
+              </div>
+            </CSSTransitionGroup>
           :
             null
           }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import renderHTML from 'react-render-html'
@@ -83,5 +82,10 @@ class SearchItem extends Component {
   }
 }
 
+SearchItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+}
 
-export default connect()(SearchItem)
+
+export default SearchItem

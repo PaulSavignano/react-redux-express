@@ -60,5 +60,11 @@ const ProductPage = ({
   </Paper>
 )
 
+ProductPage.propTypes = {
+  dispatch: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
+  productStyle: PropTypes.object.isRequired
+}
+
 
 export default productPageContainer(loadImage(ProductPage))
