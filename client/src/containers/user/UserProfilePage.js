@@ -38,7 +38,7 @@ class UserProfilePage extends Component {
     return (
       <div className="page">
         <section>
-          <H3>Profile</H3>
+          <H3 margin="0 16px">Profile</H3>
           <UserProfileForm
             dispatch={dispatch}
             form={`user_${user._id}_profile`}

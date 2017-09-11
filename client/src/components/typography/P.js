@@ -7,12 +7,25 @@ const P = ({
   children,
   className,
   fontFamily,
-  textColor
+  textColor,
+  typography: {
+    values: {
+      pFontFamily,
+      pFontSize,
+      pFontWeight,
+      pLetterSpacing,
+      pLineHeight
+    }
+  }
 }) => (
   <div
     style={{
       color: textColor,
-      fontFamily,
+      fontFamily: fontFamily || pFontFamily,
+      fontSize: pFontSize,
+      fontWeight: pFontWeight,
+      letterSpacing: pLetterSpacing,
+      lineHeight: pLineHeight,
       overflow: 'hidden'
     }}
     {...className}

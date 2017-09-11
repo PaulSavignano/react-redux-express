@@ -162,7 +162,11 @@ const formFields = [{
     { name: 'h3FontFamily', type: 'text' },
     { name: 'h3FontSize', type: 'text' },
     { name: 'h3FontWeight', type: 'text' },
-    { name: 'h3LetterSpacing', type: 'text' }
+    { name: 'h3LetterSpacing', type: 'text' },
+    { name: 'pFontFamily', type: 'text' },
+    { name: 'pFontSize', type: 'text' },
+    { name: 'pFontWeight', type: 'text' },
+    { name: 'pLetterSpacing', type: 'text' }
   ]
 }]
 

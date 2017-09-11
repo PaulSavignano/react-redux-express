@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 
+import './orders.css'
 import orderContainer from '../../containers/orders/orderContainer'
 import OrderDetail from './OrderDetail'
 

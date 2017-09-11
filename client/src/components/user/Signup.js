@@ -38,8 +38,10 @@ class Signup extends Component {
       dispatch,
       error,
       handleSubmit,
+      pristine,
       submitting,
-      user
+      user,
+      valid
     } = this.props
     return (
       <div className="page">
@@ -75,7 +77,7 @@ class Signup extends Component {
                 <RaisedButton
                   label="Sign Up"
                   fullWidth={true}
-                  disabled={submitting}
+                  disabled={!valid || submitting}
                   type="submit"
                   primary={true}
                 />

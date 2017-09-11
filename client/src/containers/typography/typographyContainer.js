@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import './typography.css'
-
 const typographyContainer = (ComposedComponent) => {
   class TypographyContainer extends Component {
     render() {
@@ -13,6 +11,7 @@ const typographyContainer = (ComposedComponent) => {
         dispatch,
         fontFamily,
         isFetching,
+        margin,
         typography,
         textAlign,
         textColor,
@@ -23,6 +22,7 @@ const typographyContainer = (ComposedComponent) => {
         color,
         dispatch,
         fontFamily,
+        margin,
         typography,
         textAlign,
         textColor,

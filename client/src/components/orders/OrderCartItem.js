@@ -34,7 +34,7 @@ class OrderCartItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={this.handleNavigation}
-        style={{ margin: 16 }}
+        className="card"
       >
         <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
           {image && image.src && <img src={image.src} alt="" width="auto" height="50px"/>}

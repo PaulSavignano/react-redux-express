@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import OrderCartItem from './OrderCartItem'
 
 const OrderCartList = ({ dispatch, items }) => (
-  <div style={{ overflow: 'hidden' }}>
+  <div className="OrderCartList">
     {items.map(item => (
       <OrderCartItem
         dispatch={dispatch}

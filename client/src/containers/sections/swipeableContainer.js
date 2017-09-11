@@ -30,6 +30,7 @@ const swipeableContainer = (ComposedComponent) => {
           backgroundImage: image.src && `url(${image.src})`,
           backgroundColor,
           marginTop: containerMarginTop,
+          maxWidth,
           minHeight,
           position: 'relative'
         },
@@ -41,7 +42,6 @@ const swipeableContainer = (ComposedComponent) => {
           display: 'flex',
           flexFlow,
           justifyContent,
-          maxWidth,
           margin
         }
       }

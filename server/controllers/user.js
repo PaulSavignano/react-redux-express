@@ -136,14 +136,16 @@ export const update = (req, res) => {
 }
 
 export const adminUpdate = (req, res) => {
-  const { user } = req
+  const {
+    user,
+    params: { _id },
+    body: { values, type }
+  } = req
   const isOwner = user.roles.some(role => role === 'owner')
   if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
-  const { userId } = req.params
-  const { values, type } = req.body
   switch(type) {
     case 'UPDATE_VALUES':
-      return User.findOne({ _id: userId })
+      return User.findOne({ _id })
         .then(user => {
           if (values.password) {
             user.password = values.password
@@ -175,7 +177,7 @@ export const adminUpdate = (req, res) => {
       [ 'user' ]
       console.log(roles)
       return User.findOneAndUpdate(
-          { _id: userId },
+          { _id },
           { $set: { roles: roles }},
           { new: true }
         )
@@ -201,12 +203,15 @@ export const remove = (req, res) => {
 }
 
 export const adminRemove = (req, res) => {
-  const { user } = req
+  const { user, params: { _id }} = req
   const isOwner = user.roles.some(role => role === 'owner')
+  console.log(_id)
   if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
-  const { _id } = req.params
   User.findOneAndRemove({ _id })
-  .then(doc => res.send(user))
+  .then(doc => {
+    console.log(doc)
+    res.send(doc)
+  })
   .catch(error => {
     console.error('User.findOneAndRemove: ', error)
     res.status(400).send({ error: 'user delete failed' })
@@ -232,12 +237,12 @@ export const signin = (req, res) => {
     })
     .catch(error => {
       console.error('user.generateAuthToken(): ', error)
-      res.status(400).send({ error })
+      res.status(400).send(error)
     })
   })
   .catch(error => {
     console.error('User.findByCredentials: ', error)
-    res.status(400).send({ error })
+    res.status(400).send(error)
   })
 }
 

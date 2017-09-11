@@ -7,6 +7,15 @@ main {
   min-height: 80vh;
 }
 
+.section {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.admin-section {
+  position: relative;
+}
+
 .section-margin {
   margin: 8px;
 }
@@ -17,8 +26,13 @@ main {
 }
 
 .card-text {
-  padding: 0 8px;
+  padding: 16px 16px 0;
 }
+
+.article {
+  margin: 16px;
+}
+
 
 .page {
   min-height: 85vh;
@@ -28,7 +42,7 @@ main {
 }
 
 .card {
-  margin: 16px 8px;
+  margin: 8px;
 }
 
 svg {
@@ -37,7 +51,12 @@ svg {
 
 
 
-
+.edit-section {
+  margin: 8px;
+}
+.edit-section > button {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 45px, rgba(0, 0, 0, 0.22) 0px 10px 18px;
+}
 
 
 
@@ -92,7 +111,10 @@ a {
   margin: 0 8px;
 }
 
-
+.date {
+  display: flex;
+  align-items: flex-end;
+}
 
 
 
@@ -127,18 +149,12 @@ a {
 .error {
   font-weight: bold;
   color: rgb(244, 67, 54);
-  margin: 8px;
-}
-
-
-h1 {
-  margin: 16px 16px 8px;
-}
-h2, h3 {
   margin: 8px 16px;
 }
-p {
-    margin: 8px 16px 24px;
+
+
+h1, h2, h3, p {
+  margin: 0 0 16px;
 }
 
 

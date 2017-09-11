@@ -31,24 +31,26 @@ class AdminSwipeableSection extends Component {
       propsForChild,
     } = this.props
     return (
-      <section
-        onTouchTap={this.handleStartEdit}
-        {...propsForParent}
-      >
-        <AutoPlaySwipeableViews
-          autoplay={autoplay}
-          slideStyle={propsForChild.style}
-          interval={4000}
-          animateTransitions={true}
-          springConfig={{
-            duration: '4s',
-            easeFunction: 'ease-in-out',
-            delay: '-1s'
-          }}
-          className="heroCarousel"
+      <div className="admin-section">
+        <section
+          onTouchTap={this.handleStartEdit}
+          {...propsForParent}
         >
-          {renderAdminComponents({ components: items, pageSlug })}
-        </AutoPlaySwipeableViews>
+          <AutoPlaySwipeableViews
+            autoplay={autoplay}
+            slideStyle={propsForChild.style}
+            interval={4000}
+            animateTransitions={true}
+            springConfig={{
+              duration: '4s',
+              easeFunction: 'ease-in-out',
+              delay: '-1s'
+            }}
+            className="heroCarousel"
+          >
+            {renderAdminComponents({ components: items, pageSlug })}
+          </AutoPlaySwipeableViews>
+        </section>
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd
             dispatch={dispatch}
@@ -62,7 +64,7 @@ class AdminSwipeableSection extends Component {
             style={{ margin: 8 }}
           />
         </div>
-      </section>
+      </div>
     )
   }
 }

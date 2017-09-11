@@ -37,7 +37,6 @@ const SectionSchema = new Schema({
 
 
 SectionSchema.post('findOneAndRemove', function(doc, next) {
-  console.log('inside section hook')
   if (doc.image && doc.image.src) {
     deleteFile({ Key: doc.image.src }).catch(err => console.error(err))
   }

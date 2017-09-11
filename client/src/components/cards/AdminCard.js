@@ -82,7 +82,7 @@ class AdminCard extends Component {
             border={mediaBorder}
           />
         }
-        <div style={{ padding: 8 }}>
+        <div className="card-text">
           {hasHeading &&
             <Heading
               h1Align={h1Align}

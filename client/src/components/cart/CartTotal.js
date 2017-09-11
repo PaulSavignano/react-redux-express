@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
-import { CardActions, CardTitle } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
+import { CardTitle } from 'material-ui/Card'
 
 import formatPrice from '../../utils/formatPrice'
 import { redirectUser } from '../../actions/user'
@@ -15,24 +13,13 @@ const CartTotal = ({ dispatch, cart, user }) => (
       <CardTitle title={`Taxes ${cart.tax * 100}`} style={{ textAlign: 'right', padding: '0 8px' }}/>
       <CardTitle title={`Total ${formatPrice(cart.total)}`} style={{ textAlign: 'right', padding: '8px 8px' }}/>
     </div>
-    <CardActions>
-      <RaisedButton
-        label="Checkout"
-        primary={true}
-        fullWidth={true}
-        onTouchTap={() => {
-          !user.values.email && dispatch(redirectUser('/user/order'))
-          dispatch(push('/user/order'))
-        }}
-      />
-    </CardActions>
   </div>
 )
 
 CartTotal.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  cart: PropTypes.array.isRequired,
-  user: PropTypes.string.isRequired,
+  cart: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 export default CartTotal

@@ -45,38 +45,45 @@ class AdminUsersEditUserPage extends Component {
     return (
       isFetching ? null :
       <div className="page">
+        {user ?
+          <section>
+            <H3 margin="0 16px">Profile for {user.values.email}</H3>
+            <UserProfileForm
+              dispatch={dispatch}
+              form={`user_${user._id}_profile`}
+              initialValues={user.values}
+              onFormSubmit={this.handleUserValues}
+              onDelete={this.handleUserDelete}
+              user={user}
+            />
+            <UsersRolesForm
+              user={user}
+              form='user_roles'
+              handleUserRoles={this.handleUserRoles}
+              initialValues={{
+                user: user.roles.some(role => role === 'user'),
+                admin: user.roles.some(role => role === 'admin'),
+                owner: user.roles.some(role => role === 'owner')
+              }}
+            />
+            <AddressesForm
+              dispatch={dispatch}
+              onAddressAdd={this.handleAddressAdd}
+              onAddressUpdate={this.handleAddressUpdate}
+              onAddressDelete={this.handleAddressDelete}
+              user={user}
+            />
+            <OrderList
+              dispatch={dispatch}
+              orders={orders}
+            />
+          </section>
+
+        :
         <section>
-          <H3>Profile for {user.values.email}</H3>
-          <UserProfileForm
-            dispatch={dispatch}
-            form={`user_${user._id}_profile`}
-            initialValues={user.values}
-            onFormSubmit={this.handleUserValues}
-            onDelete={this.handleUserDelete}
-            user={user}
-          />
-          <UsersRolesForm
-            user={user}
-            form='user_roles'
-            handleUserRoles={this.handleUserRoles}
-            initialValues={{
-              user: user.roles.some(role => role === 'user'),
-              admin: user.roles.some(role => role === 'admin'),
-              owner: user.roles.some(role => role === 'owner')
-            }}
-          />
-          <AddressesForm
-            dispatch={dispatch}
-            onAddressAdd={this.handleAddressAdd}
-            onAddressUpdate={this.handleAddressUpdate}
-            onAddressDelete={this.handleAddressDelete}
-            user={user}
-          />
-          <OrderList
-            dispatch={dispatch}
-            orders={orders}
-          />
+          <H3 margin="0 16px">User does not exists anymore.</H3>
         </section>
+        }
       </div>
     )
   }
@@ -86,7 +93,7 @@ AdminUsersEditUserPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   orders: PropTypes.array,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object,
 }
 
 export default connect(

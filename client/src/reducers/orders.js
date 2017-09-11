@@ -5,18 +5,18 @@ const orders = (state = {
   items: []
 }, action) => {
   switch (action.type) {
-    case 'REQUEST_ORDERS':
+    case `REQUEST_${type}S`:
       return {
         ...state,
         isFetching: true
       }
-    case 'RECEIVE_ORDERS':
+    case `RECEIVE_${type}S`:
       return {
         ...state,
         isFetching: false,
         items: action.items
       }
-    case 'ADD_ORDER':
+    case `ADD_${type}`:
       return {
         ...state,
         items: [
@@ -38,7 +38,7 @@ const orders = (state = {
         items: [],
         isFetching: false
       }
-    case 'ERROR_ORDER':
+    case `ERROR_${type}`:
       return {
         ...state,
         error: action.error

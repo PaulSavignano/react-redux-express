@@ -26,7 +26,7 @@ const cartContainer = (ComposedComponent) => {
     user
   }) => ({
     cart,
-    isFetching,
+    isFetching: isFetching || user.isFetching ? true : false,
     user
   })
   CartContainer.propTypes = {

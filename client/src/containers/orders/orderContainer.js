@@ -22,7 +22,7 @@ const orderContainer = (ComposedComponent) => {
   OrderContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    order: PropTypes.object.isRequired,
+    order: PropTypes.object,
   }
   return connect(
     ({

@@ -58,17 +58,19 @@ class SlideShow extends Component {
       propsForChild,
     } = this.props
     return (
-      <section {...propsForParent}>
-        <CSSTransitionGroup
-          transitionName="cross-fade"
-          transitionEnter={true}
-          transitionEnterTimeout={2000}
-          transitionLeave={true}
-          transitionLeaveTimeout={2000}
-          {...propsForChild}
-        >
-          {renderAdminComponents({ components: items })[this.state.index]}
-        </CSSTransitionGroup>
+      <div className="admin-section">
+        <section {...propsForParent}>
+          <CSSTransitionGroup
+            transitionName="cross-fade"
+            transitionEnter={true}
+            transitionEnterTimeout={2000}
+            transitionLeave={true}
+            transitionLeaveTimeout={2000}
+            {...propsForChild}
+          >
+            {renderAdminComponents({ components: items })[this.state.index]}
+          </CSSTransitionGroup>
+        </section>
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd
             dispatch={dispatch}
@@ -82,7 +84,7 @@ class SlideShow extends Component {
             style={{ margin: 8 }}
           />
         </div>
-      </section>
+      </div>
     )
   }
 }

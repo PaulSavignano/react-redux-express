@@ -25,10 +25,13 @@ class AddressItem extends Component {
   }
   render() {
     const {
+      destroy,
       error,
       handleSubmit,
+      submitFailed,
       submitSucceeded,
       submitting,
+      valid,
     } = this.props
     return (
       <Card
@@ -43,13 +46,16 @@ class AddressItem extends Component {
           style={{ flex: '1 1 auto' }}
         >
           <AddressFields />
-          {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton
+              error={error}
+              label="Update Address"
+              destroy={destroy}
+              submitFailed={submitFailed}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="update address"
-              successLabel="address updated!"
+              successLabel="Address Updated!"
+              valid={valid}
             />
             <RaisedButton
               type="button"
@@ -66,7 +72,7 @@ class AddressItem extends Component {
 
 AddressItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,

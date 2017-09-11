@@ -26,13 +26,16 @@ const validate = values => {
 }
 
 const UserProfileForm = ({
+  destroy,
   dispatch,
   error,
   handleSubmit,
   onDelete,
   onFormSubmit,
+  submitFailed,
   submitSucceeded,
-  submitting
+  submitting,
+  valid
 }) => (
   <Card className="UserProfileForm">
     <CardTitle title="User" />
@@ -49,10 +52,14 @@ const UserProfileForm = ({
       {error && <div className="error">{error}</div>}
       <div className="button-container">
         <SuccessableButton
+          error={error}
+          label="Update User"
+          destroy={destroy}
+          submitFailed={submitFailed}
           submitSucceeded={submitSucceeded}
           submitting={submitting}
-          label="update user"
-          successLabel="user updated!"
+          successLabel="User Updated!"
+          valid={valid}
         />
         <RaisedButton
           type="button"
@@ -66,12 +73,15 @@ const UserProfileForm = ({
 )
 
 UserProfileForm.propTypes = {
+  destroy: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+  submitFailed: PropTypes.bool.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  valid: PropTypes.bool.isRequired,
 }
 
 export default reduxForm({ validate })(UserProfileForm)

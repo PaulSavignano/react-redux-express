@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, actions } from 'redux-form'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
 import userContainer from '../../containers/user/userContainer'
+import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchSignin } from '../../actions/user'
 
@@ -38,28 +40,28 @@ class Signin extends Component {
   }
   handleSignin = values => {
     const { dispatch } = this.props
-    dispatch(fetchSignin(values))
+    return dispatch(fetchSignin(values))
   }
   componentWillReceiveProps(nextProps) {
-    const { submitSucceeded, reset, user } = nextProps
-    if (submitSucceeded) {
-      reset()
-      this.setState({
-        open: true,
-        message: `Welcome back ${user.values.firstName}!`
-      })
+    const { dispatch, submitSucceeded, user } = nextProps
+    if (submitSucceeded && user._id) {
+      return browserHistory.goBack()
     }
   }
   render() {
     const {
+      destroy,
       error,
       handleSubmit,
-      isFetching,
       primary1Color,
-      submitting
+      pristine,
+      submitFailed,
+      submitSucceeded,
+      submitting,
+      user,
+      valid
     } = this.props
     return (
-      isFetching ? null :
       <div className="page">
         <section className="section-margin">
           <Card>
@@ -69,14 +71,16 @@ class Signin extends Component {
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
                 <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
               </CardText>
-              {error && <div className="error">{error}</div>}
-              <CardActions>
-                <RaisedButton
-                  label="Sign In"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
+              <CardActions style={{ display: 'flex' }}>
+                <SuccessableButton
+                  error={error}
+                  label={`Sign In`}
+                  destroy={destroy}
+                  submitFailed={submitFailed}
+                  submitSucceeded={submitSucceeded}
+                  submitting={submitting}
+                  successLabel={`Welcome ${user.values.firstName}!`}
+                  valid={valid}
                 />
               </CardActions>
             </form>
@@ -111,10 +115,13 @@ Signin.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   primary1Color: PropTypes.string,
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
 }
 
-export default userContainer(reduxForm({ form: 'signin', validate })(Signin))
+export default userContainer(reduxForm({
+  form: 'signin',
+  validate,
+  destroyOnUnmount: true
+})(Signin))

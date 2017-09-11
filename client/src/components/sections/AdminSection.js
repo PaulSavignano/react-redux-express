@@ -26,13 +26,16 @@ class AdminSection extends Component {
       propsForChild,
     } = this.props
     return (
-      <section
-        onTouchTap={this.handleStartEdit}
-        {...propsForParent}
-      >
-        <div {...propsForChild}>
-          {renderAdminComponents({ components: items, pageSlug })}
-        </div>
+      <div className="admin-section">
+        <section
+          onTouchTap={this.handleStartEdit}
+          {...propsForParent}
+        >
+          <div {...propsForChild}>
+            {renderAdminComponents({ components: items, pageSlug })}
+          </div>
+
+        </section>
         <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
           <AdminSectionAdd
             dispatch={dispatch}
@@ -43,10 +46,11 @@ class AdminSection extends Component {
           <RaisedButton
             label="Edit Section"
             onTouchTap={this.handleStartEdit}
-            style={{ margin: 8 }}
+            className="edit-section"
           />
         </div>
-      </section>
+      </div>
+
     )
   }
 }

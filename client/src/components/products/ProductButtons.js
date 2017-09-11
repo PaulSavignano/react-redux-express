@@ -23,9 +23,13 @@ class ProductButtons extends Component {
   plus = () => this.setState({ qty: this.state.qty + 1 })
   render() {
     const {
+      error,
+      destroy,
       handleSubmit,
+      submitFailed,
       submitSucceeded,
-      submitting
+      submitting,
+      valid
     } = this.props
     return (
       <div>
@@ -41,11 +45,15 @@ class ProductButtons extends Component {
           </div>
           <div style={{ display: 'flex' }}>
             <SuccessableButton
+              error={error}
+              label="Add To Cart"
+              destroy={destroy}
+              submitFailed={submitFailed}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="Add To Cart"
               successLabel="Product Added!"
               style={{ margin: 0 }}
+              valid={valid}
             />
           </div>
         </form>
@@ -55,10 +63,14 @@ class ProductButtons extends Component {
 }
 
 ProductButtons.propTypes = {
+  error: PropTypes.string,
+  destroy: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   productId: PropTypes.string.isRequired,
+  submitFailed: PropTypes.bool.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired
+  submitting: PropTypes.bool.isRequired,
+  valid: PropTypes.bool.isRequired
 }
 
 export default reduxForm({})(ProductButtons)

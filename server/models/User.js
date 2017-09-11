@@ -137,15 +137,15 @@ UserSchema.statics.findByCredentials = function(email, password) {
       if (!user) return Promise.reject({ error: { email: 'User not found'}})
       return new Promise((resolve, reject) => {
         bcrypt.compare(password, user.password)
-          .then(res => {
-            if (res) {
-              resolve(user)
-            } else {
-              reject({ error: { password: 'Password does not match' }})
-            }
-          })
+        .then(res => {
+          if (res) {
+            resolve(user)
+          } else {
+            reject({ error: { password: 'Password does not match' }})
+          }
         })
       })
+    })
 }
 
 UserSchema.pre('save', function(next) {
@@ -162,9 +162,8 @@ UserSchema.pre('save', function(next) {
   }
 })
 
-UserSchema.pre('remove', function(next) {
-  const user = this
-  user.model('addresses').remove({ _id: { $in: user.addresses }})
+UserSchema.post('findOneAndRemove', function(doc, next) {
+  Address.find({ _id: { $in: doc.addresses }}).remove()
   next()
 })
 

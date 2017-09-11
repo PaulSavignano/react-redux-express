@@ -11,7 +11,7 @@ class OrderItem extends Component {
   state = {
     elevation: 1,
   }
-  handleMouseEnter = () => this.setState({ elevation: 4 })
+  handleMouseEnter = () => this.setState({ elevation: 3 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
   handleNavigation = () => {
     const { dispatch, order: { _id }} = this.props
@@ -34,6 +34,7 @@ class OrderItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={this.handleNavigation}
+        className="card"
       >
         <CardText style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
           <div>

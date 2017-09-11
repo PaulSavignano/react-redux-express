@@ -5,6 +5,7 @@ import { Card, CardTitle } from 'material-ui/Card'
 import cartContainer from '../../containers/cart/cartContainer'
 import CartList from './CartList'
 import CartTotal from './CartTotal'
+import CheckoutButton from './CheckoutButton'
 
 const CartPage = ({ cart, dispatch, user }) => (
   !cart.items.length ?
@@ -20,6 +21,10 @@ const CartPage = ({ cart, dispatch, user }) => (
     />
     <CartTotal
       cart={cart}
+      dispatch={dispatch}
+      user={user}
+    />
+    <CheckoutButton
       dispatch={dispatch}
       user={user}
     />

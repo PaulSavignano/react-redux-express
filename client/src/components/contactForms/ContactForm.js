@@ -45,7 +45,7 @@ class ContactForm extends Component {
   }
   render() {
     const { open, elevation } = this.state
-    const { 
+    const {
       error,
       handleSubmit,
       submitSucceeded,
@@ -98,7 +98,7 @@ class ContactForm extends Component {
 
 ContactForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,

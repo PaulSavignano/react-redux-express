@@ -68,13 +68,6 @@ class AdminArticle extends Component {
     return (
       <article
         onTouchTap={this.handleStartEdit}
-        style={{
-          width: '100%',
-          overflow: 'hidden',
-          position: 'relative',
-          margin: '16px 0',
-          minHeight: 60
-        }}
         className="article"
       >
         {hasHeading &&

@@ -1,5 +1,5 @@
 import { push } from 'react-router-redux'
-import { SubmissionError } from 'redux-form'
+import { reset, SubmissionError } from 'redux-form'
 
 import { fetchOrders } from './orders'
 import { fetchUsersSuccess } from './users'

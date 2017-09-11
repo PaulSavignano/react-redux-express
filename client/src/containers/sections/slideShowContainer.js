@@ -30,6 +30,7 @@ const slideShowContainer = (ComposedComponent) => {
           backgroundImage: image.src ? `url(${image.src})` : null,
           backgroundColor,
           marginTop: containerMarginTop,
+          maxWidth,
           minHeight,
           position: 'relative'
         },
@@ -41,7 +42,6 @@ const slideShowContainer = (ComposedComponent) => {
           display: 'flex',
           flexFlow,
           justifyContent,
-          maxWidth,
           margin,
         }
       }

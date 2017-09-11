@@ -31,7 +31,7 @@ const OrderDetail = ({
     address: { name, phone, street, city, state, zip }
   }
 }) => (
-  <Card className="section">
+  <Card zDepth={0}>
     <CardText>
       <h1>Order Detail</h1>
       <div style={styles.orderDetail}>
@@ -68,12 +68,12 @@ const OrderDetail = ({
         </div>
       </div>
     </CardText>
-    <CardText>
-      <OrderCartList 
+    <div>
+      <OrderCartList
         dispatch={dispatch}
         items={items}
       />
-    </CardText>
+    </div>
   </Card>
 )
 

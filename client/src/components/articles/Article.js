@@ -57,10 +57,6 @@ const Article = ({
 }) => {
   return (
     <article
-      style={{
-        overflow: 'hidden',
-        margin: '16px 0',
-      }}
       className="article"
     >
       {hasHeading &&

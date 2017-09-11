@@ -46,7 +46,7 @@ class AdminSectionAdd extends Component {
         <RaisedButton
           onTouchTap={this.handleOpenMenu}
           label="Add Item"
-          style={{ margin: 8 }}
+          className="edit-section"
         />
         <Popover
           open={this.state.openMenu}
