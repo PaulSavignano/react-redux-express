@@ -21,7 +21,7 @@ const UsersRolesForm = ({
   error,
   handleSubmit,
   handleUserRoles,
-  submitFailed,
+  reset,
   submitSucceeded,
   submitting,
   valid
@@ -54,7 +54,7 @@ const UsersRolesForm = ({
           dirty={dirty}
           error={error}
           label="Update Roles"
-          submitFailed={submitFailed}
+          reset={reset}
           submitSucceeded={submitSucceeded}
           submitting={submitting}
           successLabel="Roles Updated!"
@@ -71,11 +71,11 @@ UsersRolesForm.propTypes = {
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   handleUserRoles: PropTypes.func.isRequired,
-  submitFailed: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   valid: PropTypes.bool.isRequired,
 }
 
-export default reduxForm({})(UsersRolesForm)
+export default reduxForm({ enableReinitialize: true })(UsersRolesForm)

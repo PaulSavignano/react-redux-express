@@ -43,7 +43,7 @@ class Signup extends Component {
       handleSubmit,
       primary1Color,
       pristine,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       user,
@@ -67,7 +67,7 @@ class Signup extends Component {
                   dirty={dirty}
                   error={error}
                   label="Sign Up"
-                  submitFailed={submitFailed}
+                  reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel={`Welcome ${user.values.firstName}!`}
@@ -92,7 +92,7 @@ class Signup extends Component {
             </Dialog>
             }
             <CardActions className="card-actions">
-              <p>Already have an account? <Link to="/user/signin" style={{ color: primary1Color }}>Sign in!</Link></p>
+              <p>Already have an account? <Link to="/user/signin" style={{ color: primary1Color }}>Sign In!</Link></p>
               <p>Forgot your password? <Link to="/user/recovery" style={{ color: primary1Color }}>Recover your account!</Link></p>
             </CardActions>
           </Card>
@@ -107,7 +107,7 @@ Signup.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  submitFailed: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired

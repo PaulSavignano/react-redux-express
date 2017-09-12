@@ -53,7 +53,7 @@ class Reset extends Component {
       dirty,
       error,
       handleSubmit,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       user,
@@ -74,7 +74,7 @@ class Reset extends Component {
                   dirty={dirty}
                   error={error}
                   label="Reset"
-                  submitFailed={submitFailed}
+                  reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Reset Success!"
@@ -109,6 +109,8 @@ Reset.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired
 }

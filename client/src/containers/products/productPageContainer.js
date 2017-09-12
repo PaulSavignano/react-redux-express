@@ -9,12 +9,14 @@ const productPageContainer = (ComposedComponent) => {
         dispatch,
         isFetching,
         item,
+        primary1Color,
         productStyle
       } = this.props
       const props = {
         dispatch,
         item,
-        productStyle
+        productStyle,
+        primary1Color,
       }
       return (
         !isFetching && item ?
@@ -32,12 +34,14 @@ const productPageContainer = (ComposedComponent) => {
   }) => ({
     isFetching: brand.isFetching || products.isFetching ? true : false,
     productStyle: brand.productStyle,
+    primary1Color: brand.palette.values.primary1Color,
     item: products.items.find(item => item._id === productId)
   })
   ProductPageContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     item: PropTypes.object,
+    primary1Color: PropTypes.string.isRequired,
     productStyle: PropTypes.object
   }
   return connect(mapStateToProps)(ProductPageContainer)

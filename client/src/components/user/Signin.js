@@ -55,7 +55,7 @@ class Signin extends Component {
       handleSubmit,
       primary1Color,
       pristine,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       user,
@@ -75,8 +75,8 @@ class Signin extends Component {
                 <SuccessableButton
                   dirty={dirty}
                   error={error}
-                  label={`Sign In`}
-                  submitFailed={submitFailed}
+                  label="Sign In"
+                  reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel={`Welcome ${user.values.firstName}!`}
@@ -85,7 +85,7 @@ class Signin extends Component {
               </div>
             </form>
             <CardActions className="card-actions">
-              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up!</Link></p>
+              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign Up!</Link></p>
               <p>Forgot your password? <Link to="/user/recovery" style={{ color: primary1Color }}>Recover your account!</Link></p>
             </CardActions>
           </Card>

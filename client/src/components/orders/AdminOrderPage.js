@@ -10,13 +10,16 @@ const AdminOrderPage = ({ dispatch, orders }) => (
   <Card className="section page" zDepth={0}>
     <CardTitle title="Orders"/>
     {!orders.length ? <CardText>You do not have any orders yet</CardText> :
-    orders.map(order => (
-      <AdminOrderItem
-        dispatch={dispatch}
-        key={order._id}
-        order={order}
-      />
-    ))}
+    <div style={{ overflow: 'auto'}}>
+      {orders.map(order => (
+        <AdminOrderItem
+          dispatch={dispatch}
+          key={order._id}
+          order={order}
+        />
+      ))}
+    </div>
+    }
   </Card>
 )
 

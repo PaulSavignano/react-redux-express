@@ -2,13 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress'
 
+import './products.css'
 import SuccessableButton from '../buttons/SuccessableButton'
 import { fetchAddToCart } from '../../actions/cart'
 
 class ProductButtons extends Component {
   state = {
     qty: 1,
+    background: null,
+    color: 'rgb(255, 255, 255)',
+    label: null,
+    timeoutId: null
   }
   handleFormSubmit = (values) => {
     const { dispatch, productId } = this.props
@@ -21,12 +27,40 @@ class ProductButtons extends Component {
   }
   minus = () => this.state.qty > 1 && this.setState({ qty: this.state.qty - 1 })
   plus = () => this.setState({ qty: this.state.qty + 1 })
+  componentWillMount() {
+    const { primary1Color } = this.props
+    this.setState({ background: primary1Color, label: 'Add To Cart', })
+  }
+  componentWillReceiveProps({
+    primary1Color,
+    reset,
+    submitSucceeded
+  }) {
+    if (submitSucceeded) {
+      const timeoutId = setTimeout(() => {
+        clearTimeout(this.state.timeoutId)
+        this.setState({
+          background: primary1Color,
+          label: 'Add To Cart',
+          timeoutId: null,
+        })
+        reset()
+      }, 3000)
+      return this.setState({
+        background: 'rgb(76, 175, 80)',
+        label: 'Product Added!',
+        timeoutId
+      })
+    }
+
+  }
   render() {
+    const { color } = this.state
     const {
       error,
       dirty,
       handleSubmit,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       valid
@@ -44,15 +78,12 @@ class ProductButtons extends Component {
             <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
           </div>
           <div style={{ display: 'flex' }}>
-            <SuccessableButton
-              dirty={dirty}
-              error={error}
-              label="Add To Cart"
-              submitFailed={submitFailed}
-              submitSucceeded={submitSucceeded}
-              submitting={submitting}
-              successLabel="Product Added!"
-              valid={valid}
+            <RaisedButton
+              backgroundColor={this.state.background}
+              className="add-to-cart"
+              label={submitting ? <CircularProgress color={color} size={25} style={{ verticalAlign: 'middle' }} /> : this.state.label}
+              labelColor={color}
+              type="submit"
             />
           </div>
         </form>
@@ -66,10 +97,10 @@ ProductButtons.propTypes = {
   destroy: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   productId: PropTypes.string.isRequired,
-  submitFailed: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired
 }
 
-export default reduxForm({})(ProductButtons)
+export default reduxForm({ enableReinitialize: true })(ProductButtons)

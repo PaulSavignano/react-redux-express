@@ -71,7 +71,7 @@ const CardItem = ({
           iframe={iframe}
         />
       }
-      <div className="card-text">
+      <div className="card-content">
         {hasHeading &&
           <Heading
             h1Align={h1Align}
@@ -88,7 +88,7 @@ const CardItem = ({
             h3TextShadow={h3TextShadow}
           />
         }
-        {hasParagraph && <P>{renderHTML(pText)}</P>}
+        {hasParagraph && <div style={{ margin: 8 }}><P>{renderHTML(pText)}</P></div>}
         {hasButtons &&
           <Buttons
             button1BackgroundColor={button1BackgroundColor}

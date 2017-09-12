@@ -22,6 +22,9 @@ const validate = values => {
   if (values.password !== values.passwordConfirm) {
     errors.passwordConfirm = 'Passwords must match'
   }
+  if (values.phone && values.phone.length < 14) {
+    errors.phone = 'Phone number must be 10 digits'
+  }
   return errors
 }
 
@@ -34,7 +37,7 @@ class UserProfileForm extends Component {
       handleSubmit,
       onDelete,
       onFormSubmit,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       valid
@@ -57,7 +60,7 @@ class UserProfileForm extends Component {
               dirty={dirty}
               error={error}
               label="Update User"
-              submitFailed={submitFailed}
+              reset={reset}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel="User Updated!"
@@ -81,11 +84,11 @@ UserProfileForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  submitFailed: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   valid: PropTypes.bool.isRequired,
 }
 
-export default reduxForm({ validate })(UserProfileForm)
+export default reduxForm({ enableReinitialize: true, validate })(UserProfileForm)

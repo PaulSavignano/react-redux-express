@@ -47,7 +47,6 @@ class Recovery extends Component {
       error,
       handleSubmit,
       primary1Color,
-      submitFailed,
       submitSucceeded,
       submitting,
       user,
@@ -67,7 +66,7 @@ class Recovery extends Component {
                   dirty={dirty}
                   error={error}
                   label="Request Estimage"
-                  submitFailed={submitFailed}
+                  reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Estimate Requested!"
@@ -92,7 +91,7 @@ class Recovery extends Component {
             </Dialog>
             }
             <CardActions className="card-actions">
-              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up!</Link></p>
+              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign Up!</Link></p>
               <p>Forgot your password? <Link to="/user/recovery" style={{ color: primary1Color }}>Recover your account!</Link></p>
             </CardActions>
           </Card>
@@ -107,7 +106,6 @@ Recovery.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  submitFailed: PropTypes.bool.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   user: PropTypes.object

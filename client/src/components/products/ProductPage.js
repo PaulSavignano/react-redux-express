@@ -16,6 +16,7 @@ const ProductPage = ({
     image,
     values: { description, detail, name, price }
   },
+  primary1Color,
   productStyle: {
     values: {
       descriptionColor,
@@ -53,6 +54,7 @@ const ProductPage = ({
             dispatch={dispatch}
             form={`addToCard_${_id}`}
             productId={_id}
+            primary1Color={primary1Color}
           />
         </CardActions>
       </Card>
@@ -61,7 +63,7 @@ const ProductPage = ({
 )
 
 ProductPage.propTypes = {
-  dispatch: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   productStyle: PropTypes.object.isRequired
 }

@@ -52,7 +52,7 @@ class RequestEstimate extends Component {
       dispatch,
       error,
       handleSubmit,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       valid,
@@ -116,7 +116,7 @@ class RequestEstimate extends Component {
                   dirty={dirty}
                   error={error}
                   label="Request Estimage"
-                  submitFailed={submitFailed}
+                  reset={reset}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Estimate Requested!"
@@ -140,6 +140,7 @@ RequestEstimate.propTypes = {
 }
 
 RequestEstimate = reduxForm({
+  enableReinitialize: true,
   form: 'contact',
   validate
 })(RequestEstimate)

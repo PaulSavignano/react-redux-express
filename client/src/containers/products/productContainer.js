@@ -15,6 +15,7 @@ const productContainer = (ComposedComponent) => {
         dispatch,
         isFetching,
         item,
+        primary1Color,
         productStyle
       } = this.props
       const events = {
@@ -26,6 +27,7 @@ const productContainer = (ComposedComponent) => {
         item,
         elevation,
         events,
+        primary1Color,
         productStyle
       }
       return (
@@ -34,10 +36,11 @@ const productContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, productStyle, typography }
+    brand: { isFetching, productStyle, palette, typography }
   }, {
     item
   }) => ({
+    primary1Color: palette.values.primary1Color,
     productStyle,
     isFetching,
     item,
@@ -47,6 +50,7 @@ const productContainer = (ComposedComponent) => {
     dispatch: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    primary1Color: PropTypes.string.isRequired,
     productStyle: PropTypes.object.isRequired,
     typography: PropTypes.object.isRequired
   }

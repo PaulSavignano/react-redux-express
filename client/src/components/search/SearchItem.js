@@ -51,7 +51,7 @@ class SearchItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={this.handleNavigation}
-        containerStyle={{ display: 'flex', flexFlow: 'row', margin: 16 }}
+        className="card"
       >
         {image && image.src ?
           <Media
@@ -59,7 +59,7 @@ class SearchItem extends Component {
             iframe={iframe}
           />
         : null}
-        <div>
+        <div className="card-content">
           {h1Text || h2Text || h3Text ?
             <Heading
               h1Text={h1Text}
@@ -67,7 +67,7 @@ class SearchItem extends Component {
               h3Text={h3Text}
             />
           : null}
-          {pText && <P>{renderHTML(pText)}</P>}
+          {pText && <div className="card-content"><P>{renderHTML(pText)}</P></div>}
           {name && <CardTitle>{name}</CardTitle>}
           {description && <CardText style={{paddingTop: 0}}>{description}</CardText>}
           {detail && <CardText style={{paddingTop: 0}}>{detail}</CardText>}

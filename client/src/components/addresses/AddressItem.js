@@ -9,6 +9,27 @@ import RaisedButton from 'material-ui/RaisedButton'
 import AddressFields from './AddressFields'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 
+const validate = values => {
+  const errors = {}
+  const requiredFields = [ 'name', 'phone', 'street', 'city', 'state', 'zip' ]
+  requiredFields.forEach(field => {
+    if (!values[ field ]) {
+      errors[ field ] = 'Required'
+    }
+  })
+  if (values.phone.length < 14) {
+    errors.phone = 'Phone number must be 10 digits'
+  }
+  if (values.state.length < 2) {
+    errors.state = 'State must be 2 characters'
+  }
+  if (values.zip.length < 5) {
+    errors.zip = 'Zip must be 5 characters'
+  }
+  return errors
+}
+
+
 class AddressItem extends Component {
   state = {
     elevation: 1,
@@ -28,7 +49,7 @@ class AddressItem extends Component {
       dirty,
       error,
       handleSubmit,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       valid,
@@ -39,7 +60,6 @@ class AddressItem extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className="card"
-        style={{ margin: 16 }}
       >
         <form
           onSubmit={handleSubmit(this.handleFormSubmit)}
@@ -51,7 +71,7 @@ class AddressItem extends Component {
               dirty={dirty}
               error={error}
               label="Update Address"
-              submitFailed={submitFailed}
+              reset={reset}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel="Address Updated!"
@@ -86,8 +106,8 @@ AddressItem = compose(
     form: `address_${item._id}`
   })),
   reduxForm({
-    destroyOnUnmount: false,
-    asyncBlurFields: []
+    enableReinitialize: true,
+    validate
   })
 )(AddressItem)
 

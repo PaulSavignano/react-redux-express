@@ -10,7 +10,6 @@ class SuccessableButton extends Component {
     background: null,
     disabled: null,
     label: '',
-    submitSucceeded: false,
   }
   componentWillMount() {
     const {
@@ -25,72 +24,41 @@ class SuccessableButton extends Component {
     dirty,
     error,
     label,
-    submitFailed,
+    reset,
     submitSucceeded,
+    submitting,
     successLabel,
     valid
   }) {
-    if (submitFailed) {
-      if (dirty && valid) {
-        return this.setState({
+    if (error) {
+      const timeoutId = setTimeout(() => {
+        clearTimeout(this.state.timeoutId)
+        this.setState({
           background: backgroundColor,
-          disabled: false,
           label,
-        })
-      }
-      if (dirty && !valid) {
-        return this.setState({
-          background: 'rgb(244, 67, 54)',
           disabled: true,
-          label: error
-        })
-      }
-      if (dirty && valid) {
-        return this.setState({
-          background: 'rgb(244, 67, 54)',
-          disabled: true,
-          label
-        })
-      }
-      if (!dirty) {
-        return this.setState({
-          background: backgroundColor,
-          disabled: true,
-          label
-        })
-      }
-    }
-    if (submitSucceeded) {
-      if (dirty && valid) {
-        return this.setState({
-          background: backgroundColor,
-          disabled: false,
           label,
+          submitting: false
         })
-      }
-      if (dirty && !valid) {
-        return this.setState({
-          background: backgroundColor,
-          disabled: true,
-          label
-        })
-      }
-      if (!dirty && valid) {
-        return this.setState({
-          background: 'rgb(76, 175, 80)',
-          disabled: false,
-          label: successLabel,
-        })
-      }
-      if (!dirty) {
-        return this.setState({
-          background: backgroundColor,
-          disabled: true,
-          label
-        })
-      }
+        reset && reset()
+      }, 3000)
+      return this.setState({
+        background: 'rgb(244, 67, 54)',
+        disabled: false,
+        label: error,
+        timeoutId
+      })
     }
     if (dirty && valid) {
+      if (this.state.timeoutId) {
+        clearTimeout(this.state.timeoutId)
+        return this.setState({
+          background: backgroundColor,
+          disabled: false,
+          label,
+          timeoutId: null
+        })
+      }
       return this.setState({
         background: backgroundColor,
         disabled: false,
@@ -98,26 +66,43 @@ class SuccessableButton extends Component {
       })
     }
     if (dirty && !valid) {
-      return this.setState({
-        background: backgroundColor,
-        disabled: true,
-        label
-      })
-    }
-    if (!dirty && valid) {
+      if (this.state.timeoutId) {
+        clearTimeout(this.state.timeoutId)
+        return this.setState({
+          background: backgroundColor,
+          disabled: true,
+          label,
+          timeoutId: null
+        })
+      }
       return this.setState({
         background: backgroundColor,
         disabled: true,
         label,
       })
     }
-    if (!dirty) {
+
+    if (submitSucceeded) {
+      const timeoutId = setTimeout(() => {
+        clearTimeout(this.state.timeoutId)
+        this.setState({
+          background: backgroundColor,
+          disabled: true,
+          label,
+          submitting: false
+        })
+        reset && reset()
+      }, 3000)
       return this.setState({
-        background: backgroundColor,
-        disabled: true,
-        label
+        background: 'rgb(76, 175, 80)',
+        disabled: false,
+        label: successLabel,
+        timeoutId
       })
     }
+  }
+  componentWillUnmount() {
+    clearTimeout(this.state.timeoutId)
   }
   render() {
     const {
@@ -150,13 +135,11 @@ SuccessableButton.propTypes = {
   fontFamily: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
-  submitFailed: PropTypes.bool.isRequired,
+  reset: PropTypes.func,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   successLabel: PropTypes.string.isRequired,
   valid: PropTypes.bool.isRequired
 }
-
-
 
 export default successableButtonContainer(SuccessableButton)

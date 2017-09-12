@@ -58,7 +58,7 @@ class BrandForm extends Component {
       form,
       handleSubmit,
       image,
-      submitFailed,
+      reset,
       submitSucceeded,
       submitting,
       valid
@@ -100,7 +100,7 @@ class BrandForm extends Component {
               dirty={dirty}
               error={error}
               label={`update ${form}`}
-              submitFailed={submitFailed}
+              reset={reset}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel={`${form} updated!`}
@@ -124,10 +124,9 @@ BrandForm.propTypes = {
   form: PropTypes.string.isRequired,
   image: PropTypes.object,
   initialValues: PropTypes.object,
-  submitFailed: PropTypes.bool.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired
 }
 
-export default reduxForm({})(BrandForm)
+export default reduxForm({ enableReinitialize: true })(BrandForm)

@@ -32,7 +32,6 @@ class OrderAdd extends Component {
       dirty,
       error,
       handleSubmit,
-      submitFailed,
       submitSucceeded,
       submitting,
       valid
@@ -114,7 +113,7 @@ class OrderAdd extends Component {
                   dirty={dirty}
                   error={error}
                   label="Place Order"
-                  submitFailed={submitFailed}
+                  reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Order Placed!"
@@ -135,7 +134,6 @@ OrderAdd.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  submitFailed: PropTypes.bool.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired

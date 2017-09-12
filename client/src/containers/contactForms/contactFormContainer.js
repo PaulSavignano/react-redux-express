@@ -19,35 +19,34 @@ const contactFormContainer = (ComposedComponent) => {
         dispatch,
         isFetching,
         item,
-        typography
+        initialValues,
       } = this.props
       const props = {
         dispatch,
         elevation,
         item,
-        typography
+        initialValues
       }
       return (
         isFetching ? null : <ComposedComponent {...props} />
       )
     }
   }
-  const mapStateToProps = ({
-    brand: { isFetching, typography }
-  }, {
-    item
-  }) => ({
-    isFetching,
-    item,
-    typography
-  })
   ContactFormContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    typography: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired
   }
-  return connect(mapStateToProps)(ContactFormContainer)
+  return connect(({
+    user
+  }, {
+    item
+  }) => ({
+    isFetching: user.isFetching,
+    item,
+    initialValues: user.values
+  }))(ContactFormContainer)
 }
 
 export default contactFormContainer

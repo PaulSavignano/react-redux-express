@@ -57,6 +57,7 @@ class UserProfilePage extends Component {
             dispatch={dispatch}
             form={`user_${user._id}_profile`}
             initialValues={this.state.userInitialValues}
+
             user={user}
             onFormSubmit={this.handleUserValues}
             onDelete={this.handleUserDelete}

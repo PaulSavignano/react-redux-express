@@ -26,6 +26,7 @@ class Product extends Component {
           price,
         }
       },
+      primary1Color,
       productStyle: {
         values: {
           descriptionColor,
@@ -75,6 +76,7 @@ class Product extends Component {
           dispatch={dispatch}
           form={`addToCard_${_id}`}
           productId={_id}
+          primary1Color={primary1Color}
         />
       </Card>
     )

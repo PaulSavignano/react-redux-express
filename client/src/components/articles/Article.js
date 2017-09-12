@@ -76,7 +76,7 @@ const Article = ({
           h3TextShadow={h3TextShadow}
         />
       }
-      <div style={{ display: 'flex', flexFlow }}>
+      <div style={{ display: 'flex', flexFlow, margin: 8 }}>
         {hasParagraph && mediaAlign === 'right' ?
           <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
         : null}

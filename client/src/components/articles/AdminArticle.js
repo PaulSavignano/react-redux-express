@@ -89,7 +89,7 @@ class AdminArticle extends Component {
         }
         <div style={{ display: 'flex', flexFlow }}>
           {hasParagraph && mediaAlign === 'right' ?
-            <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
+            <div style={{ flex: pFlex, margin: 8 }}><P>{renderHTML(pText)}</P></div>
           : null}
           {hasMedia ?
             <Paper
@@ -109,21 +109,23 @@ class AdminArticle extends Component {
 
           : null}
           {hasParagraph && mediaAlign === 'left' ?
-            <div style={{ flex: pFlex }}><P>{renderHTML(pText)}</P></div>
+            <div style={{ flex: pFlex, margin: 8 }}><P>{renderHTML(pText)}</P></div>
           : null}
         </div>
         {hasButtons &&
-          <Buttons
-            button1BackgroundColor={button1BackgroundColor}
-            button2BackgroundColor={button2BackgroundColor}
-            button1Color={button1Color}
-            button2Color={button2Color}
-            button1Link={button1Link}
-            button2Link={button2Link}
-            button1Text={button1Text}
-            button2Text={button2Text}
-            dispatch={dispatch}
-          />
+          <div className="card-content">
+            <Buttons
+              button1BackgroundColor={button1BackgroundColor}
+              button2BackgroundColor={button2BackgroundColor}
+              button1Color={button1Color}
+              button2Color={button2Color}
+              button1Link={button1Link}
+              button2Link={button2Link}
+              button1Text={button1Text}
+              button2Text={button2Text}
+              dispatch={dispatch}
+            />
+          </div>
         }
       </article>
     )
