@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import './typography.css'
 import H1 from '../typography/H1'
 import H2 from '../typography/H2'
 import H3 from '../typography/H3'

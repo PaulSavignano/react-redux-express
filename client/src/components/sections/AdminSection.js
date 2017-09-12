@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import './sections.css'
 import sectionContainer from '../../containers/sections/sectionContainer'
 import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'

@@ -9,6 +9,9 @@ import * as addressesActions from '../../actions/addresses'
 import * as userActions from '../../actions/user'
 
 class UserProfilePage extends Component {
+  state = {
+    userInitialValues: null
+  }
   handleUserValues= (values) => {
     const { dispatch } = this.props
     return dispatch(userActions.fetchUpdate({ values }))
@@ -29,6 +32,17 @@ class UserProfilePage extends Component {
     const { dispatch } = this.props
     dispatch(addressesActions.fetchDelete(itemId))
   }
+  componentWillMount() {
+    const { user: { values }} = this.props
+    this.setState({ userInitialValues: values })
+  }
+  componentWillReceiveProps({ user: { values }}) {
+    if (values !== this.props.user.values) {
+      console.log('change in values')
+      console.log(values.phone)
+      this.setState({ userInitialValues: values })
+    }
+  }
   render() {
     const {
       dispatch,
@@ -42,7 +56,7 @@ class UserProfilePage extends Component {
           <UserProfileForm
             dispatch={dispatch}
             form={`user_${user._id}_profile`}
-            initialValues={user.values}
+            initialValues={this.state.userInitialValues}
             user={user}
             onFormSubmit={this.handleUserValues}
             onDelete={this.handleUserDelete}

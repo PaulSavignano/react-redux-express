@@ -1,3 +1,31 @@
 .OrderCartList {
-  margin: 8px 0
+  padding: 4px
+}
+
+/* Credit Card */
+.credit-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+.credit-card-list li {
+  float: left;
+  color: #aaa;
+  font-size: 26px;
+}
+.credit-card-list li:not(:last-child) {
+  margin-right: 8px;
+}
+ .active {
+  color: #666;
+}
+.alert {
+  margin-top: 24px;
+}
+.credit-card-list h5 {
+  margin-top: 0px;
+}
+.exp-cvc {
+  margin-bottom: 8px;
+  span:first-child { margin-right: 16px; }
 }

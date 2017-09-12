@@ -4,6 +4,7 @@ import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import './sections.css'
 import swipeableContainer from '../../containers/sections/swipeableContainer'
 import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'

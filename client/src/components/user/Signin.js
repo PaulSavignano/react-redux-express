@@ -50,7 +50,7 @@ class Signin extends Component {
   }
   render() {
     const {
-      destroy,
+      dirty,
       error,
       handleSubmit,
       primary1Color,
@@ -71,38 +71,22 @@ class Signin extends Component {
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
                 <Field name="password" component={renderTextField} label="Password" fullWidth={true} type="password" />
               </CardText>
-              <CardActions style={{ display: 'flex' }}>
+              <div className="button-container">
                 <SuccessableButton
+                  dirty={dirty}
                   error={error}
                   label={`Sign In`}
-                  destroy={destroy}
                   submitFailed={submitFailed}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel={`Welcome ${user.values.firstName}!`}
                   valid={valid}
                 />
-              </CardActions>
+              </div>
             </form>
-            {!this.state.open ? null :
-            <Dialog
-              actions={
-                <FlatButton
-                  label="Close"
-                  primary={true}
-                  onTouchTap={this.handleClose}
-                />
-              }
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-            >
-              {this.state.message}
-            </Dialog>
-            }
-            <CardActions style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up instead!</Link></p>
-              <p><Link to="/user/recovery" style={{ color: primary1Color }}>Forgot your password?</Link></p>
+            <CardActions className="card-actions">
+              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up!</Link></p>
+              <p>Forgot your password? <Link to="/user/recovery" style={{ color: primary1Color }}>Recover your account!</Link></p>
             </CardActions>
           </Card>
         </section>
@@ -112,6 +96,7 @@ class Signin extends Component {
 }
 
 Signin.propTypes = {
+  dirty: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,

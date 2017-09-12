@@ -51,7 +51,7 @@ class BrandForm extends Component {
   render() {
     const {
       backgroundColor,
-      destroy,
+      dirty,
       error,
       fields,
       fontFamily,
@@ -97,9 +97,9 @@ class BrandForm extends Component {
           {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton
+              dirty={dirty}
               error={error}
               label={`update ${form}`}
-              destroy={destroy}
               submitFailed={submitFailed}
               submitSucceeded={submitSucceeded}
               submitting={submitting}

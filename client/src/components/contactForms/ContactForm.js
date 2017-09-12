@@ -46,10 +46,13 @@ class ContactForm extends Component {
   render() {
     const { open, elevation } = this.state
     const {
+      dirty,
       error,
       handleSubmit,
+      submitFailed,
       submitSucceeded,
-      submitting
+      submitting,
+      valid,
     } = this.props
     return (
       <Card
@@ -81,13 +84,16 @@ class ContactForm extends Component {
               Email was successfully sent!
             </Dialog>
           }
-          {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton
+              dirty={dirty}
+              error={error}
+              label="Contact"
+              submitFailed={submitFailed}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
-              label="submit"
-              successLabel="submitted!"
+              successLabel="Contact Request Received!"
+              valid={valid}
             />
           </div>
         </form>

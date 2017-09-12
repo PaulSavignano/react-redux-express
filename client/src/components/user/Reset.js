@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import userContainer from '../../containers/user/userContainer'
+import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchReset } from '../../actions/user'
 
@@ -26,25 +28,38 @@ const validate = values => {
 
 class Reset extends Component {
   state = {
-    open: false
+    open: false,
+    message: null
   }
-  handleClose = () => this.setState({open: false})
+  handleClose = () => {
+    const { dispatch, error } = this.props
+    this.setState({open: false})
+    if (error) {
+      dispatch(push('/user/recovery'))
+    } else {
+      dispatch(push('/'))
+    }
+  }
   handleFormSubmit = values => {
     const { dispatch, params: { token }} = this.props
     return dispatch(fetchReset(values, token))
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ open: true })
+  componentWillReceiveProps({ submitFailed, submitSucceeded, user: { values: { firstName }}}) {
+    if (submitSucceeded) return this.setState({ open: true, message: `Welcome back ${firstName}` })
+    if (submitFailed) return this.setState({ open: true, message: `Your email token has expired, recover again` })
   }
   render() {
     const {
+      dirty,
       error,
       handleSubmit,
+      submitFailed,
+      submitSucceeded,
       submitting,
-      user
+      user,
+      valid
     } = this.props
     return (
-      user.isFetching ? null :
       <div className="page">
         <section className="section-margin">
           <Card>
@@ -54,33 +69,35 @@ class Reset extends Component {
                 <Field name="password" component={renderTextField} label="Password" type="password" fullWidth={true}/>
                 <Field name="passwordConfirm" component={renderTextField} label="Password Confirm" type="password" fullWidth={true}/>
               </CardText>
-              {error && <div className="error">{error}</div>}
-              {!this.state.open ? null :
-              <Dialog
-                actions={
-                  <FlatButton
-                    label="Close"
-                    primary={true}
-                    onTouchTap={this.handleClose}
-                  />
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
-              >
-                Welcome back {user.values.firstName || null}
-              </Dialog>
-              }
-              <CardActions>
-                <RaisedButton
-                  label="Recover"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
+              <div className="button-container">
+                <SuccessableButton
+                  dirty={dirty}
+                  error={error}
+                  label="Reset"
+                  submitFailed={submitFailed}
+                  submitSucceeded={submitSucceeded}
+                  submitting={submitting}
+                  successLabel="Reset Success!"
+                  valid={valid}
                 />
-              </CardActions>
+              </div>
             </form>
+            {!this.state.open ? null :
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={this.handleClose}
+                />
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              {this.state.message}
+            </Dialog>
+            }
           </Card>
         </section>
       </div>
@@ -96,15 +113,7 @@ Reset.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-Reset = reduxForm({
+export default userContainer(reduxForm({
   form: 'recovery',
   validate
-})(Reset)
-
-const mapStateToProps = ({ user }) => ({
-  user
-})
-
-Reset = connect(mapStateToProps)(Reset)
-
-export default Reset
+})(Reset))

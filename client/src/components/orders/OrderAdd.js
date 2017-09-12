@@ -29,7 +29,7 @@ class OrderAdd extends Component {
     const {
       addresses,
       cart,
-      destroy,
+      dirty,
       error,
       handleSubmit,
       submitFailed,
@@ -109,11 +109,11 @@ class OrderAdd extends Component {
                 <h2 style={{ textAlign: 'right '}}>Tax {(cart.tax * 100).toFixed(2)}%</h2>
                 <h2 style={{ textAlign: 'right '}}>Total {formatPrice(cart.total)}</h2>
               </CardText>
-              <div style={{ display: 'flex' }}>
+              <div className="button-container">
                 <SuccessableButton
+                  dirty={dirty}
                   error={error}
                   label="Place Order"
-                  destroy={destroy}
                   submitFailed={submitFailed}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}

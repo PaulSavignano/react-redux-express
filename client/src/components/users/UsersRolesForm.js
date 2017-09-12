@@ -16,7 +16,7 @@ const renderCheckbox = ({ input, label, className }) =>
 
 
 const UsersRolesForm = ({
-  destroy,
+  dirty,
   dispatch,
   error,
   handleSubmit,
@@ -49,13 +49,11 @@ const UsersRolesForm = ({
           className="checkbox"
         />
       </div>
-
-      {error && <div className="error">{error}</div>}
       <div className="button-container">
         <SuccessableButton
+          dirty={dirty}
           error={error}
           label="Update Roles"
-          destroy={destroy}
           submitFailed={submitFailed}
           submitSucceeded={submitSucceeded}
           submitting={submitting}

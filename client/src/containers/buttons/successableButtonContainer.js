@@ -6,56 +6,19 @@ const successableButtonContainer = (ComposedComponent) => {
   class SuccessableButtonContainer extends Component {
     render() {
       const {
-        backgroundColor,
-        color,
-        destroy,
-        dispatch,
-        error,
-        fontFamily,
         isFetching,
-        label,
-        style,
-        submitFailed,
-        submitSucceeded,
-        submitting,
-        successLabel,
-        valid
       } = this.props
-      const props = {
-        backgroundColor,
-        color,
-        destroy,
-        dispatch,
-        error,
-        fontFamily,
-        label,
-        style,
-        submitFailed,
-        submitSucceeded,
-        submitting,
-        successLabel,
-        valid
-      }
       return (
-        isFetching ? null : <ComposedComponent {...props} />
+        isFetching ? null : <ComposedComponent {...this.props} />
       )
     }
   }
   SuccessableButtonContainer.propTypes = {
     backgroundColor: PropTypes.string,
     color: PropTypes.string,
-    destroy: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
-    error: PropTypes.string,
     fontFamily: PropTypes.string,
     isFetching: PropTypes.bool.isRequired,
-    label: PropTypes.string.isRequired,
-    style: PropTypes.object,
-    submitFailed: PropTypes.bool.isRequired,
-    submitSucceeded: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    successLabel: PropTypes.string.isRequired,
-    valid: PropTypes.bool.isRequired,
   }
   return connect(
     ({

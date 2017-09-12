@@ -86,28 +86,28 @@ export const get = (req, res) => {
   const { token, user } = req
   const { values, addresses, roles } = user
   const isAdmin = roles.some(role => role === 'admin')
-  const ttl = (1000 * 60 * 60 * 72) // 72 hours
-  const expiredTokens = user.tokens.filter(token => (token.createdAt + ttl) < Date.now())
+  const ttl = (1000 * 60 * 60 * 48) // 48 hours
+  if (token + ttl < Date.now()) {
+    return res.status(400).send('Your token has expired, please sign in again')
+  }
+  const expiredTokens = user.tokens.filter(token => token.createdAt + ttl < Date.now())
+  console.log('expiredTokens', expiredTokens)
   if (expiredTokens.length) {
     user.removeTokens(expiredTokens)
-      .then(() => {
-        res.status(400).send({ error: 'Your token has expired, please sign in again' })
-      })
-      .catch(error => {
-        console.error('removeTokens() error :', error)
-        res.status(401).send({ error })
-      })
-  } else {
-    return user.buildResponse()
-    .then(response => {
-      const { user, users } = response
-      res.send({ user, users })
-    })
     .catch(error => {
-      console.log(error)
-      res.status(400).send()
+      console.error('removeTokens() error :', error)
+      res.status(401).send({ error })
     })
   }
+  return user.buildResponse()
+  .then(response => {
+    const { user, users } = response
+    res.send({ user, users })
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(400).send({ error })
+  })
 }
 
 
@@ -255,49 +255,54 @@ export const recovery = (req, res, next) => {
       resolve(buf.toString('hex'));
     })
   })
-    .then(token => {
-      User.findOne({ 'values.email': email })
-        .then(user => {
-          const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${token}` : `localhost:${process.env.PORT}/user/reset/${token}`
-          if (!user) return Promise.reject({ error: { email: 'User not found' }})
-          const { firstName, email } = user.values
-          user.passwordResetToken = token
-          user.passwordResetExpires = Date.now() + (60 * 60 * 1000)
-          user.save()
-            .then(() => {
-              sendEmail1({
-                to: email,
-                toSubject: 'Reset Password',
-                toBody: `
-                  <p>Hi ${firstName},</p>
-                  <p>Click the link below to recover your password.</p>
-                  <br />
-                  <a href="${path}" style="color: black; text-decoration: none;">
-                    ${path}
-                  </a>
-                  `
-              })
-              res.send({ message: `A password recovery email has been sent to ${email}`})
-            })
-            .catch(error => {
-              console.error(error)
-              res.status(400).send({ error })
-            })
+  .then(token => {
+    User.findOne({ 'values.email': email.toLowerCase() })
+    .then(user => {
+      console.log('token', token)
+      console.log(process.env.ROOT_URL)
+      console.log('user', user)
+      const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${token}` : `localhost:${process.env.PORT}/user/reset/${token}`
+      if (!user) return Promise.reject({ email: 'User not found.' })
+      const { firstName, email } = user.values
+      user.passwordResetToken = token
+      user.passwordResetExpires = Date.now() + (60 * 60 * 1000)
+      user.save()
+      .then(() => {
+        sendEmail1({
+          to: email,
+          toSubject: 'Reset Password',
+          toBody: `
+            <p>Hi ${firstName},</p>
+            <p>Click the link below to recover your password.</p>
+            <br />
+            <a href="${path}" style="color: black; text-decoration: none;">
+              ${path}
+            </a>
+            `
         })
-        .catch(error => {
-          console.error('User.findOne: ', error)
-          res.status(400).send({ error })
-        })
+        res.send({ message: `A password recovery email has been sent to ${email}.`})
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
     })
+    .catch(error => {
+      console.error('User.findOne: ', error)
+      res.status(400).send({ error })
+    })
+  })
 }
 
 
 export const reset = (req, res) => {
+  console.log('token', req.params.token)
   User.findOne(
     { passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() }}
   )
   .then(user => {
-    if (!user) return Promise.reject({ error: 'Invalid token' })
+    console.log('user', user)
+    if (!user) return Promise.reject('Token has expired.')
     user.password = req.body.password
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined

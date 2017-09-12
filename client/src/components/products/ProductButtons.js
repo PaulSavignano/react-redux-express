@@ -24,7 +24,7 @@ class ProductButtons extends Component {
   render() {
     const {
       error,
-      destroy,
+      dirty,
       handleSubmit,
       submitFailed,
       submitSucceeded,
@@ -45,14 +45,13 @@ class ProductButtons extends Component {
           </div>
           <div style={{ display: 'flex' }}>
             <SuccessableButton
+              dirty={dirty}
               error={error}
               label="Add To Cart"
-              destroy={destroy}
               submitFailed={submitFailed}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel="Product Added!"
-              style={{ margin: 0 }}
               valid={valid}
             />
           </div>

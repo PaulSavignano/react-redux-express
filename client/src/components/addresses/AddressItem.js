@@ -25,7 +25,7 @@ class AddressItem extends Component {
   }
   render() {
     const {
-      destroy,
+      dirty,
       error,
       handleSubmit,
       submitFailed,
@@ -48,9 +48,9 @@ class AddressItem extends Component {
           <AddressFields />
           <div className="button-container">
             <SuccessableButton
+              dirty={dirty}
               error={error}
               label="Update Address"
-              destroy={destroy}
               submitFailed={submitFailed}
               submitSucceeded={submitSucceeded}
               submitting={submitting}

@@ -10,9 +10,7 @@ class SuccessableButton extends Component {
     background: null,
     disabled: null,
     label: '',
-    submitFailed: false,
     submitSucceeded: false,
-    timeoutId: null
   }
   componentWillMount() {
     const {
@@ -20,73 +18,106 @@ class SuccessableButton extends Component {
       valid,
       label
     } = this.props
-    this.setState({ background: backgroundColor, disabled: !valid, label })
+    this.setState({ background: backgroundColor, disabled: true, label })
   }
   componentWillReceiveProps({
     backgroundColor,
-    color,
-    destroy,
-    dispatch,
+    dirty,
     error,
-    fontFamily,
     label,
     submitFailed,
     submitSucceeded,
-    submitting,
     successLabel,
     valid
   }) {
-    if (error && submitFailed !== this.state.submitFailed) {
-      const timeoutId = setTimeout(() => {
-       this.setState({
+    if (submitFailed) {
+      if (dirty && valid) {
+        return this.setState({
           background: backgroundColor,
+          disabled: false,
           label,
+        })
+      }
+      if (dirty && !valid) {
+        return this.setState({
+          background: 'rgb(244, 67, 54)',
+          disabled: true,
+          label: error
+        })
+      }
+      if (dirty && valid) {
+        return this.setState({
+          background: 'rgb(244, 67, 54)',
           disabled: true,
           label
         })
-        clearTimeout(this.state.timeoutId)
-      },3000)
-      return this.setState({
-        background: 'rgb(244, 67, 54)',
-        disabled: false,
-        label: error,
-        submitFailed,
-        timeoutId
-      })
+      }
+      if (!dirty) {
+        return this.setState({
+          background: backgroundColor,
+          disabled: true,
+          label
+        })
+      }
     }
-    if (submitSucceeded !== this.state.submitSucceeded) {
-      const timeoutId = setTimeout(() => {
-        this.setState({
-        background: backgroundColor,
-        disabled: !valid,
-        label
-      })
-      clearTimeout(this.state.timeoutId)
-    }, 3000)
-      return this.setState({
-        background: 'rgb(76, 175, 80)',
-        disabled: false,
-        label: successLabel,
-        timeoutId
-      })
+    if (submitSucceeded) {
+      if (dirty && valid) {
+        return this.setState({
+          background: backgroundColor,
+          disabled: false,
+          label,
+        })
+      }
+      if (dirty && !valid) {
+        return this.setState({
+          background: backgroundColor,
+          disabled: true,
+          label
+        })
+      }
+      if (!dirty && valid) {
+        return this.setState({
+          background: 'rgb(76, 175, 80)',
+          disabled: false,
+          label: successLabel,
+        })
+      }
+      if (!dirty) {
+        return this.setState({
+          background: backgroundColor,
+          disabled: true,
+          label
+        })
+      }
     }
-    if (valid) {
-      clearTimeout(this.state.timeoutId)
+    if (dirty && valid) {
       return this.setState({
         background: backgroundColor,
         disabled: false,
         label,
-        submitFailed: false,
-        submitSucceeded: false,
-        timeoutId: null
       })
-    } else {
-      return this.setState({ disabled: true })
     }
-  }
-  componentWillUnmount() {
-    clearTimeout(this.state.timeoutId)
-    this.props.destroy()
+    if (dirty && !valid) {
+      return this.setState({
+        background: backgroundColor,
+        disabled: true,
+        label
+      })
+    }
+    if (!dirty && valid) {
+      return this.setState({
+        background: backgroundColor,
+        disabled: true,
+        label,
+      })
+    }
+    if (!dirty) {
+      return this.setState({
+        background: backgroundColor,
+        disabled: true,
+        label
+      })
+    }
   }
   render() {
     const {
@@ -95,16 +126,17 @@ class SuccessableButton extends Component {
       fontFamily,
       style,
     } = this.props
-    const styles = style ? style : { margin: 8 }
     return (
       <RaisedButton
-        type="submit"
+        backgroundColor={this.state.background}
+        className="button"
         disabled={this.state.disabled}
         label={submitting ? <CircularProgress color={color} size={25} style={{ verticalAlign: 'middle' }} /> : this.state.label}
         labelColor={color}
-        backgroundColor={this.state.background}
-        style={{ flex: '1 1 auto', ...styles }}
         labelStyle={{ fontFamily }}
+        onTouchTap={this.handleTouchTap}
+        style={style}
+        type="submit"
       />
     )
   }
@@ -113,11 +145,11 @@ class SuccessableButton extends Component {
 SuccessableButton.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  destroy: PropTypes.func.isRequired,
+  dirty: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string,
   fontFamily: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  style: PropTypes.object,
   submitFailed: PropTypes.bool.isRequired,
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,

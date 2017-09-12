@@ -117,8 +117,8 @@ UserSchema.statics.findByToken = function(token, roles) {
   let decoded
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET)
-  } catch (err) {
-    return Promise.reject(err)
+  } catch (error) {
+    return Promise.reject(error)
   }
   return User.findOne({
     _id: decoded._id,

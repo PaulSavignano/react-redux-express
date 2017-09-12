@@ -1,62 +1,47 @@
-/* Body */
+svg {
+  fill: inherit !important;
+}
 body {
   margin: 0;
 }
-
 main {
-  min-height: 80vh;
+  min-height: 85vh;
 }
-
-.section {
-  margin-left: auto;
-  margin-right: auto;
+h1, h2, h3, p {
+  margin: 0;
 }
-
-.admin-section {
-  position: relative;
-}
-
-.section-margin {
-  margin: 8px;
-}
-
-.vertical-card {
-  flex: 1 1 auto;
-  margin: 16px 8px;
-}
-
-.card-text {
-  padding: 16px 16px 0;
-}
-
-.article {
-  margin: 16px;
-}
-
-
 .page {
   min-height: 85vh;
   max-width: 1044px;
   margin: 0 auto;
-  padding: 24px 0;
+  padding: 32px 8px
+}
+.section {
+  position: relative;
 }
 
+
+
+
+
+
+
+
+
+/* Card */
 .card {
+  flex: 1 1 auto;
+  margin: 8px
+}
+.card-actions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+.card-actions > p {
   margin: 8px;
 }
 
-svg {
-  fill: inherit !important;
-}
-
-
-
-.edit-section {
-  margin: 8px;
-}
-.edit-section > button {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 45px, rgba(0, 0, 0, 0.22) 0px 10px 18px;
-}
 
 
 
@@ -71,31 +56,18 @@ svg {
 }
 
 
-/* Footer */
-footer {
-  margin-top: 32px;
-}
-.social-media {
-  display: flex;
-  justify-content: center;
-}
-a {
-  text-decoration: none;
-  color: inherit;
-}
 
 
 
 
 
 
-
+/* Fields */
 .field-container {
   display: flex;
   flex-flow: row wrap;
   padding: 8px
 }
-
 .field {
   flex: 1 1 auto;
   margin: 0 8px;
@@ -110,11 +82,13 @@ a {
   width: auto !important;
   margin: 0 8px;
 }
-
 .date {
   display: flex;
   align-items: flex-end;
 }
+
+
+
 
 
 
@@ -125,10 +99,11 @@ a {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
+  padding: 4px;
 }
 .button {
   flex: 1 1 auto;
-  margin: 8px;
+  margin: 4px;
 }
 .delete-button > button {
   background-color: rgba(213, 0, 0, 1) !important;
@@ -146,28 +121,14 @@ a {
 
 
 
+
+
+
 .error {
   font-weight: bold;
   color: rgb(244, 67, 54);
   margin: 8px 16px;
 }
-
-
-h1, h2, h3, p {
-  margin: 0 0 16px;
-}
-
-
-
-
-
-
-
-.fa.fa-shopping-cart {
-  font-size: 20px !important;
-}
-
-
 
 
 
@@ -186,50 +147,6 @@ h1, h2, h3, p {
 
 
 
-
-/* Credit Card */
-.credit-card-list {
-  list-style: none;
-  padding: 0;
-  margin: 16px 0;
-}
-.credit-card-list li {
-  float: left;
-  color: #aaa;
-  font-size: 26px;
-}
-.credit-card-list li:not(:last-child) {
-  margin-right: 8px;
-}
- .active {
-  color: #666;
-}
-.alert {
-  margin-top: 24px;
-}
-.credit-card-list h5 {
-  margin-top: 0px;
-}
-.exp-cvc {
-  margin-bottom: 8px;
-  span:first-child { margin-right: 16px; }
-}
-
-
-
-
-
-
-
-
-
-
-.RichTextEditor__root___2QXK- {
-  background: none !important;
-}
-
-
-
 .cross-fade-leave {
   opacity: 1;
 }
@@ -237,7 +154,6 @@ h1, h2, h3, p {
   opacity: 0;
   transition: opacity 2s ease-in;
 }
-
 .cross-fade-enter {
   opacity: 0;
 }

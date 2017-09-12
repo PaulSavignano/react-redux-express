@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { CSSTransitionGroup } from 'react-transition-group'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import './sections.css'
 import slideShowContainer from '../../containers/sections/slideShowContainer'
 import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'

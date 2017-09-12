@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
@@ -25,52 +25,56 @@ const validate = values => {
   return errors
 }
 
-const UserProfileForm = ({
-  destroy,
-  dispatch,
-  error,
-  handleSubmit,
-  onDelete,
-  onFormSubmit,
-  submitFailed,
-  submitSucceeded,
-  submitting,
-  valid
-}) => (
-  <Card className="UserProfileForm">
-    <CardTitle title="User" />
-    <form onSubmit={handleSubmit(onFormSubmit)}
-    >
-      <div className="field-container">
-        <Field name="firstName" component={renderTextField} label="First Name" className="field" />
-        <Field name="lastName" component={renderTextField} label="Last Name" className="field" />
-        <Field name="email" component={renderTextField} label="Email" className="field" />
-        <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
-        <Field name="password" component={renderTextField} label="Update Password" type="password" className="field" />
-        <Field name="passwordConfirm" component={renderTextField} label="Confirm Password" type="password" className="field"/>
-      </div>
-      {error && <div className="error">{error}</div>}
-      <div className="button-container">
-        <SuccessableButton
-          error={error}
-          label="Update User"
-          destroy={destroy}
-          submitFailed={submitFailed}
-          submitSucceeded={submitSucceeded}
-          submitting={submitting}
-          successLabel="User Updated!"
-          valid={valid}
-        />
-        <RaisedButton
-          type="button"
-          label="Delete Account"
-          className="button delete-button"
-          onTouchTap={onDelete}
-        />
-      </div>
-    </form>
-  </Card>
-)
+class UserProfileForm extends Component {
+  render() {
+    const {
+      dirty,
+      dispatch,
+      error,
+      handleSubmit,
+      onDelete,
+      onFormSubmit,
+      submitFailed,
+      submitSucceeded,
+      submitting,
+      valid
+    } = this.props
+    return (
+      <Card className="UserProfileForm">
+        <CardTitle title="User" />
+        <form onSubmit={handleSubmit(onFormSubmit)}
+        >
+          <div className="field-container">
+            <Field name="firstName" component={renderTextField} label="First Name" className="field" />
+            <Field name="lastName" component={renderTextField} label="Last Name" className="field" />
+            <Field name="email" component={renderTextField} label="Email" className="field" />
+            <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
+            <Field name="password" component={renderTextField} label="Update Password" type="password" className="field" />
+            <Field name="passwordConfirm" component={renderTextField} label="Confirm Password" type="password" className="field"/>
+          </div>
+          <div className="button-container">
+            <SuccessableButton
+              dirty={dirty}
+              error={error}
+              label="Update User"
+              submitFailed={submitFailed}
+              submitSucceeded={submitSucceeded}
+              submitting={submitting}
+              successLabel="User Updated!"
+              valid={valid}
+            />
+            <RaisedButton
+              type="button"
+              label="Delete Account"
+              className="button delete-button"
+              onTouchTap={onDelete}
+            />
+          </div>
+        </form>
+      </Card>
+    )
+  }
+}
 
 UserProfileForm.propTypes = {
   destroy: PropTypes.func.isRequired,

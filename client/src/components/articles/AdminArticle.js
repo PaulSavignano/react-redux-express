@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 
+import './Article.css'
 import articleContainer from '../../containers/articles/articleContainer'
 import Buttons from '../buttons/Buttons'
 import Heading from '../typography/Heading'

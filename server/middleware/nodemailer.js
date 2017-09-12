@@ -53,13 +53,15 @@ export const sendEmail1 = (mail) => {
         subject: toSubject,
         html: `${toBody}<br/>${signature}`
       }
-      const adminMail = {
-        from: process.env.GMAIL_USER,
-        to: process.env.GMAIL_USER,
-        subject: fromSubject,
-        html: `${fromBody}<br/>${signature}`
+      if (fromSubject) {
+        const adminMail = {
+          from: process.env.GMAIL_USER,
+          to: process.env.GMAIL_USER,
+          subject: fromSubject,
+          html: `${fromBody}<br/>${signature}`
+        }
+        transporter.sendMail(adminMail)
       }
-      transporter.sendMail(adminMail)
       return transporter.sendMail(userMail)
         .then(info => info)
         .catch(err => console.error(err))

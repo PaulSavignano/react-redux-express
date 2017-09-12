@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import userContainer from '../../containers/user/userContainer'
+import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchRecovery } from '../../actions/user'
 
@@ -33,54 +35,66 @@ class Recovery extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.submitSucceeded) this.setState({ open: true })
   }
+  handleFormSubmit = values => {
+    const { dispatch } = this.props
+    this.setState({ email: values.email })
+    return dispatch(fetchRecovery(values))
+  }
   render() {
     const {
+      dirty,
       dispatch,
       error,
       handleSubmit,
-      isFetching,
+      primary1Color,
+      submitFailed,
+      submitSucceeded,
       submitting,
+      user,
+      valid,
     } = this.props
     return (
-      isFetching ? null :
       <div className="page">
         <section className="section-margin">
           <Card>
             <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
-            <form onSubmit={handleSubmit(values => {
-              this.setState({ email: values.email })
-              return dispatch(fetchRecovery(values))
-            })} className="">
+            <form onSubmit={handleSubmit(this.handleFormSubmit)}>
               <CardText>
                 <Field name="email" component={renderTextField} label="Email" fullWidth={true} />
               </CardText>
-              {error && <div className="error">{error}</div>}
-              {!this.state.open ? null :
-              <Dialog
-                actions={
-                  <FlatButton
-                    label="Close"
-                    primary={true}
-                    onTouchTap={this.handleClose}
-                  />
-                }
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
-              >
-                An email has been sent to {this.state.email}
-              </Dialog>
-              }
-              <CardActions>
-                <RaisedButton
-                  label="Recovery"
-                  fullWidth={true}
-                  disabled={submitting}
-                  type="submit"
-                  primary={true}
+              <div className="card-actions">
+                <SuccessableButton
+                  dirty={dirty}
+                  error={error}
+                  label="Request Estimage"
+                  submitFailed={submitFailed}
+                  submitSucceeded={submitSucceeded}
+                  submitting={submitting}
+                  successLabel="Estimate Requested!"
+                  valid={valid}
                 />
-              </CardActions>
+              </div>
             </form>
+            {!this.state.open ? null :
+            <Dialog
+              actions={
+                <FlatButton
+                  label="Close"
+                  primary={true}
+                  onTouchTap={this.handleClose}
+                />
+              }
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+            >
+              An email has been sent to {this.state.email}
+            </Dialog>
+            }
+            <CardActions className="card-actions">
+              <p>Don't have an account? <Link to="/user/signup" style={{ color: primary1Color }}>Sign up!</Link></p>
+              <p>Forgot your password? <Link to="/user/recovery" style={{ color: primary1Color }}>Recover your account!</Link></p>
+            </CardActions>
           </Card>
         </section>
       </div>
@@ -89,23 +103,17 @@ class Recovery extends Component {
 }
 
 Recovery.propTypes = {
+  destroy: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  submitFailed: PropTypes.bool.isRequired,
+  submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  user: PropTypes.object
 }
 
-Recovery = reduxForm({
+export default userContainer(reduxForm({
   form: 'recovery',
   validate
-})(Recovery)
-
-const mapStateToProps = ({ user }) => ({
-  isFetching: user.isFetching,
-  user
-})
-
-Recovery = connect(mapStateToProps)(Recovery)
-
-export default Recovery
+})(Recovery))
