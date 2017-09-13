@@ -8,27 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import AddressFields from './AddressFields'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
-
-const validate = values => {
-  const errors = {}
-  const requiredFields = [ 'name', 'phone', 'street', 'city', 'state', 'zip' ]
-  requiredFields.forEach(field => {
-    if (!values[ field ]) {
-      errors[ field ] = 'Required'
-    }
-  })
-  if (values.phone.length < 14) {
-    errors.phone = 'Phone number must be 10 digits'
-  }
-  if (values.state.length < 2) {
-    errors.state = 'State must be 2 characters'
-  }
-  if (values.zip.length < 5) {
-    errors.zip = 'Zip must be 5 characters'
-  }
-  return errors
-}
-
+import validateAddress from '../../utils/validateAddress'
 
 class AddressItem extends Component {
   state = {
@@ -107,7 +87,7 @@ AddressItem = compose(
   })),
   reduxForm({
     enableReinitialize: true,
-    validate
+    validate: validateAddress,
   })
 )(AddressItem)
 

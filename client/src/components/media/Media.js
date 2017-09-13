@@ -3,14 +3,19 @@ import PropTypes from 'prop-types'
 import { CardMedia } from 'material-ui/Card'
 
 const Media = ({
+  boxShadow,
   image,
   iframe,
   border
 }) => {
   return (
     image.src ?
-      <CardMedia style={{ border }}>
-        <img src={image.src} alt="card"/>
+      <CardMedia style={{ border }} className="this-is-media">
+        <img
+          src={image.src}
+          alt="card"
+          style={{ boxShadow }}
+        />
       </CardMedia>
     :
       iframe ?
@@ -18,7 +23,7 @@ const Media = ({
           <div style={{ position: 'relative', paddingBottom: '50%' }}>
             <iframe
               title="iframe"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', boxShadow }}
               src={iframe}
               frameBorder="0"
               allowFullScreen

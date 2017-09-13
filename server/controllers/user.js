@@ -3,6 +3,7 @@ import crypto from 'crypto'
 import fetch from 'node-fetch'
 
 import Address from '../models/Address'
+import Brand from '../models/Brand'
 import Order from '../models/Order'
 import User from '../models/User'
 import { sendEmail1 } from '../middleware/nodemailer'
@@ -346,18 +347,22 @@ export const contact = (req, res) => {
   if (!firstName || !email || !message) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  sendEmail1({
-    to: email,
-    toSubject: `Thank you for contacting ${process.end.APP_NAME}!`,
-    name: firstName,
-    toBody: `<p>Thank you for contacting ${procee.env.APP_NAME}.  We will respond to your request shortly!</p>`,
-    fromSubject: `New Contact Request`,
-    fromBody: `
-      <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
-      <div>Email: ${email}</div>
-      <div>Message: ${message}</div>
-    `
-  })
+  Brand.findOne({})
+  .then(brand => {
+    if (!brand) return Promise.reject('brand not found')
+    const { name } = brand.business.values
+    sendEmail1({
+      to: email,
+      toSubject: `Thank you for contacting ${name}!`,
+      name: firstName,
+      toBody: `<p>Thank you for contacting ${name}.  We will respond to your request shortly!</p>`,
+      fromSubject: `New Contact Request`,
+      fromBody: `
+        <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
+        <div>Email: ${email}</div>
+        <div>Message: ${message}</div>
+      `
+    })
     .then(info => {
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
@@ -365,6 +370,8 @@ export const contact = (req, res) => {
       console.error(error)
       res.status(400).send({ error })
     })
+  })
+
 }
 
 

@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton'
 import './header.css'
 import AppBarPageLink from './AppBarPageLink'
 import AppBarUser from './AppBarUser'
-import HeaderCartIcon from './HeaderCartIcon'
+import CartIcon from './CartIcon'
 import { searchToggle } from '../../actions/search'
 
 class AppBarNavigation extends Component {
@@ -84,6 +84,7 @@ class AppBarNavigation extends Component {
           iconClassName="fa fa-search"
           iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
           onTouchTap={this.handleSearchToggle}
+          style={{ padding: '12px 0', width: 'auto', margin: '0 0 0 16px'}}
         />
         <AppBarUser
           color={color}
@@ -92,7 +93,7 @@ class AppBarNavigation extends Component {
           fontFamily={fontFamily}
         />
         {cartQty &&
-          <HeaderCartIcon
+          <CartIcon
             cartQty={cartQty}
             dispatch={dispatch}
             color={color}

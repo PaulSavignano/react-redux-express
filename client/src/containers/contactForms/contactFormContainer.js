@@ -36,7 +36,7 @@ const contactFormContainer = (ComposedComponent) => {
     dispatch: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
   }
   return connect(({
     user

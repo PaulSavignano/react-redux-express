@@ -1,31 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import RaisedButton from 'material-ui/RaisedButton'
 
-import './sections.css'
+import './section.css'
 import sectionContainer from '../../containers/sections/sectionContainer'
+import AdminSectionButtons from './AdminSectionButtons'
 import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'
-import { startEdit } from '../../actions/editItem'
 
 class AdminSection extends Component {
-  handleStartEdit = (e) => {
-    e.stopPropagation()
-    const { dispatch, item } = this.props
-    return dispatch(startEdit({ item, kind: 'SECTION' }))
-  }
   render() {
     const {
       dispatch,
-      item: {
-        _id,
-        items
-      },
+      item,
       pageId,
       pageSlug,
       propsForParent,
       propsForChild,
     } = this.props
+    const { items } = item
     return (
       <div className="admin-section">
         <section
@@ -35,23 +27,14 @@ class AdminSection extends Component {
           <div {...propsForChild}>
             {renderAdminComponents({ components: items, pageSlug })}
           </div>
-
         </section>
-        <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
-          <AdminSectionAdd
-            dispatch={dispatch}
-            pageId={pageId}
-            pageSlug={pageSlug}
-            sectionId={_id}
-          />
-          <RaisedButton
-            label="Edit Section"
-            onTouchTap={this.handleStartEdit}
-            className="edit-section"
-          />
-        </div>
+        <AdminSectionButtons
+          dispatch={dispatch}
+          item={item}
+          pageId={pageId}
+          pageSlug={pageSlug}
+        />
       </div>
-
     )
   }
 }

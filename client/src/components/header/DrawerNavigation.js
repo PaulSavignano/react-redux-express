@@ -6,7 +6,7 @@ import { ListItem } from 'material-ui/List'
 
 import DrawerPageLink from './DrawerPageLink'
 import DrawerAdminPageLink from './DrawerAdminPageLink'
-import HeaderCartIcon from './HeaderCartIcon'
+import CartIcon from './CartIcon'
 import { toggleDrawer } from '../../actions/drawer'
 
 class DrawerNavigation extends Component {
@@ -138,7 +138,7 @@ class DrawerNavigation extends Component {
         </div>
         }
         {cartQty &&
-          <HeaderCartIcon
+          <CartIcon
             cartQty={cartQty}
             dispatch={dispatch}
             color={color}

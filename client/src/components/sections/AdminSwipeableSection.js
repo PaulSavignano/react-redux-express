@@ -4,9 +4,9 @@ import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import './sections.css'
+import './section.css'
 import swipeableContainer from '../../containers/sections/swipeableContainer'
-import AdminSectionAdd from './AdminSectionAdd'
+import AdminSectionButtons from './AdminSectionButtons'
 import renderAdminComponents from './renderAdminComponents'
 import { startEdit } from '../../actions/editItem'
 
@@ -22,10 +22,7 @@ class AdminSwipeableSection extends Component {
     const {
       autoplay,
       dispatch,
-      item: {
-        _id,
-        items
-      },
+      item,
       pageId,
       pageSlug,
       propsForParent,
@@ -49,22 +46,15 @@ class AdminSwipeableSection extends Component {
             }}
             className="heroCarousel"
           >
-            {renderAdminComponents({ components: items, pageSlug })}
+            {renderAdminComponents({ components: item.items, pageSlug })}
           </AutoPlaySwipeableViews>
         </section>
-        <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
-          <AdminSectionAdd
-            dispatch={dispatch}
-            pageId={pageId}
-            pageSlug={pageSlug}
-            sectionId={_id}
-          />
-          <RaisedButton
-            label="Edit Section"
-            onTouchTap={this.handleStartEdit}
-            style={{ margin: 8 }}
-          />
-        </div>
+        <AdminSectionButtons
+          dispatch={dispatch}
+          item={item}
+          pageId={pageId}
+          pageSlug={pageSlug}
+        />
       </div>
     )
   }

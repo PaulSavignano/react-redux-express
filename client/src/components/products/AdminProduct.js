@@ -74,12 +74,9 @@ class AdminProduct extends Component {
         </CardText>
         <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
           <RaisedButton label="-" primary={true} labelStyle={{ fontSize: '24px' }} />
-          <TextField
-            style={{ flex: '1 1 auto' }}
-            inputStyle={{ textAlign: 'center' }}
-            value="1"
-            id={_id}
-          />
+          <div style={{ flex: '1 1 auto', textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)' }}>
+            1
+          </div>
           <RaisedButton label="+" primary={true} labelStyle={{ fontSize: '24px' }} />
         </div>
         <RaisedButton

@@ -19,10 +19,11 @@ const adminItemForms = [{
     { name: 'h2Text', type: 'text' },
     { name: 'h3Text', type: 'text' },
     { name: 'iframe', type: 'text' },
-    { name: 'mediaAlign', type: 'select', options: [ 'right', 'left' ] },
+    { name: 'mediaAlign', type: 'select', options: [ 'left', 'right' ] },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaFlex', type: 'text' },
-    { name: 'pFlex', type: 'text' },
+    { name: 'mediaWrap', type: 'select', options: [ 'above', 'below' ] },
+    { name: 'textFlex', type: 'text' },
     { name: 'pText', type: 'wysiwgy' },
   ]
 }, {

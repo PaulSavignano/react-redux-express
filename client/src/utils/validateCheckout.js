@@ -1,6 +1,6 @@
 import Payment from 'payment'
 
-const validateCreditCard = (values) => {
+const validateCheckout = (values) => {
   const errors = {}
   const requiredFields = [
     'firstName',
@@ -36,7 +36,16 @@ const validateCreditCard = (values) => {
       }
     })
   }
+  if (values.phone && values.phone.length < 14) {
+    errors.phone = 'Phone number must be 10 digits'
+  }
+  if (values.state && values.state.length < 2) {
+    errors.state = 'State must be 2 characters'
+  }
+  if (values.zip && values.zip.length < 5) {
+    errors.zip = 'Zip must be 5 characters'
+  }
   return errors
 }
 
-export default validateCreditCard
+export default validateCheckout

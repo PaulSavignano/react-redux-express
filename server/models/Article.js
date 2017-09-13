@@ -21,10 +21,11 @@ const ArticleSchema = new Schema({
     h2Text: { type: String, trim: true, default: 'Heading 2' },
     h3Text: { type: String, trim: true, default: 'Heading 3' },
     iframe: { type: String, trim: true },
-    mediaAlign: { type: String, trim: true, default: 'right' },
+    mediaAlign: { type: String, trim: true, default: 'left' },
     mediaFlex: { type: String, trim: true, default: '1 1 auto' },
-    pFlex: { type: String, trim: true, default: '1 1 500px'},
+    mediaWrap: { type: String, trim: true, default: 'above' },
     pText: { type: String, trim: true, default: '<p>Paragraph</p>' },
+    textFlex: { type: String, trim: true, default: '1 1 500px'},
   }
 }, {
   timestamps: true

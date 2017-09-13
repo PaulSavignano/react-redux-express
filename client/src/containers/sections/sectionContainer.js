@@ -32,6 +32,8 @@ const sectionContainer = (ComposedComponent) => {
           backgroundImage: image.src ? `url(${image.src})` : null,
           backgroundColor,
           marginTop: containerMarginTop,
+          marginLeft: 'auto',
+          marginRight: 'auto',
           maxWidth,
           minHeight,
           position: 'relative'

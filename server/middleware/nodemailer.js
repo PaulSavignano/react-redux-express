@@ -18,7 +18,7 @@ export const sendEmail1 = (mail) => {
   const { to, toSubject, toBody, fromSubject, fromBody } = mail
   return Brand.findOne({})
     .then(brand => {
-      if (!brand) return Promise.reject({ error: 'No brand found'})
+      if (!brand) return Promise.reject('No brand found')
       const {
         appBar: {
           values: { fontFamily }
@@ -64,7 +64,7 @@ export const sendEmail1 = (mail) => {
       }
       return transporter.sendMail(userMail)
         .then(info => info)
-        .catch(err => console.error(err))
+        .catch(error => console.error(error))
     })
-    .catch(err => console.error(err))
+    .catch(error => console.error(error))
 }

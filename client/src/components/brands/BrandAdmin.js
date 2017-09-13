@@ -34,6 +34,7 @@ const formFields = [{
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
+    { name: 'mediaBoxShadow', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
   ]
 }, {
@@ -140,6 +141,7 @@ const formFields = [{
     { name: 'nameColor', type: 'text' },
     { name: 'nameTextShadow', type: 'text' },
     { name: 'margin', type: 'text' },
+    { name: 'mediaBoxShadow', type: 'text' },
   ]
 }, {
   name: 'theme',

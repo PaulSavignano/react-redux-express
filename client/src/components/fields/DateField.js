@@ -23,12 +23,12 @@ class DateField extends Component {
     return (
       <DatePicker
         autoOk={true}
-        hintText="Open to Year"
+        hintText="Card Expiration"
         openToYearSelection={true}
         onChange={(event, value) => input.onChange(moment(value).format("MM/YYYY"))}
         {...custom}
         formatDate={(value) => moment(value).format("MM / YYYY")}
-        textFieldStyle={{ flex: '1 1 auto' }}
+        textFieldStyle={{ flex: '1 1 auto', marginTop: 22 }}
         minDate={this.state.minDate}
       />
     )

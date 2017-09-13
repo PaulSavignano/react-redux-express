@@ -8,12 +8,12 @@ import MenuItem from 'material-ui/MenuItem'
 
 import './orders.css'
 import requireCart from '../../containers/orders/requireCart'
+import validateCheckout from '../../utils/validateCheckout'
 import SuccessableButton from '../buttons/SuccessableButton'
 import DateField from '../fields/DateField'
 import renderTextField from '../fields/renderTextField'
 import renderSelectField from '../fields/renderSelectField'
 import AddressFields from '../addresses/AddressFields'
-import validateCreditCard from '../../utils/validateCreditCard'
 import formatPrice from '../../utils/formatPrice'
 import { fetchAddOrder } from '../../actions/orders'
 
@@ -67,7 +67,6 @@ class OrderAdd extends Component {
                   label="Card Expiration"
                   className="field date"
                   component={DateField}
-
                 />
                 <Field
                   name="cvc"
@@ -77,13 +76,12 @@ class OrderAdd extends Component {
                   onFocus={e => Payment.formatCardCVC(e.target)}
 
                 />
-              </div>
-              <CardText>
                 <Field
                   name="fullAddress"
                   component={renderSelectField}
                   label="Address"
                   fullWidth={true}
+                  className="field"
                 >
                   {addresses.map(address => (
                     <MenuItem
@@ -101,13 +99,18 @@ class OrderAdd extends Component {
                   ))}
                   <MenuItem value="newAddress" primaryText="Enter new address" onTouchTap={() => this.setState({ newAddress: true })} />
                 </Field>
-              </CardText>
+              </div>
               {this.state.newAddress && <AddressFields />}
-              <CardText>
-                <h2 style={{ textAlign: 'right '}}>Subtotal {formatPrice(cart.subTotal)}</h2>
-                <h2 style={{ textAlign: 'right '}}>Tax {(cart.tax * 100).toFixed(2)}%</h2>
-                <h2 style={{ textAlign: 'right '}}>Total {formatPrice(cart.total)}</h2>
-              </CardText>
+                <CardTitle
+                  title={
+                    <div>
+                      <div>Subtotal {formatPrice(cart.total)}</div>
+                      <div>Tax {(cart.tax * 100).toFixed(2)}</div>
+                      <div>Total {formatPrice(cart.total)}</div>
+                    </div>
+                  }
+                  titleStyle={{ textAlign: 'right' }}
+                />
               <div className="button-container">
                 <SuccessableButton
                   dirty={dirty}
@@ -141,5 +144,5 @@ OrderAdd.propTypes = {
 
 export default requireCart(reduxForm({
   form: 'CheckoutForm',
-  validate: validateCreditCard,
+  validate: validateCheckout
 })(OrderAdd))

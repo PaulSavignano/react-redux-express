@@ -10,7 +10,7 @@ const CartTotal = ({ dispatch, cart, user }) => (
   <div style={{ margin: 8 }}>
     <div style={{ margin: 8 }}>
       <CardTitle title={`Subtotal ${formatPrice(cart.subTotal)}`} style={{ textAlign: 'right', padding: '8px 8px' }}/>
-      <CardTitle title={`Taxes ${cart.tax * 100}`} style={{ textAlign: 'right', padding: '0 8px' }}/>
+      <CardTitle title={`Taxes ${cart.tax * 100}%`} style={{ textAlign: 'right', padding: '0 8px' }}/>
       <CardTitle title={`Total ${formatPrice(cart.total)}`} style={{ textAlign: 'right', padding: '8px 8px' }}/>
     </div>
   </div>

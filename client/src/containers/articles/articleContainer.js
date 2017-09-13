@@ -9,9 +9,8 @@ const articleContainer = (ComposedComponent) => {
         articleStyle,
         dispatch,
         hasButtons,
-        hasHeading,
         hasMedia,
-        hasParagraph,
+        hasText,
         isFetching,
         item,
         typography
@@ -20,9 +19,8 @@ const articleContainer = (ComposedComponent) => {
         articleStyle,
         dispatch,
         hasButtons,
-        hasHeading,
         hasMedia,
-        hasParagraph,
+        hasText,
         item,
         typography
       }
@@ -38,9 +36,8 @@ const articleContainer = (ComposedComponent) => {
   }) => ({
     articleStyle,
     hasButtons: item.values.button1Text ? true : false,
-    hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
+    hasText: item.values.h1Text || item.values.h2Text || item.values.h3Text || item.values.pText || item.values.button1Text ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,
-    hasParagraph: item.values.pText && item.values.pText.length > 8 ? true : false,
     isFetching,
     item,
     typography
@@ -49,9 +46,8 @@ const articleContainer = (ComposedComponent) => {
     articleStyle: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
-    hasHeading: PropTypes.bool.isRequired,
     hasMedia: PropTypes.bool.isRequired,
-    hasParagraph: PropTypes.bool.isRequired,
+    hasText: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     typography: PropTypes.object.isRequired

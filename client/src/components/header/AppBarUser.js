@@ -40,7 +40,7 @@ class AppBarUser extends Component {
   }
   componentDidMount() {
     const width = this.userNav.clientWidth
-    const totalWidth = width/.2
+    const totalWidth = width/.1
     let navClass
     switch(true) {
       case totalWidth < 375:
@@ -75,9 +75,9 @@ class AppBarUser extends Component {
         <FlatButton
           onTouchTap={this.handleOpen}
           label={firstName ? `Hello, ${firstName}`: `SIGN IN`}
-          labelStyle={{ padding: '0 0 0 4px' }}
+          labelStyle={{ padding: 0 }}
           hoverColor="none"
-          style={{ color, fontFamily, minWidth: 'none', margin: '0 0 0 8px' }}
+          style={{ color, fontFamily, minWidth: 'none', margin: '0 0 0 16px' }}
         />
         <Popover
           open={this.state.openMenu}

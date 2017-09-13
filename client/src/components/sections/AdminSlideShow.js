@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { CSSTransitionGroup } from 'react-transition-group'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import './sections.css'
+import './section.css'
 import slideShowContainer from '../../containers/sections/slideShowContainer'
-import AdminSectionAdd from './AdminSectionAdd'
+import AdminSectionButtons from './AdminSectionButtons'
 import renderAdminComponents from './renderAdminComponents'
 import { startEdit } from '../../actions/editItem'
 
@@ -49,10 +49,7 @@ class SlideShow extends Component {
   render() {
     const {
       dispatch,
-      item: {
-        _id,
-        items
-      },
+      item,
       pageId,
       pageSlug,
       propsForParent,
@@ -69,22 +66,15 @@ class SlideShow extends Component {
             transitionLeaveTimeout={2000}
             {...propsForChild}
           >
-            {renderAdminComponents({ components: items })[this.state.index]}
+            {renderAdminComponents({ components: item.items })[this.state.index]}
           </CSSTransitionGroup>
         </section>
-        <div style={{ display: 'flex', position: 'absolute', bottom: 8, right: 8 }}>
-          <AdminSectionAdd
-            dispatch={dispatch}
-            pageId={pageId}
-            pageSlug={pageSlug}
-            sectionId={_id}
-          />
-          <RaisedButton
-            label="Edit Section"
-            onTouchTap={this.handleStartEdit}
-            style={{ margin: 8 }}
-          />
-        </div>
+        <AdminSectionButtons
+          dispatch={dispatch}
+          item={item}
+          pageId={pageId}
+          pageSlug={pageSlug}
+        />
       </div>
     )
   }
