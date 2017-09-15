@@ -142,6 +142,7 @@ const formFields = [{
     { name: 'nameTextShadow', type: 'text' },
     { name: 'margin', type: 'text' },
     { name: 'mediaBoxShadow', type: 'text' },
+    { name: 'mediaElevation', type: 'text' },
   ]
 }, {
   name: 'theme',

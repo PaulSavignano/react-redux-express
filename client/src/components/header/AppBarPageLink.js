@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
@@ -47,13 +47,12 @@ class AppBarPageLink extends Component {
     const pageSectionLinks = page.sections.filter(section => section.values.pageLink)
     const activeStyle = pathname === `/${page.slug}` && { borderBottom: '2px solid' }
     return (
-      <div>
+      <Link to={`/${page.slug}`}>
         <FlatButton
           onMouseEnter={this.handleButtonMouseEnter}
           onMouseLeave={this.handleButtonMouseLeave}
           style={{ color, minWidth: 'none', margin: '0 16px' }}
           labelStyle={{ padding: '0 0 2px 0', fontFamily, ...activeStyle }}
-          onTouchTap={() => dispatch(push(`/${page.slug}`))}
           label={page.values.name}
           hoverColor="none"
         />
@@ -84,7 +83,7 @@ class AppBarPageLink extends Component {
           </Popover>
         : null
         }
-      </div>
+      </Link>
     )
   }
 }

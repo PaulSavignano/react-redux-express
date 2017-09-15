@@ -98,6 +98,7 @@ const adminItemForms = [{
     { name: 'margin', type: 'text' },
     { name: 'maxWidth', type: 'text' },
     { name: 'minHeight', type: 'text' },
+    { name: 'padding', type: 'text' },
     { name: 'pageLink', type: 'text' }
   ]
 }]

@@ -15,9 +15,11 @@ const ArticleMedia = ({
     className="article-media"
   >
     <Media
-      image={image}
-      iframe={iframe}
       boxShadow={mediaBoxShadow}
+      elevation={mediaElevation}
+      iframe={iframe}
+      image={image}
+      mediaFlex={mediaFlex}
     />
   </div>
 )

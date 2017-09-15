@@ -14,36 +14,17 @@ h1, h2, h3, p {
   min-height: 85vh;
   max-width: 1044px;
   margin: 0 auto;
-  padding: 32px 8px
+  padding: 32px 0
 }
 .section {
   position: relative;
 }
 
-
-
-
-
-
-
-
-
-/* Card */
-.card {
-  flex: 1 1 auto;
-  margin: 16px 8px;
+.form {
+  margin: 16px
 }
-.card-actions {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-}
-.card-actions > p {
-  margin: 8px;
-}
-.card-content {
-  padding: 8px;
-}
+
+
 
 
 
@@ -69,7 +50,7 @@ h1, h2, h3, p {
 .field-container {
   display: flex;
   flex-flow: row wrap;
-  padding: 8px
+  padding: 16px
 }
 .field {
   flex: 1 1 auto;
@@ -102,11 +83,10 @@ h1, h2, h3, p {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
-  padding: 4px;
 }
 .button {
   flex: 1 1 auto;
-  margin: 4px;
+  margin: 8px;
 }
 .delete-button > button {
   background-color: rgba(213, 0, 0, 1) !important;
@@ -145,7 +125,7 @@ h1, h2, h3, p {
 }
 .fadein-appear.fadein-appear-active {
   opacity: 1;
-  transition: opacity 500s ease-in;
+  transition: opacity 300ms ease-in;
 }
 
 

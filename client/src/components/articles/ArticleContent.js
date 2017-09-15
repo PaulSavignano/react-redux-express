@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArticleMedia from './ArticleMedia'
+import Media from '../media/Media'
 import Buttons from '../buttons/Buttons'
 import Text from '../typography/Text'
 
@@ -57,12 +57,14 @@ const ArticleContent = ({
       style={{ flexFlow }}
     >
       {hasMedia && mediaAlign === 'left' ?
-        <ArticleMedia
-          mediaBoxShadow={mediaBoxShadow}
-          mediaElevation={mediaElevation}
-          mediaFlex={mediaFlex}
-          image={image}
+        <Media
+          border={mediaBorder}
+          boxShadow={mediaBoxShadow}
+          elevation={mediaElevation}
           iframe={iframe}
+          image={image}
+          flex={mediaFlex}
+          margin={8}
         />
       : null}
       {hasText || hasButtons ?
@@ -100,12 +102,14 @@ const ArticleContent = ({
         </div>
       : null}
       {hasMedia && mediaAlign === 'right' ?
-        <ArticleMedia
-          mediaBoxShadow={mediaBoxShadow}
-          mediaElevation={mediaElevation}
-          mediaFlex={mediaFlex}
-          image={image}
+        <Media
+          border={mediaBorder}
+          boxShadow={mediaBoxShadow}
+          elevation={mediaElevation}
           iframe={iframe}
+          image={image}
+          flex={mediaFlex}
+          margin={8}
         />
       : null}
     </article>

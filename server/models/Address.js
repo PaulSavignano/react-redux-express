@@ -14,9 +14,6 @@ const AddressSchema = new Schema({
   timestamps: true
 })
 
-
-
-
 const Address = mongoose.model('Address', AddressSchema)
 
 export default Address

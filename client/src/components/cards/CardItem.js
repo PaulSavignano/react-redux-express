@@ -1,12 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Card } from 'material-ui/Card'
 
+import './card.css'
 import cardContainer from '../../containers/cards/cardContainer'
 import CardContent from './CardContent'
 
 const CardItem = (props) => {
+  const {
+    cardStyle,
+    cursor,
+    elevation,
+    item: { _id },
+    linkEvents,
+    linkNavigation
+  } = props
+  const {
+    flex,
+    margin,
+    width
+  } = cardStyle.values
   return (
-    <CardContent {...props} />
+    <Card
+      {...linkEvents}
+      {...linkNavigation}
+      style={{ cursor, flex, margin, width }}
+      zDepth={elevation}
+      id={_id}
+      className="card"
+    >
+      <CardContent {...props} />
+    </Card>
   )
 }
 
@@ -15,7 +39,6 @@ CardItem.propTypes = {
   hasButtons: PropTypes.bool.isRequired,
   hasText: PropTypes.bool.isRequired,
   hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 

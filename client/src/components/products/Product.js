@@ -6,11 +6,12 @@ import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import productContainer from '../../containers/products/productContainer'
 import ProductButtons from './ProductButtons'
 import formatPrice from '../../utils/formatPrice'
+import slugIt from '../../utils/slugIt'
 
 class Product extends Component {
   handleNavigation = () => {
-    const { dispatch, item: { productSlug }} = this.props
-    dispatch(push(`/products/${productSlug}`))
+    const { dispatch, item: { _id, values: { name }}} = this.props
+    dispatch(push(`/products/${slugIt(name)}/${_id}`))
   }
   render() {
     const {

@@ -23,6 +23,7 @@ const sectionContainer = (ComposedComponent) => {
           maxWidth,
           minHeight,
           margin,
+          padding,
           pageLink,
         }
       } = item
@@ -46,7 +47,8 @@ const sectionContainer = (ComposedComponent) => {
           display: 'flex',
           flexFlow,
           justifyContent,
-          margin
+          margin,
+          padding
         }
       }
       this.setState({ propsForParent, propsForChild })

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
+import App from './components/app/App'
 import configureStore from './store/configureStore'
 import Routing from './Routing'
 import './index.css'
@@ -35,7 +36,7 @@ store.dispatch(fetchProducts())
 
 ReactDOM.render(
   <Provider store={store}>
-    <Routing history={history} />
+    <App />
   </Provider>,
   document.getElementById('root')
 )

@@ -3,17 +3,51 @@ import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 
 import './typography.css'
-import Heading from './Heading'
+import H1 from './H1'
+import H2 from './H2'
+import H3 from './H3'
 import P from './P'
 
-const Text = (props) => (
-  <div>
-    <Heading {...props}/>
-    {props.pText &&
+const Text = ({
+  h1Align,
+  h2Align,
+  h3Align,
+  h1Color,
+  h2Color,
+  h3Color,
+  h1Text,
+  h2Text,
+  h3Text,
+  pText,
+  h1TextShadow,
+  h2TextShadow,
+  h3TextShadow
+}) => (
+  <div className="text-container">
+    <div>
       <div className="text">
-        <P>{renderHTML(props.pText)}</P>
+        {h1Text &&
+          <H1 textAlign={h1Align} color={h1Color} textShadow={h1TextShadow}>
+            {h1Text}
+          </H1>
+        }
+        {h2Text &&
+          <H2 textAlign={h2Align} color={h2Color} textShadow={h2TextShadow}>
+            {h2Text}
+          </H2>
+        }
+        {h3Text &&
+          <H3 textAlign={h3Align} color={h3Color} textShadow={h3TextShadow}>
+            {h3Text}
+          </H3>
+        }
       </div>
-    }
+      {pText &&
+        <div className="text">
+          <P>{renderHTML(pText)}</P>
+        </div>
+      }
+    </div>
   </div>
 )
 
@@ -27,7 +61,6 @@ Text.propTypes = {
   h1Text: PropTypes.string,
   h2Text: PropTypes.string,
   h3Text: PropTypes.string,
-  pText: PropTypes.string,
   h1TextShadow: PropTypes.string,
   h2TextShadow: PropTypes.string,
   h3TextShadow: PropTypes.string

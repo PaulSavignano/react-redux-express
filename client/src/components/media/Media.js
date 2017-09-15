@@ -2,38 +2,43 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CardMedia } from 'material-ui/Card'
 
+import './media.css'
+
 const Media = ({
+  border,
   boxShadow,
+  flex,
   image,
   iframe,
-  border
-}) => {
-  return (
-    image.src ?
-      <CardMedia style={{ border }} className="this-is-media">
-        <img
-          src={image.src}
-          alt="card"
-          style={{ boxShadow }}
-        />
-      </CardMedia>
-    :
-      iframe ?
-        <CardMedia style={{ border }}>
-          <div style={{ position: 'relative', paddingBottom: '50%' }}>
-            <iframe
-              title="iframe"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', boxShadow }}
-              src={iframe}
-              frameBorder="0"
-              allowFullScreen
-            >
-            </iframe>
-          </div>
-        </CardMedia>
-      : null
-  )
-}
+  margin,
+}) => (
+  <div
+    className="media-image-container"
+    style={{ flex, margin }}
+  >
+    {image.src &&
+      <img
+        src={image.src}
+        alt="card"
+        style={{ border, boxShadow }}
+        className="media-image"
+      />
+    }
+    {iframe &&
+      <div className="media-iframe-container">
+        <iframe
+          className="media-iframe"
+          title="iframe"
+          style={{ border, boxShadow }}
+          src={iframe}
+          frameBorder="0"
+          allowFullScreen
+        >
+        </iframe>
+      </div>
+    }
+  </div>
+)
 
 Media.propTypes = {
   image: PropTypes.object,

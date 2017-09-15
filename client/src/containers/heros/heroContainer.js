@@ -53,9 +53,8 @@ const heroContainer = (ComposedComponent) => {
         heroStyle,
         dispatch,
         hasButtons,
-        hasHeading,
+        hasText,
         hasMedia,
-        hasParagraph,
         isFetching,
         item,
         typography
@@ -64,9 +63,8 @@ const heroContainer = (ComposedComponent) => {
         heroStyle,
         dispatch,
         hasButtons,
-        hasHeading,
+        hasText,
         hasMedia,
-        hasParagraph,
         item,
         propsForParent,
         propsForChild,
@@ -84,9 +82,8 @@ const heroContainer = (ComposedComponent) => {
   }) => ({
     heroStyle,
     hasButtons: item.values.button1Text ? true : false,
-    hasHeading: item.values.h1Text || item.values.h2Text || item.values.h3Text ? true : false,
+    hasText: item.values.h1Text || item.values.h2Text || item.values.h3Text || item.values.pText ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,
-    hasParagraph: item.values.pText && item.values.pText.length > 8 ? true : false,
     isFetching,
     item,
     typography
@@ -94,9 +91,8 @@ const heroContainer = (ComposedComponent) => {
   HeroContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
-    hasHeading: PropTypes.bool.isRequired,
+    hasText: PropTypes.bool.isRequired,
     hasMedia: PropTypes.bool.isRequired,
-    hasParagraph: PropTypes.bool.isRequired,
     heroStyle: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,

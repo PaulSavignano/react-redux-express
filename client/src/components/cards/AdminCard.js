@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import { Card } from 'material-ui/Card'
 
+import './card.css'
 import cardContainer from '../../containers/cards/cardContainer'
 import CardContent from './CardContent'
 import { startEdit } from '../../actions/editItem'
@@ -17,10 +18,28 @@ class AdminCard extends Component {
     }))
   }
   render() {
+    const {
+      cardStyle,
+      cursor,
+      elevation,
+      linkEvents,
+      linkNavigation
+    } = this.props
+    const {
+      flex,
+      margin,
+      width
+    } = cardStyle.values
     return (
-      <div onTouchTap={this.handleStartEdit}>
+      <Card
+        {...linkEvents}
+        onTouchTap={this.handleStartEdit}
+        style={{ cursor, flex, margin, width }}
+        zDepth={elevation}
+        className="card"
+      >
         <CardContent {...this.props} />
-      </div>
+      </Card>
     )
   }
 }
@@ -29,9 +48,8 @@ AdminCard.propTypes = {
   cardStyle: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
   hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
+  hasText: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 

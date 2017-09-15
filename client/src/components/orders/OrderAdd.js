@@ -1,6 +1,7 @@
 /* global Stripe */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import Payment from 'payment'
 import { Card, CardText, CardTitle } from 'material-ui/Card'
@@ -22,8 +23,8 @@ class OrderAdd extends Component {
     newAddress: false
   }
   handleFormSubmit = (values) => {
-    const { dispatch, cart } = this.props
-    return dispatch(fetchAddOrder({ values, cart }))
+    const { dispatch, cart, history } = this.props
+    return dispatch(fetchAddOrder({ values, cart, history }))
   }
   render() {
     const {
@@ -145,4 +146,4 @@ OrderAdd.propTypes = {
 export default requireCart(reduxForm({
   form: 'CheckoutForm',
   validate: validateCheckout
-})(OrderAdd))
+})(withRouter(OrderAdd)))

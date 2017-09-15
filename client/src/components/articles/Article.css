@@ -1,7 +1,6 @@
 .article {
   display: flex;
   flex: 1 1 auto;
-  padding: 8px;
 }
 .article-media {
   display: flex;

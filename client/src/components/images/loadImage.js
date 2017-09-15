@@ -28,7 +28,7 @@ const loadImage = (ComposedComponent) => {
         <CSSTransitionGroup
           transitionName="fadein"
           transitionAppear={true}
-          transitionAppearTimeout={500}
+          transitionAppearTimeout={300}
           transitionEnter={false}
           transitionLeave={false}
           style={{ flex, width }}

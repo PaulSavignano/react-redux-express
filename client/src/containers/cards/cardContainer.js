@@ -37,23 +37,26 @@ const cardContainer = (ComposedComponent) => {
       } = this.props
       const { link } = item.values
       const cursor = link && 'pointer'
-      const events = link && {
+      const linkEvents = link && {
         onMouseEnter: this.handleMouseEnter,
-        onMouseLeave: this.handleMouseLeave,
+        onMouseLeave: this.handleMouseLeave
+      }
+      const linkNavigation = link && {
         onTouchTap: this.handleNavigation
       }
       const props = {
         cardStyle,
+        cursor,
         dispatch,
         elevation,
-        events,
+        linkEvents,
+        linkNavigation,
         hasButtons,
         hasText,
         hasMedia,
         hasParagraph,
         item,
-        cursor,
-        typography
+        typography,
       }
       return (
         isFetching ? null : <ComposedComponent {...props} />
@@ -69,7 +72,6 @@ const cardContainer = (ComposedComponent) => {
     hasButtons: item.values.button1Text ? true : false,
     hasText: item.values.h1Text || item.values.h2Text || item.values.h3Text || item.values.pText ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,
-    hasParagraph: item.values.pText && item.values.pText.length > 8 ? true : false,
     isFetching,
     item,
     typography
@@ -80,7 +82,6 @@ const cardContainer = (ComposedComponent) => {
     hasButtons: PropTypes.bool.isRequired,
     hasText: PropTypes.bool.isRequired,
     hasMedia: PropTypes.bool.isRequired,
-    hasParagraph: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     typography: PropTypes.object.isRequired

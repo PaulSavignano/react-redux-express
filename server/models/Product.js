@@ -16,7 +16,8 @@ const ProductSchema = new Schema({
   section: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
     description: { type: String, minlength: 1, trim: true },
-    detail: { type: String },
+    detail: { type: String, minlength: 1, trim: true },
+    iframe: { type: String, minlength: 1, trim: true },
     name: { type: String, minlength: 1, trim: true },
     price: { type: Number, default: 0 },
   }

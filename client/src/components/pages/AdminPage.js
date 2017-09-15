@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import './page.css'
 import AdminItemForm from '../forms/AdminItemForm'
 import pageContainer from '../../containers/pages/pageContainer'
 import renderAdminSections from './renderAdminSections'
@@ -21,7 +22,7 @@ class AdminPage extends Component {
       page: { _id, slug, sections }
     } = this.props
     return (
-      <div className="page-height">
+      <div className="page">
         <div>
           {renderAdminSections({
             dispatch,

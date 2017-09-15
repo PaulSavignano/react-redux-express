@@ -17,20 +17,16 @@ const appContainer = (ComposedComponent) => {
     brand,
     pages,
     search
-  }, {
-    location: { pathname }
   }) => ({
     brand,
     isFetching: brand.isFetching || pages.isFetching ? true : false,
     pages: pages.items,
-    pathname,
     search,
   })
   AppContainer.propTypes = {
     brand: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     pages: PropTypes.array,
-    pathname: PropTypes.string.isRequired,
     search: PropTypes.object.isRequired
   }
   return connect(mapStateToProps)(AppContainer)

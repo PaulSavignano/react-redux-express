@@ -5,7 +5,7 @@ import { Card } from 'material-ui/Card'
 
 import heroContainer from '../../containers/heros/heroContainer'
 import Buttons from '../buttons/Buttons'
-import Heading from '../typography/Heading'
+import Text from '../typography/Text'
 import Media from '../media/Media'
 import P from '../typography/P'
 
@@ -32,9 +32,8 @@ const Hero = ({
   },
   dispatch,
   hasButtons,
-  hasHeading,
+  hasText,
   hasMedia,
-  hasParagraph,
   item: {
     _id,
     editing,
@@ -69,8 +68,8 @@ const Hero = ({
             iframe={iframe}
           />
         }
-        {hasHeading &&
-          <Heading
+        {hasText &&
+          <Text
             h1Align={h1Align}
             h2Align={h2Align}
             h3Align={h3Align}
@@ -85,7 +84,7 @@ const Hero = ({
             h3TextShadow={h3TextShadow}
           />
         }
-        {hasParagraph && <P>{renderHTML(pText)}</P>}
+        && <P>{renderHTML(pText)}</P>}
         {hasButtons &&
           <Buttons
             button1BackgroundColor={button1BackgroundColor}
@@ -107,9 +106,8 @@ const Hero = ({
 Hero.propTypes = {
   dispatch: PropTypes.func.isRequired,
   hasButtons: PropTypes.bool.isRequired,
-  hasHeading: PropTypes.bool.isRequired,
+  hasText: PropTypes.bool.isRequired,
   hasMedia: PropTypes.bool.isRequired,
-  hasParagraph: PropTypes.bool.isRequired,
   heroStyle: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
 }

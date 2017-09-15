@@ -33,8 +33,9 @@ const pageContainer = (ComposedComponent) => {
     pages: { items, isFetching },
     routing: { locationBeforeTransitions: { pathname, hash }},
   }, {
-    params
+    match: { params },
   }) => {
+    console.log('match', params.slug)
     const slug = params.slug || 'home'
     const page = items.find(page => page.slug === slug)
     return {

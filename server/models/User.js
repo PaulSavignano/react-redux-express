@@ -163,7 +163,7 @@ UserSchema.pre('save', function(next) {
 })
 
 UserSchema.post('findOneAndRemove', function(doc, next) {
-  Address.find({ _id: { $in: doc.addresses }}).remove()
+  Address.deleteMany({ _id: { $in: doc.addresses }}).catch(error => console.error(error))
   next()
 })
 

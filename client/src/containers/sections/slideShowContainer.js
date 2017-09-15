@@ -21,6 +21,7 @@ const slideShowContainer = (ComposedComponent) => {
           maxWidth,
           minHeight,
           margin,
+          padding,
           pageLink,
         }
       } = item
@@ -43,6 +44,7 @@ const slideShowContainer = (ComposedComponent) => {
           flexFlow,
           justifyContent,
           margin,
+          padding
         }
       }
       this.setState({ propsForParent, propsForChild })

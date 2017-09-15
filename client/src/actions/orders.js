@@ -27,6 +27,7 @@ const fetchAddOrderSuccess = (item) => ({ type: ADD, item })
 const fetchAddOrderFailure = (error) => ({ type: ERROR, error })
 export const fetchAddOrder = ({
   cart,
+  history,
   values: {
     cvc,
     exp,
@@ -79,7 +80,7 @@ export const fetchAddOrder = ({
       .then(json => {
         dispatch(fetchAddOrderSuccess(json))
         dispatch(fetchDeleteCart())
-        return dispatch(push(`/user/order/${json._id}`))
+        return history.push(`/user/order/${json._id}`)
       })
       .catch(error => Promise.reject(error))
     })

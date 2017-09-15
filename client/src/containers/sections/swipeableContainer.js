@@ -21,6 +21,7 @@ const swipeableContainer = (ComposedComponent) => {
           margin,
           maxWidth,
           minHeight,
+          padding,
           pageLink,
         }
       } = item
@@ -42,7 +43,8 @@ const swipeableContainer = (ComposedComponent) => {
           display: 'flex',
           flexFlow,
           justifyContent,
-          margin
+          margin,
+          padding
         }
       }
       this.setState({ propsForParent, propsForChild })

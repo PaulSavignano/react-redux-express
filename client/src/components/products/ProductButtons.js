@@ -66,28 +66,26 @@ class ProductButtons extends Component {
       valid
     } = this.props
     return (
-      <div>
-        <form
-          onSubmit={handleSubmit(this.handleFormSubmit)}
-        >
-          <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
-            <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: '24px' }} />
-            <div style={{ flex: '1 1 auto', textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)' }}>
-              {this.state.qty}
-            </div>
-            <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
+      <form
+        onSubmit={handleSubmit(this.handleFormSubmit)}
+      >
+        <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
+          <RaisedButton label="-" primary={true} onTouchTap={this.minus} labelStyle={{ fontSize: '24px' }} />
+          <div style={{ flex: '1 1 auto', textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)' }}>
+            {this.state.qty}
           </div>
-          <div style={{ display: 'flex' }}>
-            <RaisedButton
-              backgroundColor={this.state.background}
-              className="add-to-cart"
-              label={submitting ? <CircularProgress color={color} size={25} style={{ verticalAlign: 'middle' }} /> : this.state.label}
-              labelColor={color}
-              type="submit"
-            />
-          </div>
-        </form>
-      </div>
+          <RaisedButton label="+" primary={true} onTouchTap={this.plus} labelStyle={{ fontSize: '24px' }} />
+        </div>
+        <div style={{ display: 'flex' }}>
+          <RaisedButton
+            backgroundColor={this.state.background}
+            className="add-to-cart"
+            label={submitting ? <CircularProgress color={color} size={25} style={{ verticalAlign: 'middle' }} /> : this.state.label}
+            labelColor={color}
+            type="submit"
+          />
+        </div>
+      </form>
     )
   }
 }

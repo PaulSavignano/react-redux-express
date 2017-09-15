@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
-import { browserHistory } from 'react-router'
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
 import { Field, reduxForm, actions } from 'redux-form'
@@ -34,19 +32,9 @@ class Signin extends Component {
     open: false,
     message: null
   }
-  handleClose = () => {
-    this.setState({open: false})
-    this.props.dispatch(push('/'))
-  }
   handleSignin = values => {
-    const { dispatch } = this.props
-    return dispatch(fetchSignin(values))
-  }
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, submitSucceeded, user } = nextProps
-    if (submitSucceeded && user._id) {
-      return browserHistory.goBack()
-    }
+    const { dispatch, history } = this.props
+    return dispatch(fetchSignin({ history, values }))
   }
   render() {
     const {
@@ -63,8 +51,8 @@ class Signin extends Component {
     } = this.props
     return (
       <div className="page">
-        <section className="section-margin">
-          <Card>
+        <section className="section">
+          <Card className="form">
             <CardTitle title="Sign in" subtitle="Enter your information" />
             <form onSubmit={handleSubmit(this.handleSignin)}>
               <CardText>
@@ -109,4 +97,4 @@ export default userContainer(reduxForm({
   form: 'signin',
   validate,
   destroyOnUnmount: true
-})(Signin))
+})(withRouter(Signin)))

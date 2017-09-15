@@ -1,4 +1,3 @@
-import { push } from 'react-router-redux'
 import { reset, SubmissionError } from 'redux-form'
 
 import { fetchOrders } from './orders'
@@ -17,14 +16,14 @@ const ERROR = `ERROR_${type}`
 const fetchFailure = (error) => ({ type: ERROR, error })
 // Create
 const fetchAddSuccess = (item) => ({ type: ADD, item })
-export const fetchAdd = (add) => {
+export const fetchAdd = ({ history, values }) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(add)
+      body: JSON.stringify(values)
     })
       .then(res => {
         if (res.ok) {
@@ -35,8 +34,7 @@ export const fetchAdd = (add) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchAddSuccess(json))
-        const path = getState().user.redirect || null
-        if (path) return dispatch(push(path))
+        return history.goBack()
       })
       .catch(error => {
         dispatch(fetchFailure(error))
@@ -145,7 +143,7 @@ export const redirectUser = (path) => {
 
 
 const fetchSigninSuccess = (item) => ({ type: RECEIVE, item })
-export const fetchSignin = (values) => {
+export const fetchSignin = ({ history, values }) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signin', {
       method: 'POST',
@@ -164,8 +162,7 @@ export const fetchSignin = (values) => {
         if (users) dispatch(fetchUsersSuccess(users))
         dispatch(fetchOrders())
         dispatch(fetchSigninSuccess(user))
-        const path = getState().user.redirect || null
-        if (path) return dispatch(push(path))
+        return history.goBack()
       })
       .catch(error => {
         dispatch(fetchFailure(error))

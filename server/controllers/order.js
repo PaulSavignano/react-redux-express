@@ -8,7 +8,6 @@ import { sendEmail1 } from '../middleware/nodemailer'
 const formatPrice = (cents) => `$${(cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
 export const add = (req, res, next) => {
-  console.log('inside server')
   const {
     _id,
     values: {
@@ -133,7 +132,7 @@ const createCharge = ({
           <div>Quantity: ${order.cart.quantity}</div>
           <div>Items:</div>
           <ul>
-            ${order.cart.items.map(item => `<li>${item.productQty} of ${item.name} ${item.productId}</li>`)}
+            ${order.cart.items.map(item => `<li><img src=${item.image.src} alt="item" height="32px" width="auto"/> ${item.name} ${item.productId}, qty: ${item.productQty}</li>`)}
           </ul>
           <div>Address:</div>
           <div>${name}</div>

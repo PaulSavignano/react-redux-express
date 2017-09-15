@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { BrowserRouter, Route } from 'react-router-dom'
 import { CSSTransitionGroup } from 'react-transition-group'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -11,6 +12,7 @@ import SearchList from '../../components/search/SearchList'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 import flattenArray from '../../utils/flattenArray'
+import Routes1 from './Routes1'
 
 injectTapEventPlugin()
 
@@ -72,7 +74,6 @@ class App extends Component {
     const theme = { fontFamily, palette: values }
     this.setState({ theme })
     document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
-
   }
   componentWillReceiveProps({ brand: { bodyStyle: { values: {backgroundColor }}}}) {
     if (backgroundColor !== this.props.brand.bodyStyle.values.backgroundColor) {
@@ -113,16 +114,21 @@ class App extends Component {
             <CSSTransitionGroup
               transitionName="fadein"
               transitionAppear={true}
-              transitionAppearTimeout={500}
+              transitionAppearTimeout={300}
               transitionEnter={false}
               transitionLeave={false}
             >
               <div key={_id}>
-                <Header />
-                <main>
-                  {search.value ? <SearchList /> : children}
-                </main>
-                <Footer />
+                <BrowserRouter>
+                  <div>
+                    <Header />
+                    <main>
+                      {search.value ? <SearchList /> : <Routes1 />}
+                    </main>
+                    <Footer />
+                  </div>
+                </BrowserRouter>
+
               </div>
             </CSSTransitionGroup>
           :
@@ -137,10 +143,8 @@ class App extends Component {
 
 App.propTypes = {
   brand: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
   dispatch: PropTypes.func.isRequired,
   pages: PropTypes.array.isRequired,
-  pathname: PropTypes.string.isRequired,
   search: PropTypes.object.isRequired,
 }
 

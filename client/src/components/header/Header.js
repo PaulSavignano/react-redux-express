@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
 
+import './header.css'
 import headerContainer from '../../containers/header/headerContainer'
 import HeaderBrand from './HeaderBrand'
 import SearchBar from '../../components/search/SearchBar'
@@ -52,7 +53,7 @@ class Header extends Component {
                   navColor={navColor}
                 />
               :
-              <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+              <div className="appbar">
                 <div
                   style={{ cursor: 'pointer' }}
                   onTouchTap={this.handleAppBarNavigation}
@@ -75,9 +76,11 @@ class Header extends Component {
             </nav>
           }
         />
-        <Drawer docked={false} open={drawer.open} onRequestChange={() => dispatch(toggleDrawer()) }>
+        <Drawer docked={false} open={drawer.open} onRequestChange={this.handleDrawerToggle}>
           <Paper
-            style={{ backgroundColor, fontSize: 24, height: 64, paddingLeft: 16, cursor: 'pointer', display: 'flex' }}
+            className="drawer-brand"
+            style={{ backgroundColor }}
+            zDepth={backgroundColor === 'transparent' ? 0 : 1}
             onTouchTap={this.handleDrawerNavigation}
           >
             <HeaderBrand item={appBar} />

@@ -1,6 +1,10 @@
-.heading {
-  margin: 8px;
+.text-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  height: 100%;
 }
+
 .text {
-  margin: 8px;
+  margin: 16px;
 }

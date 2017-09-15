@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link, withRouter } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
@@ -31,9 +31,16 @@ const validate = values => {
 
 class Signup extends Component {
   state = { open: false }
-  handleClose = () => this.setState({open: false})
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.submitSucceeded) this.setState({ open: true })
+  handleClose = () => {
+    this.setState({ open: false })
+    this.props.history.goBack()
+  }
+  handleFormSubmit = values => this.props.dispatch(fetchAdd(values))
+  componentWillReceiveProps({ reset, submitSucceeded }) {
+    if (submitSucceeded) {
+      this.setState({ open: true })
+      reset()
+    }
   }
   render() {
     const {
@@ -52,9 +59,9 @@ class Signup extends Component {
     return (
       <div className="page">
         <section className="section">
-          <Card>
+          <Card className="form">
             <CardTitle title="Signup" subtitle="Enter your information" />
-            <form onSubmit={handleSubmit(values => dispatch(fetchAdd(values)).then(() => this.props.reset()))} >
+            <form onSubmit={handleSubmit(this.handleFormSubmit)} >
               <CardText>
                 <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
                 <Field name="lastName" component={renderTextField} label="Last Name" fullWidth={true} />
@@ -117,4 +124,4 @@ export default userContainer(
   reduxForm({
   form: 'signup',
   validate
-})(Signup))
+})(withRouter(Signup)))

@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import renderHTML from 'react-render-html'
 
-import Heading from '../typography/Heading'
+import Text from '../typography/Text'
 import Media from '../media/Media'
 import P from '../typography/P'
 import { searchDelete } from '../../actions/search'
@@ -61,7 +61,7 @@ class SearchItem extends Component {
         : null}
         <div className="card-content">
           {h1Text || h2Text || h3Text ?
-            <Heading
+            <Text
               h1Text={h1Text}
               h2Text={h2Text}
               h3Text={h3Text}
