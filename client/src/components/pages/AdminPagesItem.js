@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import history from '../../containers/routers/history'
 import renderSuccessableTextField from '../../components/fields/renderSuccessableTextField'
 import { fetchUpdate, fetchDelete } from '../../actions/pages'
 
@@ -13,8 +13,8 @@ class AdminPagesItem extends Component {
     elevation: 1
   }
   handleNavigation = () => {
-    const { dispatch , item: { slug }} = this.props
-    dispatch(push(`/admin/pages/${slug}`))
+    const { item: { slug }} = this.props
+    history.push(`/admin/pages/${slug}`)
   }
   handleRemove = () => {
     const { dispatch, item: { _id }} = this.props
@@ -22,6 +22,10 @@ class AdminPagesItem extends Component {
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
+  handleFormSubmit = (values) => {
+    const { dirty, dispatch, item: { _id }} = this.props
+    if (dirty) return dispatch(fetchUpdate(_id, values))
+  }
   render() {
     const {
       dispatch,
@@ -35,12 +39,10 @@ class AdminPagesItem extends Component {
         zDepth={this.state.elevation}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className="vertical-card"
+        className="card"
       >
         <form
-          onBlur={handleSubmit((values) => {
-            if (dirty) return dispatch(fetchUpdate(_id, values))
-          })}
+          onBlur={handleSubmit(this.handleFormSubmit)}
           style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', padding: '8px 8px 16px 8px' }}
         >
           <Field

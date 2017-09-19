@@ -92,7 +92,6 @@ export const get = (req, res) => {
     return res.status(400).send('Your token has expired, please sign in again')
   }
   const expiredTokens = user.tokens.filter(token => token.createdAt + ttl < Date.now())
-  console.log('expiredTokens', expiredTokens)
   if (expiredTokens.length) {
     user.removeTokens(expiredTokens)
     .catch(error => {
@@ -176,7 +175,6 @@ export const adminUpdate = (req, res) => {
       [ 'admin', 'user' ]
       :
       [ 'user' ]
-      console.log(roles)
       return User.findOneAndUpdate(
           { _id },
           { $set: { roles: roles }},
@@ -206,11 +204,9 @@ export const remove = (req, res) => {
 export const adminRemove = (req, res) => {
   const { user, params: { _id }} = req
   const isOwner = user.roles.some(role => role === 'owner')
-  console.log(_id)
   if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
   User.findOneAndRemove({ _id })
   .then(doc => {
-    console.log(doc)
     res.send(doc)
   })
   .catch(error => {
@@ -259,9 +255,6 @@ export const recovery = (req, res, next) => {
   .then(token => {
     User.findOne({ 'values.email': email.toLowerCase() })
     .then(user => {
-      console.log('token', token)
-      console.log(process.env.ROOT_URL)
-      console.log('user', user)
       const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${token}` : `localhost:${process.env.PORT}/user/reset/${token}`
       if (!user) return Promise.reject({ email: 'User not found.' })
       const { firstName, email } = user.values
@@ -297,12 +290,10 @@ export const recovery = (req, res, next) => {
 
 
 export const reset = (req, res) => {
-  console.log('token', req.params.token)
   User.findOne(
     { passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() }}
   )
   .then(user => {
-    console.log('user', user)
     if (!user) return Promise.reject('Token has expired.')
     user.password = req.body.password
     user.passwordResetToken = undefined

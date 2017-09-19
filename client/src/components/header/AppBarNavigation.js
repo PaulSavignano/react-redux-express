@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import IconButton from 'material-ui/IconButton'
 
 import './header.css'
@@ -44,10 +44,6 @@ class AppBarNavigation extends Component {
     const { dispatch, search } = this.props
     return dispatch(searchToggle(!search.searching))
   }
-  handleNavToCart = () => {
-    const { dispatch } = this.props
-    dispatch(push('/user/cart'))
-  }
   render() {
     const { navClass } = this.state
     const {
@@ -57,7 +53,6 @@ class AppBarNavigation extends Component {
       firstName,
       fontFamily,
       pages,
-      pathname,
     } = this.props
     return (
       <div
@@ -75,8 +70,6 @@ class AppBarNavigation extends Component {
               dispatch={dispatch}
               fontFamily={fontFamily}
               page={page}
-              pathname={pathname}
-
             />
           ))}
         </div>
@@ -87,6 +80,7 @@ class AppBarNavigation extends Component {
           style={{ padding: '12px 0', width: 'auto', margin: '0 0 0 16px'}}
         />
         <AppBarUser
+          cartQty={cartQty}
           color={color}
           dispatch={dispatch}
           firstName={firstName}
@@ -97,7 +91,8 @@ class AppBarNavigation extends Component {
             cartQty={cartQty}
             dispatch={dispatch}
             color={color}
-            onNavToCart={this.handleNavToCart}
+            style={{ margin: '0 0 0 24px', padding: 0, width: 40 }}
+            badgeStyle={{ top: 0, left: 9 }}
           />
         }
       </div>
@@ -112,7 +107,6 @@ AppBarNavigation.propTypes = {
   firstName: PropTypes.string,
   fontFamily: PropTypes.string.isRequired,
   pages: PropTypes.array,
-  pathname: PropTypes.string.isRequired,
   search: PropTypes.object
 }
 

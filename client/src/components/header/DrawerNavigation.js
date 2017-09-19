@@ -1,60 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
 
 import DrawerPageLink from './DrawerPageLink'
 import DrawerAdminPageLink from './DrawerAdminPageLink'
+import UserButtons from './UserButtons'
 import CartIcon from './CartIcon'
 import { toggleDrawer } from '../../actions/drawer'
 
 class DrawerNavigation extends Component {
-  handleNavToAdminBrand = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push(`/admin/brand`))
-  }
-  handleNavToAdminOrders = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push(`/admin/orders`))
-  }
-  handleNavToAdminPages = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push(`/admin/pages`))
-  }
-  handleNavToAdminUsers = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push(`/admin/users`))
-  }
-  handleNavToProfile = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push('/user/profile'))
-  }
-  handleNavToSignin = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push('/user/profile'))
-  }
-  handleNavToSignout = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push('/user/signin'))
-  }
-  handleNavToSignup = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push('/user/signup'))
-  }
-  handleNavToCart = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    dispatch(push('/user/cart'))
-  }
+  handleCloseDrawer = () => this.props.dispatch(toggleDrawer())
   render() {
     const {
       cartQty,
@@ -92,12 +49,14 @@ class DrawerNavigation extends Component {
             <ListItem
               key={1}
               primaryText="Brand"
-              onTouchTap={this.handleNavToAdminBrand}
+              onTouchTap={this.handleCloseDrawer}
+              containerElement={<Link to="/admin/brand"/>}
             />,
             <ListItem
               key={2}
               primaryText="Orders"
-              onTouchTap={this.handleNavToAdminOrders}
+              onTouchTap={this.handleCloseDrawer}
+              containerElement={<Link to="/admin/orders"/>}
             />,
             <ListItem
               key={3}
@@ -109,7 +68,8 @@ class DrawerNavigation extends Component {
                 <ListItem
                   key={1}
                   primaryText="Edit Pages"
-                  onTouchTap={this.handleNavToAdminPages}
+                  onTouchTap={this.handleCloseDrawer}
+                  containerElement={<Link to="/admin/pages"/>}
                 />
               ]}
             />,
@@ -117,32 +77,33 @@ class DrawerNavigation extends Component {
               <ListItem
                 key={4}
                 primaryText="Users"
-                onTouchTap={this.handleNavToAdminUsers}
+                onTouchTap={this.handleCloseDrawer}
+                containerElement={<Link to="/admin/users"/>}
               />
             : null
           ]}
         />
         }
-        {firstName ?
-          <div>
-            <MenuItem primaryText="Sign out" onTouchTap={this.handleNavToSignout}/>
-            <MenuItem primaryText="Profile" onTouchTap={this.handleNavToProfile}/>
-          </div>
-        :
-        <div>
-          <MenuItem primaryText="Sign in"
-            onTouchTap={this.handleNavToSignin}
-          />
-          <MenuItem primaryText="Sign up"
-            onTouchTap={this.handleNavToSignup}/>
-        </div>
-        }
+        <UserButtons
+          dispatch={dispatch}
+          firstName={firstName}
+          onSelect={this.handleCloseDrawer}
+        />
         {cartQty &&
-          <CartIcon
-            cartQty={cartQty}
-            dispatch={dispatch}
-            color={color}
-            onNavToCart={this.handleNavToCart}
+          <ListItem
+            key={5}
+            onTouchTap={this.handleCloseDrawer}
+            style={{ height: 48}}
+            children={
+              <CartIcon
+                key={1}
+                cartQty={cartQty}
+                dispatch={dispatch}
+                color={color}
+                style={{ margin: 0, padding: 0, width: 40 }}
+                badgeStyle={{ top: -9, left: 9 }}
+              />
+            }
           />
         }
       </div>

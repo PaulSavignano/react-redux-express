@@ -12,6 +12,9 @@ import OrderCartList from '../../components/orders/OrderCartList'
 import { fetchUpdate } from '../../actions/orders'
 
 class AdminOrderDetailPage extends Component {
+  componentDidMount() {
+    window.scrollTo(0,0)
+  }
   handleFormSubmit = (values) => {
     const { dispatch, order: { _id, shipped }} = this.props
     if (shipped) {

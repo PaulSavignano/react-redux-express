@@ -1,13 +1,13 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { render } from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import App from './components/app/App'
-import configureStore from './store/configureStore'
-import Routing from './Routing'
 import './index.css'
+import configureStore from './store/configureStore'
+import Head from './containers/head/Head'
+import AppRouter, { history } from './components/routers/AppRouter'
+import Theme from './containers/theme/Theme'
 
 import { fetchBrand } from './actions/brand'
 import { fetchCart } from './actions/cart'
@@ -17,14 +17,12 @@ import { fetchProducts } from './actions/products'
 import { fetchUser } from './actions/user'
 
 const store = configureStore()
-const history = syncHistoryWithStore(browserHistory, store)
 
 const token = localStorage.getItem('token')
 if (token) {
   store.dispatch(fetchUser(token))
   store.dispatch(fetchOrders())
 }
-
 const cart = localStorage.getItem('cart')
 if (cart) {
   store.dispatch(fetchCart(cart))
@@ -34,9 +32,14 @@ store.dispatch(fetchBrand())
 store.dispatch(fetchPages())
 store.dispatch(fetchProducts())
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+render(
+    <Provider store={store}>
+      <div>
+        <Head/>
+        <Theme>
+          <AppRouter />
+        </Theme>
+      </div>
+    </Provider>,
   document.getElementById('root')
 )

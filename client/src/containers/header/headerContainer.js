@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { withRouter } from 'react-router-dom'
+
 const headerContainer = (ComposedComponent) => {
   class HeaderContainer extends Component {
     render() {
@@ -16,7 +18,6 @@ const headerContainer = (ComposedComponent) => {
         isFetching,
         name,
         pages,
-        pathname,
         search
       } = this.props
       const props = {
@@ -29,7 +30,6 @@ const headerContainer = (ComposedComponent) => {
         isOwner,
         name,
         pages,
-        pathname,
         search
       }
       return (
@@ -42,7 +42,6 @@ const headerContainer = (ComposedComponent) => {
     carts: { cart: { quantity }},
     drawer,
     pages,
-    routing: { locationBeforeTransitions: { pathname }},
     search,
     user,
   }) => ({
@@ -55,7 +54,6 @@ const headerContainer = (ComposedComponent) => {
     isFetching: brand.isFetching || pages.isFetching ? true : false,
     name: brand.business.name,
     pages: pages.items,
-    pathname,
     search
   })
   HeaderContainer.propTypes = {
@@ -69,10 +67,9 @@ const headerContainer = (ComposedComponent) => {
     isFetching: PropTypes.bool.isRequired,
     name: PropTypes.string,
     pages: PropTypes.array,
-    pathname: PropTypes.string,
     search: PropTypes.object
   }
-  return connect(mapStateToProps)(HeaderContainer)
+  return withRouter(connect(mapStateToProps)(HeaderContainer))
 }
 
 export default headerContainer

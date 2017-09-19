@@ -102,16 +102,16 @@ class OrderAdd extends Component {
                 </Field>
               </div>
               {this.state.newAddress && <AddressFields />}
-                <CardTitle
-                  title={
-                    <div>
-                      <div>Subtotal {formatPrice(cart.total)}</div>
-                      <div>Tax {(cart.tax * 100).toFixed(2)}</div>
-                      <div>Total {formatPrice(cart.total)}</div>
-                    </div>
-                  }
-                  titleStyle={{ textAlign: 'right' }}
-                />
+              <CardTitle
+                title={
+                  <div>
+                    <div>Subtotal {formatPrice(cart.total)}</div>
+                    <div>Tax {(cart.tax * 100).toFixed(2)}</div>
+                    <div>Total {formatPrice(cart.total)}</div>
+                  </div>
+                }
+                titleStyle={{ textAlign: 'right' }}
+              />
               <div className="button-container">
                 <SuccessableButton
                   dirty={dirty}

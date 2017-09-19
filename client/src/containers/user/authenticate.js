@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 
+import history from '../routers/history'
 import userContainer from './userContainer'
 
 const authenticate = (ComposedComponent, requiredRoles) => {
@@ -13,12 +13,12 @@ const authenticate = (ComposedComponent, requiredRoles) => {
     componentWillMount() {
       const { dispatch, user: { roles }} = this.props
       if (!this.hasRoles(roles)) {
-        dispatch(push('/user/signin'))
+        history.push('/user/signin')
       }
     }
     componentWillUpdate({ dispatch, user: { roles }}) {
       if (!this.hasRoles(roles)) {
-        dispatch(push('/user/signin'))
+        history.push('/user/signin')
       }
     }
     render() {

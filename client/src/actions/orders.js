@@ -1,7 +1,6 @@
 /* global Stripe */
 import { getStripeToken } from '../utils/getStripeToken'
 import { SubmissionError } from 'redux-form'
-import { push } from 'react-router-redux'
 
 import { fetchDeleteCart } from './cart'
 
@@ -106,8 +105,6 @@ export const fetchAddOrder = ({
           buttonError = 'Charge failed'
         }
       }
-      console.log('token catch', error)
-      console.log('buttonText', buttonError)
       dispatch(fetchAddOrderFailure(error))
       return handleErrorField(fieldError, buttonError)
     })

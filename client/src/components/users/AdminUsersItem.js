@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import history from '../../containers/routers/history'
 import P from '../typography/P'
 import { fetchDelete, fetchUpdate } from '../../actions/users'
 
@@ -26,8 +26,8 @@ class AdminUsersItem extends Component {
     elevation: 1
   }
   handleEdit = () => {
-    const { dispatch , user: { _id }} = this.props
-    return dispatch(push(`/admin/users/edit/${_id}`))
+    const { user: { _id }} = this.props
+    return history.push(`/admin/users/edit/${_id}`)
   }
   handleRemove = () => {
     const { dispatch, user: { _id }} = this.props

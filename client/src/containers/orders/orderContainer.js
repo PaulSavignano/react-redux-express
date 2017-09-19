@@ -28,7 +28,7 @@ const orderContainer = (ComposedComponent) => {
     ({
       orders: { isFetching, items },
     }, {
-      params: { orderId }
+      match: { params: { orderId }}
     }) => ({
       isFetching,
       order: items.find(item => item._id === orderId)

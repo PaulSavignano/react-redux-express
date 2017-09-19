@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardTitle } from 'material-ui/Card'
 
-const NotFound = () => (
+const NotFoundPage = () => (
   <div className="page">
     <section className="section-margin">
       <Card zDepth={0}>
@@ -11,4 +11,4 @@ const NotFound = () => (
   </div>
 )
 
-export default NotFound
+export default NotFoundPage

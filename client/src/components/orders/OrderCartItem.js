@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import { Card } from 'material-ui/Card'
 
+import history from '../../containers/routers/history'
 import loadImage from '../images/loadImage'
 import formatPrice from '../../utils/formatPrice'
 import slugIt from '../../utils/slugIt'
@@ -16,7 +16,7 @@ class OrderCartItem extends Component {
   handleNavigation = (e) => {
     e.stopPropagation()
     const { dispatch, item: { name, productId }} = this.props
-    return dispatch(push(`/products/${slugIt(name)}/${productId}`))
+    return history.push(`/products/${slugIt(name)}/${productId}`)
   }
   render() {
     const {

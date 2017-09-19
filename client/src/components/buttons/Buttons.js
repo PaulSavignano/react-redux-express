@@ -1,25 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 
 class Buttons extends Component {
-  handleNavType = (buttonLink) => {
-    const { dispatch } = this.props
-    if (buttonLink.indexOf("/") === 0) {
-      return dispatch(push(buttonLink))
-    } else {
-      return window.location = buttonLink
-    }
-  }
-  handleButton1 = () => this.handleNavType(this.props.button1Link)
-  handleButton2 = () => this.handleNavType(this.props.button2Link)
   render() {
     const {
       button1BackgroundColor,
       button2BackgroundColor,
       button1Color,
       button2Color,
+      button1Link,
+      button2Link,
       button1Text,
       button2Text,
     } = this.props
@@ -35,6 +27,7 @@ class Buttons extends Component {
       >
         <RaisedButton
           backgroundColor={button1BackgroundColor}
+          containerElement={<Link to={button1Link || '/'}/>}
           label={button1Text}
           labelColor={button1Color}
           onTouchTap={this.handleButton1}
@@ -43,6 +36,7 @@ class Buttons extends Component {
         {button2Text &&
           <RaisedButton
             backgroundColor={button2BackgroundColor}
+            containerElement={<Link to={button2Link || '/'}/>}
             label={button2Text}
             labelColor={button2Color}
             onTouchTap={this.handleButton2}

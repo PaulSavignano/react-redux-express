@@ -52,7 +52,9 @@ class ProductButtons extends Component {
         timeoutId
       })
     }
-
+  }
+  componentWillUnmount() {
+    clearTimeout(this.state.timeoutId)
   }
   render() {
     const { color } = this.state

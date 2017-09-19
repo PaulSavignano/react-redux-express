@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { withRouter } from 'react-router-dom'
 import { Card, CardActions, CardMedia, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
@@ -34,8 +34,8 @@ class CartItem extends Component {
     dispatch(fetchUpdateCart(update))
   }
   handleNavToProduct = () => {
-    const { dispatch, item: { name, productId }} = this.props
-    return dispatch(push(`/products/${slugIt(name)}/${productId}`))
+    const { history, item: { name, productId }} = this.props
+    return history.push(`/products/${slugIt(name)}/${productId}`)
   }
   render() {
     const {
@@ -93,4 +93,4 @@ CartItem.propTypes = {
   item: PropTypes.object.isRequired
 }
 
-export default loadImage(CartItem)
+export default withRouter(loadImage(CartItem))

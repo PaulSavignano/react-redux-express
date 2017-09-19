@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 import Paper from 'material-ui/Paper'
@@ -15,12 +15,6 @@ import { toggleDrawer } from '../../actions/drawer'
 
 class Header extends Component {
   handleDrawerToggle = () => this.props.dispatch(toggleDrawer())
-  handleDrawerNavigation = () => {
-    const { dispatch } = this.props
-    dispatch(toggleDrawer())
-    return dispatch(push('/'))
-  }
-  handleAppBarNavigation = () => this.props.dispatch(push('/'))
   render() {
     const {
       brand: {
@@ -54,12 +48,7 @@ class Header extends Component {
                 />
               :
               <div className="appbar">
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onTouchTap={this.handleAppBarNavigation}
-                >
-                  <HeaderBrand item={appBar} />
-                </div>
+                <HeaderBrand item={appBar} />
                 <AppBarNavigation
                   cartQty={cartQty}
                   color={navColor}
@@ -68,7 +57,6 @@ class Header extends Component {
                   fontFamily={fontFamily}
                   pages={pages}
                   pathname={pathname}
-                  push={push}
                   search={search}
                 />
               </div>
@@ -81,7 +69,7 @@ class Header extends Component {
             className="drawer-brand"
             style={{ backgroundColor }}
             zDepth={backgroundColor === 'transparent' ? 0 : 1}
-            onTouchTap={this.handleDrawerNavigation}
+            onTouchTap={this.handleDrawerToggle}
           >
             <HeaderBrand item={appBar} />
           </Paper>
@@ -92,7 +80,6 @@ class Header extends Component {
             isAdmin={isAdmin}
             isOwner={isOwner}
             pages={pages}
-            push={push}
             cartQty={cartQty}
             color={navColor}
           />

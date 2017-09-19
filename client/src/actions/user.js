@@ -16,7 +16,7 @@ const ERROR = `ERROR_${type}`
 const fetchFailure = (error) => ({ type: ERROR, error })
 // Create
 const fetchAddSuccess = (item) => ({ type: ADD, item })
-export const fetchAdd = ({ history, values }) => {
+export const fetchAdd = (values) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
       method: 'POST',
@@ -33,8 +33,7 @@ export const fetchAdd = ({ history, values }) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
-        return history.goBack()
+        return dispatch(fetchAddSuccess(json))
       })
       .catch(error => {
         dispatch(fetchFailure(error))
@@ -173,7 +172,7 @@ export const fetchSignin = ({ history, values }) => {
 
 
 const fetchSignoutSuccess = () => ({ type: 'DELETE_USER' })
-export const fetchSignout = () => {
+export const fetchSignout = (history) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signout', {
       method: 'PATCH',
@@ -187,6 +186,7 @@ export const fetchSignout = () => {
           localStorage.removeItem('token')
           dispatch(fetchSignoutSuccess())
           dispatch({ type: 'DELETE_ORDERS'})
+          history.push('/user/signin')
         }
         throw new Error('Network response was not ok.')
       })

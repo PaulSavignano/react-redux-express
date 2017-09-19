@@ -97,7 +97,16 @@ AdminUsersEditUserPage.propTypes = {
 }
 
 export default connect(
-  ({ orders, users }, { params: { userId} }) => ({
+  ({
+    orders,
+    users
+  }, {
+    match: {
+      params: {
+        userId
+      }
+    }
+  }) => ({
     isFetching: orders.isFetching || users.isFetching,
     orders: orders.items.filter(item => item.user === userId),
     user: users.items.find(item => item._id === userId)

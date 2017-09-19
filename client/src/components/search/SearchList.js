@@ -18,7 +18,6 @@ const filter = (items, search) => {
     const detail = values.detail || ''
     const price = values.price || ''
     const searchValue = `${h1} ${h2} ${h3} ${p} ${name} ${description} ${price} ${detail}`.toLowerCase()
-    console.log(searchValue)
     return search.length === 0 || searchValue.indexOf(search.toLowerCase()) > -1
   })
   return filtered

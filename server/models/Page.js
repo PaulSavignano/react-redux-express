@@ -24,9 +24,7 @@ PageSchema.pre('find', autopopulate)
 PageSchema.pre('findOne', autopopulate)
 
 PageSchema.post('findOneAndRemove', function(doc, next) {
-  console.log('findOneAndRemove page post hook', doc)
   doc.sections.forEach(section => {
-    console.log('inside forEach', section)
     return Section.findOneAndRemove({ _id: section })
     .catch(error => console.log(error))
   })

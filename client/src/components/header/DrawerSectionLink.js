@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import { ListItem } from 'material-ui/List'
 
 import { toggleDrawer } from '../../actions/drawer'
 
 class DrawerSectionLink extends Component {
-  handleSectionNavigation = () => {
-    const { dispatch, page, link } = this.props
-    dispatch(toggleDrawer())
-    return dispatch(push(`/${page.slug}#${link.values.pageLink}`))
-  }
+  handleToggleDrawer = () => this.props.dispatch(toggleDrawer())
   render() {
-    const { link } = this.props
+    const {
+      link,
+      page
+    } = this.props
     return (
       <ListItem
         key={link._id}
         primaryText={link.values.pageLink}
-        onTouchTap={this.handleSectionNavigation}
+        onTouchTap={this.handleToggleDrawer}
         innerDivStyle={{ marginLeft: 16 }}
+        containerElement={<Link to={`/${page.slug}#${link.values.pageLink}`}/>}
       />
     )
   }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import renderHTML from 'react-render-html'
 
+import './search.css'
+import history from '../../containers/routers/history'
 import Text from '../typography/Text'
 import Media from '../media/Media'
-import P from '../typography/P'
 import { searchDelete } from '../../actions/search'
 
 class SearchItem extends Component {
@@ -20,7 +20,7 @@ class SearchItem extends Component {
     const { slug } = this.state
     const { dispatch, item: { item: _id }} = this.props
     dispatch(searchDelete())
-    return dispatch(push(`/${slug}#${_id}`))
+    return history.push(`/${slug}#${_id}`)
   }
   componentWillMount() {
     const { productSlug, pageSlug } = this.props
@@ -52,22 +52,24 @@ class SearchItem extends Component {
         onMouseLeave={this.handleMouseLeave}
         onTouchTap={this.handleNavigation}
         className="card"
+        containerStyle={{ display: 'flex', flexFlow: 'row wrap'}}
       >
         {image && image.src ?
           <Media
             image={image}
             iframe={iframe}
+            flex="1 1 300px"
           />
         : null}
-        <div className="card-content">
-          {h1Text || h2Text || h3Text ?
+        <div className="search-content">
+          {h1Text || h2Text || h3Text || pText ?
             <Text
               h1Text={h1Text}
               h2Text={h2Text}
               h3Text={h3Text}
+              pText={pText}
             />
           : null}
-          {pText && <div className="card-content"><P>{renderHTML(pText)}</P></div>}
           {name && <CardTitle>{name}</CardTitle>}
           {description && <CardText style={{paddingTop: 0}}>{description}</CardText>}
           {detail && <CardText style={{paddingTop: 0}}>{detail}</CardText>}

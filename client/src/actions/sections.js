@@ -76,7 +76,6 @@ export const fetchDelete = (_id) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         const { page } = json
-        console.log('page', page)
         dispatch(pageActions.fetchUpdateSuccess(page))
         return dispatch(stopEdit())
       })

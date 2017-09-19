@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
+
+import history from '../routers/history'
 
 const cardContainer = (ComposedComponent) => {
   class CardContainer extends Component {
@@ -15,12 +16,8 @@ const cardContainer = (ComposedComponent) => {
     handleMouseEnter = () => this.setState({ elevation: 4 })
     handleMouseLeave = () => this.setState({ elevation: 1 })
     handleNavigation = () => {
-      const { dispatch, item: { values: { link }}} = this.props
-      if (link.indexOf("/") === 0) {
-        dispatch(push(link))
-      } else {
-        window.location = link
-      }
+      const { item: { values: { link }}} = this.props
+      return history.push(link)
     }
     render() {
       const { elevation } = this.state

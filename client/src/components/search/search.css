@@ -1,0 +1,8 @@
+.search-item {
+  display: flex;
+  flex-flow: row wrap
+}
+
+.search-content {
+  flex: 1 1 300px;
+}

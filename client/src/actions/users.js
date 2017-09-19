@@ -1,5 +1,6 @@
-import { push } from 'react-router-redux'
 import { SubmissionError } from 'redux-form'
+
+import history from '../containers/routers/history'
 
 export const type = 'USERS'
 const route = 'users'
@@ -104,7 +105,6 @@ export const fetchDelete = (_id) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        dispatch(push('/signin'))
         dispatch(fetchDeleteSuccess(json._id))
       })
       .catch(error => {

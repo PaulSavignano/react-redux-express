@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const HeaderBrand = ({
   item: {
@@ -17,12 +18,13 @@ const HeaderBrand = ({
 }) => {
   const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
   return (
-    <div
+    <Link
       style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
+      to="/"
     >
       { image && image.src && <img src={image.src} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
       { name && <div style={{ ...styles }}>{name}</div> }
-    </div>
+    </Link>
   )
 }
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
 import { Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import history from '../../containers/routers/history'
 import userContainer from '../../containers/user/userContainer'
 import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
@@ -35,9 +35,9 @@ class Reset extends Component {
     const { dispatch, error } = this.props
     this.setState({open: false})
     if (error) {
-      dispatch(push('/user/recovery'))
+      history.push('/user/recovery')
     } else {
-      dispatch(push('/'))
+      history.push('/')
     }
   }
   handleFormSubmit = values => {

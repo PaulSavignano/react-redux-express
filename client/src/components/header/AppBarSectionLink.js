@@ -11,15 +11,11 @@ class AppBarSectionLink extends Component {
       page
     } = this.props
     return (
-      <Link
-        to={`/${page.slug}#${pageLink}`}
+      <MenuItem
+        primaryText={pageLink}
+        containerElement={<Link to={`/${page.slug}#${pageLink}`} />}
         onTouchTap={onCloseMenu}
-      >
-        <MenuItem
-          primaryText={pageLink}
-        />
-      </Link>
-
+      />
     )
   }
 }

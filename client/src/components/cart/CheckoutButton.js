@@ -1,24 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import { CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 
 class CheckoutButton extends Component {
-  handleNavigation = () => {
-    const { dispatch, user } = this.props
-    if (!user.values.email) return dispatch(push('/user/signin'))
-    return dispatch(push('/user/order'))
-  }
   render() {
     const { user } = this.props
     return (
       <CardActions>
         <RaisedButton
+          containerElement={<Link to={user.values.email ? '/user/order' : '/user/signin'}/>}
           label="Checkout"
           primary={true}
           fullWidth={true}
-          onTouchTap={this.handleNavigation}
         />
       </CardActions>
     )

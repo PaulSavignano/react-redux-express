@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import './page.css'
 import pageContainer from '../../containers/pages/pageContainer'
 import renderSections from './renderSections'
 
@@ -10,19 +11,18 @@ class Page extends Component {
     timeoutId: null
   }
   componentDidMount() {
-    const { hash } = this.props
+    const { hash } = window.location
     if (hash !== '') {
       return this.scrollToId(hash)
     }
     window.scrollTo(0, 0)
   }
-  componentWillReceiveProps({ pathname, hash }, nextState) {
-    if (pathname !== this.props.pathname) {
+  componentWillReceiveProps() {
+    const { hash } = window.location
       if (hash !== '') {
-        this.scrollToId(hash)
-      } else {
-        window.scrollTo(0, 0)
-      }
+      this.scrollToId(hash)
+    } else {
+      window.scrollTo(0, 0)
     }
   }
   componentWillUnmount() {
@@ -42,7 +42,7 @@ class Page extends Component {
       page: { _id, slug, sections }
     } = this.props
     return (
-      <div>
+      <div className="Page">
         {renderSections({
           dispatch,
           sections,

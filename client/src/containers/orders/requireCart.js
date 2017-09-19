@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+
+import history from '../routers/history'
 
 const requireCart = (ComposedComponent) => {
   class RequireCart extends Component {
     componentWillMount() {
       const cart = localStorage.getItem('cart')
       if (!cart) {
-        this.props.dispatch(push('/'))
+        history.push('/')
       }
     }
     componentWillUpdate(nextProps) {
       if (!nextProps.cart.total) {
-        this.props.dispatch(push('/'))
+        history.push('/')
       }
     }
     render() {

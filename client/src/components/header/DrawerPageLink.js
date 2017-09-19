@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 import { ListItem } from 'material-ui/List'
 
 import DrawerSectionLink from './DrawerSectionLink'
 import { toggleDrawer } from '../../actions/drawer'
 
 class DrawerPageLink extends Component {
-  handlePageNavigation = () => {
-    const { dispatch, page } = this.props
-    dispatch(push(`/${page.slug}`))
-    dispatch(toggleDrawer())
-  }
+  handleToggleDrawer = () => this.props.dispatch(toggleDrawer())
   render() {
     const {
       dispatch,
@@ -21,7 +17,8 @@ class DrawerPageLink extends Component {
     if (pageSectionLinks.length) {
       return (
         <ListItem
-          onTouchTap={this.handlePageNavigation}
+          containerElement={<Link to={`/${page.slug}`}/>}
+          onTouchTap={this.handleToggleDrawer}
           primaryText={page.values.name}
           initiallyOpen={false}
           primaryTogglesNestedList={true}
@@ -38,7 +35,8 @@ class DrawerPageLink extends Component {
     } else {
       return (
         <ListItem
-          onTouchTap={this.handlePageNavigation}
+          containerElement={<Link to={`/${page.slug}`}/>}
+          onTouchTap={this.handleToggleDrawer}
           primaryText={page.values.name}
         />
       )

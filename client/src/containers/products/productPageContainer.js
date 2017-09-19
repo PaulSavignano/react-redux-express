@@ -30,7 +30,7 @@ const productPageContainer = (ComposedComponent) => {
     brand,
     products
   }, {
-    params: { productId }
+    match: { params: { productId }}
   }) => ({
     isFetching: brand.isFetching || products.isFetching ? true : false,
     productStyle: brand.productStyle,

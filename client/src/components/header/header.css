@@ -50,3 +50,7 @@
   flex-flow: row nowrap;
   justify-content: space-between;
 }
+
+.active-nav {
+  border-bottom: 2px solid !important;
+}

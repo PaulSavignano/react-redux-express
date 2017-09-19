@@ -21,7 +21,7 @@ const userContainer = (ComposedComponent) => {
         user
       }
       return (
-        isFetching ? null :  <ComposedComponent {...props} />
+        isFetching ? null :  <ComposedComponent {...this.props} />
       )
     }
   }

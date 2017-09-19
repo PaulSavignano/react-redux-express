@@ -32,6 +32,15 @@ class UserProfilePage extends Component {
     const { dispatch } = this.props
     dispatch(addressesActions.fetchDelete(itemId))
   }
+  componentWillMount() {
+    const { user: { values }} = this.props
+    this.setState({ userInitialValues: values })
+  }
+  componentWillReceiveProps({ user: { values }}) {
+    if (values !== this.props.user.values) {
+      this.setState({ userInitialValues: values })
+    }
+  }
   render() {
     const {
       dispatch,
@@ -46,6 +55,7 @@ class UserProfilePage extends Component {
           <H3 margin="0 16px">Profile</H3>
           <UserProfileForm
             dispatch={dispatch}
+            initialValues={this.state.userInitialValues}
             user={user}
             onFormSubmit={this.handleUserValues}
             onDelete={this.handleUserDelete}

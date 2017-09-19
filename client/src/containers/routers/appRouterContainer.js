@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const appContainer = (ComposedComponent) => {
-  class AppContainer extends Component {
+const appRouterContainer = (ComposedComponent) => {
+  class AppRouterContainer extends Component {
     render() {
       const {
         isFetching,
@@ -23,13 +23,13 @@ const appContainer = (ComposedComponent) => {
     pages: pages.items,
     search,
   })
-  AppContainer.propTypes = {
+  AppRouterContainer.propTypes = {
     brand: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     pages: PropTypes.array,
     search: PropTypes.object.isRequired
   }
-  return connect(mapStateToProps)(AppContainer)
+  return connect(mapStateToProps)(AppRouterContainer)
 }
 
-export default appContainer
+export default appRouterContainer
