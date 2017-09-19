@@ -23,6 +23,7 @@ class AdminContactForm extends Component {
   handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
     const { elevation } = this.state
+    const { phone } = this.props
     return (
       <Card
         zDepth={elevation}
@@ -31,7 +32,15 @@ class AdminContactForm extends Component {
         onTouchTap={this.handleStartEdit}
         style={{ flex: '1 1 auto', margin: 16 }}
       >
-        <CardTitle title="Contact" subtitle="Enter your information" />
+        <CardTitle
+          title={
+            <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+              <div>Contact</div>
+              { phone && <a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a>}
+            </div>
+          }
+          subtitle="Enter your information"
+        />
         <CardText>
           <TextField hintText="First Name" floatingLabelText="First Name" fullWidth={true} />
           <TextField hintText="Email" floatingLabelText="Email" fullWidth={true} />

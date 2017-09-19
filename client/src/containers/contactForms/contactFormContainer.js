@@ -20,12 +20,14 @@ const contactFormContainer = (ComposedComponent) => {
         isFetching,
         item,
         initialValues,
+        phone
       } = this.props
       const props = {
         dispatch,
         elevation,
         item,
-        initialValues
+        initialValues,
+        phone
       }
       return (
         isFetching ? null : <ComposedComponent {...props} />
@@ -39,13 +41,15 @@ const contactFormContainer = (ComposedComponent) => {
     user: PropTypes.object
   }
   return connect(({
+    brand: { isFetching, business: { values: { phone }}},
     user
   }, {
     item
   }) => ({
-    isFetching: user.isFetching,
+    isFetching: user.isFetching || isFetching ? true : false,
     item,
-    initialValues: user.values
+    initialValues: user.values,
+    phone,
   }))(ContactFormContainer)
 }
 

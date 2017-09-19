@@ -46,6 +46,7 @@ class ContactForm extends Component {
       dirty,
       error,
       handleSubmit,
+      phone,
       reset,
       submitFailed,
       submitSucceeded,
@@ -59,7 +60,15 @@ class ContactForm extends Component {
         onMouseLeave={this.handleMouseLeave}
         style={{ flex: '1 1 auto', margin: 16 }}
       >
-        <CardTitle title="Contact" subtitle="Enter your information" />
+        <CardTitle
+          title={
+            <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+              <div>Contact</div>
+              { phone && <a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a>}
+            </div>
+          }
+          subtitle="Enter your information"
+        />
         <form onSubmit={handleSubmit(this.handleFormSubmit)} >
           <CardText>
             <Field name="firstName" component={renderTextField} label="First Name" fullWidth={true} />
