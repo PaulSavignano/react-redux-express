@@ -20,13 +20,13 @@ class UserButtons extends Component {
       firstName ?
         <div>
           <MenuItem
-            primaryText="Sign out"
-            onTouchTap={this.handleSignout}
-          />
-          <MenuItem
             primaryText="Profile"
             onTouchTap={onSelect}
             containerElement={<Link to="/user/profile" />}
+          />
+          <MenuItem
+            primaryText="Sign out"
+            onTouchTap={this.handleSignout}
           />
         </div>
       :

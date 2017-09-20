@@ -3,6 +3,7 @@ import { Router, Route, Switch, Link, NavLink, withRouter } from 'react-router-d
 import { CSSTransitionGroup } from 'react-transition-group'
 
 import history from '../../containers/routers/history'
+import loadImages from '../../utils/loadImages'
 import appRouterContainer from '../../containers/routers/appRouterContainer'
 import SearchList from '../search/SearchList'
 import Routes from './Routes'
@@ -16,40 +17,12 @@ class AppRouter extends Component {
     loadingItemBackgroundImages: true
   }
   handleItemImages = (items) => {
-    let qty = 0
-    let qtyLoaded = 0
-    items.forEach(({ image }) => {
-      if (image && image.src) {
-        qty = qty + 1
-        const img = new Image()
-        const src = image.src
-        img.onload = () => {
-          qtyLoaded = qtyLoaded + 1
-        }
-        img.src = src
-      }
-    })
-    if (qty === qtyLoaded) {
-      this.setState({ loadingItemImages: false })
-    }
+    const images = items.filter(item => item.item.image && item.item.image.src).map(({ item: { image: { src }}}) => src)
+    return loadImages(images).then(() => this.setState({ loadingItemImages: false }))
   }
   handleItemBackgroundImages = (items) => {
-    let qty = 0
-    let qtyLoaded = 0
-    items.forEach(({ backgroundImage }) => {
-      if (backgroundImage && backgroundImage.src) {
-        qty = qty + 1
-        const img = new Image()
-        const src = backgroundImage.src
-        img.onload = () => {
-          qtyLoaded = qtyLoaded + 1
-        }
-        img.src = src
-      }
-    })
-    if (qty === qtyLoaded) {
-      this.setState({ loadingItemBackgroundImages: false })
-    }
+    const images = items.filter(item => item.item.backgroundImage && item.item.backgroundImage.src).map(({ item: { backgroundImage: { src }}}) => src)
+    return loadImages(images).then(() => this.setState({ loadingItemBackgroundImages: false }))
   }
   componentWillMount() {
     const {

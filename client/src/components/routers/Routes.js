@@ -28,8 +28,8 @@ import UserProfilePage from '../../containers/user/UserProfilePage'
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={Page} />
-    <Route exact path="/:slug" component={Page}  />
+    <Route exact path="/" component={withTracker(Page)} />
+    <Route exact path="/:slug" component={withTracker(Page)} />
     <PrivateRoute exact path="/admin/brand" requiredRoles={['admin']} component={BrandAdmin} />
     <PrivateRoute exact path="/admin/orders" requiredRoles={['admin']} component={AdminOrderPage} />
     <PrivateRoute exact path="/admin/orders/:orderId" requiredRoles={['admin']} component={AdminOrderDetailPage} />
