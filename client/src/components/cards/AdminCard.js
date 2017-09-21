@@ -36,7 +36,7 @@ class AdminCard extends Component {
         onTouchTap={this.handleStartEdit}
         style={{ cursor, flex, margin, width }}
         zDepth={elevation}
-        className="card"
+        className="card-item"
       >
         <CardContent {...this.props} />
       </Card>

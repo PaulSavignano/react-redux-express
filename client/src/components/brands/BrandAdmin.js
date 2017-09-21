@@ -15,6 +15,7 @@ const formFields = [{
     { name: 'letterSpacing', type: 'text' },
     { name: 'name', type: 'text' },
     { name: 'navColor', type: 'text' },
+    { name: 'showPhone', type: 'select', options: [ 'true', 'false' ] },
     { name: 'textShadow', type: 'text' },
   ]
 }, {

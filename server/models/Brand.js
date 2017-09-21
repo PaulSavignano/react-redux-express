@@ -16,6 +16,7 @@ const BrandSchema = new Schema({
       letterSpacing: { type: String, trim: true },
       name: { type: String, trim: true, default: 'Brand' },
       navColor: { type: String, trim: true, default: 'rgb(255, 255, 255)' },
+      showPhone: { type: String, trim: true, default: 'false' },
       textShadow: { type: String, trim: true },
     }
   },

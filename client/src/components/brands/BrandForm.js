@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import { Card, CardTitle } from 'material-ui/Card'
 
+import './brand.css'
 import ImageForm from '../images/ImageForm'
 import BrandFormField from './BrandFormField'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
@@ -65,8 +66,8 @@ class BrandForm extends Component {
     } = this.props
     return (
       <Card
-        className="card"
-        style={{ backgroundColor, fontFamily, margin: '48px 0' }}
+        className="brand-form"
+        style={{ backgroundColor, fontFamily }}
       >
         <form
           onSubmit={handleSubmit(this.handleFormSubmit)}

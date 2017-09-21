@@ -27,7 +27,7 @@ const CardItem = (props) => {
       style={{ cursor, flex, margin, width }}
       zDepth={elevation}
       id={_id}
-      className="card"
+      className="card-item"
     >
       <CardContent {...props} />
     </Card>

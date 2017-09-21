@@ -21,9 +21,12 @@ h1, h2, h3, p {
 }
 
 .form {
-  margin: 16px
+  margin: 16px;
 }
 
+.card {
+  margin: 16px;
+}
 
 
 
