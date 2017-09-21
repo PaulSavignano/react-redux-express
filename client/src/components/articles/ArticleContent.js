@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import './article.css'
 import Media from '../media/Media'
 import Buttons from '../buttons/Buttons'
 import Text from '../typography/Text'
@@ -21,6 +22,8 @@ const ArticleContent = ({
       h3Align,
       h3Color,
       h3TextShadow,
+      pColor,
+      pTextShadow,
       mediaBorder,
       mediaBoxShadow,
       mediaElevation,
@@ -52,53 +55,57 @@ const ArticleContent = ({
   }
 }) => {
   return (
-    <article
-      className="article"
+    <div
       style={{ flexFlow }}
+      className="article-content"
     >
       {hasMedia && mediaAlign === 'left' ?
         <Media
           border={mediaBorder}
           boxShadow={mediaBoxShadow}
           elevation={mediaElevation}
+          flex={mediaFlex}
           iframe={iframe}
           image={image}
-          flex={mediaFlex}
           margin={8}
         />
       : null}
       {hasText || hasButtons ?
-        <div style={{ flex: textFlex }}>
-          {hasText &&
-            <Text
-              h1Align={h1Align}
-              h2Align={h2Align}
-              h3Align={h3Align}
-              h1Color={h1Color}
-              h2Color={h2Color}
-              h3Color={h3Color}
-              h1Text={h1Text}
-              h2Text={h2Text}
-              h3Text={h3Text}
-              pText={pText}
-              h1TextShadow={h1TextShadow}
-              h2TextShadow={h2TextShadow}
-              h3TextShadow={h3TextShadow}
-            />
-          }
-          {hasButtons &&
-            <Buttons
-              button1BackgroundColor={button1BackgroundColor}
-              button2BackgroundColor={button2BackgroundColor}
-              button1Color={button1Color}
-              button2Color={button2Color}
-              button1Link={button1Link}
-              button2Link={button2Link}
-              button1Text={button1Text}
-              button2Text={button2Text}
-              dispatch={dispatch}
-            />
-          }
+        <div style={{ flex: textFlex }} className="text-container">
+          <div>
+            {hasText &&
+              <Text
+                h1Align={h1Align}
+                h2Align={h2Align}
+                h3Align={h3Align}
+                h1Color={h1Color}
+                h2Color={h2Color}
+                h3Color={h3Color}
+                pColor={pColor}
+                h1Text={h1Text}
+                h2Text={h2Text}
+                h3Text={h3Text}
+                pText={pText}
+                h1TextShadow={h1TextShadow}
+                h2TextShadow={h2TextShadow}
+                h3TextShadow={h3TextShadow}
+                pTextShadow={pTextShadow}
+              />
+            }
+            {hasButtons &&
+              <Buttons
+                button1BackgroundColor={button1BackgroundColor}
+                button2BackgroundColor={button2BackgroundColor}
+                button1Color={button1Color}
+                button2Color={button2Color}
+                button1Link={button1Link}
+                button2Link={button2Link}
+                button1Text={button1Text}
+                button2Text={button2Text}
+                dispatch={dispatch}
+              />
+            }
+          </div>
         </div>
       : null}
       {hasMedia && mediaAlign === 'right' ?
@@ -106,13 +113,13 @@ const ArticleContent = ({
           border={mediaBorder}
           boxShadow={mediaBoxShadow}
           elevation={mediaElevation}
+          flex={mediaFlex}
           iframe={iframe}
           image={image}
-          flex={mediaFlex}
           margin={8}
         />
       : null}
-    </article>
+    </div>
   )
 }
 

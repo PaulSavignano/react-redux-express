@@ -24,6 +24,8 @@ const CardContent = ({
       h3Align,
       h3Color,
       h3TextShadow,
+      pColor,
+      pTextShadow,
       margin,
       mediaBorder,
       width
@@ -72,6 +74,7 @@ const CardContent = ({
             h1Color={h1Color}
             h2Color={h2Color}
             h3Color={h3Color}
+            pColor={pColor}
             h1Text={h1Text}
             h2Text={h2Text}
             h3Text={h3Text}
@@ -79,6 +82,7 @@ const CardContent = ({
             h1TextShadow={h1TextShadow}
             h2TextShadow={h2TextShadow}
             h3TextShadow={h3TextShadow}
+            pTextShadow={pTextShadow}
           />
         }
         {hasButtons &&

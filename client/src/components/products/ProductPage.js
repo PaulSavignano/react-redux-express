@@ -4,8 +4,11 @@ import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 import { Card, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card'
 
+import './product.css'
 import productPageContainer from '../../containers/products/productPageContainer'
 import Media from '../media/Media'
+import H3 from '../typography/H3'
+import P from '../typography/P'
 import formatPrice from '../../utils/formatPrice'
 
 import loadImage from '../images/loadImage'
@@ -47,7 +50,7 @@ class ProductPage extends Component {
     } = this.props
     return (
       <div className="product-page" id={_id}>
-        <section className="product-section">
+        <section className="product-page-section">
           <Media
             border={mediaBorder}
             boxShadow={mediaBoxShadow}
@@ -57,37 +60,29 @@ class ProductPage extends Component {
             flex="1 1 300px"
             margin="8px"
           />
-          <div className="product-content">
-            <Card zDepth={0}>
-              <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
-                <CardTitle
-                  className="product-card-title"
-                  title={name}
-                  titleColor={nameColor}
-                  titleStyle={{ textShadow: nameTextShadow }}
-                  subtitle={description}
-                  subtitleColor={descriptionColor}
-                />
-                <CardTitle
-                  className="product-card-title"
-                  title={formatPrice(price)}
-                />
-              </div>
-              <CardText
-                className="product-card-text"
-                style={{ color: detailColor }}
+          <div className="product-page-content">
+            <div className="product-content">
+              <div
+                style={{ color: nameColor, textShadow: nameTextShadow }}
+                className="product-heading"
               >
-                {renderHTML(detail)}
-              </CardText>
-              <CardActions className="product-card-actions">
-                <ProductButtons
-                  dispatch={dispatch}
-                  form={`addToCard_${_id}`}
-                  productId={_id}
-                  primary1Color={primary1Color}
-                />
-              </CardActions>
-            </Card>
+                <H3>{name}</H3>
+                <H3>{formatPrice(price)}</H3>
+              </div>
+              {detail.length < 10 ? null :
+              <div style={{ color: descriptionColor }} className="product-description">
+                <P>{renderHTML(detail)}</P>
+              </div>
+              }
+            </div>
+            <div className="product-page-buttons">
+              <ProductButtons
+                dispatch={dispatch}
+                form={`addToCard_${_id}`}
+                productId={_id}
+                primary1Color={primary1Color}
+              />
+            </div>
           </div>
         </section>
       </div>
@@ -102,4 +97,4 @@ ProductPage.propTypes = {
 }
 
 
-export default productPageContainer(loadImage(ProductPage))
+export default productPageContainer(ProductPage)

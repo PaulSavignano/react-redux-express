@@ -15,6 +15,7 @@ const Head = ({
     {name && <title>{name}</title>}
     {description && <meta name="description" content={description} />}
     {image && image.src ? <link rel="shortcut icon" href={image.src} /> : null}
+    {image && image.src ? <link rel="apple-touch-icon" sizes="180x180" href={image.src} /> : null}
     <link rel="canonical" href={window.location.hostname} />
   </Helmet>
 )

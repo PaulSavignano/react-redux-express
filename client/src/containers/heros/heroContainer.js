@@ -82,7 +82,7 @@ const heroContainer = (ComposedComponent) => {
   }) => ({
     heroStyle,
     hasButtons: item.values.button1Text ? true : false,
-    hasText: item.values.h1Text || item.values.h2Text || item.values.h3Text || item.values.pText ? true : false,
+    hasText: item.values.h1Text || item.values.h2Text || item.values.h3Text || item.values.pText.length > 9 ? true : false,
     hasMedia: item.image.src || item.values.iframe ? true : false,
     isFetching,
     item,

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 
-import './article1.css'
 import articleContainer from '../../containers/articles/articleContainer'
 import ArticleContent from './ArticleContent'
 import { startEdit } from '../../actions/editItem'
@@ -19,9 +18,12 @@ class AdminArticle extends Component {
   }
   render() {
     return (
-      <div onTouchTap={this.handleStartEdit}>
+      <article
+        className="article"
+        onTouchTap={this.handleStartEdit}
+      >
         <ArticleContent {...this.props} />
-      </div>
+      </article>
     )
   }
 }

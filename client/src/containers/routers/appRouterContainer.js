@@ -16,18 +16,18 @@ const appRouterContainer = (ComposedComponent) => {
   const mapStateToProps = ({
     brand,
     pages,
-    search
+    search: { value }
   }) => ({
     brand,
     isFetching: brand.isFetching || pages.isFetching ? true : false,
     pages: pages.items,
-    search,
+    search: value,
   })
   AppRouterContainer.propTypes = {
     brand: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     pages: PropTypes.array,
-    search: PropTypes.object.isRequired
+    search: PropTypes.string.isRequired
   }
   return connect(mapStateToProps)(AppRouterContainer)
 }

@@ -1,8 +1,17 @@
-.search-item {
+.search-content {
+  flex: 3 1 300px;
   display: flex;
-  flex-flow: row wrap
+  flex-flow: column;
+  justify-content: center;
 }
 
-.search-content {
-  flex: 1 1 300px;
+.search-item-heading {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: 8px;
+}
+
+.search-item-text {
+  margin: 8px
 }

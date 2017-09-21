@@ -2,9 +2,19 @@
   display: flex;
   flex: 1 1 auto;
 }
+.article-content {
+  display: flex;
+  flex: 1 1 auto;
+}
 .article-media {
   display: flex;
   flex-flow: column;
   justify-content: center;
   margin: 8px;
+}
+
+.text-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }

@@ -10,11 +10,11 @@ const Media = ({
   flex,
   image,
   iframe,
-  margin,
+  margin
 }) => (
   <div
-    className="media-image-container"
     style={{ flex, margin }}
+    className="media-image-container"
   >
     {image.src &&
       <img

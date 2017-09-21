@@ -6,8 +6,11 @@ import renderHTML from 'react-render-html'
 import './search.css'
 import history from '../../containers/routers/history'
 import Text from '../typography/Text'
+import H3 from '../typography/H3'
+import P from '../typography/P'
 import Media from '../media/Media'
 import { searchDelete } from '../../actions/search'
+import formatPrice from '../../utils/formatPrice'
 
 class SearchItem extends Component {
   state = {
@@ -18,12 +21,12 @@ class SearchItem extends Component {
   handleMouseLeave = () => this.setState({ elevation: 1 })
   handleNavigation = () => {
     const { slug } = this.state
-    const { dispatch, item: { item: _id }} = this.props
+    const { dispatch, item: { item: { _id }}} = this.props
     dispatch(searchDelete())
     return history.push(`/${slug}#${_id}`)
   }
-  componentWillMount() {
-    const { productSlug, pageSlug } = this.props
+  componentDidMount() {
+    const { productSlug, pageSlug } = this.props.item.item
     const slug = productSlug ? `products/${productSlug}` : pageSlug
     this.setState({ slug })
   }
@@ -40,7 +43,8 @@ class SearchItem extends Component {
             pText,
             name,
             description,
-            detail
+            detail,
+            price
           }
         }
       }
@@ -70,11 +74,14 @@ class SearchItem extends Component {
               pText={pText}
             />
           : null}
-          {name && <CardTitle>{name}</CardTitle>}
-          {description && <CardText style={{paddingTop: 0}}>{description}</CardText>}
-          {detail && <CardText style={{paddingTop: 0}}>{detail}</CardText>}
+          {name || description || detail ?
+            <div>
+              {name && <div className="search-item-heading"><H3>{name}</H3><H3>{formatPrice(price)}</H3></div>}
+              {description && <div className="search-item-text"><P>{description}</P></div>}
+              {detail && <div className="search-item-text"><P>{detail}</P></div>}
+            </div>
+          : null }
         </div>
-
       </Card>
     )
   }

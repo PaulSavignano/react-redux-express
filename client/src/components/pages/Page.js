@@ -2,39 +2,30 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import './page.css'
+import history from '../../containers/routers/history'
 import pageContainer from '../../containers/pages/pageContainer'
 import renderSections from './renderSections'
 
 class Page extends Component {
-  state = {
-    hash: null,
-    timeoutId: null
-  }
   componentDidMount() {
     const { hash } = window.location
-    if (hash !== '') {
-      return this.scrollToId(hash)
-    }
+    console.log('mounted', history)
+    if (hash) return this.scrollToId(hash)
     window.scrollTo(0, 0)
   }
-  componentWillReceiveProps() {
+  componentWillReceiveProps({ page: { _id }}) {
     const { hash } = window.location
-      if (hash !== '') {
-      this.scrollToId(hash)
-    } else {
+    if (this.props.page._id !== _id) {
+      console.log('updating', history)
+      if (hash) return this.scrollToId(hash)
       window.scrollTo(0, 0)
     }
-  }
-  componentWillUnmount() {
-    clearTimeout(this.state.timeoutId)
+
   }
   scrollToId = (hash) => {
-    const timeoutId = setTimeout(() => {
-      const id = hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) element.scrollIntoView({block: "start", behavior: "smooth"});
-    }, 300)
-    this.setState({ timeoutId })
+    const id = hash.replace('#', '')
+    const element = document.getElementById(id)
+    if (element) return element.scrollIntoView({ block: "start", behavior: "smooth" })
   }
   render() {
     const {

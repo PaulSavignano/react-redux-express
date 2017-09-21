@@ -4,7 +4,9 @@ import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import './product.css'
 import productContainer from '../../containers/products/productContainer'
+import ProductContent from './ProductContent'
 import formatPrice from '../../utils/formatPrice'
 import { startEdit } from '../../actions/editItem'
 
@@ -18,21 +20,9 @@ class AdminProduct extends Component {
     const {
       elevation,
       events,
-      item: {
-        _id,
-        image,
-        values: {
-          description,
-          name,
-          price,
-        }
-      },
       productStyle: {
         values: {
-          descriptionColor,
           flex,
-          nameColor,
-          nameTextShadow,
           margin,
         }
       }
@@ -43,47 +33,9 @@ class AdminProduct extends Component {
         zDepth={elevation}
         onTouchTap={this.handleStartEdit}
         style={{ flex, margin }}
-        className="product"
+        className="admin-product"
       >
-        {image && image.src &&
-          <CardMedia>
-            <img src={image.src} alt="section product" />
-          </CardMedia>
-        }
-        <CardTitle title={
-          <div
-            style={{
-              display: 'flex',
-              flexFlow: 'row wrap',
-              justifyContent: 'space-between',
-              color: nameColor,
-              textShadow: nameTextShadow
-            }}
-          >
-            <div>{name}</div>
-            <div>{formatPrice(price)}</div>
-          </div>
-        }
-        />
-        <CardText
-          style={{
-            color: descriptionColor,
-          }}
-        >
-          {description}
-        </CardText>
-        <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center', marginBottom: 8 }}>
-          <RaisedButton label="-" primary={true} labelStyle={{ fontSize: '24px' }} />
-          <div style={{ flex: '1 1 auto', textAlign: 'center', borderBottom: '1px solid rgb(224, 224, 224)' }}>
-            1
-          </div>
-          <RaisedButton label="+" primary={true} labelStyle={{ fontSize: '24px' }} />
-        </div>
-        <RaisedButton
-          label="Add To Cart"
-          primary={true}
-          fullWidth={true}
-        />
+        <ProductContent {...this.props} />
       </Card>
     )
   }

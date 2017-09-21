@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Router, Route, Switch, Link, NavLink, withRouter } from 'react-router-dom'
 import { CSSTransitionGroup } from 'react-transition-group'
 
@@ -61,7 +62,7 @@ class AppRouter extends Component {
           >
             <Header/>
             <main>
-              {search.value ? <SearchList /> : <Routes />}
+              {search ? <SearchList /> : <Routes />}
             </main>
             <Footer />
           </CSSTransitionGroup>
@@ -70,6 +71,13 @@ class AppRouter extends Component {
       </Router>
     )
   }
+}
+
+AppRouter.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  brand: PropTypes.object.isRequired,
+  pages: PropTypes.array.isRequired,
+  search: PropTypes.string
 }
 
 export default appRouterContainer(AppRouter)

@@ -99,6 +99,7 @@ class BrandForm extends Component {
             <SuccessableButton
               dirty={dirty}
               error={error}
+              imageEdit={this.state.imageEdit}
               label={`update ${form}`}
               reset={reset}
               submitSucceeded={submitSucceeded}

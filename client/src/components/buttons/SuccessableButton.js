@@ -23,6 +23,7 @@ class SuccessableButton extends Component {
     backgroundColor,
     dirty,
     error,
+    imageEdit,
     label,
     reset,
     submitSucceeded,
@@ -98,6 +99,14 @@ class SuccessableButton extends Component {
         disabled: false,
         label: successLabel,
         timeoutId
+      })
+    }
+
+    if (imageEdit) {
+      return this.setState({
+        background: backgroundColor,
+        disabled: false,
+        label,
       })
     }
   }

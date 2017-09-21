@@ -17,6 +17,7 @@ const pageContainer = (ComposedComponent) => {
         dispatch,
         page,
       }
+      console.log('containering')
       return (
         isFetching ? null : pageSlug === 'notFound' ?
         <NotFoundPage />
@@ -28,10 +29,10 @@ const pageContainer = (ComposedComponent) => {
   const mapStateToProps = ({
     pages: { items, isFetching }
   }, {
-    match,
+    match: { params: { slug }},
   }) => {
-    const slug = match.params.slug || 'home'
-    const page = items.find(page => page.slug === slug)
+    const pageSlug = slug || 'home'
+    const page = items.find(page => page.slug === pageSlug)
     return {
       isFetching,
       page,

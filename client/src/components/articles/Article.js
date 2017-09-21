@@ -3,13 +3,17 @@ import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
 import Paper from 'material-ui/Paper'
 
-import './article1.css'
 import articleContainer from '../../containers/articles/articleContainer'
 import ArticleContent from './ArticleContent'
 
 const Article = (props) => {
   return (
-    <ArticleContent {...props} />
+    <article
+      id={props.item._id}
+      className="article"
+    >
+      <ArticleContent {...props} />
+    </article>
   )
 }
 
