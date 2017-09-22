@@ -8,6 +8,8 @@ class Buttons extends Component {
     const {
       button1BackgroundColor,
       button2BackgroundColor,
+      button1BorderColor,
+      button2BorderColor,
       button1Color,
       button2Color,
       button1Link,
@@ -31,7 +33,7 @@ class Buttons extends Component {
           label={button1Text}
           labelColor={button1Color}
           onTouchTap={this.handleButton1}
-          style={{ margin: 8 }}
+          style={{ margin: 8, border: button1BorderColor }}
         />
         {button2Text &&
           <RaisedButton
@@ -40,7 +42,7 @@ class Buttons extends Component {
             label={button2Text}
             labelColor={button2Color}
             onTouchTap={this.handleButton2}
-            style={{ margin: 8 }}
+            style={{ margin: 8, border: button2BorderColor }}
           />
         }
       </div>

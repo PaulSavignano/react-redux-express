@@ -35,7 +35,6 @@ const sectionContainer = (ComposedComponent) => {
           marginTop: containerMarginTop,
           marginLeft: 'auto',
           marginRight: 'auto',
-          maxWidth,
           minHeight,
           position: 'relative'
         },
@@ -48,6 +47,7 @@ const sectionContainer = (ComposedComponent) => {
           flexFlow,
           justifyContent,
           margin,
+          maxWidth,
           padding
         }
       }

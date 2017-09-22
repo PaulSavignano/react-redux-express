@@ -21,6 +21,8 @@ const adminItemForms = [{
     { name: 'iframe', type: 'text' },
     { name: 'mediaAlign', type: 'select', options: [ 'left', 'right' ] },
     { name: 'mediaBorder', type: 'text' },
+    { name: 'mediaBoxShadow', type: 'text' },
+    { name: 'mediaElevation', type: 'number' },
     { name: 'mediaFlex', type: 'text' },
     { name: 'mediaWrap', type: 'select', options: [ 'above', 'below' ] },
     { name: 'textFlex', type: 'text' },

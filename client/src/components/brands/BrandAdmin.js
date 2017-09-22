@@ -104,6 +104,8 @@ const formFields = [{
     { name: 'button2BackgroundColor', type: 'text' },
     { name: 'button1Color', type: 'text' },
     { name: 'button2Color', type: 'text' },
+    { name: 'button1BorderColor', type: 'text' },
+    { name: 'button2BorderColor', type: 'text' },
     { name: 'h1Align', type: 'text' },
     { name: 'h1Color', type: 'text' },
     { name: 'h1TextShadow', type: 'text' },

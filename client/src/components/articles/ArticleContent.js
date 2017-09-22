@@ -49,6 +49,8 @@ const ArticleContent = ({
       iframe,
       mediaAlign,
       mediaFlex,
+      mediaBoxShadow: itemMediaBoxShadow,
+      mediaElevation: itemMediaElevation,
       pText,
       textFlex,
     },
@@ -62,8 +64,8 @@ const ArticleContent = ({
       {hasMedia && mediaAlign === 'left' ?
         <Media
           border={mediaBorder}
-          boxShadow={mediaBoxShadow}
-          elevation={mediaElevation}
+          boxShadow={itemMediaBoxShadow || mediaBoxShadow}
+          elevation={itemMediaElevation || mediaElevation}
           flex={mediaFlex}
           iframe={iframe}
           image={image}

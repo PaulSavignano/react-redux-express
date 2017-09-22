@@ -24,6 +24,8 @@ const ArticleSchema = new Schema({
     mediaAlign: { type: String, trim: true, default: 'left' },
     mediaFlex: { type: String, trim: true, default: '1 1 auto' },
     mediaWrap: { type: String, trim: true, default: 'above' },
+    mediaBoxShadow: { type: String, trim: true, default: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px' },
+    mediaElevation: { type: Number, trim: true, default: 2 },
     pText: { type: String, trim: true, default: '<p>Paragraph</p>' },
     textFlex: { type: String, trim: true, default: '1 1 500px'},
   }
