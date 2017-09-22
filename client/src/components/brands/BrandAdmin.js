@@ -12,6 +12,8 @@ const formFields = [{
     { name: 'fontFamily', type: 'text' },
     { name: 'fontSize', type: 'text' },
     { name: 'fontWeight', type: 'text' },
+    { name: 'height', type: 'text' },
+    { name: 'imagePosition', type: 'select', options: [ 'absolute', 'relative' ]},
     { name: 'letterSpacing', type: 'text' },
     { name: 'name', type: 'text' },
     { name: 'navColor', type: 'text' },

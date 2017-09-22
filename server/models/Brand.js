@@ -13,6 +13,8 @@ const BrandSchema = new Schema({
       fontFamily: { type: String, trim: true },
       fontSize: { type: String, trim: true },
       fontWeight: { type: String, trim: true },
+      height: { type: String, trim: true },
+      imagePosition: { type: String, trim: true, default: 'relative' },
       letterSpacing: { type: String, trim: true },
       name: { type: String, trim: true, default: 'Brand' },
       navColor: { type: String, trim: true, default: 'rgb(255, 255, 255)' },

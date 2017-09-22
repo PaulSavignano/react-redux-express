@@ -51,6 +51,53 @@
   justify-content: space-between;
 }
 
+.appbar-navigation-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.appbar-navigation {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 64px;
+}
+
+.appbar-phone-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 32px;
+  padding: 4px 4px 0 0;
+}
+
+.appbar-phone {
+  text-decoration: none;
+  color: inherit;
+  font-size: 30px
+}
+
 .active-nav {
   border-bottom: 2px solid !important;
+}
+
+.header-brand {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.header-brand-image {
+  margin-right: 8px
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+  align-self: flex-start;
 }

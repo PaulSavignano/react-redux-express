@@ -11,17 +11,17 @@ class SearchBar extends Component {
     return this.props.handleSearch
   }
   handleBlur = (e) => {
-    const { dispatch, search } = this.props
+    const { dispatch, search: { open }} = this.props
     if (e.target.value.length < 1) {
-      return dispatch(searchToggle(!search.searching))
+      return dispatch(searchToggle(!open))
     }
   }
   handleChange = (e) => {
-    const { dispatch, search } = this.props
+    const { dispatch, search: { open }} = this.props
     if (e.target.value.length > 0) {
       return dispatch(searchAdd(e.target.value))
     }
-    return dispatch(searchToggle(!search.searching))
+    return dispatch(searchToggle(!open))
   }
   render() {
     const {

@@ -41,8 +41,8 @@ class AppBarNavigation extends Component {
     this.setState({ navClass, width });
   }
   handleSearchToggle = () => {
-    const { dispatch, search } = this.props
-    return dispatch(searchToggle(!search.searching))
+    const { dispatch, searchOpen } = this.props
+    return dispatch(searchToggle(!searchOpen))
   }
   render() {
     const { navClass } = this.state
@@ -53,48 +53,59 @@ class AppBarNavigation extends Component {
       firstName,
       fontFamily,
       pages,
+      phone,
+      primary1Color,
+      showPhone,
     } = this.props
     return (
       <div
-        ref={ (navigation) => this.navigation = navigation}
-        style={{ fontFamily, display: 'flex', flexFlow: 'row nowrap', justifyContent: 'flex-end', alignItems: 'center' }}
+        ref={(navigation) => this.navigation = navigation}
+        style={{ fontFamily }}
+        className="appbar-navigation-container"
       >
-        <div
-          style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
-          className={navClass}
-        >
-          {pages.length && pages.filter(page => page.slug !== 'home').map(page => (
-            <AppBarPageLink
-              key={page._id}
-              color={color}
-              dispatch={dispatch}
-              fontFamily={fontFamily}
-              page={page}
-            />
-          ))}
+        {showPhone === 'false' ? null :
+        <div style={{ color: primary1Color }} className="appbar-phone-container">
+          <a href={`tel:${phone.replace(/\D+/g, '')}`} className="appbar-phone">{phone}</a>
         </div>
-        <IconButton
-          iconClassName="fa fa-search"
-          iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
-          onTouchTap={this.handleSearchToggle}
-          style={{ padding: '12px 0', width: 'auto', margin: '0 0 0 16px'}}
-        />
-        <AppBarUser
-          cartQty={cartQty}
-          color={color}
-          dispatch={dispatch}
-          firstName={firstName}
-          fontFamily={fontFamily}
-        />
-        {cartQty &&
-          <CartIcon
-            cartQty={cartQty}
-            dispatch={dispatch}
-            color={color}
-            style={{ margin: '0 0 0 24px', padding: 0, width: 40 }}
-            badgeStyle={{ top: 0, left: 9 }}
-          />
         }
+        <div className="appbar-navigation">
+          <div
+            className={`${navClass} appbar-navigation`}
+          >
+            {pages.length && pages.filter(page => page.slug !== 'home').map(page => (
+              <AppBarPageLink
+                key={page._id}
+                color={color}
+                dispatch={dispatch}
+                fontFamily={fontFamily}
+                page={page}
+              />
+            ))}
+          </div>
+          <IconButton
+            iconClassName="fa fa-search"
+            iconStyle={{ verticalAlign: 'bottom', fontSize: 16, color }}
+            onTouchTap={this.handleSearchToggle}
+            style={{ padding: '12px 0', width: 'auto', margin: '0 0 0 16px'}}
+          />
+          <AppBarUser
+            cartQty={cartQty}
+            color={color}
+            dispatch={dispatch}
+            firstName={firstName}
+            fontFamily={fontFamily}
+          />
+          {cartQty &&
+            <CartIcon
+              cartQty={cartQty}
+              dispatch={dispatch}
+              color={color}
+              style={{ margin: '0 0 0 24px', padding: 0, width: 40 }}
+              badgeStyle={{ top: 6, left: 9 }}
+            />
+          }
+        </div>
+
       </div>
     )
   }
@@ -107,7 +118,7 @@ AppBarNavigation.propTypes = {
   firstName: PropTypes.string,
   fontFamily: PropTypes.string.isRequired,
   pages: PropTypes.array,
-  search: PropTypes.object
+  searchOpen: PropTypes.bool.isRequired
 }
 
 export default AppBarNavigation

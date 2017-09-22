@@ -8,29 +8,35 @@ const headerContainer = (ComposedComponent) => {
   class HeaderContainer extends Component {
     render() {
       const {
-        brand,
+        appBar,
         cartQty,
         dispatch,
         drawer,
         firstName,
+        fontFamily,
         isAdmin,
         isOwner,
         isFetching,
         name,
         pages,
-        search
+        phone,
+        primary1Color,
+        searchOpen
       } = this.props
       const props = {
-        brand,
+        appBar,
         cartQty,
         dispatch,
         drawer,
         firstName,
+        fontFamily,
         isAdmin,
         isOwner,
         name,
         pages,
-        search
+        phone,
+        primary1Color,
+        searchOpen
       }
       return (
         isFetching ? null : <ComposedComponent {...props} />
@@ -38,36 +44,46 @@ const headerContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand,
-    carts: { cart: { quantity }},
+    brand: {
+      appBar,
+      business: { values: { phone }},
+      isFetching: brandIsFetching,
+      theme: { values: { fontFamily }},
+      palette: { values: { primary1Color }}
+    },
+    carts: { cart: { quantity: cartQty }},
     drawer,
-    pages,
-    search,
-    user,
+    pages: { isFetching: pagesIsFetching, items: pages },
+    search: { open: searchOpen },
+    user: { isFetching: userIsFetching, roles, values: { firstName }},
   }) => ({
-    brand,
-    cartQty: quantity,
+    appBar,
+    cartQty,
     drawer,
-    firstName: user.values.firstName,
-    isAdmin: user.roles.some(role => role === 'admin') ? true : false,
-    isOwner: user.roles.some(role => role === 'owner') ? true : false,
-    isFetching: brand.isFetching || pages.isFetching ? true : false,
-    name: brand.business.name,
-    pages: pages.items,
-    search
+    firstName,
+    fontFamily,
+    isAdmin: roles.some(role => role === 'admin') ? true : false,
+    isOwner: roles.some(role => role === 'owner') ? true : false,
+    isFetching: brandIsFetching || pagesIsFetching || userIsFetching ? true : false,
+    pages,
+    phone,
+    primary1Color,
+    searchOpen
   })
   HeaderContainer.propTypes = {
-    brand: PropTypes.object.isRequired,
+    appBar: PropTypes.object.isRequired,
     cartQty: PropTypes.number,
     dispatch: PropTypes.func.isRequired,
     drawer: PropTypes.object.isRequired,
     firstName: PropTypes.string,
+    fontFamily: PropTypes.string.isRequired,
     isAdmin: PropTypes.bool,
     isOwner: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
-    name: PropTypes.string,
     pages: PropTypes.array,
-    search: PropTypes.object
+    phone: PropTypes.string,
+    primary1Color: PropTypes.string,
+    searchOpen: PropTypes.bool.isRequired
   }
   return withRouter(connect(mapStateToProps)(HeaderContainer))
 }

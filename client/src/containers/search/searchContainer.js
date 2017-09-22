@@ -22,15 +22,17 @@ const searchContainer = (ComposedComponent) => {
     }
   }
   SearchContainer.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
     pages: PropTypes.array,
+    search: PropTypes.object.isRequired,
   }
   return connect(
     ({
-      pages: { isFetching, items },
+      pages: { isFetching, items: pages },
       search
     }) => ({
       isFetching,
-      pages: items,
+      pages,
       search
     })
   )(SearchContainer)

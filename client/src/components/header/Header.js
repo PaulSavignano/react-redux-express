@@ -17,32 +17,31 @@ class Header extends Component {
   handleDrawerToggle = () => this.props.dispatch(toggleDrawer())
   render() {
     const {
-      brand: {
-        appBar,
-        theme: { values: { fontFamily }},
-      },
+      appBar,
       cartQty,
       dispatch,
       drawer,
       firstName,
+      fontFamily,
       isAdmin,
       isOwner,
       pages,
-      pathname,
-      search,
+      phone,
+      primary1Color,
+      searchOpen,
     } = this.props
-    const { values: { backgroundColor, navColor }} = appBar
+    const { values: { backgroundColor, height, navColor, showPhone }} = appBar
     return (
       <header>
         <AppBar
           zDepth={backgroundColor === 'transparent' ? 0 : 1}
           iconStyleLeft={{ fill: navColor }}
           onLeftIconButtonTouchTap={this.handleDrawerToggle}
-          titleStyle={{ height: 64, color: navColor }}
+          titleStyle={{ color: navColor, height }}
           style={{ backgroundColor, color: navColor }}
           title={
             <nav>
-              {search.searching ?
+              {searchOpen ?
                 <SearchBar
                   navColor={navColor}
                 />
@@ -56,8 +55,10 @@ class Header extends Component {
                   firstName={firstName}
                   fontFamily={fontFamily}
                   pages={pages}
-                  pathname={pathname}
-                  search={search}
+                  phone={phone}
+                  primary1Color={primary1Color}
+                  searchOpen={searchOpen}
+                  showPhone={showPhone}
                 />
               </div>
               }
@@ -71,7 +72,7 @@ class Header extends Component {
             zDepth={backgroundColor === 'transparent' ? 0 : 1}
             onTouchTap={this.handleDrawerToggle}
           >
-            <HeaderBrand item={appBar} />
+            <HeaderBrand item={appBar} maxHeight={64}/>
           </Paper>
           {firstName && <div style={{ padding: 16, marginTop: 8 }}>Hello, {firstName}</div>}
           <DrawerNavigation
@@ -90,14 +91,18 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  brand: PropTypes.object.isRequired,
+  appBar: PropTypes.object.isRequired,
+  cartQty: PropTypes.number,
   dispatch: PropTypes.func.isRequired,
   drawer: PropTypes.object.isRequired,
   firstName: PropTypes.string,
+  fontFamily: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool,
-  name: PropTypes.string,
+  isOwner: PropTypes.bool,
   pages: PropTypes.array,
-  search: PropTypes.object
+  phone: PropTypes.string,
+  primary1Color: PropTypes.string.isRequired,
+  searchOpen: PropTypes.bool.isRequired
 }
 
 export default headerContainer(Header)

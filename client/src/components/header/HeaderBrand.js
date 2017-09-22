@@ -10,19 +10,21 @@ const HeaderBrand = ({
       fontFamily,
       fontSize,
       fontWeight,
+      imagePosition,
       letterSpacing,
       name,
       textShadow
     }
-  }
+  },
+  maxHeight
 }) => {
   const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
   return (
     <Link
-      style={{ height: '100%', maxHeight: 64, display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}
+      className="header-brand"
       to="/"
     >
-      { image && image.src && <img src={image.src} style={{ width: 'auto', height: 64, marginRight: 8 }} alt="" /> }
+      { image && image.src && <img src={image.src} className={imagePosition} style={{ position: imagePosition, maxHeight }} alt="brand" /> }
       { name && <div style={{ ...styles }}>{name}</div> }
     </Link>
   )

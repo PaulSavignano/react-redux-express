@@ -8,7 +8,7 @@ const DELETE = `DELETE_${type}`
 export const searchToggle = (bool) => {
   return {
     type: TOGGLE,
-    searching: bool
+    open: bool
   }
 }
 

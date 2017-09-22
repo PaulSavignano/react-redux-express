@@ -31,6 +31,14 @@ class SuccessableButton extends Component {
     successLabel,
     valid
   }) {
+    if (imageEdit) {
+      return this.setState({
+        background: backgroundColor,
+        disabled: false,
+        label,
+      })
+    }
+
     if (error) {
       const timeoutId = setTimeout(() => {
         clearTimeout(this.state.timeoutId)
@@ -106,13 +114,6 @@ class SuccessableButton extends Component {
       })
     }
 
-    if (imageEdit) {
-      return this.setState({
-        background: backgroundColor,
-        disabled: false,
-        label,
-      })
-    }
   }
   componentWillUnmount() {
     clearTimeout(this.state.timeoutId)

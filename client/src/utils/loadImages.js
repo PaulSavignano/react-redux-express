@@ -2,8 +2,12 @@ const loadImage = (url) => {
   return new Promise((resolve, reject) => {
     const img = new Image()
     const src = url
-    img.onload = () => resolve(img)
     img.src = src
+    if (img.complete) {
+      console.log(img.complete)
+      return resolve(img)
+    }
+    img.onload = () => resolve(img)
   })
 }
 
