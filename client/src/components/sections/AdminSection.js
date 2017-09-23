@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import './section.css'
 import sectionContainer from '../../containers/sections/sectionContainer'
 import AdminSectionButtons from './AdminSectionButtons'
-import AdminSectionAdd from './AdminSectionAdd'
 import renderAdminComponents from './renderAdminComponents'
 
 class AdminSection extends Component {

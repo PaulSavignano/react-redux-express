@@ -2,6 +2,7 @@ import { fetchUpdate as articleUpdate, fetchDelete as articleDelete } from '../.
 import { fetchUpdate as cardUpdate, fetchDelete as cardDelete } from '../../actions/cards'
 import { fetchUpdate as contactFormUpdate, fetchDelete as contactFormDelete } from '../../actions/contactForms'
 import { fetchUpdate as heroUpdate, fetchDelete as heroDelete } from '../../actions/heros'
+import { fetchUpdate as pageUpdate, fetchDelete as pageDelete } from '../../actions/pages'
 import { fetchUpdate as productUpdate, fetchDelete as productDelete } from '../../actions/products'
 import { fetchUpdate as sectionUpdate, fetchDelete as sectionDelete } from '../../actions/sections'
 
@@ -24,7 +25,6 @@ const adminItemForms = [{
     { name: 'mediaBoxShadow', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
     { name: 'mediaFlex', type: 'text' },
-    { name: 'mediaWrap', type: 'select', options: [ 'above', 'below' ] },
     { name: 'textFlex', type: 'text' },
     { name: 'pText', type: 'wysiwgy' },
   ]
@@ -75,6 +75,13 @@ const adminItemForms = [{
     { name: 'h3Text', type: 'text', },
     { name: 'iframe', type: 'text', },
     { name: 'pText', type: 'wysiwgy' }
+  ]
+}, {
+  name: 'PAGE',
+  update: pageUpdate,
+  delete: pageDelete,
+  fields: [
+    { name: 'backgroundColor', type: 'text' }
   ]
 }, {
   name: 'PRODUCT',

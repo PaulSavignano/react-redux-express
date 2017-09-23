@@ -1,14 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { CardMedia } from 'material-ui/Card'
 
-import history from '../../containers/routers/history'
-import productContainer from '../../containers/products/productContainer'
 import H3 from '../typography/H3'
 import P from '../typography/P'
 import ProductButtons from './ProductButtons'
 import formatPrice from '../../utils/formatPrice'
-import slugIt from '../../utils/slugIt'
 
 const ProductContent = ({
   dispatch,

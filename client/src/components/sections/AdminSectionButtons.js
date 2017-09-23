@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import FontIcon from 'material-ui/FontIcon'
 
 import { startEdit } from '../../actions/editItem'
 
@@ -11,6 +13,8 @@ import { fetchAdd as cardAdd } from '../../actions/cards'
 import { fetchAdd as contactFormAdd } from '../../actions/contactForms'
 import { fetchAdd as heroAdd } from '../../actions/heros'
 import { fetchAdd as productAdd } from '../../actions/products'
+
+const EditIcon = () => <FontIcon className="material-icons">mode_edit</FontIcon>
 
 const components = [
   { label: 'Article', action: articleAdd },
@@ -49,11 +53,12 @@ class AdminSectionButtons extends Component {
     } = this.props
     return (
       <div className="admin-section-buttons">
-        <RaisedButton
+        <FloatingActionButton
           onTouchTap={this.handleOpenMenu}
-          label="Add Item"
           className="edit-section"
-        />
+        >
+          <ContentAdd />
+        </FloatingActionButton>
         <Popover
           open={this.state.openMenu}
           anchorEl={this.state.anchorEl}
@@ -78,11 +83,12 @@ class AdminSectionButtons extends Component {
             ))}
           </Menu>
         </Popover>
-        <RaisedButton
-          label="Edit Section"
+        <FloatingActionButton
           onTouchTap={this.handleStartEdit}
           className="edit-section"
-        />
+        >
+          <EditIcon />
+        </FloatingActionButton>
       </div>
     )
   }

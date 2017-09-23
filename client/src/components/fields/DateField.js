@@ -16,7 +16,6 @@ class DateField extends Component {
     const {
       input,
       label,
-      meta: {touched, error},
       children,
       ...custom
     } = this.props

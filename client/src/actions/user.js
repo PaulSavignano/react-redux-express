@@ -1,4 +1,4 @@
-import { reset, SubmissionError } from 'redux-form'
+import { SubmissionError } from 'redux-form'
 
 import { fetchOrders } from './orders'
 import { fetchUsersSuccess } from './users'

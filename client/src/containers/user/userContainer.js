@@ -8,18 +8,8 @@ const userContainer = (ComposedComponent) => {
   class UserContainer extends Component {
     render() {
       const {
-        dispatch,
-        isFetching,
-        params,
-        primary1Color,
-        user,
+        isFetching
       } = this.props
-      const props = {
-        dispatch,
-        params,
-        primary1Color,
-        user
-      }
       return (
         isFetching ? null :  <ComposedComponent {...this.props} />
       )

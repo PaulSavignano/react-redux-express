@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
-import RaisedButton from 'material-ui/RaisedButton'
 
 import './section.css'
 import swipeableContainer from '../../containers/sections/swipeableContainer'

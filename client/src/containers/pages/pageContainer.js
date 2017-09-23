@@ -17,7 +17,6 @@ const pageContainer = (ComposedComponent) => {
         dispatch,
         page,
       }
-      console.log('containering')
       return (
         isFetching ? null : pageSlug === 'notFound' ?
         <NotFoundPage />

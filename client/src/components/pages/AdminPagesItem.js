@@ -18,22 +18,18 @@ class AdminPagesItem extends Component {
   }
   handleRemove = () => {
     const { dispatch, item: { _id }} = this.props
-    dispatch(fetchDelete(_id))
+    return dispatch(fetchDelete(_id))
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
   handleFormSubmit = (values) => {
     const { dirty, dispatch, item: { _id }} = this.props
-    if (dirty) return dispatch(fetchUpdate(_id, values))
+    if (dirty) return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values }))
   }
   render() {
     const {
-      dispatch,
       handleSubmit,
-      item,
-      dirty
     } = this.props
-    const { _id } = item
     return (
       <Card
         zDepth={this.state.elevation}

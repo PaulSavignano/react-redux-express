@@ -1,28 +1,28 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import RaisedButton from 'material-ui/RaisedButton'
 
 import './page.css'
+import AdminPageEdit from './AdminPageEdit'
 import AdminItemForm from '../forms/AdminItemForm'
 import pageContainer from '../../containers/pages/pageContainer'
 import renderAdminSections from './renderAdminSections'
-import { fetchAdd } from '../../actions/sections'
 
 class AdminPage extends Component {
   componentDidMount() {
     window.scrollTo(0,0)
   }
-  handleAddSection = () => {
-    const { dispatch, page: { _id, slug }} = this.props
-    return dispatch(fetchAdd({ pageId: _id, pageSlug: slug }))
-  }
   render() {
     const {
       dispatch,
-      page: { _id, slug, sections }
+      page: {
+        _id,
+        slug,
+        sections,
+        values: { backgroundColor }
+      }
     } = this.props
     return (
-      <div className="admin-page">
+      <div  style={{ backgroundColor }}>
         <div>
           {renderAdminSections({
             dispatch,
@@ -31,14 +31,10 @@ class AdminPage extends Component {
             pageSlug: slug
           })}
         </div>
-        <section style={{ display: 'flex', maxWidth: 1044, margin: '0 auto' }}>
-          <RaisedButton
-            onTouchTap={this.handleAddSection}
-            label="Add Section"
-            primary={true}
-            style={{ flex: '1 1 auto', margin: 4 }}
-          />
-        </section>
+        <AdminPageEdit
+          dispatch={dispatch}
+          page={this.props.page}
+        />
         <AdminItemForm />
       </div>
     )

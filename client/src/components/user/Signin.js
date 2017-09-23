@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
-import RaisedButton from 'material-ui/RaisedButton'
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import { Field, reduxForm, actions } from 'redux-form'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { Field, reduxForm } from 'redux-form'
 
 import userContainer from '../../containers/user/userContainer'
 import SuccessableButton from '../buttons/SuccessableButton'
@@ -42,8 +39,6 @@ class Signin extends Component {
       error,
       handleSubmit,
       primary1Color,
-      pristine,
-      reset,
       submitSucceeded,
       submitting,
       user,

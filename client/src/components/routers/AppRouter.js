@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Router, Route, Switch, Link, NavLink, withRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import { CSSTransitionGroup } from 'react-transition-group'
 
 import history from '../../containers/routers/history'
@@ -28,9 +28,7 @@ class AppRouter extends Component {
   componentWillMount() {
     const {
       brand: {
-        bodyStyle: { values: { backgroundColor}},
-        palette: { values },
-        theme: { values: { fontFamily }}
+        bodyStyle: { values: { backgroundColor}}
       },
       pages
     } = this.props

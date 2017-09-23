@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
@@ -32,7 +31,7 @@ class Reset extends Component {
     message: null
   }
   handleClose = () => {
-    const { dispatch, error } = this.props
+    const { error } = this.props
     this.setState({open: false})
     if (error) {
       history.push('/user/recovery')
@@ -53,10 +52,8 @@ class Reset extends Component {
       dirty,
       error,
       handleSubmit,
-      reset,
       submitSucceeded,
       submitting,
-      user,
       valid
     } = this.props
     return (

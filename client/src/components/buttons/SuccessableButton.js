@@ -14,7 +14,6 @@ class SuccessableButton extends Component {
   componentWillMount() {
     const {
       backgroundColor,
-      valid,
       label
     } = this.props
     this.setState({ background: backgroundColor, disabled: true, label })
@@ -44,7 +43,6 @@ class SuccessableButton extends Component {
         clearTimeout(this.state.timeoutId)
         this.setState({
           background: backgroundColor,
-          label,
           disabled: true,
           label,
           submitting: false

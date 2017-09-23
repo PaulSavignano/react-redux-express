@@ -4,7 +4,6 @@ const loadImage = (url) => {
     const src = url
     img.src = src
     if (img.complete) {
-      console.log(img.complete)
       return resolve(img)
     }
     img.onload = () => resolve(img)

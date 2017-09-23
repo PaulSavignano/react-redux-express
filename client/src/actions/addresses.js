@@ -57,32 +57,6 @@ export const fetchAdminAdd = (userId, add) => {
   }
 }
 
-// Read
-// const fetchAddressesRequest = () => ({ type: REQUEST })
-// export const fetchAddressesSuccess = (items) => ({ type: RECEIVE, items })
-// const fetchAddressesFailure = (error) => ({ type: ERROR, error })
-// export const fetchAddresses = () => {
-//   return (dispatch, getState) => {
-//     dispatch(fetchAddressesRequest())
-//     return fetch(`/api/${route}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'x-auth': localStorage.getItem('token'),
-//       }
-//     })
-//       .then(res => res.json())
-//       .then(json => {
-//         if (json.error) return Promise.reject(json.error)
-//         dispatch(fetchAddressesSuccess(json))
-//       })
-//       .catch(error => {
-//         console.log(error)
-//         dispatch(fetchAddressesFailure(error))
-//       })
-//   }
-// }
-
 // Update
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {

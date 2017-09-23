@@ -24,13 +24,10 @@ const validate = values => {
 
 class ContactForm extends Component {
   state = {
-    open: false,
     elevation: 1,
   }
-  handleClose = () => this.setState({open: false})
   componentWillReceiveProps({ submitSucceeded }) {
     if (submitSucceeded) {
-      this.setState({ open: true })
       this.props.reset()
     }
   }
@@ -41,14 +38,13 @@ class ContactForm extends Component {
     return dispatch(fetchContact(values))
   }
   render() {
-    const { open, elevation } = this.state
+    const { elevation } = this.state
     const {
       dirty,
       error,
       handleSubmit,
       phone,
       reset,
-      submitFailed,
       submitSucceeded,
       submitting,
       valid,

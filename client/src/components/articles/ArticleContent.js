@@ -113,8 +113,8 @@ const ArticleContent = ({
       {hasMedia && mediaAlign === 'right' ?
         <Media
           border={mediaBorder}
-          boxShadow={mediaBoxShadow}
-          elevation={mediaElevation}
+          boxShadow={itemMediaBoxShadow || mediaBoxShadow}
+          elevation={itemMediaElevation || mediaElevation}
           flex={mediaFlex}
           iframe={iframe}
           image={image}

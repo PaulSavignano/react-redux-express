@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import { Card } from 'material-ui/Card'
 
 import './product.css'
 import productContainer from '../../containers/products/productContainer'
 import ProductContent from './ProductContent'
-import formatPrice from '../../utils/formatPrice'
 import { startEdit } from '../../actions/editItem'
 
 class AdminProduct extends Component {

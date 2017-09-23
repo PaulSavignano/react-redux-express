@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Field } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 
-import renderCheckbox from '../fields/renderCheckbox'
 import renderSelectField from '../fields/renderSelectField'
 import renderTextField from '../fields/renderTextField'
 import normalizePhone from '../../utils/normalizePhone'

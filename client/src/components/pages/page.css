@@ -1,3 +1,11 @@
 .admin-page {
   min-height: 85vh;
+  position: relative;
+}
+
+.admin-page-edit {
+  display: flex;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
 }

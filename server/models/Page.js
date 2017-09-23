@@ -6,7 +6,8 @@ const PageSchema = new Schema({
   slug: { type: String },
   sections: [{ type: Schema.Types.ObjectId, ref: 'Section' }],
   values: {
-    name: { type: String, trim: true, minlength: 1 }
+    name: { type: String, trim: true, minlength: 1 },
+    backgroundColor: { type: String, trim: true, minlength: 1, default: 'rgb(255,255,255)'}
   },
 }, {
   timestamps: true

@@ -43,7 +43,6 @@ Head.propTypes = {
   dispatch: PropTypes.func.isRequired,
   image: PropTypes.object,
   isFetching: PropTypes.bool.isRequired,
-  image: PropTypes.object,
   name: PropTypes.string,
 }
 

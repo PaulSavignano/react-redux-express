@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 
 import './product.css'
 import history from '../../containers/routers/history'
@@ -21,7 +21,6 @@ class Product extends Component {
       item: {
         _id
       },
-      primary1Color,
       productStyle: {
         values: {
           flex,

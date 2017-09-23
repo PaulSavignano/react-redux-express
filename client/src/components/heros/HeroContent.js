@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import renderHTML from 'react-render-html'
 
 import Buttons from '../buttons/Buttons'
 import Text from '../typography/Text'
 import Media from '../media/Media'
-import P from '../typography/P'
 
 const HeroContent = ({
   heroStyle: {

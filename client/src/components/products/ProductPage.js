@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import renderHTML from 'react-render-html'
-import Paper from 'material-ui/Paper'
-import { Card, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card'
 
 import './product.css'
 import productPageContainer from '../../containers/products/productPageContainer'
 import Media from '../media/Media'
 import H3 from '../typography/H3'
 import P from '../typography/P'
-import formatPrice from '../../utils/formatPrice'
-
-import loadImage from '../images/loadImage'
 import ProductButtons from './ProductButtons'
+import formatPrice from '../../utils/formatPrice'
 
 class ProductPage extends Component {
   componentDidMount() {
@@ -28,7 +24,6 @@ class ProductPage extends Component {
           description,
           detail,
           iframe,
-          mediaFlex,
           name,
           price,
         }
@@ -38,10 +33,8 @@ class ProductPage extends Component {
         values: {
           descriptionColor,
           detailColor,
-          flex,
           nameColor,
           nameTextShadow,
-          margin,
           mediaBorder,
           mediaBoxShadow,
           mediaElevation,
@@ -69,8 +62,13 @@ class ProductPage extends Component {
                 <H3>{name}</H3>
                 <H3>{formatPrice(price)}</H3>
               </div>
-              {detail.length < 10 ? null :
+              {description.length < 10 ? null :
               <div style={{ color: descriptionColor }} className="product-description">
+                <P>{renderHTML(description)}</P>
+              </div>
+              }
+              {detail.length < 10 ? null :
+              <div style={{ color: detailColor }} className="product-description">
                 <P>{renderHTML(detail)}</P>
               </div>
               }

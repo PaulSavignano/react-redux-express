@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import MenuItem from 'material-ui/MenuItem'
 import { ListItem } from 'material-ui/List'
 
 import DrawerPageLink from './DrawerPageLink'

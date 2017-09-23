@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link, NavLink, withRouter } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import FlatButton from 'material-ui/FlatButton'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'

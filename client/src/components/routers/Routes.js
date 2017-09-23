@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 
-import authenticate from '../../containers/user/authenticate'
-import PrivateRoute from '../../containers/user/PrivateRoute'
+import PrivateRoute from './PrivateRoute'
 import withTracker from '../../containers/google-analytics/withTracker'
 
 import AdminOrderPage from '../orders/AdminOrderPage'

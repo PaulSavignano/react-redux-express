@@ -42,19 +42,24 @@ export const get = (req, res) => {
 export const update = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { name } = req.body
-  const slug = slugIt(name)
+  const { values } = req.body
+  const slug = slugIt(values.name)
   Page.findOneAndUpdate(
     { _id },
-    { $set: { slug, values: { name }}},
+    { $set: { slug, values }},
     { new: true }
   )
+  .populate({
+    path: 'sections',
+    populate: { path: 'items.item' }
+  })
   .then(doc => res.send(doc))
   .catch(error => {
     console.error(error)
     res.status(400).send({ error })
   })
 }
+
 
 
 export const remove = (req, res) => {

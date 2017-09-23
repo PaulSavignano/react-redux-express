@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import renderHTML from 'react-render-html'
+import { Card } from 'material-ui/Card'
 
 import './search.css'
 import history from '../../containers/routers/history'

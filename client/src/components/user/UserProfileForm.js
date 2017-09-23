@@ -32,7 +32,6 @@ class UserProfileForm extends Component {
   render() {
     const {
       dirty,
-      dispatch,
       error,
       handleSubmit,
       onDelete,

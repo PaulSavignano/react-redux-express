@@ -1,11 +1,11 @@
 .article {
   display: flex;
   flex: 1 1 auto;
-  justify-content: space-around;
 }
 .article-content {
   display: flex;
   flex: 1 1 auto;
+  justify-content: space-around;
 }
 .article-media {
   display: flex;

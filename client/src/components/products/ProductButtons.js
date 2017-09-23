@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import './product.css'
-import SuccessableButton from '../buttons/SuccessableButton'
 import { fetchAddToCart } from '../../actions/cart'
 import P from '../typography/P'
 
@@ -71,13 +70,8 @@ class ProductButtons extends Component {
   render() {
     const { color } = this.state
     const {
-      error,
-      dirty,
       handleSubmit,
-      reset,
-      submitSucceeded,
       submitting,
-      valid
     } = this.props
     return (
       <form

@@ -1,12 +1,11 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
 
 import './index.css'
 import configureStore from './store/configureStore'
 import Head from './containers/head/Head'
-import AppRouter, { history } from './components/routers/AppRouter'
+import AppRouter from './components/routers/AppRouter'
 import Theme from './containers/theme/Theme'
 
 import { fetchBrand } from './actions/brand'

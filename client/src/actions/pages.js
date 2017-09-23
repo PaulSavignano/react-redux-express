@@ -1,6 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import { fetchProducts } from './products'
+import { stopEdit } from './editItem'
 
 export const type = 'PAGE'
 const route = 'pages'
@@ -83,6 +84,7 @@ export const fetchUpdate = (_id, update) => {
       .then(json => {
         if (json.error) return Promise.reject(json.error)
         dispatch(fetchUpdateSuccess(json))
+        dispatch(stopEdit())
       })
       .catch(error => {
         dispatch(fetchUpdateFailure(error))

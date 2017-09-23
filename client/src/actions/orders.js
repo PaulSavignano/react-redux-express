@@ -96,7 +96,7 @@ export const fetchAddOrder = ({
           fieldError = { number: error }
           buttonError = error
         } else {
-          fieldError: null,
+          fieldError = null
           buttonError = 'Checkout failed'
         }
       } else if (typeof error === 'object') {

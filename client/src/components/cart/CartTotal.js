@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { CardTitle } from 'material-ui/Card'
 
 import formatPrice from '../../utils/formatPrice'
-import { redirectUser } from '../../actions/user'
 
 const CartTotal = ({ dispatch, cart, user }) => (
   cart.total &&

@@ -15,7 +15,7 @@ class OrderCartItem extends Component {
   handleMouseLeave = () => this.setState({ elevation: 1 })
   handleNavigation = (e) => {
     e.stopPropagation()
-    const { dispatch, item: { name, productId }} = this.props
+    const { item: { name, productId }} = this.props
     return history.push(`/products/${slugIt(name)}/${productId}`)
   }
   render() {
