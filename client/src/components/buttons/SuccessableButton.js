@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import successableButtonContainer from '../../containers/buttons/successableButtonContainer'
+import buttonContainer from '../../containers/buttons/buttonContainer'
 
 class SuccessableButton extends Component {
   state = {
@@ -154,4 +154,4 @@ SuccessableButton.propTypes = {
   valid: PropTypes.bool.isRequired
 }
 
-export default successableButtonContainer(SuccessableButton)
+export default buttonContainer(SuccessableButton)

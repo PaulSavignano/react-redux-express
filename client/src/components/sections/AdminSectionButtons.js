@@ -5,9 +5,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import FontIcon from 'material-ui/FontIcon'
 
-import { startEdit } from '../../actions/editItem'
-
+import buttonContainer from '../../containers/buttons/buttonContainer'
 import AdminSectionAddComponent from './AdminSectionAddComponent'
+import { startEdit } from '../../actions/editItem'
 import { fetchAdd as articleAdd } from '../../actions/articles'
 import { fetchAdd as cardAdd } from '../../actions/cards'
 import { fetchAdd as contactFormAdd } from '../../actions/contactForms'
@@ -94,4 +94,4 @@ class AdminSectionButtons extends Component {
   }
 }
 
-export default AdminSectionButtons
+export default buttonContainer(AdminSectionButtons)

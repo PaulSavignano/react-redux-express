@@ -84,13 +84,13 @@ const mapStateToProps = ({
   brand: {
     appBar: { values },
     isFetching,
-    palette,
+    palette: { values: palette },
     theme: { values: { fontFamily }}
   }
 }) => ({
-  backgroundColor: palette.values.canvasColor,
-  borderColor: palette.values.borderColor,
-  colors: Object.keys(palette.values).map(key => palette[key]).filter((item, i, self) => i === self.indexOf(item)),
+  backgroundColor: palette.canvasColor,
+  borderColor: palette.borderColor,
+  colors: Object.keys(palette).map(key => palette[key]).filter((item, i, self) => i === self.indexOf(item)),
   fonts: [
     fontFamily,
     values.fontFamily,

@@ -21,7 +21,7 @@ class AdminPageEdit extends Component {
   }
   render() {
     return (
-      <Paper zDepth={1}>
+      <Paper zDepth={1} className="admin-page-edit">
         <BottomNavigation>
           <BottomNavigationItem
             label="Edit Page Color"

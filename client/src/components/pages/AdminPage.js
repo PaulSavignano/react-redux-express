@@ -22,7 +22,7 @@ class AdminPage extends Component {
       }
     } = this.props
     return (
-      <div  style={{ backgroundColor }}>
+      <div style={{ backgroundColor }} className="AdminPage" >
         <div>
           {renderAdminSections({
             dispatch,

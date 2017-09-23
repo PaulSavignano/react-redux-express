@@ -3,9 +3,17 @@
   position: relative;
 }
 
+/*
 .admin-page-edit {
+  width: 100%;
   display: flex;
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+*/
+
+.Page, .AdminPage {
+  overflow: hidden;
 }
