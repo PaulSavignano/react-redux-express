@@ -37,6 +37,7 @@ const adminItemForms = [{
     { name: 'button1Link', type: 'text' },
     { name: 'button2Text', type: 'text' },
     { name: 'button2Link', type: 'text' },
+    { name: 'flex', type: 'text' },
     { name: 'h1Text', type: 'text', },
     { name: 'h2Text', type: 'text', },
     { name: 'h3Text', type: 'text', },

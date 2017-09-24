@@ -16,6 +16,7 @@ const CardSchema = new Schema({
     button1Link: { type: String, trim: true },
     button2Text: { type: String, trim: true },
     button2Link: { type: String, trim: true },
+    flex: { type: String, trim: true, default: '1 1 auto' },
     h1Text: { type: String, trim: true, default: 'Heading 1' },
     h2Text: { type: String, trim: true, default: 'Heading 2' },
     h3Text: { type: String, trim: true, default: 'Heading 3' },
