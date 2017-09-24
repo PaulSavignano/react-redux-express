@@ -14,7 +14,6 @@ import {
   updateHeroStyle,
   updatePalette,
   updateProductStyle,
-  updateTheme,
   updateTypography,
   remove
 } from '../controllers/brand'
@@ -33,7 +32,6 @@ brands.patch('/footer/:_id', authenticate(['admin']), updateFooter)
 brands.patch('/herostyle/:_id', authenticate(['admin']), updateHeroStyle)
 brands.patch('/palette/:_id', authenticate(['admin']), updatePalette)
 brands.patch('/productstyle/:_id', authenticate(['admin']), updateProductStyle)
-brands.patch('/theme/:_id', authenticate(['admin']), updateTheme)
 brands.patch('/typography/:_id', authenticate(['admin']), updateTypography)
 brands.delete('/:_id', authenticate(['admin']), remove)
 

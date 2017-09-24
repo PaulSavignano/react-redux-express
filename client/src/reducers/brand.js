@@ -12,7 +12,6 @@ const brand = (state = {
   palette: { values: {}},
   productStyle: { values: {}},
   viewStyle: { values: {}},
-  theme: { values: {}},
   typography: { values: {}}
 }, action) => {
   switch (action.type) {

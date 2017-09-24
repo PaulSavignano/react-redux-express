@@ -164,13 +164,9 @@ const BrandSchema = new Schema({
       mediaElevation: { type: Number, trim: true, default: 2 }
     }
   },
-  theme: {
-    values: {
-      fontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
-    }
-  },
   typography: {
     values: {
+      fontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
       h1FontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
       h1FontSize: { type: String, trim: true, default: '56px'},
       h1FontWeight: { type: String, trim: true, default: '300' },

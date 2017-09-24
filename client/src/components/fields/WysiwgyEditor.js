@@ -85,7 +85,7 @@ const mapStateToProps = ({
     appBar: { values },
     isFetching,
     palette: { values: palette },
-    theme: { values: { fontFamily }}
+    typography: { values: { fontFamily }}
   }
 }) => ({
   backgroundColor: palette.canvasColor,

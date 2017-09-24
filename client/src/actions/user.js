@@ -115,7 +115,6 @@ export const fetchDelete = () => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log('json', json)
         if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
         dispatch(fetchDeleteSuccess())

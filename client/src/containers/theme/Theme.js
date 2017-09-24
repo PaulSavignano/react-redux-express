@@ -18,7 +18,7 @@ const mapStateToProps = ({
     bodyStyle: { values: { backgroundColor}},
     isFetching,
     palette: { values },
-    theme: { values: { fontFamily }}
+    typography: { values: { fontFamily }}
   }
 }) => ({
   theme: { fontFamily, palette: values },

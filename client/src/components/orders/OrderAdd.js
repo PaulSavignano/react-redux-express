@@ -101,7 +101,7 @@ class OrderAdd extends Component {
                   <MenuItem value="newAddress" primaryText="Enter new address" onTouchTap={() => this.setState({ newAddress: true })} />
                 </Field>
               </div>
-              {this.state.newAddress && <AddressFields />}
+              {this.state.newAddress && <AddressFields autoFocus={true} />}
               <CardTitle
                 title={
                   <div>

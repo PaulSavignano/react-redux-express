@@ -364,23 +364,6 @@ export const updateProductStyle = (req, res) => {
 }
 
 
-// Update Theme
-export const updateTheme = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { values } = req.body
-  Brand.findOneAndUpdate(
-    { _id },
-    { $set: { theme: { values }}},
-    { new: true }
-  )
-  .then(doc => res.send(doc))
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
-}
-
 export const updateTypography = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})

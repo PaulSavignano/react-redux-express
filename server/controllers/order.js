@@ -117,28 +117,38 @@ const createCharge = ({
       res.send(order)
       const { email, firstName, lastName, cart, address } = order
       const { name, phone, street, city, state, zip } = address
+
+      const htmlOrder = `
+        <div style="font-weight: 900">Order Summary</div>
+        <div>Order: ${order._id}</div>
+        <div>Total: ${formatPrice(order.cart.total)}</div>
+        <div>Quantity: ${order.cart.quantity}</div>
+        <div>Items:</div>
+        <ol>
+          ${order.cart.items.map(item => (
+            `<li style="display:flex;flex-flow:row wrap;align-items:center;font-family:inherit;">
+              ${item.productQty} of <img src=${item.image.src} alt="order item" height="32px" width="auto" style="margin-left:8px;margin-right:8px"/> ${item.name} ${item.productId}
+            </li>`
+          ))}
+        </ol>
+        <div style="font-weight: 900">Delivery Summary</div>
+        <div>${name}</div>
+        <div>${phone}</div>
+        <div>${street}</div>
+        <div>${city}, ${state} ${zip}</div>
+      `
       sendEmail1({
         to: email,
         toSubject: 'Thank you for your order!',
         toBody: `
           <p>Hi ${firstName},</p>
           <p>Thank you for your recent order ${order._id}.  We are preparing your order for delivery and will send you a confirmation once it has shipped.  Please don't hesitate to reach out regarding anything we can with in the interim.</p>
+          ${htmlOrder}
         `,
         fromSubject: `New order received!`,
         fromBody: `
           <p>${firstName} ${lastName} just placed order an order!</p>
-          <div>Order: ${order._id}</div>
-          <div>Total: ${formatPrice(order.cart.total)}</div>
-          <div>Quantity: ${order.cart.quantity}</div>
-          <div>Items:</div>
-          <ul>
-            ${order.cart.items.map(item => `<li><img src=${item.image.src} alt="item" height="32px" width="auto"/> ${item.name} ${item.productId}, qty: ${item.productQty}</li>`)}
-          </ul>
-          <div>Address:</div>
-          <div>${name}</div>
-          <div>${phone}</div>
-          <div>${street}</div>
-          <div>${city}, ${state} ${zip}</div>
+          ${htmlOrder}
           <p>Once shipped, you can mark the item as shipped in at ${process.env.ROOT_URL}/admin/orders to send confirmation to ${firstName}.</p>
         `
       })

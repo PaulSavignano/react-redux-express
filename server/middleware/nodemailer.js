@@ -21,7 +21,13 @@ export const sendEmail1 = (mail) => {
       if (!brand) return Promise.reject('No brand found')
       const {
         appBar: {
-          values: { fontFamily }
+          values: {
+            color,
+            fontFamily,
+            fontSize,
+            fontWeight,
+            letterSpacing
+          }
         },
         business: {
           image,
@@ -34,31 +40,65 @@ export const sendEmail1 = (mail) => {
             state,
             zip
           }
+        },
+        typography: {
+          values: {
+            fontFamily: textFont
+          }
         }
       } = brand
-      const signature = `
-        ${image ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
-        <div>${name}</div>
-        <div>
-          <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none;">
-            ${process.env.GMAIL_USER}
-          </a>
-        </div>
-        ${street ? `<div>${street}</div>` : '' }
-        ${zip ? `<div>${city} ${state}, ${zip}</div>` : '' }
-      `
+
+      const emailTemplate = (body) => (`
+      <!doctype html>
+      <html>
+      <head>
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Open+Sans+Condensed:300" rel="stylesheet">
+      <style type="text/css">
+        p, div, ol {
+          font-family: ${textFont};
+        }
+      </style>
+      </head>
+      <body>
+         <main>
+          ${body}
+          <br/>
+          ${image && image.src ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
+          <div>
+            <span style="color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing}; ">
+              ${name}
+            </span>
+          </div>
+          <div>
+            <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none; font-family: ${textFont}">
+              ${process.env.GMAIL_USER}
+            </a>
+          </div>
+          ${phone ? `
+            <div style="font-family: ${textFont}">
+              <a href="tel:${phone.replace(/\D+/g, '')}" style="text-decoration: none; color: inherit;">
+                ${phone}
+              </div>
+          ` : '' }
+          ${street ? `<div style="font-family: ${textFont}">${street}</div>` : '' }
+          ${zip ? `<div style="font-family: ${textFont}">${city} ${state}, ${zip}</div>` : '' }
+         </main>
+      </body>
+      </html>
+      `)
+
       const userMail = {
         from: process.env.GMAIL_USER,
         to: to,
         subject: toSubject,
-        html: `${toBody}<br/>${signature}`
+        html: emailTemplate(toBody)
       }
       if (fromSubject) {
         const adminMail = {
           from: process.env.GMAIL_USER,
           to: process.env.GMAIL_USER,
           subject: fromSubject,
-          html: `${fromBody}<br/>${signature}`
+          html: emailTemplate(fromBody)
         }
         transporter.sendMail(adminMail)
       }

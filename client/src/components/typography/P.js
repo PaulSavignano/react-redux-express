@@ -21,7 +21,7 @@ const P = ({
   <div
     style={{
       color,
-      fontFamily: fontFamily || pFontFamily,
+      fontFamily: pFontFamily,
       fontSize: pFontSize,
       fontWeight: pFontWeight,
       letterSpacing: pLetterSpacing,

@@ -48,8 +48,8 @@ const headerContainer = (ComposedComponent) => {
       appBar,
       business: { values: { phone }},
       isFetching: brandIsFetching,
-      theme: { values: { fontFamily }},
-      palette: { values: { primary1Color }}
+      palette: { values: { primary1Color }},
+      typography: { values: { fontFamily }},
     },
     carts: { cart: { quantity: cartQty }},
     drawer,

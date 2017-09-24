@@ -195,7 +195,6 @@ export const remove = (req, res) => {
   const { _id } = req.user
   User.findOneAndRemove({ _id })
   .then(doc => {
-    console.log('success on server')
     res.status(200).send(doc._id)
   })
   .catch(error => {

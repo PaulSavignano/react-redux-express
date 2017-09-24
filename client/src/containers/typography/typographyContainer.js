@@ -37,8 +37,8 @@ const typographyContainer = (ComposedComponent) => {
     brand: {
       isFetching,
       typography,
-      theme: { values: { fontFamily }},
-      palette: { values: { textColor }}
+      palette: { values: { textColor }},
+      typography: { values: { fontFamily }},
     }
   }) => ({
     fontFamily,

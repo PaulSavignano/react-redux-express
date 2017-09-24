@@ -5,6 +5,8 @@ import MenuItem from 'material-ui/MenuItem'
 import renderSelectField from '../fields/renderSelectField'
 import renderTextField from '../fields/renderTextField'
 import normalizePhone from '../../utils/normalizePhone'
+import normalizeZip from '../../utils/normalizeZip'
+import normalizeState from '../../utils/normalizeState'
 
 class BrandFormField extends Component {
   handleNumberToString = value => {
@@ -57,6 +59,18 @@ class BrandFormField extends Component {
             ))}
           </Field>
         )
+      case 'state':
+        return (
+          <Field
+            key={name}
+            name={name}
+            label={name}
+            component={renderTextField}
+            className="field"
+            style={{ fontFamily }}
+            normalize={normalizeState}
+          />
+        )
       case 'text':
         return (
           <Field
@@ -66,6 +80,18 @@ class BrandFormField extends Component {
             component={renderTextField}
             className="field"
             style={{ fontFamily }}
+          />
+        )
+      case 'zip':
+        return (
+          <Field
+            key={name}
+            name={name}
+            label={name}
+            component={renderTextField}
+            className="field"
+            style={{ fontFamily }}
+            normalize={normalizeZip}
           />
         )
       default:

@@ -24,8 +24,8 @@ const successableButtonContainer = (ComposedComponent) => {
     ({
       brand: {
         isFetching,
-        theme: { values: { fontFamily }},
-        palette: { values: { canvasColor, primary1Color }}
+        palette: { values: { canvasColor, primary1Color }},
+        typography: { values: { fontFamily }},
       }
     }) => ({
       backgroundColor: primary1Color,

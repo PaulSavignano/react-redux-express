@@ -45,7 +45,7 @@ class AddressItem extends Component {
           onSubmit={handleSubmit(this.handleFormSubmit)}
           style={{ flex: '1 1 auto' }}
         >
-          <AddressFields />
+          <AddressFields autoFocus={false} />
           <div className="button-container">
             <SuccessableButton
               dirty={dirty}
