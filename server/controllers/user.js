@@ -194,7 +194,10 @@ export const adminUpdate = (req, res) => {
 export const remove = (req, res) => {
   const { _id } = req.user
   User.findOneAndRemove({ _id })
-  .then(doc => res.status(200).send())
+  .then(doc => {
+    console.log('success on server')
+    res.status(200).send(doc._id)
+  })
   .catch(error => {
     console.error('User.findOneAndRemove: ', error)
     res.status(400).send({ error: 'user delete failed' })

@@ -22,9 +22,11 @@ class AdminCard extends Component {
       cursor,
       elevation,
       linkEvents,
+      item: {
+        values: { flex }
+      },
     } = this.props
     const {
-      flex,
       margin,
       width
     } = cardStyle.values

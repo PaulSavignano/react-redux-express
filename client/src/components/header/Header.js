@@ -42,7 +42,7 @@ class Header extends Component {
             <nav>
               {searchOpen ?
                 <SearchBar
-                  navColor={navColor}
+                  color={navColor}
                 />
               :
               <div className="appbar">

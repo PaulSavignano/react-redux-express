@@ -1,7 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
 import { fetchOrders } from './orders'
-import { fetchUsersSuccess } from './users'
+import { fetchUsersSuccess, fetchDeleteSuccess as usersDeleteSuccess } from './users'
 
 export const type = 'USER'
 const route = 'users'
@@ -115,11 +115,16 @@ export const fetchDelete = () => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log('json', json)
         if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
         dispatch(fetchDeleteSuccess())
+        dispatch(usersDeleteSuccess(json))
       })
-      .catch(error => dispatch(fetchFailure(error)))
+      .catch(error => {
+        console.log(error)
+        dispatch(fetchFailure(error))
+      })
   }
 }
 

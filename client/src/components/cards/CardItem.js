@@ -11,12 +11,14 @@ const CardItem = (props) => {
     cardStyle,
     cursor,
     elevation,
-    item: { _id },
+    item: { 
+      _id,
+      values: { flex }
+    },
     linkEvents,
     linkNavigation
   } = props
   const {
-    flex,
     margin,
     width
   } = cardStyle.values

@@ -90,7 +90,7 @@ export const fetchUpdate = (_id, update) => {
 
 
 // Delete
-const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
+export const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
 export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}/admin/${_id}`, {

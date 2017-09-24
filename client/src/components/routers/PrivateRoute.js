@@ -19,7 +19,7 @@ class PrivateRoute extends Component {
     return (
       <Route {...rest} component={(props) => (
         this.hasRoles(user.roles, requiredRoles) ? (
-          <Component {...this.props} />
+          <Component {...props} />
         ) : (
           <Redirect to="/user/signin" />
         )
