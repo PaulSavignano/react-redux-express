@@ -106,6 +106,7 @@ class AdminItemForm extends Component {
         item: { _id, backgroundImage, image },
         kind,
       },
+      pristine,
       submitting
     } = this.props
     return (
@@ -114,6 +115,7 @@ class AdminItemForm extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
+              disabled={pristine || submitting}
               onTouchTap={handleSubmit(this.handleFormSubmit)}
               label={submitting ?
                 <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} />

@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 
 import Brand from '../models/Brand'
+import getRgbTotal from '../utils/getRgbTotal'
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -22,7 +23,7 @@ export const sendEmail1 = (mail) => {
       const {
         appBar: {
           values: {
-            color,
+            color: appBarColor,
             fontFamily,
             fontSize,
             fontWeight,
@@ -41,12 +42,16 @@ export const sendEmail1 = (mail) => {
             zip
           }
         },
+        palette: {
+          values: { primary1Color }
+        },
         typography: {
           values: {
             fontFamily: textFont
           }
         }
       } = brand
+      const color = getRgbTotal(appBarColor) > 600 ? primary1Color : appBarColor
 
       const emailTemplate = (body) => (`
       <!doctype html>
@@ -57,6 +62,10 @@ export const sendEmail1 = (mail) => {
         p, div, ol {
           font-family: ${textFont};
         }
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
       </style>
       </head>
       <body>
@@ -65,7 +74,7 @@ export const sendEmail1 = (mail) => {
           <br/>
           ${image && image.src ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
           <div>
-            <span style="color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing}; ">
+            <span style="text-decoration: none; color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing}; ">
               ${name}
             </span>
           </div>

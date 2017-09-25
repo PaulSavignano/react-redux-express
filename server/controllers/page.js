@@ -2,7 +2,7 @@ import { ObjectID } from 'mongodb'
 import url from 'url'
 
 import Page from '../models/Page'
-import slugIt from '../middleware/slugIt'
+import slugIt from '../utils/slugIt'
 
 
 export const add = (req, res) => {
