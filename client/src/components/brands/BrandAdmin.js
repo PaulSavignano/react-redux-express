@@ -49,6 +49,7 @@ const formFields = [{
   name: 'business',
   fields: [
     { name: 'name', type: 'text' },
+    { name: 'license', type: 'text' },
     { name: 'description', type: 'text' },
     { name: 'phone', type: 'phone' },
     { name: 'email', type: 'text' },

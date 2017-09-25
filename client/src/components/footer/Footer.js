@@ -12,6 +12,7 @@ const Footer = ({
   business: {
     values: {
       name,
+      license,
       phone,
       email,
       street,
@@ -37,23 +38,25 @@ const Footer = ({
       color,
       margin,
     }
-  }
+  },
+  primary1Color
 }) => (
   <footer style={{ backgroundColor, borderBottom, borderTop }}>
     <Paper style={{ backgroundColor, color }}>
       <div style={{ textAlign: 'center', paddingTop: 32 }}>
         <div className="social-media">
-          { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color }} /></a> }
-          { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color }} /></a> }
-          { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color }} /></a> }
-          { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color }} /></a> }
-          { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color }} /></a> }
-          { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color }} /></a> }
-          { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color }} /></a> }
-          { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color }} /></a> }
+          { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: primary1Color }} /></a> }
+          { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color: primary1Color }} /></a> }
+          { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color: primary1Color }} /></a> }
+          { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color: primary1Color }} /></a> }
+          { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color: primary1Color }} /></a> }
+          { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color: primary1Color }} /></a> }
+          { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color: primary1Color }} /></a> }
+          { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color: primary1Color }} /></a> }
         </div>
         <div>
           <Link to="/" style={{}}>{name ? name : 'Brand'} {new Date().getFullYear()}</Link>
+          { license && <div>License # {license}</div>}
           { phone && <div><a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a></div> }
           { email && <div>{email}</div> }
           { street && <div>{street}</div> }

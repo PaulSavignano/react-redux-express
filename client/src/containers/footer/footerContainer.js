@@ -8,27 +8,31 @@ const footerContainer = (ComposedComponent) => {
       const {
         business,
         isFetching,
-        item
+        item,
+        primary1Color
       } = this.props
       const props = {
         business,
         item,
+        primary1Color
       }
       return (
         !isFetching && item && <ComposedComponent {...props} />
       )
     }
   }
-  const mapStateToProps = ({ brand: { isFetching, footer, business } }) => ({
+  const mapStateToProps = ({ brand: { isFetching, footer, business, palette: { primary1Color }}}) => ({
     business,
     item: footer,
-    isFetching
+    isFetching,
+    primary1Color
   })
   FooterContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     business: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    primary1Color: PropTypes.string
   }
   return connect(mapStateToProps)(FooterContainer)
 }
