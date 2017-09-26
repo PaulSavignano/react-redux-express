@@ -53,7 +53,7 @@ export const update = (req, res) => {
     values
   } = req.body
   const rootUrl = req.get('host')
-  const Key = `${rootUrl}/page-${pageSlug}/card-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const Key = `${rootUrl}/page-${pageSlug}/card-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)

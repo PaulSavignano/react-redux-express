@@ -58,6 +58,7 @@ const BrandSchema = new Schema({
       name: { type: String, trim: true, default: 'Brand' },
       license: { type: String, trim: true },
       description: { type: String, trim: true, default: null },
+      keywords: { type: String, trim: true },
       phone: { type: String, trim: true, default: null },
       email: { type: String, trim: true, default: null },
       street: { type: String, trim: true, default: null },
