@@ -11,6 +11,7 @@
     "material-ui": "^0.18.3",
     "moment": "^2.18.1",
     "payment": "^2.2.1",
+    "prop-types": "^15.6.0",
     "react": "^15.6.1",
     "react-dom": "^15.5.4",
     "react-draft-wysiwyg": "^1.10.6",
@@ -40,7 +41,6 @@
     "expect": "^1.20.2",
     "jest-cli": "^20.0.3",
     "nock": "^9.0.9",
-    "prop-types": "^15.6.0",
     "react-addons-perf": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "redux-mock-store": "^1.2.2"
