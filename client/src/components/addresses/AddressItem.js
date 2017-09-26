@@ -26,7 +26,6 @@ class AddressItem extends Component {
   }
   render() {
     const {
-      dirty,
       error,
       handleSubmit,
       invalid,

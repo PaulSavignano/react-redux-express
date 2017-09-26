@@ -24,7 +24,6 @@ export const fetchAdd = (add) => {
         if (json.error) return Promise.reject(json.error)
         const { editItem, page } = json
         dispatch(pageActions.fetchUpdateSuccess(page))
-        return dispatch(startEdit({ item: editItem, kind: 'SECTION' }))
       })
       .catch(error => {
         console.log(error)

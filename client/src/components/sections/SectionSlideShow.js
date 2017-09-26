@@ -36,7 +36,6 @@ class SectionSlideShow extends Component {
   }
   render() {
     const {
-      autoplay,
       item: {
         items
       },

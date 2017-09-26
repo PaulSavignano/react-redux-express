@@ -48,7 +48,6 @@ class AdminSectionSlideShow extends Component {
   }
   render() {
     const {
-      autoplay,
       dispatch,
       item,
       pageId,

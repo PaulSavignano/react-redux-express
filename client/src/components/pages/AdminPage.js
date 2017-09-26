@@ -8,9 +8,6 @@ import pageContainer from '../../containers/pages/pageContainer'
 import renderAdminSections from './renderAdminSections'
 
 class AdminPage extends Component {
-  componentDidMount() {
-    window.scrollTo(0,0)
-  }
   render() {
     const {
       dispatch,

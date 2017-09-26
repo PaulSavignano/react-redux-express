@@ -23,7 +23,6 @@ const sectionContainer = (ComposedComponent) => {
           minHeight,
           margin,
           padding,
-          pageLink,
         }
       } = item
       const props = {
