@@ -37,12 +37,16 @@ class SectionSlideShow extends Component {
   render() {
     const {
       item: {
-        items
+        _id,
+        items,
+        values: {
+          pageLink
+        }
       },
       style
     } = this.props
     return (
-      <section style={style}>
+      <section style={style} id={pageLink || _id}>
         <CSSTransitionGroup
           transitionName="cross-fade"
           transitionEnter={true}

@@ -9,13 +9,17 @@ const Section = ({
     _id,
     items,
     values: {
-      Link
+      pageLink
     }
   },
   style
 }) => {
   return (
-    <section style={style} className="Section">
+    <section
+      id={pageLink || _id}
+      style={style}
+      className="Section"
+    >
       {renderComponents({ components: items })}
     </section>
   )

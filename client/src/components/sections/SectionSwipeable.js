@@ -13,12 +13,16 @@ class SectionSwipeable extends Component {
     const {
       autoplay,
       item: {
-        items
+        _id,
+        items,
+        values: {
+          pageLink
+        }
       },
       style
     } = this.props
     return (
-      <section style={style}>
+      <section style={style} id={pageLink || _id}>
         <AutoPlaySwipeableViews
           autoplay={autoplay}
           interval={4000}
