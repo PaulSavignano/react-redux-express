@@ -7,16 +7,16 @@ import renderComponents from './renderComponents'
 const Section = ({
   item: {
     _id,
-    items
+    items,
+    values: {
+      Link
+    }
   },
-  propsForParent,
-  propsForChild,
+  style
 }) => {
   return (
-    <section {...propsForParent}>
-      <div {...propsForChild}>
-        {renderComponents({ components: items })}
-      </div>
+    <section style={style} className="Section">
+      {renderComponents({ components: items })}
     </section>
   )
 }

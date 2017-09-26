@@ -1,8 +1,8 @@
 import React from 'react'
 
 import AdminSection from '../sections/AdminSection'
-import AdminSlideShow from '../sections/AdminSlideShow'
-import AdminSwipeableSection from '../sections/AdminSwipeableSection'
+import AdminSectionSlideShow from '../sections/AdminSectionSlideShow'
+import AdminSectionSwipeable from '../sections/AdminSectionSwipeable'
 
 const renderAdminSections = ({ dispatch, sections, pageId, pageSlug }) => {
   const sectionList = (section) => {
@@ -17,7 +17,7 @@ const renderAdminSections = ({ dispatch, sections, pageId, pageSlug }) => {
           pageSlug={pageSlug}
                />
      case 'SlideShow':
-       return <AdminSlideShow
+       return <AdminSectionSlideShow
          dispatch={dispatch}
          key={section._id}
          item={section}
@@ -25,7 +25,7 @@ const renderAdminSections = ({ dispatch, sections, pageId, pageSlug }) => {
          pageSlug={pageSlug}
               />
       case 'Swipeable':
-        return <AdminSwipeableSection
+        return <AdminSectionSwipeable
           dispatch={dispatch}
           key={section._id}
           item={section}

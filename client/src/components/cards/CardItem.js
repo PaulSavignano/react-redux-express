@@ -11,22 +11,24 @@ const CardItem = (props) => {
     cardStyle,
     cursor,
     elevation,
-    item: { 
+    item: {
       _id,
-      values: { flex }
+      values: {
+        flex: itemFlex
+      }
     },
     linkEvents,
     linkNavigation
   } = props
   const {
+    flex: cardStyleFlex,
     margin,
-    width
   } = cardStyle.values
   return (
     <Card
       {...linkEvents}
       {...linkNavigation}
-      style={{ cursor, flex, margin, width }}
+      style={{ cursor, flex: itemFlex || cardStyleFlex, margin }}
       zDepth={elevation}
       id={_id}
       className="card-item"

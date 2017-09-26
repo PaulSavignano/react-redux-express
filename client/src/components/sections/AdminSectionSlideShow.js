@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { CSSTransitionGroup } from 'react-transition-group'
 
 import './section.css'
-import slideShowContainer from '../../containers/sections/slideShowContainer'
-import AdminSectionButtons from './AdminSectionButtons'
+import sectionContainer from '../../containers/sections/sectionContainer'
+import AdminSectionEditButtons from './AdminSectionEditButtons'
 import renderAdminComponents from './renderAdminComponents'
 import { startEdit } from '../../actions/editItem'
 
-class SlideShow extends Component {
+class AdminSectionSlideShow extends Component {
   state = {
     index: 0,
     intervalId: null
@@ -47,28 +48,27 @@ class SlideShow extends Component {
   }
   render() {
     const {
+      autoplay,
       dispatch,
       item,
       pageId,
       pageSlug,
-      propsForParent,
-      propsForChild,
+      style,
     } = this.props
     return (
-      <div className="admin-section">
-        <section {...propsForParent}>
+      <div className="AdminSectionSlideShow">
+        <section style={style}>
           <CSSTransitionGroup
             transitionName="cross-fade"
             transitionEnter={true}
             transitionEnterTimeout={2000}
             transitionLeave={true}
             transitionLeaveTimeout={2000}
-            {...propsForChild}
           >
             {renderAdminComponents({ components: item.items })[this.state.index]}
           </CSSTransitionGroup>
         </section>
-        <AdminSectionButtons
+        <AdminSectionEditButtons
           dispatch={dispatch}
           item={item}
           pageId={pageId}
@@ -79,4 +79,13 @@ class SlideShow extends Component {
   }
 }
 
-export default slideShowContainer(SlideShow)
+AdminSectionSlideShow.propTypes = {
+  autoplay: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  pageId: PropTypes.string.isRequired,
+  pageSlug: PropTypes.string.isRequired,
+  style: PropTypes.object.isRequired,
+}
+
+export default sectionContainer(AdminSectionSlideShow)

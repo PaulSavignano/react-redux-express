@@ -26,7 +26,6 @@ const CardContent = ({
       pTextShadow,
       margin,
       mediaBorder,
-      width
     }
   },
   cursor,

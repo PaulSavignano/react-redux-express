@@ -86,7 +86,6 @@ const formFields = [{
     { name: 'h3TextShadow', type: 'text' },
     { name: 'margin', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
-    { name: 'width', type: 'text' }
   ]
 }, {
   name: 'footer',

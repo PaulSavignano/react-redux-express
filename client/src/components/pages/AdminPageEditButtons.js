@@ -9,7 +9,7 @@ import { fetchAdd } from '../../actions/sections'
 
 const editIcon = <FontIcon className="material-icons">mode_edit</FontIcon>
 
-class AdminPageEdit extends Component {
+class AdminPageEditButtons extends Component {
   handleSectionAdd = () => {
     const { dispatch, page: { _id, slug }} = this.props
     return dispatch(fetchAdd({ pageId: _id, pageSlug: slug }))
@@ -40,4 +40,4 @@ class AdminPageEdit extends Component {
 }
 
 
-export default AdminPageEdit
+export default AdminPageEditButtons

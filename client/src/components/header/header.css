@@ -10,6 +10,13 @@
   .largerThanIphone667 {
     display: none !important;
   }
+  .absolute {
+    max-height: 175px !important;
+    max-width: 175px !important;
+  }
+  .appbar-phone {
+    font-size: 20px !important;
+  }
 }
 @media (max-width: 768px) {
   .largerThanIpad768 {
@@ -45,6 +52,11 @@
   display: flex
 }
 
+.drawer-user {
+  padding: 16px;
+  margin: 8px 0 0;
+}
+
 .appbar {
   display: flex;
   flex-flow: row nowrap;
@@ -69,8 +81,9 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  height: 32px;
-  padding: 4px 4px 0 0;
+  line-height: initial;
+  padding-top: 3px;
+  margin-bottom: -3px;
 }
 
 .appbar-phone {

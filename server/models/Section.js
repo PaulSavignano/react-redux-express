@@ -22,7 +22,6 @@ const SectionSchema = new Schema({
   values: {
     alignItems: { type: String, trim: true },
     backgroundColor: { type: String, trim: true },
-    containerMarginTop: { type: String, trim: true },
     flexFlow: { type: String, trim: true, default: 'row wrap' },
     justifyContent: { type: String, trim: true, default: 'space-between' },
     kind: { type: String, trim: true, default: 'Flex' },
@@ -30,7 +29,7 @@ const SectionSchema = new Schema({
     maxWidth: { type: String, trim: true, default: '1044px' },
     minHeight: { type: String, trim: true, default: '120px' },
     padding: { type: String, trim: true },
-    pageLink: { type: String, trim: true }
+    pageLink: { type: String, trim: true },
   }
 }, {
   timestamps: true

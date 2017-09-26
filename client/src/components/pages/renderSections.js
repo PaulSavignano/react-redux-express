@@ -1,8 +1,8 @@
 import React from 'react'
 
 import Section from '../sections/Section'
-import SlideShow from '../sections/SlideShow'
-import SwipeableSection from '../sections/SwipeableSection'
+import SectionSlideShow from '../sections/SectionSlideShow'
+import SectionSwipeable from '../sections/SectionSwipeable'
 
 const renderSections = ({ dispatch, sections, pageId, pageSlug }) => {
   const sectionList = (section) => {
@@ -17,7 +17,7 @@ const renderSections = ({ dispatch, sections, pageId, pageSlug }) => {
           pageSlug={pageSlug}
                />
      case 'SlideShow':
-       return <SlideShow
+       return <SectionSlideShow
          dispatch={dispatch}
          key={section._id}
          item={section}
@@ -25,7 +25,7 @@ const renderSections = ({ dispatch, sections, pageId, pageSlug }) => {
          pageSlug={pageSlug}
               />
       case 'Swipeable':
-        return <SwipeableSection
+        return <SectionSwipeable
           dispatch={dispatch}
           key={section._id}
           item={section}

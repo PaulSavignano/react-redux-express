@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import './section.css'
 import sectionContainer from '../../containers/sections/sectionContainer'
-import AdminSectionButtons from './AdminSectionButtons'
+import AdminSectionEditButtons from './AdminSectionEditButtons'
 import renderAdminComponents from './renderAdminComponents'
 
 class AdminSection extends Component {
@@ -13,21 +13,18 @@ class AdminSection extends Component {
       item,
       pageId,
       pageSlug,
-      propsForParent,
-      propsForChild,
+      style
     } = this.props
     const { items } = item
     return (
-      <div className="admin-section">
+      <div className="AdminSection">
         <section
           onTouchTap={this.handleStartEdit}
-          {...propsForParent}
+          style={style}
         >
-          <div {...propsForChild}>
-            {renderAdminComponents({ components: items, pageSlug })}
-          </div>
+          {renderAdminComponents({ components: items, pageSlug })}
         </section>
-        <AdminSectionButtons
+        <AdminSectionEditButtons
           dispatch={dispatch}
           item={item}
           pageId={pageId}
@@ -42,7 +39,8 @@ AdminSection.propTypes = {
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
-  pageSlug: PropTypes.string.isRequired
+  pageSlug: PropTypes.string.isRequired,
+  style: PropTypes.object.isRequired
 }
 
 export default sectionContainer(AdminSection)

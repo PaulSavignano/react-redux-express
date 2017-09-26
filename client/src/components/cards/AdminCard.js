@@ -23,18 +23,20 @@ class AdminCard extends Component {
       elevation,
       linkEvents,
       item: {
-        values: { flex }
+        values: {
+          flex: itemFlex,
+        }
       },
     } = this.props
     const {
+      flex: cardStyleFlex,
       margin,
-      width
     } = cardStyle.values
     return (
       <Card
         {...linkEvents}
         onTouchTap={this.handleStartEdit}
-        style={{ cursor, flex, margin, width }}
+        style={{ cursor, flex: itemFlex || cardStyleFlex, margin }}
         zDepth={elevation}
         className="card-item"
       >

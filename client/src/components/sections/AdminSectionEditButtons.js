@@ -24,7 +24,7 @@ const components = [
   { label: 'Product', action: productAdd }
 ]
 
-class AdminSectionButtons extends Component {
+class AdminSectionEditButtons extends Component {
   state = {
     openMenu: false,
     imageEdit: false,
@@ -52,46 +52,48 @@ class AdminSectionButtons extends Component {
       pageSlug,
     } = this.props
     return (
-      <div className="admin-section-buttons">
-        <FloatingActionButton
-          onTouchTap={this.handleOpenMenu}
-          className="edit-section"
-        >
-          <ContentAdd />
-        </FloatingActionButton>
-        <Popover
-          open={this.state.openMenu}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={() => this.setState({ openMenu: false })}
-          animation={PopoverAnimationVertical}
-          style={{ flex: '1 1 auto', width: 'auto' }}
-        >
-          <Menu autoWidth={true}>
-            {components.map(component => (
-              <AdminSectionAddComponent
-                action={component.action}
-                component={component}
-                dispatch={dispatch}
-                handleCloseMenu={this.handleCloseMenu}
-                key={component.label}
-                pageId={pageId}
-                pageSlug={pageSlug}
-                sectionId={item._id}
-              />
-            ))}
-          </Menu>
-        </Popover>
-        <FloatingActionButton
-          onTouchTap={this.handleStartEdit}
-          className="edit-section"
-        >
-          <EditIcon />
-        </FloatingActionButton>
+      <div className="AdminSectionEditButtons">
+        <div>
+          <FloatingActionButton
+            onTouchTap={this.handleOpenMenu}
+            className="edit-section"
+          >
+            <ContentAdd />
+          </FloatingActionButton>
+          <Popover
+            open={this.state.openMenu}
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={() => this.setState({ openMenu: false })}
+            animation={PopoverAnimationVertical}
+            style={{ flex: '1 1 auto', width: 'auto' }}
+          >
+            <Menu autoWidth={true}>
+              {components.map(component => (
+                <AdminSectionAddComponent
+                  action={component.action}
+                  component={component}
+                  dispatch={dispatch}
+                  handleCloseMenu={this.handleCloseMenu}
+                  key={component.label}
+                  pageId={pageId}
+                  pageSlug={pageSlug}
+                  sectionId={item._id}
+                />
+              ))}
+            </Menu>
+          </Popover>
+          <FloatingActionButton
+            onTouchTap={this.handleStartEdit}
+            className="edit-section"
+          >
+            <EditIcon />
+          </FloatingActionButton>
+        </div>
       </div>
     )
   }
 }
 
-export default buttonContainer(AdminSectionButtons)
+export default buttonContainer(AdminSectionEditButtons)

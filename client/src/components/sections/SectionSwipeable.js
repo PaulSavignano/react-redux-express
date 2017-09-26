@@ -3,34 +3,32 @@ import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 
-import swipeableContainer from '../../containers/sections/swipeableContainer'
+import sectionContainer from '../../containers/sections/sectionContainer'
 import renderComponents from './renderComponents'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
-class SwipeableSection extends Component {
+class SectionSwipeable extends Component {
   render() {
     const {
       autoplay,
       item: {
         items
       },
-      propsForParent,
-      propsForChild,
+      style
     } = this.props
     return (
-      <section {...propsForParent}>
+      <section style={style}>
         <AutoPlaySwipeableViews
           autoplay={autoplay}
-          slideStyle={propsForChild.style}
-          interval={5000}
-          animateTransitions={false}
+          interval={4000}
+          animateTransitions={true}
           springConfig={{
-            duration: '1s',
-            opacity: 1,
-            easeFunction: 'opacity 300ms ease-in 200ms',
-            delay: '0s'
+            duration: '4s',
+            easeFunction: 'ease-in-out',
+            delay: '-1s'
           }}
+          className="AutoPlaySwipeableViews"
         >
           {renderComponents({ components: items })}
         </AutoPlaySwipeableViews>
@@ -39,10 +37,10 @@ class SwipeableSection extends Component {
   }
 }
 
-SwipeableSection.propTypes = {
+SectionSwipeable.propTypes = {
   autoplay: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
 }
 
-export default swipeableContainer(SwipeableSection)
+export default sectionContainer(SectionSwipeable)

@@ -149,7 +149,7 @@ const createCharge = ({
         fromBody: `
           <p>${firstName} ${lastName} just placed order an order!</p>
           ${htmlOrder}
-          <p>Once shipped, you can mark the item as shipped in at ${process.env.ROOT_URL}/admin/orders to send confirmation to ${firstName}.</p>
+          <p>Once shipped, you can mark the item as shipped in at ${process.env.APP_NAME}/admin/orders to send confirmation to ${firstName}.</p>
         `
       })
     })

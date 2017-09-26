@@ -101,7 +101,6 @@ const adminItemForms = [{
   fields: [
     { name: 'alignItems', type: 'text' },
     { name: 'backgroundColor', type: 'text' },
-    { name: 'containerMarginTop', type: 'text' },
     { name: 'kind', type: 'select', options: [ 'Flex', 'SlideShow', 'Swipeable' ] },
     { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse', 'row nowrap', 'column' ] },
     { name: 'justifyContent', type: 'text' },
@@ -109,7 +108,7 @@ const adminItemForms = [{
     { name: 'maxWidth', type: 'text' },
     { name: 'minHeight', type: 'text' },
     { name: 'padding', type: 'text' },
-    { name: 'pageLink', type: 'text' }
+    { name: 'pageLink', type: 'text' },
   ]
 }]
 

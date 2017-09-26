@@ -5,13 +5,32 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 45px, rgba(0, 0, 0, 0.22) 0px 10px 18px;
   background-color: rgb(255,255,255) !important;
 }
-.admin-section {
+
+.AdminSectionEditButtons {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+
+.AdminSection, .AdminSectionSlideShow, .AdminSectionSwipeable {
   position: relative;
 }
-.admin-section-buttons {
+
+.AdminSection>section {
   display: flex;
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  z-index: 1;
+}
+.Section, .AdminSection > section {
+  display: flex;
+}
+
+.AutoPlaySwipeableViews > div > div {
+  display: flex;
+  flex-flow: column;
+  justify-content: center
 }

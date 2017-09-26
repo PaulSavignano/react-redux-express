@@ -73,7 +73,7 @@ class Header extends Component {
           >
             <HeaderBrand item={appBar} maxHeight={64}/>
           </Paper>
-          {firstName && <div style={{ padding: 16, marginTop: 8 }}>Hello, {firstName}</div>}
+          {firstName && <div className="drawer-user">Hello, {firstName}</div>}
           <DrawerNavigation
             dispatch={dispatch}
             firstName={firstName}

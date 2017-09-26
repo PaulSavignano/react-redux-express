@@ -4,14 +4,14 @@ import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 
 import './section.css'
-import swipeableContainer from '../../containers/sections/swipeableContainer'
-import AdminSectionButtons from './AdminSectionButtons'
+import sectionContainer from '../../containers/sections/sectionContainer'
+import AdminSectionEditButtons from './AdminSectionEditButtons'
 import renderAdminComponents from './renderAdminComponents'
 import { startEdit } from '../../actions/editItem'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
-class AdminSwipeableSection extends Component {
+class AdminSectionSwipeable extends Component {
   handleStartEdit = (e) => {
     e.stopPropagation()
     const { dispatch, item } = this.props
@@ -24,18 +24,16 @@ class AdminSwipeableSection extends Component {
       item,
       pageId,
       pageSlug,
-      propsForParent,
-      propsForChild,
+      style,
     } = this.props
     return (
-      <div className="admin-section">
+      <div className="AdminSectionSwipeable">
         <section
           onTouchTap={this.handleStartEdit}
-          {...propsForParent}
+          style={style}
         >
           <AutoPlaySwipeableViews
             autoplay={autoplay}
-            slideStyle={propsForChild.style}
             interval={4000}
             animateTransitions={true}
             springConfig={{
@@ -43,12 +41,12 @@ class AdminSwipeableSection extends Component {
               easeFunction: 'ease-in-out',
               delay: '-1s'
             }}
-            className="heroCarousel"
+            className="AutoPlaySwipeableViews"
           >
             {renderAdminComponents({ components: item.items, pageSlug })}
           </AutoPlaySwipeableViews>
         </section>
-        <AdminSectionButtons
+        <AdminSectionEditButtons
           dispatch={dispatch}
           item={item}
           pageId={pageId}
@@ -59,10 +57,13 @@ class AdminSwipeableSection extends Component {
   }
 }
 
-AdminSwipeableSection.propTypes = {
+AdminSectionSwipeable.propTypes = {
   autoplay: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
+  pageId: PropTypes.string.isRequired,
+  pageSlug: PropTypes.string.isRequired,
+  style: PropTypes.object.isRequired,
 }
 
-export default swipeableContainer(AdminSwipeableSection)
+export default sectionContainer(AdminSectionSwipeable)
