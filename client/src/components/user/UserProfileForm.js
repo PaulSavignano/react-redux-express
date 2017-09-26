@@ -31,15 +31,15 @@ const validate = values => {
 class UserProfileForm extends Component {
   render() {
     const {
-      dirty,
       error,
       handleSubmit,
+      invalid,
       onDelete,
       onFormSubmit,
+      pristine,
       reset,
       submitSucceeded,
       submitting,
-      valid
     } = this.props
     return (
       <Card className="UserProfileForm">
@@ -56,14 +56,13 @@ class UserProfileForm extends Component {
           </div>
           <div className="button-container">
             <SuccessableButton
-              dirty={dirty}
+              disabled={pristine || invalid}
               error={error}
               label="Update User"
               reset={reset}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel="User Updated!"
-              valid={valid}
             />
             <RaisedButton
               type="button"

@@ -2,8 +2,6 @@ import mongoose, { Schema } from 'mongoose'
 
 import { uploadFile, deleteFile } from '../middleware/s3'
 
-const s3Path = `${process.env.APP_NAME}/products/product_`
-
 const ProductSchema = new Schema({
   image: {
     src: { type: String, minlength: 1, trim: true },

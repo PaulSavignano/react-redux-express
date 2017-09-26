@@ -35,14 +35,14 @@ class Signin extends Component {
   }
   render() {
     const {
-      dirty,
       error,
       handleSubmit,
+      invalid,
+      pristine,
       primary1Color,
       submitSucceeded,
       submitting,
       user,
-      valid
     } = this.props
     return (
       <div className="page">
@@ -56,14 +56,13 @@ class Signin extends Component {
               </CardText>
               <div className="button-container">
                 <SuccessableButton
-                  dirty={dirty}
+                  disabled={pristine || invalid}
                   error={error}
                   label="Sign In"
                   reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel={`Welcome ${user.values.firstName}!`}
-                  valid={valid}
                 />
               </div>
             </form>

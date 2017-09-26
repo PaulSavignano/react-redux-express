@@ -31,7 +31,6 @@ export const add = (req, res) => {
 }
 
 export const get = (req, res) => {
-  console.log(req.get('host'))
   Page.find({})
   .then(pages => res.send(pages))
   .catch(error => {

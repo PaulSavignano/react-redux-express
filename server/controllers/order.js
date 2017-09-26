@@ -54,7 +54,8 @@ export const add = (req, res, next) => {
         firstName,
         lastName,
         token,
-        res
+        res,
+        req
       }))
       .catch(error => {
         console.error(error)
@@ -75,7 +76,8 @@ export const add = (req, res, next) => {
       firstName,
       lastName,
       token,
-      res
+      res,
+      req
     }))
     .catch(error => {
       console.error(error)
@@ -92,14 +94,16 @@ const createCharge = ({
   firstName,
   lastName,
   token,
-  res
+  res,
+  req
 }) => {
+  const rootUrl = req.get('host')
   const stripe = require("stripe")(process.env.STRIPE_SK_TEST)
   stripe.charges.create({
     amount: Math.round(cart.total),
     currency: "usd",
     source: token,
-    description: `${process.env.APP_NAME} Order`
+    description: `${rootUrl} Order`
   })
   .then(charge => {
     const newOrder = new Order({
@@ -149,7 +153,7 @@ const createCharge = ({
         fromBody: `
           <p>${firstName} ${lastName} just placed order an order!</p>
           ${htmlOrder}
-          <p>Once shipped, you can mark the item as shipped in at ${process.env.APP_NAME}/admin/orders to send confirmation to ${firstName}.</p>
+          <p>Once shipped, you can mark the item as shipped in at ${rootUrl}/admin/orders to send confirmation to ${firstName}.</p>
         `
       })
     })

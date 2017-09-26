@@ -52,17 +52,17 @@ class BrandForm extends Component {
   render() {
     const {
       backgroundColor,
-      dirty,
       error,
       fields,
       fontFamily,
       form,
       handleSubmit,
       image,
+      invalid,
+      pristine,
       reset,
       submitSucceeded,
       submitting,
-      valid
     } = this.props
     return (
       <Card
@@ -98,7 +98,7 @@ class BrandForm extends Component {
           {error && <div className="error">{error}</div>}
           <div className="button-container">
             <SuccessableButton
-              dirty={dirty}
+              disabled={pristine || invalid}
               error={error}
               imageEdit={this.state.imageEdit}
               label={`update ${form}`}
@@ -106,7 +106,6 @@ class BrandForm extends Component {
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel={`${form} updated!`}
-              valid={valid}
             />
           </div>
         </form>
@@ -118,17 +117,12 @@ class BrandForm extends Component {
 BrandForm.propTypes = {
   _id: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
-  destroy: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
   fields: PropTypes.array.isRequired,
   fontFamily: PropTypes.string.isRequired,
   form: PropTypes.string.isRequired,
   image: PropTypes.object,
-  initialValues: PropTypes.object,
-  submitSucceeded: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  valid: PropTypes.bool.isRequired
 }
 
 export default reduxForm({ enableReinitialize: true })(BrandForm)

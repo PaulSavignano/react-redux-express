@@ -49,12 +49,12 @@ class Reset extends Component {
   }
   render() {
     const {
-      dirty,
       error,
       handleSubmit,
+      invalid,
+      pristine,
       submitSucceeded,
       submitting,
-      valid
     } = this.props
     return (
       <div className="page">
@@ -68,14 +68,13 @@ class Reset extends Component {
               </CardText>
               <div className="button-container">
                 <SuccessableButton
-                  dirty={dirty}
+                  disabled={pristine || invalid}
                   error={error}
                   label="Reset"
                   reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Reset Success!"
-                  valid={valid}
                 />
               </div>
             </form>
@@ -104,11 +103,6 @@ class Reset extends Component {
 
 Reset.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitSucceeded: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired
 }
 

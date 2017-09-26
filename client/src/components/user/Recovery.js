@@ -41,13 +41,13 @@ class Recovery extends Component {
   }
   render() {
     const {
-      dirty,
       error,
       handleSubmit,
+      invalid,
+      pristine,
       primary1Color,
       submitSucceeded,
       submitting,
-      valid,
     } = this.props
     return (
       <div className="page">
@@ -60,14 +60,13 @@ class Recovery extends Component {
               </CardText>
               <div className="card-actions">
                 <SuccessableButton
-                  dirty={dirty}
+                  disabled={pristine || invalid}
                   error={error}
                   label="Request Estimage"
                   reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Estimate Requested!"
-                  valid={valid}
                 />
               </div>
             </form>
@@ -99,12 +98,7 @@ class Recovery extends Component {
 }
 
 Recovery.propTypes = {
-  destroy: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
-  submitSucceeded: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
   user: PropTypes.object
 }
 

@@ -29,10 +29,11 @@ class AddressItem extends Component {
       dirty,
       error,
       handleSubmit,
+      invalid,
+      pristine,
       reset,
       submitSucceeded,
       submitting,
-      valid,
     } = this.props
     return (
       <Card
@@ -48,14 +49,13 @@ class AddressItem extends Component {
           <AddressFields autoFocus={false} />
           <div className="button-container">
             <SuccessableButton
-              dirty={dirty}
+              disabled={pristine || invalid}
               error={error}
               label="Update Address"
               reset={reset}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel="Address Updated!"
-              valid={valid}
             />
             <RaisedButton
               type="button"
@@ -72,11 +72,7 @@ class AddressItem extends Component {
 
 AddressItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
-  submitSucceeded: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
   onAddressUpdate: PropTypes.func.isRequired,
   onAddressDelete: PropTypes.func.isRequired,
 }

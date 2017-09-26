@@ -16,15 +16,15 @@ const renderCheckbox = ({ input, label, className }) =>
 
 
 const UsersRolesForm = ({
-  dirty,
   dispatch,
   error,
   handleSubmit,
   handleUserRoles,
+  invalid,
+  pristine,
   reset,
   submitSucceeded,
   submitting,
-  valid
 }) => (
   <Card className="UsersRolesForm card">
     <CardTitle title="Roles" />
@@ -51,14 +51,13 @@ const UsersRolesForm = ({
       </div>
       <div className="button-container">
         <SuccessableButton
-          dirty={dirty}
+          disabled={pristine || invalid}
           error={error}
           label="Update Roles"
           reset={reset}
           submitSucceeded={submitSucceeded}
           submitting={submitting}
           successLabel="Roles Updated!"
-          valid={valid}
         />
       </div>
     </form>
@@ -66,16 +65,9 @@ const UsersRolesForm = ({
 )
 
 UsersRolesForm.propTypes = {
-  destroy: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
   handleUserRoles: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitSucceeded: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  valid: PropTypes.bool.isRequired,
 }
 
 export default reduxForm({ enableReinitialize: true })(UsersRolesForm)

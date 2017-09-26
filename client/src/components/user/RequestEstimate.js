@@ -47,14 +47,14 @@ class RequestEstimate extends Component {
   }
   render() {
     const {
-      dirty,
       dispatch,
       error,
       handleSubmit,
+      invalid,
+      pristine,
       reset,
       submitSucceeded,
       submitting,
-      valid,
     } = this.props
     return (
       <div className="page">
@@ -112,14 +112,13 @@ class RequestEstimate extends Component {
               }
               <div className="button-container">
                 <SuccessableButton
-                  dirty={dirty}
+                  disabled={pristine || invalid}
                   error={error}
                   label="Request Estimage"
                   reset={reset}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Estimate Requested!"
-                  valid={valid}
                 />
               </div>
             </form>

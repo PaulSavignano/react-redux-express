@@ -55,8 +55,9 @@ export const update = (req, res) => {
     type,
     values
   } = req.body
-  const imageKey = `${process.env.APP_NAME}/page-${pageSlug}/hero-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
-  const backgroundImageKey = `${process.env.APP_NAME}/page-${pageSlug}/hero-background-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const appUrl = req.get('host')
+  const imageKey = `${rootUrl}/page-${pageSlug}/hero-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const backgroundImageKey = `${rootUrl}/page-${pageSlug}/hero-background-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_BACKGROUND_IMAGE_AND_VALUES':
       uploadFile({ Key: imageKey }, image.src, oldImageSrc)

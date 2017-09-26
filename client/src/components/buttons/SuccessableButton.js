@@ -20,7 +20,7 @@ class SuccessableButton extends Component {
   }
   componentWillReceiveProps({
     backgroundColor,
-    dirty,
+    disabled,
     error,
     imageEdit,
     label,
@@ -28,9 +28,8 @@ class SuccessableButton extends Component {
     submitSucceeded,
     submitting,
     successLabel,
-    valid
   }) {
-    if (imageEdit) {
+    if (imageEdit !== this.props.imageEdit) {
       return this.setState({
         background: backgroundColor,
         disabled: false,
@@ -38,7 +37,8 @@ class SuccessableButton extends Component {
       })
     }
 
-    if (error) {
+
+    if (error !== this.props.error) {
       const timeoutId = setTimeout(() => {
         clearTimeout(this.state.timeoutId)
         this.setState({
@@ -57,31 +57,17 @@ class SuccessableButton extends Component {
       })
     }
 
-    if (dirty && valid) {
-      if (this.state.timeoutId) {
-        clearTimeout(this.state.timeoutId)
-      }
-      return this.setState({
+    if (disabled !== this.props.disabled) {
+      this.setState({
         background: backgroundColor,
-        disabled: false,
+        disabled,
         label,
         timeoutId: null
       })
     }
 
-    if (dirty && !valid) {
-      if (this.state.timeoutId) {
-        clearTimeout(this.state.timeoutId)
-      }
-      return this.setState({
-        background: backgroundColor,
-        disabled: true,
-        label,
-        timeoutId: null
-      })
-    }
-
-    if (submitSucceeded) {
+    if (submitSucceeded !== this.props.submitSucceeded) {
+      console.log('submitSucceeded', submitSucceeded)
       const timeoutId = setTimeout(() => {
         clearTimeout(this.state.timeoutId)
         this.setState({
@@ -97,18 +83,6 @@ class SuccessableButton extends Component {
         disabled: false,
         label: successLabel,
         timeoutId
-      })
-    }
-
-    if (!dirty && valid) {
-      if (this.state.timeoutId) {
-        clearTimeout(this.state.timeoutId)
-      }
-      return this.setState({
-        background: backgroundColor,
-        disabled: true,
-        label,
-        timeoutId: null
       })
     }
 
@@ -142,7 +116,7 @@ class SuccessableButton extends Component {
 SuccessableButton.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  dirty: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   fontFamily: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -151,7 +125,6 @@ SuccessableButton.propTypes = {
   submitSucceeded: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   successLabel: PropTypes.string.isRequired,
-  valid: PropTypes.bool.isRequired
 }
 
 export default buttonContainer(SuccessableButton)

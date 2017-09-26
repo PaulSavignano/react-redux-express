@@ -44,7 +44,8 @@ export const updateAppBar = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   const { type, image, oldImageSrc, values } = req.body
-  const Key = `${process.env.APP_NAME}/brand_${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  const rootUrl = req.get('host')
+  const Key = `${rootUrl}/brand_${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
@@ -135,7 +136,8 @@ export const updateBusiness = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   const { type, image, oldImageSrc, values } = req.body
-  const Key = `${process.env.APP_NAME}/brand_${_id}/business_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  const rootUrl = req.get('host')
+  const Key = `${rootUrl}/brand_${_id}/business_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)
@@ -242,7 +244,8 @@ export const updateFooter = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   const { type, image, oldImageSrc, values } = req.body
-  const Key = `${process.env.APP_NAME}/brand-${_id}/footer_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  const rootUrl = req.get('host')
+  const Key = `${rootUrl}/brand-${_id}/footer_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)

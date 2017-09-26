@@ -30,12 +30,12 @@ class OrderAdd extends Component {
     const {
       addresses,
       cart,
-      dirty,
       error,
       handleSubmit,
+      invalid,
+      pristine,
       submitSucceeded,
       submitting,
-      valid
     } = this.props
     return (
       <div className="page">
@@ -114,14 +114,13 @@ class OrderAdd extends Component {
               />
               <div className="button-container">
                 <SuccessableButton
-                  dirty={dirty}
+                  disabled={pristine || invalid}
                   error={error}
                   label="Place Order"
                   reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
                   successLabel="Order Placed!"
-                  valid={valid}
                 />
               </div>
             </form>

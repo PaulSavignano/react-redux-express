@@ -51,7 +51,8 @@ export const update = (req, res) => {
     type,
     values
   } = req.body
-  const Key = `${process.env.APP_NAME}/page-${pageSlug}/article-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
+  const appUrl = req.get('host')
+  const Key = `${appUrl}/page-${pageSlug}/article-${_id}_${moment(Date.now()).format("YYYY/MM/DD_h-mm-ss-a")}`
   switch (type) {
     case 'UPDATE_IMAGE_AND_VALUES':
       uploadFile({ Key }, image.src, oldImageSrc)

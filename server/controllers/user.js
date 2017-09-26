@@ -20,22 +20,23 @@ export const add = (req, res) => {
   })
   user.save()
   .then(doc => {
+    const rootUrl = req.get('host')
     const { values, roles } = doc
     const { email, firstName, lastName } = values
     return user.generateAuthToken()
       .then(token => {
         sendEmail1({
           to: email,
-          toSubject: `Welcome to ${process.env.APP_NAME}!`,
+          toSubject: `Welcome to ${rootUrl}!`,
           toBody: `
             <p>Hi ${firstName},</p>
-            <p>Thank you for joining ${process.env.APP_NAME}!</p>
+            <p>Thank you for joining ${rootUrl}!</p>
             <p>I hope you enjoy our offerings.  You may modify your profile settings at ${process.env.ROOT_URL}/user/profile.</p>
             <p>Please let us know if there is anything we can do to better assist you.</p>
           `,
-          fromSubject: `New ${process.env.APP_NAME} user!`,
+          fromSubject: `New ${rootUrl} user!`,
           fromBody: `
-            <p>New user ${firstName} ${lastName} just signed up at ${process.env.APP_NAME}.</p>
+            <p>New user ${firstName} ${lastName} just signed up at ${rootUrl}.</p>
             `
         })
         res.header('x-auth', token).send({ values, roles })
@@ -343,6 +344,7 @@ export const contact = (req, res) => {
   Brand.findOne({})
   .then(brand => {
     if (!brand) return Promise.reject('brand not found')
+    const rootUrl = req.get('host')
     const { name } = brand.business.values
     sendEmail1({
       to: email,
@@ -351,7 +353,7 @@ export const contact = (req, res) => {
       toBody: `<p>Thank you for contacting ${name}.  We will respond to your request shortly!</p>`,
       fromSubject: `New Contact Request`,
       fromBody: `
-        <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
+        <p>${firstName} just contacted you through ${rootUrl}.</p>
         <div>Email: ${email}</div>
         <div>Message: ${message}</div>
       `
@@ -371,6 +373,7 @@ export const contact = (req, res) => {
 export const requestEstimate = (req, res) => {
   const { date, firstName, lastName, phone, email, from, to, size, note } = req.body
   var auth = 'Basic ' + new Buffer(process.env.MOVERBASE_KEY + ':').toString('base64')
+  const rootUrl = req.get('host')
   return fetch(`https://api.moverbase.com/v1/leads/`, {
     method: 'POST',
     headers: {
@@ -398,7 +401,7 @@ export const requestEstimate = (req, res) => {
       toBody: `<p>Thank you for requesting a free estimate.  We will contact you shortly!</p>`,
       fromSubject: `New Estimate Request`,
       fromBody: `
-        <p>${firstName} just contacted you through ${process.env.APP_NAME}.</p>
+        <p>${firstName} just contacted you through ${rootUrl}.</p>
         ${phone && `<div>Phone: ${phone}</div>`}
         <div>Email: ${email}</div>
         <div>Note: ${note}</div>

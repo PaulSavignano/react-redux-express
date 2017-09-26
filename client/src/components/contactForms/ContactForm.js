@@ -40,14 +40,14 @@ class ContactForm extends Component {
   render() {
     const { elevation } = this.state
     const {
-      dirty,
       error,
       handleSubmit,
+      invalid,
       phone,
+      pristine,
       reset,
       submitSucceeded,
       submitting,
-      valid,
     } = this.props
     return (
       <Card
@@ -73,14 +73,13 @@ class ContactForm extends Component {
           </CardText>
           <div className="button-container">
             <SuccessableButton
-              dirty={dirty}
+              disabled={pristine || invalid}
               error={error}
               label="Contact"
-              reset={reset}
+              reset={null}
               submitSucceeded={submitSucceeded}
               submitting={submitting}
               successLabel="Contact Request Received!"
-              valid={valid}
             />
           </div>
         </form>
@@ -101,6 +100,5 @@ ContactForm.propTypes = {
 
 export default contactFormContainer(reduxForm({
   form: 'contact',
-  enableReinitialize: true,
   validate
 })(ContactForm))
