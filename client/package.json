@@ -41,7 +41,6 @@
     "expect": "^1.20.2",
     "jest-cli": "^20.0.3",
     "nock": "^9.0.9",
-    "react-addons-perf": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "redux-mock-store": "^1.2.2"
   }
