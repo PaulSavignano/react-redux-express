@@ -22,7 +22,7 @@ class UserProfilePage extends Component {
   }
   handleAddressAdd = (values) => {
     const { dispatch } = this.props
-    return dispatch(addressesActions.fetchAdminUpdate({ values }))
+    return dispatch(addressesActions.fetchAdd())
   }
   handleAddressUpdate = (itemId, values) => {
     const { dispatch } = this.props
@@ -30,7 +30,7 @@ class UserProfilePage extends Component {
   }
   handleAddressDelete = (itemId) => {
     const { dispatch } = this.props
-    dispatch(addressesActions.fetchDelete(itemId))
+    return dispatch(addressesActions.fetchDelete(itemId))
   }
   componentWillMount() {
     const { user: { values }} = this.props

@@ -13,10 +13,11 @@ class SuccessableButton extends Component {
   }
   componentWillMount() {
     const {
+      disabled,
       backgroundColor,
       label
     } = this.props
-    this.setState({ background: backgroundColor, disabled: true, label })
+    this.setState({ background: backgroundColor, disabled, label })
   }
   componentWillReceiveProps({
     backgroundColor,

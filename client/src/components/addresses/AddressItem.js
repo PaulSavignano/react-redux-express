@@ -22,7 +22,7 @@ class AddressItem extends Component {
   }
   handleDelete = () => {
     const { item: { _id }, onAddressDelete } = this.props
-    return onAddressDelete(_id)
+    if (window.confirm('Are you sure you want to delete?')) return onAddressDelete(_id)
   }
   render() {
     const {

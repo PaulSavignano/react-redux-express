@@ -89,7 +89,7 @@ UserSchema.methods.removeTokens = function(tokens) {
 
 UserSchema.methods.buildResponse = function() {
   const user = this
-  this.populate({ path: 'addresses' })
+  user.populate({ path: 'addresses' })
   const { _id, addresses, roles, values } = user
   const isOwner = roles.some(role => role === 'owner')
   const isAdmin = roles.some(role => role === 'admin')
@@ -108,6 +108,7 @@ UserSchema.methods.buildResponse = function() {
       res.status(400).send()
     })
   } else {
+    console.log('addresses from build', addresses)
     return Promise.resolve({ user: { _id, addresses, values, roles }})
   }
 }

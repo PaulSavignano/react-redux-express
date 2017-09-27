@@ -26,6 +26,7 @@ const user = (state = {
         ...action.item
       }
     case `UPDATE_${type}`:
+      console.log('inside user reducer', action.item)
       return {
         ...state,
         ...action.item

@@ -2,26 +2,30 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import { CardActions } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
+import SuccessableButton from '../buttons/SuccessableButton'
 
 class AddressAdd extends Component {
   render() {
     const {
       error,
       handleSubmit,
-      onAddressAdd
+      onAddressAdd,
+      reset,
+      submitSucceeded,
+      submitting,
     } = this.props
     return (
       <form onSubmit={handleSubmit(onAddressAdd)}>
-        <CardActions>
-          <RaisedButton
-            type="submit"
-            label="Add New Address"
-            labelColor="#ffffff"
-            primary={true}
-            fullWidth={true}
+        <CardActions className="button-container">
+          <SuccessableButton
+            disabled={false}
+            error={error}
+            label="Add Address"
+            reset={reset}
+            submitSucceeded={submitSucceeded}
+            submitting={submitting}
+            successLabel="Address Added!"
           />
-          {error && <div className="error">{error}</div>}
         </CardActions>
       </form>
     )

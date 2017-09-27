@@ -142,7 +142,17 @@ export const remove = (req, res) => {
       { $pull: { addresses:  address._id }},
       { new: true }
     )
-    .then(user => res.send({ address, user }))
+    .then(() => {
+      User.findOne({ _id: req.user._id })
+      .then(user => {
+        console.log('address remove user update', user)
+        res.send({ user })
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(400).send({ error })
+      })
+    })
     .catch(error => {
       console.error(error)
       res.status(400).send({ error })

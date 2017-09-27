@@ -116,10 +116,12 @@ export const fetchDelete = (_id) => {
     })
       .then(res => res.json())
       .then(json => {
+        const { user } = json
         if (json.error) return Promise.reject(json.error)
-        return dispatch(userActions.fetchUpdateSuccess(json))
+        return dispatch(userActions.fetchUpdateSuccess(user))
       })
       .catch(error => {
+        console.log(error)
         dispatch(fetchFailure(error))
         throw new SubmissionError({ ...error, _error: 'Delete failed!' })
       })

@@ -14,8 +14,8 @@ import Footer from '../footer/Footer'
 
 class AppRouter extends Component {
   state = {
-    loadingItemImages: false,
-    loadingItemBackgroundImages: false
+    loadingItemImages: true,
+    loadingItemBackgroundImages: true
   }
   handleItemImages = (items) => {
     const images = items.filter(item => item.item.image && item.item.image.src).map(({ item: { image: { src }}}) => src)
@@ -32,6 +32,11 @@ class AppRouter extends Component {
       },
       pages
     } = this.props
+    const itemsArray = pages.map(page => page.sections.map(section => section.items.map(item => item)))
+    const items = flattenArray(itemsArray)
+    this.handleItemImages(items)
+    this.handleItemBackgroundImages(items)
+    this.setState({ items })
     document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
   }
   componentWillReceiveProps({ brand: { bodyStyle: { values: {backgroundColor }}}}) {

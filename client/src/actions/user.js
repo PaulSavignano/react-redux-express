@@ -76,7 +76,11 @@ export const fetchUser = (token) => {
 
 
 // Update
-export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
+export const fetchUpdateSuccess = (item) => {
+  console.log('user update', item)
+  return { type: UPDATE, item }
+}
+
 export const fetchUpdate = (update) => {
   return (dispatch, getState) => {
     return fetch(`/api/${route}`, {
