@@ -65,13 +65,14 @@ export const sendEmail1 = (mail) => {
         a {
           text-decoration: none;
           color: inherit;
+          font-family: ${textFont};
         }
       </style>
       </head>
       <body>
          <main>
           ${body}
-          <br/>
+          <br/><br/>
           ${image && image.src ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
           <div>
             <span style="text-decoration: none; color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing}; ">
@@ -79,7 +80,7 @@ export const sendEmail1 = (mail) => {
             </span>
           </div>
           <div>
-            <a href="mailto:${process.env.GMAIL_USER}" style="color: black; text-decoration: none; font-family: ${textFont}">
+            <a href="mailto:${process.env.GMAIL_USER}">
               ${process.env.GMAIL_USER}
             </a>
           </div>
@@ -113,7 +114,7 @@ export const sendEmail1 = (mail) => {
       }
       return transporter.sendMail(userMail)
         .then(info => info)
-        .catch(error => console.error(error))
+        .catch(error => Promise.reject(error))
     })
-    .catch(error => console.error(error))
+    .catch(error => Promise.reject(error))
 }

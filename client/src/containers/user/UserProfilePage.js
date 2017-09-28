@@ -18,7 +18,9 @@ class UserProfilePage extends Component {
   }
   handleUserDelete = () => {
     const { dispatch } = this.props
-    return dispatch(userActions.fetchDelete())
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      return dispatch(userActions.fetchDelete())
+    }
   }
   handleAddressAdd = (values) => {
     const { dispatch } = this.props
@@ -30,7 +32,9 @@ class UserProfilePage extends Component {
   }
   handleAddressDelete = (itemId) => {
     const { dispatch } = this.props
-    return dispatch(addressesActions.fetchDelete(itemId))
+    if (window.confirm('Are you sure you want to delete this address?')) {
+      return dispatch(addressesActions.fetchDelete(itemId))
+    }
   }
   componentWillMount() {
     const { user: { values }} = this.props

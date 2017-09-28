@@ -2,9 +2,11 @@ import mongoose, { Schema } from 'mongoose'
 import validator from 'validator'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import { ObjectID } from 'mongodb'
 
-import Address from '../models/Address'
-import Order from '../models/Order'
+import Address from './Address'
+import Order from './Order'
+import Token from './Token'
 
 const UserSchema = new Schema({
   values: {
@@ -36,7 +38,7 @@ const UserSchema = new Schema({
     token: { type: String, required: true }
   }],
   passwordResetToken: { type: String, default: '' },
-  passwordResetExpires: { type: Date, default: Date.now },
+  passwordResetExpires: { type: Date },
   createdAt: { type: Date, default: Date.now }
 })
 
@@ -59,59 +61,86 @@ UserSchema.methods.generateAuthToken = function() {
   const user = this
   const access = 'auth'
   const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString()
-  user.tokens.push({ access, token })
-  return user.save()
-    .then(() => token)
-    .catch(err => Promise.reject(err))
+  const newToken = new Token({
+    user: ObjectID(user._id),
+    access,
+    token
+  })
+  return newToken.save()
+  .then(() => token)
+  .catch(error => Promise.reject(error))
+
+  // user.tokens.push({ access, token })
+  // return user.save()
+  //   .then(() => token)
+  //   .catch(err => Promise.reject(err))
 }
 
 UserSchema.methods.removeToken = function(token) {
   const user = this
-  return user.update({
-    $pull: {
-      tokens: {
-        token
-      }
-    }
-  })
+  return Token.remove({ user: user._id })
+
+  // return user.update({
+  //   $pull: {
+  //     tokens: {
+  //       token
+  //     }
+  //   }
+  // })
 }
 
-UserSchema.methods.removeTokens = function(tokens) {
-  const user = this
-  return user.update({
-    $pull: {
-      tokens: {
-        $in: tokens
-      }
-    }
-  })
-}
+// UserSchema.methods.removeTokens = function(tokens) {
+//   const user = this
+//   return user.update({
+//     $pull: {
+//       tokens: {
+//         $in: tokens
+//       }
+//     }
+//   })
+// }
 
 UserSchema.methods.buildResponse = function() {
   const user = this
-  user.populate({ path: 'addresses' })
   const { _id, addresses, roles, values } = user
+
   const isOwner = roles.some(role => role === 'owner')
   const isAdmin = roles.some(role => role === 'admin')
-  if (isAdmin) {
+  if (isOwner) {
     return Promise.all([
-      User.find({}).sort({ 'values.lastName': 1, 'values.firstName': 1 }).then(users => users)
+      User.find({}).populate({ path: 'addresses' }).sort({ 'values.lastName': 1, 'values.firstName': 1 }).then(users => users),
+      Order.find({}).then(orders => orders)
     ])
-    .then(([users]) => {
+    .then(([users, orders]) => {
       return {
         user: { _id, addresses, roles, values },
-        users: users
+        users,
+        orders
       }
     })
-    .catch(error => {
-      console.log(error)
-      res.status(400).send()
-    })
-  } else {
-    console.log('addresses from build', addresses)
-    return Promise.resolve({ user: { _id, addresses, values, roles }})
+    .catch(error => Promise.reject(error))
   }
+  if (isAdmin) {
+    return Order.find({})
+    .then(orders => {
+      return {
+        orders,
+        user: { _id, addresses, roles, values }
+      }
+    })
+    .catch(error => Promise.reject(error))
+  }
+  return Order.find({ user: user._id })
+  .then(orders => {
+    return {
+      user: { _id, addresses, roles, values },
+      orders
+    }
+  })
+  .catch(error => Promise.reject(error))
 }
+
+
 
 UserSchema.statics.findByToken = function(token, roles) {
   const User = this
@@ -121,19 +150,17 @@ UserSchema.statics.findByToken = function(token, roles) {
   } catch (error) {
     return Promise.reject(error)
   }
-  return User.findOne({
-    _id: decoded._id,
-    roles: {
-      $in: roles
-    },
-    'tokens.token': token,
-    'tokens.access': 'auth'
+  return Token.findOne({ token })
+  .then(token => {
+    return User.findOne({ _id: token.user })
   })
+
 }
 
 UserSchema.statics.findByCredentials = function(email, password) {
   const User = this
   return User.findOne({ 'values.email': email.toLowerCase() })
+    .populate({ path: 'addresses' })
     .then(user => {
       if (!user) return Promise.reject({ error: { email: 'User not found'}})
       return new Promise((resolve, reject) => {
@@ -162,6 +189,7 @@ UserSchema.pre('save', function(next) {
     next()
   }
 })
+
 
 UserSchema.post('findOneAndRemove', function(doc, next) {
   Address.deleteMany({ _id: { $in: doc.addresses }}).catch(error => console.error(error))

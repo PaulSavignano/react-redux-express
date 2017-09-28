@@ -12,7 +12,7 @@ const authenticate = (roles) => {
     })
     .catch(error => {
       console.error(error)
-      res.status(401).send()
+      res.status(401).send({ error })
     })
   }
 }

@@ -48,6 +48,7 @@ class AdminContactForm extends Component {
         </CardText>
         <div className="button-container">
           <RaisedButton
+            disabled={true}
             label="Contact"
             type="button"
             primary={true}

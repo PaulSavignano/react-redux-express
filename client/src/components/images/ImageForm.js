@@ -180,12 +180,14 @@ class ImageForm extends Component {
     const { src } = this.state
     const { onImageRemove } = this.props
     const image = { src }
-    this.setState({
-      ...this.state,
-      src: null,
-      editing: false
-    })
-    return onImageRemove(image)
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      this.setState({
+        ...this.state,
+        src: null,
+        editing: false
+      })
+      return onImageRemove(image)
+    }
   }
   renderLabel = () => {
     const { width, height } = this.state

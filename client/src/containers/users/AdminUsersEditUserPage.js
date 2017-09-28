@@ -17,7 +17,9 @@ class AdminUsersEditUserPage extends Component {
   }
   handleUserDelete = () => {
     const { dispatch, user: { _id }} = this.props
-    return dispatch(usersActions.fetchDelete(_id))
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      return dispatch(usersActions.fetchDelete(_id))
+    }
   }
   handleUserRoles = (values) => {
     const { dispatch, user: { _id }} = this.props
@@ -33,7 +35,9 @@ class AdminUsersEditUserPage extends Component {
   }
   handleAddressDelete = (itemId) => {
     const { dispatch, user: { _id }} = this.props
-    dispatch(addressesActions.fetchAdminDelete(_id, itemId))
+    if (window.confirm('Are you sure you want to delete this address?')) {
+      dispatch(addressesActions.fetchAdminDelete(_id, itemId))
+    }
   }
   render() {
     const {

@@ -46,7 +46,8 @@ const products = (state = {
     case `ERROR_${type}`:
       return {
         ...state,
-        error: action.error
+        error: action.error,
+        isFetching: false,
       }
     default:
       return state

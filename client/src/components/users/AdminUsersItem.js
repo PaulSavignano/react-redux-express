@@ -29,9 +29,11 @@ class AdminUsersItem extends Component {
     const { user: { _id }} = this.props
     return history.push(`/admin/users/edit/${_id}`)
   }
-  handleRemove = () => {
+  handleDelete = () => {
     const { dispatch, user: { _id }} = this.props
-    return dispatch(fetchDelete(_id))
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      return dispatch(fetchDelete(_id))
+    }
   }
   handleFormSubmit = (values) => {
     const { dispatch, user: { _id }} = this.props
@@ -68,7 +70,7 @@ class AdminUsersItem extends Component {
             primary={true}
           />
           <RaisedButton
-            onTouchTap={this.handleRemove}
+            onTouchTap={this.handleDelete}
             type="button"
             label="X"
             className="delete-button"

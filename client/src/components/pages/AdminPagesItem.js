@@ -16,9 +16,11 @@ class AdminPagesItem extends Component {
     const { item: { slug }} = this.props
     history.push(`/admin/pages/${slug}`)
   }
-  handleRemove = () => {
+  handleDelete = () => {
     const { dispatch, item: { _id }} = this.props
-    return dispatch(fetchDelete(_id))
+    if (window.confirm('Are you sure you want to delete this page?')) {
+      return dispatch(fetchDelete(_id))
+    }
   }
   handleMouseEnter = () => this.setState({ elevation: 4 })
   handleMouseLeave = () => this.setState({ elevation: 1 })
@@ -56,7 +58,7 @@ class AdminPagesItem extends Component {
               primary={true}
             />
             <RaisedButton
-              onTouchTap={this.handleRemove}
+              onTouchTap={this.handleDelete}
               type="button"
               label="X"
               className="delete-button"

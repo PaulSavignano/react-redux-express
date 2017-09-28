@@ -38,10 +38,16 @@ const users = (state = {
         ...state,
         items: state.items.filter(item => item._id !== action._id)
       }
+    case `DELETE_ALL_${type}`:
+      return {
+        ...state,
+        items: []
+      }
     case `ERROR_${type}`:
       return {
         ...state,
-        error: action.error
+        error: action.error,
+        isFetching: false,
       }
     default:
       return state

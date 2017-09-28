@@ -1,6 +1,6 @@
 import { SubmissionError } from 'redux-form'
 
-import { fetchOrders } from './orders'
+import { fetchOrdersSuccess } from './orders'
 import { fetchUsersSuccess, fetchDeleteSuccess as usersDeleteSuccess } from './users'
 
 export const type = 'USER'
@@ -13,7 +13,13 @@ const UPDATE = `UPDATE_${type}`
 const DELETE = `DELETE_${type}`
 const ERROR = `ERROR_${type}`
 
-const fetchFailure = (error) => ({ type: ERROR, error })
+const fetchFailure = (error) => {
+  return {
+    type: ERROR,
+    error
+  }
+}
+
 // Create
 const fetchAddSuccess = (item) => ({ type: ADD, item })
 export const fetchAdd = (values) => {
@@ -60,15 +66,17 @@ export const fetchUser = (token) => {
       .then(res => res.json())
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { user, users } = json
+        const { user, users, orders } = json
         if (users) dispatch(fetchUsersSuccess(users))
-        dispatch(fetchOrders())
+        if (orders) dispatch(fetchOrdersSuccess(orders))
         return dispatch(fetchUserSuccess(user))
       })
       .catch(error => {
         console.log(error)
         const token = localStorage.getItem('token')
         if (token) localStorage.removeItem('token')
+        dispatch({ type: 'DELETE_ALL_USERS' })
+        dispatch({ type: 'DELETE_ALL_ORDERS' })
         dispatch(fetchFailure(error))
       })
     }
@@ -77,7 +85,6 @@ export const fetchUser = (token) => {
 
 // Update
 export const fetchUpdateSuccess = (item) => {
-  console.log('user update', item)
   return { type: UPDATE, item }
 }
 
@@ -119,6 +126,7 @@ export const fetchDelete = () => {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json)
         if (json.error) return Promise.reject(json.error)
         localStorage.removeItem('token')
         dispatch(fetchDeleteSuccess())
@@ -165,10 +173,10 @@ export const fetchSignin = ({ history, values }) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { user, users } = json
+        const { user, users, orders } = json
         if (users) dispatch(fetchUsersSuccess(users))
-        dispatch(fetchOrders())
-        dispatch(fetchSigninSuccess(user))
+        if (orders) dispatch(fetchOrdersSuccess(orders))
+        return dispatch(fetchUserSuccess(user))
         return history.goBack()
       })
       .catch(error => {
@@ -241,9 +249,9 @@ export const fetchReset = ({ password }, token) => {
       })
       .then(json => {
         if (json.error) return Promise.reject(json.error)
-        const { user, users } = json
+        const { user, users, orders } = json
         if (users) dispatch(fetchUsersSuccess(users))
-        dispatch(fetchOrders())
+        if (orders) dispatch(fetchOrdersSuccess(orders))
         return dispatch(fetchUserSuccess(user))
       })
       .catch(error => {

@@ -26,7 +26,6 @@ const user = (state = {
         ...action.item
       }
     case `UPDATE_${type}`:
-      console.log('inside user reducer', action.item)
       return {
         ...state,
         ...action.item
@@ -45,7 +44,8 @@ const user = (state = {
     case 'ERROR_USER':
       return {
         ...state,
-        error: action.error
+        error: action.error,
+        isFetching: false,
       }
     case 'RECOVER_USER':
       return {

@@ -90,5 +90,4 @@ Signin.propTypes = {
 export default userContainer(reduxForm({
   form: 'signin',
   validate,
-  destroyOnUnmount: true
 })(withRouter(Signin)))
