@@ -47,7 +47,8 @@ export const add = (req, res, next) => {
         { $push: { addresses: address._id }},
         { new: true }
       )
-      .then(() => createCharge({
+      .populate({ path: 'addresses' })
+      .then(user => createCharge({
         _id,
         address,
         cart,
@@ -56,7 +57,8 @@ export const add = (req, res, next) => {
         lastName,
         token,
         res,
-        req
+        req,
+        user
       }))
       .catch(error => {
         console.error(error)
@@ -96,7 +98,8 @@ const createCharge = ({
   lastName,
   token,
   res,
-  req
+  req,
+  user
 }) => {
   console.log('made it to create charge')
   const rootUrl = req.get('host')
@@ -120,7 +123,7 @@ const createCharge = ({
     })
     newOrder.save()
     .then(order => {
-      res.send(order)
+      res.send({ order, user })
       const { email, firstName, lastName, cart, address } = order
       const { name, phone, street, city, state, zip } = address
 

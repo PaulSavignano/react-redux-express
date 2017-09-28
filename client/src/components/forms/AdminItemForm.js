@@ -104,6 +104,7 @@ class AdminItemForm extends Component {
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
+    const { imageEdit } = this.state
     const {
       error,
       handleSubmit,
@@ -122,7 +123,7 @@ class AdminItemForm extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              disabled={pristine || invalid}
+              disabled={imageEdit ? !imageEdit : pristine || invalid}
               onTouchTap={handleSubmit(this.handleFormSubmit)}
               label={submitting ?
                 <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} />

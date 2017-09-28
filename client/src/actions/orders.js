@@ -3,6 +3,7 @@ import { getStripeToken } from '../utils/getStripeToken'
 import { SubmissionError } from 'redux-form'
 
 import { fetchDeleteCart } from './cart'
+import { fetchUpdateSuccess as fetchUpdateUserSuccess } from './user'
 
 export const type = 'ORDER'
 const route = 'orders'
@@ -77,7 +78,9 @@ export const fetchAddOrder = ({
         })
       })
       .then(json => {
-        dispatch(fetchAddOrderSuccess(json))
+        const { order, user } = json
+        dispatch(fetchAddOrderSuccess(order))
+        if (user) dispatch(fetchUpdateUserSuccess(user))
         dispatch(fetchDeleteCart())
         return history.push(`/user/order/${json._id}`)
       })
