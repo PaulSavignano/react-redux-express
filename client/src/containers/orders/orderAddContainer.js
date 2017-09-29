@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 
 import history from '../routers/history'
 
-const requireCart = (ComposedComponent) => {
-  class RequireCart extends Component {
+const orderAddContainer = (ComposedComponent) => {
+  class OrderAddContainer extends Component {
     componentWillMount() {
       const cart = localStorage.getItem('cart')
       if (!cart) {
-        history.push('/')
+        history.push('/user/signin')
       }
     }
     componentWillUpdate(nextProps) {
       if (!nextProps.cart.total) {
-        history.push('/')
+        history.push('/user/signin')
       }
     }
     render() {
@@ -24,17 +24,22 @@ const requireCart = (ComposedComponent) => {
       )
     }
   }
-  const mapStateToProps = ({ user, carts }) => ({
-    addresses: user.addresses,
-    cart: carts.cart,
-    isFetching: carts.isFetching || user.isFetching ? true : false,
+  const mapStateToProps = ({
+    brand: { isFetching: brandIsFetching, business: { values: { stripePk }}},
+    carts: { isFetching: cartIsFetching, cart },
+    user : { isFetching: userIsFetching, addresses }
+  }) => ({
+    addresses,
+    cart,
+    stripePk,
+    isFetching: brandIsFetching || cartIsFetching || userIsFetching ? true : false,
   })
-  RequireCart.propTypes = {
+  OrderAddContainer.propTypes = {
     addresses: PropTypes.array.isRequired,
     cart: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }
-  return connect(mapStateToProps)(RequireCart)
+  return connect(mapStateToProps)(OrderAddContainer)
 }
 
-export default requireCart
+export default orderAddContainer

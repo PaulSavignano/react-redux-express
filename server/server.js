@@ -4,17 +4,23 @@ import path from 'path'
 import mongoose from './db/mongoose'
 
 import Brand from './models/Brand'
+import Config from './models/Config'
 
 Brand.findOne({})
-  .then(doc => !doc && new Brand({}).save())
-  .catch(err => console.error(err))
+.then(doc => !doc && new Brand({}).save())
+.catch(err => console.error(err))
+Config.findOne({})
+.then(doc => !doc && new Config({}).save())
+.catch(error => console.error(error))
 
 import addresses from './routes/addresses'
 import articles from './routes/articles'
 import brands from './routes/brands'
 import cards from './routes/cards'
 import carts from './routes/carts'
+import config from './routes/configs'
 import contactForms from './routes/contactForms'
+import forceSSL from './middleware/forceSSL'
 import heros from './routes/heros'
 import orders from './routes/orders'
 import pages from './routes/pages'
@@ -25,17 +31,7 @@ import users from './routes/users'
 const app = express()
 const port = process.env.PORT
 
-const forceSsl = (req, res, next) => {
-  let sslUrl;
-  if (process.env.NODE_ENV === 'production' &&
-    req.headers['x-forwarded-proto'] !== 'https') {
-    sslUrl = ['https://', req.hostname, req.url].join('');
-    return res.redirect(sslUrl);
-  }
-  return next();
-}
-
-app.use(forceSsl)
+app.use(forceSSL)
 
 app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -45,6 +41,7 @@ app.use('/api/articles', articles)
 app.use('/api/brands', brands)
 app.use('/api/cards', cards)
 app.use('/api/carts', carts)
+app.use('/api/config', config)
 app.use('/api/contact-forms', contactForms)
 app.use('/api/heros', heros)
 app.use('/api/orders', orders)

@@ -103,7 +103,7 @@ const adminItemForms = [{
     { name: 'backgroundColor', type: 'text' },
     { name: 'kind', type: 'select', options: [ 'Flex', 'SlideShow', 'Swipeable' ] },
     { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse', 'row nowrap', 'column' ] },
-    { name: 'justifyContent', type: 'text' },
+    { name: 'justifyContent', type: 'select', options: ['flex-start', 'flex-end', 'center', 'space-around', 'space-between'] },
     { name: 'margin', type: 'text' },
     { name: 'maxWidth', type: 'text' },
     { name: 'minHeight', type: 'text' },

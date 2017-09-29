@@ -8,7 +8,7 @@ import { Card, CardText, CardTitle } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 
 import './orders.css'
-import requireCart from '../../containers/orders/requireCart'
+import orderAddContainer from '../../containers/orders/orderAddContainer'
 import validateCheckout from '../../utils/validateCheckout'
 import SuccessableButton from '../buttons/SuccessableButton'
 import DateField from '../fields/DateField'
@@ -23,8 +23,8 @@ class OrderAdd extends Component {
     newAddress: false
   }
   handleFormSubmit = (values) => {
-    const { dispatch, cart, history } = this.props
-    return dispatch(fetchAddOrder({ values, cart, history }))
+    const { dispatch, cart, history, stripePk } = this.props
+    return dispatch(fetchAddOrder({ values, cart, history, stripePk }))
   }
   render() {
     const {
@@ -142,7 +142,7 @@ OrderAdd.propTypes = {
   valid: PropTypes.bool.isRequired
 }
 
-export default requireCart(reduxForm({
+export default orderAddContainer(reduxForm({
   form: 'CheckoutForm',
   validate: validateCheckout
 })(withRouter(OrderAdd)))

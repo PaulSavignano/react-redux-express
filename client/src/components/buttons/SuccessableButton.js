@@ -30,6 +30,7 @@ class SuccessableButton extends Component {
     submitting,
     successLabel,
   }) {
+    console.log('disabled', disabled)
     if (imageEdit !== this.props.imageEdit) {
       clearTimeout(this.state.timeoutId)
       return this.setState({
@@ -40,7 +41,7 @@ class SuccessableButton extends Component {
     }
 
 
-    if (error !== this.props.error) {
+    if (error) {
       clearTimeout(this.state.timeoutId)
       const timeoutId = setTimeout(() => {
         this.setState({
@@ -50,8 +51,9 @@ class SuccessableButton extends Component {
           submitting: false,
           timeoutId: null
         })
+        clearTimeout(this.state.timeoutId)
         reset && reset()
-        return clearTimeout(timeoutId)
+
       }, 3000)
       return this.setState({
         background: 'rgb(244, 67, 54)',
@@ -80,8 +82,8 @@ class SuccessableButton extends Component {
           label,
           submitting: false
         })
+        clearTimeout(this.state.timeoutId)
         reset && reset()
-        return clearTimeout(timeoutId)
       }, 3000)
       return this.setState({
         background: 'rgb(76, 175, 80)',

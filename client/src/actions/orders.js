@@ -39,10 +39,11 @@ export const fetchAddOrder = ({
     city,
     state,
     zip,
-  }
+  },
+  stripePk
 }) => {
   return (dispatch, getState) => {
-    Stripe.setPublishableKey('pk_test_TAIO4tEnJzNuQkmjuWwcznSK')
+    Stripe.setPublishableKey(stripePk)
     const expiration = exp.split('/')
     const exp_month = parseInt(expiration[0], 10)
     const exp_year = parseInt(expiration[1], 10)
@@ -82,7 +83,7 @@ export const fetchAddOrder = ({
         dispatch(fetchAddOrderSuccess(order))
         if (user) dispatch(fetchUpdateUserSuccess(user))
         dispatch(fetchDeleteCart())
-        return history.push(`/user/order/${json._id}`)
+        return history.push(`/user/order/${order._id}`)
       })
       .catch(error => Promise.reject(error))
     })

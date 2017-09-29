@@ -26,10 +26,12 @@ class AdminItemForm extends Component {
     itemForm: null
   }
   handleImageEdit = (bool) => {
+    console.log(bool)
     this.setState({ imageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleBackgroundImageEdit = (bool) => {
+    console.log(bool)
     this.setState({ backgroundImageEdit: bool })
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
@@ -104,7 +106,7 @@ class AdminItemForm extends Component {
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
-    const { imageEdit } = this.state
+    const { backgroundImageEdit, imageEdit } = this.state
     const {
       error,
       handleSubmit,
@@ -123,7 +125,7 @@ class AdminItemForm extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              disabled={imageEdit ? !imageEdit : pristine || invalid}
+              disabled={imageEdit ? !imageEdit : backgroundImageEdit ? !backgroundImageEdit : pristine || invalid}
               onTouchTap={handleSubmit(this.handleFormSubmit)}
               label={submitting ?
                 <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} />

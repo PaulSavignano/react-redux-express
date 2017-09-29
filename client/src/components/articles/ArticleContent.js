@@ -11,6 +11,8 @@ const ArticleContent = ({
     values: {
       button1BackgroundColor,
       button2BackgroundColor,
+      button1Border,
+      button2Border,
       button1Color,
       button2Color,
       h1Align,
@@ -98,6 +100,8 @@ const ArticleContent = ({
               <Buttons
                 button1BackgroundColor={button1BackgroundColor}
                 button2BackgroundColor={button2BackgroundColor}
+                button1Border={button1Border}
+                button2Border={button2Border}
                 button1Color={button1Color}
                 button2Color={button2Color}
                 button1Link={button1Link}

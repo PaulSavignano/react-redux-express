@@ -12,8 +12,8 @@ const HeroContent = ({
       button2Color,
       button1BackgroundColor,
       button2BackgroundColor,
-      button1BorderColor,
-      button2BorderColor,
+      button1Border,
+      button2Border,
       h1Align,
       h1Color,
       h1TextShadow,
@@ -83,10 +83,10 @@ const HeroContent = ({
         <Buttons
           button1BackgroundColor={button1BackgroundColor}
           button2BackgroundColor={button2BackgroundColor}
+          button1Border={button1Border}
+          button2Border={button2Border}
           button1Color={button1Color}
           button2Color={button2Color}
-          button1BorderColor={button1BorderColor}
-          button2BorderColor={button2BorderColor}
           button1Link={button1Link}
           button2Link={button2Link}
           button1Text={button1Text}
