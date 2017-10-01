@@ -38,6 +38,7 @@ const formFields = [{
     { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
+    { name: 'pColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaBoxShadow', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
@@ -92,6 +93,7 @@ const formFields = [{
     { name: 'h3Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
+    { name: 'pColor', type: 'text' },
     { name: 'margin', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
   ]
@@ -125,6 +127,7 @@ const formFields = [{
     { name: 'h3Align', type: 'text' },
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
+    { name: 'pColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
     { name: 'minHeight', type: 'text' },

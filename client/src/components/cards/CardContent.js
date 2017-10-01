@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Buttons from '../buttons/Buttons'
-import Text from '../typography/Text'
+import Heading from '../typography/Heading'
 import Media from '../media/Media'
+import Paragraph from '../typography/Paragraph'
 
 const CardContent = ({
   cardStyle: {
@@ -25,22 +26,16 @@ const CardContent = ({
       h3Color,
       h3TextShadow,
       pColor,
-      pTextShadow,
       margin,
       mediaBorder,
     }
   },
-  cursor,
-  dispatch,
-  elevation,
-  events,
   hasButtons,
-  hasText,
+  hasHeading,
   hasMedia,
   hasParagraph,
   item: {
     _id,
-    editing,
     image,
     values: {
       button1Text,
@@ -63,25 +58,30 @@ const CardContent = ({
         iframe={iframe}
       />
     }
-    {hasText || hasButtons ?
+    {hasButtons || hasHeading || hasParagraph ?
       <div className="card-content">
-        {hasText &&
-          <Text
+        {hasHeading &&
+          <Heading
+            className="card-heading"
             h1Align={h1Align}
             h2Align={h2Align}
             h3Align={h3Align}
             h1Color={h1Color}
             h2Color={h2Color}
             h3Color={h3Color}
-            pColor={pColor}
             h1Text={h1Text}
             h2Text={h2Text}
             h3Text={h3Text}
-            pText={pText}
             h1TextShadow={h1TextShadow}
             h2TextShadow={h2TextShadow}
             h3TextShadow={h3TextShadow}
-            pTextShadow={pTextShadow}
+          />
+        }
+        {hasParagraph &&
+          <Paragraph
+            className="card-paragraph"
+            color={pColor}
+            text={pText}
           />
         }
         {hasButtons &&
@@ -96,7 +96,6 @@ const CardContent = ({
             button2Link={button2Link}
             button1Text={button1Text}
             button2Text={button2Text}
-            dispatch={dispatch}
           />
         }
       </div>
@@ -107,8 +106,9 @@ const CardContent = ({
 CardContent.propTypes = {
   cardStyle: PropTypes.object.isRequired,
   hasButtons: PropTypes.bool.isRequired,
-  hasText: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
   hasMedia: PropTypes.bool.isRequired,
+  hasParagraph: PropTypes.bool.isRequired,
   item: PropTypes.object.isRequired
 }
 

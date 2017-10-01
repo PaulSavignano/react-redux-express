@@ -1,0 +1,9 @@
+.card-actions {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.card-actions > p {
+  margin: 8px;
+}

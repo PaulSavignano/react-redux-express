@@ -42,7 +42,7 @@ export const add = (req, res) => {
         res.header('x-auth', token).send({ values, roles })
       })
       .catch(error => {
-        console.error('generateAuthToken(): ', error)
+        console.error(error)
         res.status(400).send({ error: { password: 'password not valid' }})
       })
   })
@@ -87,10 +87,7 @@ export const update = (req, res) => {
     const { values } = user
     res.header('x-auth', token).send({ values })
   })
-  .catch(error => {
-    console.error({ error })
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -120,20 +117,11 @@ export const signin = (req, res) => {
       .then(({ user, users, orders }) => {
         res.header('x-auth', token).send({ user, users, orders })
       })
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
-    .catch(error => {
-      console.error('User sigin()', error)
-      res.status(400).send(error)
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error('User findByCredentials() ', error)
-    res.status(400).send(error)
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -169,15 +157,9 @@ export const recovery = (req, res, next) => {
         })
         res.send({ message: `A password recovery email has been sent to ${email}.`})
       })
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
-    .catch(error => {
-      console.error('User.findOne: ', error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
 }
 
@@ -196,15 +178,9 @@ export const reset = (req, res) => {
     .then(token => {
       res.header('x-auth', token).send(user)
     })
-    .catch(error => {
-      console.error('user save()', error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error('User findOne()', error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -212,10 +188,7 @@ export const reset = (req, res) => {
 export const signout = (req, res) => {
   req.user.removeToken(req.token)
   .then(() => res.status(200).send())
-  .catch(error => {
-    console.error(error)
-    res.status(401).send()
-  })
+  .catch(error => { console.error(error); res.status(401).send({ error })})
 }
 
 
@@ -244,10 +217,7 @@ export const contact = (req, res) => {
     .then(info => {
       res.send({ message: 'Thank you for contacting us, we will respond to you shortly!'})
     })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
 
 }
@@ -290,14 +260,8 @@ export const requestEstimate = (req, res) => {
         <div>Note: ${note}</div>
       `
     })
-      .then(info => res.status(200).send())
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+    .then(info => res.status(200).send())
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }

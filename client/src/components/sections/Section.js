@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import sectionContainer from '../../containers/sections/sectionContainer'
-import renderComponents from './renderComponents'
+import ComponentSwitch from './ComponentSwitch'
 
 const Section = ({
+  containerProps,
   item: {
     _id,
     items,
@@ -12,21 +13,32 @@ const Section = ({
       pageLink
     }
   },
-  style
+  sectionProps
 }) => {
   return (
-    <section
-      id={pageLink || _id}
-      style={style}
-      className="Section"
-    >
-      {renderComponents({ components: items })}
-    </section>
+    <div {...containerProps}>
+      <section
+        id={pageLink || _id}
+        {...sectionProps}
+        className="Section"
+      >
+        {items.map(component => {
+          return (
+            <ComponentSwitch
+              component={component}
+              key={component.item._id}
+            />
+          )
+        })}
+      </section>
+    </div>
   )
 }
 
 Section.propTypes = {
-  item: PropTypes.object.isRequired
+  containerProps: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
+  sectionProps: PropTypes.object.isRequired
 }
 
 export default sectionContainer(Section)

@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 
+import './user.css'
 import userContainer from '../../containers/user/userContainer'
 import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'

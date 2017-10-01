@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import './media.css'
 
 const Media = ({
+  className,
   border,
   boxShadow,
   flex,
@@ -13,7 +14,8 @@ const Media = ({
 }) => (
   <div
     style={{ flex, margin }}
-    className="media-image-container"
+    className={className}
+    id="Media"
   >
     {image.src &&
       <img

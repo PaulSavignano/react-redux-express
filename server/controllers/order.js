@@ -60,15 +60,9 @@ export const add = (req, res, next) => {
         req,
         user
       }))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   } else {
     return Address.findOne({ _id: fullAddress })
     .then(doc => createCharge({
@@ -82,10 +76,7 @@ export const add = (req, res, next) => {
       res,
       req
     }))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   }
 }
 
@@ -162,15 +153,9 @@ const createCharge = ({
         `
       })
     })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error: error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -178,18 +163,12 @@ export const get = (req, res) => {
   const isAdmin = req.user.roles.some(role => role === 'admin' || role === 'owner')
   if (isAdmin) {
     Order.find({})
-      .then(orders => res.send(orders))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+    .then(orders => res.send(orders))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   } else {
     Order.find({ user: req.user._id })
     .then(orders => res.send(orders))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   }
 }
 
@@ -234,10 +213,7 @@ export const update = (req, res) => {
             <div>${city}, ${state} ${zip}</div>
           `})
         })
-        .catch(error => {
-          console.error(error)
-          res.status(400).send({ error })
-        })
+        .catch(error => { console.error(error); res.status(400).send({ error })})
       break
     default:
       return

@@ -24,7 +24,6 @@ const HeroContent = ({
       h3Color,
       h3TextShadow,
       pColor,
-      pTextShadow,
       mediaBorder,
       mediaElevation,
       minHeight,
@@ -76,7 +75,6 @@ const HeroContent = ({
           h1TextShadow={h1TextShadow}
           h2TextShadow={h2TextShadow}
           h3TextShadow={h3TextShadow}
-          pTextShadow={pTextShadow}
         />
       }
       {hasButtons &&

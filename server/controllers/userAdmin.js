@@ -35,10 +35,7 @@ export const adminGet = (req, res) => {
   if (!isOwner) return res.status(400).send({ error: 'unauthorized'})
   User.find({})
   .then(users => res.send(users))
-  .catch(error => {
-    console.log(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 export const adminUpdate = (req, res) => {
@@ -64,15 +61,9 @@ export const adminUpdate = (req, res) => {
           }
           user.save()
           .then(user => res.send(user))
-          .catch(error => {
-            console.error({ error })
-            res.status(400).send({ error })
-          })
+          .catch(error => { console.error(error); res.status(400).send({ error })})
         })
-        .catch(error => {
-          console.log({ error })
-          res.status(400).send({ error })
-        })
+        .catch(error => { console.error(error); res.status(400).send({ error })})
     case 'UPDATE_ROLES':
       const roles = values.owner ?
       [ 'admin', 'owner', 'user' ]
@@ -90,10 +81,7 @@ export const adminUpdate = (req, res) => {
         .then(user => {
           res.send(user)
         })
-        .catch(error => {
-          console.log({ error })
-          res.status(400).send({ error })
-        })
+        .catch(error => { console.error(error); res.status(400).send({ error })})
     default:
       return
   }

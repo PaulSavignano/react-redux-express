@@ -21,7 +21,7 @@ const SectionSchema = new Schema({
   pageSlug: { type: String, trim: true },
   values: {
     alignItems: { type: String, trim: true },
-    backgroundColor: { type: String, trim: true },
+    containerBackgroundColor: { type: String, trim: true },
     flexFlow: { type: String, trim: true, default: 'row wrap' },
     justifyContent: { type: String, trim: true, default: 'space-between' },
     kind: { type: String, trim: true, default: 'Flex' },

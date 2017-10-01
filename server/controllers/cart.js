@@ -26,11 +26,8 @@ export const add = (req, res) => {
       }]
     })
     cart.save()
-      .then(doc => res.header('cart', doc._id).send(doc))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send()
-      })
+    .then(doc => res.header('cart', doc._id).send(doc))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
 }
 
@@ -42,14 +39,11 @@ export const getId = (req, res) => {
     return res.status(404).send()
   }
   Cart.findById(_id)
-    .then(cart => {
-      if (!cart) return Promise.reject({ error: 'Cart not found'})
-      res.send(cart)
-    })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+  .then(cart => {
+    if (!cart) return Promise.reject({ error: 'Cart not found'})
+    res.send(cart)
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -77,11 +71,8 @@ export const update = (req, res) => {
               productId: cart.items[index].productId
             }
             cart.save()
-              .then(cart => res.send(cart))
-              .catch(error => {
-                console.error(error)
-                res.status(400).send({ error })
-              })
+            .then(cart => res.send(cart))
+            .catch(error => { console.error(error); res.status(400).send({ error })})
             break
           case 'REDUCE_FROM_CART':
             if (cart.items[index].productQty - productQty > 0) {
@@ -97,11 +88,8 @@ export const update = (req, res) => {
                 productId: cart.items[index].productId
               }
               cart.save()
-                .then(cart => res.send(cart))
-                .catch(error => {
-                  console.error(error)
-                  res.status(400).send({ error })
-                })
+              .then(cart => res.send(cart))
+              .catch(error => { console.error(error); res.status(400).send({ error })})
             } else {
               cart.total = cart.total - ((cart.items[index].price * productQty) + (cart.items[index].price * productQty) * .075)
               cart.subTotal = cart.subTotal - (cart.items[index].price * productQty)
@@ -110,11 +98,8 @@ export const update = (req, res) => {
                 item.productId.toHexString() !== productId
               )
               cart.save()
-                .then(cart => res.send(cart))
-                .catch(error => {
-                  console.error(error)
-                  res.status(400).send({ error })
-                })
+              .then(cart => res.send(cart))
+              .catch(error => { console.error(error); res.status(400).send({ error })})
             }
 
             break
@@ -126,11 +111,8 @@ export const update = (req, res) => {
               item.productId.toHexString() !== productId
             )
             cart.save()
-              .then(cart => res.send(cart))
-              .catch(error => {
-                console.error(error)
-                res.status(400).send({ error })
-              })
+            .then(cart => res.send(cart))
+            .catch(error => { console.error(error); res.status(400).send({ error })})
             break
           default:
             return cart
@@ -151,18 +133,12 @@ export const update = (req, res) => {
             }
             cart.items.push(item)
             cart.save()
-              .then(cart => res.send(cart))
-              .catch(error => {
-                console.error(error)
-                res.status(400).send()
-              })
+            .then(cart => res.send(cart))
+            .catch(error => { console.error(error); res.status(400).send({ error })})
           })
       }
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -170,9 +146,6 @@ export const remove = (req, res) => {
   const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Cart.findOneAndRemove({ _id,})
-    .then(cart => res.send(cart))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+  .then(cart => res.send(cart))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }

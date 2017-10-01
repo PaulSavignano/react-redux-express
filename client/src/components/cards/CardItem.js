@@ -31,7 +31,7 @@ const CardItem = (props) => {
       style={{ cursor, flex: itemFlex || cardStyleFlex, margin }}
       zDepth={elevation}
       id={_id}
-      className="card-item"
+      className="CardItem"
     >
       <CardContent {...props} />
     </Card>
@@ -40,10 +40,11 @@ const CardItem = (props) => {
 
 CardItem.propTypes = {
   cardStyle: PropTypes.object.isRequired,
-  hasButtons: PropTypes.bool.isRequired,
-  hasText: PropTypes.bool.isRequired,
-  hasMedia: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired
+  cursor: PropTypes.string,
+  elevation: PropTypes.number.isRequired,
+  item: PropTypes.object.isRequired,
+  linkEvents: PropTypes.object,
+  linkNavigation: PropTypes.object,
 }
 
 export default cardContainer(CardItem)

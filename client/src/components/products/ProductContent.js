@@ -42,12 +42,14 @@ const ProductContent = ({
         style={{ color: nameColor, textShadow: nameTextShadow }}
         className="product-heading"
       >
-        <H3>{name}</H3>
-        <H3>{formatPrice(price)}</H3>
+        {name && <H3>{name}</H3>}
+        {price && <H3>{formatPrice(price)}</H3>}
       </div>
-      <div style={{ color: descriptionColor }} className="product-description">
-        <P>{description}</P>
-      </div>
+      {description &&
+        <div style={{ color: descriptionColor }} className="product-description">
+          <P>{description}</P>
+        </div>
+      }
     </div>
     <ProductButtons
       dispatch={dispatch}

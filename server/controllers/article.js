@@ -41,92 +41,84 @@ export const add = (req, res) => {
   })
 }
 
+
 export const update = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {
+    values
+  } = req.body
+  Article.findOneAndUpdate(
+    { _id },
+    { $set: { values }},
+    { new: true }
+  )
+  .then(doc => {
+    Page.findOne({ _id: doc.page })
+    .then(page => res.send({ page }))
+    .catch(error => { console.error(error); res.status(400).send({ error: error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error: error })})
+}
+
+
+export const updateWithImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
     pageSlug,
-    image,
+    newImage,
     oldImageSrc,
-    type,
     values
   } = req.body
   const appUrl = req.get('host')
   const Key = `${appUrl}/page-${pageSlug}/article-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  switch (type) {
-    case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImageSrc)
-        .then(data => {
-          Article.findOneAndUpdate(
-            { _id },
-            { $set: {
-              image: {
-                src: data.Location,
-                width: image.width,
-                height: image.height
-              },
-              values
-            }},
-            { new: true }
-          )
-          .then(doc => {
-            Page.findOne({ _id: doc.page })
-            .then(page => res.send({ page }))
-          })
-          .catch(error => {
-            console.error(error)
-            res.status(400).send({ error })
-          })
-        })
-        .catch(error => {
-          console.error(error)
-          res.status(400).send({ error })
-        })
-      break
-    case 'DELETE_IMAGE':
-      deleteFile({ Key: image.src })
-        .then(() => {
-          Article.findOneAndUpdate(
-            { _id },
-            { $set: { 'image.src': null }},
-            { new: true }
-          )
-          .then(doc => {
-            Page.findOne({ _id: doc.page })
-            .then(page => res.send({ page }))
-          })
-          .catch(error => {
-            console.error(error)
-            res.status(400).send({ error })
-          })
-        })
-        .catch(error => {
-          console.error(error)
-          res.status(400).send({ error })
-        })
-      break
-    case 'UPDATE_VALUES':
-      Article.findOneAndUpdate(
-        { _id },
-        { $set: { values }},
-        { new: true }
-      )
-      .then(doc => {
-        Page.findOne({ _id: doc.page })
-        .then(page => res.send({ page }))
-        .catch(error => {
-          console.error(error)
-          res.status(400).send({ error: error })
-        })
-      })
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error: error })
-      })
-      break
-    default:
-      return
-  }
+  return uploadFile({ Key }, newImage.src, oldImageSrc)
+  .then(data => {
+    Article.findOneAndUpdate(
+      { _id },
+      { $set: {
+        image: {
+          src: data.Location,
+          width: newImage.width,
+          height: newImage.height
+        },
+        values
+      }},
+      { new: true }
+    )
+    .then(doc => {
+      Page.findOne({ _id: doc.page })
+      .then(page => res.send({ page }))
+    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+
+export const updateWithDeleteImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldImageSrc,
+    type,
+    values
+  } = req.body
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    Article.findOneAndUpdate(
+      { _id },
+      { $set: { 'image.src': null }},
+      { new: true }
+    )
+    .then(doc => {
+      Page.findOne({ _id: doc.page })
+      .then(page => res.send({ page }))
+    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 

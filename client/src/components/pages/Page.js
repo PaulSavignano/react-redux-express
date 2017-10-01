@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import './page.css'
 import pageContainer from '../../containers/pages/pageContainer'
-import renderSections from './renderSections'
+import SectionSwitch from './SectionSwitch'
 
 class Page extends Component {
   componentDidMount() {
@@ -36,12 +36,15 @@ class Page extends Component {
     } = this.props
     return (
       <div className="Page" style={{ backgroundColor }}>
-        {renderSections({
-          dispatch,
-          sections,
-          pageId: _id,
-          pageSlug: slug
-        })}
+        {sections.map(section => (
+          <SectionSwitch
+            dispatch={dispatch}
+            key={section._id}
+            pageId={_id}
+            pageSlug={slug}
+            section={section}
+          />
+        ))}
       </div>
     )
   }

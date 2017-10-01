@@ -25,12 +25,11 @@ const cardContainer = (ComposedComponent) => {
         cardStyle,
         dispatch,
         hasButtons,
-        hasText,
+        hasHeading,
         hasMedia,
         hasParagraph,
         isFetching,
         item,
-        typography
       } = this.props
       const { link } = item.values
       const cursor = link && 'pointer'
@@ -49,11 +48,10 @@ const cardContainer = (ComposedComponent) => {
         linkEvents,
         linkNavigation,
         hasButtons,
-        hasText,
+        hasHeading,
         hasMedia,
         hasParagraph,
         item,
-        typography,
       }
       return (
         isFetching ? null : <ComposedComponent {...props} />
@@ -61,27 +59,36 @@ const cardContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, cardStyle, typography }
+    brand: { isFetching, cardStyle }
   }, {
-    item
+    item: {
+      image,
+      values: {
+        button1Text,
+        h1Text,
+        h2Text,
+        h3Text,
+        iframe,
+        pText
+      }
+    }
   }) => ({
     cardStyle,
-    hasButtons: item.values.button1Text ? true : false,
-    hasText: item.values.h1Text || item.values.h2Text || item.values.h3Text || item.values.pText.length > 9 ? true : false,
-    hasMedia: item.image.src || item.values.iframe ? true : false,
+    hasButtons: button1Text ? true : false,
+    hasHeading: h1Text || h2Text || h3Text ? true : false,
+    hasMedia: image.src || iframe ? true : false,
+    hasParagraph: pText.length > 9 ? true : false,
     isFetching,
-    item,
-    typography
   })
   CardContainer.propTypes = {
     cardStyle: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     hasButtons: PropTypes.bool.isRequired,
-    hasText: PropTypes.bool.isRequired,
+    hasHeading: PropTypes.bool.isRequired,
     hasMedia: PropTypes.bool.isRequired,
+    hasParagraph: PropTypes.bool.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    typography: PropTypes.object.isRequired
   }
   return connect(mapStateToProps)(CardContainer)
 }

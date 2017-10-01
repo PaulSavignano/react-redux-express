@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import './article.css'
 import articleContainer from '../../containers/articles/articleContainer'
-import ArticleContent from './ArticleContent'
+import ArticleSwitch from './ArticleSwitch'
 import { startEdit } from '../../actions/editItem'
 
 class AdminArticle extends Component {
@@ -17,22 +18,28 @@ class AdminArticle extends Component {
   render() {
     return (
       <article
-        className="article"
+        style={{ flex: this.props.item.values.articleFlex }}
+        className="AdminArticle"
         onTouchTap={this.handleStartEdit}
       >
-        <ArticleContent {...this.props} />
+        <ArticleSwitch {...this.props} />
       </article>
     )
   }
 }
 
 AdminArticle.propTypes = {
-  articleStyle: PropTypes.object.isRequired,
+  buttonProps: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   hasButtons: PropTypes.bool.isRequired,
+  hasHeading: PropTypes.bool.isRequired,
   hasMedia: PropTypes.bool.isRequired,
-  hasText: PropTypes.bool.isRequired,
-  item: PropTypes.object.isRequired
+  hasParagraph: PropTypes.bool.isRequired,
+  headingProps: PropTypes.object,
+  item: PropTypes.object.isRequired,
+  mediaProps: PropTypes.object,
+  paragraphProps: PropTypes.object,
+
 }
 
 export default articleContainer(AdminArticle)

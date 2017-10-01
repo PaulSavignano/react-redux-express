@@ -5,7 +5,7 @@ import { CSSTransitionGroup } from 'react-transition-group'
 import './section.css'
 import sectionContainer from '../../containers/sections/sectionContainer'
 import AdminSectionEditButtons from './AdminSectionEditButtons'
-import renderAdminComponents from './renderAdminComponents'
+import AdminComponentSwitch from './AdminComponentSwitch'
 import { startEdit } from '../../actions/editItem'
 
 class AdminSectionSlideShow extends Component {
@@ -48,15 +48,17 @@ class AdminSectionSlideShow extends Component {
   }
   render() {
     const {
+      containerProps,
       dispatch,
       item,
       pageId,
       pageSlug,
-      style,
+      sectionProps,
     } = this.props
+    const { items } = item
     return (
-      <div className="AdminSectionSlideShow">
-        <section style={style}>
+      <div {...containerProps} className="AdminSectionSlideShow">
+        <section {...sectionProps}>
           <CSSTransitionGroup
             transitionName="cross-fade"
             transitionEnter={true}
@@ -64,7 +66,11 @@ class AdminSectionSlideShow extends Component {
             transitionLeave={true}
             transitionLeaveTimeout={2000}
           >
-            {renderAdminComponents({ components: item.items })[this.state.index]}
+            <AdminComponentSwitch
+              component={items[this.state.index]}
+              key={items[this.state.index].item._id}
+              pageSlug={pageSlug}
+            />
           </CSSTransitionGroup>
         </section>
         <AdminSectionEditButtons
@@ -80,11 +86,12 @@ class AdminSectionSlideShow extends Component {
 
 AdminSectionSlideShow.propTypes = {
   autoplay: PropTypes.bool.isRequired,
+  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
   pageSlug: PropTypes.string.isRequired,
-  style: PropTypes.object.isRequired,
+  sectionProps: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(AdminSectionSlideShow)

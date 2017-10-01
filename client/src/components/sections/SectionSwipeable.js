@@ -4,7 +4,7 @@ import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 
 import sectionContainer from '../../containers/sections/sectionContainer'
-import renderComponents from './renderComponents'
+import ComponentSwitch from './ComponentSwitch'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
@@ -12,6 +12,7 @@ class SectionSwipeable extends Component {
   render() {
     const {
       autoplay,
+      containerProps,
       item: {
         _id,
         items,
@@ -19,32 +20,42 @@ class SectionSwipeable extends Component {
           pageLink
         }
       },
-      style
+      sectionProps
     } = this.props
     return (
-      <section style={style} id={pageLink || _id}>
-        <AutoPlaySwipeableViews
-          autoplay={autoplay}
-          interval={4000}
-          animateTransitions={true}
-          springConfig={{
-            duration: '4s',
-            easeFunction: 'ease-in-out',
-            delay: '-1s'
-          }}
-          className="AutoPlaySwipeableViews"
-        >
-          {renderComponents({ components: items })}
-        </AutoPlaySwipeableViews>
-      </section>
+      <div {...containerProps}>
+        <section {...sectionProps} id={pageLink || _id}>
+          <AutoPlaySwipeableViews
+            autoplay={autoplay}
+            interval={4000}
+            animateTransitions={true}
+            springConfig={{
+              duration: '4s',
+              easeFunction: 'ease-in-out',
+              delay: '-1s'
+            }}
+            className="AutoPlaySwipeableViews"
+          >
+            {items.map(component => (
+              <ComponentSwitch
+                component={component}
+                key={component.item._id}
+              />
+            ))}
+          </AutoPlaySwipeableViews>
+        </section>
+      </div>
+
     )
   }
 }
 
 SectionSwipeable.propTypes = {
   autoplay: PropTypes.bool.isRequired,
+  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
+  sectionProps: PropTypes.object.isRequired
 }
 
 export default sectionContainer(SectionSwipeable)

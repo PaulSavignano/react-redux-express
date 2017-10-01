@@ -16,7 +16,7 @@ const sectionContainer = (ComposedComponent) => {
         image,
         values: {
           alignItems,
-          backgroundColor,
+          containerBackgroundColor,
           flexFlow,
           justifyContent,
           maxWidth,
@@ -31,16 +31,23 @@ const sectionContainer = (ComposedComponent) => {
         item,
         pageId,
         pageSlug,
-        style: {
-          alignItems,
-          backgroundColor,
-          backgroundImage: image.src && `url(${image.src})`,
-          flexFlow,
-          justifyContent,
-          maxWidth,
-          minHeight,
-          margin,
-          padding
+        containerProps: {
+          style: {
+            backgroundImage: image.src && `url(${image.src})`,
+            backgroundColor: containerBackgroundColor,
+          },
+          className: image.src && 'background-image'
+        },
+        sectionProps: {
+          style: {
+            alignItems,
+            flexFlow,
+            justifyContent,
+            maxWidth,
+            minHeight,
+            margin,
+            padding
+          }
         }
       }
       return (
@@ -56,6 +63,8 @@ const sectionContainer = (ComposedComponent) => {
     autoplay, item, pageId, pageSlug
   })
   SectionContainer.propTypes = {
+    autoplay: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     pageId: PropTypes.string.isRequired,
     pageSlug: PropTypes.string.isRequired

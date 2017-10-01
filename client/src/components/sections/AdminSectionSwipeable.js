@@ -5,8 +5,8 @@ import { autoPlay } from 'react-swipeable-views-utils'
 
 import './section.css'
 import sectionContainer from '../../containers/sections/sectionContainer'
+import AdminComponentSwitch from './AdminComponentSwitch'
 import AdminSectionEditButtons from './AdminSectionEditButtons'
-import renderAdminComponents from './renderAdminComponents'
 import { startEdit } from '../../actions/editItem'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
@@ -20,17 +20,18 @@ class AdminSectionSwipeable extends Component {
   render() {
     const {
       autoplay,
+      containerProps,
       dispatch,
       item,
       pageId,
       pageSlug,
-      style,
+      sectionProps,
     } = this.props
     return (
-      <div className="AdminSectionSwipeable">
+      <div {...containerProps} className="AdminSectionSwipeable">
         <section
           onTouchTap={this.handleStartEdit}
-          style={style}
+          {...sectionProps}
         >
           <AutoPlaySwipeableViews
             autoplay={autoplay}
@@ -43,7 +44,13 @@ class AdminSectionSwipeable extends Component {
             }}
             className="AutoPlaySwipeableViews"
           >
-            {renderAdminComponents({ components: item.items, pageSlug })}
+            {item.items.map(component => (
+              <AdminComponentSwitch
+                component={component}
+                key={component.item._id}
+                pageSlug={pageSlug}
+              />
+            ))}
           </AutoPlaySwipeableViews>
         </section>
         <AdminSectionEditButtons
@@ -59,11 +66,12 @@ class AdminSectionSwipeable extends Component {
 
 AdminSectionSwipeable.propTypes = {
   autoplay: PropTypes.bool.isRequired,
+  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
   pageSlug: PropTypes.string.isRequired,
-  style: PropTypes.object.isRequired,
+  sectionProps: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(AdminSectionSwipeable)

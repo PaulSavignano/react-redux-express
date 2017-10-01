@@ -12,6 +12,7 @@ const ArticleSchema = new Schema({
   },
   section: { type: Schema.ObjectId, ref: 'Section' },
   values: {
+    articleFlex: { type: String, trim: true, default: '1 1 auto' },
     button1Text: { type: String, trim: true },
     button1Link: { type: String, trim: true },
     button2Text: { type: String, trim: true },
@@ -21,7 +22,7 @@ const ArticleSchema = new Schema({
     h2Text: { type: String, trim: true, default: 'Heading 2' },
     h3Text: { type: String, trim: true, default: 'Heading 3' },
     iframe: { type: String, trim: true },
-    mediaAlign: { type: String, trim: true, default: 'left' },
+    mediaAlign: { type: String, trim: true, default: 'leftOfText' },
     mediaFlex: { type: String, trim: true, default: '1 1 auto' },
     mediaBoxShadow: { type: String, trim: true, default: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px' },
     mediaElevation: { type: Number, trim: true, default: 2 },

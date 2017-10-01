@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import './button.css'
+
 class Buttons extends Component {
   render() {
     const {
+      className,
       button1BackgroundColor,
       button2BackgroundColor,
       button1Border,
@@ -18,22 +21,13 @@ class Buttons extends Component {
       button2Text,
     } = this.props
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexFlow: 'row nowrap',
-          justifyContent: 'center',
-          margin: 8,
-          overflow: 'hidden'
-        }}
-      >
+      <div className={className ? `Buttons ${className}` : 'Buttons'}>
         <RaisedButton
           backgroundColor={button1BackgroundColor}
           containerElement={<Link to={button1Link || '/'}/>}
           label={button1Text}
           labelColor={button1Color}
-          onTouchTap={this.handleButton1}
-          style={{ margin: 8, border: button1Border  }}
+          style={{ border: button1Border  }}
         />
         {button2Text &&
           <RaisedButton
@@ -41,8 +35,7 @@ class Buttons extends Component {
             containerElement={<Link to={button2Link || '/'}/>}
             label={button2Text}
             labelColor={button2Color}
-            onTouchTap={this.handleButton2}
-            style={{ margin: 8, border: button2Border }}
+            style={{ border: button2Border }}
           />
         }
       </div>
@@ -59,7 +52,6 @@ Buttons.propTypes = {
   button2Link: PropTypes.string,
   button1Text: PropTypes.string.isRequired,
   button2Text: PropTypes.string,
-  dispatch: PropTypes.func.isRequired,
 }
 
 export default Buttons

@@ -34,9 +34,9 @@ export const fetchAdd = (add) => {
   }
 }
 
-export const fetchUpdate = (_id, update) => {
+export const fetchUpdate = ({ _id, path, update }) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${_id}`, {
+    return fetch(`/api/${route}/${_id}/${path}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json' ,

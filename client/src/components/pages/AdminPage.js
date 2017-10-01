@@ -5,7 +5,7 @@ import './page.css'
 import AdminPageEditButtons from './AdminPageEditButtons'
 import AdminItemForm from '../forms/AdminItemForm'
 import pageContainer from '../../containers/pages/pageContainer'
-import renderAdminSections from './renderAdminSections'
+import AdminSectionSwitch from './AdminSectionSwitch'
 
 class AdminPage extends Component {
   render() {
@@ -20,14 +20,15 @@ class AdminPage extends Component {
     } = this.props
     return (
       <div style={{ backgroundColor }} className="AdminPage" >
-        <div>
-          {renderAdminSections({
-            dispatch,
-            sections,
-            pageId: _id,
-            pageSlug: slug
-          })}
-        </div>
+        {sections.map(section => (
+          <AdminSectionSwitch
+            dispatch={dispatch}
+            key={section._id}
+            pageId={_id}
+            pageSlug={slug}
+            section={section}
+          />
+        ))}
         <AdminPageEditButtons
           dispatch={dispatch}
           page={this.props.page}

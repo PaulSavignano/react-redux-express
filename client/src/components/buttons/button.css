@@ -1,0 +1,9 @@
+.Buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center
+}
+
+.Buttons > div {
+  margin: 8px !important;
+}

@@ -11,6 +11,7 @@ const adminItemForms = [{
   update: articleUpdate,
   delete: articleDelete,
   fields: [
+    { name: 'articleFlex', type: 'text' },
     { name: 'button1Text', type: 'text' },
     { name: 'button1Link', type: 'text' },
     { name: 'button2Text', type: 'text' },
@@ -20,7 +21,7 @@ const adminItemForms = [{
     { name: 'h2Text', type: 'text' },
     { name: 'h3Text', type: 'text' },
     { name: 'iframe', type: 'text' },
-    { name: 'mediaAlign', type: 'select', options: [ 'left', 'right' ] },
+    { name: 'mediaAlign', type: 'select', options: [ 'leftOfText', 'leftOfParagraph', 'rightOfText', 'rightOfParagraph' ] },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaBoxShadow', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
@@ -100,7 +101,7 @@ const adminItemForms = [{
   delete: sectionDelete,
   fields: [
     { name: 'alignItems', type: 'text' },
-    { name: 'backgroundColor', type: 'text' },
+    { name: 'containerBackgroundColor', type: 'text' },
     { name: 'kind', type: 'select', options: [ 'Flex', 'SlideShow', 'Swipeable' ] },
     { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse', 'row nowrap', 'column' ] },
     { name: 'justifyContent', type: 'select', options: ['flex-start', 'flex-end', 'center', 'space-around', 'space-between'] },

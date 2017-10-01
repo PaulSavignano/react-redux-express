@@ -15,28 +15,19 @@ export const add = (req, res) => {
         values: { name }
       })
       newDoc.save()
-        .then(doc => res.send(doc))
-        .catch(error => {
-          console.error(error)
-          res.status(400).send({ error })
-        })
+      .then(doc => res.send(doc))
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     } else {
       return res.status(400).send({ error: 'That name already exists' })
     }
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 export const get = (req, res) => {
   Page.find({})
   .then(pages => res.send(pages))
-  .catch(error => {
-    console.error(error)
-    res.status(400).send()
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 export const update = (req, res) => {
@@ -54,10 +45,7 @@ export const update = (req, res) => {
     populate: { path: 'items.item' }
   })
   .then(doc => res.send(doc))
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -67,8 +55,5 @@ export const remove = (req, res) => {
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
   Page.findOneAndRemove({ _id })
   .then(page => res.send(page))
-  .catch(error => {
-    console.error(error)
-    res.status(400).send()
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }

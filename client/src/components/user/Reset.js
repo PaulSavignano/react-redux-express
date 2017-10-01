@@ -5,6 +5,7 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
+import './user.css'
 import history from '../../containers/routers/history'
 import userContainer from '../../containers/user/userContainer'
 import SuccessableButton from '../buttons/SuccessableButton'

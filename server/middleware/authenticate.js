@@ -10,10 +10,7 @@ const authenticate = (roles) => {
       req.token = token
       next()
     })
-    .catch(error => {
-      console.error(error)
-      res.status(401).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   }
 }
 

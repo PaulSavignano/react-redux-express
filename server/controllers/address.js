@@ -20,16 +20,12 @@ export const add = (req, res) => {
     .then(user => {
       res.send({ user })
     })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
+
+
 
 export const adminAdd = (req, res) => {
   const { user } = req
@@ -49,15 +45,9 @@ export const adminAdd = (req, res) => {
     )
     .populate('addresses')
     .then(user => res.send(user))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 export const get = (req, res) => {
@@ -65,18 +55,12 @@ export const get = (req, res) => {
   const isAdmin = user.roles.some(role => role === 'admin')
   if (isAdmin) {
     Address.find({})
-      .then(addresses => res.send(addresses))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+    .then(addresses => res.send(addresses))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   } else {
     Address.find({ user: user._id })
     .then(addresses => res.send(addresses))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   }
 }
 
@@ -95,15 +79,9 @@ export const update = (req, res) => {
   .then(address => {
     User.findOne({ _id: address.user })
     .then(user => res.send(user))
-    .catch(error => {
-      console.log({ error })
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.log({ error }); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.log(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.log(error); res.status(400).send({ error })})
 }
 
 export const adminUpdate = (req, res) => {
@@ -121,15 +99,9 @@ export const adminUpdate = (req, res) => {
   .then(address => {
     User.findOne({ _id: address.user })
     .then(user => res.send(user))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.log(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.log(error); res.status(400).send({ error })})
 }
 
 
@@ -149,20 +121,11 @@ export const remove = (req, res) => {
       .then(user => {
         res.send({ user })
       })
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 export const adminRemove = (req, res) => {
@@ -179,13 +142,7 @@ export const adminRemove = (req, res) => {
       { new: true }
     )
     .then(user => res.send({ address, user }))
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }

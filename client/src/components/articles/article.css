@@ -1,10 +1,11 @@
-.article {
+.Article, .AdminArticle {
   display: flex;
   flex: 1 1 auto;
 }
-.article-content {
+
+.article-flex-content,
+.ArticleMediaLeftOfText {
   display: flex;
-  flex: 1 1 auto;
   justify-content: space-around;
 }
 .article-media {
@@ -14,7 +15,12 @@
   margin: 8px;
 }
 
-.text-container {
+.article-heading,
+.article-paragraph {
+  margin: 8px 16px;
+}
+
+.article-text {
   display: flex;
   flex-flow: column;
   justify-content: center;

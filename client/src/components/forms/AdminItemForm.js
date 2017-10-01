@@ -22,71 +22,173 @@ import adminItemForms from './adminItemForms'
 class AdminItemForm extends Component {
   state = {
     backgroundImageEdit: false,
+    deleteBackgroundImage: false,
+    backgroundTimeoutId: null,
+    disabled: true,
     imageEdit: false,
+    deleteImage: false,
+    imageTimeoutId: null,
     itemForm: null
   }
   handleImageEdit = (bool) => {
-    console.log(bool)
-    this.setState({ imageEdit: bool })
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
+    const imageTimeoutId = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+      clearTimeout(this.state.imageTimeoutId)
+    }, 9)
+    this.setState({
+      disabled: false,
+      imageEdit: bool,
+      imageTimeoutId
+    })
   }
   handleBackgroundImageEdit = (bool) => {
-    console.log(bool)
-    this.setState({ backgroundImageEdit: bool })
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
+    const backgroundTimeoutId = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+      clearTimeout(this.state.backgroundTimeoutId)
+    }, 9)
+    this.setState({
+      backgroundImageEdit: bool,
+      backgroundTimeoutId,
+      disabled: false
+    })
   }
   handleImageRemove = (image) => {
     const { dispatch, editItem: { item: { _id }}} = this.props
-    if (window.confirm('Are you sure you want to delete this image?')) {
-      this.setState({ imageEdit: false })
-      return dispatch(this.state.itemForm.update(_id, { type: 'DELETE_IMAGE', image }))
-    }
+    this.setState({
+      disabled: false,
+      imageEdit: false,
+      deleteImage: true
+    })
   }
   handleBackgroundImageRemove = (image) => {
     const { dispatch, editItem: { item: { _id }}} = this.props
-    if (window.confirm('Are you sure you want to delete this image?')) {
-      this.setState({ backgroundImageEdit: false })
-      return dispatch(this.state.itemForm.update(_id, { type: 'DELETE_BACKGROUND_IMAGE', image }))
-    }
+    this.setState({
+      disabled: false,
+      backgroundImageEdit: false,
+      deleteBackgroundImage: true
+    })
   }
   handleFormSubmit = (values) => {
-    const { imageEdit, backgroundImageEdit } = this.state
-    const { dispatch, editItem: { item: { _id, pageSlug }}, image, backgroundImage } = this.props
+    const {
+      backgroundImageEdit,
+      deleteBackgroundImage,
+      imageEdit,
+      deleteImage,
+    } = this.state
+    const {
+      dispatch,
+      editItem: {
+        item: {
+          _id,
+          image,
+          backgroundImage,
+          pageSlug
+        }
+      }
+    } = this.props
     const oldImageSrc = image && image.src ? image.src : null
     const oldBackgroundImageSrc = backgroundImage && backgroundImage.src ? backgroundImage.src : null
     const newImage = imageEdit ? this.imageEditor.handleSave() : null
     const newBackgroundImage = backgroundImageEdit ? this.backgroundImageEditor.handleSave() : null
     const fetchUpdate = this.state.itemForm.update
-    if (imageEdit && backgroundImageEdit) {
-      return dispatch(fetchUpdate(_id, {
-        type: 'UPDATE_IMAGE_AND_BACKGROUND_IMAGE_AND_VALUES',
-        image: newImage,
-        backgroundImage: newBackgroundImage,
-        oldImageSrc,
-        oldBackgroundImageSrc,
-        pageSlug,
-        values
-      }))
+    switch(true) {
+      case (imageEdit && backgroundImageEdit):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-image-and-background-image',
+          update: {
+            newImage,
+            newBackgroundImage,
+            oldImageSrc,
+            oldBackgroundImageSrc,
+            pageSlug,
+            values
+          }
+        }))
+      case (imageEdit && deleteBackgroundImage):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-image-and-delete-background-image',
+          update: {
+            newImage,
+            oldImageSrc,
+            oldBackgroundImageSrc,
+            pageSlug,
+            values
+          }
+        }))
+      case (backgroundImageEdit && deleteImage):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-background-image-and-delete-image',
+          update: {
+            newBackgroundImage,
+            oldImageSrc,
+            oldBackgroundImageSrc,
+            pageSlug,
+            values
+          }
+        }))
+      case (deleteImage && deleteBackgroundImage):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-delete-image-and-delete-background-image',
+          update: {
+            oldImageSrc,
+            oldBackgroundImageSrc,
+            pageSlug,
+            values
+          }
+        }))
+      case (imageEdit):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-image',
+          update: {
+            newImage,
+            oldImageSrc,
+            pageSlug,
+            values
+          }
+        }))
+      case (backgroundImageEdit):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-background-image',
+          update: {
+            newBackgroundImage,
+            oldBackgroundImageSrc,
+            pageSlug,
+            values
+          }
+        }))
+      case (deleteImage):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-delete-image',
+          update: {
+            oldImageSrc,
+            values
+          }
+        }))
+      case (deleteBackgroundImage):
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-with-delete-background-image',
+          update: {
+            oldBackgroundImageSrc,
+            values
+          }
+        }))
+      default:
+        return dispatch(fetchUpdate({
+          _id,
+          path: 'update-values',
+          update: {
+            values,
+          }
+        }))
     }
-    if (imageEdit) {
-      return dispatch(fetchUpdate(_id, {
-        type: 'UPDATE_IMAGE_AND_VALUES',
-        image: newImage,
-        oldImageSrc,
-        pageSlug,
-        values
-      }))
-    }
-    if (backgroundImageEdit) {
-      return dispatch(fetchUpdate(_id, {
-        type: 'UPDATE_BACKGROUND_IMAGE_AND_VALUES',
-        backgroundImage: newBackgroundImage,
-        oldBackgroundImageSrc,
-        pageSlug,
-        values
-      }))
-    }
-    return dispatch(fetchUpdate(_id, { type: 'UPDATE_VALUES', values, pageSlug }))
   }
   handleDelete = () => {
     const { dispatch, editItem: { item: { _id }, kind }} = this.props
@@ -103,10 +205,21 @@ class AdminItemForm extends Component {
     const itemForm = adminItemForms.find(form => form.name === kind)
     this.setState({ itemForm })
   }
+  componentWillReceiveProps({
+    invalid,
+    pristine,
+  }) {
+    if (invalid !== this.props.invalid) this.setState({ disabled: invalid })
+    if (pristine !== this.props.pristine) this.setState({ disabled: pristine })
+  }
   setImageFormRef = (imageEditor) => this.imageEditor = imageEditor
   setBackgroundImageFormRef = (backgroundImageEditor) => this.backgroundImageEditor = backgroundImageEditor
   render() {
-    const { backgroundImageEdit, imageEdit } = this.state
+    const {
+      backgroundImageEdit,
+      disabled,
+      imageEdit
+    } = this.state
     const {
       error,
       handleSubmit,
@@ -125,7 +238,7 @@ class AdminItemForm extends Component {
         actions={
           <div className="button-container">
             <RaisedButton
-              disabled={imageEdit ? !imageEdit : backgroundImageEdit ? !backgroundImageEdit : pristine || invalid}
+              disabled={disabled}
               onTouchTap={handleSubmit(this.handleFormSubmit)}
               label={submitting ?
                 <CircularProgress key={1} color="#ffffff" size={25} style={{ verticalAlign: 'middle' }} />

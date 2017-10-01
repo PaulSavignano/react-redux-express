@@ -7,6 +7,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import SuccessableButton from '../../components/buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import normalizePhone from '../../utils/normalizePhone'
+import './user.css'
+
 
 const validate = values => {
   const errors = {}

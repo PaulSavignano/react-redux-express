@@ -25,20 +25,11 @@ export const add = (req, res) => {
     .then(section => {
       Page.findOne({ _id: section.page })
       .then(page => res.send({ editItem: doc, page }))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
-    .catch(error => {
-      console.error(error)
-      res.status(400).send({ error })
-    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 
@@ -59,15 +50,9 @@ export const update = (req, res) => {
       .then(doc => {
         Page.findOne({ _id: doc.page })
         .then(page => res.send({ page }))
-        .catch(error => {
-          console.error(error)
-          res.status(400).send({ error })
-        })
+        .catch(error => { console.error(error); res.status(400).send({ error })})
       })
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
       break
     default:
       return
@@ -89,14 +74,8 @@ export const remove = (req, res) => {
     .then(section => {
       Page.findOne({ _id: section.page })
       .then(page => res.send({ page }))
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error })
-      })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
   })
-  .catch(error => {
-    console.error(error)
-    res.status(400).send({ error })
-  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
