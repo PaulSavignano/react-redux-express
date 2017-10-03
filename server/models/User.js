@@ -57,10 +57,15 @@ UserSchema.methods.toJSON = function() {
   return { _id, addresses, roles, values }
 }
 
-UserSchema.methods.generateAuthToken = function() {
+
+
+UserSchema.methods.generateRefreshToken = function() {
   const user = this
-  const access = 'auth'
-  const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString()
+  const access = 'refresh'
+  const token = jwt.sign({
+    _id: user._id.toHexString(),
+    access,
+  }, process.env.JWT_SECRET).toString()
   const newToken = new Token({
     user: ObjectID(user._id),
     access,
@@ -69,36 +74,101 @@ UserSchema.methods.generateAuthToken = function() {
   return newToken.save()
   .then(() => token)
   .catch(error => Promise.reject(error))
-
-  // user.tokens.push({ access, token })
-  // return user.save()
-  //   .then(() => token)
-  //   .catch(err => Promise.reject(err))
 }
+
+
+
+
+UserSchema.methods.generateAuthToken = function() {
+  const user = this
+  const access = 'auth'
+  const token = jwt.sign({
+    _id: user._id.toHexString(),
+    access,
+    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 48) // expires in 48 hours
+  }, process.env.JWT_SECRET).toString()
+  const newToken = new Token({
+    user: ObjectID(user._id),
+    access,
+    token
+  })
+  return newToken.save()
+  .then(() => token)
+  .catch(error => Promise.reject(error))
+}
+
+
+
+
+UserSchema.methods.generateResetToken = function() {
+  const user = this
+  const access = 'reset'
+  const token = jwt.sign({
+    _id: user._id.toHexString(),
+    access,
+    exp: Math.floor(Date.now() / 1000) + (60 * 60) // expires in 1 hour
+  }, process.env.JWT_SECRET).toString()
+  const newToken = new Token({
+    user: ObjectID(user._id),
+    access,
+    token
+  })
+  return newToken.save()
+  .then(() => token)
+  .catch(error => Promise.reject(error))
+}
+
+
+
+
+
+UserSchema.statics.findByToken = function(token, roles) {
+  const User = this
+  let decoded
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET)
+  } catch (error) {
+    return Promise.reject(error)
+  }
+  Token.findOne({ token })
+  .then(token => {
+    return User.findOne({ _id: token.user })
+  })
+}
+
+
+
+
 
 UserSchema.methods.removeToken = function(token) {
   const user = this
   return Token.remove({ user: user._id })
-
-  // return user.update({
-  //   $pull: {
-  //     tokens: {
-  //       token
-  //     }
-  //   }
-  // })
 }
 
-// UserSchema.methods.removeTokens = function(tokens) {
-//   const user = this
-//   return user.update({
-//     $pull: {
-//       tokens: {
-//         $in: tokens
-//       }
-//     }
-//   })
-// }
+
+
+
+
+UserSchema.statics.findByCredentials = function(email, password) {
+  const User = this
+  return User.findOne({ 'values.email': email.toLowerCase() })
+    .populate({ path: 'addresses' })
+    .then(user => {
+      if (!user) return Promise.reject({ email: 'User not found' })
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password)
+        .then(res => {
+          if (res) {
+            resolve(user)
+          } else {
+            reject({ password: 'Password does not match' })
+          }
+        })
+      })
+    })
+}
+
+
 
 UserSchema.methods.buildResponse = function() {
   const user = this
@@ -142,40 +212,6 @@ UserSchema.methods.buildResponse = function() {
 
 
 
-UserSchema.statics.findByToken = function(token, roles) {
-  const User = this
-  let decoded
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET)
-  } catch (error) {
-    return Promise.reject(error)
-  }
-  return Token.findOne({ token })
-  .then(token => {
-    return User.findOne({ _id: token.user })
-  })
-
-}
-
-UserSchema.statics.findByCredentials = function(email, password) {
-  const User = this
-  return User.findOne({ 'values.email': email.toLowerCase() })
-    .populate({ path: 'addresses' })
-    .then(user => {
-      if (!user) return Promise.reject({ error: { email: 'User not found'}})
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password)
-        .then(res => {
-          if (res) {
-            resolve(user)
-          } else {
-            reject({ error: { password: 'Password does not match' }})
-          }
-        })
-      })
-    })
-}
-
 UserSchema.pre('save', function(next) {
   const user = this
   if (user.isModified('password')) {
@@ -192,7 +228,8 @@ UserSchema.pre('save', function(next) {
 
 
 UserSchema.post('findOneAndRemove', function(doc, next) {
-  Address.deleteMany({ _id: { $in: doc.addresses }}).catch(error => console.error(error))
+  Address.deleteMany({ user: doc._id }).catch(error => console.error(error))
+  Token.deleteMany({ user: doc._id }).catch(error => console.error(error))
   next()
 })
 

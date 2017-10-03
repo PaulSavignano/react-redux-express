@@ -43,12 +43,12 @@ export const add = (req, res) => {
       })
       .catch(error => {
         console.error(error)
-        res.status(400).send({ error: { password: 'password not valid' }})
+        res.status(400).send({ error: { password: 'password is not valid' }})
       })
   })
   .catch(error => {
     console.error('user.save() : ', error)
-    res.status(400).send({ error: { email: 'User already exists'}})
+    res.status(400).send({ error: { email: 'user already exists'}})
   })
 }
 
@@ -57,10 +57,6 @@ export const add = (req, res) => {
 export const get = (req, res) => {
   const { token, user } = req
   const { values, addresses, roles } = user
-
-
-
-
   return user.buildResponse()
   .then(({ user, users, orders }) => {
     res.send({ user, users, orders })
@@ -93,7 +89,6 @@ export const update = (req, res) => {
 
 export const remove = (req, res) => {
   const { user } = req
-  console.log('user', user)
   User.findOneAndRemove(
     { _id: user._id }
   )
@@ -110,7 +105,6 @@ export const signin = (req, res) => {
   const { email, password } = req.body
   User.findByCredentials(email, password)
   .then(user => {
-    if (!user) return Promise.reject({ error: 'User not found' })
     return user.generateAuthToken()
     .then(token => {
       return user.buildResponse()
@@ -149,7 +143,6 @@ export const recovery = (req, res, next) => {
           toBody: `
             <p>Hi ${firstName},</p>
             <p>Click the link below to recover your password.</p>
-            <br />
             <a href="${path}" style="color: black; text-decoration: none;">
               ${path}
             </a>
@@ -169,14 +162,17 @@ export const reset = (req, res) => {
     { passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() }}
   )
   .then(user => {
-    if (!user) return Promise.reject('Token has expired.')
+    if (!user) return Promise.reject('token has expired')
     user.password = req.body.password
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined
     user.save()
     .then(() => user.generateAuthToken())
     .then(token => {
-      res.header('x-auth', token).send(user)
+      return user.buildResponse()
+      .then(({ user, users, orders }) => {
+        res.header('x-auth', token).send({ user, users, orders })
+      })
     })
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })

@@ -62,7 +62,13 @@ class AppBarUser extends Component {
   }
   render() {
     const { horizontal, navClass } = this.state
-    const { dispatch, color, firstName, fontFamily } = this.props
+    const {
+      color,
+      dispatch,
+      firstName,
+      fontFamily,
+      history,
+    } = this.props
     return (
       <div
         ref={ (userNav) => this.userNav = userNav}
@@ -86,6 +92,7 @@ class AppBarUser extends Component {
         >
           <Menu>
             <UserButtons
+              history={history}
               dispatch={dispatch}
               firstName={firstName}
               onSelect={this.handleCloseMenu}
@@ -101,7 +108,8 @@ AppBarUser.propTypes = {
   color: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   firstName: PropTypes.string,
-  fontFamily: PropTypes.string.isRequired
+  fontFamily: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
 }
 
 export default withRouter(AppBarUser)

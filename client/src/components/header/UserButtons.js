@@ -7,9 +7,9 @@ import { fetchSignout } from '../../actions/user'
 
 class UserButtons extends Component {
   handleSignout = () => {
-    const { dispatch, onSelect } = this.props
+    const { dispatch, history, onSelect } = this.props
     onSelect()
-    return dispatch(fetchSignout())
+    return dispatch(fetchSignout(history))
   }
   render() {
     const {
@@ -49,6 +49,7 @@ class UserButtons extends Component {
 UserButtons.propTypes = {
   firstName: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
 }
 

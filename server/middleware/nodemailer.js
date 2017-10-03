@@ -75,12 +75,17 @@ export const sendEmail1 = (mail) => {
           <br/><br/>
           ${image && image.src ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
           <div>
-            <span style="text-decoration: none; color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing}; ">
+            <span
+              style="text-decoration: none; color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing};"
+            >
               ${name}
             </span>
           </div>
           <div>
-            <a href="mailto:${process.env.GMAIL_USER}">
+            <a
+              href="mailto:${process.env.GMAIL_USER}"
+              style="text-decoration: none; color: ${primary1Color};"
+              >
               ${process.env.GMAIL_USER}
             </a>
           </div>

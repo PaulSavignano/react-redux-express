@@ -2,6 +2,8 @@ import { SubmissionError } from 'redux-form'
 
 import { fetchOrdersSuccess } from './orders'
 import { fetchUsersSuccess, fetchDeleteSuccess as usersDeleteSuccess } from './users'
+import handleFetchResponse from '../utils/handleFetchResponse'
+import history from '../containers/routers/history'
 
 export const type = 'USER'
 const route = 'users'
@@ -43,7 +45,7 @@ export const fetchAdd = (values) => {
       })
       .catch(error => {
         dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Signup failed' })
+        throw new SubmissionError({ ...error, _error: Object.values(error)[0] })
     })
   }
 }
@@ -167,27 +169,33 @@ export const fetchSignin = ({ history, values }) => {
       body: JSON.stringify(values)
     })
       .then(res => {
+        console.log('res', res)
         if (res.ok) localStorage.setItem('token', res.headers.get('x-auth'))
         return res.json()
       })
       .then(json => {
+        console.log('json', json)
         if (json.error) return Promise.reject(json.error)
         const { user, users, orders } = json
         if (users) dispatch(fetchUsersSuccess(users))
         if (orders) dispatch(fetchOrdersSuccess(orders))
-        return dispatch(fetchUserSuccess(user))
+        dispatch(fetchUserSuccess(user))
+        console.log(history)
         return history.goBack()
       })
       .catch(error => {
+        console.log(error)
         dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Sigin failed'})
+        throw new SubmissionError({ ...error, _error: Object.values(error)[0] })
       })
   }
 }
 
 
+
+
 const fetchSignoutSuccess = () => ({ type: 'DELETE_USER' })
-export const fetchSignout = (history) => {
+export const fetchSignout = () => {
   return (dispatch, getState) => {
     return fetch('/api/users/signout', {
       method: 'PATCH',
@@ -200,14 +208,16 @@ export const fetchSignout = (history) => {
         if (res.ok) {
           localStorage.removeItem('token')
           dispatch(fetchSignoutSuccess())
-          dispatch({ type: 'DELETE_ORDERS'})
-          history.push('/user/signin')
+          dispatch({ type: 'DELETE_ORDERS' })
+          dispatch({ type: 'DELETE_ALL_USERS' })
+          return history.push('/user/signin')
         }
         throw new Error('Network response was not ok.')
       })
       .catch(error => dispatch(fetchFailure(error)))
   }
 }
+
 
 
 const fetchRecoverySuccess = (message) => ({ type: 'RECOVER_USER', message })
@@ -227,7 +237,7 @@ export const fetchRecovery = ({ email }) => {
       })
       .catch(error => {
         dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Recovery failed' })
+        throw new SubmissionError({ ...error, _error: Object.values(error)[0] })
       })
   }
 }

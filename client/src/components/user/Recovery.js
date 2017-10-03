@@ -52,8 +52,8 @@ class Recovery extends Component {
     } = this.props
     return (
       <div className="page">
-        <section className="section-margin">
-          <Card>
+        <section className="section">
+          <Card className="card">
             <CardTitle title="Recovery" subtitle="Enter your email to recover your account" />
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
               <CardText>
@@ -63,11 +63,11 @@ class Recovery extends Component {
                 <SuccessableButton
                   disabled={pristine || invalid}
                   error={error}
-                  label="Request Estimage"
+                  label="Recover Accout"
                   reset={null}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}
-                  successLabel="Estimate Requested!"
+                  successLabel="Recovery Success!"
                 />
               </div>
             </form>
@@ -84,7 +84,7 @@ class Recovery extends Component {
               open={this.state.open}
               onRequestClose={this.handleClose}
             >
-              An email has been sent to {this.state.email}
+              A password reset token has been sent to {this.state.email}
             </Dialog>
             }
             <CardActions className="card-actions">

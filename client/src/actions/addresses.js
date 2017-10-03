@@ -1,5 +1,6 @@
 import { SubmissionError } from 'redux-form'
 
+import handleFetchResponse from '../utils/handleFetchResponse'
 import * as userActions from './user'
 import * as usersActions from './users'
 
@@ -9,6 +10,8 @@ const route = 'addresses'
 const ERROR = `ERROR_${type}`
 
 const fetchFailure = (error) => ({ type: ERROR, error })
+
+
 
 // Create
 export const fetchAdd = (add) => {
@@ -21,16 +24,14 @@ export const fetchAdd = (add) => {
       },
       body: JSON.stringify(add)
     })
-      .then(res => res.json())
-      .then(json => {
-        const { user } = json
-        if (json.error) return Promise.reject(json.error)
-        return dispatch(userActions.fetchUpdateSuccess(user))
-      })
-      .catch(error => {
-        console.log(error)
-        dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Update failed!' })
+    .then(response => handleFetchResponse({ dispatch, response }))
+    .then(json => {
+      const { user } = json
+      return dispatch(userActions.fetchUpdateSuccess(user))
+    })
+    .catch(error => {
+      dispatch(fetchFailure(error))
+      throw new SubmissionError({ ...error, _error: 'Update failed!' })
     })
   }
 }

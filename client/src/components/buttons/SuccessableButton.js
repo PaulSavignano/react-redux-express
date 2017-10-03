@@ -54,7 +54,7 @@ class SuccessableButton extends Component {
         })
         clearTimeout(this.state.timeoutId)
         reset && reset()
-      }, 3000)
+      }, 5000)
       return this.setState({
         background: 'rgb(244, 67, 54)',
         disabled: false,
@@ -84,7 +84,7 @@ class SuccessableButton extends Component {
         })
         clearTimeout(this.state.timeoutId)
         reset && reset()
-      }, 3000)
+      }, 5000)
       return this.setState({
         background: 'rgb(76, 175, 80)',
         disabled: false,

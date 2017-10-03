@@ -48,7 +48,7 @@ class Signin extends Component {
     return (
       <div className="page">
         <section className="section">
-          <Card className="form">
+          <Card className="card">
             <CardTitle title="Sign in" subtitle="Enter your information" />
             <form onSubmit={handleSubmit(this.handleSignin)}>
               <CardText>

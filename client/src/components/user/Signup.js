@@ -56,7 +56,7 @@ class Signup extends Component {
     return (
       <div className="page">
         <section className="section">
-          <Card className="form">
+          <Card className="card">
             <CardTitle title="Signup" subtitle="Enter your information" />
             <form onSubmit={handleSubmit(this.handleFormSubmit)} >
               <CardText>

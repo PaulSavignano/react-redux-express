@@ -41,7 +41,7 @@ class Reset extends Component {
     }
   }
   handleFormSubmit = values => {
-    const { dispatch, params: { token }} = this.props
+    const { dispatch, token } = this.props
     return dispatch(fetchReset(values, token))
   }
   componentWillReceiveProps({ submitFailed, submitSucceeded, user: { values: { firstName }}}) {
@@ -59,8 +59,8 @@ class Reset extends Component {
     } = this.props
     return (
       <div className="page">
-        <section className="section-margin">
-          <Card>
+        <section className="section">
+          <Card className="card">
             <CardTitle title="Reset" subtitle="Enter your email to recover your account" />
             <form onSubmit={handleSubmit(this.handleFormSubmit)} className="">
               <CardText>
@@ -108,6 +108,6 @@ Reset.propTypes = {
 }
 
 export default userContainer(reduxForm({
-  form: 'recovery',
+  form: 'reset',
   validate
 })(Reset))

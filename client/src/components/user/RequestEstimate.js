@@ -59,8 +59,8 @@ class RequestEstimate extends Component {
     } = this.props
     return (
       <div className="page">
-        <section className="section-margin">
-          <Card>
+        <section className="section">
+          <Card className="card">
             <CardTitle title="Request Estimate" subtitle="Enter your information" />
             <form onSubmit={handleSubmit(values => dispatch(fetchRequestEstimate(values)))} >
               <CardText>
@@ -115,7 +115,7 @@ class RequestEstimate extends Component {
                 <SuccessableButton
                   disabled={pristine || invalid}
                   error={error}
-                  label="Request Estimage"
+                  label="Request Estimate"
                   reset={reset}
                   submitSucceeded={submitSucceeded}
                   submitting={submitting}

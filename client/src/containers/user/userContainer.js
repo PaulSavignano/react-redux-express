@@ -19,17 +19,17 @@ const userContainer = (ComposedComponent) => {
     brand,
     user
   }, {
-    params
+    match: { params: { token }},
   }) => ({
     isFetching: brand.isFetching || user.isFetching ? true : false,
-    params,
+    token,
     primary1Color: brand.palette.values.primary1Color,
     user
   })
   UserContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    params: PropTypes.object,
+    token: PropTypes.string,
     primary1Color: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired
   }

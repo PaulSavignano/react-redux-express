@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { ListItem } from 'material-ui/List'
 
 import DrawerPageLink from './DrawerPageLink'
@@ -19,6 +19,7 @@ class DrawerNavigation extends Component {
       firstName,
       isAdmin,
       isOwner,
+      history,
       pages
     } = this.props
     const adminPages = pages.map(page => (
@@ -86,6 +87,7 @@ class DrawerNavigation extends Component {
         <UserButtons
           dispatch={dispatch}
           firstName={firstName}
+          history={history}
           onSelect={this.handleCloseDrawer}
         />
         {cartQty &&
@@ -115,8 +117,9 @@ DrawerNavigation.propTypes = {
   color: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   firstName: PropTypes.string,
+  history: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool,
   pages: PropTypes.array
 }
 
-export default DrawerNavigation
+export default withRouter(DrawerNavigation)
