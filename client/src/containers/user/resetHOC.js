@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 
 import './user.css'
 
-const userContainer = (ComposedComponent) => {
-  class UserContainer extends Component {
+const userHOC = (ComposedComponent) => {
+  class UserHOC extends Component {
     render() {
       const {
         isFetching
@@ -16,20 +16,21 @@ const userContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand,
     user
+  }, {
+    match: { params: { token }},
   }) => ({
-    isFetching: brand.isFetching || user.isFetching ? true : false,
-    primary1Color: brand.palette.values.primary1Color,
+    isFetching: user.isFetching,
+    token,
     user
   })
-  UserContainer.propTypes = {
+  UserHOC.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    primary1Color: PropTypes.string.isRequired,
+    token: PropTypes.string,
     user: PropTypes.object.isRequired
   }
-  return connect(mapStateToProps)(UserContainer)
+  return connect(mapStateToProps)(UserHOC)
 }
 
-export default userContainer
+export default userHOC

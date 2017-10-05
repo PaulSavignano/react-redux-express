@@ -28,7 +28,7 @@ users.delete('/', authenticate([ 'user', 'admin', 'owner' ]), remove)
 users.post('/signin', signin)
 users.post('/recovery', recovery)
 users.post('/reset/:token', reset)
-users.patch('/signout', authenticate([ 'admin', 'user', 'owner' ]), signout)
+
 users.post('/contact', contact)
 users.post('/request-estimate', requestEstimate)
 

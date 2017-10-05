@@ -7,7 +7,7 @@ import Menu from 'material-ui/Menu'
 
 import './header.css'
 import UserButtons from './UserButtons'
-import { fetchSignout } from '../../actions/user'
+import { signout } from '../../actions/user'
 
 class AppBarUser extends Component {
   state = {
@@ -25,7 +25,7 @@ class AppBarUser extends Component {
   handleSignout = () => {
     const { dispatch, history } = this.props
     this.handleCloseMenu()
-    return dispatch(fetchSignout(history))
+    return dispatch(signout(history))
   }
   componentDidMount() {
     const { cartQty } = this.props

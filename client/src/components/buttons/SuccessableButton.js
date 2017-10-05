@@ -38,6 +38,7 @@ class SuccessableButton extends Component {
         background: backgroundColor,
         disabled: false,
         label,
+        timeoutId: null
       })
     }
 
@@ -45,6 +46,7 @@ class SuccessableButton extends Component {
     if (error) {
       timeoutId && clearTimeout(timeoutId)
       const timeoutId = setTimeout(() => {
+        clearTimeout(this.state.timeoutId)
         this.setState({
           background: backgroundColor,
           disabled: true,
@@ -52,7 +54,6 @@ class SuccessableButton extends Component {
           submitting: false,
           timeoutId: null
         })
-        clearTimeout(this.state.timeoutId)
         reset && reset()
       }, 5000)
       return this.setState({
@@ -76,13 +77,14 @@ class SuccessableButton extends Component {
     if (submitSucceeded !== this.props.submitSucceeded) {
       timeoutId && clearTimeout(timeoutId)
       const timeoutId = setTimeout(() => {
+        clearTimeout(this.state.timeoutId)
         this.setState({
           background: backgroundColor,
           disabled: true,
           label,
-          submitting: false
+          submitting: false,
+          timeoutId: null
         })
-        clearTimeout(this.state.timeoutId)
         reset && reset()
       }, 5000)
       return this.setState({

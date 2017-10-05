@@ -38,11 +38,6 @@ const orders = (state = {
         items: [],
         isFetching: false
       }
-    case `DELETE_ALL_${type}`:
-      return {
-        ...state,
-        items: []
-      }
     case `ERROR_${type}`:
       return {
         ...state,

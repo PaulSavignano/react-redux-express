@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import MenuItem from 'material-ui/MenuItem'
 
-import { fetchSignout } from '../../actions/user'
+import { signout } from '../../actions/user'
 
 class UserButtons extends Component {
   handleSignout = () => {
     const { dispatch, history, onSelect } = this.props
     onSelect()
-    return dispatch(fetchSignout(history))
+    return dispatch(signout(history))
   }
   render() {
     const {

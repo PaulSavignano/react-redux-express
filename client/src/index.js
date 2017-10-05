@@ -17,10 +17,9 @@ import { fetchUser } from './actions/user'
 
 const store = configureStore()
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('x-token')
 if (token) {
-  store.dispatch(fetchUser(token))
-  store.dispatch(fetchOrders())
+  store.dispatch(fetchUser())
 }
 const cart = localStorage.getItem('cart')
 if (cart) {

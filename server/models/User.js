@@ -59,64 +59,10 @@ UserSchema.methods.toJSON = function() {
 
 
 
-UserSchema.methods.generateRefreshToken = function() {
-  const user = this
-  const access = 'refresh'
-  const token = jwt.sign({
-    _id: user._id.toHexString(),
-    access,
-  }, process.env.JWT_SECRET).toString()
-  const newToken = new Token({
-    user: ObjectID(user._id),
-    access,
-    token
-  })
-  return newToken.save()
-  .then(() => token)
-  .catch(error => Promise.reject(error))
-}
 
 
 
 
-UserSchema.methods.generateAuthToken = function() {
-  const user = this
-  const access = 'auth'
-  const token = jwt.sign({
-    _id: user._id.toHexString(),
-    access,
-    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 48) // expires in 48 hours
-  }, process.env.JWT_SECRET).toString()
-  const newToken = new Token({
-    user: ObjectID(user._id),
-    access,
-    token
-  })
-  return newToken.save()
-  .then(() => token)
-  .catch(error => Promise.reject(error))
-}
-
-
-
-
-UserSchema.methods.generateResetToken = function() {
-  const user = this
-  const access = 'reset'
-  const token = jwt.sign({
-    _id: user._id.toHexString(),
-    access,
-    exp: Math.floor(Date.now() / 1000) + (60 * 60) // expires in 1 hour
-  }, process.env.JWT_SECRET).toString()
-  const newToken = new Token({
-    user: ObjectID(user._id),
-    access,
-    token
-  })
-  return newToken.save()
-  .then(() => token)
-  .catch(error => Promise.reject(error))
-}
 
 
 
@@ -127,10 +73,11 @@ UserSchema.statics.findByToken = function(token, roles) {
   let decoded
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET)
+    console.log(decoded)
   } catch (error) {
     return Promise.reject(error)
   }
-  Token.findOne({ token })
+  return Token.findOne({ token, user: decoded._id })
   .then(token => {
     return User.findOne({ _id: token.user })
   })
@@ -170,45 +117,6 @@ UserSchema.statics.findByCredentials = function(email, password) {
 
 
 
-UserSchema.methods.buildResponse = function() {
-  const user = this
-  const { _id, addresses, roles, values } = user
-
-  const isOwner = roles.some(role => role === 'owner')
-  const isAdmin = roles.some(role => role === 'admin')
-  if (isOwner) {
-    return Promise.all([
-      User.find({}).populate({ path: 'addresses' }).sort({ 'values.lastName': 1, 'values.firstName': 1 }).then(users => users),
-      Order.find({}).then(orders => orders)
-    ])
-    .then(([users, orders]) => {
-      return {
-        user: { _id, addresses, roles, values },
-        users,
-        orders
-      }
-    })
-    .catch(error => Promise.reject(error))
-  }
-  if (isAdmin) {
-    return Order.find({})
-    .then(orders => {
-      return {
-        orders,
-        user: { _id, addresses, roles, values }
-      }
-    })
-    .catch(error => Promise.reject(error))
-  }
-  return Order.find({ user: user._id })
-  .then(orders => {
-    return {
-      user: { _id, addresses, roles, values },
-      orders
-    }
-  })
-  .catch(error => Promise.reject(error))
-}
 
 
 

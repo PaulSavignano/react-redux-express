@@ -103,7 +103,6 @@ export const updateWithDeleteImage = (req, res) => {
     oldImageSrc,
     values
   } = req.body
-  console.log('oldImageSrc', oldImageSrc)
   return deleteFile({ Key: oldImageSrc })
     .then(() => {
       Card.findOneAndUpdate(

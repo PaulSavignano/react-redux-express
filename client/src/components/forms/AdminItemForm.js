@@ -197,9 +197,6 @@ class AdminItemForm extends Component {
     }
   }
   handleStopEdit = () => this.props.dispatch(stopEdit())
-  handleNumberToString = value => {
-    if (value) return value.toString()
-  }
   componentWillMount() {
     const { editItem: { kind }} = this.props
     const itemForm = adminItemForms.find(form => form.name === kind)
@@ -299,16 +296,16 @@ class AdminItemForm extends Component {
           }
           <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
             {this.state.itemForm.fields.map(({ name, type, options }) => {
-              const normalizeNumber = type === 'number' ? { normalize: this.handleNumberToString() } : null
-              return (
-                type === 'select' ?
-                  <Field
+              const format = value => value === undefined ? undefined : value.toString()
+              switch(type) {
+                case 'select':
+                  return <Field
                     key={name}
                     className="field"
                     component={renderSelectField}
                     label={name}
                     name={name}
-                  >
+                         >
                     {options.map(option => (
                       <MenuItem
                         key={option}
@@ -317,26 +314,35 @@ class AdminItemForm extends Component {
                       />
                     ))}
                   </Field>
-                : type === 'wysiwgy' ?
-                  <Field
+                case 'wysiwgy':
+                  return <Field
                     className="field"
                     component={renderWysiwgyField}
                     key={name}
                     label={name}
                     name={name}
                     type={type}
-                  />
-                :
-                <Field
-                  className="field"
-                  component={renderTextField}
-                  key={name}
-                  label={name}
-                  name={name}
-                  type={type}
-                  {...normalizeNumber}
-                />
-              )
+                         />
+                case 'number':
+                  return <Field
+                    className="field"
+                    component={renderTextField}
+                    key={name}
+                    label={name}
+                    name={name}
+                    type={type}
+                    format={format}
+                         />
+                default:
+                  return <Field
+                    className="field"
+                    component={renderTextField}
+                    key={name}
+                    label={name}
+                    name={name}
+                    type={type}
+                         />
+              }
             })}
           </div>
         </form>

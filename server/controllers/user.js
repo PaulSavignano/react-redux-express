@@ -1,12 +1,16 @@
 import { ObjectID } from 'mongodb'
 import crypto from 'crypto'
 import fetch from 'node-fetch'
+import bcrypt from 'bcryptjs'
 
 import Address from '../models/Address'
 import Brand from '../models/Brand'
 import Order from '../models/Order'
 import User from '../models/User'
 import { sendEmail1 } from '../middleware/nodemailer'
+import createTokens from '../middleware/createTokens'
+
+import buildResponse from '../middleware/buildResponse'
 
 
 export const add = (req, res) => {
@@ -14,41 +18,38 @@ export const add = (req, res) => {
   if ( !email || !firstName || !firstName || !password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const user = new User({
+  const newUser = new User({
     password,
     values: { email, firstName, lastName }
   })
-  user.save()
-  .then(doc => {
-    const { values, roles } = doc
-    const { email, firstName, lastName } = values
-    return user.generateAuthToken()
-      .then(token => {
-        const rootUrl = req.get('host')
-        sendEmail1({
-          to: email,
-          toSubject: `Welcome to ${rootUrl}!`,
-          toBody: `
-            <p>Hi ${firstName},</p>
-            <p>Thank you for joining ${rootUrl}!</p>
-            <p>I hope you enjoy our offerings.  You may modify your profile settings at <a href="${rootUrl}/user/profile">${rootUrl}/user/profile</a>.</p>
-            <p>Please let us know if there is anything we can do to better help you.</p>
-          `,
-          fromSubject: `New ${rootUrl} user!`,
-          fromBody: `
-            <p>New user ${firstName} ${lastName} just signed up at ${rootUrl}.</p>
-            `
-        })
-        res.header('x-auth', token).send({ values, roles })
+  newUser.save()
+  .then(user => {
+    return createTokens(user)
+    .then(([newToken, newRefreshToken]) => {
+      const rootUrl = req.get('host')
+      const { values } = user
+      sendEmail1({
+        to: values.email,
+        toSubject: `Welcome to ${rootUrl}!`,
+        toBody: `
+          <p>Hi ${values.firstName},</p>
+          <p>Thank you for joining ${rootUrl}!</p>
+          <p>I hope you enjoy our offerings.  You may modify your profile settings at <a href="${rootUrl}/user/profile">${rootUrl}/user/profile</a>.</p>
+          <p>Please let us know if there is anything we can do to better help you.</p>
+        `,
+        fromSubject: `New ${rootUrl} user!`,
+        fromBody: `
+          <p>New user ${values.firstName} ${values.lastName} just signed up at ${rootUrl}.</p>
+          `
       })
-      .catch(error => {
-        console.error(error)
-        res.status(400).send({ error: { password: 'password is not valid' }})
-      })
+      res.set('x-token', newToken)
+      res.set('x-refresh-token', newRefreshToken)
+      res.send({ user })
+    })
   })
   .catch(error => {
-    console.error('user.save() : ', error)
-    res.status(400).send({ error: { email: 'user already exists'}})
+    console.error(error)
+    res.status(400).send({ error: { email: 'that user already exists' }})
   })
 }
 
@@ -57,7 +58,7 @@ export const add = (req, res) => {
 export const get = (req, res) => {
   const { token, user } = req
   const { values, addresses, roles } = user
-  return user.buildResponse()
+  return buildResponse(user)
   .then(({ user, users, orders }) => {
     res.send({ user, users, orders })
   })
@@ -66,22 +67,23 @@ export const get = (req, res) => {
 
 
 export const update = (req, res) => {
-  const { user } = req
+  console.log(req.user)
   const { type, values } = req.body
-  if (values.password) {
-    user.password = values.password
-  }
-  user.values = {
-    firstName: values.firstName,
-    lastName: values.lastName,
-    email: values.email,
-    phone: values.phone
-  }
-  user.save()
-  .then(() => user.generateAuthToken())
-  .then(token => {
-    const { values } = user
-    res.header('x-auth', token).send({ values })
+  User.findOne({ _id: req.user._id })
+  .then(user => {
+    if (!user) return Promise.reject('user not found')
+    if (values.password) {
+      user.password = values.password
+    }
+    user.values = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      phone: values.phone
+    }
+    user.save()
+    .then(() => res.send(user))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
@@ -101,22 +103,24 @@ export const remove = (req, res) => {
 
 
 
-export const signin = (req, res) => {
+export const signin = async (req, res) => {
   const { email, password } = req.body
-  User.findByCredentials(email, password)
-  .then(user => {
-    return user.generateAuthToken()
-    .then(token => {
-      return user.buildResponse()
-      .then(({ user, users, orders }) => {
-        res.header('x-auth', token).send({ user, users, orders })
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-    })
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  })
-  .catch(error => { console.error(error); res.status(400).send({ error })})
+  const user = await User.findOne({ 'values.email': email })
+  if (!user) {
+    return res.status(400).send({ error: { email: 'email not found' }})
+  }
+  const valid = await bcrypt.compare(password, user.password)
+  if (!valid) {
+    return res.status(400).send({ error: { password: 'password does not match' }})
+  }
+  const [token, refreshToken] = await createTokens(user)
+  const response = await buildResponse(user)
+  res.set('x-token', token);
+  res.set('x-refresh-token', refreshToken);
+  res.send(response)
 }
+
+
 
 
 export const recovery = (req, res, next) => {
@@ -167,12 +171,18 @@ export const reset = (req, res) => {
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined
     user.save()
-    .then(() => user.generateAuthToken())
-    .then(token => {
-      return user.buildResponse()
-      .then(({ user, users, orders }) => {
-        res.header('x-auth', token).send({ user, users, orders })
+    .then(() => {
+      return createTokens(user)
+      .then(([token, refreshToken]) => {
+        return buildResponse(user)
+        .then(response => {
+          res.set('x-token', token);
+          res.set('x-refresh-token', refreshToken);
+          res.send(response)
+        })
+        .catch(error => { console.error(error); res.status(400).send({ error })})
       })
+      .catch(error => { console.error(error); res.status(400).send({ error })})
     })
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
@@ -180,12 +190,6 @@ export const reset = (req, res) => {
 }
 
 
-
-export const signout = (req, res) => {
-  req.user.removeToken(req.token)
-  .then(() => res.status(200).send())
-  .catch(error => { console.error(error); res.status(401).send({ error })})
-}
 
 
 export const contact = (req, res) => {

@@ -8,15 +8,7 @@ import { sendEmail1 } from '../middleware/nodemailer'
 const formatPrice = (cents) => `$${(cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
 export const add = (req, res, next) => {
-  console.log('inside order route')
-  const {
-    _id,
-    values: {
-      firstName,
-      lastName,
-      email
-    }
-  } = req.user
+  const { _id } = req.user
   const {
     token,
     fullAddress,
@@ -47,14 +39,9 @@ export const add = (req, res, next) => {
         { $push: { addresses: address._id }},
         { new: true }
       )
-      .populate({ path: 'addresses' })
       .then(user => createCharge({
-        _id,
         address,
         cart,
-        email,
-        firstName,
-        lastName,
         token,
         res,
         req,
@@ -65,34 +52,32 @@ export const add = (req, res, next) => {
     .catch(error => { console.error(error); res.status(400).send({ error })})
   } else {
     return Address.findOne({ _id: fullAddress })
-    .then(doc => createCharge({
-      _id,
-      address: doc,
-      cart,
-      email,
-      firstName,
-      lastName,
-      token,
-      res,
-      req
-    }))
+    .then(address => {
+      return User.findOne({ _id })
+      .then(user => createCharge({
+        address,
+        cart,
+        token,
+        res,
+        req,
+        user
+      }))
+      .catch(error => { console.error(error); res.status(400).send({ error })})
+    })
     .catch(error => { console.error(error); res.status(400).send({ error })})
   }
 }
 
 const createCharge = ({
-  _id,
   address,
   cart,
-  email,
-  firstName,
-  lastName,
   token,
   res,
   req,
   user
 }) => {
-  console.log('made it to create charge')
+  console.log('have a user?', user)
+  const { _id, values: { firstName, lastName, email }} = user
   const rootUrl = req.get('host')
   const stripe = require("stripe")(process.env.STRIPE_SK_TEST)
   return stripe.charges.create({
@@ -160,16 +145,15 @@ const createCharge = ({
 
 
 export const get = (req, res) => {
-  const isAdmin = req.user.roles.some(role => role === 'admin' || role === 'owner')
-  if (isAdmin) {
-    Order.find({})
-    .then(orders => res.send(orders))
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  } else {
-    Order.find({ user: req.user._id })
-    .then(orders => res.send(orders))
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  }
+  Order.find({ user: req.user._id })
+  .then(orders => res.send(orders))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const getAdmin = (req, res) => {
+  Order.find({})
+  .then(orders => res.send(orders))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 

@@ -50,6 +50,8 @@ export const adminAdd = (req, res) => {
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
+
+
 export const get = (req, res) => {
   const { user } = req
   const isAdmin = user.roles.some(role => role === 'admin')

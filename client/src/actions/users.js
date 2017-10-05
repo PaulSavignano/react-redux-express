@@ -1,5 +1,7 @@
 import { SubmissionError } from 'redux-form'
 
+import handleAuthFetch from '../utils/handleAuthFetch'
+
 export const type = 'USERS'
 const route = 'users'
 
@@ -17,23 +19,18 @@ const fetchFailure = (error) => ({ type: ERROR, error })
 const fetchAddSuccess = (item) => ({ type: ADD, item })
 export const fetchAdd = (add) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/admin`, {
+    return handleAuthFetch({
+      path: `/api/${route}/admin`,
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth': localStorage.getItem('token'),
-      },
-      body: JSON.stringify(add)
+      body: add
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchAddSuccess(json))
-      })
-      .catch(error => {
-        console.log(error)
-        dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Update failed!' })
+    .then(json => {
+      dispatch(fetchAddSuccess(json))
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch(fetchFailure(error))
+      throw new SubmissionError({ ...error, _error: 'Update failed!' })
     })
   }
 }
@@ -45,21 +42,18 @@ const fetchUsersFailure = (error) => ({ type: ERROR, error })
 export const fetchUsers = () => {
   return (dispatch, getState) => {
     dispatch(fetchUsersRequest())
-    return fetch(`/api/${route}`, {
+    return handleAuthFetch({
+      path: `/api/${route}`,
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      body: null
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUsersSuccess(json))
-      })
-      .catch(error => {
-        console.log(error)
-        dispatch(fetchUsersFailure(error))
-      })
+    .then(json => {
+      dispatch(fetchUsersSuccess(json))
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch(fetchUsersFailure(error))
+    })
   }
 }
 
@@ -67,23 +61,18 @@ export const fetchUsers = () => {
 export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/admin/${_id}`, {
+    return handleAuthFetch({
+      path: `/api/${route}/admin/${_id}`,
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json' ,
-        'x-auth': localStorage.getItem('token'),
-      },
-      body: JSON.stringify(update)
+      body: update
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateSuccess(json))
-      })
-      .catch(error => {
-        dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Update failed!' })
-      })
+    .then(json => {
+      dispatch(fetchUpdateSuccess(json))
+    })
+    .catch(error => {
+      dispatch(fetchFailure(error))
+      throw new SubmissionError({ ...error, _error: 'Update failed!' })
+    })
   }
 }
 
@@ -93,21 +82,17 @@ export const fetchUpdate = (_id, update) => {
 export const fetchDeleteSuccess = (_id) => ({ type: DELETE, _id })
 export const fetchDelete = (_id) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/admin/${_id}`, {
+    return handleAuthFetch({
+      path: `/api/${route}/admin/${_id}`,
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth': localStorage.getItem('token'),
-      },
+      body: null
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchDeleteSuccess(json._id))
-      })
-      .catch(error => {
-        dispatch(fetchFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Delete failed!' })
-      })
+    .then(json => {
+      dispatch(fetchDeleteSuccess(json._id))
+    })
+    .catch(error => {
+      dispatch(fetchFailure(error))
+      throw new SubmissionError({ ...error, _error: 'Delete failed!' })
+    })
   }
 }

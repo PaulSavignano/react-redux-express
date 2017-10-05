@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton'
 
 import './user.css'
 import history from '../../containers/routers/history'
-import userContainer from '../../containers/user/userContainer'
+import resetHOC from '../../containers/user/resetHOC'
 import SuccessableButton from '../buttons/SuccessableButton'
 import renderTextField from '../../components/fields/renderTextField'
 import { fetchReset } from '../../actions/user'
@@ -107,7 +107,7 @@ Reset.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-export default userContainer(reduxForm({
+export default resetHOC(reduxForm({
   form: 'reset',
   validate
 })(Reset))

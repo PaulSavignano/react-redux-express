@@ -2,6 +2,7 @@
 import { getStripeToken } from '../utils/getStripeToken'
 import { SubmissionError } from 'redux-form'
 
+import handleAuthFetch from '../utils/handleAuthFetch'
 import { fetchDeleteCart } from './cart'
 import { fetchUpdateSuccess as fetchUpdateUserSuccess } from './user'
 
@@ -50,33 +51,21 @@ export const fetchAddOrder = ({
     const card = { number, exp_month, exp_year, cvc }
     return getStripeToken(card)
     .then(token => {
-      return fetch('/api/orders', {
+      const body = {
+        token,
+        fullAddress,
+        name,
+        phone,
+        street,
+        city,
+        state,
+        zip,
+        cart
+      }
+      return handleAuthFetch({
+        path: '/api/orders',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth': localStorage.getItem('token')
-        },
-        body: JSON.stringify({
-          token,
-          fullAddress,
-          name,
-          phone,
-          street,
-          city,
-          state,
-          zip,
-          cart
-        })
-      })
-      .then(response => {
-        return response.json()
-        .then(json => {
-          if (response.ok) {
-            return json
-          } else {
-            return Promise.reject(json.error)
-          }
-        })
+        body
       })
       .then(json => {
         const { order, user } = json
@@ -129,19 +118,13 @@ const fetchOrdersFailure = (error) => ({ type: ERROR, error })
 export const fetchOrders = () => {
   return (dispatch, getState) => {
     dispatch(fetchOrdersRequest())
-    return fetch('/api/orders', {
+    return handleAuthFetch({
+      path: '/api/orders',
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth': localStorage.getItem('token'),
-      }
+      body: null
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchOrdersSuccess(json))
-      })
-      .catch(error => dispatch(fetchOrdersFailure(error)))
+    .then(json => dispatch(fetchOrdersSuccess(json)))
+    .catch(error => dispatch(fetchOrdersFailure(error)))
   }
 }
 
@@ -152,26 +135,16 @@ const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
 export const fetchUpdate = (_id, update) => {
   return (dispatch, getState) => {
-    return fetch(`/api/${route}/${_id}`, {
+    return handleAuthFetch({
+      path: `/api/${route}/${_id}`,
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json' ,
-        'x-auth': localStorage.getItem('token'),
-      },
-      body: JSON.stringify(update)
+      body: update
     })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('Network response was not ok.')
-      })
-      .then(json => {
-        if (json.error) return Promise.reject(json.error)
-        dispatch(fetchUpdateSuccess(json))
-      })
-      .catch(error => {
-        dispatch(fetchUpdateFailure(error))
-        throw new SubmissionError({ ...error, _error: 'Update failed!' })
-      })
+    .then(json => dispatch(fetchUpdateSuccess(json)))
+    .catch(error => {
+      dispatch(fetchUpdateFailure(error))
+      throw new SubmissionError({ ...error, _error: 'Update failed!' })
+    })
   }
 }
 
