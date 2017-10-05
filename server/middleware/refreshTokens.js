@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 import User from '../models/User'
 import createTokens from './createTokens'
-import buildResponse from './buildResponse'
+import buildUserResponse from './buildUserResponse'
 
 const refreshTokens = async (token, refreshToken) => {
   let userId = -1;
@@ -15,7 +15,7 @@ const refreshTokens = async (token, refreshToken) => {
   }
 
   const user = await User.findOne({ _id: userId })
-  const response = await buildResponse(user)
+  const response = await buildUserResponse(user)
 
   const [newToken, newRefreshToken] = await createTokens(user)
   return {

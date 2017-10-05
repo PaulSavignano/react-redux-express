@@ -2,7 +2,7 @@ import Order from '../models/Order'
 import User from '../models/User'
 
 
-const buildResponse = (user) => {
+const buildUserResponse = (user) => {
   const { _id, roles } = user
 
   const isOwner = roles.some(role => role === 'owner')
@@ -48,4 +48,4 @@ const buildResponse = (user) => {
   .catch(error => Promise.reject(error))
 }
 
-export default buildResponse
+export default buildUserResponse
