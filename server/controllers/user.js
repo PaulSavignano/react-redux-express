@@ -10,7 +10,7 @@ import User from '../models/User'
 import { sendEmail1 } from '../middleware/nodemailer'
 import createTokens from '../middleware/createTokens'
 
-import buildUserResponse from '../middleware/buildUserResponse'
+import createUserResponse from '../middleware/createUserResponse'
 
 
 export const add = (req, res) => {
@@ -58,7 +58,7 @@ export const add = (req, res) => {
 export const get = (req, res) => {
   const { token, user } = req
   const { values, addresses, roles } = user
-  return buildUserResponse(user)
+  return createUserResponse(user)
   .then(({ user, users, orders }) => {
     res.send({ user, users, orders })
   })
@@ -114,7 +114,7 @@ export const signin = async (req, res) => {
     return res.status(400).send({ error: { password: 'password does not match' }})
   }
   const [token, refreshToken] = await createTokens(user)
-  const response = await buildUserResponse(user)
+  const response = await createUserResponse(user)
   res.set('x-token', token);
   res.set('x-refresh-token', refreshToken);
   res.send(response)
@@ -174,7 +174,7 @@ export const reset = (req, res) => {
     .then(() => {
       return createTokens(user)
       .then(([token, refreshToken]) => {
-        return buildUserResponse(user)
+        return createUserResponse(user)
         .then(response => {
           res.set('x-token', token);
           res.set('x-refresh-token', refreshToken);
