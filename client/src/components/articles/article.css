@@ -25,3 +25,10 @@
   flex-flow: column;
   justify-content: center;
 }
+
+.ArticleMediaLeftOfParagraph,
+.ArticleMediaLeftOfText,
+.ArticleMediaRightOfParagraph,
+.ArticleMediaRightOfText {
+  width: 100%;
+}

@@ -52,16 +52,18 @@ class AdminItemForm extends Component {
       disabled: false
     })
   }
-  handleImageRemove = (image) => {
-    const { dispatch, editItem: { item: { _id }}} = this.props
+  handleImageRemove = () => {
+    const { dispatch, editItem: { item: { _id, image }}} = this.props
+    const deleteImage = image.src ? true : false
     this.setState({
       disabled: false,
       imageEdit: false,
-      deleteImage: true
+      deleteImage
     })
   }
-  handleBackgroundImageRemove = (image) => {
-    const { dispatch, editItem: { item: { _id }}} = this.props
+  handleBackgroundImageRemove = () => {
+    const { dispatch, editItem: { item: { _id, backgroundImage }}} = this.props
+    const deleteBackgroundImage = backgroundImage.src ? true : false
     this.setState({
       disabled: false,
       backgroundImageEdit: false,

@@ -46,6 +46,7 @@ const articleContainer = (ComposedComponent) => {
           iframe,
           mediaAlign,
           mediaFlex,
+          mediaBorder: itemMediaBorder,
           mediaBoxShadow: itemMediaBoxShadow,
           mediaElevation: itemMediaElevation,
           pText,
@@ -81,7 +82,7 @@ const articleContainer = (ComposedComponent) => {
       }
       const mediaProps = {
         className: 'article-media',
-        border: mediaBorder,
+        border: itemMediaBorder || mediaBorder,
         boxShadow: itemMediaBoxShadow || mediaBoxShadow,
         elevation: itemMediaElevation || mediaElevation,
         flex: mediaFlex,
@@ -138,7 +139,7 @@ const articleContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    brand: { isFetching, articleStyle }
+    brand: { isFetching, articleStyle: { values }}
   }, {
     item: {
       image,
@@ -152,7 +153,7 @@ const articleContainer = (ComposedComponent) => {
       }
     }
   }) => ({
-    articleStyle,
+    articleStyle: values,
     hasButtons: button1Text ? true : false,
     hasHeading: h1Text || h2Text || h3Text ? true : false,
     hasMedia: image.src || iframe ? true : false,

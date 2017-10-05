@@ -13,7 +13,7 @@ const Media = ({
   margin
 }) => (
   <div
-    style={{ flex, margin }}
+    style={{ border, flex, margin }}
     className={className}
     id="Media"
   >
@@ -21,7 +21,7 @@ const Media = ({
       <img
         src={image.src}
         alt="card"
-        style={{ border, boxShadow }}
+        style={{ boxShadow }}
         className="media-image"
       />
     }
@@ -30,7 +30,7 @@ const Media = ({
         <iframe
           className="media-iframe"
           title="iframe"
-          style={{ border, boxShadow }}
+          style={{ boxShadow }}
           src={iframe}
           frameBorder="0"
           allowFullScreen

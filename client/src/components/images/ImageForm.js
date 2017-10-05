@@ -186,7 +186,7 @@ class ImageForm extends Component {
         src: null,
         editing: false
       })
-      return onImageRemove(image)
+      return onImageRemove()
     }
   }
   renderLabel = () => {
