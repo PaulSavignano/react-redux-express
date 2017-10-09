@@ -88,6 +88,7 @@ class AdminItemForm extends Component {
         }
       }
     } = this.props
+    console.log('handleing submit')
     const oldImageSrc = image && image.src ? image.src : null
     const oldBackgroundImageSrc = backgroundImage && backgroundImage.src ? backgroundImage.src : null
     const newImage = imageEdit ? this.imageEditor.handleSave() : null
@@ -183,6 +184,7 @@ class AdminItemForm extends Component {
           }
         }))
       default:
+        console.log('dispatching update', _id)
         return dispatch(fetchUpdate({
           _id,
           path: 'update-values',
@@ -296,7 +298,7 @@ class AdminItemForm extends Component {
               ref={this.setBackgroundImageFormRef}
             />
           }
-          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+          <div className="field-container">
             {this.state.itemForm.fields.map(({ name, type, options }) => {
               const format = value => value === undefined ? undefined : value.toString()
               switch(type) {

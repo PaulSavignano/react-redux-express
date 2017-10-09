@@ -4,13 +4,12 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
+import './contactForm.css'
 import contactFormContainer from '../../containers/contactForms/contactFormContainer'
+import ContactFormContent from './ContactFormContent'
 import { startEdit } from '../../actions/editItem'
 
 class AdminContactForm extends Component {
-  state = {
-    elevation: 1,
-  }
   handleStartEdit = (e) => {
     e.stopPropagation()
     const { dispatch, item } = this.props
@@ -19,42 +18,28 @@ class AdminContactForm extends Component {
       kind: 'CONTACT_FORM',
     }))
   }
-  handleMouseEnter = () => this.setState({ elevation: 4 })
-  handleMouseLeave = () => this.setState({ elevation: 1 })
   render() {
-    const { elevation } = this.state
-    const { phone } = this.props
+    const {
+      dispatch,
+      elevation,
+      onMouseEnter,
+      onMouseLeave,
+      item,
+      phone,
+      user,
+    } = this.props
     return (
       <Card
         zDepth={elevation}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         onTouchTap={this.handleStartEdit}
-        style={{ flex: '1 1 auto', margin: 16 }}
+        className="AdminContactForm"
       >
-        <CardTitle
-          title={
-            <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-              <div>Contact</div>
-              { phone && <a href={`tel:${phone.replace(/\D+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phone}</a>}
-            </div>
-          }
-          subtitle="Enter your information"
+        <ContactFormContent
+          item={item}
+          initialValues={user}
         />
-        <CardText>
-          <TextField hintText="First Name" floatingLabelText="First Name" fullWidth={true} />
-          <TextField hintText="Email" floatingLabelText="Email" fullWidth={true} />
-          <TextField hintText="Message" floatingLabelText="Message" fullWidth={true} multiLine={true} rows={2} />
-        </CardText>
-        <div className="button-container">
-          <RaisedButton
-            disabled={true}
-            label="Contact"
-            type="button"
-            primary={true}
-            className="button"
-          />
-        </div>
       </Card>
     )
   }
@@ -62,8 +47,12 @@ class AdminContactForm extends Component {
 
 AdminContactForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  elevation: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
+  phone: PropTypes.string,
+  user: PropTypes.object,
 }
-
 
 export default contactFormContainer(AdminContactForm)

@@ -1,0 +1,15 @@
+.AdminContactForm,
+.ContactForm {
+  flex: 1 1 auto;
+  margin: 16px;
+}
+
+.contact-form-heading {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.contact-form-title {
+  padding: 16px;
+}

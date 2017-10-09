@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 const contactFormContainer = (ComposedComponent) => {
   class ContactFormContainer extends Component {
     state = {
-      elevation: null
+      elevation: 1
     }
     componentWillMount() {
       const { values } = this.props.item
@@ -20,14 +20,18 @@ const contactFormContainer = (ComposedComponent) => {
         isFetching,
         item,
         initialValues,
-        phone
+        phone,
+        user
       } = this.props
       const props = {
         dispatch,
         elevation,
         item,
         initialValues,
-        phone
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave,
+        phone,
+        user
       }
       return (
         isFetching ? null : <ComposedComponent {...props} />
@@ -42,13 +46,13 @@ const contactFormContainer = (ComposedComponent) => {
   }
   return connect(({
     brand: { isFetching, business: { values: { phone }}},
-    user
+    user: { values: user }
   }, {
     item
   }) => ({
     isFetching: user.isFetching || isFetching ? true : false,
     item,
-    initialValues: user.values,
+    user,
     phone,
   }))(ContactFormContainer)
 }

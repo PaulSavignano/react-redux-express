@@ -21,7 +21,18 @@ const footerContainer = (ComposedComponent) => {
       )
     }
   }
-  const mapStateToProps = ({ brand: { isFetching, footer, business, palette: { primary1Color }}}) => ({
+  const mapStateToProps = ({
+    brand: {
+      isFetching,
+      footer,
+      business,
+      palette: {
+        values: {
+          primary1Color
+        }
+      }
+    }
+  }) => ({
     business,
     item: footer,
     isFetching,

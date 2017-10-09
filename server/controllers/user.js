@@ -193,7 +193,12 @@ export const reset = (req, res) => {
 
 
 export const contact = (req, res) => {
-  const { email, firstName, message } = req.body
+  const {
+    email,
+    firstName, 
+    message,
+    phone
+  } = req.body
   if (!firstName || !email || !message) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
@@ -210,6 +215,7 @@ export const contact = (req, res) => {
       fromSubject: `New Contact Request`,
       fromBody: `
         <p>${firstName} just contacted you through ${rootUrl}.</p>
+        <div>Phone: ${phone ? phone : 'not provided'}</div>
         <div>Email: ${email}</div>
         <div>Message: ${message}</div>
       `

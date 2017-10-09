@@ -32,10 +32,10 @@ export const fetchAdd = (add) => {
 
 
 // Update
-export const fetchUpdate = (_id, update) => {
+export const fetchUpdate = ({ _id, path, update }) => {
   return (dispatch, getState) => {
     return handleAuthFetch({
-      path: `/api/${route}/${_id}`,
+      path: `/api/${route}/${_id}/${path}`,
       method: 'PATCH',
       body: update
     })
