@@ -1,5 +1,5 @@
 # E-Commerce web app creator built with React, Redux, Express, and Mongo.
-Demo: https://react-redux-express-mongo.herokuapp.com/
+Demo: https://savignano-io.herokuapp.com/
 
 # Features
 - Product, shopping cart, and checkout.
