@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose'
 
 import Article from './Article'
 import Card from './Card'
+import ContactForm from './ContactForm'
 import Hero from './Hero'
 import Product from './Product'
 
@@ -47,6 +48,9 @@ SectionSchema.post('findOneAndRemove', function(doc, next) {
         .catch(error => console.error({ error }))
       case 'Card':
         return Card.findOneAndRemove({ _id: item.item })
+        .catch(error => console.error({ error }))
+      case 'ContactForm':
+        return ContactForm.findOneAndRemove({ _id: item.item })
         .catch(error => console.error({ error }))
       case 'Hero':
         return Hero.findOneAndRemove({ _id: item.item })

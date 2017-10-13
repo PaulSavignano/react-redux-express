@@ -5,10 +5,10 @@
   "repository": {},
   "license": "MIT",
   "engines": {
-    "node": "6.11.1"
+    "node": "6.11.4"
   },
   "dependencies": {
-    "concurrently": "^3.4.0"
+    "concurrently": "^3.5.0"
   },
   "scripts": {
     "test": "concurrently \"cd client && PORT=3000 yarn test\" \"cd server && PORT=3001 yarn test-watch\"",
