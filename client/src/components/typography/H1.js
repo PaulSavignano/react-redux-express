@@ -15,7 +15,6 @@ const H1 = ({
       h1FontSize,
       h1FontWeight,
       h1LetterSpacing,
-      h1LineHeight
     }
   }
 }) => {
@@ -27,8 +26,6 @@ const H1 = ({
         fontSize: h1FontSize,
         fontWeight: h1FontWeight,
         letterSpacing: h1LetterSpacing,
-        lineHeight: h1LineHeight,
-        overflow: 'hidden',
         textAlign,
         textShadow,
       }}

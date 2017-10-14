@@ -3,7 +3,6 @@ import { SubmissionError } from 'redux-form'
 import handleAuthFetch from '../utils/handleAuthFetch'
 import { fetchOrdersSuccess } from './orders'
 import { fetchUsersSuccess, fetchDeleteSuccess as usersDeleteSuccess } from './users'
-import history from '../containers/routers/history'
 
 export const type = 'USER'
 const route = 'users'
@@ -149,7 +148,6 @@ export const redirectUser = (path) => {
 }
 
 
-const fetchSigninSuccess = (item) => ({ type: RECEIVE, item })
 export const fetchSignin = ({ history, values }) => {
   return (dispatch, getState) => {
     return fetch('/api/users/signin', {

@@ -36,7 +36,6 @@ class ProductPage extends Component {
           nameColor,
           nameTextShadow,
           mediaBorder,
-          mediaBoxShadow,
           mediaElevation,
         }
       }
@@ -46,7 +45,6 @@ class ProductPage extends Component {
         <section className="product-page-section">
           <Media
             border={mediaBorder}
-            boxShadow={mediaBoxShadow}
             elevation={mediaElevation}
             iframe={iframe}
             image={image}

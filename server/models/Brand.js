@@ -41,7 +41,6 @@ const BrandSchema = new Schema({
       h3TextShadow: { type: String, trim: true },
       pColor: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
       mediaBorder: { type: String, trim: true },
-      mediaBoxShadow: { type: String, trim: true, default: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px' },
       mediaElevation: { type: Number, trim: true, default: 2 }
     }
   },
@@ -139,7 +138,6 @@ const BrandSchema = new Schema({
       h3TextShadow: { type: String, trim: true },
       pColor: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
       mediaBorder: { type: String, trim: true },
-      mediaBoxShadow: { type: String, trim: true, default: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px' },
       mediaElevation: { type: Number, trim: true, default: 2 },
       minHeight: { type: String, trim: true, default: '85vh' }
     }
@@ -171,33 +169,28 @@ const BrandSchema = new Schema({
       nameColor: { type: String, trim: true },
       nameTextShadow: { type: String, trim: true },
       margin: { type: String, trim: true, default: '16px' },
-      mediaBoxShadow: { type: String, trim: true, default: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px' },
       mediaElevation: { type: Number, trim: true, default: 2 }
     }
   },
   typography: {
     values: {
       fontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
-      h1FontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
+      h1FontFamily: { type: String, trim: true, default: 'inherit' },
       h1FontSize: { type: String, trim: true, default: '56px'},
       h1FontWeight: { type: String, trim: true, default: '300' },
       h1LetterSpacing: { type: String, trim: true, default: '1px' },
-      h1LineHeight: { type: String, trim: true, default: '48px' },
-      h2FontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
+      h2FontFamily: { type: String, trim: true, default: 'inherit' },
       h2FontSize: { type: String, trim: true, default: '1.5em' },
       h2FontWeight: { type: String, trim: true, default: '300' },
       h2LetterSpacing: { type: String, trim: true, default: 'normal' },
-      h2LineHeight: { type: String, trim: true, default: '1.334' },
-      h3FontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
+      h3FontFamily: { type: String, trim: true, default: 'inherit' },
       h3FontSize: { type: String, trim: true, default: '1.25em' },
       h3FontWeight: { type: String, trim: true, default: '300' },
       h3LetterSpacing: { type: String, trim: true, default: 'normal' },
-      h3LineHeight: { type: String, trim: true, default: '1.4' },
       pFontFamily: { type: String, trim: true, default: 'Roboto, sans-serif' },
       pFontSize: { type: String, trim: true, default: '16px' },
       pFontWeight: { type: String, trim: true, default: '300' },
       pLetterSpacing: { type: String, trim: true, default: 'normal' },
-      pLineHeight: { type: String, trim: true, default: '1.6' },
     }
   }
 },{

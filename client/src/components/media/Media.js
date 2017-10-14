@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './media.css'
+import shadows from '../../utils/shadows'
 
 const Media = ({
   className,
   border,
-  boxShadow,
+  borderRadius,
+  elevation,
   flex,
   image,
   iframe,
@@ -21,7 +23,7 @@ const Media = ({
       <img
         src={image.src}
         alt="card"
-        style={{ boxShadow }}
+        style={{ borderRadius, boxShadow: shadows[elevation] }}
         className="media-image"
       />
     }
@@ -30,7 +32,7 @@ const Media = ({
         <iframe
           className="media-iframe"
           title="iframe"
-          style={{ boxShadow }}
+          style={{ borderRadius, boxShadow: shadows[elevation] }}
           src={iframe}
           frameBorder="0"
           allowFullScreen

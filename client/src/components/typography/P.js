@@ -14,7 +14,6 @@ const P = ({
       pFontSize,
       pFontWeight,
       pLetterSpacing,
-      pLineHeight
     }
   }
 }) => (
@@ -25,8 +24,6 @@ const P = ({
       fontSize: pFontSize,
       fontWeight: pFontWeight,
       letterSpacing: pLetterSpacing,
-      lineHeight: pLineHeight,
-      overflow: 'hidden',
     }}
     {...className}
   >

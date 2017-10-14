@@ -29,7 +29,6 @@ const articleContainer = (ComposedComponent) => {
         h3TextShadow,
         pColor,
         mediaBorder,
-        mediaBoxShadow,
         mediaElevation,
       } = articleStyle
       const {
@@ -39,18 +38,15 @@ const articleContainer = (ComposedComponent) => {
           button1Link,
           button2Text,
           button2Link,
-          flexFlow,
           h1Text,
           h2Text,
           h3Text,
           iframe,
-          mediaAlign,
           mediaFlex,
           mediaBorder: itemMediaBorder,
-          mediaBoxShadow: itemMediaBoxShadow,
+          mediaBorderRadius,
           mediaElevation: itemMediaElevation,
           pText,
-          textFlex,
         }
       } = item
       const buttonProps = {
@@ -83,7 +79,7 @@ const articleContainer = (ComposedComponent) => {
       const mediaProps = {
         className: 'article-media',
         border: itemMediaBorder || mediaBorder,
-        boxShadow: itemMediaBoxShadow || mediaBoxShadow,
+        borderRadius: mediaBorderRadius,
         elevation: itemMediaElevation || mediaElevation,
         flex: mediaFlex,
         iframe,

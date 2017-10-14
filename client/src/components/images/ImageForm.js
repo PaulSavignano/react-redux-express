@@ -177,9 +177,7 @@ class ImageForm extends Component {
     }
   }
   handleImageRemove = () => {
-    const { src } = this.state
     const { onImageRemove } = this.props
-    const image = { src }
     if (window.confirm('Are you sure you want to delete this image?')) {
       this.setState({
         ...this.state,

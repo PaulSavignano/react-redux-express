@@ -15,7 +15,6 @@ const H2 = ({
       h2FontSize,
       h2FontWeight,
       h2LetterSpacing,
-      h2LineHeight,
     }
   }
 }) => (
@@ -26,8 +25,6 @@ const H2 = ({
       fontSize: h2FontSize,
       fontWeight: h2FontWeight,
       letterSpacing: h2LetterSpacing,
-      lineHeight: h2LineHeight,
-      overflow: 'hidden',
       textAlign,
       textShadow,
     }}

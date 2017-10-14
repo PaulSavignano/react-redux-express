@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import './article.css'
 import articleContainer from '../../containers/articles/articleContainer'
+import ArticleMediaAboveText from './ArticleMediaAboveText'
+import ArticleMediaBelowText from './ArticleMediaBelowText'
 import ArticleMediaLeftOfParagraph from './ArticleMediaLeftOfParagraph'
 import ArticleMediaLeftOfText from './ArticleMediaLeftOfText'
 import ArticleMediaRightOfParagraph from './ArticleMediaRightOfParagraph'
@@ -10,6 +12,10 @@ import ArticleMediaRightOfText from './ArticleMediaRightOfText'
 
 const ArticleSwitch = (props) => {
   switch(props.item.values.mediaAlign) {
+    case 'aboveText':
+      return <ArticleMediaAboveText {...props} />
+    case 'belowText':
+      return <ArticleMediaBelowText {...props} />
     case 'leftOfParagraph':
       return <ArticleMediaLeftOfParagraph {...props} />
     case 'leftOfText':

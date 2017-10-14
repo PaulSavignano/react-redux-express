@@ -10,7 +10,6 @@ import Theme from './containers/theme/Theme'
 
 import { fetchBrand } from './actions/brand'
 import { fetchCart } from './actions/cart'
-import { fetchOrders } from './actions/orders'
 import { fetchPages } from './actions/pages'
 import { fetchProducts } from './actions/products'
 import { fetchUser } from './actions/user'

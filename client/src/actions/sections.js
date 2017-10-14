@@ -2,7 +2,7 @@ import { SubmissionError } from 'redux-form'
 
 import handleAuthFetch from '../utils/handleAuthFetch'
 import * as pageActions from './pages'
-import { startEdit, stopEdit } from './editItem'
+import { stopEdit } from './editItem'
 
 export const type = 'SECTION'
 const route = 'sections'
@@ -18,7 +18,7 @@ export const fetchAdd = (add) => {
       body: add
     })
     .then(json => {
-      const { editItem, page } = json
+      const { page } = json
       dispatch(pageActions.fetchUpdateSuccess(page))
     })
     .catch(error => {

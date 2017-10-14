@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Field, reduxForm } from 'redux-form'
 import renderHTML from 'react-render-html'
 
@@ -33,7 +32,6 @@ class ContactFormContent extends Component {
   }
   render() {
     const {
-      elevation,
       error,
       handleSubmit,
       invalid,
@@ -46,7 +44,6 @@ class ContactFormContent extends Component {
       },
       phone,
       pristine,
-      reset,
       submitSucceeded,
       submitting,
     } = this.props
@@ -55,7 +52,7 @@ class ContactFormContent extends Component {
         <div className="contact-form-title">
           <div className="contact-form-heading">
             <H3>{h3Text}</H3>
-            { phone && <H3><a href={`tel:${phone.replace(/\D+/g, '')}`}>{phone}</a></H3>}
+            {phone && <H3><a href={`tel:${phone.replace(/\D+/g, '')}`}>{phone}</a></H3>}
           </div>
           <P>{renderHTML(pText)}</P>
         </div>

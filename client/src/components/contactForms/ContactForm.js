@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import { Field, reduxForm } from 'redux-form'
+import { Card } from 'material-ui/Card'
 
 import './contactForm.css'
 import contactFormContainer from '../../containers/contactForms/contactFormContainer'

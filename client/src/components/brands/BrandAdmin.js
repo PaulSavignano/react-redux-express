@@ -40,7 +40,6 @@ const formFields = [{
     { name: 'h3TextShadow', type: 'text' },
     { name: 'pColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaBoxShadow', type: 'text' },
     { name: 'mediaElevation', type: 'number' },
   ]
 }, {
@@ -159,7 +158,6 @@ const formFields = [{
     { name: 'nameColor', type: 'text' },
     { name: 'nameTextShadow', type: 'text' },
     { name: 'margin', type: 'text' },
-    { name: 'mediaBoxShadow', type: 'text' },
     { name: 'mediaElevation', type: 'text' },
   ]
 }, {
@@ -170,12 +168,10 @@ const formFields = [{
     { name: 'h1FontSize', type: 'text' },
     { name: 'h1FontWeight', type: 'text' },
     { name: 'h1LetterSpacing', type: 'text' },
-    { name: 'h1LineHeight', type: 'text' },
     { name: 'h2FontFamily', type: 'text' },
     { name: 'h2FontSize', type: 'text' },
     { name: 'h2FontWeight', type: 'text' },
     { name: 'h2LetterSpacing', type: 'text' },
-    { name: 'h2LineHeight', type: 'text' },
     { name: 'h3FontFamily', type: 'text' },
     { name: 'h3FontSize', type: 'text' },
     { name: 'h3FontWeight', type: 'text' },

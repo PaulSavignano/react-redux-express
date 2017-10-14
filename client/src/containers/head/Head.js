@@ -49,9 +49,8 @@ const mapStateToProps = ({
 
 Head.propTypes = {
   description: PropTypes.string,
-  googleSiteVerification: PropTypes.string,
-  description: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  googleSiteVerification: PropTypes.string,
   image: PropTypes.object,
   keywords: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
