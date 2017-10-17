@@ -13,6 +13,8 @@ const formFields = [{
     { name: 'fontSize', type: 'text' },
     { name: 'fontWeight', type: 'text' },
     { name: 'height', type: 'text' },
+    { name: 'imageBorderRadius', type: 'text' },
+    { name: 'imageElevation', type: 'number' },
     { name: 'imagePosition', type: 'select', options: [ 'absolute', 'relative' ]},
     { name: 'letterSpacing', type: 'text' },
     { name: 'name', type: 'text' },
@@ -63,6 +65,8 @@ const formFields = [{
     { name: 'city', type: 'text' },
     { name: 'state', type: 'state' },
     { name: 'zip', type: 'zip' },
+    { name: 'imageBorderRadius', type: 'text' },
+    { name: 'imageElevation', type: 'number' },
     { name: 'facebook', type: 'text' },
     { name: 'github', type: 'text' },
     { name: 'google', type: 'text' },
@@ -103,6 +107,8 @@ const formFields = [{
     { name: 'color', type: 'text' },
     { name: 'borderTop', type: 'text' },
     { name: 'borderBottom', type: 'text' },
+    { name: 'imageBorderRadius', type: 'text' },
+    { name: 'imageElevation', type: 'number' },
     { name: 'margin', type: 'text' }
   ]
 }, {

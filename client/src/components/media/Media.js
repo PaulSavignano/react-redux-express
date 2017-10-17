@@ -12,27 +12,28 @@ const Media = ({
   flex,
   image,
   iframe,
-  margin
+  margin,
+  style,
 }) => (
   <div
     style={{ border, flex, margin }}
     className={className}
     id="Media"
   >
-    {image.src &&
+    {image && image.src ?
       <img
         src={image.src}
         alt="card"
-        style={{ borderRadius, boxShadow: shadows[elevation] }}
+        style={{ borderRadius, boxShadow: shadows[elevation], ...style }}
         className="media-image"
       />
-    }
-    {iframe &&
+    :
+      iframe &&
       <div className="media-iframe-container">
         <iframe
           className="media-iframe"
           title="iframe"
-          style={{ borderRadius, boxShadow: shadows[elevation] }}
+          style={{ borderRadius, boxShadow: shadows[elevation], ...style }}
           src={iframe}
           frameBorder="0"
           allowFullScreen

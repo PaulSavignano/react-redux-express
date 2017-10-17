@@ -61,12 +61,16 @@ export const updateAppBar = (req, res) => {
       .catch(error => { console.error(error); res.status(400).send({ error })})
       break
 
-    case 'DELETE_IMAGE':
-      deleteFile({ Key: image.src })
+    case 'DELETE_IMAGE_AND_UPDATE_VALUES':
+      deleteFile({ Key: oldImageSrc })
       .then(() => {
         Brand.findOneAndUpdate(
           { _id },
-          { $set: { 'appBar.image.src': null }},
+          { $set: {
+            'appBar.image.src': null,
+            values
+          }
+        },
           { new: true }
         )
         .then(doc => res.send(doc))
@@ -135,12 +139,15 @@ export const updateBusiness = (req, res) => {
       .catch(error => { console.error(error); res.status(400).send({ error })})
       break
 
-    case 'DELETE_IMAGE':
+    case 'DELETE_IMAGE_AND_UPDATE_VALUES':
       deleteFile({ Key: image.src })
       .then(() => {
         Brand.findOneAndUpdate(
           { _id },
-          { $set: { 'business.image.src': null }},
+          { $set: {
+            'business.image.src': null,
+            values
+          }},
           { new: true }
         )
         .then(doc => res.send(doc))
@@ -222,12 +229,15 @@ export const updateFooter = (req, res) => {
         .catch(error => { console.error(error); res.status(400).send({ error })})
       break
 
-    case 'DELETE_IMAGE':
+    case 'DELETE_IMAGE_AND_UPDATE_VALUES':
       deleteFile({ Key: image.src })
         .then(() => {
           Brand.findOneAndUpdate(
             { _id },
-            { $set: { 'footer.image.src': null }},
+            { $set: {
+              'footer.image.src': null,
+              values
+            }},
             { new: true }
           )
           .then(doc => res.send(doc))

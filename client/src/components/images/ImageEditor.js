@@ -50,24 +50,6 @@ const draggableEvents = {
 }
 const deviceEvents = isTouchDevice ? draggableEvents.touch : draggableEvents.desktop
 
-// Draws a rounded rectangle on a 2D context.
-const drawRoundedRect = (context, x, y, width, height, borderRadius) => {
-  if (borderRadius === 0) {
-    context.rect(x, y, width, height)
-  } else {
-    const widthMinusRad = width - borderRadius
-    const heightMinusRad = height - borderRadius
-    context.translate(x, y)
-    context.arc(borderRadius, borderRadius, borderRadius, Math.PI, Math.PI * 1.5)
-    context.lineTo(widthMinusRad, 0)
-    context.arc(widthMinusRad, borderRadius, borderRadius, Math.PI * 1.5, Math.PI * 2)
-    context.lineTo(width, heightMinusRad)
-    context.arc(widthMinusRad, heightMinusRad, borderRadius, Math.PI * 2, Math.PI * 0.5)
-    context.lineTo(borderRadius, height)
-    context.arc(borderRadius, heightMinusRad, borderRadius, Math.PI * 0.5, Math.PI)
-    context.translate(-x, -y)
-  }
-}
 
 
 
@@ -80,7 +62,6 @@ class ImageEditor extends Component {
     rotate: PropTypes.number,
     image: PropTypes.string,
     border: PropTypes.number,
-    borderRadius: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
     position: PropTypes.shape({
@@ -105,7 +86,6 @@ class ImageEditor extends Component {
     scale: 1,
     rotate: 0,
     border: 0,
-    borderRadius: 0,
     width: 200,
     height: 200,
     color: [0, 0, 0, 0.5],
@@ -395,18 +375,14 @@ class ImageEditor extends Component {
     context.save()
     context.translate(0, 0)
 
-    let borderRadius = this.props.borderRadius
     const dimensions = this.getDimensions()
     const borderSize = dimensions.border
     const height = dimensions.canvas.height
     const width = dimensions.canvas.width
 
     // clamp border radius between zero (perfect rectangle) and half the size without borders (perfect circle or "pill")
-    borderRadius = Math.max(borderRadius, 0)
-    borderRadius = Math.min(borderRadius, width / 2 - borderSize, height / 2 - borderSize)
     context.beginPath()
     // inner rect, possibly rounded
-    drawRoundedRect(context, borderSize, borderSize, width - borderSize * 2, height - borderSize * 2, borderRadius)
     context.rect(width, 0, -width, height) // outer rect, drawn "counterclockwise"
     context.fill('evenodd')
 

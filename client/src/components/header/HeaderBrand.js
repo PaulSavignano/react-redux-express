@@ -2,36 +2,69 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+import Media from '../media/Media'
+
 const HeaderBrand = ({
-  item: {
-    image,
-    values: {
-      color,
-      fontFamily,
-      fontSize,
-      fontWeight,
-      imagePosition,
-      letterSpacing,
-      name,
-      textShadow
-    }
-  },
-  maxHeight
+  className,
+  color,
+  fontFamily,
+  fontSize,
+  fontWeight,
+  height,
+  image,
+  imageBorderRadius,
+  imageElevation,
+  imageClass,
+  imagePosition,
+  letterSpacing,
+  name,
+  textShadow,
 }) => {
-  const styles = { color, fontFamily, fontSize, fontWeight, letterSpacing, textShadow }
   return (
     <Link
-      className="header-brand"
+      className={className}
       to="/"
     >
-      { image && image.src && <img src={image.src} className={imagePosition} style={{ position: imagePosition, maxHeight }} alt="brand" /> }
-      { name && <div style={{ ...styles }}>{name}</div> }
+      { image && image.src ?
+        <Media
+          image={image}
+          borderRadius={imageBorderRadius}
+          className={imageClass}
+          elevation={imageElevation}
+          style={{ position: imagePosition, height }}
+          alt="brand"
+        />
+      :
+      <div
+        style={{
+          color,
+          fontFamily,
+          fontSize,
+          fontWeight,
+          letterSpacing,
+          textShadow
+        }}>
+        {name}
+      </div>
+      }
     </Link>
   )
 }
 
 HeaderBrand.propTypes = {
-  item: PropTypes.object.isRequired
+  className: PropTypes.string,
+  color: PropTypes.string,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.string,
+  fontWeight: PropTypes.string,
+  image: PropTypes.object,
+  imageBorderRadius: PropTypes.string,
+  imageElevation: PropTypes.string,
+  imagePosition: PropTypes.string,
+  letterSpacing: PropTypes.string,
+  maxHeight: PropTypes.string,
+  name: PropTypes.string,
+  textShadow: PropTypes.string,
 }
 
 export default HeaderBrand

@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper'
 import './header.css'
 import headerContainer from '../../containers/header/headerContainer'
 import HeaderBrand from './HeaderBrand'
-import SearchBar from '../../components/search/SearchBar'
+import SearchBar from '../search/SearchBar'
 import AppBarNavigation from './AppBarNavigation'
 import DrawerNavigation from './DrawerNavigation'
 import { toggleDrawer } from '../../actions/drawer'
@@ -16,7 +16,25 @@ class Header extends Component {
   handleDrawerToggle = () => this.props.dispatch(toggleDrawer())
   render() {
     const {
-      appBar,
+      appBar: {
+        image,
+        values: {
+          backgroundColor,
+          color,
+          fontFamily: brandFontFamily,
+          fontSize,
+          fontWeight,
+          height,
+          imageBorderRadius,
+          imageElevation,
+          imagePosition,
+          letterSpacing,
+          name,
+          navColor,
+          showPhone,
+          textShadow
+        }
+      },
       cartQty,
       dispatch,
       drawer,
@@ -29,7 +47,6 @@ class Header extends Component {
       primary1Color,
       searchOpen,
     } = this.props
-    const { values: { backgroundColor, height, navColor, showPhone }} = appBar
     return (
       <header>
         <AppBar
@@ -46,7 +63,21 @@ class Header extends Component {
                 />
               :
               <div className="appbar">
-                <HeaderBrand item={appBar} />
+                <HeaderBrand
+                  className="appbar-brand"
+                  backgroundColor={backgroundColor}
+                  fontFamily={brandFontFamily}
+                  fontSize={fontSize}
+                  fontWeight={fontWeight}
+                  height={height}
+                  image={image}
+                  imageBorderRadius={imageBorderRadius}
+                  imageElevation={imageElevation}
+                  imageClass={imagePosition}
+                  letterSpacing={letterSpacing}
+                  name={name}
+                  textShadow={textShadow}
+                />
                 <AppBarNavigation
                   cartQty={cartQty}
                   color={navColor}
@@ -71,17 +102,32 @@ class Header extends Component {
             zDepth={backgroundColor === 'transparent' ? 0 : 1}
             onTouchTap={this.handleDrawerToggle}
           >
-            <HeaderBrand item={appBar} maxHeight={64}/>
+            <HeaderBrand
+              className="drawer-brand"
+              backgroundColor={backgroundColor}
+              fontFamily={brandFontFamily}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              height={height}
+              image={image}
+              imageBorderRadius={imageBorderRadius}
+              imageElevation={imageElevation}
+              imageClass='drawer-image'
+              letterSpacing={letterSpacing}
+              name={name}
+              textShadow={textShadow}
+            />
           </Paper>
           {firstName && <div className="drawer-user">Hello, {firstName}</div>}
           <DrawerNavigation
+            cartQty={cartQty}
+            color={navColor}
             dispatch={dispatch}
             firstName={firstName}
             isAdmin={isAdmin}
             isOwner={isOwner}
             pages={pages}
-            cartQty={cartQty}
-            color={navColor}
+            searchOpen={searchOpen}
           />
         </Drawer>
       </header>

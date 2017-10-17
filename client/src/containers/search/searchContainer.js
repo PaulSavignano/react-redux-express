@@ -6,12 +6,14 @@ const searchContainer = (ComposedComponent) => {
   class SearchContainer extends Component {
     render() {
       const {
+        color,
         dispatch,
         isFetching,
         pages,
         search
       } = this.props
       const props = {
+        color,
         dispatch,
         pages,
         search

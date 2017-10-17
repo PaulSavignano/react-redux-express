@@ -37,7 +37,7 @@ class CartIcon extends Component {
 
 CartIcon.propTypes = {
   cartQty: PropTypes.number,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   dispatch: PropTypes.func.isRequired
 }
 

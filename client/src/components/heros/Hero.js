@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card } from 'material-ui/Card'
 
+import './hero.css'
 import heroContainer from '../../containers/heros/heroContainer'
 import HeroContent from './HeroContent'
 

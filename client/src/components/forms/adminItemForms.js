@@ -69,6 +69,9 @@ const adminItemForms = [{
     { name: 'h2Text', type: 'text', },
     { name: 'h3Text', type: 'text', },
     { name: 'iframe', type: 'text', },
+    { name: 'mediaFlex', type: 'text' },
+    { name: 'mediaBorderRadius', type: 'text' },
+    { name: 'mediaElevation', type: 'number' },
     { name: 'pText', type: 'wysiwgy' }
   ]
 }, {

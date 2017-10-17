@@ -47,6 +47,9 @@ const HeroContent = ({
       h2Text,
       h3Text,
       iframe,
+      mediaBorderRadius,
+      mediaElevation: itemMediaElevation,
+      mediaFlex,
       pText
     }
   },
@@ -54,10 +57,16 @@ const HeroContent = ({
   return (
     <div>
       {hasMedia &&
-        <Media
-          image={image}
-          iframe={iframe}
-        />
+        <div className="hero-media">
+          <Media
+            borderRadius={mediaBorderRadius}
+            elevation={itemMediaElevation || mediaElevation}
+            flex={mediaFlex}
+            image={image}
+            iframe={iframe}
+          />
+        </div>
+
       }
       {hasText &&
         <Text

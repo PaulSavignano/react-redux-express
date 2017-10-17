@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 
 import refreshTokens from './refreshTokens'
 import User from '../models/User'
+import createUserResponse from './createUserResponse'
 
 const authenticate = (requiredRoles) => {
   return async (req, res, next) => {
@@ -14,7 +15,6 @@ const authenticate = (requiredRoles) => {
         if (roles.some(role => requiredRoles.indexOf(role) >= 0)) {
           req.user = userObj
         } else {
-          console.log('does not have roles')
           return res.status(401).send({ error: 'unauthorized' })
         }
       } catch (error) {
@@ -24,15 +24,14 @@ const authenticate = (requiredRoles) => {
             const { user } = jwt.verify(refreshToken, process.env.JWT_SECRET)
             const newTokens = await refreshTokens(token, refreshToken)
             if (newTokens.token && newTokens.refreshToken) {
+              req.user = newTokens.user
               res.set('x-token', newTokens.token)
               res.set('x-refresh-token', newTokens.refreshToken)
             }
-            req.user = newTokens.user
           } catch (error) {
             return res.status(401).send({ error })
           }
         }
-        return res.status(401).send({ error: 'no refresh token'})
       }
     }
     next()

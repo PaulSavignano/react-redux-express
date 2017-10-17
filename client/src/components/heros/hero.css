@@ -1,0 +1,4 @@
+.hero-media {
+  display: flex;
+  justify-content: space-around;
+}

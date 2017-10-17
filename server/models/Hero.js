@@ -26,6 +26,9 @@ const HeroSchema = new Schema({
     h2Text: { type: String, trim: true, default: 'Heading 2' },
     h3Text: { type: String, trim: true, default: 'Heading 3' },
     iframe: { type: String, trim: true },
+    mediaBorderRadius: { type: String, trim: true },
+    mediaElevation: { type: Number, trim: true },
+    mediaFlex: { type: String, trim: true },
     pText: { type: String, trim: true, default: '<p>Paragraph</p>' }
   }
 }, {

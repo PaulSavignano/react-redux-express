@@ -56,8 +56,7 @@ export const add = (req, res) => {
 
 
 export const get = (req, res) => {
-  const { token, user } = req
-  const { values, addresses, roles } = user
+  const { user } = req
   return createUserResponse(user)
   .then(({ user, users, orders }) => {
     res.send({ user, users, orders })
@@ -195,7 +194,7 @@ export const reset = (req, res) => {
 export const contact = (req, res) => {
   const {
     email,
-    firstName, 
+    firstName,
     message,
     phone
   } = req.body

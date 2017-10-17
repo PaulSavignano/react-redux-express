@@ -12,3 +12,7 @@ a {
 .social-media > a {
   margin: 0 16px;
 }
+
+.footer-image {
+  display: flex;
+}

@@ -13,10 +13,13 @@ class AppBarNavigation extends Component {
     navClass: null,
     width: 0
   }
+  handleSearchToggle = () => {
+    const { dispatch, searchOpen } = this.props
+    return dispatch(searchToggle(!searchOpen))
+  }
   componentDidMount() {
     const width = this.navigation.clientWidth
     const totalWidth = width/.75
-
     let navClass
     switch(true) {
       case totalWidth < 375:
@@ -38,10 +41,6 @@ class AppBarNavigation extends Component {
         navClass = 'largerThan1920'
     }
     this.setState({ navClass, width });
-  }
-  handleSearchToggle = () => {
-    const { dispatch, searchOpen } = this.props
-    return dispatch(searchToggle(!searchOpen))
   }
   render() {
     const { navClass } = this.state
@@ -104,7 +103,6 @@ class AppBarNavigation extends Component {
             />
           }
         </div>
-
       </div>
     )
   }

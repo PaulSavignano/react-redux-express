@@ -2,15 +2,22 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
 import { ListItem } from 'material-ui/List'
+import IconButton from 'material-ui/IconButton'
 
 import DrawerPageLink from './DrawerPageLink'
 import DrawerAdminPageLink from './DrawerAdminPageLink'
 import UserButtons from './UserButtons'
 import CartIcon from './CartIcon'
 import { toggleDrawer } from '../../actions/drawer'
+import { searchToggle } from '../../actions/search'
 
 class DrawerNavigation extends Component {
   handleCloseDrawer = () => this.props.dispatch(toggleDrawer())
+  handleSearchToggle = () => {
+    const { dispatch, searchOpen } = this.props
+    dispatch(toggleDrawer())
+    return dispatch(searchToggle(!searchOpen))
+  }
   render() {
     const {
       cartQty,
@@ -100,13 +107,28 @@ class DrawerNavigation extends Component {
                 key={1}
                 cartQty={cartQty}
                 dispatch={dispatch}
-                color={color}
+                color={null}
                 style={{ margin: 0, padding: 0, width: 40 }}
                 badgeStyle={{ top: -9, left: 9 }}
               />
             }
           />
         }
+        <ListItem
+          key={6}
+          className="ListItem"
+          onTouchTap={this.handleSearchToggle}
+          style={{ height: 48 }}
+          innerDivStyle={{ padding: 0 }}
+          children={
+            <IconButton
+              key={1}
+              iconClassName="fa fa-search"
+              iconStyle={{ verticalAlign: 'middle', fontSize: 16 }}
+            />
+          }
+        />
+
       </div>
     )
   }

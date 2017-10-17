@@ -30,7 +30,6 @@ class ImageForm extends Component {
     scale: 1,
     resizeProportionally: true,
     rotate: 0,
-    borderRadius: 0,
     opacity: 1,
     editing: false,
     src: null,
@@ -96,10 +95,6 @@ class ImageForm extends Component {
   rotateRight = (e) => {
     e.preventDefault()
     this.setState({ rotate: this.state.rotate + 90 })
-  }
-  handleBorderRadius = (e) => {
-    const borderRadius = parseInt(e.target.value, 10)
-    this.setState({ borderRadius })
   }
   handleXPosition = (e) => {
     const x = parseFloat(e.target.value)
@@ -198,7 +193,6 @@ class ImageForm extends Component {
   setEditorRef = (editor) => this.editor = editor
   render () {
     const {
-      borderRadius,
       editing,
       gradientY0,
       gradientY1,
@@ -231,7 +225,6 @@ class ImageForm extends Component {
                 position={position}
                 onPositionChange={this.handlePositionChange}
                 rotate={parseFloat(rotate)}
-                borderRadius={borderRadius}
                 onSave={this.handleSave}
                 image={src}
                 gradientY0={gradientY0}
@@ -293,20 +286,6 @@ class ImageForm extends Component {
                   max="3000"
                   step="10"
                   value={gradientY1}
-                  style={formStyles.control}
-                />
-              </div>
-
-              <div style={formStyles.controlContainer}>
-                <label>Border radius: {borderRadius}</label>
-                <input
-                  name="radius"
-                  type="range"
-                  onChange={this.handleBorderRadius}
-                  min="0"
-                  max="500"
-                  step="1"
-                  defaultValue="0"
                   style={formStyles.control}
                 />
               </div>
