@@ -39,7 +39,7 @@ const Footer = ({
       color,
       imageBorderRadius,
       imageElevation,
-      margin,
+      imageMargin,
     }
   },
   primary1Color
@@ -72,7 +72,7 @@ const Footer = ({
             image={image}
             borderRadius={imageBorderRadius}
             elevation={imageElevation}
-            margin={margin}
+            margin={imageMargin}
           />
         </div>
 

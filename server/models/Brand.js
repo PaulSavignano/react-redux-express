@@ -121,7 +121,7 @@ const BrandSchema = new Schema({
       borderBottom: { type: String, trim: true },
       imageBorderRadius: { type: String, trim: true },
       imageElevation: { type: String, trim: true },
-      margin: { type: String, trim: true },
+      imageMargin: { type: String, trim: true },
     }
   },
   heroStyle: {

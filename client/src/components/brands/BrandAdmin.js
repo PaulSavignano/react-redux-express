@@ -109,7 +109,7 @@ const formFields = [{
     { name: 'borderBottom', type: 'text' },
     { name: 'imageBorderRadius', type: 'text' },
     { name: 'imageElevation', type: 'number' },
-    { name: 'margin', type: 'text' }
+    { name: 'imageMargin', type: 'text' }
   ]
 }, {
   name: 'heroStyle',

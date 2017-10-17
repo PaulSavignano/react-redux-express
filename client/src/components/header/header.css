@@ -45,12 +45,18 @@
 }
 
 .drawer-brand {
+  display: flex;
   cursor: pointer;
   font-size: 24px;
   height: 64px;
   margin-bottom: 16px;
   max-height: 64px;
   padding-left: 16px;
+}
+
+.drawer-brand img {
+  max-height: 64px;
+  width: inherit;
 }
 
 .drawer-user {

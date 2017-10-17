@@ -103,7 +103,6 @@ class Header extends Component {
             onTouchTap={this.handleDrawerToggle}
           >
             <HeaderBrand
-              className="drawer-brand"
               backgroundColor={backgroundColor}
               fontFamily={brandFontFamily}
               fontSize={fontSize}
