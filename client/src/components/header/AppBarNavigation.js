@@ -50,8 +50,10 @@ class AppBarNavigation extends Component {
       dispatch,
       firstName,
       fontFamily,
+      fontWeight,
       pages,
       phone,
+      phoneSize,
       primary1Color,
       showPhone,
     } = this.props
@@ -62,8 +64,14 @@ class AppBarNavigation extends Component {
         className="appbar-navigation-container"
       >
         {showPhone === 'false' ? null :
-        <div style={{ color: primary1Color }} className="appbar-phone-container">
-          <a href={`tel:${phone.replace(/\D+/g, '')}`} className="appbar-phone">{phone}</a>
+        <div style={{ color }} className="appbar-phone-container">
+          <a
+            href={`tel:${phone.replace(/\D+/g, '')}`}
+            className="appbar-phone"
+            style={{ fontSize: phoneSize, fontWeight }}
+          >
+            {phone}
+          </a>
         </div>
         }
         <div className="appbar-navigation">

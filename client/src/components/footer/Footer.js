@@ -48,14 +48,14 @@ const Footer = ({
     <Paper style={{ backgroundColor, color }}>
       <div style={{ textAlign: 'center', paddingTop: 32 }}>
         <div className="social-media">
-          { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: primary1Color }} /></a> }
-          { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color: primary1Color }} /></a> }
-          { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color: primary1Color }} /></a> }
-          { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color: primary1Color }} /></a> }
-          { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color: primary1Color }} /></a> }
-          { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color: primary1Color }} /></a> }
-          { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color: primary1Color }} /></a> }
-          { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color: primary1Color }} /></a> }
+          { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" style={{ color: 'inherit' }} /></a> }
+          { github && <a href={github}><FontIcon className="fa fa-github-square" style={{ color: 'inherit' }} /></a> }
+          { google && <a href={google}><FontIcon className="fa fa-google-plus-square" style={{ color: 'inherit' }} /></a> }
+          { instagram && <a href={instagram}><FontIcon className="fa fa-instagram" style={{ color: 'inherit' }} /></a> }
+          { linkedin && <a href={linkedin}><FontIcon className="fa fa-linkedin-square" style={{ color: 'inherit' }} /></a> }
+          { twitter && <a href={twitter}><FontIcon className="fa fa-twitter-square" style={{ color: 'inherit' }} /></a> }
+          { yelp && <a href={yelp}><FontIcon className="fa fa-yelp" style={{ color: 'inherit' }} /></a> }
+          { youtube && <a href={youtube}><FontIcon className="fa fa-youtube-play" style={{ color: 'inherit' }} /></a> }
         </div>
         <div>
           <Link to="/" style={{}}>{name ? name : 'Brand'} {new Date().getFullYear()}</Link>

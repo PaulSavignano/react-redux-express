@@ -23,6 +23,7 @@ class AdminContactForm extends Component {
       onMouseLeave,
       item,
       user,
+      phone
     } = this.props
     return (
       <Card
@@ -35,6 +36,7 @@ class AdminContactForm extends Component {
         <ContactFormContent
           item={item}
           initialValues={user}
+          phone={phone}
         />
       </Card>
     )

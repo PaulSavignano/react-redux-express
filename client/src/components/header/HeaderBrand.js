@@ -10,12 +10,12 @@ const HeaderBrand = ({
   fontFamily,
   fontSize,
   fontWeight,
-  height,
   image,
   imageBorderRadius,
   imageElevation,
   imageClass,
   imagePosition,
+  imageWidth,
   letterSpacing,
   name,
   textShadow,
@@ -31,7 +31,7 @@ const HeaderBrand = ({
           borderRadius={imageBorderRadius}
           className={imageClass}
           elevation={imageElevation}
-          style={{ position: imagePosition, height }}
+          style={{ position: imagePosition, width: imageWidth }}
           alt="brand"
         />
       :

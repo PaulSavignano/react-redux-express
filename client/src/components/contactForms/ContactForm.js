@@ -24,6 +24,7 @@ const ContactForm = ({
     <ContactFormContent
       item={item}
       initialValues={user}
+      phone={phone}
     />
   </Card>
 )

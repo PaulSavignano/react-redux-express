@@ -17,9 +17,11 @@ const BrandSchema = new Schema({
       imageBorderRadius: { type: String, trim: true },
       imageElevation: { type: String, trim: true },
       imagePosition: { type: String, trim: true, default: 'relative' },
+      imageWidth: { type: String, trim: true },
       letterSpacing: { type: String, trim: true },
       name: { type: String, trim: true, default: 'Brand' },
       navColor: { type: String, trim: true, default: 'rgb(255, 255, 255)' },
+      phoneSize: { type: String, trim: true },
       showPhone: { type: String, trim: true, default: 'false' },
       textShadow: { type: String, trim: true },
     }

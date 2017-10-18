@@ -10,13 +10,6 @@
   .largerThanIphone667 {
     display: none !important;
   }
-  .appbar-brand {
-    max-height: 175px !important;
-    max-width: 175px !important;
-  }
-  .appbar-phone {
-    font-size: 20px !important;
-  }
 }
 @media (max-width: 768px) {
   .largerThanIpad768 {
@@ -49,7 +42,7 @@
   cursor: pointer;
   font-size: 24px;
   height: 64px;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   max-height: 64px;
   padding-left: 16px;
 }
@@ -124,4 +117,8 @@
 
 .drawer-image {
   max-height: 64px;
+}
+
+.drawer-brand-name {
+  align-self: center;
 }

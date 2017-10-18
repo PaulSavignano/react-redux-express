@@ -14,10 +14,10 @@ const Head = ({
   isFetching ? null :
   <Helmet>
     <meta charSet="utf-8" />
+    <meta name="google-site-verification" content={googleSiteVerification} />
     {name && <title>{name}</title>}
     {description && <meta name="description" content={description} />}
     {keywords && <meta name="keywords" content={keywords} />}
-    {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
     {image && image.src ? <link rel="apple-touch-icon" sizes="180x180" href={image.src} /> : null }
     {image && image.src ? <link rel="icon" type="image/png" href={image.src} sizes="32x32" /> : null}
     {image && image.src ? <link rel="icon" type="image/png" href={image.src} sizes="16x16" /> : null }
