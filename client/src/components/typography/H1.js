@@ -11,10 +11,12 @@ const H1 = ({
   textShadow,
   typography: {
     values: {
+      fontFamily,
+      fontWeight,
       h1FontFamily,
-      h1FontSize,
-      h1FontWeight,
-      h1LetterSpacing,
+      h1FontSize: fontSize,
+      h1LetterSpacing: letterSpacing,
+      lineHeight
     }
   }
 }) => {
@@ -22,10 +24,11 @@ const H1 = ({
     <h1
       style={{
         color,
-        fontFamily: h1FontFamily,
-        fontSize: h1FontSize,
-        fontWeight: h1FontWeight,
-        letterSpacing: h1LetterSpacing,
+        fontFamily: h1FontFamily || fontFamily,
+        fontSize,
+        fontWeight,
+        letterSpacing,
+        lineHeight,
         textAlign,
         textShadow,
       }}

@@ -62,7 +62,6 @@ HeaderBrand.propTypes = {
   imageElevation: PropTypes.string,
   imagePosition: PropTypes.string,
   letterSpacing: PropTypes.string,
-  maxHeight: PropTypes.string,
   name: PropTypes.string,
   textShadow: PropTypes.string,
 }

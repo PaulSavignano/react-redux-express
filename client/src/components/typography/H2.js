@@ -11,20 +11,23 @@ const H2 = ({
   textShadow,
   typography: {
     values: {
+      fontFamily,
+      fontWeight,
       h2FontFamily,
-      h2FontSize,
-      h2FontWeight,
-      h2LetterSpacing,
+      h2FontSize: fontSize,
+      h2LetterSpacing: letterSpacing,
+      lineHeight
     }
   }
 }) => (
   <h2
     style={{
       color,
-      fontFamily: h2FontFamily,
-      fontSize: h2FontSize,
-      fontWeight: h2FontWeight,
-      letterSpacing: h2LetterSpacing,
+      fontFamily: h2FontFamily || fontFamily,
+      fontSize,
+      fontWeight,
+      letterSpacing,
+      lineHeight,
       textAlign,
       textShadow,
     }}

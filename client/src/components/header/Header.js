@@ -24,7 +24,6 @@ class Header extends Component {
           fontFamily: brandFontFamily,
           fontSize,
           fontWeight,
-          height,
           imageBorderRadius,
           imageElevation,
           imagePosition,
@@ -55,7 +54,7 @@ class Header extends Component {
           zDepth={backgroundColor === 'transparent' ? 0 : 1}
           iconStyleLeft={{ fill: navColor }}
           onLeftIconButtonTouchTap={this.handleDrawerToggle}
-          titleStyle={{ color: navColor, height }}
+          titleStyle={{ color: navColor, height: 'auto' }}
           style={{ backgroundColor, color: navColor }}
           title={
             <nav>
@@ -72,7 +71,6 @@ class Header extends Component {
                   fontFamily={brandFontFamily}
                   fontSize={fontSize}
                   fontWeight={fontWeight}
-                  height={height}
                   image={image}
                   imageBorderRadius={imageBorderRadius}
                   imageElevation={imageElevation}
@@ -115,7 +113,6 @@ class Header extends Component {
               fontFamily={brandFontFamily}
               fontSize={fontSize}
               fontWeight={fontWeight}
-              height={height}
               image={image}
               imageBorderRadius={imageBorderRadius}
               imageElevation={imageElevation}

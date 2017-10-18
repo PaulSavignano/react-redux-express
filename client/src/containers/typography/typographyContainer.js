@@ -9,7 +9,6 @@ const typographyContainer = (ComposedComponent) => {
         children,
         color,
         dispatch,
-        fontFamily,
         isFetching,
         margin,
         typography,
@@ -21,7 +20,6 @@ const typographyContainer = (ComposedComponent) => {
         children,
         color,
         dispatch,
-        fontFamily,
         margin,
         typography,
         textAlign,
@@ -36,12 +34,10 @@ const typographyContainer = (ComposedComponent) => {
   const mapStateToProps = ({
     brand: {
       isFetching,
-      typography,
       palette: { values: { textColor }},
-      typography: { values: { fontFamily }},
+      typography,
     }
   }) => ({
-    fontFamily,
     isFetching,
     textColor,
     typography
