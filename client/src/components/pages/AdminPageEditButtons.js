@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import FontIcon from 'material-ui/FontIcon'
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import Paper from 'material-ui/Paper'
@@ -20,6 +21,7 @@ class AdminPageEditButtons extends Component {
     return dispatch(startEdit({ item: page, kind: 'PAGE' }))
   }
   render() {
+    const { textColor } = this.props
     return (
       <Paper zDepth={1} className="admin-page-edit">
         <BottomNavigation>
@@ -30,13 +32,19 @@ class AdminPageEditButtons extends Component {
           />
           <BottomNavigationItem
             label="Add New Section"
-            icon={<ContentAdd />}
+            icon={<ContentAdd color={textColor} />}
             onTouchTap={this.handleSectionAdd}
           />
         </BottomNavigation>
       </Paper>
     )
   }
+}
+
+AdminPageEditButtons.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired,
+  textColor: PropTypes.string,
 }
 
 

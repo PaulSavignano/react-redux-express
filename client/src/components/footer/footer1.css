@@ -1,0 +1,32 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-brand {
+  padding: 8px 0;
+  text-align: center;
+}
+
+.footer-image {
+  display: flex;
+  padding: 8px 0;
+}
+
+.footer-paper {
+  padding: 32px 16px 24px;
+}
+
+.footer-social-media {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.footer-social-media .fa {
+  color: inherit !important;
+}
+
+.footer-social-media > a {
+  margin: 0 16px;
+}

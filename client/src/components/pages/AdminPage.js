@@ -16,7 +16,8 @@ class AdminPage extends Component {
         slug,
         sections,
         values: { backgroundColor }
-      }
+      },
+      textColor
     } = this.props
     return (
       <div style={{ backgroundColor }} className="AdminPage" >
@@ -32,6 +33,7 @@ class AdminPage extends Component {
         <AdminPageEditButtons
           dispatch={dispatch}
           page={this.props.page}
+          textColor={textColor}
         />
         <AdminItemForm />
       </div>
@@ -42,6 +44,7 @@ class AdminPage extends Component {
 AdminPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   page: PropTypes.object.isRequired,
+  textColor: PropTypes.string,
 }
 
 export default pageContainer(AdminPage)

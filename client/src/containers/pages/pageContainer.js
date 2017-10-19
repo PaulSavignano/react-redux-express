@@ -12,10 +12,12 @@ const pageContainer = (ComposedComponent) => {
         isFetching,
         page,
         pageSlug,
+        textColor
       } = this.props
       const props = {
         dispatch,
         page,
+        textColor
       }
       return (
         isFetching ? null : pageSlug === 'notFound' ?
@@ -26,7 +28,8 @@ const pageContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    pages: { items, isFetching }
+    pages: { items, isFetching },
+    brand: { palette: { values: { textColor }}}
   }, {
     match: { params: { slug }},
   }) => {
@@ -36,6 +39,7 @@ const pageContainer = (ComposedComponent) => {
       isFetching,
       page,
       pageSlug: page ? page.slug : 'notFound',
+      textColor
     }
   }
   PageContainer.propTypes = {
@@ -43,6 +47,7 @@ const pageContainer = (ComposedComponent) => {
     isFetching: PropTypes.bool.isRequired,
     page: PropTypes.object,
     pageSlug: PropTypes.string,
+    textColor: PropTypes.string
   }
   return connect(mapStateToProps)(PageContainer)
 }
