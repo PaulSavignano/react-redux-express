@@ -1,7 +1,7 @@
-.edit-section {
+.section-edit-button {
   margin: 8px;
 }
-.edit-section > button {
+.section-edit-button > button {
   background-color: rgb(255,255,255) !important;
 }
 
@@ -16,9 +16,6 @@
   z-index: 1;
 }
 
-.AdminSectionEditButtons svg {
-  fill: inherit !important;
-}
 
 .AdminSection, .AdminSectionSlideShow, .AdminSectionSwipeable {
   position: relative;

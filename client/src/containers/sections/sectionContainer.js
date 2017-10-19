@@ -11,6 +11,7 @@ const sectionContainer = (ComposedComponent) => {
         item,
         pageId,
         pageSlug,
+        textColor
       } = this.props
       const {
         image,
@@ -48,7 +49,8 @@ const sectionContainer = (ComposedComponent) => {
             margin,
             padding
           }
-        }
+        },
+        textColor
       }
       return (
         <ComposedComponent {...props} />
@@ -56,18 +58,24 @@ const sectionContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    swipeables: { autoplay }
+    swipeables: { autoplay },
+    brand: { palette: { values: { textColor }}}
   }, {
     item, pageId, pageSlug
   }) => ({
-    autoplay, item, pageId, pageSlug
+    autoplay,
+    item,
+    pageId,
+    pageSlug,
+    textColor
   })
   SectionContainer.propTypes = {
     autoplay: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     pageId: PropTypes.string.isRequired,
-    pageSlug: PropTypes.string.isRequired
+    pageSlug: PropTypes.string.isRequired,
+    textColor: PropTypes.string,
   }
   return connect(mapStateToProps)(SectionContainer)
 }

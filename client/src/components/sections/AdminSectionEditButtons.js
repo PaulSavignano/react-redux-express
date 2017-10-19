@@ -50,13 +50,15 @@ class AdminSectionEditButtons extends Component {
       item,
       pageId,
       pageSlug,
+      textColor
     } = this.props
     return (
       <div className="AdminSectionEditButtons">
         <div>
           <FloatingActionButton
             onTouchTap={this.handleOpenMenu}
-            className="edit-section"
+            className="section-edit-button"
+            iconStyle={{ fill: textColor }}
           >
             <ContentAdd />
           </FloatingActionButton>
@@ -86,7 +88,7 @@ class AdminSectionEditButtons extends Component {
           </Popover>
           <FloatingActionButton
             onTouchTap={this.handleStartEdit}
-            className="edit-section"
+            className="section-edit-button"
           >
             <EditIcon />
           </FloatingActionButton>

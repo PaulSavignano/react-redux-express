@@ -14,7 +14,8 @@ class AdminSection extends Component {
       item,
       pageId,
       pageSlug,
-      sectionProps
+      sectionProps,
+      textColor
     } = this.props
     const { items } = item
     return (
@@ -36,6 +37,7 @@ class AdminSection extends Component {
           item={item}
           pageId={pageId}
           pageSlug={pageSlug}
+          textColor={textColor}
         />
       </div>
     )
@@ -48,7 +50,8 @@ AdminSection.propTypes = {
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
   pageSlug: PropTypes.string.isRequired,
-  sectionProps: PropTypes.object.isRequired
+  sectionProps: PropTypes.object.isRequired,
+  textColor: PropTypes.string
 }
 
 export default sectionContainer(AdminSection)
