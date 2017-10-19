@@ -199,6 +199,9 @@ class AdminItemForm extends Component {
     }
   }
   handleStopEdit = () => this.props.dispatch(stopEdit())
+  handleNumberToString = value => {
+    if (value) return value.toString()
+  }
   componentWillMount() {
     const {
       editItem: { kind },
@@ -291,7 +294,6 @@ class AdminItemForm extends Component {
           }
           <div className="field-container">
             {this.state.itemForm.fields.map(({ name, type, options }) => {
-              const format = value => value === undefined ? undefined : value.toString()
               switch(type) {
                 case 'select':
                   return <Field
@@ -326,7 +328,7 @@ class AdminItemForm extends Component {
                     label={name}
                     name={name}
                     type={type}
-                    format={format}
+                    normalize={this.handleNumberToString}
                          />
                 default:
                   return <Field

@@ -25,7 +25,7 @@ class BrandFormField extends Component {
             component={renderTextField}
             className="field"
             style={{ fontFamily }}
-            normalize={this.handleNumberToString()}
+            normalize={this.handleNumberToString}
           />
         )
       case 'phone':

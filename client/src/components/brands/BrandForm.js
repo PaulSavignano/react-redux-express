@@ -57,9 +57,6 @@ class BrandForm extends Component {
         }))
     }
   }
-  handleNumberToString = value => {
-    if (value) return value.toString()
-  }
   componentWillMount() {
     const { _id, form } = this.props
     const path = `${form.toLowerCase()}/${_id}`

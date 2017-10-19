@@ -8,6 +8,7 @@ const H1 = ({
   className,
   color,
   textAlign,
+  textColor,
   textShadow,
   typography: {
     values: {
@@ -23,7 +24,7 @@ const H1 = ({
   return (
     <h1
       style={{
-        color,
+        color: color || textColor,
         fontFamily: h1FontFamily || fontFamily,
         fontSize,
         fontWeight,

@@ -9,6 +9,7 @@ const H3 = ({
   color,
   margin,
   textAlign,
+  textColor,
   textShadow,
   typography: {
     values: {
@@ -23,7 +24,7 @@ const H3 = ({
 }) => (
   <h3
     style={{
-      color,
+      color: color || textColor,
       fontFamily: h3FontFamily || fontFamily,
       fontSize,
       fontWeight,

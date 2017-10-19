@@ -8,6 +8,7 @@ const H2 = ({
   className,
   color,
   textAlign,
+  textColor,
   textShadow,
   typography: {
     values: {
@@ -22,7 +23,7 @@ const H2 = ({
 }) => (
   <h2
     style={{
-      color,
+      color: color || textColor,
       fontFamily: h2FontFamily || fontFamily,
       fontSize,
       fontWeight,

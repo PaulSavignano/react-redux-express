@@ -34,15 +34,15 @@ const BrandSchema = new Schema({
       button1Color: { type: String, trim: true },
       button2Color: { type: String, trim: true },
       h1Align: { type: String, trim: true, default: 'center' },
-      h1Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      h1Color: { type: String, trim: true },
       h1TextShadow: { type: String, trim: true },
       h2Align: { type: String, trim: true, default: 'center' },
-      h2Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      h2Color: { type: String, trim: true },
       h2TextShadow: { type: String, trim: true },
       h3Align: { type: String, trim: true, default: 'center' },
-      h3Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      h3Color: { type: String, trim: true },
       h3TextShadow: { type: String, trim: true },
-      pColor: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      pColor: { type: String, trim: true },
       mediaBorder: { type: String, trim: true },
       mediaElevation: { type: Number, trim: true, default: 2 }
     }
@@ -50,7 +50,7 @@ const BrandSchema = new Schema({
   bodyStyle: {
     values: {
       backgroundColor: { type: String, trim: true, default: 'rgb(255, 255, 255)' },
-      color: { type: String, trim: true, default: 'rgba(0, 0, 0, 0.87)' },
+      color: { type: String, trim: true },
     }
   },
   business: {
@@ -96,15 +96,15 @@ const BrandSchema = new Schema({
       elevation: { type: Number, trim: true, default: 1 },
       flex: { type: String, trim: true, default: '1 1 300px' },
       h1Align: { type: String, trim: true, default: 'center' },
-      h1Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      h1Color: { type: String, trim: true },
       h1TextShadow: { type: String, trim: true },
       h2Align: { type: String, trim: true, default: 'center' },
-      h2Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      h2Color: { type: String, trim: true },
       h2TextShadow: { type: String, trim: true },
       h3Align: { type: String, trim: true, default: 'center' },
-      h3Color: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      h3Color: { type: String, trim: true },
       h3TextShadow: { type: String, trim: true },
-      pColor: { type: String, trim: true, default: 'rgba(0, 0, 0, .87)' },
+      pColor: { type: String, trim: true },
       margin: { type: String, trim: true, default: '16px' },
       mediaBorder: { type: String, trim: true },
     }

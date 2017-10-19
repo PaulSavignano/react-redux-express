@@ -7,6 +7,7 @@ const P = ({
   children,
   className,
   color,
+  textColor,
   typography: {
     values: {
       fontFamily,
@@ -20,7 +21,7 @@ const P = ({
 }) => (
   <div
     style={{
-      color,
+      color: color || textColor,
       fontFamily: pFontFamily || fontFamily,
       fontSize,
       fontWeight,
