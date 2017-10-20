@@ -17,10 +17,16 @@ class AppRouter extends Component {
   state = {
     loadingImages: true,
   }
-  handlePreloadImages = (reqPage) => {
-    const images = getPageImages(reqPage)
-    if (images.length) {
-      return loadImages(images).then(() => this.setState({ loadingImages: false }))
+  handlePreloadImages = (reqPage, otherPages) => {
+    const currentImages = getPageImages(reqPage)
+    const otherImages = getPageImages(otherPages)
+    if (currentImages.length) {
+      return loadImages(currentImages).then(() => {
+        this.setState({ loadingImages: false })
+        if (otherImages.length) {
+          return loadImages(otherImages)
+        }
+      })
     }
     return this.setState({ loadingImages: false })
   }
@@ -42,8 +48,7 @@ class AppRouter extends Component {
     const reqPageSlug = slug || 'home'
     const reqPage = pages.filter(page => page.slug === reqPageSlug)
     const otherPages = pages.filter(page => page.slug !== reqPageSlug)
-    this.handlePreloadImages(reqPage)
-    this.handlePreloadImages(otherPages)
+    this.handlePreloadImages(reqPage, otherPages)
     document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
   }
   componentWillReceiveProps({ brand: { bodyStyle: { values: { backgroundColor }}}}) {
