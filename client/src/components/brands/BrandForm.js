@@ -103,10 +103,12 @@ class BrandForm extends Component {
             />
           }
           <div className="field-container">
-            {fields.map(({ name, options, type }) => (
+            {fields.map(({ max, min, name, options, type }) => (
               <BrandFormField
-                key={name}
                 fontFamily={fontFamily}
+                key={name}
+                max={max}
+                min={min}
                 name={name}
                 options={options}
                 type={type}

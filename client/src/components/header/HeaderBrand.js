@@ -25,7 +25,7 @@ const HeaderBrand = ({
       className={className}
       to="/"
     >
-      { image && image.src ?
+      {image && image.src ?
         <Media
           image={image}
           borderRadius={imageBorderRadius}
@@ -59,7 +59,7 @@ HeaderBrand.propTypes = {
   fontWeight: PropTypes.string,
   image: PropTypes.object,
   imageBorderRadius: PropTypes.string,
-  imageElevation: PropTypes.string,
+  imageElevation: PropTypes.number,
   imagePosition: PropTypes.string,
   letterSpacing: PropTypes.string,
   name: PropTypes.string,

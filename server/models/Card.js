@@ -5,24 +5,24 @@ import { uploadFile, deleteFile } from '../middleware/s3'
 const CardSchema = new Schema({
   section: { type: Schema.Types.ObjectId, ref: 'CardSection' },
   page: { type: Schema.Types.ObjectId, ref: 'Page' },
-  pageSlug: { type: String, trim: true },
+  pageSlug: { type: String, trim: true, maxlength: 50 },
   image: {
-    src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 1000 },
-    height: { type: Number, trim: true, default: 563 }
+    src: { type: String, trim: true, maxlength: 150 },
+    width: { type: Number, trim: true, default: 1000, max: 10000, min: 0 },
+    height: { type: Number, trim: true, default: 563, max: 10000, min: 0 }
   },
   values: {
-    button1Text: { type: String, trim: true },
-    button1Link: { type: String, trim: true },
-    button2Text: { type: String, trim: true },
-    button2Link: { type: String, trim: true },
-    flex: { type: String, trim: true },
-    h1Text: { type: String, trim: true, default: 'Heading 1' },
-    h2Text: { type: String, trim: true, default: 'Heading 2' },
-    h3Text: { type: String, trim: true, default: 'Heading 3' },
-    iframe: { type: String, trim: true },
-    link: { type: String, trim: true },
-    pText: { type: String, time: true, default: '<p>Paragraph</p>' },
+    button1Text: { type: String, trim: true, maxlength: 50 },
+    button1Link: { type: String, trim: true, maxlength: 50 },
+    button2Text: { type: String, trim: true, maxlength: 50 },
+    button2Link: { type: String, trim: true, maxlength: 50 },
+    flex: { type: String, trim: true, maxlength: 50 },
+    h1Text: { type: String, trim: true, default: 'Heading 1', maxlength: 100 },
+    h2Text: { type: String, trim: true, default: 'Heading 2', maxlength: 100 },
+    h3Text: { type: String, trim: true, default: 'Heading 3', maxlength: 100 },
+    iframe: { type: String, trim: true, maxlength: 50 },
+    link: { type: String, trim: true, maxlength: 50 },
+    pText: { type: String, time: true, default: '<p>Paragraph</p>', maxlength: 1000 },
   }
 }, {
   timestamps: true

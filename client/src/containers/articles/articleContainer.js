@@ -80,7 +80,7 @@ const articleContainer = (ComposedComponent) => {
         className: 'article-media',
         border: itemMediaBorder || mediaBorder,
         borderRadius: mediaBorderRadius,
-        elevation: itemMediaElevation || mediaElevation,
+        elevation: itemMediaElevation === 'articleStyle' ? mediaElevation : Number(itemMediaElevation),
         flex: mediaFlex,
         iframe,
         image,

@@ -24,8 +24,6 @@ const HeroContent = ({
       h3Color,
       h3TextShadow,
       pColor,
-      mediaBorder,
-      mediaElevation,
       minHeight,
     }
   },
@@ -47,8 +45,9 @@ const HeroContent = ({
       h2Text,
       h3Text,
       iframe,
+      mediaBorder,
       mediaBorderRadius,
-      mediaElevation: itemMediaElevation,
+      mediaElevation,
       mediaFlex,
       pText
     }
@@ -60,7 +59,7 @@ const HeroContent = ({
         <div className="hero-media">
           <Media
             borderRadius={mediaBorderRadius}
-            elevation={itemMediaElevation || mediaElevation}
+            elevation={mediaElevation}
             flex={mediaFlex}
             image={image}
             iframe={iframe}

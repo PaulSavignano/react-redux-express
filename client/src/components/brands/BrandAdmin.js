@@ -13,7 +13,7 @@ const formFields = [{
     { name: 'fontSize', type: 'text' },
     { name: 'fontWeight', type: 'text' },
     { name: 'imageBorderRadius', type: 'text' },
-    { name: 'imageElevation', type: 'number' },
+    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
     { name: 'imagePosition', type: 'select', options: [ 'absolute', 'relative' ]},
     { name: 'imageWidth', type: 'text' },
     { name: 'letterSpacing', type: 'text' },
@@ -43,7 +43,7 @@ const formFields = [{
     { name: 'h3TextShadow', type: 'text' },
     { name: 'pColor', type: 'text' },
     { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' }
+    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
   ]
 }, {
   name: 'bodyStyle',
@@ -67,7 +67,6 @@ const formFields = [{
     { name: 'state', type: 'state' },
     { name: 'zip', type: 'zip' },
     { name: 'imageBorderRadius', type: 'text' },
-    { name: 'imageElevation', type: 'number' },
     { name: 'facebook', type: 'text' },
     { name: 'github', type: 'text' },
     { name: 'google', type: 'text' },
@@ -86,7 +85,7 @@ const formFields = [{
     { name: 'button2Border', type: 'text' },
     { name: 'button1Color', type: 'text' },
     { name: 'button2Color', type: 'text' },
-    { name: 'elevation', type: 'number' },
+    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
     { name: 'flex', type: 'text' },
     { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
@@ -109,7 +108,7 @@ const formFields = [{
     { name: 'borderTop', type: 'text' },
     { name: 'borderBottom', type: 'text' },
     { name: 'imageBorderRadius', type: 'text' },
-    { name: 'imageElevation', type: 'number' },
+    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
     { name: 'imageMargin', type: 'text' }
   ]
 }, {
@@ -134,8 +133,6 @@ const formFields = [{
     { name: 'h3Color', type: 'text' },
     { name: 'h3TextShadow', type: 'text' },
     { name: 'pColor', type: 'text' },
-    { name: 'mediaBorder', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
     { name: 'minHeight', type: 'text' }
   ]
 }, {
@@ -165,7 +162,7 @@ const formFields = [{
     { name: 'nameColor', type: 'text' },
     { name: 'nameTextShadow', type: 'text' },
     { name: 'margin', type: 'text' },
-    { name: 'mediaElevation', type: 'text' }
+    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
   ]
 }, {
   name: 'typography',

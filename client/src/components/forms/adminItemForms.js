@@ -21,10 +21,26 @@ const adminItemForms = [{
     { name: 'h2Text', type: 'text' },
     { name: 'h3Text', type: 'text' },
     { name: 'iframe', type: 'text' },
-    { name: 'mediaAlign', type: 'select', options: [ 'aboveText', 'belowText', 'leftOfText', 'leftOfParagraph', 'rightOfText', 'rightOfParagraph' ] },
+    { name: 'mediaAlign',
+      type: 'select',
+      options: [
+        'aboveText',
+        'belowText',
+        'leftOfText',
+        'leftOfParagraph',
+        'rightOfText',
+        'rightOfParagraph'
+      ]
+    },
     { name: 'mediaBorder', type: 'text' },
     { name: 'mediaBorderRadius', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
+    { name: 'mediaElevation',
+      type: 'select',
+      options: [
+        'articleStyle',
+        '0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'
+      ]
+    },
     { name: 'mediaFlex', type: 'text' },
     { name: 'textFlex', type: 'text' },
     { name: 'pText', type: 'wysiwgy' },
@@ -70,8 +86,14 @@ const adminItemForms = [{
     { name: 'h3Text', type: 'text', },
     { name: 'iframe', type: 'text', },
     { name: 'mediaFlex', type: 'text' },
+    { name: 'mediaBorder', type: 'text' },
     { name: 'mediaBorderRadius', type: 'text' },
-    { name: 'mediaElevation', type: 'number' },
+    { name: 'mediaElevation',
+      type: 'select',
+      options: [
+        '0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'
+      ]
+    },
     { name: 'pText', type: 'wysiwgy' }
   ]
 }, {

@@ -4,20 +4,20 @@ import { uploadFile, deleteFile } from '../middleware/s3'
 
 const ProductSchema = new Schema({
   image: {
-    src: { type: String, minlength: 1, trim: true },
-    width: { type: Number, trim: true, default: 1000 },
-    height: { type: Number, trim: true, default: 563 }
+    src: { type: String, minlength: 1, trim: true, maxlength: 150 },
+    width: { type: Number, trim: true, default: 1000, max: 10000, min: 0 },
+    height: { type: Number, trim: true, default: 563, max: 10000, min: 0 }
   },
   page: { type: Schema.ObjectId, ref: 'Page' },
-  pageSlug: { type: String, trim: true },
-  productSlug: { type: String },
+  pageSlug: { type: String, trim: true, maxlength: 100 },
+  productSlug: { type: String, maxlength: 100 },
   section: { type: Schema.Types.ObjectId, ref: 'Section' },
   values: {
-    description: { type: String, minlength: 1, trim: true },
-    detail: { type: String, minlength: 1, trim: true },
-    iframe: { type: String, minlength: 1, trim: true },
-    name: { type: String, minlength: 1, trim: true },
-    price: { type: Number, default: 0 },
+    description: { type: String, minlength: 1, trim: true, maxlength: 500 },
+    detail: { type: String, minlength: 1, trim: true, maxlength: 1000 },
+    iframe: { type: String, minlength: 1, trim: true, maxlength: 150 },
+    name: { type: String, minlength: 1, trim: true, maxlength: 50 },
+    price: { type: Number, default: 0 , max: 100000, min: 0 },
   }
 }, {
   timestamps: true

@@ -5,31 +5,32 @@ import { deleteFile } from '../middleware/s3'
 const HeroSchema = new Schema({
   section: { type: Schema.Types.ObjectId, ref: 'Section' },
   backgroundImage: {
-    src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 1920 },
-    height: { type: Number, trim: true, default: 1080 }
+    src: { type: String, trim: true, maxlength: 150 },
+    width: { type: Number, trim: true, default: 1920, max: 10000, min: 0 },
+    height: { type: Number, trim: true, default: 1080, max: 10000, min: 0 }
   },
   image: {
-    src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 333 },
-    height: { type: Number, trim: true, default: 188 }
+    src: { type: String, trim: true, maxlength: 150 },
+    width: { type: Number, trim: true, default: 333, max: 10000, min: 0 },
+    height: { type: Number, trim: true, default: 188, max: 10000, min: 0 }
   },
   page: { type: Schema.ObjectId, ref: 'Page' },
-  pageSlug: { type: String, trim: true },
+  pageSlug: { type: String, trim: true, maxlength: 100 },
   values: {
-    backgroundColor: { type: String, trim: true },
-    button1Text: { type: String, trim: true },
-    button1Link: { type: String, trim: true },
-    button2Text: { type: String, trim: true },
-    button2Link: { type: String, trim: true },
-    h1Text: { type: String, trim: true, default: 'Heading 1' },
-    h2Text: { type: String, trim: true, default: 'Heading 2' },
-    h3Text: { type: String, trim: true, default: 'Heading 3' },
-    iframe: { type: String, trim: true },
-    mediaBorderRadius: { type: String, trim: true },
-    mediaElevation: { type: Number, trim: true },
-    mediaFlex: { type: String, trim: true },
-    pText: { type: String, trim: true, default: '<p>Paragraph</p>' }
+    backgroundColor: { type: String, trim: true, maxlength: 50 },
+    button1Text: { type: String, trim: true, maxlength: 100 },
+    button1Link: { type: String, trim: true, maxlength: 100 },
+    button2Text: { type: String, trim: true, maxlength: 100 },
+    button2Link: { type: String, trim: true, maxlength: 100 },
+    h1Text: { type: String, trim: true, default: 'Heading 1', maxlength: 100 },
+    h2Text: { type: String, trim: true, default: 'Heading 2', maxlength: 100 },
+    h3Text: { type: String, trim: true, default: 'Heading 3', maxlength: 100 },
+    iframe: { type: String, trim: true, maxlength: 150 },
+    mediaBorder: { type: String, trim: true, maxlength: 50 },
+    mediaBorderRadius: { type: String, trim: true, maxlength: 50 },
+    mediaElevation: { type: Number, trim: true, max: 24, min: 0 },
+    mediaFlex: { type: String, trim: true, maxlength: 50 },
+    pText: { type: String, trim: true, default: '<p>Paragraph</p>', maxlength: 1000 }
   }
 }, {
   timestamps: true

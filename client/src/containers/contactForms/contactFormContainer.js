@@ -9,7 +9,7 @@ const contactFormContainer = (ComposedComponent) => {
     }
     componentWillMount() {
       const { values } = this.props.item
-      if (values.elevation) this.setState({ elevation: values.elevation })
+      if (values.elevation) this.setState({ elevation: Number(values.elevation) })
     }
     handleMouseEnter = () => this.setState({ elevation: 4 })
     handleMouseLeave = () => this.setState({ elevation: 1 })

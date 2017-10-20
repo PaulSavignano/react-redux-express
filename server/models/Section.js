@@ -10,27 +10,27 @@ import { deleteFiles } from '../middleware/s3'
 
 const SectionSchema = new Schema({
   image: {
-    src: { type: String, trim: true },
-    width: { type: Number, trim: true, default: 1920 },
-    height: { type: Number, trim: true, default: 1080 }
+    src: { type: String, trim: true, maxlength: 150 },
+    width: { type: Number, trim: true, default: 1920, max: 10000, min: 0 },
+    height: { type: Number, trim: true, default: 1080, max: 10000, min: 0 }
   },
   items: [{
     kind: { type: String, trim: true },
     item: { type: Schema.ObjectId, refPath: 'items.kind' }
   }],
   page: { type: Schema.ObjectId, ref: 'Page' },
-  pageSlug: { type: String, trim: true },
+  pageSlug: { type: String, trim: true, maxlength: 100 },
   values: {
-    alignItems: { type: String, trim: true },
-    containerBackgroundColor: { type: String, trim: true },
-    flexFlow: { type: String, trim: true, default: 'row wrap' },
-    justifyContent: { type: String, trim: true, default: 'space-between' },
-    kind: { type: String, trim: true, default: 'Flex' },
-    margin: { type: String, trim: true, default: '0 auto' },
-    maxWidth: { type: String, trim: true, default: '1044px' },
-    minHeight: { type: String, trim: true, default: '120px' },
-    padding: { type: String, trim: true },
-    pageLink: { type: String, trim: true },
+    alignItems: { type: String, trim: true, maxlength: 50 },
+    containerBackgroundColor: { type: String, trim: true, maxlength: 50 },
+    flexFlow: { type: String, trim: true, default: 'row wrap', maxlength: 50 },
+    justifyContent: { type: String, trim: true, default: 'space-between', maxlength: 50 },
+    kind: { type: String, trim: true, default: 'Flex', maxlength: 50 },
+    margin: { type: String, trim: true, default: '0 auto', maxlength: 50 },
+    maxWidth: { type: String, trim: true, default: '1044px', maxlength: 50 },
+    minHeight: { type: String, trim: true, default: '120px', maxlength: 50 },
+    padding: { type: String, trim: true, maxlength: 50 },
+    pageLink: { type: String, trim: true, maxlength: 50 },
   }
 }, {
   timestamps: true

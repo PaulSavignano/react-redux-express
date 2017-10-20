@@ -8,22 +8,28 @@ import loadImages from '../../utils/loadImages'
 import appRouterContainer from '../../containers/routers/appRouterContainer'
 import SearchList from '../search/SearchList'
 import Routes from './Routes'
+import getPageImages from '../../utils/getPageImages'
 import flattenArray from '../../utils/flattenArray'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 
 class AppRouter extends Component {
   state = {
-    loadingItemImages: true,
-    loadingItemBackgroundImages: true
+    loadingImages: true,
   }
-  handleItemImages = (items) => {
-    const images = items.filter(item => item.item.image && item.item.image.src).map(({ item: { image: { src }}}) => src)
-    return loadImages(images).then(() => this.setState({ loadingItemImages: false }))
+  handlePreloadImages = (reqPage) => {
+    const images = getPageImages(reqPage)
+    if (images.length) {
+      return loadImages(images).then(() => this.setState({ loadingImages: false }))
+    }
+    return this.setState({ loadingImages: false })
   }
-  handleItemBackgroundImages = (items) => {
-    const images = items.filter(item => item.item.backgroundImage && item.item.backgroundImage.src).map(({ item: { backgroundImage: { src }}}) => src)
-    return loadImages(images).then(() => this.setState({ loadingItemBackgroundImages: false }))
+  handleOtherImages = (otherPages) => {
+    const images = getPageImages(otherPages)
+    if (images.length) {
+      return loadImages(images)
+    }
+    return
   }
   componentWillMount() {
     const {
@@ -32,25 +38,26 @@ class AppRouter extends Component {
       },
       pages
     } = this.props
-    const itemsArray = pages.map(page => page.sections.map(section => section.items.map(item => item)))
-    const items = flattenArray(itemsArray)
-    this.handleItemImages(items)
-    this.handleItemBackgroundImages(items)
-    this.setState({ items })
+    const slug = window.location.pathname.slice(1)
+    const reqPageSlug = slug || 'home'
+    const reqPage = pages.filter(page => page.slug === reqPageSlug)
+    const otherPages = pages.filter(page => page.slug !== reqPageSlug)
+    this.handlePreloadImages(reqPage)
+    this.handlePreloadImages(otherPages)
     document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
   }
-  componentWillReceiveProps({ brand: { bodyStyle: { values: {backgroundColor }}}}) {
+  componentWillReceiveProps({ brand: { bodyStyle: { values: { backgroundColor }}}}) {
     if (backgroundColor !== this.props.brand.bodyStyle.values.backgroundColor) {
       document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
     }
   }
   render() {
-    const { loadingItemImages, loadingItemBackgroundImages } = this.state
+    const { loadingImages, loadingItemBackgroundImages } = this.state
     const { search } = this.props
     return (
       <Router history={history}>
         <div>
-          {loadingItemImages || loadingItemBackgroundImages ? null :
+          {loadingImages ? null :
           <CSSTransitionGroup
             transitionName="fadein"
             transitionAppear={true}
