@@ -47,6 +47,7 @@ const BrandSchema = new Schema({
       mediaElevation: { type: Number, trim: true, default: 3, max: 24, min: 0 }
     }
   },
+  brandSlug: { type: String, maxlength: 25 },
   bodyStyle: {
     values: {
       backgroundColor: { type: String, trim: true, default: 'rgb(255, 255, 255)', maxlength: 25 },

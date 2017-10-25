@@ -64,7 +64,7 @@ class AppBarNavigation extends Component {
         className="appbar-navigation-container"
       >
         {showPhone === 'false' ? null :
-        <div style={{ color }} className="appbar-phone-container">
+        <div style={{ color: primary1Color }} className="appbar-phone-container">
           <a
             href={`tel:${phone.replace(/\D+/g, '')}`}
             className="appbar-phone"

@@ -33,20 +33,6 @@ h1, h2, h3, p {
 
 
 
-
-.background-image {
-  background-position: center center !important;
-  background-repeat:  no-repeat !important;
-  background-size:  cover !important;
-}
-
-
-
-
-
-
-
-
 /* Fields */
 .field-container {
   display: flex;

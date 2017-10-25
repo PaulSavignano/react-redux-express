@@ -9,6 +9,8 @@ import Product from './Product'
 import { deleteFiles } from '../middleware/s3'
 
 const SectionSchema = new Schema({
+  brand: { type: Schema.ObjectId, ref: 'Brand' },
+  brandName: { type: String, maxlength: 25 },
   image: {
     src: { type: String, trim: true, maxlength: 150 },
     width: { type: Number, trim: true, default: 1920, max: 10000, min: 0 },

@@ -68,7 +68,8 @@ const adminItemForms = [{
   delete: contactFormDelete,
   fields: [
     { name: 'button1Text', type: 'text' },
-    { name: 'h3Text', type: 'text', },
+    { name: 'h2Text', type: 'text' },
+    { name: 'h3Text', type: 'text' },
     { name: 'pText', type: 'wysiwgy' },
   ]
 }, {
@@ -77,6 +78,7 @@ const adminItemForms = [{
   delete: heroDelete,
   fields: [
     { name: 'backgroundColor', type: 'text' },
+    { name: 'backgroundPosition', type: 'text' },
     { name: 'button1Text', type: 'text' },
     { name: 'button1Link', type: 'text' },
     { name: 'button2Text', type: 'text' },

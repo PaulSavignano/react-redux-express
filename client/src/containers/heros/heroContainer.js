@@ -14,28 +14,20 @@ const heroContainer = (ComposedComponent) => {
         backgroundImage,
         values: {
           backgroundColor,
+          backgroundPosition
         }
       } = item
       const propsForParent = {
         style: {
           alignItems,
           backgroundImage: backgroundImage.src && `url(${backgroundImage.src})`,
+          backgroundPosition,
           backgroundColor,
-          display: 'flex',
-          flex: '1 1 auto',
-          justifyContent: 'center',
           minHeight,
-          position: 'absolute',
-          width: '100%'
         },
         className: backgroundImage.src ? 'hero background-image' : 'hero'
       }
-      const propsForChild = {
-        style: {
-          margin: '0 auto',
-          backgroundColor: 'transparent',
-        }
-      }
+      const propsForChild = { className: 'hero-child' }
       this.setState({ propsForParent, propsForChild })
     }
     componentWillMount() {

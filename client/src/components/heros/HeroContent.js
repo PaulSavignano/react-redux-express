@@ -37,6 +37,7 @@ const HeroContent = ({
     image,
     values: {
       backgroundColor,
+      backgroundPositionX,
       button1Text,
       button1Link,
       button2Text,

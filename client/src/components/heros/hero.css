@@ -1,4 +1,22 @@
+.hero {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.hero-child {
+  background-color: transparent !important;
+  margin: 0 auto;
+}
+
 .hero-media {
   display: flex;
   justify-content: space-around;
+}
+
+.background-image {
+  background-repeat:  no-repeat !important;
+  background-size:  cover !important;
 }

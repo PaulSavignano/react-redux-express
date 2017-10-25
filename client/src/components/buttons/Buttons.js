@@ -22,6 +22,16 @@ class Buttons extends Component {
     } = this.props
     return (
       <div className={className ? `Buttons ${className}` : 'Buttons'}>
+        {button1Link.includes('http') ?
+          <a href={button1Link}>
+            <RaisedButton
+              backgroundColor={button1BackgroundColor}
+              label={button1Text}
+              labelColor={button1Color}
+              style={{ border: button1Border  }}
+            />
+          </a>
+        :
         <RaisedButton
           backgroundColor={button1BackgroundColor}
           containerElement={<Link to={button1Link || '/'}/>}
@@ -29,14 +39,25 @@ class Buttons extends Component {
           labelColor={button1Color}
           style={{ border: button1Border  }}
         />
-        {button2Text &&
-          <RaisedButton
-            backgroundColor={button2BackgroundColor}
-            containerElement={<Link to={button2Link || '/'}/>}
-            label={button2Text}
-            labelColor={button2Color}
-            style={{ border: button2Border }}
-          />
+        }
+
+        {!button2Text ? null : button2Link.includes('http') ?
+          <a href={button2Link}>
+            <RaisedButton
+              backgroundColor={button2BackgroundColor}
+              label={button2Text}
+              labelColor={button2Color}
+              style={{ border: button2Border }}
+            />
+          </a>
+        :
+        <RaisedButton
+          backgroundColor={button2BackgroundColor}
+          containerElement={<Link to={button2Link || '/'}/>}
+          label={button2Text}
+          labelColor={button2Color}
+          style={{ border: button2Border }}
+        />
         }
       </div>
     )

@@ -3,8 +3,10 @@ import mongoose, { Schema } from 'mongoose'
 import Section from './Section'
 
 const PageSchema = new Schema({
-  slug: { type: String },
+  brand: { type: Schema.ObjectId, ref: 'Brand' },
+  brandName: { type: String, maxlength: 25 },
   sections: [{ type: Schema.Types.ObjectId, ref: 'Section' }],
+  slug: { type: String },
   values: {
     name: { type: String, trim: true, minlength: 1, maxlength: 1000 },
     backgroundColor: { type: String, trim: true, minlength: 1, default: 'rgb(255,255,255)', maxlength: 50 }

@@ -3,6 +3,8 @@ import mongoose, { Schema } from 'mongoose'
 import { deleteFile } from '../middleware/s3'
 
 const ArticleSchema = new Schema({
+  brand: { type: Schema.ObjectId, ref: 'Brand' },
+  brandSlug: { type: String, maxlength: 25 },
   page: { type: Schema.ObjectId, ref: 'Page' },
   pageSlug: { type: String, trim: true, maxlength: 25 },
   image: {

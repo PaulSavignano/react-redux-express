@@ -8,6 +8,16 @@ import Address from './Address'
 import Order from './Order'
 
 const UserSchema = new Schema({
+  addresses: [{ type: Schema.ObjectId, ref: 'Address' }],
+  brand: { type: Schema.ObjectId, ref: 'Brand' },
+  brandName: { type: String, maxlength: 25 },
+  password: { type: String, required: true, maxlength: 50, minlength: 6 },
+  passwordResetExpires: { type: Date },
+  passwordResetToken: { type: String, default: '' },
+  roles: {
+    type: [{ type: String, enum: ['admin', 'owner', 'user'], maxlength: 25 }],
+    default: ['user']
+  },
   values: {
     email: {
       type: String,
@@ -25,16 +35,9 @@ const UserSchema = new Schema({
     firstName: { type: String, trim: true, maxlength: 100, minlength: 1, required: true },
     lastName: { type: String, trim: true, maxlength: 100, minlength: 1, required: true },
     phone: { type: String, trim: true, maxlength: 50, minlength: 1 },
-  },
-  addresses: [{ type: Schema.ObjectId, ref: 'Address' }],
-  password: { type: String, required: true, maxlength: 50, minlength: 6 },
-  roles: {
-    type: [{ type: String, enum: ['admin', 'owner', 'user'], maxlength: 25 }],
-    default: ['user']
-  },
-  passwordResetToken: { type: String, default: '' },
-  passwordResetExpires: { type: Date },
-  createdAt: { type: Date, default: Date.now }
+  }
+}, {
+  timestamps: true
 })
 
 function autopopulate(next) {
