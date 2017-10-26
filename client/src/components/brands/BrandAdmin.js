@@ -85,7 +85,7 @@ const formFields = [{
     { name: 'button2Border', type: 'text' },
     { name: 'button1Color', type: 'text' },
     { name: 'button2Color', type: 'text' },
-    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
+    { name: 'elevation', type: 'number', max: 24, min: 0 },
     { name: 'flex', type: 'text' },
     { name: 'h1Align', type: 'select', options: ['left', 'center', 'right']  },
     { name: 'h1Color', type: 'text' },
@@ -162,7 +162,7 @@ const formFields = [{
     { name: 'nameColor', type: 'text' },
     { name: 'nameTextShadow', type: 'text' },
     { name: 'margin', type: 'text' },
-    { name: 'imageElevation', type: 'number', max: 24, min: 0 },
+    { name: 'mediaElevation', type: 'number', max: 24, min: 0 },
   ]
 }, {
   name: 'typography',

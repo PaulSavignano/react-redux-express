@@ -5,8 +5,7 @@ import { connect } from 'react-redux'
 const heroContainer = (ComposedComponent) => {
   class HeroContainer extends Component {
     state = {
-      propsForParent: null,
-      propsForChild: null
+      propsForParent: null
     }
     handleProps = (item) => {
       const { alignItems, minHeight } = this.props.heroStyle.values
@@ -27,8 +26,7 @@ const heroContainer = (ComposedComponent) => {
         },
         className: backgroundImage.src ? 'hero background-image' : 'hero'
       }
-      const propsForChild = { className: 'hero-child' }
-      this.setState({ propsForParent, propsForChild })
+      this.setState({ propsForParent })
     }
     componentWillMount() {
       this.handleProps(this.props.item)
@@ -38,8 +36,7 @@ const heroContainer = (ComposedComponent) => {
     }
     render() {
       const {
-        propsForParent,
-        propsForChild
+        propsForParent
       } = this.state
       const {
         heroStyle,
@@ -59,7 +56,6 @@ const heroContainer = (ComposedComponent) => {
         hasMedia,
         item,
         propsForParent,
-        propsForChild,
         typography
       }
       return (

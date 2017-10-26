@@ -14,15 +14,13 @@ const Hero = ({
   hasMedia,
   item,
   propsForParent,
-  propsForChild
 }) => {
   return (
     <div {...propsForParent}>
       <Card
         id={item._id}
         zDepth={0}
-        {...propsForChild}
-        className="hero"
+        className="hero-child"
       >
         <HeroContent
           dispatch={dispatch}

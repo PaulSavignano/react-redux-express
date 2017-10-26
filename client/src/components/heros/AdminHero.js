@@ -22,7 +22,6 @@ class AdminHero extends Component {
       hasMedia,
       item,
       propsForParent,
-      propsForChild
     } = this.props
     return (
       <div
@@ -32,7 +31,7 @@ class AdminHero extends Component {
         <Card
           zDepth={0}
           onTouchTap={this.handleStartEdit}
-          {...propsForChild}
+          className="hero-child"
         >
           <HeroContent
             dispatch={dispatch}
