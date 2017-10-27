@@ -3,14 +3,14 @@ import { ObjectID } from 'mongodb'
 import Address from '../models/Address'
 import User from '../models/User'
 import Order from '../models/Order'
-import { sendEmail1 } from '../middleware/nodemailer'
+import sendGmail from '../utils/sendGmail'
 
 const formatPrice = (cents) => `$${(cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
 export const add = (req, res, next) => {
   const { _id } = req.user
   const {
-    token,
+    stripeToken,
     fullAddress,
     name,
     phone,
@@ -42,7 +42,7 @@ export const add = (req, res, next) => {
       .then(user => createCharge({
         address,
         cart,
-        token,
+        stripeToken,
         res,
         req,
         user
@@ -57,7 +57,7 @@ export const add = (req, res, next) => {
       .then(user => createCharge({
         address,
         cart,
-        token,
+        stripeToken,
         res,
         req,
         user
@@ -71,19 +71,18 @@ export const add = (req, res, next) => {
 const createCharge = ({
   address,
   cart,
-  token,
+  stripeToken,
   res,
   req,
   user
 }) => {
-  console.log('have a user?', user)
   const { _id, values: { firstName, lastName, email }} = user
   const rootUrl = req.get('host')
   const stripe = require("stripe")(process.env.STRIPE_SK_TEST)
   return stripe.charges.create({
     amount: Math.round(cart.total),
     currency: "usd",
-    source: token,
+    source: stripeToken,
     description: `${rootUrl} Order`
   })
   .then(charge => {
@@ -122,7 +121,7 @@ const createCharge = ({
         <div>${street}</div>
         <div>${city}, ${state} ${zip}</div>
       `
-      sendEmail1({
+      sendGmail({
         to: email,
         toSubject: 'Thank you for your order!',
         toBody: `
@@ -173,7 +172,7 @@ export const update = (req, res) => {
         const { email, firstName, lastName, cart, address } = order
         const { name, phone, street, city, state, zip } = address
         res.send(order)
-        sendEmail1({
+        sendGmail({
           to: email,
           toSubject: 'Your order has shipped!',
           toBody: `

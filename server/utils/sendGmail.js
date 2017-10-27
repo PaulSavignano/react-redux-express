@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-export const sendEmail1 = (mail) => {
+const sendGmail = (mail) => {
   const { to, toSubject, toBody, fromSubject, fromBody } = mail
   return Brand.findOne({})
   .then(brand => {
@@ -123,3 +123,5 @@ export const sendEmail1 = (mail) => {
   })
   .catch(error => Promise.reject(error))
 }
+
+export default sendGmail

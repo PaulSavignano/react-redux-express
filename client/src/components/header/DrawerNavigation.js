@@ -21,7 +21,6 @@ class DrawerNavigation extends Component {
   render() {
     const {
       cartQty,
-      color,
       dispatch,
       firstName,
       isAdmin,
@@ -136,7 +135,6 @@ class DrawerNavigation extends Component {
 
 DrawerNavigation.propTypes = {
   cartQty: PropTypes.number,
-  color: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   firstName: PropTypes.string,
   history: PropTypes.object.isRequired,

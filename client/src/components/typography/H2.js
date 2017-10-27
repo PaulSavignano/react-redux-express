@@ -17,6 +17,7 @@ const H2 = ({
       h2FontFamily,
       h2FontSize: fontSize,
       h2LetterSpacing: letterSpacing,
+      h2Margin: margin,
       lineHeight
     }
   }
@@ -29,6 +30,7 @@ const H2 = ({
       fontWeight,
       letterSpacing,
       lineHeight,
+      margin,
       textAlign,
       textShadow,
     }}

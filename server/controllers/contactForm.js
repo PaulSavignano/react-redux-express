@@ -4,7 +4,7 @@ import moment from 'moment'
 import Page from '../models/Page'
 import ContactForm from '../models/ContactForm'
 import Section from '../models/Section'
-import { deleteFile, uploadFile } from '../middleware/s3'
+import { deleteFile, uploadFile } from '../utils/s3'
 
 export const add = (req, res) => {
   const { pageId, pageSlug, sectionId } = req.body
@@ -34,7 +34,6 @@ export const add = (req, res) => {
 
 
 export const update = (req, res) => {
-  console.log('made it to contactForm update', req.params)
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {

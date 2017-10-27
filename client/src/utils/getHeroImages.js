@@ -1,9 +1,9 @@
 import flattenArray from './flattenArray'
 
-const getPageImages = (pages) => {
+const getHeroImages = (pages) => {
   const itemsArray = pages.map(page => {
     return page.sections.map(section => {
-      return section.items.map(item => item)
+      return section.items.filter(item => item.kind === 'Hero').map(item => item)
     })
   })
   const items = flattenArray(itemsArray)
@@ -15,4 +15,4 @@ const getPageImages = (pages) => {
   ]
 }
 
-export default getPageImages
+export default getHeroImages

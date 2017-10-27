@@ -4,7 +4,7 @@ const handleAuthFetch = ({ path, method, body: fetchBody }) => {
     method,
     headers: {
       'Content-Type': 'application/json',
-      'x-token': localStorage.getItem('x-token'),
+      'x-access-token': localStorage.getItem('x-access-token'),
       'x-refresh-token': localStorage.getItem('x-refresh-token')
     },
     body
@@ -13,12 +13,13 @@ const handleAuthFetch = ({ path, method, body: fetchBody }) => {
     return response.json()
     .then(json => {
       if (response.ok) {
-        const token = response.headers.get('x-token')
+        const accessToken = response.headers.get('x-access-token')
         const refreshToken = response.headers.get('x-refresh-token')
-        if (token && refreshToken) {
-          localStorage.setItem('x-token', token)
+        if (accessToken && refreshToken) {
+          localStorage.setItem('x-access-token', accessToken)
           localStorage.setItem('x-refresh-token', refreshToken)
         }
+        if (json.error) return Promise.reject(json.error)
         return json
       }
       return Promise.reject(json.error)
@@ -26,10 +27,9 @@ const handleAuthFetch = ({ path, method, body: fetchBody }) => {
   })
   .catch(error => {
     if (error.TokenExpiredError) {
-      localStorage.removeItem('x-token')
+      localStorage.removeItem('x-access-token')
       localStorage.removeItem('x-refresh-token')
     }
-    console.error(error)
     Promise.reject(error)
   })
 }

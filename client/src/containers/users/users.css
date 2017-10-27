@@ -28,3 +28,7 @@
 .AdminUsersItemButtons {
   align-self: center;
 }
+
+.admin-users-edit-user-page-heading {
+  margin: 0 16px;
+}

@@ -182,7 +182,6 @@ class AdminItemForm extends Component {
           }
         }))
       default:
-        console.log('dispatching update', _id)
         return dispatch(fetchUpdate({
           _id,
           path: 'update-values',
@@ -224,7 +223,6 @@ class AdminItemForm extends Component {
         item: { _id, backgroundImage, image },
         kind,
       },
-      pristine,
       submitting
     } = this.props
     return (

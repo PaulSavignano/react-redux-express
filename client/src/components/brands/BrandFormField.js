@@ -11,7 +11,6 @@ import normalizeState from '../../utils/normalizeState'
 class BrandFormField extends Component {
   handleNumberField = (value, previousValue) => {
     const { max, min } = this.props
-    console.log(max, min)
     if (value < min || value > max) {
       return previousValue
     }

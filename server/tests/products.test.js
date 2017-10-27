@@ -102,7 +102,7 @@ describe('DELETE /api/products/:_id', () => {
     const hexId = productSeeds[1]._id.toHexString()
     request(app)
       .delete(`/api/products/${hexId}`)
-      .set('x-auth', userSeeds[1].tokens[0].token)
+      .set('x-access-token', userSeeds[1].tokens[0].token)
       .expect(200)
       .expect((res) => {
         expect(res.body.product._id).toBe(hexId)

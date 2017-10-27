@@ -172,16 +172,20 @@ const formFields = [{
     { name: 'h1FontFamily', type: 'text' },
     { name: 'h1FontSize', type: 'text' },
     { name: 'h1LetterSpacing', type: 'text' },
+    { name: 'h1Margin', type: 'text' },
     { name: 'h2FontFamily', type: 'text' },
     { name: 'h2FontSize', type: 'text' },
     { name: 'h2LetterSpacing', type: 'text' },
+    { name: 'h2Margin', type: 'text' },
     { name: 'h3FontFamily', type: 'text' },
     { name: 'h3FontSize', type: 'text' },
     { name: 'h3LetterSpacing', type: 'text' },
+    { name: 'h3Margin', type: 'text' },
     { name: 'lineHeight', type: 'text' },
     { name: 'pFontFamily', type: 'text' },
     { name: 'pFontSize', type: 'text' },
     { name: 'pLetterSpacing', type: 'text' },
+    { name: 'pMargin', type: 'text' },
   ]
 }]
 

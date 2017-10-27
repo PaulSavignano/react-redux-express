@@ -21,9 +21,6 @@ const validate = values => {
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address'
   }
-  if (values.password !== values.passwordConfirm) {
-    errors.passwordConfirm = 'Passwords must match'
-  }
   if (values.phone && values.phone.length < 14) {
     errors.phone = 'Phone number must be 10 digits'
   }
@@ -53,8 +50,6 @@ class UserProfileForm extends Component {
             <Field name="lastName" component={renderTextField} label="Last Name" className="field" />
             <Field name="email" component={renderTextField} label="Email" className="field" />
             <Field name="phone" component={renderTextField} label="Phone" normalize={normalizePhone} className="field" />
-            <Field name="password" component={renderTextField} label="Update Password" type="password" className="field" />
-            <Field name="passwordConfirm" component={renderTextField} label="Confirm Password" type="password" className="field"/>
           </div>
           <div className="button-container">
             <SuccessableButton

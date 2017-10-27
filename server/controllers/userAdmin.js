@@ -6,7 +6,6 @@ import Address from '../models/Address'
 import Brand from '../models/Brand'
 import Order from '../models/Order'
 import User from '../models/User'
-import { sendEmail1 } from '../middleware/nodemailer'
 
 export const adminAdd = (req, res) => {
   const { email, firstName, lastName, password } = req.body

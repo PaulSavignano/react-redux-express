@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-import { uploadFile, deleteFile } from '../middleware/s3'
+import { uploadFile, deleteFile } from '../utils/s3'
 
 const ProductSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },

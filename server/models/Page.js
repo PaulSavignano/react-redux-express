@@ -5,6 +5,7 @@ import Section from './Section'
 const PageSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },
   brandName: { type: String, maxlength: 25 },
+  path: { type: String, maxlength: 25 },
   sections: [{ type: Schema.Types.ObjectId, ref: 'Section' }],
   slug: { type: String },
   values: {

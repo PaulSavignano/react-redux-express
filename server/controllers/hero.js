@@ -4,7 +4,7 @@ import moment from 'moment'
 import Page from '../models/Page'
 import Section from '../models/Section'
 import Hero from '../models/Hero'
-import { deleteFile, uploadFile } from '../middleware/s3'
+import { deleteFile, uploadFile } from '../utils/s3'
 
 // Find out why req is empty
 export const add = (req, res) => {

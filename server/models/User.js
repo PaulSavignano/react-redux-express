@@ -11,11 +11,11 @@ const UserSchema = new Schema({
   addresses: [{ type: Schema.ObjectId, ref: 'Address' }],
   brand: { type: Schema.ObjectId, ref: 'Brand' },
   brandName: { type: String, maxlength: 25 },
-  password: { type: String, required: true, maxlength: 50, minlength: 6 },
+  password: { type: String, required: true, maxlength: 500, minlength: 6 },
   passwordResetExpires: { type: Date },
   passwordResetToken: { type: String, default: '' },
   roles: {
-    type: [{ type: String, enum: ['admin', 'owner', 'user'], maxlength: 25 }],
+    type: [{ type: String, enum: ['admin', 'master', 'owner', 'user'], maxlength: 25 }],
     default: ['user']
   },
   values: {

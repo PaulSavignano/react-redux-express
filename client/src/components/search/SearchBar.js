@@ -28,7 +28,6 @@ class SearchBar extends Component {
       color,
       search
     } = this.props
-        console.log(this.props)
     return (
       <span>
         <IconButton

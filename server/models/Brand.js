@@ -184,17 +184,21 @@ const BrandSchema = new Schema({
       h1FontFamily: { type: String, trim: true, maxlength: 50},
       h1FontSize: { type: String, trim: true, default: 'calc(2em + 1vw)', maxlength: 50 },
       h1LetterSpacing: { type: String, trim: true, default: '1px', maxlength: 50 },
+      h1Margin: { type: String, trim: true, maxlength: 50 },
       h2FontFamily: { type: String, trim: true, maxlength: 50 },
       h2FontSize: { type: String, trim: true, default: 'calc(1.5em + 1vw)', maxlength: 50 },
       h2LetterSpacing: { type: String, trim: true, default: '1px', maxlength: 50 },
+      h2Margin: { type: String, trim: true, maxlength: 50 },
       h3FontFamily: { type: String, trim: true, maxlength: 50 },
       h3FontSize: { type: String, trim: true, default: 'calc(1.17em + 1vw)', maxlength: 50 },
       h3LetterSpacing: { type: String, trim: true, default: '1px', maxlength: 50 },
       h3LineHeight: { type: String, trim: true, maxlength: 50 },
+      h3Margin: { type: String, trim: true, maxlength: 50 },
       lineHeight: { type: String, trim: true, maxlength: 50},
       pFontFamily: { type: String, trim: true, maxlength: 50 },
       pFontSize: { type: String, trim: true, default: '16px', maxlength: 50 },
       pLetterSpacing: { type: String, trim: true, maxlength: 50 },
+      pMargin: { type: String, trim: true, maxlength: 50 },
     }
   }
 },{

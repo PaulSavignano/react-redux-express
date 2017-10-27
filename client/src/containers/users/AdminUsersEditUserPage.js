@@ -51,7 +51,9 @@ class AdminUsersEditUserPage extends Component {
       <div className="page">
         {user ?
           <section>
-            <H3 margin="0 16px">Profile for {user.values.email}</H3>
+            <div className="admin-users-edit-user-page-heading">
+              <H3>Profile for {user.values.email}</H3>
+            </div>
             <UserProfileForm
               dispatch={dispatch}
               form={`user_${user._id}_profile`}

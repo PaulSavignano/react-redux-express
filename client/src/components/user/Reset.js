@@ -41,12 +41,12 @@ class Reset extends Component {
     }
   }
   handleFormSubmit = values => {
-    const { dispatch, token } = this.props
-    return dispatch(fetchReset(values, token))
+    const { dispatch, resetToken } = this.props
+    return dispatch(fetchReset(values, resetToken))
   }
   componentWillReceiveProps({ submitFailed, submitSucceeded, user: { values: { firstName }}}) {
     if (submitSucceeded) return this.setState({ open: true, message: `Welcome back ${firstName}` })
-    if (submitFailed) return this.setState({ open: true, message: `Your email token has expired, recover again` })
+    if (submitFailed) return this.setState({ open: true, message: `Your email reset token has expired, recover again` })
   }
   render() {
     const {

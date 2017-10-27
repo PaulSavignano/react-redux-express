@@ -15,6 +15,7 @@ const P = ({
       pFontFamily,
       pFontSize: fontSize,
       pLetterSpacing: letterSpacing,
+      pMargin: margin,
       lineHeight
     }
   }
@@ -26,7 +27,8 @@ const P = ({
       fontSize,
       fontWeight,
       letterSpacing,
-      lineHeight
+      lineHeight,
+      margin
     }}
     {...className}
   >

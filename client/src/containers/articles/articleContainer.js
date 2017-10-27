@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { loadImage } from '../../utils/loadImages'
+
 const articleContainer = (ComposedComponent) => {
   class ArticleContainer extends Component {
     state = {
       buttonProps: null,
       headingProps: null,
       mediaProps: null,
-      paragraphProps: null
+      paragraphProps: null,
+      loadingImage: true
     }
     handleContent = (articleStyle, item) => {
       const {

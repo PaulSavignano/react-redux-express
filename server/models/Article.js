@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-import { deleteFile } from '../middleware/s3'
+import { deleteFile } from '../utils/s3'
 
 const ArticleSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },

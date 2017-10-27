@@ -7,7 +7,6 @@ const H3 = ({
   children,
   className,
   color,
-  margin,
   textAlign,
   textColor,
   textShadow,
@@ -18,6 +17,7 @@ const H3 = ({
       h3FontFamily,
       h3FontSize: fontSize,
       h3LetterSpacing: letterSpacing,
+      h3Margin: margin,
       lineHeight
     }
   }

@@ -22,8 +22,7 @@ class BrandForm extends Component {
     setTimeout(() => window.dispatchEvent(new Event('resize')), 10)
   }
   handleImageRemove = () => {
-    const { path } = this.state
-    const { dispatch, image } = this.props
+    const { image } = this.props
     const deleteImage = image.src ? true : false
     this.setState({
       imageEdit: false,
@@ -76,8 +75,6 @@ class BrandForm extends Component {
       form,
       handleSubmit,
       image,
-      invalid,
-      pristine,
       reset,
       submitSucceeded,
       submitting,

@@ -44,7 +44,7 @@ const Routes = () => (
     <PrivateRoute exact path="/user/profile" requiredRoles={['user', 'admin']} component={UserProfilePage} />
     <Route exact path="/user/recovery" component={Recovery} />
     <Route exact path="/user/request-estimate" component={withTracker(RequestEstimate)} />
-    <Route exact path="/user/reset/:token" component={Reset} />
+    <Route exact path="/user/reset/:resetToken" component={Reset} />
     <Route exact path="/user/signup" component={withTracker(Signup)} />
     <Route exact path="/user/signin" component={withTracker(Signin)} />
     <Route component={NotFoundPage} />

@@ -4,7 +4,7 @@ import moment from 'moment'
 import Page from '../models/Page'
 import Product from '../models/Product'
 import Section from '../models/Section'
-import { deleteFile, uploadFile } from '../middleware/s3'
+import { deleteFile, uploadFile } from '../utils/s3'
 
 export const add = (req, res) => {
   const { pageId, pageSlug, sectionId } = req.body

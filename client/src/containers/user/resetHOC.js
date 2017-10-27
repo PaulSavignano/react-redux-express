@@ -18,16 +18,16 @@ const userHOC = (ComposedComponent) => {
   const mapStateToProps = ({
     user
   }, {
-    match: { params: { token }},
+    match: { params: { resetToken }},
   }) => ({
     isFetching: user.isFetching,
-    token,
+    resetToken,
     user
   })
   UserHOC.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    token: PropTypes.string,
+    resetToken: PropTypes.string,
     user: PropTypes.object.isRequired
   }
   return connect(mapStateToProps)(UserHOC)

@@ -4,7 +4,7 @@ import url from 'url'
 import moment from 'moment'
 
 import Brand from '../models/Brand'
-import { uploadFile, deleteFile } from '../middleware/s3'
+import { uploadFile, deleteFile } from '../utils/s3'
 
 
 export const add = (req, res) => {

@@ -9,7 +9,7 @@ import appRouterContainer from '../../containers/routers/appRouterContainer'
 import SearchList from '../search/SearchList'
 import Routes from './Routes'
 import getPageImages from '../../utils/getPageImages'
-import flattenArray from '../../utils/flattenArray'
+import getHeroImages from '../../utils/getHeroImages'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 
@@ -17,23 +17,28 @@ class AppRouter extends Component {
   state = {
     loadingImages: true,
   }
-  handlePreloadImages = (reqPage, otherPages) => {
-    const currentImages = getPageImages(reqPage)
-    const otherImages = getPageImages(otherPages)
-    if (currentImages.length) {
-      return loadImages(currentImages).then(() => {
+  handleImagesToPreloadBeforePageLoad = (reqPageHeroImages) => {
+    const {
+      appBar: { image: appBarImage },
+      footer: { image: footerImage }
+    } = this.props.brand
+    const heroImages = getHeroImages(reqPageHeroImages)
+    const brandImage = appBarImage && appBarImage.src ? [appBarImage.src] : []
+    const footerImg = footerImage && footerImage.src ? [footerImage.src] : []
+    const hasHeroImages = heroImages.length ? true : false
+    const hasBrandImage = brandImage.length ? true : false
+    const hasFooterImage = footerImg.length ? true : false
+    if (hasHeroImages || hasBrandImage || hasFooterImage) {
+      return loadImages([...brandImage, ...heroImages, ...footerImg]).then(() => {
         this.setState({ loadingImages: false })
-        if (otherImages.length) {
-          return loadImages(otherImages)
-        }
       })
     }
     return this.setState({ loadingImages: false })
   }
-  handleOtherImages = (otherPages) => {
-    const images = getPageImages(otherPages)
-    if (images.length) {
-      return loadImages(images)
+  handleImagesToPreload = (allPageImages) => {
+    const allImages = getPageImages(allPageImages)
+    if (allImages.length) {
+      return loadImages(allImages)
     }
     return
   }
@@ -46,9 +51,10 @@ class AppRouter extends Component {
     } = this.props
     const slug = window.location.pathname.slice(1)
     const reqPageSlug = slug || 'home'
-    const reqPage = pages.filter(page => page.slug === reqPageSlug)
-    const otherPages = pages.filter(page => page.slug !== reqPageSlug)
-    this.handlePreloadImages(reqPage, otherPages)
+    const reqPageHeroImages = pages.filter(page => page.slug === reqPageSlug)
+    const allPageImages = pages.filter(page => page.slug !== reqPageSlug)
+    this.handleImagesToPreloadBeforePageLoad(reqPageHeroImages)
+    this.handleImagesToPreload(allPageImages)
     document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
   }
   componentWillReceiveProps({ brand: { bodyStyle: { values: { backgroundColor }}}}) {
@@ -57,7 +63,7 @@ class AppRouter extends Component {
     }
   }
   render() {
-    const { loadingImages, loadingItemBackgroundImages } = this.state
+    const { loadingImages } = this.state
     const { search } = this.props
     return (
       <Router history={history}>

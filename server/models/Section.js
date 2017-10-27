@@ -6,7 +6,7 @@ import ContactForm from './ContactForm'
 import Hero from './Hero'
 import Product from './Product'
 
-import { deleteFiles } from '../middleware/s3'
+import { deleteFiles } from '../utils/s3'
 
 const SectionSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },

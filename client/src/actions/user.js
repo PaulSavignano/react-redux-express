@@ -34,7 +34,7 @@ export const fetchAdd = (values) => {
     })
       .then(res => {
         if (res.ok) {
-          localStorage.setItem('x-token', res.headers.get('x-token'))
+          localStorage.setItem('x-access-token', res.headers.get('x-access-token'))
           localStorage.setItem('x-refresh-token', res.headers.get('x-refresh-token'))
         }
         return res.json()
@@ -72,7 +72,7 @@ export const fetchUser = () => {
     })
     .catch(error => {
       console.log(error)
-      localStorage.removeItem('x-token')
+      localStorage.removeItem('x-access-token')
       localStorage.removeItem('x-refresh-token')
       dispatch({ type: 'DELETE_USER' })
       dispatch({ type: 'DELETE_ALL_USERS' })
@@ -118,7 +118,7 @@ export const fetchDelete = () => {
       body: null
     })
     .then(json => {
-      localStorage.removeItem('x-token')
+      localStorage.removeItem('x-access-token')
       localStorage.removeItem('x-refresh-token')
       dispatch(fetchDeleteSuccess())
       dispatch(usersDeleteSuccess(json))
@@ -159,13 +159,12 @@ export const fetchSignin = ({ history, values }) => {
     })
       .then(res => {
         if (res.ok) {
-          localStorage.setItem('x-token', res.headers.get('x-token'))
+          localStorage.setItem('x-access-token', res.headers.get('x-access-token'))
           localStorage.setItem('x-refresh-token', res.headers.get('x-refresh-token'))
         }
         return res.json()
       })
       .then(json => {
-        console.log('json', json)
         if (json.error) return Promise.reject(json.error)
         const { user, users, orders } = json
         if (users) dispatch(fetchUsersSuccess(users))
@@ -191,7 +190,7 @@ export const fetchSignin = ({ history, values }) => {
 
 export const signout = (history) => {
   return function(dispatch, getState) {
-    localStorage.removeItem('x-token')
+    localStorage.removeItem('x-access-token')
     localStorage.removeItem('x-refresh-token')
     dispatch({ type: 'DELETE_USER' })
     dispatch({ type: 'DELETE_ORDERS' })
@@ -225,9 +224,9 @@ export const fetchRecovery = ({ email }) => {
 }
 
 
-export const fetchReset = ({ password }, token) => {
+export const fetchReset = ({ password }, resetToken) => {
   return (dispatch, getState) => {
-    return fetch(`/api/users/reset/${token}`, {
+    return fetch(`/api/users/reset/${resetToken}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -235,7 +234,10 @@ export const fetchReset = ({ password }, token) => {
       body: JSON.stringify({ password })
     })
       .then(res => {
-        if (res.ok) localStorage.setItem('token', res.headers.get('x-auth'))
+        if (res.ok) {
+          localStorage.setItem('x-access-token', res.headers.get('x-access-token'))
+          localStorage.setItem('x-refresh-token', res.headers.get('x-refresh-token'))
+        }
         return res.json()
       })
       .then(json => {
@@ -247,7 +249,7 @@ export const fetchReset = ({ password }, token) => {
       })
       .catch(error => {
         console.log(error)
-        dispatch(fetchFailure({ error: 'invalid token' }))
+        dispatch(fetchFailure({ error: 'invalid reset token' }))
         throw new SubmissionError({ ...error, _error: 'Reset failed' })
       })
   }

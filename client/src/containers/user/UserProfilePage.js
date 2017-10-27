@@ -56,7 +56,10 @@ class UserProfilePage extends Component {
       isFetching ? null :
       <div className="page">
         <section>
-          <H3 margin="0 16px">Profile</H3>
+          <div className="user-profile-page-heading">
+            <H3>Profile</H3>
+          </div>
+
           <UserProfileForm
             dispatch={dispatch}
             initialValues={this.state.userInitialValues}

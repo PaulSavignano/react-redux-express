@@ -1,32 +1,28 @@
 import jwt from 'jsonwebtoken'
 
-import refreshTokens from './refreshTokens'
+import AccessToken from '../models/AccessToken'
+import RefreshToken from '../models/RefreshToken'
+import createTokens from '../utils/createTokens'
 import User from '../models/User'
-import createUserResponse from './createUserResponse'
+import createUserResponse from '../utils/createUserResponse'
 
 const authenticate = (requiredRoles) => {
   return async (req, res, next) => {
-    const token = req.headers['x-token']
-    if (token) {
+    const accessToken = req.headers['x-access-token']
+    if (accessToken) {
       try {
-        const { user, expiresIn } = jwt.verify(token, process.env.JWT_SECRET)
-        const roles = user.roles.split(',')
-        const userObj = { _id: user._id, roles }
-        if (roles.some(role => requiredRoles.indexOf(role) >= 0)) {
-          req.user = userObj
-        } else {
-          return res.status(401).send({ error: 'unauthorized' })
-        }
+        const { user } = await AccessToken.findOne({ accessToken }).populate('user')
+        req.user = user
       } catch (error) {
         const refreshToken = req.headers['x-refresh-token']
         if (refreshToken) {
           try {
-            const { user } = jwt.verify(refreshToken, process.env.JWT_SECRET)
-            const newTokens = await refreshTokens(token, refreshToken)
-            if (newTokens.token && newTokens.refreshToken) {
-              req.user = newTokens.user
-              res.set('x-token', newTokens.token)
-              res.set('x-refresh-token', newTokens.refreshToken)
+            const { user } = await RefreshToken.findOne({ refreshToken }).populate('user')
+            const { newAccessToken, newRefreshToken } = await createTokens(user)
+            if (newAccessToken && newRefreshToken) {
+              req.user = user
+              res.set('x-access-token', newAccessToken)
+              res.set('x-refresh-token', newRefreshToken)
             }
           } catch (error) {
             return res.status(401).send({ error })

@@ -50,9 +50,9 @@ export const fetchAddOrder = ({
     const exp_year = parseInt(expiration[1], 10)
     const card = { number, exp_month, exp_year, cvc }
     return getStripeToken(card)
-    .then(token => {
+    .then(stripeToken => {
       const body = {
-        token,
+        stripeToken,
         fullAddress,
         name,
         phone,

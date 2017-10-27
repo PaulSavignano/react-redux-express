@@ -6,11 +6,11 @@ import bcrypt from 'bcryptjs'
 import Address from '../models/Address'
 import Brand from '../models/Brand'
 import Order from '../models/Order'
+import ResetToken from '../models/ResetToken'
 import User from '../models/User'
-import { sendEmail1 } from '../middleware/nodemailer'
-import createTokens from '../middleware/createTokens'
-
-import createUserResponse from '../middleware/createUserResponse'
+import sendGmail from '../utils/sendGmail'
+import createTokens from '../utils/createTokens'
+import createUserResponse from '../utils/createUserResponse'
 
 
 export const add = (req, res) => {
@@ -25,10 +25,10 @@ export const add = (req, res) => {
   newUser.save()
   .then(user => {
     return createTokens(user)
-    .then(([newToken, newRefreshToken]) => {
+    .then(({ newAccessToken, newRefreshToken }) => {
       const rootUrl = req.get('host')
       const { values } = user
-      sendEmail1({
+      sendGmail({
         to: values.email,
         toSubject: `Welcome to ${rootUrl}!`,
         toBody: `
@@ -42,7 +42,7 @@ export const add = (req, res) => {
           <p>New user ${values.firstName} ${values.lastName} just signed up at ${rootUrl}.</p>
           `
       })
-      res.set('x-token', newToken)
+      res.set('x-access-token', newAccessToken)
       res.set('x-refresh-token', newRefreshToken)
       res.send({ user })
     })
@@ -64,26 +64,19 @@ export const get = (req, res) => {
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
-
 export const update = (req, res) => {
-  console.log(req.user)
-  const { type, values } = req.body
-  User.findOne({ _id: req.user._id })
-  .then(user => {
-    if (!user) return Promise.reject('user not found')
-    if (values.password) {
-      user.password = values.password
-    }
-    user.values = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone
-    }
-    user.save()
-    .then(() => res.send(user))
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  })
+  const {
+    body: { type, values },
+    user
+  } = req
+  user.values = {
+    firstName: values.firstName,
+    lastName: values.lastName,
+    email: values.email,
+    phone: values.phone
+  }
+  user.save()
+  .then(() => res.send(user))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
@@ -112,10 +105,11 @@ export const signin = async (req, res) => {
   if (!valid) {
     return res.status(400).send({ error: { password: 'password does not match' }})
   }
-  const [token, refreshToken] = await createTokens(user)
+  const { newAccessToken, newRefreshToken } = await createTokens(user)
+  console.log('newAccessToken', newAccessToken)
   const response = await createUserResponse(user)
-  res.set('x-token', token);
-  res.set('x-refresh-token', refreshToken);
+  res.set('x-access-token', newAccessToken);
+  res.set('x-refresh-token', newRefreshToken);
   res.send(response)
 }
 
@@ -130,17 +124,19 @@ export const recovery = (req, res, next) => {
       resolve(buf.toString('hex'));
     })
   })
-  .then(token => {
+  .then(resetToken => {
     User.findOne({ 'values.email': email.toLowerCase() })
     .then(user => {
-      const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${token}` : `localhost:${process.env.PORT}/user/reset/${token}`
+      const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${resetToken}` : `localhost:${process.env.PORT}/user/reset/${resetToken}`
       if (!user) return Promise.reject({ email: 'User not found.' })
-      const { firstName, email } = user.values
-      user.passwordResetToken = token
-      user.passwordResetExpires = Date.now() + (60 * 60 * 1000)
-      user.save()
+      const newResetToken = new ResetToken({
+        resetToken,
+        user: user._id
+      })
+      newResetToken.save()
       .then(() => {
-        sendEmail1({
+        const { firstName, email } = user.values
+        sendGmail({
           to: email,
           toSubject: 'Reset Password',
           toBody: `
@@ -160,32 +156,25 @@ export const recovery = (req, res, next) => {
 }
 
 
-export const reset = (req, res) => {
-  User.findOne(
-    { passwordResetToken: req.params.token, passwordResetExpires: { $gt: Date.now() }}
-  )
-  .then(user => {
-    if (!user) return Promise.reject('token has expired')
-    user.password = req.body.password
-    user.passwordResetToken = undefined
-    user.passwordResetExpires = undefined
-    user.save()
-    .then(() => {
-      return createTokens(user)
-      .then(([token, refreshToken]) => {
-        return createUserResponse(user)
-        .then(response => {
-          res.set('x-token', token);
-          res.set('x-refresh-token', refreshToken);
-          res.send(response)
-        })
-        .catch(error => { console.error(error); res.status(400).send({ error })})
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-    })
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  })
-  .catch(error => { console.error(error); res.status(400).send({ error })})
+export const reset = async (req, res) => {
+  const {
+    body: { password },
+    params: { resetToken }
+  } = req
+  try {
+    const { user } = await ResetToken.findOne({ resetToken }).populate('user')
+    if (!user) return Promise.reject('your reset token has expired')
+    user.password = password
+    await user.save()
+    const { newAccessToken, newRefreshToken } = await createTokens(user)
+    const response = await createUserResponse(user)
+    res.set('x-access-token', newAccessToken);
+    res.set('x-refresh-token', newRefreshToken);
+    res.send(response)
+  } catch (error) {
+    console.error(error)
+    res.status(400).send({ error })
+  }
 }
 
 
@@ -206,7 +195,7 @@ export const contact = (req, res) => {
     if (!brand) return Promise.reject('brand not found')
     const rootUrl = req.get('host')
     const { name } = brand.business.values
-    sendEmail1({
+    sendGmail({
       to: email,
       toSubject: `Thank you for contacting ${name}!`,
       name: firstName,
@@ -252,7 +241,7 @@ export const requestEstimate = (req, res) => {
   })
   .then(res => res.json())
   .then(json => {
-    sendEmail1({
+    sendGmail({
       to: email,
       toSubject: 'Thank you for contacting us for a free estimate',
       name: firstName,

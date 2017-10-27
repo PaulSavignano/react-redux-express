@@ -16,8 +16,8 @@ import { fetchUser } from './actions/user'
 
 const store = configureStore()
 
-const token = localStorage.getItem('x-token')
-if (token) {
+const accessToken = localStorage.getItem('x-access-token')
+if (accessToken) {
   store.dispatch(fetchUser())
 }
 const cart = localStorage.getItem('cart')
