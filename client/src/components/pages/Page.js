@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import './page.css'
 import pageContainer from '../../containers/pages/pageContainer'
 import SectionSwitch from './SectionSwitch'
 
@@ -32,10 +31,11 @@ class Page extends Component {
         slug,
         sections,
         values: { backgroundColor }
-      }
+      },
+      propsForParent
     } = this.props
     return (
-      <div className="Page" style={{ backgroundColor }}>
+      <div {...propsForParent}>
         {sections.map(section => (
           <SectionSwitch
             dispatch={dispatch}

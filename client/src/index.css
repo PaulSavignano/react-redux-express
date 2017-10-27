@@ -27,6 +27,12 @@ h1, h2, h3, p {
 }
 
 
+.background-image {
+  background-repeat:  no-repeat !important;
+  background-size:  cover !important;
+}
+
+
 
 
 

@@ -31,68 +31,92 @@ export const getId = (req, res) => {
 }
 
 
-export const updateAppBar = (req, res) => {
+
+
+
+
+export const updateAppBarWithImage = (req, res) => {
   const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type, image, oldImageSrc, values } = req.body
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newImage,
+    pageSlug,
+    oldImageSrc,
+    values
+  } = req.body
   const rootUrl = req.get('host')
-  const Key = `${rootUrl}/brand_${_id}/appBar_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  switch (type) {
-    case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImageSrc)
-      .then(data => {
-        Brand.findOneAndUpdate(
-          { _id },
-          { $set: {
-            appBar: {
-              image: {
-                src: data.Location,
-                width: image.width,
-                height: image.height
-              },
-              values
-            }
-          }},
-          { new: true }
-        )
-        .then(doc => res.send(doc))
-        .catch(error => { console.error(error); res.status(400).send({ error })})
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    case 'DELETE_IMAGE_AND_UPDATE_VALUES':
-      deleteFile({ Key: oldImageSrc })
-      .then(() => {
-        Brand.findOneAndUpdate(
-          { _id },
-          { $set: {
-            'appBar.image.src': null,
-            values
-          }
+  const imageKey = `${rootUrl}/brand-${_id}-appbar-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+  .then(data => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'appBar.image': {
+          src: data.Location,
+          width: newImage.width,
+          height: newImage.height
         },
-          { new: true }
-        )
-        .then(doc => res.send(doc))
-        .catch(error => { console.error(error); res.status(400).send({ error })})
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate(
-        { _id },
-        { $set: { 'appBar.values': values }},
-        { new: true }
-      )
-      .then(doc => res.send(doc))
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    default:
-      return
-  }
+        'appBar.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
+
+export const updateAppBarWithDeleteImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldImageSrc,
+    values
+  } = req.body
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'appBar.image.src': null,
+        'appBar.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateAppBarValues = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    values
+  } = req.body
+  return Brand.findOneAndUpdate(
+    { _id },
+    { $set: {
+      'appBar.values': values
+    }},
+    { new: true }
+  )
+  .then(brand => res.send(brand))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export const updateArticleStyle = (req, res) => {
@@ -109,81 +133,165 @@ export const updateArticleStyle = (req, res) => {
 }
 
 
-export const updateBusiness = (req, res) => {
+
+
+
+
+
+
+
+export const updateBodyWithBackgroundImage = (req, res) => {
   const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type, image, oldImageSrc, values } = req.body
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newImage,
+    pageSlug,
+    oldImageSrc,
+    values
+  } = req.body
   const rootUrl = req.get('host')
-  const Key = `${rootUrl}/brand_${_id}/business_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  switch (type) {
-    case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImageSrc)
-      .then(data => {
-        Brand.findOneAndUpdate(
-          { _id },
-          { $set: {
-            business: {
-              image: {
-                src: data.Location,
-                width: image.width,
-                height: image.height
-              },
-              values
-            }
-          }},
-          { new: true }
-        )
-        .then(doc => res.send(doc))
-        .catch(error => { console.error(error); res.status(400).send({ error })})
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    case 'DELETE_IMAGE_AND_UPDATE_VALUES':
-      deleteFile({ Key: image.src })
-      .then(() => {
-        Brand.findOneAndUpdate(
-          { _id },
-          { $set: {
-            'business.image.src': null,
-            values
-          }},
-          { new: true }
-        )
-        .then(doc => res.send(doc))
-        .catch(error => { console.error(error); res.status(400).send({ error })})
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate(
-        { _id },
-        { $set: { 'business.values': values }},
-        { new: true }
-      )
-      .then(doc => res.send(doc))
-      .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    default:
-      return
-  }
-}
-
-export const updateBodyStyle = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { values } = req.body
-  const update = { body: { values } }
-  Brand.findOneAndUpdate(
-    { _id },
-    { $set: { bodyStyle: { values }}},
-    { new: true }
-  )
-  .then(doc => res.send(doc))
+  const imageKey = `${rootUrl}/brand-${_id}-body-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+  .then(data => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'body.image': {
+          src: data.Location,
+          width: newImage.width,
+          height: newImage.height
+        },
+        'body.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
+
+export const updateBodyWithDeleteBackgroundImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldImageSrc,
+    values
+  } = req.body
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'body.image.src': null,
+        'body.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateBodyValues = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    values
+  } = req.body
+  return Brand.findOneAndUpdate(
+    { _id },
+    { $set: {
+      'body.values': values
+    }},
+    { new: true }
+  )
+  .then(brand => res.send(brand))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+
+
+
+
+
+
+
+export const updateBusinessWithImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newImage,
+    pageSlug,
+    oldImageSrc,
+    values
+  } = req.body
+  const rootUrl = req.get('host')
+  const imageKey = `${rootUrl}/brand-${_id}-business-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+  .then(data => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'business.image': {
+          src: data.Location,
+          width: newImage.width,
+          height: newImage.height
+        },
+        'business.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateBusinessWithDeleteImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldImageSrc,
+    values
+  } = req.body
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'business.image.src': null,
+        'business.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateBusinessValues = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    values
+  } = req.body
+  return Brand.findOneAndUpdate(
+    { _id },
+    { $set: {
+      'business.values': values
+    }},
+    { new: true }
+  )
+  .then(brand => res.send(brand))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+
+
+
 
 export const updateCardStyle = (req, res) => {
   const { _id } = req.params
@@ -199,69 +307,295 @@ export const updateCardStyle = (req, res) => {
 }
 
 
-export const updateFooter = (req, res) => {
+
+
+
+
+
+export const updateFooterWithImageAndBackgroundImage = (req, res) => {
   const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type, image, oldImageSrc, values } = req.body
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newImage,
+    newBackgroundImage,
+    pageSlug,
+    oldImageSrc,
+    oldBackgroundImageSrc,
+    values
+  } = req.body
   const rootUrl = req.get('host')
-  const Key = `${rootUrl}/brand-${_id}/footer_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  switch (type) {
-    case 'UPDATE_IMAGE_AND_VALUES':
-      uploadFile({ Key }, image.src, oldImageSrc)
-        .then(data => {
-          Brand.findOneAndUpdate(
-            { _id },
-            { $set: {
-              footer: {
-                image: {
-                  src: data.Location,
-                  width: image.width,
-                  height: image.height
-                },
-                values
-              }
-            }},
-            { new: true }
-          )
-          .then(doc => res.send(doc))
-          .catch(error => { console.error(error); res.status(400).send({ error })})
-        })
+  const imageKey = `${rootUrl}/brand-${_id}-footer-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  const backgroundImageKey = `${rootUrl}/brand-${_id}-footer-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+  .then(imageData => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'footer.image': {
+          src: imageData.Location,
+          width: newImage.width,
+          height: newImage.height
+        },
+      }},
+      { new: true }
+    )
+    .then(() => {
+      return uploadFile({ Key: backgroundImageKey }, newBackgroundImage.src, oldBackgroundImageSrc)
+      .then(backgroundImageData => {
+        return Brand.findOneAndUpdate(
+          { _id },
+          { $set: {
+            'footer.backgroundImage': {
+              src: backgroundImageData.Location,
+              width: newBackgroundImage.width,
+              height: newBackgroundImage.height
+            },
+            'footer.values': values
+          }},
+          { new: true }
+        )
+        .then(brand => res.send(brand))
         .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    case 'DELETE_IMAGE_AND_UPDATE_VALUES':
-      deleteFile({ Key: image.src })
-        .then(() => {
-          Brand.findOneAndUpdate(
-            { _id },
-            { $set: {
-              'footer.image.src': null,
-              values
-            }},
-            { new: true }
-          )
-          .then(doc => res.send(doc))
-          .catch(error => { console.error(error); res.status(400).send({ error })})
-        })
-        .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    case 'UPDATE_VALUES':
-      Brand.findOneAndUpdate(
-        { _id },
-        { $set: { 'footer.values': values }},
-        { new: true }
-      )
-      .then(doc => {
-        res.send(doc)
       })
       .catch(error => { console.error(error); res.status(400).send({ error })})
-      break
-
-    default:
-      return
-  }
+    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
 }
+
+export const updateFooterWithImageAndDeleteBackgroundImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newImage,
+    pageSlug,
+    oldImageSrc,
+    oldBackgroundImageSrc,
+    values
+  } = req.body
+  const rootUrl = req.get('host')
+  const imageKey = `${rootUrl}/brand-${_id}-footer-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return deleteFile({ Key: oldBackgroundImageSrc })
+  .then(() => {
+    return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+    .then(data => {
+      return Brand.findOneAndUpdate(
+        { _id },
+        { $set: {
+          'footer.backgroundImage': {
+            src: data.Location,
+            width: newBackgroundImage.width,
+            height: newBackgroundImage.height
+          },
+          'footer.image.src': null,
+          'footer.values': values
+        }},
+        { new: true }
+      )
+      .then(brand => res.send(brand))
+      .catch(error => { console.error(error); res.status(400).send({ error })})
+    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterWithBackgroundImageAndDeleteImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newBackgroundImage,
+    pageSlug,
+    oldImageSrc,
+    oldBackgroundImageSrc,
+    type,
+    values
+  } = req.body
+  const rootUrl = req.get('host')
+  const backgroundImageKey = `${rootUrl}/brand-${_id}-footer-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    return uploadFile({ Key: backgroundImageKey }, newBackgroundImage.src, oldBackgroundImageSrc)
+    .then(data => {
+      return Brand.findOneAndUpdate(
+        { _id },
+        { $set: {
+          'footer.backgroundImage': {
+            src: data.Location,
+            width: newBackgroundImage.width,
+            height: newBackgroundImage.height
+          },
+          'footer.image.src': null,
+          'footer.values': values
+        }},
+        { new: true }
+      )
+      .then(brand => res.send(brand))
+      .catch(error => { console.error(error); res.status(400).send({ error })})
+    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterWithDeleteImageAndDeleteBackgroundImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldImageSrc,
+    oldBackgroundImageSrc,
+    values
+  } = req.body
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    return deleteFile({ Key: oldBackgroundImageSrc })
+    .then(data => {
+      return Brand.findOneAndUpdate(
+        { _id },
+        { $set: {
+          'footer.backgroundImage.src': null,
+          'footer.image.src': null,
+          'footer.values': values
+        }},
+        { new: true }
+      )
+      .then(brand => res.send(brand))
+      .catch(error => { console.error(error); res.status(400).send({ error })})
+    })
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterWithImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newImage,
+    pageSlug,
+    oldImageSrc,
+    values
+  } = req.body
+  const rootUrl = req.get('host')
+  const imageKey = `${rootUrl}/brand-${_id}-footer-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+  .then(data => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'footer.image': {
+          src: data.Location,
+          width: newImage.width,
+          height: newImage.height
+        },
+        'footer.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterWithBackgroundImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    newBackgroundImage,
+    pageSlug,
+    oldBackgroundImageSrc,
+    values
+  } = req.body
+  const rootUrl = req.get('host')
+  const backgroundImageKey = `${rootUrl}/brand-${_id}-footer-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: backgroundImageKey }, newBackgroundImage.src, oldBackgroundImageSrc)
+  .then(data => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'footer.backgroundImage': {
+          src: data.Location,
+          width: newBackgroundImage.width,
+          height: newBackgroundImage.height
+        },
+        'footer.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterWithDeleteImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldImageSrc,
+    values
+  } = req.body
+  return deleteFile({ Key: oldImageSrc })
+  .then(() => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'footer.image.src': null,
+        'footer.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterWithDeleteBackgroundImage = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    oldBackgroundImageSrc,
+    values
+  } = req.body
+  return deleteFile({ Key: oldBackgroundImageSrc })
+  .then(() => {
+    return Brand.findOneAndUpdate(
+      { _id },
+      { $set: {
+        'footer.backgroundImage.src': null,
+        'footer.values': values
+      }},
+      { new: true }
+    )
+    .then(brand => res.send(brand))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
+  })
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+export const updateFooterValues = (req, res) => {
+  const { _id } = req.params
+  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    values
+  } = req.body
+  return Brand.findOneAndUpdate(
+    { _id },
+    { $set: {
+      'footer.values': values
+    }},
+    { new: true }
+  )
+  .then(brand => res.send(brand))
+  .catch(error => { console.error(error); res.status(400).send({ error })})
+}
+
+
+
+
 
 
 export const updateHeroStyle = (req, res) => {

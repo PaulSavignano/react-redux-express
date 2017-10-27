@@ -5,16 +5,16 @@ import {
   add,
   remove,
   update,
-  updateWithImage,
-  updateWithDeleteImage,
+  updateWithBackgroundImage,
+  updateWithDeleteBackgroundImage,
 } from '../controllers/section'
 
 const sections = express.Router()
 
 sections.post('/', authenticate(['admin']), add)
 sections.patch('/:_id/update-values', authenticate(['admin']), update)
-sections.patch('/:_id/update-with-image', authenticate(['admin']), updateWithImage)
-sections.patch('/:_id/update-with-delete-image', authenticate(['admin']), updateWithDeleteImage)
+sections.patch('/:_id/update-with-background-image', authenticate(['admin']), updateWithBackgroundImage)
+sections.patch('/:_id/update-with-delete-background-image', authenticate(['admin']), updateWithDeleteBackgroundImage)
 sections.delete('/:_id', authenticate(['admin']), remove)
 
 export default sections

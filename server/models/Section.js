@@ -11,7 +11,7 @@ import { deleteFiles } from '../utils/s3'
 const SectionSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },
   brandName: { type: String, maxlength: 25 },
-  image: {
+  backgroundImage: {
     src: { type: String, trim: true, maxlength: 150 },
     width: { type: Number, trim: true, default: 1920, max: 10000, min: 0 },
     height: { type: Number, trim: true, default: 1080, max: 10000, min: 0 }
@@ -40,8 +40,8 @@ const SectionSchema = new Schema({
 
 
 SectionSchema.post('findOneAndRemove', function(doc, next) {
-  if (doc.image && doc.image.src) {
-    deleteFile({ Key: doc.image.src }).catch(err => console.error(err))
+  if (doc.backgroundImage && doc.backgroundImage.src) {
+    deleteFile({ Key: doc.backgroundImage.src }).catch(err => console.error(err))
   }
   doc.items.forEach(item => {
     switch(item.kind) {

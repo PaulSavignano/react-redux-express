@@ -4,7 +4,7 @@ import authenticate from '../middleware/authenticate'
 import {
   add,
   remove,
-  update,
+  updateValues,
   updateWithImageAndBackgroundImage,
   updateWithImageAndDeleteBackgroundImage,
   updateWithBackgroundImageAndDeleteImage,
@@ -28,7 +28,6 @@ heros.patch('/:_id/update-with-image', authenticate(['admin']), updateWithImage)
 heros.patch('/:_id/update-with-background-image', authenticate(['admin']), updateWithBackgroundImage)
 heros.patch('/:_id/update-with-delete-image', authenticate(['admin']), updateWithDeleteImage)
 heros.patch('/:_id/update-with-delete-background-image', authenticate(['admin']), updateWithDeleteBackgroundImage)
-
-heros.patch('/:_id/update-values', authenticate(['admin']), update)
+heros.patch('/:_id/update-values', authenticate(['admin']), updateValues)
 
 export default heros

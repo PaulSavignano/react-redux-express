@@ -46,9 +46,10 @@ const formFields = [{
     { name: 'imageElevation', type: 'number', max: 24, min: 0 },
   ]
 }, {
-  name: 'bodyStyle',
+  name: 'body',
   fields: [
-    { name: 'backgroundColor', type: 'text' }
+    { name: 'backgroundColor', type: 'text' },
+    { name: 'backgroundPosition', type: 'text' },
   ]
 }, {
   name: 'business',
@@ -57,7 +58,6 @@ const formFields = [{
     { name: 'license', type: 'text' },
     { name: 'description', type: 'text' },
     { name: 'keywords', type: 'text' },
-    { name: 'googleSiteVerification', type: 'text' },
     { name: 'googleAnalyticsUA', type: 'text' },
     { name: 'stripePk', type: 'text' },
     { name: 'phone', type: 'phone' },
@@ -104,6 +104,7 @@ const formFields = [{
   name: 'footer',
   fields: [
     { name: 'backgroundColor', type: 'text' },
+    { name: 'backgroundPosition', type: 'text' },
     { name: 'color', type: 'text' },
     { name: 'borderTop', type: 'text' },
     { name: 'borderBottom', type: 'text' },

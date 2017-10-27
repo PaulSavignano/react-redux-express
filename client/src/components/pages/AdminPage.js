@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import './page.css'
 import AdminPageEditButtons from './AdminPageEditButtons'
 import AdminItemForm from '../forms/AdminItemForm'
 import pageContainer from '../../containers/pages/pageContainer'
@@ -17,10 +16,11 @@ class AdminPage extends Component {
         sections,
         values: { backgroundColor }
       },
+      propsForParent,
       textColor
     } = this.props
     return (
-      <div style={{ backgroundColor }} className="AdminPage" >
+      <div {...propsForParent} >
         {sections.map(section => (
           <AdminSectionSwitch
             dispatch={dispatch}
@@ -44,6 +44,7 @@ class AdminPage extends Component {
 AdminPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   page: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
   textColor: PropTypes.string,
 }
 

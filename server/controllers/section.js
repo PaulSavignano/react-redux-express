@@ -52,7 +52,7 @@ export const update = (req, res) => {
 }
 
 
-export const updateWithImage = (req, res) => {
+export const updateWithBackgroundImage = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const {
@@ -62,13 +62,13 @@ export const updateWithImage = (req, res) => {
     values
   } = req.body
   const rootUrl = req.get('host')
-  const Key = `${rootUrl}/page-${pageSlug}/section-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  const Key = `${rootUrl}/page-${pageSlug}/section-${_id}-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   return uploadFile({ Key }, newImage.src, oldImageSrc)
   .then(data => {
     Section.findOneAndUpdate(
       { _id },
       { $set: {
-        image: {
+        backgroundImage: {
           src: data.Location,
           width: newImage.width,
           height: newImage.height
@@ -88,7 +88,7 @@ export const updateWithImage = (req, res) => {
 
 
 
-export const updateWithDeleteImage = (req, res) => {
+export const updateWithDeleteBackgroundImage = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const {
@@ -101,7 +101,7 @@ export const updateWithDeleteImage = (req, res) => {
   .then(() => {
     Section.findOneAndUpdate(
       { _id },
-      { $set: { 'image.src': null }},
+      { $set: { 'backgroundImage.src': null }},
       { new: true }
     )
     .then(doc => {
