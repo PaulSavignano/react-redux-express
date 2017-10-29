@@ -57,8 +57,8 @@ class AdminSectionSlideShow extends Component {
     } = this.props
     const { items } = item
     return (
-      <div {...containerProps} className="AdminSectionSlideShow">
-        <section {...sectionProps}>
+      <div {...containerProps}>
+        <section {...sectionProps} className="AdminSectionSlideShow">
           <CSSTransitionGroup
             transitionName="cross-fade"
             transitionEnter={true}

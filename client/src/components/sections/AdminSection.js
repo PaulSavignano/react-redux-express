@@ -19,10 +19,11 @@ class AdminSection extends Component {
     } = this.props
     const { items } = item
     return (
-      <div {...containerProps} className="AdminSection">
+      <div {...containerProps}>
         <section
           onTouchTap={this.handleStartEdit}
           {...sectionProps}
+          className="AdminSection"
         >
           {items.map(component => (
             <AdminComponentSwitch

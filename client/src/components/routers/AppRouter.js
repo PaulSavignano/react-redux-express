@@ -17,35 +17,65 @@ class AppRouter extends Component {
   state = {
     loadingImages: true,
   }
-  handleImagesToPreloadBeforePageLoad = (reqPageHeroImages) => {
+  handleEagerLoadImages = (reqPageHeroImages) => {
     const {
       appBar: { image: appBarImage },
-      footer: { image: footerImage }
+      body: { backgroundImage: bodyBackgroundImage },
+      footer: { backgroundImage: footerBackgroundImage, image: footerImage }
     } = this.props.brand
-    const heroImages = getHeroImages(reqPageHeroImages)
     const brandImage = appBarImage && appBarImage.src ? [appBarImage.src] : []
+    const bodyBackgroundImg = bodyBackgroundImage && bodyBackgroundImage.src ? [bodyBackgroundImage.src] : []
     const footerImg = footerImage && footerImage.src ? [footerImage.src] : []
-    const hasHeroImages = heroImages.length ? true : false
-    const hasBrandImage = brandImage.length ? true : false
-    const hasFooterImage = footerImg.length ? true : false
-    if (hasHeroImages || hasBrandImage || hasFooterImage) {
-      return loadImages([...brandImage, ...heroImages, ...footerImg]).then(() => {
+    const footerBackgroundImg = footerBackgroundImage && footerBackgroundImage.src ? [footerBackgroundImage.src] : []
+    const heroImages = getHeroImages(reqPageHeroImages)
+    if (
+      brandImage ||
+      bodyBackgroundImg ||
+      footerImg ||
+      footerBackgroundImg ||
+      heroImages
+    ) {
+      return loadImages([
+        ...brandImage,
+        ...bodyBackgroundImg,
+        ...footerImg,
+        ...footerBackgroundImg,
+        ...heroImages,
+      ]).then(() => {
         this.setState({ loadingImages: false })
       })
     }
     return this.setState({ loadingImages: false })
   }
-  handleImagesToPreload = (allPageImages) => {
+  handleLazyLoadImages = (allPageImages) => {
     const allImages = getPageImages(allPageImages)
     if (allImages.length) {
       return loadImages(allImages)
     }
     return
   }
+  handleBodyStyle = (backgroundColor, backgroundImage, backgroundPosition) => {
+    console.log('inside body style')
+    const body = document.querySelector("body")
+    if (backgroundImage && backgroundImage.src) {
+      console.log('body style', body)
+      body.className = 'background-image'
+      body.style.backgroundImage = `url(${backgroundImage.src})`
+      body.style.backgroundPosition = backgroundPosition
+    } else if (backgroundColor) {
+      body.style.backgroundColor = backgroundColor
+    }
+  }
   componentWillMount() {
     const {
       brand: {
-        bodyStyle: { values: { backgroundColor}}
+        body: {
+          backgroundImage,
+          values: {
+            backgroundColor,
+            backgroundPosition
+          }
+        }
       },
       pages
     } = this.props
@@ -53,13 +83,20 @@ class AppRouter extends Component {
     const reqPageSlug = slug || 'home'
     const reqPageHeroImages = pages.filter(page => page.slug === reqPageSlug)
     const allPageImages = pages.filter(page => page.slug !== reqPageSlug)
-    this.handleImagesToPreloadBeforePageLoad(reqPageHeroImages)
-    this.handleImagesToPreload(allPageImages)
-    document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
+    this.handleEagerLoadImages(reqPageHeroImages)
+    this.handleLazyLoadImages(allPageImages)
+    this.handleBodyStyle(backgroundColor, backgroundImage, backgroundPosition)
   }
-  componentWillReceiveProps({ brand: { bodyStyle: { values: { backgroundColor }}}}) {
-    if (backgroundColor !== this.props.brand.bodyStyle.values.backgroundColor) {
-      document.getElementsByTagName('body')[0].style['background-color'] = backgroundColor
+  componentWillReceiveProps({
+    brand: {
+      body: {
+        backgroundImage,
+        values: { backgroundColor, backgroundPosition }
+      }
+    }
+  }) {
+    if (backgroundColor !== this.props.brand.body.values.backgroundColor || backgroundPosition !== this.props.brand.body.values.backgroundPosition || backgroundImage !== this.props.brand.body.backgroundImage) {
+    this.handleBodyStyle(backgroundColor, backgroundImage, backgroundPosition)
     }
   }
   render() {

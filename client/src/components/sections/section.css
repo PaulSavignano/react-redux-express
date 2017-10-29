@@ -17,18 +17,15 @@
 }
 
 
-.AdminSection, .AdminSectionSlideShow, .AdminSectionSwipeable {
+.section-container {
   position: relative;
 }
 
-.AdminSection>section {
-  display: flex;
-}
-.Section, .AdminSection > section {
+.AdminSection, .Section {
   display: flex;
 }
 
-.AutoPlaySwipeableViews > div > div {
+.AutoPlaySwipeableViews > div {
   display: flex;
   flex-flow: column;
   justify-content: center

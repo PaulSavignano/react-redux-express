@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
+import { deleteFile } from '../utils/s3'
+
 const BrandSchema = new Schema({
   appBar: {
     image: {
@@ -217,16 +219,24 @@ const BrandSchema = new Schema({
 BrandSchema.post('findOneAndRemove', function(doc) {
   const { appBar, footer } = doc
   if (appBar.image.src) {
-    deleteFile({ Key: appBar.image.src }).catch(err => console.error(err))
+    deleteFile({ Key: appBar.image.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
   if (footer.image.src) {
-    deleteFile({ Key: footer.image.src }).catch(err => console.error(err))
+    deleteFile({ Key: footer.image.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
   if (footer.backgroundImage.src) {
-    deleteFile({ Key: footer.backgroundImage.src }).catch(err => console.error(err))
+    deleteFile({ Key: footer.backgroundImage.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
   if (body.backgroundImage.src) {
-    deleteFile({ Key: body.backgroundImage.src }).catch(err => console.error(err))
+    deleteFile({ Key: body.backgroundImage.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
 })
 

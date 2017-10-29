@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet"
 
 const Head = ({
   description,
-  googleSiteVerification,
   keywords,
   name,
   image,
@@ -14,7 +13,6 @@ const Head = ({
   isFetching ? null :
   <Helmet>
     <meta charSet="utf-8" />
-    <meta name="google-site-verification" content={googleSiteVerification} />
     {name && <title>{name}</title>}
     {description && <meta name="description" content={description} />}
     {keywords && <meta name="keywords" content={keywords} />}
@@ -31,7 +29,6 @@ const mapStateToProps = ({
       image,
       values: {
         description,
-        googleSiteVerification,
         keywords,
         name,
       }
@@ -40,7 +37,6 @@ const mapStateToProps = ({
   }
 }) => ({
   description,
-  googleSiteVerification,
   keywords,
   image,
   isFetching,
@@ -50,7 +46,6 @@ const mapStateToProps = ({
 Head.propTypes = {
   description: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
-  googleSiteVerification: PropTypes.string,
   image: PropTypes.object,
   keywords: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,

@@ -11,10 +11,27 @@ const footerContainer = (ComposedComponent) => {
         item,
         primary1Color
       } = this.props
+
+      const {
+        backgroundImage,
+        values: {
+          backgroundColor, borderBottom, borderTop
+        }
+      } = item
+      const propsForParent = {
+        style: {
+          backgroundColor,
+          backgroundImage: backgroundImage.src && `url(${backgroundImage.src})`,
+          borderBottom,
+          borderTop
+        },
+        className: backgroundImage.src && 'background-image'
+      }
       const props = {
         business,
         item,
-        primary1Color
+        primary1Color,
+        propsForParent
       }
       return (
         !isFetching && item && <ComposedComponent {...props} />
@@ -43,7 +60,8 @@ const footerContainer = (ComposedComponent) => {
     business: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    primary1Color: PropTypes.string
+    primary1Color: PropTypes.string,
+    propsForParent: PropTypes.object,
   }
   return connect(mapStateToProps)(FooterContainer)
 }

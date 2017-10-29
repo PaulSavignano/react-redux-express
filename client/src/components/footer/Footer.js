@@ -41,9 +41,10 @@ const Footer = ({
       imageMargin,
     }
   },
-  primary1Color
+  primary1Color,
+  propsForParent
 }) => (
-  <footer style={{ backgroundColor, borderBottom, borderTop }}>
+  <footer {...propsForParent}>
     <Paper className="footer-paper" style={{ backgroundColor, color }}>
       <div className="footer-social-media">
         { facebook && <a href={facebook}><FontIcon className="fa fa-facebook-square" /></a> }
@@ -81,6 +82,7 @@ const Footer = ({
 Footer.propTypes = {
   business: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object,
 }
 
 export default footerContainer(Footer)

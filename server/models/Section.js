@@ -6,7 +6,7 @@ import ContactForm from './ContactForm'
 import Hero from './Hero'
 import Product from './Product'
 
-import { deleteFiles } from '../utils/s3'
+import { deleteFile } from '../utils/s3'
 
 const SectionSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },
@@ -41,7 +41,9 @@ const SectionSchema = new Schema({
 
 SectionSchema.post('findOneAndRemove', function(doc, next) {
   if (doc.backgroundImage && doc.backgroundImage.src) {
-    deleteFile({ Key: doc.backgroundImage.src }).catch(err => console.error(err))
+    deleteFile({ Key: doc.backgroundImage.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
   doc.items.forEach(item => {
     switch(item.kind) {

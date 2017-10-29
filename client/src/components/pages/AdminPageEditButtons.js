@@ -26,7 +26,7 @@ class AdminPageEditButtons extends Component {
       <Paper zDepth={1} className="admin-page-edit">
         <BottomNavigation>
           <BottomNavigationItem
-            label="Edit Page Color"
+            label="Edit Page"
             icon={editIcon}
             onTouchTap={this.handlePageEdit}
           />

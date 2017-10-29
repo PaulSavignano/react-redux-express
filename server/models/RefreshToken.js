@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const RefreshTokenSchema = new Schema({
-  createdAt: { type: Date, expires: '7d' },
+  createdAt: { type: Date, default: Date.now, expires: '7d' },
   refreshToken: { type: String, required: true },
   user: { type: Schema.ObjectId, ref: 'User' },
 }, {

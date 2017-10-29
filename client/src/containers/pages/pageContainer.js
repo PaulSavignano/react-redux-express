@@ -8,20 +8,20 @@ const pageContainer = (ComposedComponent) => {
   class PageContainer extends Component {
     render() {
       const {
-        backgroundImage,
         dispatch,
         isFetching,
         page,
         pageSlug,
         textColor
       } = this.props
+      const { backgroundImage, values: { backgroundPosition }} = page
       const propsForParent = {
         style: {
-          backgroundImage: backgroundImage.src && `url(${backgroundImage.src})`,
+          backgroundImage: backgroundImage && backgroundImage.src ? `url(${backgroundImage.src})` : null,
           backgroundPosition: page.values.backgroundPosition,
           backgroundColor: page.values.backgroundColor,
         },
-        className: backgroundImage.src && 'background-image'
+        className: backgroundImage && backgroundImage.src && 'background-image'
       }
       const props = {
         dispatch,
@@ -38,7 +38,7 @@ const pageContainer = (ComposedComponent) => {
     }
   }
   const mapStateToProps = ({
-    pages: { backgroundImage, items, isFetching },
+    pages: { items, isFetching },
     brand: { palette: { values: { textColor }}}
   }, {
     match: { params: { slug }},
@@ -46,7 +46,6 @@ const pageContainer = (ComposedComponent) => {
     const pageSlug = slug || 'home'
     const page = items.find(page => page.slug === pageSlug)
     return {
-      backgroundImage,
       isFetching,
       page,
       pageSlug: page ? page.slug : 'notFound',

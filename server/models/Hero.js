@@ -41,13 +41,17 @@ const HeroSchema = new Schema({
 
 HeroSchema.post('findOneAndRemove', function(doc) {
   if (doc.image && doc.image.src) {
-    deleteFile({ Key: doc.image.src }).catch(err => console.error(err))
+    deleteFile({ Key: doc.image.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
 })
 
 HeroSchema.post('remove', function(doc) {
   if (doc.image && doc.image.src) {
-    deleteFile({ Key: doc.image.src }).catch(err => console.error(err))
+    deleteFile({ Key: doc.image.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
 })
 

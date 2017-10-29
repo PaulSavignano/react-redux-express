@@ -195,7 +195,7 @@ const BrandAdmin = ({
     _id,
     appBar,
     articleStyle,
-    bodyStyle,
+    body,
     business,
     cardStyle,
     footer,
@@ -209,7 +209,7 @@ const BrandAdmin = ({
   const forms = [
     appBar,
     articleStyle,
-    bodyStyle,
+    body,
     business,
     cardStyle,
     footer,
@@ -222,11 +222,13 @@ const BrandAdmin = ({
     <div className="page">
       <section className="section-margin">
         {forms.map((form, i) => {
-          const { values, image } = form
+          console.log('inside Brand Admin')
+          const { backgroundImage, image, values } = form
           return (
             <BrandForm
               _id={_id}
               backgroundColor={palette.values.canvasColor}
+              backgroundImage={backgroundImage}
               dispatch={dispatch}
               key={i}
               image={image}

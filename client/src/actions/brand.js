@@ -62,7 +62,7 @@ export const fetchBrand = () => {
 // Update
 const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
-export const fetchUpdate = (path, update) => {
+export const fetchUpdate = ({ path, update }) => {
   return (dispatch, getState) => {
     return handleAuthFetch({
       path: `/api/${route}/${path}`,

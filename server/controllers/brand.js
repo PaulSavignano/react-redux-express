@@ -74,7 +74,8 @@ export const updateAppBarWithDeleteImage = (req, res) => {
     values
   } = req.body
   return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  .then(data => {
+    console.log(data)
     return Brand.findOneAndUpdate(
       { _id },
       { $set: {
@@ -141,25 +142,26 @@ export const updateArticleStyle = (req, res) => {
 
 
 export const updateBodyWithBackgroundImage = (req, res) => {
+  console.log('inside update body')
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {
-    newImage,
+    newBackgroundImage,
     pageSlug,
-    oldImageSrc,
+    oldBackgroundImageSrc,
     values
   } = req.body
   const rootUrl = req.get('host')
-  const imageKey = `${rootUrl}/brand-${_id}-body-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
+  const backgroundImageKey = `${rootUrl}/brand-${_id}-body-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+  return uploadFile({ Key: backgroundImageKey }, newBackgroundImage.src, oldBackgroundImageSrc)
   .then(data => {
     return Brand.findOneAndUpdate(
       { _id },
       { $set: {
-        'body.image': {
+        'body.backgroundImage': {
           src: data.Location,
-          width: newImage.width,
-          height: newImage.height
+          width: newBackgroundImage.width,
+          height: newBackgroundImage.height
         },
         'body.values': values
       }},
@@ -175,15 +177,16 @@ export const updateBodyWithDeleteBackgroundImage = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
   const {
-    oldImageSrc,
+    oldBackgroundImageSrc,
     values
   } = req.body
-  return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  return deleteFile({ Key: oldBackgroundImageSrc })
+  .then(data => {
+    console.log(data)
     return Brand.findOneAndUpdate(
       { _id },
       { $set: {
-        'body.image.src': null,
+        'body.backgroundImage.src': null,
         'body.values': values
       }},
       { new: true }
@@ -257,7 +260,8 @@ export const updateBusinessWithDeleteImage = (req, res) => {
     values
   } = req.body
   return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  .then(data => {
+    console.log(data)
     return Brand.findOneAndUpdate(
       { _id },
       { $set: {
@@ -377,7 +381,8 @@ export const updateFooterWithImageAndDeleteBackgroundImage = (req, res) => {
   const rootUrl = req.get('host')
   const imageKey = `${rootUrl}/brand-${_id}-footer-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   return deleteFile({ Key: oldBackgroundImageSrc })
-  .then(() => {
+  .then(data => {
+    console.log(data)
     return uploadFile({ Key: imageKey }, newImage.src, oldImageSrc)
     .then(data => {
       return Brand.findOneAndUpdate(
@@ -415,7 +420,8 @@ export const updateFooterWithBackgroundImageAndDeleteImage = (req, res) => {
   const rootUrl = req.get('host')
   const backgroundImageKey = `${rootUrl}/brand-${_id}-footer-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  .then(data => {
+    console.log(data)
     return uploadFile({ Key: backgroundImageKey }, newBackgroundImage.src, oldBackgroundImageSrc)
     .then(data => {
       return Brand.findOneAndUpdate(
@@ -448,9 +454,11 @@ export const updateFooterWithDeleteImageAndDeleteBackgroundImage = (req, res) =>
     values
   } = req.body
   return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  .then(dataOne => {
+    console.log(dataOne)
     return deleteFile({ Key: oldBackgroundImageSrc })
-    .then(data => {
+    .then(dataTwo => {
+      console.log(dataTwo)
       return Brand.findOneAndUpdate(
         { _id },
         { $set: {
@@ -538,7 +546,8 @@ export const updateFooterWithDeleteImage = (req, res) => {
     values
   } = req.body
   return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  .then(deleteData => {
+    console.log(deleteData)
     return Brand.findOneAndUpdate(
       { _id },
       { $set: {
@@ -561,7 +570,8 @@ export const updateFooterWithDeleteBackgroundImage = (req, res) => {
     values
   } = req.body
   return deleteFile({ Key: oldBackgroundImageSrc })
-  .then(() => {
+  .then(deleteData => {
+    console.log(deleteData)
     return Brand.findOneAndUpdate(
       { _id },
       { $set: {
@@ -611,7 +621,7 @@ export const updateHeroStyle = (req, res) => {
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
-// Update Theme
+
 export const updatePalette = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})

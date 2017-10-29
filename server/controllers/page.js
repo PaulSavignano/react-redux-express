@@ -1,6 +1,8 @@
 import { ObjectID } from 'mongodb'
 import url from 'url'
+import moment from 'moment'
 
+import { deleteFile, uploadFile } from '../utils/s3'
 import Page from '../models/Page'
 import slugIt from '../utils/slugIt'
 
@@ -53,32 +55,32 @@ export const updateWithBackgroundImage = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    newImage,
-    oldImageSrc,
+    newBackgroundImage,
+    oldBackgroundImageSrc,
     pageSlug,
     values
   } = req.body
   const rootUrl = req.get('host')
   const Key = `${rootUrl}/page-${pageSlug}-background-image-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  return uploadFile({ Key }, newImage.src, oldImageSrc)
+  return uploadFile({ Key }, newBackgroundImage.src, oldBackgroundImageSrc)
   .then(data => {
     Page.findOneAndUpdate(
       { _id },
       { $set: {
         backgroundImage: {
           src: data.Location,
-          width: newImage.width,
-          height: newImage.height
+          width: newBackgroundImage.width,
+          height: newBackgroundImage.height
         },
         values
       }},
       { new: true }
     )
-    .then(doc => {
-      Page.findOne({ _id: doc.page })
-      .then(page => res.send({ page }))
-      .catch(error => { console.error(error); res.status(400).send({ error })})
+    .populate({
+      path: 'sections',
+      populate: { path: 'items.item' }
     })
+    .then(doc => res.send(page))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
 }
@@ -86,26 +88,28 @@ export const updateWithBackgroundImage = (req, res) => {
 
 
 export const updateWithDeleteBackgroundImage = (req, res) => {
+  console.log('inside page background Image delete')
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    oldImageSrc,
+    oldBackgroundImageSrc,
     pageSlug,
     type,
     values
   } = req.body
-  return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  return deleteFile({ Key: oldBackgroundImageSrc })
+  .then(deleteData => {
+    console.log(deleteData)
     Page.findOneAndUpdate(
       { _id },
       { $set: { 'backgroundImage.src': null }},
       { new: true }
     )
-    .then(doc => {
-      Page.findOne({ _id: doc.page })
-      .then(page => res.send({ page }))
-      .catch(error => { console.error(error); res.status(400).send({ error })})
+    .populate({
+      path: 'sections',
+      populate: { path: 'items.item' }
     })
+    .then(page => res.send(page))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
 }

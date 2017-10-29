@@ -64,14 +64,16 @@ export const fetchPages = () => {
 // Update
 export const fetchUpdateSuccess = (item) => ({ type: UPDATE, item })
 const fetchUpdateFailure = (error) => ({ type: ERROR, error })
-export const fetchUpdate = (_id, update) => {
+export const fetchUpdate = ({ path, update }) => {
   return (dispatch, getState) => {
+    console.log(path, update)
     return handleAuthFetch({
-      path: `/api/${route}/${_id}`,
+      path: `/api/${route}/${path}`,
       method: 'PATCH',
       body: update
     })
     .then(json => {
+      console.log(json)
       dispatch(fetchUpdateSuccess(json))
       dispatch(stopEdit())
     })

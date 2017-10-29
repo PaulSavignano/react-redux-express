@@ -28,10 +28,11 @@ class AdminSectionSwipeable extends Component {
       sectionProps,
     } = this.props
     return (
-      <div {...containerProps} className="AdminSectionSwipeable">
+      <div {...containerProps}>
         <section
           onTouchTap={this.handleStartEdit}
           {...sectionProps}
+          className="AdminSectionSwipeable"
         >
           <AutoPlaySwipeableViews
             autoplay={autoplay}

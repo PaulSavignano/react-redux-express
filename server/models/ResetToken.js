@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const ResetTokenSchema = new Schema({
-  createdAt: { type: Date, expires: '1h' },
+  createdAt: { type: Date, default: Date.now, expires: '1h' },
   resetToken: { type: String, required: true },
   user: { type: Schema.ObjectId, ref: 'User' },
 })

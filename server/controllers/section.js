@@ -18,11 +18,11 @@ export const add = (req, res) => {
       { $push: { sections: doc._id }},
       { new: true }
     )
-    .then(() => {
-      Page.findOne({ _id: doc.page })
-      .then(page => res.send({ editItem: doc, page }))
-      .catch(error => { console.error(error); res.status(400).send({ error })})
+    .populate({
+      path: 'sections',
+      populate: { path: 'items.item' }
     })
+    .then(page => res.send({ editItem: doc, page }))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
   .catch(error => { console.error(error); res.status(400).send({ error })})
@@ -56,22 +56,22 @@ export const updateWithBackgroundImage = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    newImage,
-    oldImageSrc,
+    newBackgroundImage,
+    oldBackgroundImageSrc,
     pageSlug,
     values
   } = req.body
   const rootUrl = req.get('host')
   const Key = `${rootUrl}/page-${pageSlug}/section-${_id}-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  return uploadFile({ Key }, newImage.src, oldImageSrc)
+  return uploadFile({ Key }, newBackgroundImage.src, oldBackgroundImageSrc)
   .then(data => {
     Section.findOneAndUpdate(
       { _id },
       { $set: {
         backgroundImage: {
           src: data.Location,
-          width: newImage.width,
-          height: newImage.height
+          width: newBackgroundImage.width,
+          height: newBackgroundImage.height
         },
         values
       }},
@@ -92,13 +92,14 @@ export const updateWithDeleteBackgroundImage = (req, res) => {
   const { _id } = req.params
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    oldImageSrc,
+    oldBackgroundImageSrc,
     pageSlug,
     type,
     values
   } = req.body
-  return deleteFile({ Key: oldImageSrc })
-  .then(() => {
+  return deleteFile({ Key: oldBackgroundImageSrc })
+  .then(deleteData => {
+    console.log(deleteData)
     Section.findOneAndUpdate(
       { _id },
       { $set: { 'backgroundImage.src': null }},
@@ -125,13 +126,12 @@ export const remove = (req, res) => {
       { $pull: { sections: doc._id }},
       { new: true }
     )
-    .then(page => {
-      Page.findOne({ _id: page._id })
-      .then(page => {
-        res.send({ page })
-      })
-      .catch(error => { console.error(error); res.status(400).send({ error })})
+    .populate({
+      path: 'sections',
+      populate: { path: 'items.item' }
     })
+    .then(page => res.send({ page }))
+    .catch(error => { console.error(error); res.status(400).send({ error })})
   })
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }

@@ -95,8 +95,7 @@ class AdminItemForm extends Component {
     switch(true) {
       case (imageEdit && backgroundImageEdit):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-image-and-background-image',
+          path: `${_id}/update-with-image-and-background-image`,
           update: {
             newImage,
             newBackgroundImage,
@@ -108,8 +107,7 @@ class AdminItemForm extends Component {
         }))
       case (imageEdit && deleteBackgroundImage):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-image-and-delete-background-image',
+          path: `${_id}/update-with-image-and-delete-background-image`,
           update: {
             newImage,
             oldImageSrc,
@@ -120,8 +118,7 @@ class AdminItemForm extends Component {
         }))
       case (backgroundImageEdit && deleteImage):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-background-image-and-delete-image',
+          path: `${_id}/update-with-background-image-and-delete-image`,
           update: {
             newBackgroundImage,
             oldImageSrc,
@@ -132,8 +129,7 @@ class AdminItemForm extends Component {
         }))
       case (deleteImage && deleteBackgroundImage):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-delete-image-and-delete-background-image',
+          path: `${_id}/update-with-delete-image-and-delete-background-image`,
           update: {
             oldImageSrc,
             oldBackgroundImageSrc,
@@ -143,8 +139,7 @@ class AdminItemForm extends Component {
         }))
       case (imageEdit):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-image',
+          path: `${_id}/update-with-image`,
           update: {
             newImage,
             oldImageSrc,
@@ -154,8 +149,7 @@ class AdminItemForm extends Component {
         }))
       case (backgroundImageEdit):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-background-image',
+          path: `${_id}/update-with-background-image`,
           update: {
             newBackgroundImage,
             oldBackgroundImageSrc,
@@ -165,8 +159,7 @@ class AdminItemForm extends Component {
         }))
       case (deleteImage):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-delete-image',
+          path: `${_id}/update-with-delete-image`,
           update: {
             oldImageSrc,
             values
@@ -174,8 +167,7 @@ class AdminItemForm extends Component {
         }))
       case (deleteBackgroundImage):
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-with-delete-background-image',
+          path: `${_id}/update-with-delete-background-image`,
           update: {
             oldBackgroundImageSrc,
             values
@@ -183,8 +175,7 @@ class AdminItemForm extends Component {
         }))
       default:
         return dispatch(fetchUpdate({
-          _id,
-          path: 'update-values',
+          path: `${_id}/update-values`,
           update: {
             values,
           }

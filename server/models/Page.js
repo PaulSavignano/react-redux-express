@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 import Section from './Section'
-import { deleteFiles } from '../utils/s3'
+import { deleteFile } from '../utils/s3'
 
 const PageSchema = new Schema({
   brand: { type: Schema.ObjectId, ref: 'Brand' },
@@ -35,7 +35,9 @@ PageSchema.pre('findOne', autopopulate)
 
 PageSchema.post('findOneAndRemove', function(doc, next) {
   if (doc.backgroundImage && doc.backgroundImage.src) {
-    deleteFile({ Key: doc.backgroundImage.src }).catch(err => console.error(err))
+    deleteFile({ Key: doc.backgroundImage.src })
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
   }
   doc.sections.forEach(section => {
     return Section.findOneAndRemove({ _id: section })
