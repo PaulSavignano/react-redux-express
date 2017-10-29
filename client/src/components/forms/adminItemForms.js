@@ -122,8 +122,8 @@ const adminItemForms = [{
   delete: sectionDelete,
   fields: [
     { name: 'alignItems', type: 'text' },
+    { name: 'backgroundColor', type: 'text' },
     { name: 'backgroundPosition', type: 'text' },
-    { name: 'containerBackgroundColor', type: 'text' },
     { name: 'kind', type: 'select', options: [ 'Flex', 'SlideShow', 'Swipeable' ] },
     { name: 'flexFlow', type: 'select', options: ['row wrap', 'row wrap-reverse', 'row nowrap', 'column' ] },
     { name: 'justifyContent', type: 'select', options: ['flex-start', 'flex-end', 'center', 'space-around', 'space-between'] },
