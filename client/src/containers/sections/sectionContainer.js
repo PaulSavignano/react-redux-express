@@ -34,7 +34,7 @@ const sectionContainer = (ComposedComponent) => {
         values: {
           alignItems,
           backgroundPosition,
-          containerBackgroundColor,
+          backgroundColor,
           flexFlow,
           justifyContent,
           margin,
@@ -49,15 +49,15 @@ const sectionContainer = (ComposedComponent) => {
         item,
         pageId,
         pageSlug,
-        containerProps: {
+        propsForParent: {
           style: {
             backgroundImage: backgroundImage.src && `url(${backgroundImage.src})`,
-            backgroundColor: containerBackgroundColor,
+            backgroundColor,
             backgroundPosition
           },
           className: backgroundImage.src ? 'section-container background-image' : 'section-container'
         },
-        sectionProps: {
+        propsForChild: {
           style: {
             alignItems,
             flexFlow,

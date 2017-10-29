@@ -10,14 +10,14 @@ import slugIt from '../utils/slugIt'
 export const add = (req, res) => {
   const { name } = req.body
   Page.findOne({ name })
-  .then(doc => {
-    if (!doc) {
-      const newDoc = new Page({
+  .then(page => {
+    if (!page) {
+      const newPage = new Page({
         slug: slugIt(name),
         values: { name }
       })
-      newDoc.save()
-      .then(doc => res.send(doc))
+      newPage.save()
+      .then(page => res.send(page))
       .catch(error => { console.error(error); res.status(400).send({ error })})
     } else {
       return res.status(400).send({ error: 'That name already exists' })
@@ -46,7 +46,7 @@ export const update = (req, res) => {
     path: 'sections',
     populate: { path: 'items.item' }
   })
-  .then(doc => res.send(doc))
+  .then(page => res.send(page))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
@@ -80,7 +80,7 @@ export const updateWithBackgroundImage = (req, res) => {
       path: 'sections',
       populate: { path: 'items.item' }
     })
-    .then(doc => res.send(page))
+    .then(page => res.send(page))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
 }

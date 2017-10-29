@@ -14,12 +14,15 @@ const pageContainer = (ComposedComponent) => {
         pageSlug,
         textColor
       } = this.props
-      const { backgroundImage, values: { backgroundPosition }} = page
+      const { 
+        backgroundImage,
+        values: { backgroundColor, backgroundPosition }
+      } = page
       const propsForParent = {
         style: {
           backgroundImage: backgroundImage && backgroundImage.src ? `url(${backgroundImage.src})` : null,
-          backgroundPosition: page.values.backgroundPosition,
-          backgroundColor: page.values.backgroundColor,
+          backgroundPosition,
+          backgroundColor,
         },
         className: backgroundImage && backgroundImage.src && 'background-image'
       }

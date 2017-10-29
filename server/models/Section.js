@@ -24,7 +24,8 @@ const SectionSchema = new Schema({
   pageSlug: { type: String, trim: true, maxlength: 100 },
   values: {
     alignItems: { type: String, trim: true, maxlength: 50 },
-    containerBackgroundColor: { type: String, trim: true, maxlength: 50 },
+    backgroundColor: { type: String, trim: true, maxlength: 50 },
+    backgroundPosition: { type: String, trim: true, maxlength: 50 },
     flexFlow: { type: String, trim: true, default: 'row wrap', maxlength: 50 },
     justifyContent: { type: String, trim: true, default: 'space-between', maxlength: 50 },
     kind: { type: String, trim: true, default: 'Flex', maxlength: 50 },

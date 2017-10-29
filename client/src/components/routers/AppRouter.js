@@ -95,7 +95,11 @@ class AppRouter extends Component {
       }
     }
   }) {
-    if (backgroundColor !== this.props.brand.body.values.backgroundColor || backgroundPosition !== this.props.brand.body.values.backgroundPosition || backgroundImage !== this.props.brand.body.backgroundImage) {
+    if (
+      backgroundColor !== this.props.brand.body.values.backgroundColor ||
+      backgroundPosition !== this.props.brand.body.values.backgroundPosition ||
+      backgroundImage.src !== this.props.brand.body.backgroundImage.src
+    ) {
     this.handleBodyStyle(backgroundColor, backgroundImage, backgroundPosition)
     }
   }

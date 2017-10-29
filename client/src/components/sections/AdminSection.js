@@ -9,20 +9,20 @@ import AdminSectionEditButtons from './AdminSectionEditButtons'
 class AdminSection extends Component {
   render() {
     const {
-      containerProps,
       dispatch,
       item,
       pageId,
       pageSlug,
-      sectionProps,
+      propsForChild,
+      propsForParent,
       textColor
     } = this.props
     const { items } = item
     return (
-      <div {...containerProps}>
+      <div {...propsForParent}>
         <section
           onTouchTap={this.handleStartEdit}
-          {...sectionProps}
+          {...propsForChild}
           className="AdminSection"
         >
           {items.map(component => (
@@ -46,12 +46,12 @@ class AdminSection extends Component {
 }
 
 AdminSection.propTypes = {
-  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
   pageSlug: PropTypes.string.isRequired,
-  sectionProps: PropTypes.object.isRequired,
+  propsForChild: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
   textColor: PropTypes.string
 }
 

@@ -222,7 +222,6 @@ const BrandAdmin = ({
     <div className="page">
       <section className="section-margin">
         {forms.map((form, i) => {
-          console.log('inside Brand Admin')
           const { backgroundImage, image, values } = form
           return (
             <BrandForm

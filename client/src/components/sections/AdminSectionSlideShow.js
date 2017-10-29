@@ -48,17 +48,17 @@ class AdminSectionSlideShow extends Component {
   }
   render() {
     const {
-      containerProps,
       dispatch,
       item,
       pageId,
       pageSlug,
-      sectionProps,
+      propsForChild,
+      propsForParent,
     } = this.props
     const { items } = item
     return (
-      <div {...containerProps}>
-        <section {...sectionProps} className="AdminSectionSlideShow">
+      <div {...propsForParent}>
+        <section {...propsForChild} className="AdminSectionSlideShow">
           <CSSTransitionGroup
             transitionName="cross-fade"
             transitionEnter={true}
@@ -86,12 +86,12 @@ class AdminSectionSlideShow extends Component {
 
 AdminSectionSlideShow.propTypes = {
   autoplay: PropTypes.bool.isRequired,
-  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
   pageSlug: PropTypes.string.isRequired,
-  sectionProps: PropTypes.object.isRequired,
+  propsForChild: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(AdminSectionSlideShow)

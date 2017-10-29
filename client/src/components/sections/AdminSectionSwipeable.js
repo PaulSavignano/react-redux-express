@@ -20,18 +20,18 @@ class AdminSectionSwipeable extends Component {
   render() {
     const {
       autoplay,
-      containerProps,
       dispatch,
       item,
       pageId,
       pageSlug,
-      sectionProps,
+      propsForChild,
+      propsForParent,
     } = this.props
     return (
-      <div {...containerProps}>
+      <div {...propsForParent}>
         <section
           onTouchTap={this.handleStartEdit}
-          {...sectionProps}
+          {...propsForChild}
           className="AdminSectionSwipeable"
         >
           <AutoPlaySwipeableViews
@@ -67,12 +67,12 @@ class AdminSectionSwipeable extends Component {
 
 AdminSectionSwipeable.propTypes = {
   autoplay: PropTypes.bool.isRequired,
-  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   pageId: PropTypes.string.isRequired,
   pageSlug: PropTypes.string.isRequired,
-  sectionProps: PropTypes.object.isRequired,
+  propsForChild: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(AdminSectionSwipeable)

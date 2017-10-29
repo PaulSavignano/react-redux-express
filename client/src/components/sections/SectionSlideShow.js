@@ -11,14 +11,10 @@ class SectionSlideShow extends Component {
     intervalId: null
   }
   componentDidMount() {
-    if (this.props.autoplay) {
-      this.start()
-    }
+    if (this.props.autoplay) this.start()
   }
   componentWillReceiveProps({ autoplay }) {
-    if (!autoplay) {
-      this.stop()
-    }
+    if (!autoplay) this.stop()
   }
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
@@ -36,7 +32,6 @@ class SectionSlideShow extends Component {
   }
   render() {
     const {
-      containerProps,
       item: {
         _id,
         items,
@@ -44,11 +39,12 @@ class SectionSlideShow extends Component {
           pageLink
         }
       },
-      sectionProps
+      propsForChild,
+      propsForParent,
     } = this.props
     return (
-      <div {...containerProps}>
-        <section {...sectionProps} id={pageLink || _id}>
+      <div {...propsForParent}>
+        <section {...propsForChild} id={pageLink || _id}>
           <CSSTransitionGroup
             transitionName="cross-fade"
             transitionEnter={true}
@@ -70,10 +66,10 @@ class SectionSlideShow extends Component {
 
 SectionSlideShow.propTypes = {
   autoplay: PropTypes.bool.isRequired,
-  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
-  sectionProps: PropTypes.object.isRequired,
+  propsForChild: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(SectionSlideShow)

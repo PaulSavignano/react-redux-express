@@ -12,7 +12,6 @@ class SectionSwipeable extends Component {
   render() {
     const {
       autoplay,
-      containerProps,
       item: {
         _id,
         items,
@@ -20,11 +19,12 @@ class SectionSwipeable extends Component {
           pageLink
         }
       },
-      sectionProps
+      propsForChild,
+      propsForParent,
     } = this.props
     return (
-      <div {...containerProps}>
-        <section {...sectionProps} id={pageLink || _id}>
+      <div {...propsForParent}>
+        <section {...propsForChild} id={pageLink || _id}>
           <AutoPlaySwipeableViews
             autoplay={autoplay}
             interval={4000}
@@ -45,17 +45,16 @@ class SectionSwipeable extends Component {
           </AutoPlaySwipeableViews>
         </section>
       </div>
-
     )
   }
 }
 
 SectionSwipeable.propTypes = {
   autoplay: PropTypes.bool.isRequired,
-  containerProps: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
-  sectionProps: PropTypes.object.isRequired
+  propsForChild: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(SectionSwipeable)

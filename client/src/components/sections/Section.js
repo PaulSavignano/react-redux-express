@@ -5,7 +5,6 @@ import sectionContainer from '../../containers/sections/sectionContainer'
 import ComponentSwitch from './ComponentSwitch'
 
 const Section = ({
-  containerProps,
   item: {
     _id,
     items,
@@ -13,13 +12,14 @@ const Section = ({
       pageLink
     }
   },
-  sectionProps
+  propsForChild,
+  propsForParent
 }) => {
   return (
-    <div {...containerProps}>
+    <div {...propsForParent}>
       <section
         id={pageLink || _id}
-        {...sectionProps}
+        {...propsForChild}
         className="Section"
       >
         {items.map(component => {
@@ -36,9 +36,9 @@ const Section = ({
 }
 
 Section.propTypes = {
-  containerProps: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
-  sectionProps: PropTypes.object.isRequired
+  propsForChild: PropTypes.object.isRequired,
+  propsForParent: PropTypes.object.isRequired,
 }
 
 export default sectionContainer(Section)
