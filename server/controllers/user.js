@@ -13,51 +13,63 @@ import createTokens from '../utils/createTokens'
 import createUserResponse from '../utils/createUserResponse'
 
 
-export const add = (req, res) => {
-  const { email, firstName, lastName, password } = req.body
+export const add = async (req, res) => {
+  const {
+    body: {
+      email,
+      firstName,
+      lastName,
+      password
+    },
+    hostname,
+  } = req
   if ( !email || !firstName || !firstName || !password) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  const newUser = new User({
-    password,
-    values: { email, firstName, lastName }
-  })
-  newUser.save()
-  .then(user => {
-    return createTokens(user)
-    .then(({ newAccessToken, newRefreshToken }) => {
-      const rootUrl = req.get('host')
-      const { values } = user
-      sendGmail({
-        to: values.email,
-        toSubject: `Welcome to ${rootUrl}!`,
-        toBody: `
-          <p>Hi ${values.firstName},</p>
-          <p>Thank you for joining ${rootUrl}!</p>
-          <p>I hope you enjoy our offerings.  You may modify your profile settings at <a href="${rootUrl}/user/profile">${rootUrl}/user/profile</a>.</p>
-          <p>Please let us know if there is anything we can do to better help you.</p>
-        `,
-        fromSubject: `New ${rootUrl} user!`,
-        fromBody: `
-          <p>New user ${values.firstName} ${values.lastName} just signed up at ${rootUrl}.</p>
-          `
-      })
-      res.set('x-access-token', newAccessToken)
-      res.set('x-refresh-token', newRefreshToken)
-      res.send({ user })
+  try {
+    const existingUser = await User.findOne({ 'values.email': email, hostname })
+    if (existingUser) {
+      throw 'That user already exists'
+    }
+    const user = await new User({
+      hostname,
+      password,
+      values: { email, firstName, lastName }
+    }).save()
+    const { newAccessToken, newRefreshToken } = await createTokens(user, hostname)
+    const { values } = user
+    sendGmail({
+      hostname,
+      to: values.email,
+      toSubject: `Welcome to ${hostname}!`,
+      toBody: `
+        <p>Hi ${values.firstName},</p>
+        <p>Thank you for joining ${hostname}!</p>
+        <p>I hope you enjoy our offerings.  You may modify your profile settings at <a href="${hostname}/user/profile">${hostname}/user/profile</a>.</p>
+        <p>Please let us know if there is anything we can do to better help you.</p>
+      `,
+      fromSubject: `New ${hostname} user!`,
+      fromBody: `
+        <p>New user ${values.firstName} ${values.lastName} just signed up at ${hostname}.</p>
+        `
     })
-  })
-  .catch(error => {
-    console.error(error)
+    res.set('x-access-token', newAccessToken)
+    res.set('x-refresh-token', newRefreshToken)
+    res.send({ user })
+  } catch (error) {
+    console.error({ error })
     res.status(400).send({ error: { email: 'that user already exists' }})
-  })
+  }
 }
 
 
 
 export const get = (req, res) => {
-  const { user } = req
-  return createUserResponse(user)
+  const {
+    hostname,
+    user
+  } = req
+  return createUserResponse(user, hostname)
   .then(({ user, users, orders }) => {
     res.send({ user, users, orders })
   })
@@ -82,9 +94,9 @@ export const update = (req, res) => {
 
 
 export const remove = (req, res) => {
-  const { user } = req
+  const { hostname, user } = req
   User.findOneAndRemove(
-    { _id: user._id }
+    { _id: user._id, hostname }
   )
   .then(user => res.status(200).send(user))
   .catch(error => {
@@ -96,8 +108,12 @@ export const remove = (req, res) => {
 
 
 export const signin = async (req, res) => {
-  const { email, password } = req.body
-  const user = await User.findOne({ 'values.email': email })
+  const {
+    body: { email, password },
+    hostname
+  } = req
+  console.log(hostname)
+  const user = await User.findOne({ 'values.email': email, hostname })
   if (!user) {
     return res.status(400).send({ error: { email: 'email not found' }})
   }
@@ -105,9 +121,9 @@ export const signin = async (req, res) => {
   if (!valid) {
     return res.status(400).send({ error: { password: 'password does not match' }})
   }
-  const { newAccessToken, newRefreshToken } = await createTokens(user)
+  const { newAccessToken, newRefreshToken } = await createTokens(user, hostname)
   console.log('newAccessToken', newAccessToken)
-  const response = await createUserResponse(user)
+  const response = await createUserResponse(user, hostname)
   res.set('x-access-token', newAccessToken);
   res.set('x-refresh-token', newRefreshToken);
   res.send(response)
@@ -117,7 +133,10 @@ export const signin = async (req, res) => {
 
 
 export const recovery = (req, res, next) => {
-  const { email } = req.body
+  const {
+    body: { email },
+    hostname
+  } = req
   return new Promise((resolve, reject) => {
     crypto.randomBytes(20, (error, buf) => {
       if (error) return reject(error)
@@ -125,11 +144,12 @@ export const recovery = (req, res, next) => {
     })
   })
   .then(resetToken => {
-    User.findOne({ 'values.email': email.toLowerCase() })
+    User.findOne({ 'values.email': email.toLowerCase(), hostname })
     .then(user => {
-      const path = process.env.ROOT_URL ? `${process.env.ROOT_URL}user/reset/${resetToken}` : `localhost:${process.env.PORT}/user/reset/${resetToken}`
       if (!user) return Promise.reject({ email: 'User not found.' })
+      const path = `${hostname}user/reset/${resetToken}`
       const newResetToken = new ResetToken({
+        hostname,
         resetToken,
         user: user._id
       })
@@ -137,6 +157,7 @@ export const recovery = (req, res, next) => {
       .then(() => {
         const { firstName, email } = user.values
         sendGmail({
+          hostname,
           to: email,
           toSubject: 'Reset Password',
           toBody: `
@@ -159,15 +180,16 @@ export const recovery = (req, res, next) => {
 export const reset = async (req, res) => {
   const {
     body: { password },
+    hostname,
     params: { resetToken }
   } = req
   try {
-    const { user } = await ResetToken.findOne({ resetToken }).populate('user')
+    const { user } = await ResetToken.findOne({ resetToken, hostname }).populate('user')
     if (!user) return Promise.reject('your reset token has expired')
     user.password = password
     await user.save()
-    const { newAccessToken, newRefreshToken } = await createTokens(user)
-    const response = await createUserResponse(user)
+    const { newAccessToken, newRefreshToken } = await createTokens(user, hostname)
+    const response = await createUserResponse(user, hostname)
     res.set('x-access-token', newAccessToken);
     res.set('x-refresh-token', newRefreshToken);
     res.send(response)
@@ -182,27 +204,30 @@ export const reset = async (req, res) => {
 
 export const contact = (req, res) => {
   const {
-    email,
-    firstName,
-    message,
-    phone
-  } = req.body
+    body: {
+      email,
+      firstName,
+      message,
+      phone
+    },
+    hostname
+  } = req
   if (!firstName || !email || !message) {
     return res.status(422).send({ error: 'You must provide all fields' });
   }
-  Brand.findOne({})
+  Brand.findOne({ hostname })
   .then(brand => {
     if (!brand) return Promise.reject('brand not found')
-    const rootUrl = req.get('host')
     const { name } = brand.business.values
     sendGmail({
+      hostname,
       to: email,
       toSubject: `Thank you for contacting ${name}!`,
       name: firstName,
       toBody: `<p>Thank you for contacting ${name}.  We will respond to your request shortly!</p>`,
       fromSubject: `New Contact Request`,
       fromBody: `
-        <p>${firstName} just contacted you through ${rootUrl}.</p>
+        <p>${firstName} just contacted you through ${hostname}.</p>
         <div>Phone: ${phone ? phone : 'not provided'}</div>
         <div>Email: ${email}</div>
         <div>Message: ${message}</div>
@@ -218,9 +243,21 @@ export const contact = (req, res) => {
 
 
 export const requestEstimate = (req, res) => {
-  const { date, firstName, lastName, phone, email, from, to, size, note } = req.body
+  const {
+    body: {
+      date,
+      firstName,
+      lastName,
+      phone,
+      email,
+      from,
+      to,
+      size,
+      note
+    },
+    hostname,
+  } = req
   var auth = 'Basic ' + new Buffer(process.env.MOVERBASE_KEY + ':').toString('base64')
-  const rootUrl = req.get('host')
   return fetch(`https://api.moverbase.com/v1/leads/`, {
     method: 'POST',
     headers: {
@@ -242,13 +279,14 @@ export const requestEstimate = (req, res) => {
   .then(res => res.json())
   .then(json => {
     sendGmail({
+      hostname,
       to: email,
       toSubject: 'Thank you for contacting us for a free estimate',
       name: firstName,
       toBody: `<p>Thank you for requesting a free estimate.  We will contact you shortly!</p>`,
       fromSubject: `New Estimate Request`,
       fromBody: `
-        <p>${firstName} just contacted you through ${rootUrl}.</p>
+        <p>${firstName} just contacted you through ${hostname}.</p>
         ${phone && `<div>Phone: ${phone}</div>`}
         <div>Email: ${email}</div>
         <div>Note: ${note}</div>

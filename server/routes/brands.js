@@ -36,7 +36,6 @@ const brands = express.Router()
 
 brands.post('/', authenticate(['admin']), add)
 brands.get('/', get)
-brands.get('/:_id', getId)
 
 brands.patch('/:_id/appbar/update-values', authenticate(['admin']), updateAppBarValues)
 brands.patch('/:_id/appbar/update-with-image', authenticate(['admin']), updateAppBarWithImage)

@@ -4,14 +4,12 @@ import Section from './Section'
 import { deleteFile } from '../utils/s3'
 
 const PageSchema = new Schema({
-  brand: { type: Schema.ObjectId, ref: 'Brand' },
-  brandName: { type: String, maxlength: 25 },
   backgroundImage: {
     src: { type: String, trim: true, maxlength: 150 },
     width: { type: Number, trim: true, default: 1920, max: 10000, min: 0 },
     height: { type: Number, trim: true, default: 1080, max: 10000, min: 0 }
   },
-  path: { type: String, maxlength: 25 },
+  hostname: { type: String, maxlength: 90, required: true, },
   sections: [{ type: Schema.Types.ObjectId, ref: 'Section' }],
   slug: { type: String },
   values: {

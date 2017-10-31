@@ -6,8 +6,12 @@ import ContactForm from '../models/ContactForm'
 import Section from '../models/Section'
 
 export const add = (req, res) => {
-  const { pageId, pageSlug, sectionId } = req.body
+  const {
+    body: { pageId, pageSlug, sectionId },
+    hostname
+  } = req
   const newDoc = new ContactForm({
+    hostname,
     page: ObjectID(pageId),
     pageSlug,
     section: ObjectID(sectionId),
@@ -17,12 +21,12 @@ export const add = (req, res) => {
   newDoc.save()
   .then(doc => {
     Section.findOneAndUpdate(
-      { _id: doc.section },
+      { _id: doc.section, hostname },
       { $push: { items: { kind: 'ContactForm', item: doc._id }}},
       { new: true }
     )
     .then(section => {
-      Page.findOne({ _id: section.page })
+      Page.findOne({ _id: section.page, hostname })
       .then(page => res.send({ editItem: doc, page }))
       .catch(error => { console.error(error); res.status(400).send({ error })})
     })
@@ -33,19 +37,19 @@ export const add = (req, res) => {
 
 
 export const update = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id' })
   const {
-    type,
-    values
-  } = req.body
+    body: { type, values },
+    hostname,
+    params: { _id },
+  } = req
   return ContactForm.findOneAndUpdate(
-    { _id },
+    { _id, hostname },
     { $set: { values }},
     { new: true }
   )
   .then(doc => {
-    Page.findOne({ _id: doc.page })
+    Page.findOne({ _id: doc.page, hostname })
     .then(page => res.send({ page }))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
@@ -55,17 +59,20 @@ export const update = (req, res) => {
 
 
 export const remove = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  ContactForm.findOneAndRemove({ _id })
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    hostname,
+    params: { _id },
+  } = req
+  ContactForm.findOneAndRemove({ _id, hostname })
   .then(doc => {
     Section.findOneAndUpdate(
-      { _id: doc.section },
+      { _id: doc.section, hostname },
       { $pull: { items: { kind: 'ContactForm', item: doc._id }}},
       { new: true }
     )
     .then(section => {
-      Page.findOne({ _id: section.page })
+      Page.findOne({ _id: section.page, hostname })
       .then(page => res.send({ page }))
       .catch(error => { console.error(error); res.status(400).send({ error })})
     })

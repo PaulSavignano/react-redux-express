@@ -6,16 +6,20 @@ import Product from '../models/Product'
 
 
 export const add = (req, res) => {
-  const { productId, productQty } = req.body
+  const {
+    body: {
+      productId,
+      productQty
+    },
+    hostname
+  } = req
   Product.findOne(
-    { _id: productId }
+    { _id: productId, hostname }
   )
   .then(product => {
     const { price, name } = product.values
     const cart = new Cart({
-      total: productQty * price + ((productQty * price) * .075),
-      subTotal: productQty * price,
-      quantity: productQty,
+      hostname,
       items: [{
         productId,
         productQty,
@@ -23,7 +27,10 @@ export const add = (req, res) => {
         name,
         price,
         total: productQty * price
-      }]
+      }],
+      quantity: productQty,
+      total: productQty * price + ((productQty * price) * .075),
+      subTotal: productQty * price,
     })
     cart.save()
     .then(doc => res.header('cart', doc._id).send(doc))
@@ -34,11 +41,12 @@ export const add = (req, res) => {
 
 
 export const getId = (req, res) => {
-  const _id = req.params._id
-  if (!ObjectID.isValid(_id)) {
-    return res.status(404).send()
-  }
-  Cart.findById(_id)
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send()
+  const {
+    hostname,
+    params: { _id }
+  } = req
+  Cart.findOne({ _id, hostname })
   .then(cart => {
     if (!cart) return Promise.reject({ error: 'Cart not found'})
     res.send(cart)
@@ -50,11 +58,15 @@ export const getId = (req, res) => {
 
 
 export const update = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type, productId, productQty } = req.body
-  Cart.findOne({ _id })
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    body: { type, productId, productQty },
+    hostname,
+    params: { _id }
+  } = req
+  Cart.findOne({ _id, hostname })
     .then(cart => {
+      if (!cart) return Promise.reject('cart not found')
       const index = cart.items.map(i => i.productId.toHexString()).indexOf(productId)
       if (index !== -1) {
         switch (type) {
@@ -101,7 +113,6 @@ export const update = (req, res) => {
               .then(cart => res.send(cart))
               .catch(error => { console.error(error); res.status(400).send({ error })})
             }
-
             break
           case 'REMOVE_FROM_CART':
             cart.total = cart.total - ((cart.items[index].price * cart.items[index].productQty) + ((cart.items[index].price * cart.items[index].productQty) * .075))
@@ -118,7 +129,7 @@ export const update = (req, res) => {
             return cart
         }
       } else {
-        Product.findOne({ _id: productId })
+        Product.findOne({ _id: productId, hostname })
           .then(pro => {
             cart.total = cart.total + ((pro.values.price * productQty) + (pro.values.price * productQty) * .075)
             cart.subTotal = cart.subTotal + (pro.values.price * productQty)
@@ -143,9 +154,12 @@ export const update = (req, res) => {
 
 
 export const remove = (req, res) => {
-  const _id = req.params._id
   if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Cart.findOneAndRemove({ _id,})
+  const {
+    hostname,
+    params: { _id }
+  } = req
+  Cart.findOneAndRemove({ _id, hostname })
   .then(cart => res.send(cart))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }

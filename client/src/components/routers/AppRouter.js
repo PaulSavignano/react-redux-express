@@ -67,25 +67,29 @@ class AppRouter extends Component {
     }
   }
   componentWillMount() {
-    const {
-      brand: {
-        body: {
-          backgroundImage,
-          values: {
-            backgroundColor,
-            backgroundPosition
-          }
-        }
-      },
-      pages
-    } = this.props
     const slug = window.location.pathname.slice(1)
     const reqPageSlug = slug || 'home'
-    const reqPageHeroImages = pages.filter(page => page.slug === reqPageSlug)
-    const allPageImages = pages.filter(page => page.slug !== reqPageSlug)
-    this.handleEagerLoadImages(reqPageHeroImages)
-    this.handleLazyLoadImages(allPageImages)
-    this.handleBodyStyle(backgroundColor, backgroundImage, backgroundPosition)
+    if (this.props.brand && this.props.brand._id) {
+      const {
+        brand: {
+          body: {
+            backgroundImage,
+            values: {
+              backgroundColor,
+              backgroundPosition
+            }
+          }
+        },
+        pages
+      } = this.props
+      const reqPageHeroImages = pages.filter(page => page.slug === reqPageSlug)
+      const allPageImages = pages.filter(page => page.slug !== reqPageSlug)
+      this.handleEagerLoadImages(reqPageHeroImages)
+      this.handleLazyLoadImages(allPageImages)
+      this.handleBodyStyle(backgroundColor, backgroundImage, backgroundPosition)
+    } else {
+      this.setState({ loadingImages: false })
+    }
   }
   componentWillReceiveProps({
     brand: {

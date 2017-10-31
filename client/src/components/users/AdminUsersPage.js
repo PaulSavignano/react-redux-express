@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import usersContainer from '../../containers/users/usersContainer'
 import AdminUsersItem from './AdminUsersItem'
-import H3 from '../typography/H3'
+import H2 from '../typography/H2'
 
 const AdminUsersPage = ({
   dispatch,
@@ -11,7 +11,9 @@ const AdminUsersPage = ({
 }) => (
   <div className="page">
     <section>
-      <H3>Users</H3>
+      <div className="users-page-heading">
+        <H2>Users</H2>
+      </div>
       {users.map(user => (
         <AdminUsersItem
           key={user._id}

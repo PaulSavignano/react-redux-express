@@ -4,7 +4,6 @@ import AccessToken from '../models/AccessToken'
 import RefreshToken from '../models/RefreshToken'
 import createTokens from '../utils/createTokens'
 import User from '../models/User'
-import createUserResponse from '../utils/createUserResponse'
 
 const authenticate = (requiredRoles) => {
   return async (req, res, next) => {
@@ -17,8 +16,9 @@ const authenticate = (requiredRoles) => {
         const refreshToken = req.headers['x-refresh-token']
         if (refreshToken) {
           try {
+            const { hostname } = req
             const { user } = await RefreshToken.findOne({ refreshToken }).populate('user')
-            const { newAccessToken, newRefreshToken } = await createTokens(user)
+            const { newAccessToken, newRefreshToken } = await createTokens(user, hostname)
             if (newAccessToken && newRefreshToken) {
               req.user = user
               res.set('x-access-token', newAccessToken)
@@ -35,8 +35,3 @@ const authenticate = (requiredRoles) => {
 }
 
 export default authenticate
-
-
-
-
-  //      if (user.roles.some(role => requiredRoles.indexOf(role) >= 0) {

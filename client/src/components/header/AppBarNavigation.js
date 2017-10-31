@@ -63,7 +63,7 @@ class AppBarNavigation extends Component {
         style={{ fontFamily }}
         className="appbar-navigation-container"
       >
-        {showPhone === 'false' ? null :
+        {showPhone ? showPhone ==='false' ? null :
         <div style={{ color: primary1Color }} className="appbar-phone-container">
           <a
             href={`tel:${phone.replace(/\D+/g, '')}`}
@@ -73,12 +73,12 @@ class AppBarNavigation extends Component {
             {phone}
           </a>
         </div>
-        }
+        : null}
         <div className="appbar-navigation">
           <div
             className={`${navClass} appbar-navigation`}
           >
-            {pages.length && pages.filter(page => page.slug !== 'home').map(page => (
+            {pages.length ? pages.filter(page => page.slug !== 'home').map(page => (
               <AppBarPageLink
                 key={page._id}
                 color={color}
@@ -86,7 +86,10 @@ class AppBarNavigation extends Component {
                 fontFamily={fontFamily}
                 page={page}
               />
-            ))}
+            ))
+            :
+              null
+            }
           </div>
           <IconButton
             iconClassName="fa fa-search"
@@ -118,10 +121,10 @@ class AppBarNavigation extends Component {
 
 AppBarNavigation.propTypes = {
   cartQty: PropTypes.number,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   firstName: PropTypes.string,
-  fontFamily: PropTypes.string.isRequired,
+  fontFamily: PropTypes.string,
   pages: PropTypes.array,
   searchOpen: PropTypes.bool.isRequired
 }

@@ -3,8 +3,7 @@ import mongoose, { Schema } from 'mongoose'
 import { uploadFile, deleteFile } from '../utils/s3'
 
 const ProductSchema = new Schema({
-  brand: { type: Schema.ObjectId, ref: 'Brand' },
-  brandName: { type: String, maxlength: 25 },
+  hostname: { type: String, maxlength: 90, required: true },
   image: {
     src: { type: String, minlength: 1, trim: true, maxlength: 150 },
     width: { type: Number, trim: true, default: 1000, max: 10000, min: 0 },

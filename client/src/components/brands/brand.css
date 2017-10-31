@@ -1,3 +1,15 @@
 .brand-form {
   margin: 16px 16px 48px;
 }
+
+.brand-add-page {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  height: 85vh;
+  justify-content: center;
+}
+
+.brand-add-page h2 {
+  margin: 32px;
+}

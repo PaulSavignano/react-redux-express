@@ -23,7 +23,7 @@ const BrandSchema = new Schema({
       name: { type: String, trim: true, default: 'Brand', maxlength: 50 },
       navColor: { type: String, trim: true, default: 'rgb(255, 255, 255)', maxlength: 25 },
       phoneSize: { type: String, trim: true, maxlength: 25 },
-      showPhone: { type: String, trim: true, default: 'false', maxlength: 25 },
+      showPhone: { type: String, enum: ['false', 'true'], default: ['false'], maxlength: 25 },
       textShadow: { type: String, trim: true, maxlength: 100 },
     }
   },
@@ -49,7 +49,6 @@ const BrandSchema = new Schema({
       mediaElevation: { type: Number, trim: true, default: 3, max: 24, min: 0 }
     }
   },
-  brandSlug: { type: String, maxlength: 25 },
   body: {
     backgroundImage: {
       src: { type: String, trim: true, maxlength: 150 },
@@ -158,6 +157,7 @@ const BrandSchema = new Schema({
       minHeight: { type: String, trim: true, default: '85vh', maxlength: 50 }
     }
   },
+  hostname: { type: String, maxlength: 90, required: true, unique: true },
   palette: {
     values: {
       primary1Color: { type: String, trim: true, default: '#00BCD4', maxlength: 50 },

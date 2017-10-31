@@ -8,11 +8,18 @@ import slugIt from '../utils/slugIt'
 
 
 export const add = (req, res) => {
-  const { name } = req.body
-  Page.findOne({ name })
+  const {
+    body: {
+      values: { name }
+    },
+    hostname,
+  } = req
+  console.log(req.body)
+  Page.findOne({ 'values.name': name, hostname })
   .then(page => {
     if (!page) {
       const newPage = new Page({
+        hostname,
         slug: slugIt(name),
         values: { name }
       })
@@ -27,51 +34,73 @@ export const add = (req, res) => {
 }
 
 export const get = (req, res) => {
-  Page.find({})
+  const { hostname } = req
+  Page.find({ hostname })
   .then(pages => res.send(pages))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
-export const update = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { values } = req.body
-  const slug = slugIt(values.name)
-  Page.findOneAndUpdate(
-    { _id },
-    { $set: { slug, values }},
-    { new: true }
-  )
-  .populate({
-    path: 'sections',
-    populate: { path: 'items.item' }
-  })
-  .then(page => res.send(page))
-  .catch(error => { console.error(error); res.status(400).send({ error })})
+export const update = async (req, res) => {
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    body: { values },
+    hostname,
+    params: { _id }
+  } = req
+  try {
+    const existingPage = await Page.findOne({ _id, hostname })
+    if (existingPage.values.name !== values.name) {
+      const nameAlreadyExists = await Page.findOne({ 'values.name': values.name, hostname })
+      if (nameAlreadyExists) throw 'That page name already exists'
+    }
+    const slug = slugIt(values.name)
+    const page = await Page.findOneAndUpdate(
+      { _id, hostname },
+      { $set: { slug, values }},
+      { new: true }
+    )
+    .populate({
+      path: 'sections',
+      populate: { path: 'items.item' }
+    })
+    res.send(page)
+  } catch (error) {
+    console.error(error)
+    res.status(400).send({ error })
+  }
 }
 
 
-export const updateWithBackgroundImage = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+export const updateWithBackgroundImage = async (req, res) => {
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    newBackgroundImage,
-    oldBackgroundImageSrc,
-    pageSlug,
-    values
-  } = req.body
-  const rootUrl = req.get('host')
-  const Key = `${rootUrl}/page-${pageSlug}-background-image-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
-  return uploadFile({ Key }, newBackgroundImage.src, oldBackgroundImageSrc)
-  .then(data => {
-    Page.findOneAndUpdate(
-      { _id },
+    body: {
+      newBackgroundImage,
+      oldBackgroundImageSrc,
+      pageSlug,
+      values
+    },
+    hostname,
+    params: { _id }
+  } = req
+  try {
+    const existingPage = await Page.findOne({ _id, hostname })
+    if (existingPage.values.name !== values.name) {
+      const nameAlreadyExists = await Page.findOne({ 'values.name': values.name, hostname })
+      if (nameAlreadyExists) throw 'That page name already exists'
+    }
+    const slug = slugIt(values.name)
+    const Key = `${hostname}/page-${pageSlug}-background-image-${_id}_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+    const data = await uploadFile({ Key }, newBackgroundImage.src, oldBackgroundImageSrc)
+    const page = await Page.findOneAndUpdate(
+      { _id, hostname },
       { $set: {
         backgroundImage: {
           src: data.Location,
           width: newBackgroundImage.width,
           height: newBackgroundImage.height
         },
+        slug,
         values
       }},
       { new: true }
@@ -80,46 +109,65 @@ export const updateWithBackgroundImage = (req, res) => {
       path: 'sections',
       populate: { path: 'items.item' }
     })
-    .then(page => res.send(page))
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  })
+    res.send(page)
+  } catch (error) {
+    console.error(error)
+    res.status(400).send({ error })
+  }
 }
 
 
 
-export const updateWithDeleteBackgroundImage = (req, res) => {
-  console.log('inside page background Image delete')
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+export const updateWithDeleteBackgroundImage = async (req, res) => {
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    oldBackgroundImageSrc,
-    pageSlug,
-    type,
-    values
-  } = req.body
-  return deleteFile({ Key: oldBackgroundImageSrc })
-  .then(deleteData => {
+    body: {
+      oldBackgroundImageSrc,
+      pageSlug,
+      type,
+      values
+    },
+    hostname,
+    params: { _id }
+  } = req
+  try {
+    const existingPage = await Page.findOne({ _id, hostname })
+    if (existingPage.values.name !== values.name) {
+      const nameAlreadyExists = await Page.findOne({ 'values.name': values.name, hostname })
+      if (nameAlreadyExists) throw 'That page name already exists'
+    }
+    const slug = slugIt(values.name)
+    const deleteData = await deleteFile({ Key: oldBackgroundImageSrc })
     console.log(deleteData)
-    Page.findOneAndUpdate(
-      { _id },
-      { $set: { 'backgroundImage.src': null }},
+    const page = await Page.findOneAndUpdate(
+      { _id, hostname },
+      { $set: {
+        'backgroundImage.src': null,
+        slug,
+        values
+      }},
       { new: true }
     )
     .populate({
       path: 'sections',
       populate: { path: 'items.item' }
     })
-    .then(page => res.send(page))
-    .catch(error => { console.error(error); res.status(400).send({ error })})
-  })
+    res.send(page)
+  } catch (error) {
+    console.error(error)
+    res.status(400).send({ error })
+  }
 }
 
 
 
 export const remove = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Page.findOneAndRemove({ _id })
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    hostname,
+    params: { _id }
+  } = req
+  Page.findOneAndRemove({ _id, hostname })
   .then(page => res.send(page))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }

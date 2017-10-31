@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import './users.css'
 import AddressesForm from '../../components/addresses/AddressesForm'
 import OrderList from '../../components/orders/OrderList'
 import H3 from '../../components/typography/H3'

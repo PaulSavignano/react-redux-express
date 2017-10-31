@@ -15,7 +15,7 @@ const Theme = ({ children, isFetching, theme }) => (
 
 const mapStateToProps = ({
   brand: {
-    bodyStyle: { values: { backgroundColor}},
+    body: { values: { backgroundColor }},
     isFetching,
     palette: { values },
     typography: { values: { fontFamily }}

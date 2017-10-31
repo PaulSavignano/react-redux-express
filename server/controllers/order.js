@@ -8,20 +8,24 @@ import sendGmail from '../utils/sendGmail'
 const formatPrice = (cents) => `$${(cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 
 export const add = (req, res, next) => {
-  const { _id } = req.user
   const {
-    stripeToken,
-    fullAddress,
-    name,
-    phone,
-    street,
-    city,
-    state,
-    zip,
-    cart
-  } = req.body
+    body: {
+      stripeToken,
+      fullAddress,
+      name,
+      phone,
+      street,
+      city,
+      state,
+      zip,
+      cart
+    },
+    hostname,
+    user: { _id },
+  } = req
   if (fullAddress === 'newAddress') {
     const newAddress = new Address({
+      hostname,
       user: ObjectID(_id),
       values: {
         name,
@@ -35,7 +39,7 @@ export const add = (req, res, next) => {
     newAddress.save()
     .then(address => {
       return User.findOneAndUpdate(
-        { _id },
+        { _id, hostname },
         { $push: { addresses: address._id }},
         { new: true }
       )
@@ -51,7 +55,7 @@ export const add = (req, res, next) => {
     })
     .catch(error => { console.error(error); res.status(400).send({ error })})
   } else {
-    return Address.findOne({ _id: fullAddress })
+    return Address.findOne({ _id: fullAddress, hostname })
     .then(address => {
       return User.findOne({ _id })
       .then(user => createCharge({
@@ -77,24 +81,25 @@ const createCharge = ({
   user
 }) => {
   const { _id, values: { firstName, lastName, email }} = user
-  const rootUrl = req.get('host')
+  const { hostname } = req
   const stripe = require("stripe")(process.env.STRIPE_SK_TEST)
   return stripe.charges.create({
     amount: Math.round(cart.total),
     currency: "usd",
     source: stripeToken,
-    description: `${rootUrl} Order`
+    description: `${hostname} Order`
   })
   .then(charge => {
     const newOrder = new Order({
-      user: _id,
+      address: address.values,
+      cart,
+      email,
+      firstName,
+      hostname,
+      lastName,
       paymentId: charge.id,
       total: cart.total,
-      firstName,
-      lastName,
-      email,
-      address: address.values,
-      cart
+      user: _id,
     })
     newOrder.save()
     .then(order => {
@@ -122,6 +127,7 @@ const createCharge = ({
         <div>${city}, ${state} ${zip}</div>
       `
       sendGmail({
+        hostname,
         to: email,
         toSubject: 'Thank you for your order!',
         toBody: `
@@ -133,7 +139,7 @@ const createCharge = ({
         fromBody: `
           <p>${firstName} ${lastName} just placed order an order!</p>
           ${htmlOrder}
-          <p>Once shipped, you can mark the item as shipped in at <a href="${rootUrl}/admin/orders">${rootUrl}/admin/orders</a> to send confirmation to ${firstName}.</p>
+          <p>Once shipped, you can mark the item as shipped in at <a href="${hostname}/admin/orders">${hostname}/admin/orders</a> to send confirmation to ${firstName}.</p>
         `
       })
     })
@@ -144,13 +150,18 @@ const createCharge = ({
 
 
 export const get = (req, res) => {
-  Order.find({ user: req.user._id })
+  const {
+    hostname,
+    user
+  } = req
+  Order.find({ user: user._id, hostname })
   .then(orders => res.send(orders))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
 
 export const getAdmin = (req, res) => {
-  Order.find({})
+  const { hostname } = req
+  Order.find({ hostname })
   .then(orders => res.send(orders))
   .catch(error => { console.error(error); res.status(400).send({ error })})
 }
@@ -158,13 +169,16 @@ export const getAdmin = (req, res) => {
 
 
 export const update = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  const { type } = req.body
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    body: { type },
+    hostname,
+    params: { _id }
+  } = req
   switch (type) {
     case 'SHIPPED':
       Order.findOneAndUpdate(
-        { _id },
+        { _id, hostname },
         { $set: { shipped: true, shipDate: new Date() }},
         { new: true }
       )
@@ -173,6 +187,7 @@ export const update = (req, res) => {
         const { name, phone, street, city, state, zip } = address
         res.send(order)
         sendGmail({
+          hostname,
           to: email,
           toSubject: 'Your order has shipped!',
           toBody: `

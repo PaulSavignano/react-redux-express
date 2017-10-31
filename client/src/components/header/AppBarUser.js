@@ -105,10 +105,10 @@ class AppBarUser extends Component {
 }
 
 AppBarUser.propTypes = {
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   firstName: PropTypes.string,
-  fontFamily: PropTypes.string.isRequired,
+  fontFamily: PropTypes.string,
   history: PropTypes.object.isRequired,
 }
 

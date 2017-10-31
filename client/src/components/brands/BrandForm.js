@@ -130,8 +130,6 @@ class BrandForm extends Component {
           }
         }))
       case (backgroundImageEdit):
-      console.log('hasBackgroundImage')
-      console.log(`${_id}/${form.toLowerCase()}/update-with-background-image`)
         return dispatch(fetchUpdate({
           path: `${_id}/${form.toLowerCase()}/update-with-background-image`,
           update: {
@@ -186,7 +184,6 @@ class BrandForm extends Component {
       submitSucceeded,
       submitting,
     } = this.props
-    console.log('inside brand form')
     return (
       <Card
         className="brand-form"

@@ -3,12 +3,6 @@ import bodyParser from 'body-parser'
 import path from 'path'
 import mongoose from './db/mongoose'
 
-import Brand from './models/Brand'
-
-Brand.findOne({})
-.then(doc => !doc && new Brand({}).save())
-.catch(err => console.error(err))
-
 import addresses from './routes/addresses'
 import articles from './routes/articles'
 import brands from './routes/brands'

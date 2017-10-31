@@ -11,7 +11,6 @@ const footerContainer = (ComposedComponent) => {
         item,
         primary1Color
       } = this.props
-
       const {
         backgroundImage,
         values: {
@@ -21,11 +20,11 @@ const footerContainer = (ComposedComponent) => {
       const propsForParent = {
         style: {
           backgroundColor,
-          backgroundImage: backgroundImage.src && `url(${backgroundImage.src})`,
+          backgroundImage: backgroundImage && backgroundImage.src && `url(${backgroundImage.src})`,
           borderBottom,
           borderTop
         },
-        className: backgroundImage.src && 'background-image'
+        className: backgroundImage && backgroundImage.src && 'background-image'
       }
       const props = {
         business,

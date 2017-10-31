@@ -16,7 +16,14 @@ const transporter = nodemailer.createTransport({
 })
 
 const sendGmail = (mail) => {
-  const { to, toSubject, toBody, fromSubject, fromBody } = mail
+  const {
+    to,
+    toSubject,
+    toBody,
+    fromSubject,
+    fromBody,
+    hostname
+  } = mail
   return Brand.findOne({})
   .then(brand => {
     if (!brand) return Promise.reject('No brand found')
@@ -73,14 +80,16 @@ const sendGmail = (mail) => {
        <main>
         ${body}
         <br/><br/>
-        ${image && image.src ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
-        <div>
-          <span
-            style="text-decoration: none; color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing};"
-          >
-            ${name}
-          </span>
-        </div>
+        <a href=${hostname}>
+          ${image && image.src ? `<img src=${image.src} alt="item" height="64px" width="auto"/>` : ''}
+          <div>
+            <span
+              style="text-decoration: none; color: ${color}; font-family: ${fontFamily}; font-size: ${fontSize}; font-weight: ${fontWeight}; letter-spacing: ${letterSpacing};"
+            >
+              ${name}
+            </span>
+          </div>
+        </a>
         <div>
           <a
             href="mailto:${process.env.GMAIL_USER}"

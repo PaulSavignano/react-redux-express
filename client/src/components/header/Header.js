@@ -145,13 +145,13 @@ Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   drawer: PropTypes.object.isRequired,
   firstName: PropTypes.string,
-  fontFamily: PropTypes.string.isRequired,
+  fontFamily: PropTypes.string,
   isAdmin: PropTypes.bool,
   isOwner: PropTypes.bool,
   pages: PropTypes.array,
   phone: PropTypes.string,
   phoneSize: PropTypes.string,
-  primary1Color: PropTypes.string.isRequired,
+  primary1Color: PropTypes.string,
   searchOpen: PropTypes.bool.isRequired
 }
 

@@ -9,11 +9,8 @@ import Order from './Order'
 
 const UserSchema = new Schema({
   addresses: [{ type: Schema.ObjectId, ref: 'Address' }],
-  brand: { type: Schema.ObjectId, ref: 'Brand' },
-  brandName: { type: String, maxlength: 25 },
+  hostname: { type: String, maxlength: 90, required: true },
   password: { type: String, required: true, maxlength: 500, minlength: 6 },
-  passwordResetExpires: { type: Date },
-  passwordResetToken: { type: String, default: '' },
   roles: {
     type: [{ type: String, enum: ['admin', 'master', 'owner', 'user'], maxlength: 25 }],
     default: ['user']
@@ -25,7 +22,6 @@ const UserSchema = new Schema({
       trim: true,
       maxlength: 50,
       minlength: 1,
-      unique: true,
       lowercase: true,
       validate: {
         validator: value => validator.isEmail(value),

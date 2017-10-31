@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const AddressSchema = new Schema({
-  brand: { type: Schema.ObjectId, ref: 'Brand' },
-  brandName: { type: String, maxlength: 25 },
+  hostname: { type: String, maxlength: 90, required: true },
   values: {
     name: { type: String, trim: true, minlength: 1, maxlength: 50 },
     phone: { type: String, trim: true, minlength: 1, maxlength: 20 },

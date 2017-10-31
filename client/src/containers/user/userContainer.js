@@ -26,8 +26,8 @@ const userContainer = (ComposedComponent) => {
   UserContainer.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    primary1Color: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired
+    primary1Color: PropTypes.string,
+    user: PropTypes.object
   }
   return connect(mapStateToProps)(UserContainer)
 }

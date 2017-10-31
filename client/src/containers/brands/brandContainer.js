@@ -22,7 +22,7 @@ const brandContainer = (ComposedComponent) => {
   }
   const mapStateToProps = ({ brand }) => ({ brand })
   BrandContainer.propTypes = {
-    brand: PropTypes.object.isRequired,
+    brand: PropTypes.object,
     dispatch: PropTypes.func.isRequired
   }
   return connect(mapStateToProps)(BrandContainer)

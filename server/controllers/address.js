@@ -4,15 +4,16 @@ import Address from '../models/Address'
 import User from '../models/User'
 
 export const add = (req, res) => {
-  const { user } = req
+  const { hostname, user } = req
   const newDoc = new Address({
+    hostname,
     user: ObjectID(user._id),
     values: {}
   })
   newDoc.save()
   .then(address => {
     User.findOneAndUpdate(
-      { _id: address.user },
+      { _id: address.user, hostname },
       { $push: { addresses: address._id }},
       { new: true }
     )
@@ -28,18 +29,20 @@ export const add = (req, res) => {
 
 
 export const adminAdd = (req, res) => {
-  const { user } = req
-  const isOwner = user.roles.some(role => role === 'owner')
-  if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
-  const { userId } = req.params
+  const {
+    hostname,
+    params: { userId },
+    user
+  } = req
   const newAddress = new Address({
+    hostname,
     user: ObjectID(userId),
     values: {}
   })
   newAddress.save()
   .then(address => {
     User.findOneAndUpdate(
-      { _id: address.user },
+      { _id: address.user, hostname },
       { $push: { addresses: address._id }},
       { new: true }
     )
@@ -53,14 +56,14 @@ export const adminAdd = (req, res) => {
 
 
 export const get = (req, res) => {
-  const { user } = req
+  const { hostname, user } = req
   const isAdmin = user.roles.some(role => role === 'admin')
   if (isAdmin) {
-    Address.find({})
+    Address.find({ hostname })
     .then(addresses => res.send(addresses))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   } else {
-    Address.find({ user: user._id })
+    Address.find({ user: user._id, hostname })
     .then(addresses => res.send(addresses))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   }
@@ -69,17 +72,22 @@ export const get = (req, res) => {
 
 
 export const update = (req, res) => {
-  const { user } = req
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
-  const { values } = req.body
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    body: {
+      values
+    },
+    hostname,
+    params: { _id },
+    user
+  } = req
   Address.findOneAndUpdate(
-    { _id, user: user._id },
+    { _id, user: user._id, hostname },
     { $set: { values }},
     { new: true }
   )
   .then(address => {
-    User.findOne({ _id: address.user })
+    User.findOne({ _id: address.user, hostname })
     .then(user => res.send(user))
     .catch(error => { console.log({ error }); res.status(400).send({ error })})
   })
@@ -87,19 +95,22 @@ export const update = (req, res) => {
 }
 
 export const adminUpdate = (req, res) => {
-  const { user } = req
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id' })
+  const {
+    body: { values },
+    hostname,
+    params: { _id },
+    user
+  } = req
   const isOwner = user.roles.some(role => role === 'owner')
   if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id' })
-  const { values } = req.body
   Address.findOneAndUpdate(
-    { _id },
+    { _id, hostname },
     { $set: { values }},
     { new: true }
   )
   .then(address => {
-    User.findOne({ _id: address.user })
+    User.findOne({ _id: address.user, hostname })
     .then(user => res.send(user))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
@@ -109,20 +120,21 @@ export const adminUpdate = (req, res) => {
 
 
 export const remove = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    hostname,
+    params: { _id }
+  } = req
   Address.findOneAndRemove({ _id })
   .then(address => {
     return User.findOneAndUpdate(
-      { _id: address.user },
+      { _id: address.user, hostname },
       { $pull: { addresses:  address._id }},
       { new: true }
     )
     .then(() => {
-      User.findOne({ _id: req.user._id })
-      .then(user => {
-        res.send({ user })
-      })
+      User.findOne({ _id: req.user._id, hostname })
+      .then(user => res.send({ user }))
       .catch(error => { console.error(error); res.status(400).send({ error })})
     })
     .catch(error => { console.error(error); res.status(400).send({ error })})
@@ -131,15 +143,16 @@ export const remove = (req, res) => {
 }
 
 export const adminRemove = (req, res) => {
-  const { user } = req
-  const isOwner = user.roles.some(role => role === 'owner')
-  if (!isOwner) return res.status(400).send({ error: 'umauthorized'})
-  const { _id, userId } = req.params
-  if (!ObjectID.isValid(_id) || !ObjectID.isValid(userId)) return res.status(404).send({ error: 'Invalid id'})
-  Address.findOneAndRemove({ _id })
+  if (!ObjectID.isValid(req.params._id) || !ObjectID.isValid(req.params.userId)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    hostname,
+    params: { _id, userId },
+    user
+  } = req
+  Address.findOneAndRemove({ _id, hostname })
   .then(address => {
     User.findOneAndUpdate(
-      { _id: address.user },
+      { _id: address.user, hostname },
       { $pull: { addresses:  address._id }},
       { new: true }
     )

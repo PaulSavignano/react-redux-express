@@ -76,7 +76,7 @@ const headerContainer = (ComposedComponent) => {
     dispatch: PropTypes.func.isRequired,
     drawer: PropTypes.object.isRequired,
     firstName: PropTypes.string,
-    fontFamily: PropTypes.string.isRequired,
+    fontFamily: PropTypes.string,
     isAdmin: PropTypes.bool,
     isOwner: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,

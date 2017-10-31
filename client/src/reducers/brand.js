@@ -4,14 +4,13 @@ const brand = (state = {
   isFetching: false,
   appBar: { values: {}},
   articleStyle: { values: {}},
-  bodyStyle: { values: {}},
+  body: { values: {}},
   business: { values: {}},
   cardStyle: { values: {}},
   footer: { values: {}},
   heroStyle: { values: {}},
   palette: { values: {}},
   productStyle: { values: {}},
-  viewStyle: { values: {}},
   typography: { values: {}}
 }, action) => {
   switch (action.type) {

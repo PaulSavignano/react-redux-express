@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import brandContainer from '../../containers/brands/brandContainer'
+import BrandAdd from './BrandAdd'
 import BrandForm from './BrandForm'
 
 const formFields = [{
@@ -220,25 +221,31 @@ const BrandAdmin = ({
   ]
   return (
     <div className="page">
-      <section className="section-margin">
-        {forms.map((form, i) => {
-          const { backgroundImage, image, values } = form
-          return (
-            <BrandForm
-              _id={_id}
-              backgroundColor={palette.values.canvasColor}
-              backgroundImage={backgroundImage}
-              dispatch={dispatch}
-              key={i}
-              image={image}
-              fields={formFields[i].fields}
-              fontFamily={typography.values.fontFamily}
-              form={formFields[i].name}
-              initialValues={values}
-            />
-          )
-        })}
-      </section>
+      {_id ?
+        <section className="section-margin">
+          {forms.map((form, i) => {
+            const { backgroundImage, image, values } = form
+            return (
+              <BrandForm
+                _id={_id}
+                backgroundColor={palette.values.canvasColor}
+                backgroundImage={backgroundImage}
+                dispatch={dispatch}
+                key={i}
+                image={image}
+                fields={formFields[i].fields}
+                fontFamily={typography.values.fontFamily}
+                form={formFields[i].name}
+                initialValues={values}
+              />
+            )
+          })}
+        </section>
+      :
+      <BrandAdd
+        dispatch={dispatch}
+      />
+      }
     </div>
   )
 }

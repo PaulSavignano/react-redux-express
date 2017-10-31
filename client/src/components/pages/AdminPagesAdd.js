@@ -31,7 +31,7 @@ class AdminPagesAdd extends Component {
         <form
           onSubmit={handleSubmit(values => {
             reset()
-            return dispatch(fetchAdd(values))
+            return dispatch(fetchAdd({ values }))
           })}
           style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', padding: '4px 8px 16px 8px' }}
         >

@@ -6,15 +6,19 @@ import Section from '../models/Section'
 import { deleteFile, uploadFile } from '../utils/s3'
 
 export const add = (req, res) => {
-  const { pageId, pageSlug } = req.body
+  const {
+    body: { pageId, pageSlug },
+    hostname
+  } = req
   const newDoc = new Section({
+    hostname,
     page: ObjectID(pageId),
     pageSlug
   })
   newDoc.save()
   .then(doc => {
     Page.findOneAndUpdate(
-      { _id: doc.page },
+      { _id: doc.page, hostname },
       { $push: { sections: doc._id }},
       { new: true }
     )
@@ -33,18 +37,19 @@ export const add = (req, res) => {
 
 
 export const update = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    values
-  } = req.body
+    body: { values },
+    hostname,
+    params: { _id }
+  } = req
   return Section.findOneAndUpdate(
-    { _id },
+    { _id, hostname },
     { $set: { values }},
     { new: true }
   )
   .then(doc => {
-    Page.findOne({ _id: doc.page })
+    Page.findOne({ _id: doc.page, hostname })
     .then(page => res.send({ page }))
     .catch(error => { console.error(error); res.status(400).send({ error })})
   })
@@ -53,20 +58,22 @@ export const update = (req, res) => {
 
 
 export const updateWithBackgroundImage = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    newBackgroundImage,
-    oldBackgroundImageSrc,
-    pageSlug,
-    values
-  } = req.body
-  const rootUrl = req.get('host')
-  const Key = `${rootUrl}/page-${pageSlug}/section-${_id}-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
+    body: {
+      newBackgroundImage,
+      oldBackgroundImageSrc,
+      pageSlug,
+      values
+    },
+    hostname,
+    params: { _id }
+  } = req
+  const Key = `${hostname}/page-${pageSlug}/section-${_id}-background-image_${moment(Date.now()).format("YYYY-MM-DD_h-mm-ss-a")}`
   return uploadFile({ Key }, newBackgroundImage.src, oldBackgroundImageSrc)
   .then(data => {
     Section.findOneAndUpdate(
-      { _id },
+      { _id, hostname },
       { $set: {
         backgroundImage: {
           src: data.Location,
@@ -78,7 +85,7 @@ export const updateWithBackgroundImage = (req, res) => {
       { new: true }
     )
     .then(doc => {
-      Page.findOne({ _id: doc.page })
+      Page.findOne({ _id: doc.page, hostname })
       .then(page => res.send({ page }))
       .catch(error => { console.error(error); res.status(400).send({ error })})
     })
@@ -89,24 +96,27 @@ export const updateWithBackgroundImage = (req, res) => {
 
 
 export const updateWithDeleteBackgroundImage = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalide id'})
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalide id'})
   const {
-    oldBackgroundImageSrc,
-    pageSlug,
-    type,
-    values
-  } = req.body
+    body: {
+      oldBackgroundImageSrc,
+      pageSlug,
+      type,
+      values
+    },
+    hostname,
+    params: { _id }
+  } = req
   return deleteFile({ Key: oldBackgroundImageSrc })
   .then(deleteData => {
     console.log(deleteData)
     Section.findOneAndUpdate(
-      { _id },
+      { _id, hostname },
       { $set: { 'backgroundImage.src': null }},
       { new: true }
     )
     .then(doc => {
-      Page.findOne({ _id: doc.page })
+      Page.findOne({ _id: doc.page, hostname })
       .then(page => res.send({ page }))
       .catch(error => { console.error(error); res.status(400).send({ error })})
     })
@@ -117,12 +127,15 @@ export const updateWithDeleteBackgroundImage = (req, res) => {
 
 
 export const remove = (req, res) => {
-  const { _id } = req.params
-  if (!ObjectID.isValid(_id)) return res.status(404).send({ error: 'Invalid id'})
-  Section.findOneAndRemove({ _id })
+  if (!ObjectID.isValid(req.params._id)) return res.status(404).send({ error: 'Invalid id'})
+  const {
+    hostname,
+    params: { _id }
+  } = req
+  Section.findOneAndRemove({ _id, hostname })
   .then(doc => {
     Page.findOneAndUpdate(
-      { _id: doc.page },
+      { _id: doc.page, hostname },
       { $pull: { sections: doc._id }},
       { new: true }
     )

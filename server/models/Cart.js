@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const CartSchema = new Schema({
-  brand: { type: Schema.ObjectId, ref: 'Brand' },
-  brandSlug: { type: String, maxlength: 25 },
+  hostname: { type: String, maxlength: 90, required: true },
   items: [{
     image: {
       src: { type: String, minlength: 1, trim: true, maxlength: 150 }

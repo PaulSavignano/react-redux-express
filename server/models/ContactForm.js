@@ -1,8 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const ContactFormSchema = new Schema({
-  brand: { type: Schema.ObjectId, ref: 'Brand' },
-  brandSlug: { type: String, maxlength: 25 },
+  hostname: { type: String, maxlength: 90, required: true },
   page: { type: Schema.Types.ObjectId, ref: 'Page' },
   pageSlug: { type: String, trim: true, maxlength: 100 },
   section: { type: Schema.Types.ObjectId, ref: 'CardSection' },

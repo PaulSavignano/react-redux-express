@@ -123,11 +123,11 @@ class SuccessableButton extends Component {
 }
 
 SuccessableButton.propTypes = {
-  backgroundColor: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string,
+  color: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  fontFamily: PropTypes.string.isRequired,
+  fontFamily: PropTypes.string,
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
   reset: PropTypes.func,
